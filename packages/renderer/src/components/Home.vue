@@ -1,11 +1,11 @@
 <template>
   <div>
     <h1>
-      Accueil - Version 5
+      Accueil
     </h1>
 
     <hr>
-    <p>
+    <p class="bg-primary">
       Bienvenu dans cette nouvelle release
       <br>
       Va a l'<router-link to="/about">
@@ -29,8 +29,15 @@ export default defineComponent({
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-a {
-  color: tomato;
+<style lang="scss" scoped>
+$color: tomato;
+p {
+  color: $color;
+  &.bg-primary {
+    color: #000;
+    a {
+      color: white;
+    }
+  }
 }
 </style>
