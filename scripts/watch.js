@@ -62,7 +62,7 @@ const setupMainPackageWatcher = (viteDevServer) => {
 
   return getWatcher({
     name: 'reload-app-on-main-package-change',
-    configFile: 'packages/main/vite.config.js',
+    configFile: 'packages/main/vite.config.ts',
     writeBundle() {
       if (spawnProcess !== null) {
         spawnProcess.kill('SIGINT');
@@ -86,7 +86,7 @@ const setupMainPackageWatcher = (viteDevServer) => {
 const setupPreloadPackageWatcher = (viteDevServer) => {
   return getWatcher({
     name: 'reload-page-on-preload-package-change',
-    configFile: 'packages/preload/vite.config.js',
+    configFile: 'packages/preload/vite.config.ts',
     writeBundle() {
       viteDevServer.ws.send({
         type: 'full-reload',
@@ -99,7 +99,7 @@ const setupPreloadPackageWatcher = (viteDevServer) => {
   try {
     const viteDevServer = await createServer({
       ...sharedConfig,
-      configFile: 'packages/renderer/vite.config.js',
+      configFile: 'packages/renderer/vite.config.ts',
     });
 
     await viteDevServer.listen();
