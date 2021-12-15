@@ -99,7 +99,7 @@ const setupPreloadPackageWatcher = (viteDevServer) => {
   try {
     const viteDevServer = await createServer({
       ...sharedConfig,
-      configFile: 'packages/renderer/vite.config.ts',
+      configFile: 'packages/renderer/vite.config.js',
     });
 
     await viteDevServer.listen();
