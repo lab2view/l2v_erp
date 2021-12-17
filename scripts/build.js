@@ -1,14 +1,14 @@
-#!/usr/bin/node
+#!/usr/bin/env node
 const {build} = require('vite');
 const {dirname} = require('path');
 
-/** @type 'production' | 'development' | 'test' */
+/** @type 'production' | 'development' */
 const mode = process.env.MODE = process.env.MODE || 'production';
 
 const packagesConfigs = [
-  'packages/main/vite.config.ts',
-  'packages/preload/vite.config.ts',
-  'packages/renderer/vite.config.ts',
+  'packages/main/vite.config.js',
+  'packages/preload/vite.config.js',
+  'packages/renderer/vite.config.js',
 ];
 
 

@@ -1,4 +1,4 @@
-import {chrome} from '../../electron-vendors.config.json';
+import {chrome} from '../../.electron-vendors.cache.json';
 import {join} from 'path';
 import {builtinModules} from 'module';
 import vue from '@vitejs/plugin-vue';
@@ -29,13 +29,6 @@ const config = {
     target: `chrome${chrome}`,
     outDir: 'dist',
     assetsDir: '.',
-    terserOptions: {
-      ecma: 2020,
-      compress: {
-        passes: 2,
-      },
-      safari10: false,
-    },
     rollupOptions: {
       external: [
         ...builtinModules,
