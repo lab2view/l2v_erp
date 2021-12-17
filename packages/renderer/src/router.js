@@ -1,8 +1,9 @@
 import {createRouter, createWebHashHistory} from 'vue-router';
-import Home from '/@/views/Home.vue';
+
+import ContentExample from '/@/views/ContentExample.vue';
 
 const routes = [
-  {path: '/', name: 'Home', component: Home},
+  {path: '/', name: 'Home', component: ContentExample},
   {path: '/about', name: 'About', component: () => import('/@/views/About.vue')}, // Lazy load route component
 ];
 
