@@ -11,14 +11,14 @@
   </div>
   <!-- Loader ends-->
   <!-- page-wrapper Start-->
-  <div class="page-wrapper" id="pageWrapper">
+  <div id="pageWrapper" class="page-wrapper">
     <!-- Page Header Start-->
     <div class="page-main-header">
       <div class="main-header-right row m-0">
         <div class="main-header-left">
           <div class="logo-wrapper"><a href="index.html"><img class="img-fluid" src="../assets/images/logo/logo.png" alt=""></a></div>
           <div class="dark-logo-wrapper"><a href="index.html"><img class="img-fluid" src="../assets/images/logo/dark-logo.png" alt=""></a></div>
-          <div class="toggle-sidebar"><i class="status_toggle middle" data-feather="align-center" id="sidebar-toggle"></i></div>
+          <div class="toggle-sidebar"><i id="sidebar-toggle" class="status_toggle middle" data-feather="align-center"></i></div>
         </div>
         <div class="left-menu-header col">
           <ul>
@@ -241,7 +241,7 @@
                   </ul>
                   <div class="code-box-copy">
                     <button class="code-box-copy__btn btn-clipboard" data-clipboard-target="#example-head" title="Copy"><i class="icofont icofont-copy-alt"></i></button>
-                    <pre><code class="language-html" id="example-head">&lt;!-- Cod Box Copy begin --&gt;
+                    <pre><code id="example-head" class="language-html">&lt;!-- Cod Box Copy begin --&gt;
 &lt;p&gt;Getting start with your project custom requirements using a ready template which is quite difficult and time taking process, viho Admin provides useful features to kick start your project development with no efforts !&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;p&gt;viho Admin provides you getting start pages with different layouts, use the layout as per your custom requirements and just change the branding, menu & content.&lt;/p&gt;&lt;/li&gt;
@@ -285,7 +285,7 @@
                   </ul>
                   <div class="code-box-copy">
                     <button class="code-box-copy__btn btn-clipboard" data-clipboard-target="#example-head1" title="Copy"><i class="icofont icofont-copy-alt"></i></button>
-                    <pre><code class="language-html" id="example-head1">&lt;!-- Cod Box Copy begin --&gt;
+                    <pre><code id="example-head1" class="language-html">&lt;!-- Cod Box Copy begin --&gt;
 &lt;p&gt;Starter kit is a set of pages with different layouts, useful for your next project to start development process from scratch with no time. &lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;p&gt;Each layout includes basic components only.&lt;/p&gt;&lt;/li&gt;
@@ -325,7 +325,7 @@
                   </div>
                   <div class="code-box-copy">
                     <button class="code-box-copy__btn btn-clipboard" data-clipboard-target="#example-head2" title="Copy"><i class="icofont icofont-copy-alt"></i></button>
-                    <pre><code class="language-html" id="example-head2">&lt;!-- Cod Box Copy begin --&gt;
+                    <pre><code id="example-head2" class="language-html">&lt;!-- Cod Box Copy begin --&gt;
 &lt;p&gt;&lt;span class="f-w-600"&gt;HTML&lt;/span&gt;&lt;/p&gt;
 &lt;p&gt;If you know just HTML, select your choice of layout from starter kit folder, customize it with optional changes like colors and branding, add required dependency only.&lt;/p&gt;
 &lt;p&gt;&lt;span class="f-w-600"&gt;PUG&lt;/span&gt;&lt;/p&gt;
