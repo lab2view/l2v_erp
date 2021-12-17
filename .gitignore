@@ -1,38 +1,15 @@
+node_modules
 .DS_Store
-*.local
-*.swp
-*~
 dist
-dist-ssr
-# Editor directories and files
+*.local
+thumbs.db
+
+.eslintcache
+
+# User-specific stuff
 .idea
 .vscode
-*.suo
-*.ntvs*
-*.njsproj
-*.sln
-*.sw?
-# Logs
-logs
-*.log
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-pnpm-debug.log*
-# Runtime data
-pids
-*.pid
-*.seed
-*.pid.lock# Dependency directories
-node_modules
-# Optional npm cache directory
-.npm
-# Optional eslint cache
-.eslintcache
-# Yarn Integrity file
-.yarn-integrity# dotenv environment variables file
 .env
-.env.local
-.env.*.local
-.env.staging
-.env.production
+
+# File-based project format
+*.iws

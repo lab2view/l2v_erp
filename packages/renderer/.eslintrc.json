@@ -1,0 +1,12 @@
+{
+  "env": {
+    "browser": true,
+    "node": true
+  },
+  "extends": [
+    "eslint:recommended",
+    /** @see https://eslint.vuejs.org/rules/ */
+    "plugin:vue/vue3-recommended",
+    "prettier"
+  ]
+}

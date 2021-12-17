@@ -1,19 +1,16 @@
 <template>
-  <div>
-    <nav>
-      <router-link to="/">
-        Home
-      </router-link>
-      <span> | </span>
-      <router-link to="/about">
-        About
-      </router-link>
-    </nav>
-    <hr>
-  </div>
+  <nav>
+    <router-link to="/">
+      Page Home
+    </router-link>
+    <span> | </span>
+    <router-link to="/about">
+      Page About
+    </router-link>
+  </nav>
 </template>
 
-<script lang="ts">
+<script>
 import {defineComponent} from 'vue';
 
 export default defineComponent({
