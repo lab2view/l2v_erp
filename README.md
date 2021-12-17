@@ -1,8 +1,8 @@
-# Vite Electron Builder Boilerplate v2
+# Vite Electron Builder Boilerplate
 
 [![GitHub issues by-label](https://img.shields.io/github/issues/cawa-93/vite-electron-builder/help%20wanted?label=issues%20need%20help&logo=github)](https://github.com/cawa-93/vite-electron-builder/issues?q=label%3A%22help+wanted%22+is%3Aopen+is%3Aissue)
-[![Minimal node version](https://img.shields.io/static/v1?label=node&message=%3E=14.16&logo=node.js&color)](https://nodejs.org/about/releases/)
-[![Minimal npm version](https://img.shields.io/static/v1?label=npm&message=%3E=7.7&logo=npm&color)](https://github.com/npm/cli/releases)
+[![Required Node.JS >= v16.13](https://img.shields.io/static/v1?label=node&message=%3E=16.13&logo=node.js&color)](https://nodejs.org/about/releases/)
+[![Required npm >= v8.1](https://img.shields.io/static/v1?label=npm&message=%3E=8.1&logo=npm&color)](https://github.com/npm/cli/releases)
 
 > Vite+Electron = 🔥
 
@@ -41,13 +41,14 @@ That's all you need. 😉
 
 ### Electron [![Electron version](https://img.shields.io/github/package-json/dependency-version/cawa-93/vite-electron-builder/dev/electron?label=%20)][electron]
 - Template use the latest electron version with all the latest security patches.
-- The architecture of the application is built according to the security [guids](https://www.electronjs.org/docs/tutorial/security) and best practices.
+- The architecture of the application is built according to the security [guides](https://www.electronjs.org/docs/tutorial/security) and best practices.
 - The latest version of the [electron-builder] is used to compile the application.
 
 
 ### Vite [![Vite version](https://img.shields.io/github/package-json/dependency-version/cawa-93/vite-electron-builder/dev/vite?label=%20)][vite]
 - [Vite] is used to bundle all source codes. This is an extremely fast packer that has a bunch of great features. You can learn more about how it is arranged in [this](https://youtu.be/xXrhg26VCSc) video.
 - Vite [supports](https://vitejs.dev/guide/env-and-mode.html) reading `.env` files. You can also specify types of your environment variables in [`types/vite-env.d.ts`](types/vite-env.d.ts).
+- Hot reloads for `Main` and `Renderer` processes.
 
 Vite provides you with many useful features, such as: `TypeScript`, `TSX/JSX`, `CSS/JSON Importing`, `CSS Modules`, `Web Assembly` and much more.
 
@@ -58,6 +59,8 @@ Vite provides you with many useful features, such as: `TypeScript`, `TSX/JSX`, `
 - The Latest TypeScript is used for all source code. 
 - **Vite** supports TypeScript out of the box. However, it does not support type checking.
 - Code formatting rules follow the latest TypeScript recommendations and best practices thanks to [@typescript-eslint/eslint-plugin](https://www.npmjs.com/package/@typescript-eslint/eslint-plugin).
+- Automatically create interface declarations for all APIs that have been passed to `electron.contextBridge.exposeInMainWorld`.
+  Thanks [dts-for-context-bridge](https://github.com/cawa-93/dts-for-context-bridge)  [![dts-for-context-bridge version](https://img.shields.io/github/package-json/dependency-version/cawa-93/vite-electron-builder/dev/dts-for-context-bridge?label=%20)](https://github.com/cawa-93/dts-for-context-bridge).
 
 **[See this discussion](https://github.com/cawa-93/vite-electron-builder/discussions/339)** if you want completly remove TypeScript. 
 
@@ -73,10 +76,11 @@ See [examples of web pages for different frameworks](https://github.com/vitejs/v
 ### Continuous Integration
 - The configured workflow for check the types for each push and PR.
 - The configured workflow for check the code style for each push and PR.
-- **Automatic tests** used [spectron]. Simple, automated test check:
+- **Automatic tests** used [playwright]. Simple, automated test check:
   - Does the main window created and visible?
   - Is the main window not empty?
   - Is dev tools closed?
+  - Is preload script loaded?
   
 
 ### Continuous delivery
@@ -96,8 +100,7 @@ I am actively involved in its development. But I do not guarantee that this temp
 
 **At the moment, there are the following problems:**
 
-- ⚠ Some files require refactoring.
-- ⚠ Typechecking `renderer` package in CI implemented by [![vue-tsc](https://img.shields.io/github/package-json/dependency-version/cawa-93/vite-electron-builder/dev/vue-tsc)][vue-tsc], which has a very early version. This is not a problem if you do not use Vue or TypeScript.
+- ⚠ Playwright has [**experimental** support for Electron](https://playwright.dev/docs/api/class-electron/).
 - ⚠ Release notes are created automatically based on commit history. [`.github/actions/release-notes`](.github/actions/release-notes) is used for generation. It may not provide some scenarios. If you encounter a problem - write about it.
 - ⏳ I want to migrate all code base to ESM. But because Nodejs  ecosystem is unprepared I have not known whether this will give more benefits or more inconvenience.
 
@@ -138,40 +141,44 @@ To do this, using the [electron-builder]:
 ### Using Node.js API in renderer
 According to [Electron's security guidelines](https://www.electronjs.org/docs/tutorial/security#2-do-not-enable-nodejs-integration-for-remote-content), Node.js integration is disabled for remote content. This means that **you cannot call any Node.js api in the `packages/renderer` directly**. To do this, you **must** describe the interface in the `packages/preload` where Node.js api is allowed:
 ```ts
-// packages/preload/src/index.ts
-import {readFile} from 'fs/promises'
+// packages/preload/src/index.js
+import type {BinaryLike} from 'crypto';
+import {createHash} from 'crypto';
 
-const api = {
-  readConfig: () =>  readFile('/path/to/config.json', {encoding: 'utf-8'}),
-}
-
-contextBridge.exposeInMainWorld('electron', api)
+contextBridge.exposeInMainWorld('nodeCrypto', {
+  sha256sum(data: BinaryLike) {
+    const hash = createHash('sha256');
+    hash.update(data);
+    return hash.digest('hex');
+  },
+});
 ```
 
+The [`dts-cb`](https://github.com/cawa-93/dts-for-context-bridge) utility will automatically generate an interface for TS:
+```ts
+interface Window {
+    readonly nodeCrypto: { sha256sum(data: import("crypto").BinaryLike): string; };
+}
+```
+And now, you can safely use the registered method:
 ```ts
 // packages/renderer/src/App.vue
-import {useElectron} from '/@/use/electron'
-
-const {readConfig} = useElectron()
+window.nodeCrypto.sha256sum('data')
 ```
 
 [Read more about Security Considerations](https://www.electronjs.org/docs/tutorial/context-isolation#security-considerations).
-
-**Note**: Context isolation disabled for `test` environment. See [#693](https://github.com/electron-userland/spectron/issues/693#issuecomment-747872160).
-
 
 
 ### Modes and Environment Variables
 All environment variables set as part of the `import.meta`, so you can access them as follows: `import.meta.env`. 
 
-You can also specify types of your environment variables in [`types/vite-env.d.ts`](types/vite-env.d.ts).
+If you are using a TypeScript and want to get Code completion you must add all the environment variables to the [`ImportMetaEnv` in `types/vite-env.d.ts`](types/vite-env.d.ts).
 
 The mode option is used to specify the value of `import.meta.env.MODE` and the corresponding environment variables files that needs to be loaded.
 
 By default, there are two modes:
   - `production` is used by default
   - `development` is used by `npm run watch` script
-  - `test` is used by `npm test` script
 
 When running building, environment variables are loaded from the following files in your project root:
 
@@ -182,8 +189,13 @@ When running building, environment variables are loaded from the following files
 .env.[mode].local   # only loaded in specified env mode, ignored by git
 ```
 
-**Note:** only variables prefixed with `VITE_` are exposed to your code (e.g. `VITE_SOME_KEY=123`) and `SOME_KEY=123` will not. You can access `VITE_SOME_KEY` using `import.meta.env.VITE_SOME_KEY`. This is because the `.env` files may be used by some users for server-side or build scripts and may contain sensitive information that should not be exposed in code shipped to browsers.
+To prevent accidentally leaking env variables to the client, only variables prefixed with `VITE_` are exposed to your Vite-processed code. e.g. the following file:
 
+```
+DB_PASSWORD=foobar
+VITE_SOME_KEY=123
+```
+Only `VITE_SOME_KEY` will be exposed as `import.meta.env.VITE_SOME_KEY` to your client source code, but `DB_PASSWORD` will not.
 
 
 ## Contribution
@@ -197,7 +209,7 @@ See [Contributing Guide](contributing.md).
 [vue]: https://github.com/vuejs/vue-next
 [vue-router]: https://github.com/vuejs/vue-router-next/
 [typescript]: https://github.com/microsoft/TypeScript/
-[spectron]: https://github.com/electron-userland/spectron
+[playwright]: https://playwright.dev
 [vue-tsc]: https://github.com/johnsoncodehk/vue-tsc
 [eslint-plugin-vue]: https://github.com/vuejs/eslint-plugin-vue
 [cawa-93-github]: https://github.com/cawa-93/

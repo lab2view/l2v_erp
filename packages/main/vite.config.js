@@ -1,4 +1,4 @@
-import {chrome} from '../../electron-vendors.config.json';
+import {node} from '../../.electron-vendors.cache.json';
 import {join} from 'path';
 import {builtinModules} from 'module';
 
@@ -19,24 +19,18 @@ const config = {
   },
   build: {
     sourcemap: 'inline',
-    target: `chrome${chrome}`,
+    target: `node${node}`,
     outDir: 'dist',
     assetsDir: '.',
-    minify: process.env.MODE === 'development' ? false : 'terser',
-    terserOptions: {
-      ecma: 2020,
-      compress: {
-        passes: 2,
-      },
-      safari10: false,
-    },
+    minify: process.env.MODE !== 'development',
     lib: {
-      entry: 'src/index.ts',
+      entry: 'src/index.js',
       formats: ['cjs'],
     },
     rollupOptions: {
       external: [
         'electron',
+        'electron-devtools-installer',
         ...builtinModules,
       ],
       output: {

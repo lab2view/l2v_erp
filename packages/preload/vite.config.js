@@ -1,7 +1,6 @@
-import {chrome} from '../../electron-vendors.config.json';
+import {chrome} from '../../.electron-vendors.cache.json';
 import {join} from 'path';
 import {builtinModules} from 'module';
-import vue from '@vitejs/plugin-vue';
 
 const PACKAGE_ROOT = __dirname;
 
@@ -12,34 +11,30 @@ const PACKAGE_ROOT = __dirname;
 const config = {
   mode: process.env.MODE,
   root: PACKAGE_ROOT,
+  envDir: process.cwd(),
   resolve: {
     alias: {
       '/@/': join(PACKAGE_ROOT, 'src') + '/',
     },
   },
-  plugins: [vue()],
-  base: '',
-  server: {
-    fs: {
-      strict: true,
-    },
-  },
   build: {
-    sourcemap: true,
+    sourcemap: 'inline',
     target: `chrome${chrome}`,
     outDir: 'dist',
     assetsDir: '.',
-    terserOptions: {
-      ecma: 2020,
-      compress: {
-        passes: 2,
-      },
-      safari10: false,
+    minify: process.env.MODE !== 'development',
+    lib: {
+      entry: 'src/index.js',
+      formats: ['cjs'],
     },
     rollupOptions: {
       external: [
+        'electron',
         ...builtinModules,
       ],
+      output: {
+        entryFileNames: '[name].cjs',
+      },
     },
     emptyOutDir: true,
     brotliSize: false,
