@@ -9,12 +9,10 @@
 <script>
 import { defineComponent } from 'vue';
 import Loader from '/@/components/Loader.vue';
-import Page from '/@/components/layouts/Page.vue';
 
 export default defineComponent({
   name: 'App',
   components: {
-    Page,
     Loader,
   },
 
