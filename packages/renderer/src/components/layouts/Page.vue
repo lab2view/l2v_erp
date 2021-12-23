@@ -25,9 +25,19 @@ import Footer from "/@/components/layouts/Footer.vue";
 export default defineComponent({
   name: "Page",
   components: {Footer, Menu, Header},
+  created() {
+    setTimeout(() => {
+      (async () => {
+        await this.$loadScript(`../../../assets/js/prism/prism.min.js`);
+        await this.$loadScript(`../../../assets/js/clipboard/clipboard.min.js`);
+        await this.$loadScript(`../../../assets/js/tooltip-init.js`);
+        await this.$loadScript(`../../../assets/js/theme-customizer/customizer.js`);
+      })();
+    }, 1000);
+  }
 })
 </script>
 
 <style scoped>
-
+@import "../../../assets/css/prism.css";
 </style>

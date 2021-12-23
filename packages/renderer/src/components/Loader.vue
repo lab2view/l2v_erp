@@ -1,5 +1,5 @@
 <template>
-  <div class="loader-wrapper">
+  <div class="loader-wrapper" ref="wrapper">
     <div class="theme-loader">
       <div class="loader-p"></div>
     </div>
@@ -9,7 +9,10 @@
 <script>
 import {defineComponent} from 'vue';
 export default defineComponent({
-  name: "Loader"
+  name: "Loader",
+  mounted() {
+    setTimeout(() => this.$refs.wrapper.remove(), 3000);
+  }
 })
 </script>
 
