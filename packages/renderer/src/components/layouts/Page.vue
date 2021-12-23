@@ -25,7 +25,7 @@ import Footer from "/@/components/layouts/Footer.vue";
 export default defineComponent({
   name: "Page",
   components: {Footer, Menu, Header},
-  mounted() {
+  created() {
     setTimeout(() => {
       (async () => {
         await this.$loadScript(`../../../assets/js/prism/prism.min.js`);

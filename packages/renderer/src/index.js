@@ -5,6 +5,11 @@ import router from '/@/router';
 import store from '/@/store';
 
 const app = createApp(App);
+// router.beforeEach((to, from, next) => {
+//   store.dispatch('setGlobalLoading', true);
+//   next();
+// });
+
 app.use(router);
 app.use(store);
 app.config.globalProperties.$loadScript = loadScript;

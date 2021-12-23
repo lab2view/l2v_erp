@@ -110,8 +110,8 @@
             </ul>
           </li>
           <li class="onhover-dropdown p-0">
-            <button class="btn btn-primary-light" type="button">
-              <a href="#" @click="$router.push({name: 'login'})"><i data-feather="log-out"></i>Log out</a>
+            <button class="btn btn-primary-light" type="button" @click.prevent="$router.push({name: 'login'})">
+              <a href="#"><i data-feather="log-out"></i>Log out</a>
             </button>
           </li>
         </ul>
