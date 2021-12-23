@@ -37,6 +37,7 @@
     "babel-eslint": "^10.1.0",
     "electron-updater": "4.6.5",
     "vue": "3.2.26",
-    "vue-router": "4.0.12"
+    "vue-router": "4.0.12",
+    "vuex": "^4.0.2"
   }
 }
