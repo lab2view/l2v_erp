@@ -8,4 +8,5 @@ const app = createApp(App);
 app.use(router);
 app.use(store);
 app.config.globalProperties.$loadScript = loadScript;
+
 app.mount('#app');

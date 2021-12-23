@@ -25,12 +25,13 @@ import Footer from "/@/components/layouts/Footer.vue";
 export default defineComponent({
   name: "Page",
   components: {Footer, Menu, Header},
-  created() {
+  mounted() {
     setTimeout(() => {
       (async () => {
         await this.$loadScript(`../../../assets/js/prism/prism.min.js`);
         await this.$loadScript(`../../../assets/js/clipboard/clipboard.min.js`);
         await this.$loadScript(`../../../assets/js/tooltip-init.js`);
+        await this.$loadScript(`../../../assets/js/sidebar-menu.js`);
         await this.$loadScript(`../../../assets/js/theme-customizer/customizer.js`);
       })();
     }, 1000);

@@ -16,13 +16,12 @@ export default defineComponent({
     Loader,
   },
 
-  created() {
+  mounted() {
     setTimeout(() => {
       (async () => {
         await this.$loadScript(`../assets/js/jquery-3.5.1.min.js`);
         await this.$loadScript(`../assets/js/icons/feather-icon/feather.min.js`);
         await this.$loadScript(`../assets/js/icons/feather-icon/feather-icon.js`);
-        await this.$loadScript(`../assets/js/sidebar-menu.js`);
         await this.$loadScript(`../assets/js/config.js`);
         await this.$loadScript(`../assets/js/bootstrap/popper.min.js`);
         await this.$loadScript(`../assets/js/bootstrap/bootstrap.min.js`);

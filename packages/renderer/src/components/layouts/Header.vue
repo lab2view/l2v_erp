@@ -2,8 +2,12 @@
   <div class="page-main-header">
     <div class="main-header-right row m-0">
       <div class="main-header-left">
-        <div class="logo-wrapper"><a href="index.html"><img class="img-fluid" src="../../../assets/images/logo/logo.png" alt=""></a></div>
-        <div class="dark-logo-wrapper"><a href="index.html"><img class="img-fluid" src="../../../assets/images/logo/dark-logo.png" alt=""></a></div>
+        <div class="logo-wrapper">
+          <a href="/"><img class="img-fluid" src="../../../assets/images/logo/logo.png" alt=""></a>
+        </div>
+        <div class="dark-logo-wrapper">
+          <a href="/"><img class="img-fluid" src="../../../assets/images/logo/dark-logo.png" alt=""></a>
+        </div>
         <div class="toggle-sidebar"><i id="sidebar-toggle" class="status_toggle middle" data-feather="align-center"></i></div>
       </div>
       <div class="left-menu-header col">
@@ -79,7 +83,7 @@
           <li class="onhover-dropdown"><i data-feather="message-square"></i>
             <ul class="chat-dropdown onhover-show-div">
               <li>
-                <div class="media"><img class="img-fluid rounded-circle me-3" src="../assets/images/user/4.jpg" alt="">
+                <div class="media"><img class="img-fluid rounded-circle me-3" src="../../../assets/images/user/4.jpg" alt="">
                   <div class="media-body"><span>Ain Chavez</span>
                     <p class="f-12 light-font">Lorem Ipsum is simply dummy...</p>
                   </div>
@@ -87,7 +91,7 @@
                 </div>
               </li>
               <li>
-                <div class="media"><img class="img-fluid rounded-circle me-3" src="../assets/images/user/1.jpg" alt="">
+                <div class="media"><img class="img-fluid rounded-circle me-3" src="../../../assets/images/user/1.jpg" alt="">
                   <div class="media-body"><span>Erica Hughes</span>
                     <p class="f-12 light-font">Lorem Ipsum is simply dummy...</p>
                   </div>
@@ -95,7 +99,7 @@
                 </div>
               </li>
               <li>
-                <div class="media"><img class="img-fluid rounded-circle me-3" src="../assets/images/user/2.jpg" alt="">
+                <div class="media"><img class="img-fluid rounded-circle me-3" src="../../../assets/images/user/2.jpg" alt="">
                   <div class="media-body"><span>Kori Thomas</span>
                     <p class="f-12 light-font">Lorem Ipsum is simply dummy...</p>
                   </div>
@@ -106,7 +110,9 @@
             </ul>
           </li>
           <li class="onhover-dropdown p-0">
-            <button class="btn btn-primary-light" type="button"><a href="login_two.html"><i data-feather="log-out"></i>Log out</a></button>
+            <button class="btn btn-primary-light" type="button">
+              <a href="#" @click="$router.push({name: 'login'})"><i data-feather="log-out"></i>Log out</a>
+            </button>
           </li>
         </ul>
       </div>
