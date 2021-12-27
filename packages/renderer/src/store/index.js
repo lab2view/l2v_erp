@@ -1,32 +1,21 @@
 import { createStore } from "vuex";
 import auth from "./modules/auth";
+import VuexPersistence from "vuex-persist";
+import localForage from "localforage";
+
+const vuexLocal = new VuexPersistence({
+  storage: localForage,
+  asyncStorage: true,
+});
 
 export default createStore({
   state: {
     globalLoading: true,
-    current_workspace_domain: "www.kitbussiness.test",
-    database: null,
+    current_workspace_domain: "kitbussiness.test",
   },
   actions: {
     setGlobalLoading({ commit }, loading) {
       setTimeout(() => commit("SET_GLOBAL_LOADING", loading), 1000);
-    },
-
-    async getDatabase({ state, commit }) {
-      return new Promise((resolve, reject) => {
-        if (state.database) {
-          return resolve(state.database);
-        }
-        let request = window.indexedDB.open(state.current_workspace_domain, 1);
-        request.onerror = (event) => {
-          console.error("ERROR: Unable to open database", event);
-          reject({ message: "ERROR" });
-        };
-        request.onsuccess = (event) => {
-          commit("SET_DATABASE", event.target.result);
-          resolve(this.database);
-        };
-      });
     },
   },
   mutations: {
@@ -36,12 +25,10 @@ export default createStore({
     SET_CURRENT_WORKSPACE_DOMAIN(state, domain) {
       state.current_workspace_domain = domain;
     },
-    SET_DATABASE(state, database) {
-      state.database = database;
-    },
   },
   modules: {
     auth,
   },
   strict: process.env.NODE_ENV !== "production",
+  plugins: [vuexLocal.plugin],
 });

@@ -1,6 +1,7 @@
 import { createRouter, createWebHashHistory } from "vue-router";
 import Page from "/@/components/layouts/Page.vue";
 import workspace from "./workspace";
+import store from "/@/store";
 
 const routes = [
   {
@@ -49,7 +50,14 @@ const routes = [
   },
 ];
 
-export default createRouter({
+const router = createRouter({
   routes,
   history: createWebHashHistory(),
 });
+
+router.beforeEach(async (to, from, next) => {
+  await store.restored;
+  next();
+});
+
+export default router;
