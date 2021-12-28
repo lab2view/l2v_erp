@@ -5,6 +5,13 @@
       <div class="row">
         <div class="col-12">
           <div class="login-card">
+            <div class="row">
+              <div class="col-md-12">
+                <div class="card-block">
+                  <h1><a href="/" title="Go to home page" @click.prevent="onclickHome">Go Home</a></h1>
+                </div>
+              </div>
+            </div>
             <form class="theme-form login-form" @submit.prevent="submitLoginForm()">
               <h4>Login</h4>
               <h6>Welcome back! Log in to your account.</h6>
@@ -53,6 +60,10 @@ export default {
     },
     submitLoginForm() {
       this.$router.push({name: 'dashboard'});
+    },
+    onclickHome() {
+      console.log('Click on go home button')
+      location.replace('/') ;
     }
   }
 };

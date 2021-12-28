@@ -7,10 +7,10 @@ axios.defaults.headers.common["Content-Type"] = "application/json";
 axios.defaults.headers.common["Access-Control-Allow-Origin"] = "*";
 axios.defaults.timeout = 60000;
 axios.defaults.crossDomain = true;
-// axios.defaults.baseURL =
-//   process.env.NODE_ENV !== "production"
-//     ? "http://127.0.0.1:8000/api"
-//     : "https://api.be-wallet.net/api";
+axios.defaults.baseURL =
+  process.env.NODE_ENV !== "production"
+    ? "http://erp-l2v.test/api"
+    : `${location.protocol}//${location.host}/api`;
 //
 // axios.interceptors.response.use(
 //   response => response,
