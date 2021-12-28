@@ -12,7 +12,7 @@
         <div class="custom-container">
           <div class="row">
             <div class="col-12">
-              <nav class="navbar navbar-light p-0" id="navbar-example2"><a class="navbar-brand" href="javascript:void(0)"> <img class="img-fluid" src="../../../assets/images/logo/logo.png" alt=""></a>
+              <nav id="navbar-example2" class="navbar navbar-light p-0"><a class="navbar-brand" href="javascript:void(0)"> <img class="img-fluid" src="../../../assets/images/logo/logo.png" alt=""></a>
                 <ul class="landing-menu nav nav-pills">
                   <li class="nav-item menu-back">back<i class="fa fa-angle-right"></i></li>
                   <li class="nav-item"><a class="nav-link" href="#home">Home</a></li>
@@ -26,7 +26,7 @@
                   <li class="nav-item"><a class="nav-link" href="https://docs.pixelstrap.com/viho/document/" target="_blank">Document</a></li>
                 </ul>
                 <div class="buy-block">
-                  <a class="btn-landing" href="#" @click.prevent="onCLickOnLoginBtn" target="_blank">Connexion</a>
+                  <a class="btn-landing" href="#" target="_blank" @click.prevent="onCLickOnLoginBtn">Connexion</a>
                   <div class="toggle-menu"><i class="fa fa-bars"></i></div>
                 </div>
               </nav>
@@ -36,7 +36,7 @@
       </header>
       <!-- header end-->
       <!--home section start-->
-      <section class="landing-home section-pb-space" id="home"><img class="img-fluid bg-img-cover" src="../../../assets/images/landing/landing-home/home-bg2.jpg" alt="">
+      <section id="home" class="landing-home section-pb-space"><img class="img-fluid bg-img-cover" src="../../../assets/images/landing/landing-home/home-bg2.jpg" alt="">
         <div class="custom-container">
           <div class="row">
             <div class="col-12">
@@ -74,7 +74,7 @@
       </section>
       <!--home section end-->
       <!--demo section start-->
-      <section class="demo-section section-py-space" id="demo">
+      <section id="demo" class="demo-section section-py-space">
         <div class="title">
           <h2>Creative Layouts</h2>
         </div>
@@ -133,7 +133,7 @@
       </section>
       <!--demo section end-->
       <!--footer start-->
-      <section class="landing-footer section-py-space light-bg" id="footer">
+      <section id="footer" class="landing-footer section-py-space light-bg">
         <div class="custom-container">
           <div class="row">
             <div class="col-12">
@@ -245,7 +245,6 @@ export default {
   created() {
     setTimeout(() => {
       (async () => {
-        await this.$loadScript(`../../../assets/js/owlcarousel/owl.carousel.js`);
         await this.$loadScript(`../../../assets/js/owlcarousel/owl.carousel.js`);
         await this.$loadScript(`../../../assets/js/owlcarousel/owl-custom.js`);
         await this.$loadScript(`../../../assets/js/landing_sticky.js`);
