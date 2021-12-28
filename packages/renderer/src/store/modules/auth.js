@@ -1,18 +1,20 @@
-
 const state = {
+  user: null,
+  token: null,
 };
 
 // getters
 const getters = {
+  token: (state) => {
+    return state.token;
+  },
 };
 
 // privileges
-const actions = {
-};
+const actions = {};
 
 // mutations
-const mutations = {
-};
+const mutations = {};
 
 export default {
   namespaced: true,

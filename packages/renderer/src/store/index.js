@@ -1,7 +1,8 @@
 import { createStore } from "vuex";
-import auth from "./modules/auth";
 import VuexPersistence from "vuex-persist";
 import localForage from "localforage";
+import auth from "./modules/auth";
+import workspace from "./modules/workspace";
 
 const vuexLocal = new VuexPersistence({
   storage: localForage,
@@ -11,7 +12,7 @@ const vuexLocal = new VuexPersistence({
 export default createStore({
   state: {
     globalLoading: true,
-    current_workspace_domain: "kitbussiness.test",
+    landlordDomain: "kitbussiness.test",
   },
   actions: {
     setGlobalLoading({ commit }, loading) {
@@ -22,12 +23,13 @@ export default createStore({
     SET_GLOBAL_LOADING(state, loading) {
       state.globalLoading = loading;
     },
-    SET_CURRENT_WORKSPACE_DOMAIN(state, domain) {
-      state.current_workspace_domain = domain;
+    SET_LANDLORD_DOMAIN(state, domain) {
+      state.landlordDomain = domain;
     },
   },
   modules: {
     auth,
+    workspace,
   },
   strict: process.env.NODE_ENV !== "production",
   plugins: [vuexLocal.plugin],

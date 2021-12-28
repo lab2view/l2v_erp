@@ -7,7 +7,7 @@ const routes = [
   {
     path: "/",
     name: "welcome",
-    component: () => import("/@/views/landing/Welcome.vue"),
+    component: () => import("/@/views/Workspace.vue"),
   },
   {
     path: "/login",
@@ -30,11 +30,6 @@ const routes = [
     component: () => import("/@/views/auth/ForgetPassword.vue"),
   },
   {
-    path: "/workspace",
-    component: Page,
-    children: workspace,
-  },
-  {
     path: "/maintenance",
     name: "maintenance",
     component: () => import("/@/views/landing/Maintenance.vue"),
@@ -44,15 +39,17 @@ const routes = [
     name: "pageNotFound",
     component: () => import("/@/views/landing/PageNotFound.vue"),
   },
-  {
-    path: "/:pathMatch(.*)*",
-    redirect: { name: "pageNotFound" },
-  },
+  { path: "/workspace", component: Page, children: workspace },
+  { path: "/:pathMatch(.*)*", redirect: { name: "pageNotFound" } },
 ];
 
 const router = createRouter({
   routes,
   history: createWebHashHistory(),
+  scrollBehavior(to, from, savedPosition) {
+    if (savedPosition) return savedPosition;
+    else return { top: 0 };
+  },
 });
 
 router.beforeEach(async (to, from, next) => {
