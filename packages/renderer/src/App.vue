@@ -1,17 +1,21 @@
 <template>
-  <!-- Loader starts-->
+  <!--Loader starts-->
   <Loader />
   <!-- Loader ends-->
   <!-- page-wrapper Start-->
   <router-view />
+  <!-- page-wrapper ends-->
+  <div>
+    <button @click="reloadPage">Click here to reload</button>
+  </div>
 </template>
 
 <script>
-import { defineComponent } from "vue";
-import Loader from "/@/components/Loader.vue";
+import { defineComponent } from 'vue';
+import Loader from '/@/components/Loader.vue';
 
 export default defineComponent({
-  name: "App",
+  name: 'App',
   components: {
     Loader,
   },
@@ -39,13 +43,13 @@ export default defineComponent({
 </script>
 
 <style>
-@import "../assets/css/fontawesome.css";
-@import "../assets/css/icofont.css";
-@import "../assets/css/themify.css";
-@import "../assets/css/flag-icon.css";
-@import "../assets/css/feather-icon.css";
-@import "../assets/css/bootstrap.css";
-@import "../assets/css/style.css";
-@import "../assets/css/responsive.css";
-@import "../assets/css/color-1.css";
+@import '../assets/css/fontawesome.css';
+@import '../assets/css/icofont.css';
+@import '../assets/css/themify.css';
+@import '../assets/css/flag-icon.css';
+@import '../assets/css/feather-icon.css';
+@import '../assets/css/bootstrap.css';
+@import '../assets/css/style.css';
+@import '../assets/css/responsive.css';
+@import '../assets/css/color-1.css';
 </style>

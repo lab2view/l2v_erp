@@ -1,4 +1,4 @@
-import {app, BrowserWindow} from 'electron';
+import {app, ipcMain, BrowserWindow} from 'electron';
 import {join} from 'path';
 import {URL} from 'url';
 import './security-restrictions';
@@ -31,6 +31,7 @@ const createWindow = async () => {
   mainWindow = new BrowserWindow({
     show: false, // Use 'ready-to-show' event to show window
     webPreferences: {
+      contextIsolation: false,
       nativeWindowOpen: true,
       webviewTag: false, // The webview tag is not recommended. Consider alternatives like iframe or Electron's BrowserView. https://www.electronjs.org/docs/latest/api/webview-tag#warning
       preload: join(__dirname, '../../preload/dist/index.cjs'),
@@ -84,8 +85,18 @@ app.on('window-all-closed', () => {
 
 app.whenReady()
   .then(createWindow)
+  .then(() => {
+    mainWindow?.webContents?.send('message', 'Debut du programme');
+  })
   .catch((e) => console.error('Failed create window:', e));
 
+ipcMain.on('reload', (event) => {
+  mainWindow.reload();
+  console.log(event);
+  console.log('Reloading renderer process');
+  // This command is to send a signal to the vue app after reload the page.
+  event.sender.send('reloading', 'reload Done');
+});
 
 // Auto-updates
 if (import.meta.env.PROD) {
