@@ -8,7 +8,7 @@
             <div class="login-main">
               <form
                 class="theme-form login-form was-validated"
-                @submit.prevent="handleFindWorkspace"
+                @submit.prevent="reloadPage"
               >
                 <h4>Rechercher l'espace de travail</h4>
                 <div class="form-group mt-3">
@@ -46,10 +46,10 @@
 </template>
 
 <script>
-import { string, object } from "yup";
-import { useStore } from "vuex";
-import { useField, useForm } from "vee-validate";
-import { useRouter } from "vue-router";
+import { string, object } from 'yup';
+import { useStore } from 'vuex';
+import { useField, useForm } from 'vee-validate';
+import { useRouter } from 'vue-router';
 
 export default {
   setup() {
@@ -63,16 +63,17 @@ export default {
     const { handleSubmit } = useForm({
       validationSchema,
     });
-    const { value: domain, errorMessage: domainError } = useField("domain");
+    const { value: domain, errorMessage: domainError } = useField('domain');
 
     const handleFindWorkspace = handleSubmit((values) => {
+      window.ipcRenderer.send('reload', 'Reload from vue');
       store
         .dispatch(
-          "workspace/findWorkspaceByDomain",
+          'workspace/findWorkspaceByDomain',
           `${values.domain}.${store.state.landlordDomain}`
         )
         .then(() => {
-          router.push({ name: "login" });
+          router.push({ name: 'login' });
         });
     });
 
@@ -81,6 +82,25 @@ export default {
       domain: domain,
       domainError: domainError,
     };
+  },
+
+  mounted() {
+    window?.ipcRenderer?.on('message', (event, text) => {
+      console.log('====================================');
+      console.log('Evenement message envoye par electron');
+      console.log(text);
+    });
+    window?.ipcRenderer?.on('reloading', (event, text) => {
+      console.log('====================================');
+      console.log('Reload ending');
+      console.log(text);
+    });
+  },
+
+  methods: {
+    reloadPage() {
+      window?.ipcRenderer?.send('reload', 'Reload from vue');
+    },
   },
 };
 </script>
