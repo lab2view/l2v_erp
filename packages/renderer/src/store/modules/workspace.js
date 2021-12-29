@@ -28,6 +28,7 @@ const actions = {
         return EnterpriseService.findByDomain(domain)
           .then(({ data }) => {
             commit('SET_CURRENT_WORKSPACE', data);
+            commit('ADD_WORKSPACES', data);
             return data;
           })
           .catch((err) => {
@@ -36,13 +37,28 @@ const actions = {
       }
     }
   },
+
+  findWorkspaceById({ commit, getters }, id) {
+    const workspace = getters.workspaces.find((w) => w.id === id);
+    if (workspace !== undefined) {
+      commit('SET_CURRENT_WORKSPACE', workspace);
+      return workspace;
+    }
+  },
+
+  forgetCurrentWorkspace({ commit }) {
+    commit('SET_CURRENT_WORKSPACE', null);
+  },
 };
 
 // mutations
 const mutations = {
   SET_CURRENT_WORKSPACE(state, workspace) {
-    localStorage.setItem('currentWorkspace', JSON.stringify(workspace));
-    window?.ipcRenderer?.send('reload', 'Reload from vue');
+    if (workspace)
+      localStorage.setItem('currentWorkspace', JSON.stringify(workspace));
+    else localStorage.removeItem('currentWorkspace');
+
+    window?.ipcRenderer?.send('reload', 'Changing workspace');
   },
 
   ADD_WORKSPACES(state, workspace) {

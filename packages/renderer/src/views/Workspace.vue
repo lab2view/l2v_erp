@@ -7,7 +7,8 @@
           <div class="login-card">
             <div class="login-main">
               <form
-                class="theme-form login-form was-validated"
+                class="theme-form login-form"
+                :class="domainError ? 'was-validated' : ''"
                 @submit.prevent="handleFindWorkspace"
               >
                 <h4>Rechercher l'espace de travail</h4>
@@ -18,10 +19,10 @@
                   <div class="input-group is-invalid">
                     <input
                       v-model="domain"
-                      class="form-control"
+                      class="form-control invalid"
                       type="text"
-                      placeholder="domain"
                       required
+                      placeholder="domain"
                     />
                     <span class="input-group-text">.kitbussiness.com</span>
                   </div>
@@ -34,7 +35,59 @@
                     Rechercher
                   </button>
                 </div>
-                <p>Choisir un espace existant ?</p>
+                <div v-if="canShowWorkspaces" class="login-social-title">
+                  <h5>Choisir un espace existant</h5>
+                </div>
+                <div v-if="canShowWorkspaces" class="form-group">
+                  <ul class="">
+                    <li v-for="workspace in workspaces" :key="workspace.id">
+                      <div class="card shadow-sm">
+                        <div class="job-search">
+                          <div class="card-body p-2">
+                            <div class="media">
+                              <a
+                                class="img-60"
+                                href="#"
+                                @click.prevent="
+                                  $store.dispatch(
+                                    'workspace/findWorkspaceById',
+                                    workspace.id
+                                  )
+                                "
+                              >
+                                <img
+                                  class="img-40 img-fluid m-r-20"
+                                  :src="workspace.logo_url"
+                                  alt=""
+                                />
+                              </a>
+                              <div class="media-body">
+                                <a
+                                  href="#"
+                                  @click.prevent="
+                                    $store.dispatch(
+                                      'workspace/findWorkspaceById',
+                                      workspace.id
+                                    )
+                                  "
+                                >
+                                  <h6 class="f-w-600">
+                                    {{ workspace.name
+                                    }}<span
+                                      class="badge badge-secondary pull-right"
+                                      >Open</span
+                                    >
+                                  </h6>
+                                  <p>{{ workspace.domain }}</p>
+                                </a>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
               </form>
             </div>
           </div>
@@ -47,14 +100,12 @@
 
 <script>
 import { string, object } from 'yup';
-import { useStore } from 'vuex';
+import { useStore, mapGetters } from 'vuex';
 import { useField, useForm } from 'vee-validate';
-import { useRouter } from 'vue-router';
 
 export default {
   setup() {
     const store = useStore();
-    const router = useRouter();
 
     const validationSchema = object({
       domain: string().required(),
@@ -71,8 +122,8 @@ export default {
           'workspace/findWorkspaceByDomain',
           `${values.domain}.${store.state.landlordDomain}`
         )
-        .then(() => {
-          router.push({ name: 'login' });
+        .catch((error) => {
+          console.log(error);
         });
     });
 
@@ -81,6 +132,13 @@ export default {
       domain: domain,
       domainError: domainError,
     };
+  },
+
+  computed: {
+    ...mapGetters('workspace', ['workspaces']),
+    canShowWorkspaces() {
+      return this.workspaces.length > 0;
+    },
   },
 };
 </script>

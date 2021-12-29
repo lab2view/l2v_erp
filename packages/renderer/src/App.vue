@@ -5,9 +5,6 @@
   <!-- page-wrapper Start-->
   <router-view />
   <!-- page-wrapper ends-->
-  <div>
-    <button @click="reloadPage">Click here to reload</button>
-  </div>
 </template>
 
 <script>
