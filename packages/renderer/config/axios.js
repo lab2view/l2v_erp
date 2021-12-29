@@ -11,9 +11,8 @@ axios.defaults.crossDomain = true;
 // Add a request interceptor
 axios.interceptors.request.use(
   function (config) {
-    const currentDomain =
-      store.getters['workspace/currentWorkspace'].domain ??
-      store.state.landlordDomain;
+    const workspace = store.getters['workspace/currentWorkspace'];
+    const currentDomain = workspace?.domain ?? store.state.landlordDomain;
     const protocol = process.env.NODE_ENV !== 'production' ? 'http' : 'https';
     config.baseURL = `${protocol}://${currentDomain}/api/`;
 
@@ -22,6 +21,7 @@ axios.interceptors.request.use(
     return config;
   },
   function (error) {
+    console.log(error);
     return Promise.reject(error);
   }
 );

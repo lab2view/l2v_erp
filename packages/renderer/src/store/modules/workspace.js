@@ -32,7 +32,8 @@ const actions = {
             return data;
           })
           .catch((err) => {
-            return Promise.reject(err.response.data);
+            if (err.response) return Promise.reject(err.response.data);
+            else return Promise.reject(err);
           });
       }
     }
