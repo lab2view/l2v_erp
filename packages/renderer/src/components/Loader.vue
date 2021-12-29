@@ -10,12 +10,8 @@
 import {defineComponent} from 'vue';
 import {mapState} from "vuex";
 export default defineComponent({
-  name: "Loader",
   computed: {
     ...mapState(["globalLoading"])
-  },
-  mounted() {
-    setTimeout(() => this.$store.dispatch("setGlobalLoading", false), 3000);
   }
 })
 </script>

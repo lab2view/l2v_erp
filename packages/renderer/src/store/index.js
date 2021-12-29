@@ -1,13 +1,7 @@
 import { createStore } from "vuex";
-import VuexPersistence from "vuex-persist";
-import localForage from "localforage";
 import auth from "./modules/auth";
 import workspace from "./modules/workspace";
-
-const vuexLocal = new VuexPersistence({
-  storage: localForage,
-  asyncStorage: true,
-});
+import { Auth } from "./helpers/ModuleLocalForage";
 
 export default createStore({
   state: {
@@ -32,5 +26,5 @@ export default createStore({
     workspace,
   },
   strict: process.env.NODE_ENV !== "production",
-  plugins: [vuexLocal.plugin],
+  plugins: [Auth.plugin],
 });
