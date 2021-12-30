@@ -1,18 +1,19 @@
-import VuexPersistence from "vuex-persist";
-import localForage from "localforage";
+import VuexPersistence from 'vuex-persist';
+import localForage from 'localforage';
 
-const currentWorkspace = localStorage.getItem("currentWorkspace")
-  ? JSON.parse(localStorage.getItem("currentWorkspace"))
+const currentWorkspace = localStorage.getItem('currentWorkspace')
+  ? JSON.parse(localStorage.getItem('currentWorkspace'))
   : null;
 const currentWorkSpaceDatabase = currentWorkspace
   ? currentWorkspace.database
-  : "kitbusiness";
+  : 'kitbusiness';
+
 let localStore = localForage.createInstance({
   name: currentWorkSpaceDatabase,
 });
 
 export const Auth = new VuexPersistence({
-  key: "auth",
+  key: 'auth',
   storage: localStore,
   asyncStorage: true,
   reducer: (state) => ({ auth: state.auth }),

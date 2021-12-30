@@ -7,8 +7,11 @@ const state = {
 
 // getters
 const getters = {
-  token: (state) => {
-    return state.currentUser?.token;
+  currentUser: (state) => {
+    return JSON.parse(state.currentUser);
+  },
+  token: (state, getters) => {
+    return getters.currentUser?.token;
   },
 };
 
@@ -24,12 +27,16 @@ const actions = {
         else return Promise.reject(err);
       });
   },
+
+  logout({ commit }) {
+    commit('SET_CURRENT_USER', null);
+  },
 };
 
 // mutations
 const mutations = {
   SET_CURRENT_USER(state, user) {
-    state.currentUser = user;
+    state.currentUser = JSON.stringify(user);
     window?.ipcRenderer?.send('reload', 'User connexion');
   },
 };

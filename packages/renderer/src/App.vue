@@ -31,8 +31,6 @@ export default defineComponent({
         await this.$loadScript(`../assets/js/bootstrap/bootstrap.min.js`);
         await this.$loadScript(`../assets/js/notify/bootstrap-notify.min.js`);
         await this.$loadScript(`../assets/js/form-validation-custom.js`);
-        // await this.$loadScript(`../assets/js/config.js`);
-        // await this.$loadScript(`../assets/js/script.js`);
       })();
     }, 1000);
   },

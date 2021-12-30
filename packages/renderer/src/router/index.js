@@ -74,6 +74,7 @@ const router = createRouter({
     if (savedPosition) return savedPosition;
     else return { top: 0 };
   },
+  linkActiveClass: 'active',
 });
 
 router.beforeEach(async (to, from, next) => {

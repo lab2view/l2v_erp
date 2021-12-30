@@ -31,9 +31,9 @@ export default defineComponent({
         await this.$loadScript(`../../../assets/js/clipboard/clipboard.min.js`);
         await this.$loadScript(`../../../assets/js/tooltip-init.js`);
         await this.$loadScript(`../../../assets/js/sidebar-menu.js`);
-        await this.$loadScript(
-          `../../../assets/js/theme-customizer/customizer.js`
-        );
+        // await this.$loadScript(
+        //   `../../../assets/js/theme-customizer/customizer.js`
+        // );
       })();
     }, 1000);
   },
