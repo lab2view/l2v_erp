@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { notify } from '../helpers/notify';
-import store from '../src/store';
+import store from '../store';
 
 axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 axios.defaults.headers.common['Accept'] = 'application/json';

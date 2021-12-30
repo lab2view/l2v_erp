@@ -1,4 +1,4 @@
-import EnterpriseService from '../../../services/EnterpriseService';
+import EnterpriseService from '../../services/EnterpriseService';
 
 const state = {};
 

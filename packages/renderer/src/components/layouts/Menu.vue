@@ -79,7 +79,7 @@
 <script>
 import { defineComponent } from 'vue';
 import MenuModule from '/@/components/layouts/MenuModule.vue';
-import { productMenus } from '../../../helpers/menus';
+import { productMenus } from '../../helpers/menus';
 
 export default defineComponent({
   components: { MenuModule },
