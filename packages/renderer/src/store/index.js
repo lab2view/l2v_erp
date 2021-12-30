@@ -1,22 +1,16 @@
-import { createStore } from "vuex";
-import VuexPersistence from "vuex-persist";
-import localForage from "localforage";
-import auth from "./modules/auth";
-import workspace from "./modules/workspace";
-
-const vuexLocal = new VuexPersistence({
-  storage: localForage,
-  asyncStorage: true,
-});
+import { createStore } from 'vuex';
+import auth from './modules/auth';
+import workspace from './modules/workspace';
+import { Auth } from './helpers/ModuleLocalForage';
 
 export default createStore({
   state: {
     globalLoading: true,
-    landlordDomain: "kitbussiness.test",
+    landlordDomain: 'kitbussiness.test',
   },
   actions: {
     setGlobalLoading({ commit }, loading) {
-      setTimeout(() => commit("SET_GLOBAL_LOADING", loading), 1000);
+      commit('SET_GLOBAL_LOADING', loading);
     },
   },
   mutations: {
@@ -31,6 +25,6 @@ export default createStore({
     auth,
     workspace,
   },
-  strict: process.env.NODE_ENV !== "production",
-  plugins: [vuexLocal.plugin],
+  strict: process.env.NODE_ENV !== 'production',
+  plugins: [Auth.plugin],
 });

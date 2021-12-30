@@ -1,9 +1,10 @@
 <template>
-  <!-- Loader starts-->
+  <!--Loader starts-->
   <Loader />
   <!-- Loader ends-->
   <!-- page-wrapper Start-->
   <router-view />
+  <!-- page-wrapper ends-->
 </template>
 
 <script>
@@ -20,13 +21,16 @@ export default defineComponent({
     setTimeout(() => {
       (async () => {
         await this.$loadScript(`../assets/js/jquery-3.5.1.min.js`);
-        await this.$loadScript(`../assets/js/icons/feather-icon/feather.min.js`);
-        await this.$loadScript(`../assets/js/icons/feather-icon/feather-icon.js`);
-        // await this.$loadScript(`../assets/js/config.js`);
+        await this.$loadScript(
+          `../assets/js/icons/feather-icon/feather.min.js`
+        );
+        await this.$loadScript(
+          `../assets/js/icons/feather-icon/feather-icon.js`
+        );
         await this.$loadScript(`../assets/js/bootstrap/popper.min.js`);
         await this.$loadScript(`../assets/js/bootstrap/bootstrap.min.js`);
         await this.$loadScript(`../assets/js/notify/bootstrap-notify.min.js`);
-        // await this.$loadScript(`../assets/js/script.js`);
+        await this.$loadScript(`../assets/js/form-validation-custom.js`);
       })();
     }, 1000);
   },
@@ -34,13 +38,13 @@ export default defineComponent({
 </script>
 
 <style>
-@import "../assets/css/fontawesome.css";
-@import "../assets/css/icofont.css";
-@import "../assets/css/themify.css";
-@import "../assets/css/flag-icon.css";
-@import "../assets/css/feather-icon.css";
-@import "../assets/css/bootstrap.css";
-@import "../assets/css/style.css";
-@import "../assets/css/responsive.css";
-@import "../assets/css/color-1.css";
+@import '../assets/css/fontawesome.css';
+@import '../assets/css/icofont.css';
+@import '../assets/css/themify.css';
+@import '../assets/css/flag-icon.css';
+@import '../assets/css/feather-icon.css';
+@import '../assets/css/bootstrap.css';
+@import '../assets/css/style.css';
+@import '../assets/css/responsive.css';
+@import '../assets/css/color-1.css';
 </style>

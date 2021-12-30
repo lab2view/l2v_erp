@@ -6,7 +6,7 @@ const workspace = [
   {
     path: "dashboard",
     name: "dashboard",
-    component: () => import("/@/views/workspace/Dashboard.vue"),
+    component: () => import("/@/views/Dashboard.vue"),
   },
 ];
 export default workspace;
