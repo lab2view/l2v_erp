@@ -7,12 +7,12 @@ export const productMenus = [
       {
         label: 'Ajouter un produit',
         code: 'Product.create',
-        to: 'product.create',
+        to: null,
       },
       {
         label: 'Liste des produits',
         code: 'Product.viewAny',
-        to: 'product',
+        to: 'products',
       },
     ],
   },
@@ -45,7 +45,7 @@ export const productMenus = [
     items: [
       {
         label: 'Conditionnement',
-        code: 'Package.viewAny',
+        code: 'package.viewAny',
         to: 'package',
       },
       {
