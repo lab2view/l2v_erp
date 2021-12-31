@@ -31,11 +31,6 @@ export const productMenus = [
         code: 'ArticleGroup.viewAny',
         to: 'articleGroup',
       },
-      {
-        label: 'Compositions',
-        code: 'Composition.viewAny',
-        to: 'composition',
-      },
     ],
   },
   {
