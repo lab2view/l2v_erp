@@ -28,23 +28,9 @@
         <span class="badge badge-primary">New</span>
       </div>
       <a href="user-profile.html">
-        <h6 class="mt-3 f-14 f-w-600">Emay Walter</h6></a
+        <h6 class="mt-3 f-14 f-w-600">{{ currentUserEmail }}</h6></a
       >
-      <p class="mb-0 font-roboto">Human Resources Department</p>
-      <ul>
-        <li>
-          <span><span class="counter">19.8</span>k</span>
-          <p>Follow</p>
-        </li>
-        <li>
-          <span>2 year</span>
-          <p>Experince</p>
-        </li>
-        <li>
-          <span><span class="counter">95.2</span>k</span>
-          <p>Follower</p>
-        </li>
-      </ul>
+      <p class="mb-0 font-roboto">{{ currentUserRole }}</p>
     </div>
     <nav>
       <div class="main-navbar">
@@ -80,10 +66,12 @@
 import { defineComponent } from 'vue';
 import MenuModule from '/@/components/layouts/MenuModule.vue';
 import { productMenus } from '../../helpers/menus';
+import { mapGetters } from 'vuex';
 
 export default defineComponent({
   components: { MenuModule },
   computed: {
+    ...mapGetters('auth', ['currentUserEmail', 'currentUserRole']),
     modules() {
       return [
         {

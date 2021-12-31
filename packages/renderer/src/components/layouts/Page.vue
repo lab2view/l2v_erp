@@ -27,8 +27,6 @@ export default defineComponent({
   created() {
     setTimeout(() => {
       (async () => {
-        await this.$loadScript(`../../../assets/js/prism/prism.min.js`);
-        await this.$loadScript(`../../../assets/js/clipboard/clipboard.min.js`);
         await this.$loadScript(`../../../assets/js/tooltip-init.js`);
         await this.$loadScript(`../../../assets/js/sidebar-menu.js`);
         // await this.$loadScript(

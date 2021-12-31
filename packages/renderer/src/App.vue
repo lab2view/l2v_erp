@@ -20,16 +20,9 @@ export default defineComponent({
   mounted() {
     setTimeout(() => {
       (async () => {
-        await this.$loadScript(`../assets/js/jquery-3.5.1.min.js`);
-        await this.$loadScript(
-          `../assets/js/icons/feather-icon/feather.min.js`
-        );
         await this.$loadScript(
           `../assets/js/icons/feather-icon/feather-icon.js`
         );
-        await this.$loadScript(`../assets/js/bootstrap/popper.min.js`);
-        await this.$loadScript(`../assets/js/bootstrap/bootstrap.min.js`);
-        await this.$loadScript(`../assets/js/notify/bootstrap-notify.min.js`);
         await this.$loadScript(`../assets/js/form-validation-custom.js`);
       })();
     }, 1000);

@@ -1,18 +1,16 @@
 <template>
-  <div class="container-fluid">
-    <div class="page-header">
-      <div class="row">
-        <div class="col-sm-6">
-          <h3>Sample Page</h3>
-        </div>
-        <div class="col-sm-6">
-          <Bookmark />
-        </div>
-      </div>
-    </div>
-  </div>
-  <!-- Container-fluid starts-->
-  <div class="container-fluid">
+  <BaseContainer title="Dashboard">
+    <template v-if="false" #breadcrumb>
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="#">Home</a></li>
+        <li class="breadcrumb-item">Pages</li>
+        <li class="breadcrumb-item active">Sample Page</li>
+      </ol>
+    </template>
+    <!--    <template #bookmark>-->
+    <!--      <Bookmark />-->
+    <!--    </template>-->
+
     <div class="row">
       <div class="col-sm-12">
         <div class="card">
@@ -36,17 +34,27 @@
         </div>
       </div>
     </div>
-  </div>
-  <!-- Container-fluid Ends-->
+  </BaseContainer>
 </template>
 
 <script>
 import { defineComponent } from 'vue';
-import Bookmark from '/@/components/layouts/Bookmark.vue';
+// import Bookmark from '/@/components/layouts/Bookmark.vue';
+import BaseContainer from '/@/components/common/BaseContainer.vue';
 
 export default defineComponent({
-  components: { Bookmark },
-  created() {},
+  components: { BaseContainer },
+  computed: {
+    bookmarkItems() {
+      return [
+        {
+          to: '',
+          title: 'Notifications',
+          feather: 'inbox',
+        },
+      ];
+    },
+  },
 });
 </script>
 

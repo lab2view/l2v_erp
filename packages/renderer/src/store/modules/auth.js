@@ -13,6 +13,8 @@ const getters = {
   token: (state, getters) => {
     return getters.currentUser?.token;
   },
+  currentUserEmail: (state, getters) => getters.currentUser?.user?.email,
+  currentUserRole: (state, getters) => getters.currentUser?.user?.role?.label,
 };
 
 // privileges
