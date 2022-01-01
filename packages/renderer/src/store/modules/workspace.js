@@ -50,6 +50,11 @@ const actions = {
   forgetCurrentWorkspace({ commit }) {
     commit('SET_CURRENT_WORKSPACE', null);
   },
+
+  setCurrentWorkspace({ commit }, workspace) {
+    commit('SET_CURRENT_WORKSPACE', workspace);
+    return workspace;
+  },
 };
 
 // mutations

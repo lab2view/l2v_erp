@@ -23,7 +23,6 @@ export default defineComponent({
         await this.$loadScript(
           `../assets/js/icons/feather-icon/feather-icon.js`
         );
-        await this.$loadScript(`../assets/js/form-validation-custom.js`);
       })();
     }, 1000);
   },
