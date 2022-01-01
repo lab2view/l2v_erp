@@ -74,7 +74,7 @@ const router = createRouter({
     if (savedPosition) return savedPosition;
     else return { top: 0 };
   },
-  linkActiveClass: 'active',
+  linkExactActiveClass: 'active',
 });
 
 router.beforeEach(async (to, from, next) => {
@@ -91,7 +91,7 @@ router.beforeEach(async (to, from, next) => {
 });
 
 router.afterEach(() => {
-  setTimeout(() => store.dispatch('setGlobalLoading', false), 500);
+  setTimeout(() => store.dispatch('setGlobalLoading', false), 1000);
 });
 
 export default router;

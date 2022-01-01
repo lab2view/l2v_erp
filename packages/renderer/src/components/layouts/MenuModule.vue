@@ -4,25 +4,18 @@
       <h6>{{ module.name }}</h6>
     </div>
   </li>
-  <li v-for="(menu, index) in module.menus" :key="index" class="dropdown">
-    <a
-      class="nav-link menu-title"
-      :class="menu.items.length === 0 ? 'link-nav' : ''"
-      href="javascript:void(0)"
-    >
-      <i :data-feather="menu.icon"></i><span>{{ menu.label }}</span>
-    </a>
-    <ul v-if="menu.items.length > 0" class="nav-submenu menu-content">
-      <li v-for="(item, indexItem) in menu.items" :key="indexItem">
-        <a href="#">{{ item.label }}</a>
-      </li>
-    </ul>
-  </li>
+  <MenuModuleItem
+    v-for="(menu, index) in module.menus"
+    :key="`menu-${index}`"
+    :menu="menu"
+  />
 </template>
 
 <script>
 import { defineComponent } from 'vue';
+import MenuModuleItem from './MenuModuleItem.vue';
 export default defineComponent({
+  components: { MenuModuleItem },
   props: {
     module: {
       type: Object,

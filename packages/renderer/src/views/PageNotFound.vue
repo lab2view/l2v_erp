@@ -231,7 +231,11 @@
               The page you are attempting to reach is currently not available.
               This may be because the page does not exist or has been moved.
             </p>
-            <a class="btn btn-primary btn-lg" href="/">BACK TO HOME PAGE</a>
+            <router-link
+              class="btn btn-primary btn-lg"
+              :to="{ name: 'dashboard' }"
+              >BACK TO HOME PAGE</router-link
+            >
           </div>
         </div>
       </div>
