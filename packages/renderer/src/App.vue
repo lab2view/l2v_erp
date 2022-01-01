@@ -30,6 +30,7 @@ export default defineComponent({
 </script>
 
 <style>
+@import '../assets/css/datatables.css';
 @import '../assets/css/fontawesome.css';
 @import '../assets/css/icofont.css';
 @import '../assets/css/themify.css';

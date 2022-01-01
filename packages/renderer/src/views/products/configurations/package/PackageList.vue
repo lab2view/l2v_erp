@@ -1,35 +1,36 @@
 <template>
-  <!-- Container-fluid starts-->
-  <div class="container-fluid">
-    <div class="row">
-      <div class="col-sm-12">
-        <div class="card">
-          <div class="card-header pb-0">
-            <h5>Sample Card</h5>
-            <span
-              >lorem ipsum dolor sit amet, consectetur adipisicing elit</span
-            >
-          </div>
-          <div class="card-body">
-            <p>
-              "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-              enim ad minim veniam, quis nostrud exercitation ullamco laboris
-              nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
-              reprehenderit in voluptate velit esse cillum dolore eu fugiat
-              nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-              sunt in culpa qui officia deserunt mollit anim id est laborum."
-            </p>
-          </div>
+  <div class="card">
+    <div class="card-header pb-2 border-bottom border-bottom-">
+      <div class="row align-items-center">
+        <div class="col-sm">
+          <h5>Order history</h5>
+        </div>
+        <div class="col-sm-auto align-items-end">
+          <a href="#" class="btn btn-primary" type="button">
+            <i class="fa fa-plus m-r-5" />
+            Ajouter
+          </a>
         </div>
       </div>
     </div>
+    <div class="card-body">
+      <BaseDatatable :tfoot="false">
+        <template #headers>
+          <th>sadfsdf</th>
+        </template>
+        <tr>
+          <td>safdasd</td>
+        </tr>
+      </BaseDatatable>
+    </div>
   </div>
-  <!-- Container-fluid Ends-->
 </template>
 
 <script>
-export default {};
+import BaseDatatable from '/@/components/common/BaseDatatable.vue';
+export default {
+  components: { BaseDatatable },
+};
 </script>
 
 <style scoped></style>

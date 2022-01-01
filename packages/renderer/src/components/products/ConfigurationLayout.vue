@@ -1,5 +1,5 @@
 <template>
-  <BaseContainer :title="`Configurations : ${$route.meta.name}`">
+  <BaseContainer :title="`Configurations`">
     <template #breadcrumb>
       <ol class="breadcrumb">
         <li class="breadcrumb-item">
