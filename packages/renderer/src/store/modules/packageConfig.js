@@ -34,7 +34,7 @@ const actions = {
       return p;
     } else
       return packageService.get(id).then(({ data }) => {
-        commit('SET_CURRENT_PACKAGE', p);
+        commit('SET_CURRENT_PACKAGE', data);
         return data;
       });
   },

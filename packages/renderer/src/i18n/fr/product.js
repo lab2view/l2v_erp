@@ -6,6 +6,6 @@ export default {
     store:
       "L'enregistrement du type de conditionnement a ete effectue avec succes",
     update:
-      'La modificatio ndu type de conditionnement a ete effectue avec succes',
+      'La modification du type de conditionnement a ete effectue avec succes',
   },
 };

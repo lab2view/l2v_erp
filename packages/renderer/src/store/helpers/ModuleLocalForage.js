@@ -26,6 +26,13 @@ export const PackageConfig = new VuexPersistence({
   reducer: (state) => state.packageConfig,
 });
 
+export const PriceTypeConfig = new VuexPersistence({
+  key: 'priceTypeConfig',
+  storage: localStore,
+  asyncStorage: true,
+  reducer: (state) => state.priceTypeConfig,
+});
+
 // export const Workspace = new VuexPersistence({
 //   key: "workspace",
 //   storage: localStore,

@@ -42,18 +42,26 @@ export const productConfigRoutes = [
       code: 'PriceType.viewAny',
       feather: 'dollar-sign',
     },
-  },
-  {
-    path: 'product-families',
-    name: 'config.product.productFamily',
-    component: () =>
-      import(
-        '/@/views/products/configurations/productFamily/ProductFamilyList.vue'
-      ),
-    meta: {
-      code: 'ProductFamily.viewAny',
-      feather: 'shopping-bag',
-    },
+    children: [
+      {
+        path: 'form/:id?',
+        name: 'config.product.priceType.form',
+        component: () =>
+          import(
+            '/@/views/products/configurations/priceType/PriceTypeForm.vue'
+          ),
+        beforeEnter: (to) => {
+          if (to.params.id) {
+            return store
+              .dispatch('priceTypeConfig/getPriceType', to.params.id)
+              .then(() => {
+                return { name: to.name };
+              })
+              .catch(() => -1);
+          }
+        },
+      },
+    ],
   },
   {
     path: 'product-types',
@@ -65,6 +73,18 @@ export const productConfigRoutes = [
     meta: {
       code: 'ProductType.viewAny',
       feather: 'filter',
+    },
+  },
+  {
+    path: 'product-families',
+    name: 'config.product.productFamily',
+    component: () =>
+      import(
+        '/@/views/products/configurations/productFamily/ProductFamilyList.vue'
+      ),
+    meta: {
+      code: 'ProductFamily.viewAny',
+      feather: 'shopping-bag',
     },
   },
   {
