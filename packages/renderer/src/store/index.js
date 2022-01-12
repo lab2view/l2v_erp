@@ -1,7 +1,8 @@
 import { createStore } from 'vuex';
 import auth from './modules/auth';
 import workspace from './modules/workspace';
-import { Auth } from './helpers/ModuleLocalForage';
+import packageConfig from './modules/packageConfig';
+import { Auth, PackageConfig } from './helpers/ModuleLocalForage';
 
 export default createStore({
   state: {
@@ -24,7 +25,8 @@ export default createStore({
   modules: {
     auth,
     workspace,
+    packageConfig,
   },
   strict: process.env.NODE_ENV !== 'production',
-  plugins: [Auth.plugin],
+  plugins: [Auth.plugin, PackageConfig.plugin],
 });

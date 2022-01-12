@@ -19,6 +19,13 @@ export const Auth = new VuexPersistence({
   reducer: (state) => ({ auth: state.auth }),
 });
 
+export const PackageConfig = new VuexPersistence({
+  key: 'packageConfig',
+  storage: localStore,
+  asyncStorage: true,
+  reducer: (state) => state.packageConfig,
+});
+
 // export const Workspace = new VuexPersistence({
 //   key: "workspace",
 //   storage: localStore,

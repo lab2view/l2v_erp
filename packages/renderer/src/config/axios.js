@@ -17,7 +17,7 @@ axios.interceptors.request.use(
     config.baseURL = `${protocol}://${currentDomain}/api/`;
 
     const token = store.getters['auth/token'] ?? null;
-    if (token) config.headers.common['Authorization'] = `bearer ${token}`;
+    if (token) config.headers.common['Authorization'] = `Bearer ${token}`;
     return config;
   },
   function (error) {
@@ -29,13 +29,13 @@ axios.interceptors.request.use(
 // Add a response interceptor
 axios.interceptors.response.use(
   (response) => {
-    if (response.data && response.data.message)
+    if (response.data?.message)
       notify(response.data.message, 'Ok', 'theme', 'fa fa-check');
     return response;
   },
   (error) => {
     if (error.response) {
-      if (error.response.data && error.response.data.message)
+      if (error.response.data?.message)
         notify(error.response.data.message, 'Erreur', 'danger');
     }
     return Promise.reject(error);

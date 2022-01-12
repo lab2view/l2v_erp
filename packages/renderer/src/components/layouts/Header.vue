@@ -154,7 +154,9 @@
             </ul>
           </li>
           <li>
-            <div class="mode"><i class="fa fa-moon-o"></i></div>
+            <div class="mode" @click.prevent="setDarkMode">
+              <i class="fa fa-moon-o"></i>
+            </div>
           </li>
           <li class="onhover-dropdown">
             <i data-feather="message-square"></i>
@@ -237,6 +239,11 @@ import { mapGetters } from 'vuex';
 export default defineComponent({
   computed: {
     ...mapGetters('workspace', ['currentWorkspace']),
+  },
+  methods: {
+    setDarkMode() {
+      $('body').attr('class', 'dark-only');
+    },
   },
 });
 </script>

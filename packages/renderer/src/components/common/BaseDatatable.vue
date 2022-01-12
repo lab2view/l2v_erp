@@ -1,5 +1,5 @@
 <template>
-  <div class="table-responsive">
+  <div class="table-responsive product-table">
     <table id="datatable-dt" class="display">
       <thead>
         <tr>
@@ -11,7 +11,6 @@
       </tbody>
       <tfoot v-if="tfoot">
         <tr>
-          safdasd
           <slot name="headers" />
         </tr>
       </tfoot>

@@ -1,3 +1,5 @@
+import store from '../store';
+
 export const productConfigRoutes = [
   {
     path: '',
@@ -9,9 +11,27 @@ export const productConfigRoutes = [
     component: () =>
       import('/@/views/products/configurations/package/PackageList.vue'),
     meta: {
-      name: 'Conditionnement',
+      name: 'Conditionnements',
       feather: 'package',
     },
+    children: [
+      {
+        path: 'form/:id?',
+        name: 'config.product.package.form',
+        component: () =>
+          import('/@/views/products/configurations/package/PackageForm.vue'),
+        beforeEnter: (to) => {
+          if (to.params.id) {
+            return store
+              .dispatch('packageConfig/getPackage', to.params.id)
+              .then(() => {
+                return { name: to.name };
+              })
+              .catch(() => -1);
+          }
+        },
+      },
+    ],
   },
   {
     path: 'price-types',

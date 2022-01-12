@@ -99,14 +99,9 @@ export default {
   },
   methods: {
     submitLoginForm() {
-      this.$store
-        .dispatch('auth/login', this.loginInput)
-        .catch((error) => {
-          console.log(error);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+      this.$store.dispatch('auth/login', this.loginInput).catch((error) => {
+        console.log(error);
+      });
     },
   },
 };
