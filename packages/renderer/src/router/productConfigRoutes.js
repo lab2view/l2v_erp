@@ -11,7 +11,7 @@ export const productConfigRoutes = [
     component: () =>
       import('/@/views/products/configurations/package/PackageList.vue'),
     meta: {
-      name: 'Conditionnements',
+      code: 'package.viewAny',
       feather: 'package',
     },
     children: [
@@ -39,7 +39,7 @@ export const productConfigRoutes = [
     component: () =>
       import('/@/views/products/configurations/priceType/PriceTypeList.vue'),
     meta: {
-      name: 'Type de prix',
+      code: 'PriceType.viewAny',
       feather: 'dollar-sign',
     },
   },
@@ -51,7 +51,7 @@ export const productConfigRoutes = [
         '/@/views/products/configurations/productFamily/ProductFamilyList.vue'
       ),
     meta: {
-      name: 'Famille de produit',
+      code: 'ProductFamily.viewAny',
       feather: 'shopping-bag',
     },
   },
@@ -63,7 +63,7 @@ export const productConfigRoutes = [
         '/@/views/products/configurations/productType/ProductTypeList.vue'
       ),
     meta: {
-      name: 'Type de produit',
+      code: 'ProductType.viewAny',
       feather: 'filter',
     },
   },
@@ -75,7 +75,7 @@ export const productConfigRoutes = [
         '/@/views/products/configurations/productUnit/ProductUnitList.vue'
       ),
     meta: {
-      name: 'Unite de produit',
+      code: 'ProductUnit.viewAny',
       feather: 'info',
     },
   },
@@ -85,7 +85,7 @@ export const productConfigRoutes = [
     component: () =>
       import('/@/views/products/configurations/property/PropertyList.vue'),
     meta: {
-      name: 'Proprietes',
+      code: 'Property.viewAny',
       feather: 'list',
     },
   },
@@ -94,7 +94,7 @@ export const productConfigRoutes = [
     name: 'config.product.tax',
     component: () => import('/@/views/products/configurations/tax/TaxList.vue'),
     meta: {
-      name: 'Taxes',
+      code: 'Tax.viewAny',
       feather: 'percent',
     },
   },

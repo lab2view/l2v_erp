@@ -1,7 +1,10 @@
 <template>
   <li class="dropdown">
     <a class="nav-link menu-title" :class="linkClass" href="javascript:void(0)">
-      <i :data-feather="menu.icon"></i><span>{{ menu.label }}</span>
+      <i :data-feather="menu.icon"></i
+      ><span>{{
+        menu.label ?? $t(`menu.${menu.code?.toString().toLowerCase()}`)
+      }}</span>
       <div v-if="haveSubMenus" class="according-menu">
         <i v-if="isCurrentRoute" class="fa fa-angle-down"></i>
         <i v-else class="fa fa-angle-right"></i>
@@ -13,7 +16,9 @@
       :style="subMenuStyle"
     >
       <li v-for="(item, indexItem) in menu.items" :key="`submenu-${indexItem}`">
-        <router-link :to="{ name: item.to }">{{ item.label }}</router-link>
+        <router-link :to="{ name: item.to }">{{
+          $t(`menu.${item.code?.toString().toLowerCase()}`)
+        }}</router-link>
       </li>
     </ul>
   </li>

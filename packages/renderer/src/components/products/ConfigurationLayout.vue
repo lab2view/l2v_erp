@@ -8,7 +8,9 @@
           </router-link>
         </li>
         <li class="breadcrumb-item">Config</li>
-        <li class="breadcrumb-item active">{{ $route.meta.name }}</li>
+        <li class="breadcrumb-item active">
+          {{ $t(`menu.${$route.meta.code.toString().toLowerCase()}`) }}
+        </li>
       </ol>
     </template>
     <template #bookmark>
@@ -34,7 +36,7 @@ export default {
         return productConfigRoute.meta?.feather
           ? {
               to: productConfigRoute.name,
-              title: productConfigRoute.meta.name,
+              code: productConfigRoute.meta.code,
               feather: productConfigRoute.meta.feather,
             }
           : {};

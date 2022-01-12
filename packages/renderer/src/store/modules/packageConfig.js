@@ -1,5 +1,6 @@
 import packageService from '../../services/products/PackageService';
 import { notify } from '../../helpers/notify';
+import i18n from '../../i18n';
 
 const state = {
   packages: null,
@@ -42,7 +43,7 @@ const actions = {
     return packageService.add(packageField).then(({ data }) => {
       commit('ADD_PACKAGE', data);
       notify(
-        'Conditionnement enregistrer avec success',
+        i18n.global.t('product.package.store'),
         'Ok',
         'theme',
         'fa fa-check'
@@ -56,7 +57,7 @@ const actions = {
       .update(packageField, packageField.id)
       .then(({ data }) => {
         notify(
-          'Conditionnement modifier avec success',
+          i18n.global.t('product.package.update'),
           'Ok',
           'theme',
           'fa fa-check'

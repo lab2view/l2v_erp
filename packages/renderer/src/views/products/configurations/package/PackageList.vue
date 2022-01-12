@@ -3,7 +3,7 @@
     <div class="card-header pb-2 border-bottom border-bottom-">
       <div class="row align-items-center">
         <div class="col-sm">
-          <h5>Liste des conditionnements</h5>
+          <h5>{{ $t('product.package.listTitle') }}</h5>
         </div>
         <div class="col-sm-auto align-items-end">
           <router-link
@@ -13,7 +13,7 @@
             type="button"
           >
             <i class="fa fa-plus m-r-5" />
-            Ajouter
+            {{ $t('common.add') }}
           </router-link>
         </div>
       </div>
@@ -22,9 +22,9 @@
       <BaseDatatable :tfoot="false">
         <template #headers>
           <th>#</th>
-          <th>Code</th>
-          <th>Libelle</th>
-          <th>Actions</th>
+          <th>{{ $t('common.attributes.code') }}</th>
+          <th>{{ $t('common.attributes.label') }}</th>
+          <th>{{ $t('common.actions') }}</th>
         </template>
         <tr v-for="pack in packages" :key="pack.id">
           <td>{{ pack.id }}</td>
@@ -35,7 +35,7 @@
               class="btn btn-secondary btn-xs"
               type="button"
               data-original-title="btn btn-secondary btn-xs"
-              title="Modifier"
+              :title="$t('common.update')"
               @click.prevent="
                 $router.push({
                   name: 'config.product.package.form',
@@ -43,14 +43,14 @@
                 })
               "
             >
-              Modifier
+              {{ $t('common.update') }}
             </button>
             <button
               v-if="!pack.not_deletable"
               class="btn btn-danger btn-xs m-l-5"
               type="button"
               data-original-title="btn btn-danger btn-xs"
-              title="Supprimer"
+              :title="$t('common.delete')"
               @click.prevent="deletePackage(pack)"
             >
               <i class="fa fa-trash-o" />
@@ -90,7 +90,7 @@ export default {
   },
   methods: {
     deletePackage(pack) {
-      if (confirm(`Voulez-vous supprimer ${pack.label} ?`))
+      if (confirm(this.$t('messages.confirmDelete', { label: pack.label })))
         this.$store.dispatch('packageConfig/deletePackage', pack.id);
     },
   },

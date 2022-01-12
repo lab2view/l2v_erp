@@ -8,7 +8,7 @@
           data-container="body"
           data-bs-toggle="popover"
           data-placement="top"
-          :title="item.title"
+          :title="$t(`menu.${item.code.toString().toLowerCase()}`)"
           data-original-title="Tables"
         >
           <i :data-feather="item.feather"></i>

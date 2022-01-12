@@ -1,7 +1,9 @@
 <template>
   <BaseFormModal :title="title" :submit-form="submitPackageForm">
     <div class="mb-3">
-      <label class="form-label fw-bold" for="label">Libelle</label>
+      <label class="form-label fw-bold" for="label">{{
+        $t('common.attributes.label')
+      }}</label>
       <input
         id="label"
         v-model="packageForm.label"
@@ -15,8 +17,8 @@
       </div>
     </div>
     <template #footer>
-      <button class="btn btn-primary" type="submit" title="Enregister">
-        Enregistrer
+      <button class="btn btn-primary" type="submit" :title="$t('common.save')">
+        {{ $t('common.save') }}
       </button>
     </template>
   </BaseFormModal>
@@ -42,8 +44,8 @@ export default {
     ...mapGetters('packageConfig', ['packageModel']),
     title() {
       return this.packageModel
-        ? 'Modifier le conditionnement'
-        : 'Ajouter un conditionnement';
+        ? this.$t('product.package.formUpdateTitle')
+        : this.$t('product.package.formCreateTitle');
     },
   },
   created() {

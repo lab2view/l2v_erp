@@ -75,37 +75,30 @@ export default defineComponent({
     modules() {
       return [
         {
-          name: 'Produits',
           code: 'PRODUCTS',
           menus: productMenus,
         },
         {
-          name: 'Stocks',
           code: 'STOCKS',
           menus: [],
         },
         {
-          name: 'Ventes',
           code: 'SALES',
           menus: [],
         },
         {
-          name: 'Clients',
           code: 'CUSTOMERS',
           menus: [],
         },
         {
-          name: 'Paiements',
           code: 'PAYMENTS',
           menus: [],
         },
         {
-          name: 'Structures',
           code: 'ENTERPRISE',
           menus: [],
         },
         {
-          name: 'IAM',
           code: 'IAM',
           menus: [],
         },
