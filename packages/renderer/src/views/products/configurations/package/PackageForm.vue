@@ -17,7 +17,7 @@
       </div>
     </div>
     <template #footer>
-      <button class="btn btn-primary" type="submit" title="Enregister">
+      <button class="btn btn-primary" type="submit" :title="$t('common.save')">
         {{ $t('common.save') }}
       </button>
     </template>

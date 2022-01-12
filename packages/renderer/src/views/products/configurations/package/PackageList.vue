@@ -90,7 +90,7 @@ export default {
   },
   methods: {
     deletePackage(pack) {
-      if (confirm(`Voulez-vous supprimer ${pack.label} ?`))
+      if (confirm(this.$t('messages.confirmDelete', { label: pack.label })))
         this.$store.dispatch('packageConfig/deletePackage', pack.id);
     },
   },
