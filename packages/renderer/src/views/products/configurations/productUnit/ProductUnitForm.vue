@@ -16,6 +16,22 @@
         {{ errors.label[0] }}
       </div>
     </div>
+    <div class="mb-3">
+      <label class="form-label fw-bold" for="code">{{
+        $t('common.attributes.code')
+      }}</label>
+      <input
+        id="code"
+        v-model="productUnitForm.code"
+        class="form-control"
+        type="text"
+        placeholder="Kg, L..."
+        required
+      />
+      <div v-if="errors.code" class="invalid-feedback" style="display: inline">
+        {{ errors.code[0] }}
+      </div>
+    </div>
     <template #footer>
       <button class="btn btn-primary" type="submit" :title="$t('common.save')">
         {{ $t('common.save') }}
