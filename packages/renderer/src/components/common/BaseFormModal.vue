@@ -46,4 +46,9 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.modal-body {
+  overflow-y: scroll;
+  max-height: 32rem;
+}
+</style>
