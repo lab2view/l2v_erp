@@ -12,73 +12,76 @@ let localStore = localForage.createInstance({
   name: currentWorkSpaceDatabase,
 });
 
-export const Auth = new VuexPersistence({
+const Auth = new VuexPersistence({
   key: 'auth',
   storage: localStore,
   asyncStorage: true,
   reducer: (state) => ({ auth: state.auth }),
 });
 
-export const PackageConfig = new VuexPersistence({
+const PackageConfig = new VuexPersistence({
   key: 'packageConfig',
   storage: localStore,
   asyncStorage: true,
-  reducer: (state) => state.packageConfig,
+  reducer: (state) => ({ packageConfig: state.packageConfig }),
 });
 
-export const PriceTypeConfig = new VuexPersistence({
+const PriceTypeConfig = new VuexPersistence({
   key: 'priceTypeConfig',
   storage: localStore,
   asyncStorage: true,
-  reducer: (state) => state.priceTypeConfig,
+  reducer: (state) => ({ priceTypeConfig: state.priceTypeConfig }),
 });
 
-export const ProductConfig = new VuexPersistence({
-  key: 'productConfig',
-  storage: localStore,
-  asyncStorage: true,
-  reducer: (state) => state.productConfig,
-});
-
-export const ProductFamilyConfig = new VuexPersistence({
+const ProductFamilyConfig = new VuexPersistence({
   key: 'productFamilyConfig',
   storage: localStore,
   asyncStorage: true,
-  reducer: (state) => state.productFamilyConfig,
+  reducer: (state) => ({ productFamilyConfig: state.productFamilyConfig }),
 });
 
-export const ProductTypeConfig = new VuexPersistence({
+const ProductTypeConfig = new VuexPersistence({
   key: 'productTypeConfig',
   storage: localStore,
   asyncStorage: true,
-  reducer: (state) => state.productTypeConfig,
+  reducer: (state) => ({ productTypeConfig: state.productTypeConfig }),
 });
 
-export const ProductUnitConfig = new VuexPersistence({
+const ProductUnitConfig = new VuexPersistence({
   key: 'productUnitConfig',
   storage: localStore,
   asyncStorage: true,
-  reducer: (state) => state.productUnitConfig,
+  reducer: (state) => ({ productUnitConfig: state.productUnitConfig }),
 });
 
-export const TaxConfig = new VuexPersistence({
+const TaxConfig = new VuexPersistence({
   key: 'taxConfig',
   storage: localStore,
   asyncStorage: true,
-  reducer: (state) => state.taxConfig,
+  reducer: (state) => ({ taxConfig: state.taxConfig }),
 });
 
-export const PropertyConfig = new VuexPersistence({
+const PropertyConfig = new VuexPersistence({
   key: 'propertyConfig',
   storage: localStore,
   asyncStorage: true,
-  reducer: (state) => state.propertyConfig,
+  reducer: (state) => ({ propertyConfig: state.propertyConfig }),
 });
 
-// export const Workspace = new VuexPersistence({
+// const Workspace = new VuexPersistence({
 //   key: "workspace",
 //   storage: localStore,
 //   asyncStorage: true,
 //   reducer: (state) => ({ workspace: state.workspace }),
 // });
 
+export default [
+  Auth.plugin,
+  PackageConfig.plugin,
+  PropertyConfig.plugin,
+  TaxConfig.plugin,
+  PriceTypeConfig.plugin,
+  ProductFamilyConfig.plugin,
+  ProductTypeConfig.plugin,
+  ProductUnitConfig.plugin,
+];
