@@ -22,13 +22,11 @@
       <BaseDatatable :tfoot="false">
         <template #headers>
           <th>#</th>
-          <th>{{ $t('common.attributes.code') }}</th>
           <th>{{ $t('common.attributes.label') }}</th>
           <th>{{ $t('common.actions') }}</th>
         </template>
         <tr v-for="tax in taxes" :key="tax.id">
           <td>{{ tax.id }}</td>
-          <td>{{ tax.code }}</td>
           <td>{{ tax.label }}</td>
           <td>
             <button
@@ -90,9 +88,7 @@ export default {
   },
   methods: {
     deleteTax(tax) {
-      if (
-        confirm(this.$t('messages.confirmDelete', { label: tax.label }))
-      )
+      if (confirm(this.$t('messages.confirmDelete', { label: tax.label })))
         this.$store.dispatch('taxConfig/deleteTax', tax.id);
     },
   },
