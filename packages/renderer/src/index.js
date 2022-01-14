@@ -1,9 +1,16 @@
-import {createApp} from 'vue';
+import { createApp } from 'vue';
 import App from '/@/App.vue';
-import router from '/@/router';
 import loadScript from '/@/loadscript';
+import router from '/@/router';
+import store from '/@/store';
+import i18n from '/@/i18n';
 
 const app = createApp(App);
-app.use(router)
+
+app.use(router);
+app.use(store);
+app.use(i18n);
+
 app.config.globalProperties.$loadScript = loadScript;
+
 app.mount('#app');

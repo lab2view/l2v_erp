@@ -1,49 +1,43 @@
 <template>
-<!--  <app-navigation />
-  <a href="#Douala" class="nav-link menu-title active">Hallo</a>
-  <div class="custom-scrollbar">scroll</div>
-  <router-view />-->
-  <!-- Loader starts-->
-  <Loader/>
+  <!--Loader starts-->
+  <Loader />
   <!-- Loader ends-->
   <!-- page-wrapper Start-->
-  <Page/>
+  <router-view />
+  <!-- page-wrapper ends-->
 </template>
 
 <script>
-import {defineComponent} from 'vue';
-import AppNavigation from '/@/components/AppNavigation.vue';
+import { defineComponent } from 'vue';
 import Loader from '/@/components/Loader.vue';
-import Page from '/@/components/layouts/Page.vue';
 
 export default defineComponent({
   name: 'App',
   components: {
-    Page,
     Loader,
-    AppNavigation,
   },
 
-  created() {
+  mounted() {
     setTimeout(() => {
       (async () => {
-        await this.$loadScript(`../assets/js/jquery-3.5.1.min.js`);
-        await this.$loadScript(`../assets/js/icons/feather-icon/feather.min.js`);
-        await this.$loadScript(`../assets/js/icons/feather-icon/feather-icon.js`);
-        await this.$loadScript(`../assets/js/sidebar-menu.js`);
-        await this.$loadScript(`../assets/js/config.js`);
-        await this.$loadScript(`../assets/js/bootstrap/popper.min.js`);
-        await this.$loadScript(`../assets/js/bootstrap/bootstrap.min.js`);
-        await this.$loadScript(`../assets/js/prism/prism.min.js`);
-        await this.$loadScript(`../assets/js/clipboard/clipboard.min.js`);
-        await this.$loadScript(`../assets/js/tooltip-init.js`);
-        await this.$loadScript(`../assets/js/script.js`);
-        await this.$loadScript(`../assets/js/theme-customizer/customizer.js`);
+        await this.$loadScript(
+          `../assets/js/icons/feather-icon/feather-icon.js`
+        );
       })();
-    }, 1000)
-  }
+    }, 1000);
+  },
 });
 </script>
 
 <style>
+@import '../assets/css/datatables.css';
+@import '../assets/css/fontawesome.css';
+@import '../assets/css/icofont.css';
+@import '../assets/css/themify.css';
+@import '../assets/css/flag-icon.css';
+@import '../assets/css/feather-icon.css';
+@import '../assets/css/bootstrap.css';
+@import '../assets/css/style.css';
+@import '../assets/css/responsive.css';
+@import '../assets/css/color-1.css';
 </style>

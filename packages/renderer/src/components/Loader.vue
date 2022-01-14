@@ -1,5 +1,5 @@
 <template>
-  <div class="loader-wrapper">
+  <div v-if="globalLoading" class="loader-wrapper">
     <div class="theme-loader">
       <div class="loader-p"></div>
     </div>
@@ -8,8 +8,11 @@
 
 <script>
 import {defineComponent} from 'vue';
+import {mapState} from "vuex";
 export default defineComponent({
-  name: "Loader"
+  computed: {
+    ...mapState(["globalLoading"])
+  }
 })
 </script>
 

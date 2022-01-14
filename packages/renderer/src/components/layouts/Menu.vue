@@ -1,38 +1,60 @@
 <template>
   <header class="main-nav">
+    <div class="sidebar-user text-center">
+      <a class="setting-primary" href="javascript:void(0)">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          class="feather feather-settings"
+        >
+          <circle cx="12" cy="12" r="3"></circle>
+          <path
+            d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"
+          ></path>
+        </svg> </a
+      ><img
+        class="img-90 rounded-circle"
+        src="../../../assets/images/dashboard/1.png"
+        alt=""
+      />
+      <div class="badge-bottom">
+        <span class="badge badge-primary">New</span>
+      </div>
+      <a href="user-profile.html">
+        <h6 class="mt-3 f-14 f-w-600">{{ currentUserEmail }}</h6></a
+      >
+      <p class="mb-0 font-roboto">{{ currentUserRole }}</p>
+    </div>
     <nav>
       <div class="main-navbar">
         <div id="mainnav">
           <ul class="nav-menu custom-scrollbar">
             <li class="back-btn">
-              <div class="mobile-back text-end"><span>Back</span><i class="fa fa-angle-right ps-2" aria-hidden="true"></i></div>
+              <div class="mobile-back text-end">
+                <span>Back</span
+                ><i class="fa fa-angle-right ps-2" aria-hidden="true"></i>
+              </div>
             </li>
-            <li class="dropdown"><a class="nav-link menu-title" href="../theme/index.html" target="_blank"><i data-feather="home"></i><span>Dashboard</span></a></li>
-            <li class="dropdown"><a class="nav-link menu-title" href="javascript:void(0)"><i data-feather="anchor"></i><span>Starter kit</span></a>
-              <ul class="nav-submenu menu-content">
-                <li><a class="submenu-title" href="javascript:void(0)">color version<span class="sub-arrow"><i class="fa fa-chevron-right"></i></span></a>
-                  <ul class="nav-sub-childmenu submenu-content">
-                    <li><a href="index.html">Layout Light</a></li>
-                    <li><a href="layout-dark.html">Layout Dark</a></li>
-                  </ul>
-                </li>
-                <li>     <a class="submenu-title" href="javascript:void(0)">Page layout<span class="sub-arrow"><i class="fa fa-chevron-right"></i></span></a>
-                  <ul class="nav-sub-childmenu submenu-content">
-                    <li><a href="boxed.html">Boxed</a></li>
-                    <li><a href="layout-rtl.html">RTL             </a></li>
-                  </ul>
-                </li>
-                <li>     <a class="submenu-title" href="javascript:void(0)">Footers<span class="sub-arrow"><i class="fa fa-chevron-right"></i></span></a>
-                  <ul class="nav-sub-childmenu submenu-content">
-                    <li><a href="footer-light.html">Footer Light</a></li>
-                    <li><a href="footer-dark.html">Footer Dark</a></li>
-                    <li><a href="footer-fixed.html">Footer Fixed</a></li>
-                  </ul>
-                </li>
-              </ul>
+            <li class="dropdown">
+              <router-link
+                :to="{ name: 'dashboard' }"
+                class="nav-link menu-title link-nav"
+                ><i data-feather="home"></i
+                ><span>Tableau de bord</span></router-link
+              >
             </li>
-            <li class="dropdown"><a class="nav-link menu-title" href="http://support.pixelstrap.com/help-center" target="_blank"><i data-feather="headphones"></i><span>Raise Support</span></a></li>
-            <li class="dropdown"><a class="nav-link menu-title" href="https://docs.pixelstrap.com/viho/document/" target="_blank"><i data-feather="file-text"></i><span>Documentation                                    </span></a></li>
+            <MenuModule
+              v-for="(module, index) in modules"
+              :key="index"
+              :module="module"
+            />
           </ul>
         </div>
       </div>
@@ -41,12 +63,49 @@
 </template>
 
 <script>
-import {defineComponent} from 'vue';
+import { defineComponent } from 'vue';
+import MenuModule from '/@/components/layouts/MenuModule.vue';
+import { productMenus } from '../../helpers/menus';
+import { mapGetters } from 'vuex';
+
 export default defineComponent({
-  name: "Menu"
-})
+  components: { MenuModule },
+  computed: {
+    ...mapGetters('auth', ['currentUserEmail', 'currentUserRole']),
+    modules() {
+      return [
+        {
+          code: 'PRODUCTS',
+          menus: productMenus,
+        },
+        {
+          code: 'STOCKS',
+          menus: [],
+        },
+        {
+          code: 'SALES',
+          menus: [],
+        },
+        {
+          code: 'CUSTOMERS',
+          menus: [],
+        },
+        {
+          code: 'PAYMENTS',
+          menus: [],
+        },
+        {
+          code: 'ENTERPRISE',
+          menus: [],
+        },
+        {
+          code: 'IAM',
+          menus: [],
+        },
+      ];
+    },
+  },
+});
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>
