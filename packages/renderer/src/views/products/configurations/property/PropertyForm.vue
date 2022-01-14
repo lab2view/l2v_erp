@@ -26,56 +26,61 @@
         class="form-control"
         type="text"
         placeholder="Type..."
+        required
       />
       <div v-if="errors.type" class="invalid-feedback" style="display: inline">
         {{ errors.type[0] }}
       </div>
     </div>
     <div class="mb-3">
-      <label class="form-label fw-bold" for="product_id">{{
-          $t('common.attributes.product')
-        }}</label>
-      <select
-        id="product_id"
-        v-model="propertyForm.product_id"
-        class="form-control"
-      >
-        <option value="0" disabled selected>{{ $t('common.choose')}}</option>
-        <option v-for="(product, index) in products" :key="index" :value="product.id" >{{ product.label }}</option>
-      </select>
-      <div v-if="errors.product_id" class="invalid-feedback" style="display: inline">
-        {{ errors.product_id[0] }}
-      </div>
-    </div>
-    <div class="mb-3">
       <label class="form-label fw-bold" for="product_type_id">{{
-          $t('common.attributes.product_type')
-        }}</label>
+        $t('common.attributes.product_type')
+      }}</label>
       <select
         id="product_type_id"
         v-model="propertyForm.product_type_id"
         class="form-control"
       >
-        <option value="0" disabled selected>{{ $t('common.choose')}}</option>
-        <option v-for="(product_type, index) in product_types" :key="index" :value="product_type.id" >{{ product_type.label }}</option>
+        <option :value="null" disabled>{{ $t('common.choose') }}</option>
+        <option
+          v-for="(productType, index) in productTypes"
+          :key="`pt-${index}`"
+          :value="productType.id"
+        >
+          {{ productType.label }}
+        </option>
       </select>
-      <div v-if="errors.product_type_id" class="invalid-feedback" style="display: inline">
+      <div
+        v-if="errors.product_type_id"
+        class="invalid-feedback"
+        style="display: inline"
+      >
         {{ errors.product_type_id[0] }}
       </div>
     </div>
     <div class="mb-3">
       <label class="form-label fw-bold" for="product_family_id">{{
-          $t('common.attributes.product_family')
-        }}</label>
+        $t('common.attributes.product_family')
+      }}</label>
       <select
         id="product_family_id"
         v-model="propertyForm.product_family_id"
         class="form-control"
       >
-        <option value="0" disabled selected>{{ $t('common.choose')}}</option>
-        <option v-for="(product_family, index) in product_familys" :key="index" :value="product_family.id" >{{ product_family.label }}</option>
+        <option :value="null" disabled>{{ $t('common.choose') }}</option>
+        <option
+          v-for="(productFamily, index) in productFamilies"
+          :key="`pf-${index}`"
+          :value="productFamily.id"
+        >
+          {{ productFamily.label }}
+        </option>
       </select>
-      <div v-if="errors.product_family_id" class="invalid-feedback" style="display: inline">
+      <div
+        v-if="errors.product_family_id"
+        class="invalid-feedback"
+        style="display: inline"
+      >
         {{ errors.product_family_id[0] }}
       </div>
     </div>
@@ -96,35 +101,16 @@ import store from '../../../../store';
 export default {
   components: { BaseFormModal },
   beforeRouteEnter(routeTo, routeFrom, next) {
-    store
-      .dispatch('productConfig/getProductsList', {
+    Promise.all([
+      store.dispatch('productFamilyConfig/getProductFamiliesList', {
         page: 1,
         field: {},
-      })
-      .then(() => {
-        next();
-      })
-      .catch((error) => {
-        console.log(error);
-        next();
-      });
-    store
-      .dispatch('productFamilyConfig/getProductFamiliesList', {
+      }),
+      store.dispatch('productTypeConfig/getProductTypesList', {
         page: 1,
         field: {},
-      })
-      .then(() => {
-        next();
-      })
-      .catch((error) => {
-        console.log(error);
-        next();
-      });
-    store
-      .dispatch('productTypeConfig/getProductTypesList', {
-        page: 1,
-        field: {},
-      })
+      }),
+    ])
       .then(() => {
         next();
       })
@@ -138,6 +124,8 @@ export default {
       errors: [],
       propertyForm: {
         id: null,
+        product_type_id: null,
+        product_family_id: null,
         label: null,
         code: null,
       },
@@ -145,6 +133,9 @@ export default {
   },
   computed: {
     ...mapGetters('propertyConfig', ['property']),
+    ...mapGetters('productFamilyConfig', ['productFamilies']),
+    ...mapGetters('productTypeConfig', ['productTypes']),
+
     title() {
       return this.property
         ? this.$t('product.property.formUpdateTitle')
