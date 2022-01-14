@@ -1,35 +1,100 @@
 <template>
-  <!-- Container-fluid starts-->
-  <div class="container-fluid">
-    <div class="row">
-      <div class="col-sm-12">
-        <div class="card">
-          <div class="card-header pb-0">
-            <h5>Sample Card</h5>
-            <span
-              >lorem ipsum dolor sit amet, consectetur adipisicing elit</span
-            >
-          </div>
-          <div class="card-body">
-            <p>
-              "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-              enim ad minim veniam, quis nostrud exercitation ullamco laboris
-              nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
-              reprehenderit in voluptate velit esse cillum dolore eu fugiat
-              nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-              sunt in culpa qui officia deserunt mollit anim id est laborum."
-            </p>
-          </div>
+  <div class="card">
+    <div class="card-header pb-2 border-bottom border-bottom-">
+      <div class="row align-items-center">
+        <div class="col-sm">
+          <h5>{{ $t('product.productFamily.listTitle') }}</h5>
+        </div>
+        <div class="col-sm-auto align-items-end">
+          <router-link
+            :to="{ name: 'config.product.productFamily.form' }"
+            href="#"
+            class="btn btn-primary"
+            type="button"
+          >
+            <i class="fa fa-plus m-r-5" />
+            {{ $t('common.add') }}
+          </router-link>
         </div>
       </div>
     </div>
+    <div class="card-body">
+      <BaseDatatable :tfoot="false">
+        <template #headers>
+          <th>#</th>
+          <th>{{ $t('common.attributes.label') }}</th>
+          <th>{{ $t('common.attributes.description') }}</th>
+          <th>{{ $t('common.actions') }}</th>
+        </template>
+        <tr v-for="productFamily in productFamilies" :key="productFamily.id">
+          <td>{{ productFamily.id }}</td>
+          <td>{{ productFamily.label }}</td>
+          <td>{{ productFamily.description }}</td>
+          <td>
+            <button
+              class="btn btn-secondary btn-xs"
+              type="button"
+              data-original-title="btn btn-secondary btn-xs"
+              :title="$t('common.update')"
+              @click.prevent="
+                $router.push({
+                  name: 'config.product.productFamily.form',
+                  params: { id: productFamily.id },
+                })
+              "
+            >
+              {{ $t('common.update') }}
+            </button>
+            <button
+              v-if="!productFamily.not_deletable"
+              class="btn btn-danger btn-xs m-l-5"
+              type="button"
+              data-original-title="btn btn-danger btn-xs"
+              :title="$t('common.delete')"
+              @click.prevent="deleteProductFamily(productFamily)"
+            >
+              <i class="fa fa-trash-o" />
+            </button>
+          </td>
+        </tr>
+      </BaseDatatable>
+    </div>
+
+    <router-view />
   </div>
-  <!-- Container-fluid Ends-->
 </template>
 
 <script>
-export default {};
+import BaseDatatable from '/@/components/common/BaseDatatable.vue';
+import store from '../../../../store';
+import { mapGetters } from 'vuex';
+
+export default {
+  components: { BaseDatatable },
+  beforeRouteEnter(routeTo, routeFrom, next) {
+    store
+      .dispatch('productFamilyConfig/getProductFamiliesList', {
+        page: 1,
+        field: {},
+      })
+      .then(() => {
+        next();
+      })
+      .catch((error) => {
+        console.log(error);
+        next();
+      });
+  },
+  computed: {
+    ...mapGetters('productFamilyConfig', ['productFamilies']),
+  },
+  methods: {
+    deleteProductFamily(productFamily) {
+      if (confirm(this.$t('messages.confirmDelete', { label: productFamily.label })))
+        this.$store.dispatch('productFamilyConfig/deleteProductFamily', productFamily.id);
+    },
+  },
+};
 </script>
 
 <style scoped></style>

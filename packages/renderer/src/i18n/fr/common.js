@@ -7,9 +7,19 @@ export default {
   forceDelete: 'Supprimer definitivement',
   show: 'Consulter',
   actions: 'Actions',
+  choose: 'Choisir',
 
   attributes: {
     code: 'Code',
     label: 'Libelle',
+    description: 'Description',
+    max_stock: 'Stock max',
+    min_stock: 'Stock min',
+    critical_stock: 'Stock critique',
+    alert_stock: 'Stock d alerte',
+    type: 'Type',
+    product: 'Produit',
+    product_family: 'Famille de produit',
+    product_type: 'Type de produit',
   },
 };

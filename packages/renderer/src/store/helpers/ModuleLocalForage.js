@@ -33,9 +33,52 @@ export const PriceTypeConfig = new VuexPersistence({
   reducer: (state) => state.priceTypeConfig,
 });
 
+export const ProductConfig = new VuexPersistence({
+  key: 'productConfig',
+  storage: localStore,
+  asyncStorage: true,
+  reducer: (state) => state.productConfig,
+});
+
+export const ProductFamilyConfig = new VuexPersistence({
+  key: 'productFamilyConfig',
+  storage: localStore,
+  asyncStorage: true,
+  reducer: (state) => state.productFamilyConfig,
+});
+
+export const ProductTypeConfig = new VuexPersistence({
+  key: 'productTypeConfig',
+  storage: localStore,
+  asyncStorage: true,
+  reducer: (state) => state.productTypeConfig,
+});
+
+export const ProductUnitConfig = new VuexPersistence({
+  key: 'productUnitConfig',
+  storage: localStore,
+  asyncStorage: true,
+  reducer: (state) => state.productUnitConfig,
+});
+
+export const TaxConfig = new VuexPersistence({
+  key: 'taxConfig',
+  storage: localStore,
+  asyncStorage: true,
+  reducer: (state) => state.taxConfig,
+});
+
+export const PropertyConfig = new VuexPersistence({
+  key: 'propertyConfig',
+  storage: localStore,
+  asyncStorage: true,
+  reducer: (state) => state.propertyConfig,
+});
+
 // export const Workspace = new VuexPersistence({
 //   key: "workspace",
 //   storage: localStore,
 //   asyncStorage: true,
 //   reducer: (state) => ({ workspace: state.workspace }),
 // });
+
