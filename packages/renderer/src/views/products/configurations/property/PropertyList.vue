@@ -22,22 +22,22 @@
       <BaseDatatable :tfoot="false">
         <template #headers>
           <th>#</th>
+          <th>{{ $t('common.attributes.product_family') }}</th>
+          <th>{{ $t('common.attributes.product_type') }}</th>
           <th>{{ $t('common.attributes.label') }}</th>
           <th>{{ $t('common.attributes.type') }}</th>
-          <th>{{ $t('common.attributes.product_type') }}</th>
-          <th>{{ $t('common.attributes.product_family') }}</th>
           <th>{{ $t('common.actions') }}</th>
         </template>
         <tr v-for="property in properties" :key="property.id">
           <td>{{ property.id }}</td>
-          <td>{{ property.label }}</td>
-          <td>{{ property.type }}</td>
-          <td class="text-center">
-            {{ property.product_type?.label ?? '--' }}
-          </td>
           <td class="text-center">
             {{ property.product_family?.label ?? '--' }}
           </td>
+          <td class="text-center">
+            {{ property.product_type?.label ?? '--' }}
+          </td>
+          <td>{{ property.label }}</td>
+          <td>{{ property.type }}</td>
           <td>
             <button
               class="btn btn-secondary btn-xs"

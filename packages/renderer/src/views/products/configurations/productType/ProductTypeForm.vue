@@ -1,6 +1,33 @@
 <template>
   <BaseFormModal :title="title" :submit-form="submitProductTypeForm">
     <div class="mb-3">
+      <label class="form-label fw-bold" for="product_family_id">{{
+        $t('common.attributes.product_family')
+      }}</label>
+      <select
+        id="product_family_id"
+        v-model="productTypeForm.product_family_id"
+        class="form-control"
+        required
+      >
+        <option :value="null" disabled>{{ $t('common.choose') }}</option>
+        <option
+          v-for="productFamily in productFamilies"
+          :key="productFamily.id"
+          :value="productFamily.id"
+        >
+          {{ productFamily.label }}
+        </option>
+      </select>
+      <div
+        v-if="errors.product_family_id"
+        class="invalid-feedback"
+        style="display: inline"
+      >
+        {{ errors.product_family_id[0] }}
+      </div>
+    </div>
+    <div class="mb-3">
       <label class="form-label fw-bold" for="label">{{
         $t('common.attributes.label')
       }}</label>
@@ -9,7 +36,7 @@
         v-model="productTypeForm.label"
         class="form-control"
         type="text"
-        placeholder="Chaussures, Bijoux, ..."
+        placeholder="Pagne, Bijoux, ..."
         required
       />
       <div v-if="errors.label" class="invalid-feedback" style="display: inline">
@@ -27,85 +54,67 @@
         placeholder="Chaussures de marque"
         required
       ></textarea>
-      <div v-if="errors.description" class="invalid-feedback" style="display: inline">
+      <div
+        v-if="errors.description"
+        class="invalid-feedback"
+        style="display: inline"
+      >
         {{ errors.description[0] }}
       </div>
     </div>
     <div class="mb-3">
-      <label class="form-label fw-bold" for="product_family_id">{{
-        $t('common.attributes.product_family')
-      }}</label>
-      <select
-        id="product_family_id"
-        v-model="productTypeForm.product_family_id"
-        class="form-control"
-        required
-      >
-        <option value="0" disabled selected>{{ $t('common.choose')}}</option>
-        <option v-for="(productFamily, index) in productFamilies" :key="index" :value="productFamily.id" >{{ productFamily.label }}</option>
-      </select>
-      <div v-if="errors.product_family_id" class="invalid-feedback" style="display: inline">
-        {{ errors.product_family_id[0] }}
-      </div>
-    </div>
-    <div class="mb-3">
       <label class="form-label fw-bold" for="min_stock">{{
-        $t('common.attributes.min_stock')
+        $t('common.attributes.stock_config')
       }}</label>
-      <input
-        id="min_stock"
-        v-model="productTypeForm.min_stock"
-        class="form-control"
-        type="text"
-        placeholder="20"
-      />
-      <div v-if="errors.min_stock" class="invalid-feedback" style="display: inline">
-        {{ errors.min_stock[0] }}
-      </div>
-    </div>
-    <div class="mb-3">
-      <label class="form-label fw-bold" for="max_stock">{{
-        $t('common.attributes.max_stock')
-      }}</label>
-      <input
-        id="max_stock"
-        v-model="productTypeForm.max_stock"
-        class="form-control"
-        type="text"
-        placeholder="50"
-      />
-      <div v-if="errors.max_stock" class="invalid-feedback" style="display: inline">
-        {{ errors.max_stock[0] }}
-      </div>
-    </div>
-    <div class="mb-3">
-      <label class="form-label fw-bold" for="critical_stock">{{
-        $t('common.attributes.critical_stock')
-      }}</label>
-      <input
-        id="critical_stock"
-        v-model="productTypeForm.critical_stock"
-        class="form-control"
-        type="text"
-        placeholder="15"
-      />
-      <div v-if="errors.critical_stock" class="invalid-feedback" style="display: inline">
-        {{ errors.critical_stock[0] }}
-      </div>
-    </div>
-    <div class="mb-3">
-      <label class="form-label fw-bold" for="alert_stock">{{
-        $t('common.attributes.alert_stock')
-      }}</label>
-      <input
-        id="alert_stock"
-        v-model="productTypeForm.alert_stock"
-        class="form-control"
-        type="text"
-        placeholder="10"
-      />
-      <div v-if="errors.alert_stock" class="invalid-feedback" style="display: inline">
-        {{ errors.alert_stock[0] }}
+      <div class="row">
+        <div class="col-3">
+          <label class="form-label fw-bold" for="min_stock">{{
+            $t('common.attributes.min')
+          }}</label>
+          <input
+            id="min_stock"
+            v-model="productTypeForm.min_stock"
+            class="form-control"
+            type="text"
+            placeholder="5"
+          />
+        </div>
+        <div class="col-3">
+          <label class="form-label fw-bold" for="max_stock">{{
+            $t('common.attributes.max')
+          }}</label>
+          <input
+            id="max_stock"
+            v-model="productTypeForm.max_stock"
+            class="form-control"
+            type="text"
+            placeholder="10"
+          />
+        </div>
+        <div class="col-3">
+          <label class="form-label fw-bold" for="critical_stock">{{
+            $t('common.attributes.critical')
+          }}</label>
+          <input
+            id="critical_stock"
+            v-model="productTypeForm.critical_stock"
+            class="form-control"
+            type="text"
+            placeholder="1"
+          />
+        </div>
+        <div class="col-3">
+          <label class="form-label fw-bold" for="alert_stock">{{
+            $t('common.attributes.alert')
+          }}</label>
+          <input
+            id="alert_stock"
+            v-model="productTypeForm.alert_stock"
+            class="form-control"
+            type="text"
+            placeholder="3"
+          />
+        </div>
       </div>
     </div>
     <template #footer>
@@ -142,14 +151,19 @@ export default {
       errors: [],
       productTypeForm: {
         id: null,
+        product_family_id: null,
         label: null,
         code: null,
+        min_stock: 5,
+        max_stock: 10,
+        critical_stock: 1,
+        alert_stock: 4,
       },
     };
   },
   computed: {
-    ...mapGetters('productFamilyConfig', ['productFamilies']),
     ...mapGetters('productTypeConfig', ['productType']),
+    ...mapGetters('productFamilyConfig', ['productFamilies']),
     title() {
       return this.productType
         ? this.$t('product.productType.formUpdateTitle')

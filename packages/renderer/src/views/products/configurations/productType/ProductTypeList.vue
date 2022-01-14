@@ -22,24 +22,30 @@
       <BaseDatatable :tfoot="false">
         <template #headers>
           <th>#</th>
+          <th>{{ $t('common.attributes.product_family') }}</th>
           <th>{{ $t('common.attributes.label') }}</th>
           <th>{{ $t('common.attributes.description') }}</th>
-          <th>{{ $t('common.attributes.product_family') }}</th>
-          <th>{{ $t('common.attributes.min_stock') }}</th>
-          <th>{{ $t('common.attributes.max_stock') }}</th>
-          <th>{{ $t('common.attributes.critical_stock') }}</th>
-          <th>{{ $t('common.attributes.alert_stock') }}</th>
+          <th>{{ $t('common.attributes.stock_config') }}</th>
           <th>{{ $t('common.actions') }}</th>
         </template>
         <tr v-for="productType in productTypes" :key="productType.id">
           <td>{{ productType.id }}</td>
+          <td>{{ productType.product_family?.label ?? '--' }}</td>
           <td>{{ productType.label }}</td>
           <td>{{ productType.description }}</td>
-          <td>{{ productType.product_family?.label }}</td>
-          <td>{{ productType.min_stock }}</td>
-          <td>{{ productType.max_stock }}</td>
-          <td>{{ productType.critical_stock }}</td>
-          <td>{{ productType.alert_stock }}</td>
+          <td>
+            <b>{{ $t('common.attributes.min') }}</b> :
+            {{ productType.min_stock ?? '--' }}
+            <br />
+            <b>{{ $t('common.attributes.max') }}</b> :
+            {{ productType.max_stock ?? '--' }}
+            <br />
+            <b>{{ $t('common.attributes.critical') }}</b> :
+            {{ productType.critical_stock ?? '--' }}
+            <br />
+            <b>{{ $t('common.attributes.alert') }}</b> :
+            {{ productType.alert_stock ?? '--' }}
+          </td>
           <td>
             <button
               class="btn btn-secondary btn-xs"
@@ -100,8 +106,13 @@ export default {
   },
   methods: {
     deleteProductType(productType) {
-      if (confirm(this.$t('messages.confirmDelete', { label: productType.label })))
-        this.$store.dispatch('productTypeConfig/deleteProductType', productType.id);
+      if (
+        confirm(this.$t('messages.confirmDelete', { label: productType.label }))
+      )
+        this.$store.dispatch(
+          'productTypeConfig/deleteProductType',
+          productType.id
+        );
     },
   },
 };
