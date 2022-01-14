@@ -12,30 +12,76 @@ let localStore = localForage.createInstance({
   name: currentWorkSpaceDatabase,
 });
 
-export const Auth = new VuexPersistence({
+const Auth = new VuexPersistence({
   key: 'auth',
   storage: localStore,
   asyncStorage: true,
   reducer: (state) => ({ auth: state.auth }),
 });
 
-export const PackageConfig = new VuexPersistence({
+const PackageConfig = new VuexPersistence({
   key: 'packageConfig',
   storage: localStore,
   asyncStorage: true,
-  reducer: (state) => state.packageConfig,
+  reducer: (state) => ({ packageConfig: state.packageConfig }),
 });
 
-export const PriceTypeConfig = new VuexPersistence({
+const PriceTypeConfig = new VuexPersistence({
   key: 'priceTypeConfig',
   storage: localStore,
   asyncStorage: true,
-  reducer: (state) => state.priceTypeConfig,
+  reducer: (state) => ({ priceTypeConfig: state.priceTypeConfig }),
 });
 
-// export const Workspace = new VuexPersistence({
+const ProductFamilyConfig = new VuexPersistence({
+  key: 'productFamilyConfig',
+  storage: localStore,
+  asyncStorage: true,
+  reducer: (state) => ({ productFamilyConfig: state.productFamilyConfig }),
+});
+
+const ProductTypeConfig = new VuexPersistence({
+  key: 'productTypeConfig',
+  storage: localStore,
+  asyncStorage: true,
+  reducer: (state) => ({ productTypeConfig: state.productTypeConfig }),
+});
+
+const ProductUnitConfig = new VuexPersistence({
+  key: 'productUnitConfig',
+  storage: localStore,
+  asyncStorage: true,
+  reducer: (state) => ({ productUnitConfig: state.productUnitConfig }),
+});
+
+const TaxConfig = new VuexPersistence({
+  key: 'taxConfig',
+  storage: localStore,
+  asyncStorage: true,
+  reducer: (state) => ({ taxConfig: state.taxConfig }),
+});
+
+const PropertyConfig = new VuexPersistence({
+  key: 'propertyConfig',
+  storage: localStore,
+  asyncStorage: true,
+  reducer: (state) => ({ propertyConfig: state.propertyConfig }),
+});
+
+// const Workspace = new VuexPersistence({
 //   key: "workspace",
 //   storage: localStore,
 //   asyncStorage: true,
 //   reducer: (state) => ({ workspace: state.workspace }),
 // });
+
+export default [
+  Auth.plugin,
+  PackageConfig.plugin,
+  PropertyConfig.plugin,
+  TaxConfig.plugin,
+  PriceTypeConfig.plugin,
+  ProductFamilyConfig.plugin,
+  ProductTypeConfig.plugin,
+  ProductUnitConfig.plugin,
+];

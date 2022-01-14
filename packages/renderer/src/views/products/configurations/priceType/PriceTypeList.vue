@@ -22,13 +22,11 @@
       <BaseDatatable :tfoot="false">
         <template #headers>
           <th>#</th>
-          <th>{{ $t('common.attributes.code') }}</th>
           <th>{{ $t('common.attributes.label') }}</th>
           <th>{{ $t('common.actions') }}</th>
         </template>
         <tr v-for="priceType in priceTypes" :key="priceType.id">
           <td>{{ priceType.id }}</td>
-          <td>{{ priceType.code }}</td>
           <td>{{ priceType.label }}</td>
           <td>
             <button

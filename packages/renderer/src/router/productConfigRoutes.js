@@ -74,6 +74,26 @@ export const productConfigRoutes = [
       code: 'ProductType.viewAny',
       feather: 'filter',
     },
+    children: [
+      {
+        path: 'form/:id?',
+        name: 'config.product.productType.form',
+        component: () =>
+          import(
+            '/@/views/products/configurations/productType/ProductTypeForm.vue'
+            ),
+        beforeEnter: (to) => {
+          if (to.params.id) {
+            return store
+              .dispatch('productTypeConfig/getProductType', to.params.id)
+              .then(() => {
+                return { name: to.name };
+              })
+              .catch(() => -1);
+          }
+        },
+      },
+    ],
   },
   {
     path: 'product-families',
@@ -86,6 +106,26 @@ export const productConfigRoutes = [
       code: 'ProductFamily.viewAny',
       feather: 'shopping-bag',
     },
+    children: [
+      {
+        path: 'form/:id?',
+        name: 'config.product.productFamily.form',
+        component: () =>
+          import(
+            '/@/views/products/configurations/productFamily/ProductFamilyForm.vue'
+            ),
+        beforeEnter: (to) => {
+          if (to.params.id) {
+            return store
+              .dispatch('productFamilyConfig/getProductFamily', to.params.id)
+              .then(() => {
+                return { name: to.name };
+              })
+              .catch(() => -1);
+          }
+        },
+      },
+    ],
   },
   {
     path: 'product-units',
@@ -98,6 +138,26 @@ export const productConfigRoutes = [
       code: 'ProductUnit.viewAny',
       feather: 'info',
     },
+    children: [
+      {
+        path: 'form/:id?',
+        name: 'config.product.productUnit.form',
+        component: () =>
+          import(
+            '/@/views/products/configurations/productUnit/ProductUnitForm.vue'
+            ),
+        beforeEnter: (to) => {
+          if (to.params.id) {
+            return store
+              .dispatch('productUnitConfig/getProductUnit', to.params.id)
+              .then(() => {
+                return { name: to.name };
+              })
+              .catch(() => -1);
+          }
+        },
+      },
+    ],
   },
   {
     path: 'properties',
@@ -108,6 +168,26 @@ export const productConfigRoutes = [
       code: 'Property.viewAny',
       feather: 'list',
     },
+    children: [
+      {
+        path: 'form/:id?',
+        name: 'config.product.property.form',
+        component: () =>
+          import(
+            '/@/views/products/configurations/property/PropertyForm.vue'
+            ),
+        beforeEnter: (to) => {
+          if (to.params.id) {
+            return store
+              .dispatch('propertyConfig/getProperty', to.params.id)
+              .then(() => {
+                return { name: to.name };
+              })
+              .catch(() => -1);
+          }
+        },
+      },
+    ],
   },
   {
     path: 'taxes',
@@ -117,5 +197,25 @@ export const productConfigRoutes = [
       code: 'Tax.viewAny',
       feather: 'percent',
     },
+    children: [
+      {
+        path: 'form/:id?',
+        name: 'config.product.tax.form',
+        component: () =>
+          import(
+            '/@/views/products/configurations/tax/TaxForm.vue'
+            ),
+        beforeEnter: (to) => {
+          if (to.params.id) {
+            return store
+              .dispatch('taxConfig/getTax', to.params.id)
+              .then(() => {
+                return { name: to.name };
+              })
+              .catch(() => -1);
+          }
+        },
+      },
+    ],
   },
 ];
