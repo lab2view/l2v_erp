@@ -9,6 +9,7 @@ import productFamilyConfig from './modules/productFamilyConfig';
 import productTypeConfig from './modules/productTypeConfig';
 import productUnitConfig from './modules/productUnitConfig';
 import modulePlugins from './helpers/ModuleLocalForage';
+import product from './modules/product';
 
 export default createStore({
   state: {
@@ -31,6 +32,7 @@ export default createStore({
   modules: {
     auth,
     workspace,
+    product,
     packageConfig,
     propertyConfig,
     taxConfig,

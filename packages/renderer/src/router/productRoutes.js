@@ -1,39 +1,20 @@
 import { productConfigRoutes } from './productConfigRoutes';
 import FormLayout from '/@/components/products/FormLayout.vue';
+import { productFormRoutes } from './productFormRoutes';
 
 const productRoutes = [
   {
     path: '',
     name: 'products',
     component: () => import('/@/views/products/ProductList.vue'),
+    meta: {
+      code: 'Product.viewAny',
+    },
   },
   {
     path: ':id?/forms',
     component: FormLayout,
-    children: [
-      {
-        path: '',
-        name: 'product.form',
-        component: () =>
-          import('/@/views/products/forms/ProductDescription.vue'),
-      },
-      {
-        path: 'properties',
-        name: 'product.form.property',
-        component: () => import('/@/views/products/forms/ProductProperty.vue'),
-        meta: {
-          requireProduct: true,
-        },
-      },
-      {
-        path: 'taxes',
-        name: 'product.form.tax',
-        component: () => import('/@/views/products/forms/ProductTax.vue'),
-        meta: {
-          requireProduct: true,
-        },
-      },
-    ],
+    children: productFormRoutes,
   },
   {
     path: ':id/details',
