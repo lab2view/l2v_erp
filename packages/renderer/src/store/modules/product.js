@@ -12,6 +12,7 @@ const state = {
 const getters = {
   products: (state) => (state.products ? JSON.parse(state.products) : []),
   product: (state) => (state.product ? JSON.parse(state.product) : null),
+  haveProduct: (state) => !!state.product,
 };
 
 // privileges
@@ -41,12 +42,7 @@ const actions = {
   addProduct({ commit }, productField) {
     return productService.add(productField).then(({ data }) => {
       commit('ADD_PRODUCT', data);
-      notify(
-        i18n.global.t('product.product.store'),
-        'Ok',
-        'theme',
-        'fa fa-check'
-      );
+      notify(i18n.global.t('product.form.store'), 'Ok', 'theme', 'fa fa-check');
       return data;
     });
   },
@@ -56,7 +52,7 @@ const actions = {
       .update(productField, productField.id)
       .then(({ data }) => {
         notify(
-          i18n.global.t('product.product.update'),
+          i18n.global.t('product.form.update'),
           'Ok',
           'theme',
           'fa fa-check'
@@ -79,19 +75,19 @@ const mutations = {
   SET_PRODUCTS(state, products) {
     state.products = JSON.stringify(products);
   },
-  SET_CURRENT_PRODUCT(state, pack) {
-    state.product = JSON.stringify(pack);
+  SET_CURRENT_PRODUCT(state, product) {
+    if (state.product !== product) state.product = JSON.stringify(product);
   },
-  ADD_PRODUCT(state, pack) {
+  ADD_PRODUCT(state, product) {
     let products = JSON.parse(state.products);
-    products.push(pack);
+    products.push(product);
     state.products = JSON.stringify(products);
   },
-  UPDATE_PRODUCT(state, pack) {
+  UPDATE_PRODUCT(state, product) {
     let products = JSON.parse(state.products);
-    const index = products.findIndex((p) => p.id === pack.id);
+    const index = products.findIndex((p) => p.id === product.id);
     if (index !== -1) {
-      products.splice(index, 1, pack);
+      products.splice(index, 1, product);
       state.products = JSON.stringify(products);
     }
   },

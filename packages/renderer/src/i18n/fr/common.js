@@ -8,6 +8,7 @@ export default {
   show: 'Consulter',
   actions: 'Actions',
   choose: 'Choisir',
+  cancel: 'Annuler',
 
   attributes: {
     code: 'Code',

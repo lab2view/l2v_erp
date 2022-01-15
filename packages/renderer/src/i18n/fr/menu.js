@@ -14,6 +14,11 @@ export default {
   product: {
     create: 'Ajouter un produit',
     viewany: 'Liste des produits',
+    form: {
+      description: 'Description du produit',
+      property: 'Parametrage avance',
+      tax: 'Configuration des taxes',
+    },
   },
   articles: {
     manage: 'Articles',

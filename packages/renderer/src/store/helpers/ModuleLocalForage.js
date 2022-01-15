@@ -68,6 +68,13 @@ const PropertyConfig = new VuexPersistence({
   reducer: (state) => ({ propertyConfig: state.propertyConfig }),
 });
 
+const Product = new VuexPersistence({
+  key: 'product',
+  storage: localStore,
+  asyncStorage: true,
+  reducer: (state) => ({ product: state.product }),
+});
+
 // const Workspace = new VuexPersistence({
 //   key: "workspace",
 //   storage: localStore,
@@ -77,6 +84,7 @@ const PropertyConfig = new VuexPersistence({
 
 export default [
   Auth.plugin,
+  Product.plugin,
   PackageConfig.plugin,
   PropertyConfig.plugin,
   TaxConfig.plugin,

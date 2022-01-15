@@ -19,7 +19,7 @@
       </div>
     </div>
     <div class="card-body">
-      <BaseDatatable :tfoot="false">
+      <BaseDatatable :tfoot="false" :total="packages.length">
         <template #headers>
           <th>#</th>
           <th>{{ $t('common.attributes.code') }}</th>

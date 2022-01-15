@@ -1,18 +1,5 @@
 <template>
-  <BaseContainer :title="`Configurations`">
-    <template #breadcrumb>
-      <ol class="breadcrumb">
-        <li class="breadcrumb-item">
-          <router-link :to="{ name: 'dashboard' }">
-            <i class="fa fa-home f-18"></i>
-          </router-link>
-        </li>
-        <li class="breadcrumb-item">Config</li>
-        <li class="breadcrumb-item active">
-          {{ $t(`menu.${$route.meta.code.toString().toLowerCase()}`) }}
-        </li>
-      </ol>
-    </template>
+  <BaseContainer :title="`Configurations`" module="Config">
     <template #bookmark>
       <Bookmark :items="bookmarkItems" />
     </template>
