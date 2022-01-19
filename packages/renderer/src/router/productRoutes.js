@@ -1,6 +1,7 @@
 import { productConfigRoutes } from './productConfigRoutes';
 import FormLayout from '/@/components/products/FormLayout.vue';
 import { productFormRoutes } from './productFormRoutes';
+import store from '../store';
 
 const productRoutes = [
   {
@@ -15,6 +16,16 @@ const productRoutes = [
     path: ':id?/forms',
     component: FormLayout,
     children: productFormRoutes,
+    beforeEnter: (to) => {
+      if (to.params.id) {
+        return store
+          .dispatch('product/getProduct', to.params.id)
+          .then(() => {
+            return { name: to.name };
+          })
+          .catch(() => -1);
+      }
+    },
   },
   {
     path: ':id/details',

@@ -58,6 +58,7 @@ const actions = {
           'fa fa-check'
         );
         commit('UPDATE_PRODUCT', data);
+        commit('SET_CURRENT_PRODUCT', data);
         return data;
       });
   },

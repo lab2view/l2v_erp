@@ -26,12 +26,43 @@
         <BaseDatatable :tfoot="false" :total="products.length">
           <template #headers>
             <th>#</th>
-            <!--          <th>{{ $t('common.attributes.code') }}</th>-->
-            <!--          <th>{{ $t('common.attributes.label') }}</th>-->
+            <th>{{ $t('common.attributes.type') }}</th>
+            <th>{{ $t('common.attributes.name') }}</th>
+            <th>{{ $t('common.attributes.barcode') }}</th>
+            <th>{{ $t('common.attributes.state') }}</th>
             <th>{{ $t('common.actions') }}</th>
           </template>
           <tr v-for="product in products" :key="product.id">
             <td>{{ product.id }}</td>
+            <td>{{ product.product_type.label }}</td>
+            <td>{{ product.name }}</td>
+            <td>{{ `${product.code} / ${product.reference}` }}</td>
+            <td>
+              <span
+                :class="`badge text-white badge-${
+                  product.can_be_sell ? 'dark' : 'info'
+                }`"
+              >
+                {{
+                  product.can_be_sell
+                    ? $t('common.states.can_be_sell')
+                    : `${$t('common.states.no')} ${$t(
+                        'common.states.can_be_sell'
+                      )}`
+                }}
+              </span>
+              <span
+                :class="`badge text-white badge-${
+                  product.disabled_at ? 'danger' : 'primary'
+                }`"
+              >
+                {{
+                  product.disabled_at
+                    ? $t('common.states.disabled')
+                    : $t('common.states.enabled')
+                }}
+              </span>
+            </td>
             <td>
               <button
                 class="btn btn-secondary btn-xs"
@@ -90,7 +121,7 @@ export default {
       });
   },
   computed: {
-    ...mapGetters('product', ['products']),
+    ...mapGetters('product', ['products', 'product']),
   },
   created() {
     if (this.product) this.$store.commit('product/SET_CURRENT_PRODUCT', null);

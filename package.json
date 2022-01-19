@@ -38,6 +38,7 @@
     "babel-eslint": "^10.1.0",
     "electron-updater": "4.6.5",
     "localforage": "^1.10.0",
+    "lodash": "^4.17.21",
     "register-service-worker": "^1.7.2",
     "vee-validate": "^4.5.7",
     "vue": "3.2.26",
