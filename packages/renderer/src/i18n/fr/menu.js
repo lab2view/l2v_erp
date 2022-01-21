@@ -16,8 +16,9 @@ export default {
     viewany: 'Liste des produits',
     form: {
       description: 'Description du produit',
-      property: 'Parametrage avance',
-      tax: 'Configuration des taxes',
+      setting: 'Parametrage avance',
+      article: 'Articles',
+      stock: 'Entrees en stocks',
     },
   },
   articles: {

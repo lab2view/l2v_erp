@@ -7,6 +7,7 @@ import workspaceGuard from '../guards/workspaceGuard';
 import authGuard from '../guards/authGuard';
 import unlockGuard from '../guards/unlockGuard';
 import redirectAuthGuard from '../guards/redirectAuthGuard';
+import productGuard from '../guards/productGuard';
 
 const routes = [
   {
@@ -86,6 +87,7 @@ router.beforeEach(async (to, from, next) => {
   if (to.meta.requireAuth) authGuard(to, from, next);
   if (to.meta.redirectAuth) redirectAuthGuard(to, from, next);
   if (to.meta.requireUnlock) unlockGuard(to, from, next);
+  if (to.meta.requireProduct) productGuard(to, from, next);
 
   next();
 });

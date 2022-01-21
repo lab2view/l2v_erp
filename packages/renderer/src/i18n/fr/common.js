@@ -13,6 +13,16 @@ export default {
   type: 'Saisir',
   scan: 'Scanner',
 
+  fields: {
+    text: 'Chaine de caractere',
+    number: 'Nombre',
+    date: 'Date',
+    time: 'Heure',
+    datetime: 'Date et Heure',
+    url: 'Lien',
+    radio: 'Choix boolean',
+  },
+
   states: {
     can_be_sell: 'Traque',
     no: 'Non',

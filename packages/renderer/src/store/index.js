@@ -10,15 +10,23 @@ import productTypeConfig from './modules/productTypeConfig';
 import productUnitConfig from './modules/productUnitConfig';
 import modulePlugins from './helpers/ModuleLocalForage';
 import product from './modules/product';
+import FileService from '../services/FileService';
 
 export default createStore({
   state: {
     globalLoading: true,
     landlordDomain: 'kitbussiness.test',
+    uploaded: null,
   },
   actions: {
     setGlobalLoading({ commit }, loading) {
       commit('SET_GLOBAL_LOADING', loading);
+    },
+    upload({ commit }, formData) {
+      return FileService.upload(formData).then(({ data }) => {
+        commit('SET_FRESH_UPLOADED', data);
+        return data;
+      });
     },
   },
   mutations: {
@@ -27,6 +35,9 @@ export default createStore({
     },
     SET_LANDLORD_DOMAIN(state, domain) {
       state.landlordDomain = domain;
+    },
+    SET_FRESH_UPLOADED(state, data) {
+      state.uploaded = JSON.stringify(data);
     },
   },
   modules: {

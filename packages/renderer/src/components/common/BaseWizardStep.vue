@@ -13,6 +13,7 @@
           v-if="!link.disabled"
           :to="{ name: link.name }"
           class="f1-step"
+          :style="`width: ${100 / links.length}%`"
           :class="link.class"
         >
           <div class="f1-step-icon">
@@ -23,7 +24,7 @@
             {{ link.title ?? $t(`menu.${link.code.toString().toLowerCase()}`) }}
           </p>
         </router-link>
-        <div v-else class="f1-step">
+        <div v-else class="f1-step" :style="`width: ${100 / links.length}%`">
           <div class="f1-step-icon">
             <i v-if="link.icon" :class="link.icon"></i>
             <i v-else>{{ index }}</i>

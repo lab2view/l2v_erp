@@ -69,6 +69,15 @@ const actions = {
       return data;
     });
   },
+
+  saveProperties({ getters, commit }, properties) {
+    return productService
+      .saveProperties(properties, getters.product.id)
+      .then(({ data }) => {
+        commit('PUSH_PRODUCT_PROPERTIES', data.properties);
+        return data;
+      });
+  },
 };
 
 // mutations
@@ -77,7 +86,8 @@ const mutations = {
     state.products = JSON.stringify(products);
   },
   SET_CURRENT_PRODUCT(state, product) {
-    if (state.product !== product) state.product = JSON.stringify(product);
+    if (state.product !== product)
+      state.product = product === null ? null : JSON.stringify(product);
   },
   ADD_PRODUCT(state, product) {
     let products = JSON.parse(state.products);
@@ -96,6 +106,19 @@ const mutations = {
     state.products = JSON.stringify(
       JSON.parse(state.products).filter((p) => p.id !== productId)
     );
+  },
+  PUSH_PRODUCT_PROPERTIES(state, properties) {
+    let products = JSON.parse(state.products);
+    let product = JSON.parse(state.product);
+    const index = products.findIndex((p) => p.id === product.id);
+    if (index !== -1) {
+      properties.forEach((property) =>
+        product.product_properties.push(property)
+      );
+      state.product = JSON.stringify(product);
+      products.splice(index, 1, product);
+      state.products = JSON.stringify(products);
+    }
   },
 };
 

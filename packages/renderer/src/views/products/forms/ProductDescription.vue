@@ -198,7 +198,6 @@
             type="button"
             class="btn btn-secondary col-auto m-r-5"
             :text="$t('common.cancel')"
-            icon="fa fa-pencil"
             @click.prevent="$router.push({ name: 'products' })"
           />
           <BaseButton
