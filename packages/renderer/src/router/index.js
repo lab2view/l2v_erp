@@ -93,7 +93,10 @@ router.beforeEach(async (to, from, next) => {
 });
 
 router.afterEach(() => {
-  setTimeout(() => store.dispatch('setGlobalLoading', false), 1000);
+  if (store.state.initiateApp) {
+    setTimeout(() => store.dispatch('setGlobalLoading', false), 1500);
+    store.dispatch('setInitiateApp', false);
+  } else store.dispatch('setGlobalLoading', false);
 });
 
 export default router;

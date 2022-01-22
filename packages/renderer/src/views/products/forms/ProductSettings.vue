@@ -43,7 +43,7 @@ import { productPropertyImageCode } from '../../../helpers/codes';
 export default {
   components: { BaseDropzone, BaseGallery },
   computed: {
-    ...mapGetters('product', ['product']),
+    ...mapGetters('product', ['product', 'product_properties']),
     ...mapGetters('propertyConfig', ['properties']),
     productContext() {
       return `products/${this.product?.id}`;
@@ -56,7 +56,7 @@ export default {
       return null;
     },
     images() {
-      let images = this.product.product_properties.filter(
+      let images = this.product_properties.filter(
         (pp) => pp.property.code === productPropertyImageCode
       );
       return images.map((i) => {

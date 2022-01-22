@@ -33,6 +33,7 @@ export default {
   },
   package: {
     viewany: 'Conditionnements',
+    create: 'Ajouter un conditionnement',
   },
   pricetype: {
     viewany: 'Types de prix',

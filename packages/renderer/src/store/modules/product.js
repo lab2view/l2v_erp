@@ -1,6 +1,7 @@
 import productService from '../../services/products/ProductService';
 import { notify } from '../../helpers/notify';
 import i18n from '../../i18n';
+import articleService from '../../services/articles/ArticleService';
 
 const state = {
   products: null,
@@ -13,6 +14,10 @@ const getters = {
   products: (state) => (state.products ? JSON.parse(state.products) : []),
   product: (state) => (state.product ? JSON.parse(state.product) : null),
   haveProduct: (state) => !!state.product,
+  product_properties: (state, getters) =>
+    getters.product ? getters.product.product_properties : [],
+  articles: (state, getters) =>
+    getters.product ? getters.product.articles : [],
 };
 
 // privileges
@@ -78,6 +83,38 @@ const actions = {
         return data;
       });
   },
+
+  addArticle({ commit, getters }, articleField) {
+    return articleService
+      .add({ ...articleField, product_id: getters.product.id })
+      .then(({ data }) => {
+        commit('ADD_PRODUCT_ARTICLE', data);
+        notify(
+          i18n.global.t('article.form.store'),
+          'Ok',
+          'theme',
+          'fa fa-check'
+        );
+        return data;
+      });
+  },
+
+  getArticle({ getters }, id) {
+    const article = getters.articles.find((a) => a.id.toString() === id);
+    if (article !== undefined) {
+      return article;
+    } else
+      return articleService.get(id).then(({ data }) => {
+        return data;
+      });
+  },
+
+  deleteArticle({ commit }, articleId) {
+    return articleService.delete(articleId).then(({ data }) => {
+      commit('DELETE_PRODUCT_ARTICLE', articleId);
+      return data;
+    });
+  },
 };
 
 // mutations
@@ -118,6 +155,20 @@ const mutations = {
       state.product = JSON.stringify(product);
       products.splice(index, 1, product);
       state.products = JSON.stringify(products);
+    }
+  },
+  ADD_PRODUCT_ARTICLE(state, article) {
+    let product = state.product ? JSON.parse(state.product) : null;
+    if (product) {
+      product.articles.push(article);
+      state.product = JSON.stringify(product);
+    }
+  },
+  DELETE_PRODUCT_ARTICLE(state, articleId) {
+    let product = state.product ? JSON.parse(state.product) : null;
+    if (product) {
+      product.articles = product.articles.filter((a) => a.id !== articleId);
+      state.product = JSON.stringify(product);
     }
   },
 };

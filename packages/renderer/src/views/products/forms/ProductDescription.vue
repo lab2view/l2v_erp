@@ -97,7 +97,7 @@
               >
                 <button
                   type="button"
-                  class="btn btn-info"
+                  class="btn btn-info btn-iconsolid"
                   :title="type_barcode ? $t('common.scan') : $t('common.type')"
                   @click.prevent="type_barcode = !type_barcode"
                 >
@@ -105,7 +105,7 @@
                 </button>
                 <button
                   type="button"
-                  class="btn btn-success"
+                  class="btn btn-success btn-iconsolid"
                   :title="$t('common.shuffle')"
                   @click.prevent="generateBarCode"
                 >

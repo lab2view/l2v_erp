@@ -17,10 +17,14 @@ export default createStore({
     globalLoading: true,
     landlordDomain: 'kitbussiness.test',
     uploaded: null,
+    initiateApp: true,
   },
   actions: {
     setGlobalLoading({ commit }, loading) {
       commit('SET_GLOBAL_LOADING', loading);
+    },
+    setInitiateApp({ commit }, value) {
+      commit('SET_INITIATE_APP', value);
     },
     upload({ commit }, formData) {
       return FileService.upload(formData).then(({ data }) => {
@@ -37,7 +41,10 @@ export default createStore({
       state.landlordDomain = domain;
     },
     SET_FRESH_UPLOADED(state, data) {
-      state.uploaded = JSON.stringify(data);
+      state.uploaded = data;
+    },
+    SET_INITIATE_APP(state, value) {
+      state.initiateApp = value;
     },
   },
   modules: {

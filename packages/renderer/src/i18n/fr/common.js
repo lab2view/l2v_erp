@@ -51,5 +51,7 @@ export default {
     disabled_at: 'Desactiver le produit',
     can_be_sell: 'Permettre de produire des articles pour la vente',
     state: 'Etat',
+    quantity: 'Quantite',
+    package_id: 'Conditionnement',
   },
 };
