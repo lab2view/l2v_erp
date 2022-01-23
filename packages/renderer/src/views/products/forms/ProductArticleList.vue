@@ -63,16 +63,35 @@
 <script>
 import { mapGetters } from 'vuex';
 import BaseButton from '../../../components/common/BaseButton.vue';
+import store from '../../../store';
 
 export default {
   components: { BaseButton },
+  beforeRouteEnter(routeTo, routeFrom, next) {
+    store
+      .dispatch('article/getArticlesList', {
+        page: 1,
+        field: {},
+      })
+      .then(() => {
+        next();
+      })
+      .catch((error) => {
+        console.log(error);
+        next();
+      });
+  },
   computed: {
-    ...mapGetters('product', ['product', 'articles']),
+    ...mapGetters('product', ['product']),
+    ...mapGetters('article', ['getArticleByProductId']),
+    articles() {
+      return this.getArticleByProductId(this.product.id);
+    },
   },
   methods: {
     deleteArticle(article) {
       if (confirm(this.$t('messages.confirmDelete', { label: article.name })))
-        this.$store.dispatch('product/deleteArticle', article.id);
+        this.$store.dispatch('article/deleteArticle', article.id);
     },
   },
 };

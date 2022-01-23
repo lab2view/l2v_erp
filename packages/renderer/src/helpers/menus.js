@@ -1,20 +1,5 @@
 export const productMenus = [
   {
-    icon: 'grid',
-    code: 'Products.manage',
-    prefix: 'product',
-    items: [
-      {
-        code: 'Product.create',
-        to: 'product.form',
-      },
-      {
-        code: 'Product.viewAny',
-        to: 'products',
-      },
-    ],
-  },
-  {
     icon: 'shopping-cart',
     code: 'Articles.manage',
     prefix: 'article',
@@ -26,6 +11,21 @@ export const productMenus = [
       {
         code: 'ArticleGroup.viewAny',
         to: 'article.groups',
+      },
+    ],
+  },
+  {
+    icon: 'grid',
+    code: 'Products.manage',
+    prefix: 'product',
+    items: [
+      {
+        code: 'Product.create',
+        to: 'product.form',
+      },
+      {
+        code: 'Product.viewAny',
+        to: 'products',
       },
     ],
   },

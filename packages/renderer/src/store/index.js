@@ -11,6 +11,7 @@ import productUnitConfig from './modules/productUnitConfig';
 import modulePlugins from './helpers/ModuleLocalForage';
 import product from './modules/product';
 import FileService from '../services/FileService';
+import article from './modules/article';
 
 export default createStore({
   state: {
@@ -58,6 +59,7 @@ export default createStore({
     productFamilyConfig,
     productTypeConfig,
     productUnitConfig,
+    article,
   },
   strict: process.env.NODE_ENV !== 'production',
   plugins: [...modulePlugins],

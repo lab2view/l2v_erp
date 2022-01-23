@@ -1,4 +1,5 @@
 export default {
+  title: 'Gestion des articles',
   listTitle: 'Liste des articles',
   form: {
     createTitle: 'Ajouter un conditionnement',

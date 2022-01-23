@@ -75,12 +75,12 @@ const Product = new VuexPersistence({
   reducer: (state) => ({ product: state.product }),
 });
 
-// const Workspace = new VuexPersistence({
-//   key: "workspace",
-//   storage: localStore,
-//   asyncStorage: true,
-//   reducer: (state) => ({ workspace: state.workspace }),
-// });
+const Article = new VuexPersistence({
+  key: 'article',
+  storage: localStore,
+  asyncStorage: true,
+  reducer: (state) => ({ article: state.article }),
+});
 
 export default [
   Auth.plugin,
@@ -92,4 +92,5 @@ export default [
   ProductFamilyConfig.plugin,
   ProductTypeConfig.plugin,
   ProductUnitConfig.plugin,
+  Article.plugin,
 ];

@@ -39,9 +39,24 @@ import BaseGallery from '../../../components/common/BaseGallery.vue';
 import BaseDropzone from '../../../components/common/BaseDropzone.vue';
 import { mapGetters } from 'vuex';
 import { productPropertyImageCode } from '../../../helpers/codes';
+import store from '../../../store';
 
 export default {
   components: { BaseDropzone, BaseGallery },
+  beforeRouteEnter(routeTo, routeFrom, next) {
+    store
+      .dispatch('propertyConfig/getPropertiesList', {
+        page: 1,
+        field: {},
+      })
+      .then(() => {
+        next();
+      })
+      .catch((error) => {
+        console.log(error);
+        next();
+      });
+  },
   computed: {
     ...mapGetters('product', ['product', 'product_properties']),
     ...mapGetters('propertyConfig', ['properties']),

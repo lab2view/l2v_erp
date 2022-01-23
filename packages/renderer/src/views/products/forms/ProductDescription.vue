@@ -339,7 +339,7 @@ export default {
             .dispatch('product/updateProduct', this.productForm)
             .then((product) =>
               this.$router.push({
-                name: 'product.form.property',
+                name: 'product.form.setting',
                 params: { id: product.id },
               })
             )
@@ -349,7 +349,7 @@ export default {
             });
         else
           this.$router.push({
-            name: 'product.form.property',
+            name: 'product.form.setting',
             params: { id: this.product.id },
           });
       } else
@@ -357,7 +357,7 @@ export default {
           .dispatch('product/addProduct', this.productForm)
           .then((product) =>
             this.$router.push({
-              name: 'product.form.property',
+              name: 'product.form.setting',
               params: { id: product.id },
             })
           )

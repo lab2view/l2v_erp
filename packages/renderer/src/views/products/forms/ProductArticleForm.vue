@@ -61,9 +61,24 @@ import BaseSelect from '../../../components/common/BaseSelect.vue';
 import { unitPackageCode } from '../../../helpers/codes';
 import BaseButton from '../../../components/common/BaseButton.vue';
 import BaseFieldGroup from '../../../components/common/BaseFieldGroup.vue';
+import store from '../../../store';
 
 export default {
   components: { BaseFieldGroup, BaseButton, BaseInput, BaseSelect },
+  beforeRouteEnter(routeTo, routeFrom, next) {
+    store
+      .dispatch('packageConfig/getPackageList', {
+        page: 1,
+        field: {},
+      })
+      .then(() => {
+        next();
+      })
+      .catch((error) => {
+        console.log(error);
+        next();
+      });
+  },
   data() {
     return {
       errors: [],
@@ -75,6 +90,7 @@ export default {
   },
   computed: {
     ...mapGetters('packageConfig', ['packages']),
+    ...mapGetters('product', ['product']),
     selectPackages() {
       return this.packages.filter((p) => p.code !== unitPackageCode);
     },
@@ -82,7 +98,10 @@ export default {
   methods: {
     submitProductArticleForm() {
       this.$store
-        .dispatch('product/addArticle', this.articleForm)
+        .dispatch('article/addArticle', {
+          ...this.articleForm,
+          product_id: this.product.id,
+        })
         .then(() => {
           this.$router.back();
         })
