@@ -37,22 +37,11 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="(article, index) in articles" :key="index">
-              <td>{{ article.package.label }}</td>
-              <td>{{ article.quantity }}</td>
-              <td class="font-primary f-w-600">{{ article.name }}</td>
-              <td>
-                <BaseButton
-                  v-if="!article.not_deletable"
-                  type="button"
-                  class="btn btn-iconsolid btn-danger btn-sm"
-                  :title="$t('common.delete')"
-                  @click.prevent="deleteArticle(article)"
-                >
-                  <i class="fa fa-trash-o" />
-                </BaseButton>
-              </td>
-            </tr>
+            <ProductArticleLine
+              v-for="(article, index) in articles"
+              :key="index"
+              :article="article"
+            />
           </tbody>
         </table>
       </div>
@@ -62,11 +51,11 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import BaseButton from '../../../components/common/BaseButton.vue';
 import store from '../../../store';
+import ProductArticleLine from '../../../components/products/ProductArticleLine.vue';
 
 export default {
-  components: { BaseButton },
+  components: { ProductArticleLine },
   beforeRouteEnter(routeTo, routeFrom, next) {
     store
       .dispatch('article/getArticlesList', {
@@ -86,12 +75,6 @@ export default {
     ...mapGetters('article', ['getArticleByProductId']),
     articles() {
       return this.getArticleByProductId(this.product.id);
-    },
-  },
-  methods: {
-    deleteArticle(article) {
-      if (confirm(this.$t('messages.confirmDelete', { label: article.name })))
-        this.$store.dispatch('article/deleteArticle', article.id);
     },
   },
 };

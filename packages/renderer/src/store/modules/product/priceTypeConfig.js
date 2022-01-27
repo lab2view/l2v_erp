@@ -1,6 +1,6 @@
-import priceTypeService from '../../services/articles/PriceTypeService';
-import { notify } from '../../helpers/notify';
-import i18n from '../../i18n';
+import priceTypeService from '../../../services/articles/PriceTypeService';
+import { notify } from '../../../helpers/notify';
+import i18n from '../../../i18n';
 
 const state = {
   priceTypes: null,

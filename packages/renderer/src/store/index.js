@@ -1,17 +1,17 @@
 import { createStore } from 'vuex';
+import modulePlugins from './helpers/ModuleLocalForage';
+import FileService from '../services/FileService';
 import auth from './modules/auth';
 import workspace from './modules/workspace';
-import packageConfig from './modules/packageConfig';
-import propertyConfig from './modules/propertyConfig';
-import taxConfig from './modules/taxConfig';
-import priceTypeConfig from './modules/priceTypeConfig';
-import productFamilyConfig from './modules/productFamilyConfig';
-import productTypeConfig from './modules/productTypeConfig';
-import productUnitConfig from './modules/productUnitConfig';
-import modulePlugins from './helpers/ModuleLocalForage';
-import product from './modules/product';
-import FileService from '../services/FileService';
-import article from './modules/article';
+import packageConfig from './modules/product/packageConfig';
+import propertyConfig from './modules/product/propertyConfig';
+import taxConfig from './modules/product/taxConfig';
+import priceTypeConfig from './modules/product/priceTypeConfig';
+import productFamilyConfig from './modules/product/productFamilyConfig';
+import productTypeConfig from './modules/product/productTypeConfig';
+import productUnitConfig from './modules/product/productUnitConfig';
+import product from './modules/product/product';
+import article from './modules/product/article';
 
 export default createStore({
   state: {

@@ -1,7 +1,7 @@
-export const productFormRoutes = [
+export const formRoutes = [
   {
-    path: '',
-    name: 'product.form',
+    path: 'description',
+    name: 'product.form.desc',
     component: () => import('/@/views/products/forms/ProductDescription.vue'),
     meta: {
       code: 'Product.form.description',

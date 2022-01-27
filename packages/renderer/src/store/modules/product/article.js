@@ -1,6 +1,6 @@
-import articleService from '../../services/articles/ArticleService';
-import { notify } from '../../helpers/notify';
-import i18n from '../../i18n';
+import articleService from '../../../services/articles/ArticleService';
+import { notify } from '../../../helpers/notify';
+import i18n from '../../../i18n';
 
 const state = {
   articles: null,
@@ -78,8 +78,7 @@ const mutations = {
     state.articles = JSON.stringify(articles);
   },
   SET_CURRENT_ARTICLE(state, article) {
-    if (state.article !== article)
-      state.article = article === null ? null : JSON.stringify(article);
+    state.article = article === null ? null : JSON.stringify(article);
   },
   ADD_ARTICLE(state, article) {
     let articles = JSON.parse(state.articles);

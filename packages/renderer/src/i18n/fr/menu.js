@@ -1,6 +1,7 @@
 export default {
   module: {
     products: 'Products',
+    articles: 'Articles',
     stocks: 'Stocks',
     sales: 'Ventes',
     customers: 'Clients',

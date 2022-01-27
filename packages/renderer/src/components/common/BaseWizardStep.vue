@@ -51,7 +51,9 @@ export default {
   },
   computed: {
     progressLineStyle() {
-      const index = this.links.findIndex((l) => l.name === this.$route.name);
+      const index = this.links.findIndex((l) =>
+        RegExp(`^${l.name}*`).test(this.$route.name)
+      );
       const space = 100 / this.links.length / 2;
       const percent = ((index + 1) * 100) / this.links.length;
       return index !== -1 ? `width: ${percent / 2 + index * space}%;` : '';

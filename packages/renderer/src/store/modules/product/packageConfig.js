@@ -1,6 +1,6 @@
-import packageService from '../../services/products/PackageService';
-import { notify } from '../../helpers/notify';
-import i18n from '../../i18n';
+import packageService from '../../../services/products/PackageService';
+import { notify } from '../../../helpers/notify';
+import i18n from '../../../i18n';
 
 const state = {
   packages: null,

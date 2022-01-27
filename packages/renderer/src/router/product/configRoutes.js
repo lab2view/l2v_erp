@@ -1,6 +1,6 @@
-import store from '../store';
+import store from '../../store';
 
-export const productConfigRoutes = [
+export const configRoutes = [
   {
     path: '',
     redirect: { name: 'config.product.package' },
@@ -81,7 +81,7 @@ export const productConfigRoutes = [
         component: () =>
           import(
             '/@/views/products/configurations/productType/ProductTypeForm.vue'
-            ),
+          ),
         beforeEnter: (to) => {
           if (to.params.id) {
             return store
@@ -113,7 +113,7 @@ export const productConfigRoutes = [
         component: () =>
           import(
             '/@/views/products/configurations/productFamily/ProductFamilyForm.vue'
-            ),
+          ),
         beforeEnter: (to) => {
           if (to.params.id) {
             return store
@@ -145,7 +145,7 @@ export const productConfigRoutes = [
         component: () =>
           import(
             '/@/views/products/configurations/productUnit/ProductUnitForm.vue'
-            ),
+          ),
         beforeEnter: (to) => {
           if (to.params.id) {
             return store
@@ -173,9 +173,7 @@ export const productConfigRoutes = [
         path: 'form/:id?',
         name: 'config.product.property.form',
         component: () =>
-          import(
-            '/@/views/products/configurations/property/PropertyForm.vue'
-            ),
+          import('/@/views/products/configurations/property/PropertyForm.vue'),
         beforeEnter: (to) => {
           if (to.params.id) {
             return store
@@ -202,9 +200,7 @@ export const productConfigRoutes = [
         path: 'form/:id?',
         name: 'config.product.tax.form',
         component: () =>
-          import(
-            '/@/views/products/configurations/tax/TaxForm.vue'
-            ),
+          import('/@/views/products/configurations/tax/TaxForm.vue'),
         beforeEnter: (to) => {
           if (to.params.id) {
             return store
