@@ -75,6 +75,7 @@ const router = createRouter({
     if (savedPosition) return savedPosition;
     else return { top: 0 };
   },
+  // linkActiveClass: 'active',
   linkExactActiveClass: 'active',
 });
 

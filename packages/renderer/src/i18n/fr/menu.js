@@ -54,4 +54,7 @@ export default {
   property: {
     viewany: 'Proprietes',
   },
+  stock: {
+    manage: 'Stocks',
+  },
 };

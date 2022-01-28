@@ -39,30 +39,28 @@
               {{ `${article.product.code} / ${article.product.reference}` }}
             </td>
             <td>
-              <button
-                class="btn btn-secondary btn-xs"
+              <BaseButton
                 type="button"
-                data-original-title="btn btn-secondary btn-xs"
-                :title="$t('common.update')"
+                class="btn btn-iconsolid btn-info btn-sm"
+                :title="$t('common.delete')"
                 @click.prevent="
                   $router.push({
-                    name: 'article.form',
+                    name: 'article.details',
                     params: { id: article.id },
                   })
                 "
               >
-                {{ $t('common.update') }}
-              </button>
-              <button
+                <i class="fa fa-eye" />
+              </BaseButton>
+              <BaseButton
                 v-if="!article.not_deletable"
-                class="btn btn-danger btn-xs m-l-5"
                 type="button"
-                data-original-title="btn btn-danger btn-xs"
+                class="btn btn-iconsolid btn-danger btn-sm m-l-5"
                 :title="$t('common.delete')"
                 @click.prevent="deleteArticle(article)"
               >
                 <i class="fa fa-trash-o" />
-              </button>
+              </BaseButton>
             </td>
           </tr>
         </BaseDatatable>
@@ -78,9 +76,10 @@ import BaseDatatable from '/@/components/common/BaseDatatable.vue';
 import store from '../../store';
 import { mapGetters } from 'vuex';
 import BaseContainer from '../../components/common/BaseContainer.vue';
+import BaseButton from '../../components/common/BaseButton.vue';
 
 export default {
-  components: { BaseContainer, BaseDatatable },
+  components: { BaseButton, BaseContainer, BaseDatatable },
   beforeRouteEnter(routeTo, routeFrom, next) {
     store
       .dispatch('article/getArticlesList', {

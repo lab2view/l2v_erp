@@ -9,6 +9,7 @@
         :disabled="!is_form"
       >
         <button
+          v-if="!article.not_deletable"
           :class="is_form ? 'btn-success' : 'btn-secondary'"
           :disabled="is_form && !is_edited"
           :title="$t(`${is_form ? 'common.save' : 'common.update'}`)"
@@ -22,15 +23,34 @@
     </td>
     <td class="font-primary f-w-600">{{ article.name }}</td>
     <td>
-      <BaseButton
-        v-if="!article.not_deletable"
-        type="button"
-        class="btn btn-iconsolid btn-danger btn-sm"
-        :title="$t('common.delete')"
-        @click.prevent="deleteArticle(article)"
-      >
-        <i class="fa fa-trash-o" />
-      </BaseButton>
+      <div class="row justify-content-center align-items-center">
+        <div class="col-md-6 p-0">
+          <BaseButton
+            type="button"
+            class="btn btn-iconsolid btn-info btn-sm"
+            :title="$t('common.delete')"
+            @click.prevent="
+              $router.push({
+                name: 'article.details',
+                params: { id: article.id },
+              })
+            "
+          >
+            <i class="fa fa-eye" />
+          </BaseButton>
+        </div>
+        <div class="col-md-6 p-0">
+          <BaseButton
+            v-if="!article.not_deletable"
+            type="button"
+            class="btn btn-iconsolid btn-danger btn-sm"
+            :title="$t('common.delete')"
+            @click.prevent="deleteArticle(article)"
+          >
+            <i class="fa fa-trash-o" />
+          </BaseButton>
+        </div>
+      </div>
     </td>
   </tr>
 </template>
