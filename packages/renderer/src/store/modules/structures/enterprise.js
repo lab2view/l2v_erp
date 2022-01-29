@@ -1,11 +1,12 @@
 import enterpriseService from '../../../services/structures/EnterpriseService';
-import { notify } from '../../../helpers/notify';
+import { notify } from '/@/helpers/notify';
 import i18n from '../../../i18n';
 
 const state = {
   enterprises: null,
   hash: null,
   enterprise: null,
+  enterprise_modules: null,
 };
 
 // getters
@@ -26,6 +27,18 @@ const actions = {
   },
 
   getEnterprise({ getters, commit }, id) {
+    const enterprise = getters.enterprises.find((p) => p.id.toString() === id);
+    if (enterprise !== undefined) {
+      commit('SET_CURRENT_ENTERPRISE', enterprise);
+      return enterprise;
+    } else
+      return enterpriseService.getEnterprise(id).then(({ data }) => {
+        commit('SET_CURRENT_ENTERPRISE', data);
+        return data;
+      });
+  },
+
+  getEnterpriseModulesList({ getters, commit }, id) {
     const enterprise = getters.enterprises.find((p) => p.id.toString() === id);
     if (enterprise !== undefined) {
       commit('SET_CURRENT_ENTERPRISE', enterprise);
@@ -115,6 +128,7 @@ const mutations = {
   },
   SET_CURRENT_ENTERPRISE(state, enterprise) {
     state.enterprise = enterprise === null ? null : JSON.stringify(enterprise);
+    state.enterprise_modules = enterprise === null || enterprise.modules === null ? null : JSON.stringify(enterprise.modules);
   },
   ADD_ENTERPRISE(state, enterprise) {
     let enterprises = JSON.parse(state.enterprises);
@@ -125,6 +139,15 @@ const mutations = {
     let enterprises = JSON.parse(state.enterprises);
     const index = enterprises.findIndex((p) => p.id === enterprise.id);
     if (index !== -1) {
+      enterprises.splice(index, 1, enterprise);
+      state.enterprises = JSON.stringify(enterprises);
+    }
+  },
+  UPDATE_ENTERPRISE_MODULE(state, enterprise, modules) {
+    let enterprises = JSON.parse(state.enterprises);
+    const index = enterprises.findIndex((p) => p.id === enterprise.id);
+    if (index !== -1) {
+      enterprise.modules = modules;
       enterprises.splice(index, 1, enterprise);
       state.enterprises = JSON.stringify(enterprises);
     }

@@ -33,4 +33,5 @@ const routes = [
     children: configRoutes,
   },
 ];
+
 export default routes;

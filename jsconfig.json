@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "/@/*": [
+        "./packages/renderer/src/*"
+      ]
+    }
+  },
+  "include": [
+    "packages/renderer/src/**/*.vue",
+    "packages/renderer/src/**/*.js"
+  ]
+}

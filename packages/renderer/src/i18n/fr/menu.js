@@ -12,6 +12,16 @@ export default {
   products: {
     manage: 'Produits',
   },
+  enterprises: {
+    manage: 'Enterprises',
+  },
+  enterprise: {
+    create: 'Ajouter une entreprise',
+    viewany: 'Liste des entreprises',
+    form: {
+      description: "Description de l'entreprise",
+    },
+  },
   product: {
     create: 'Ajouter un produit',
     viewany: 'Liste des produits',

@@ -12,6 +12,13 @@ import productTypeConfig from './modules/product/productTypeConfig';
 import productUnitConfig from './modules/product/productUnitConfig';
 import product from './modules/product/product';
 import article from './modules/product/article';
+import module from './modules/structures/module';
+import localization from './modules/structures/localization';
+import region from './modules/structures/region';
+import country from './modules/structures/country';
+import enterpriseTypeConfig from './modules/structures/enterpriseTypeConfig';
+import enterprise from './modules/structures/enterprise';
+
 
 export default createStore({
   state: {
@@ -60,6 +67,12 @@ export default createStore({
     productTypeConfig,
     productUnitConfig,
     article,
+    module,
+    localization,
+    region,
+    country,
+    enterpriseTypeConfig,
+    enterprise,
   },
   strict: process.env.NODE_ENV !== 'production',
   plugins: [...modulePlugins],

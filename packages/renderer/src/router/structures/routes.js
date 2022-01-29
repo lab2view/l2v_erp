@@ -1,17 +1,12 @@
-import { configRoutes } from './configRoutes';
+import { moduleRoutes } from './moduleRoutes';
 import { enterpriseRoutes } from './enterpriseRoutes';
 import { localizationRoutes } from './localizationRoutes';
 
 
 const structureRoutes = [
-  {
-    path: '',
-    children: [
-      configRoutes,
-      enterpriseRoutes,
-      localizationRoutes
-    ]
-  },
+  moduleRoutes,
+  enterpriseRoutes,
+  localizationRoutes
 ];
 
 export default structureRoutes;

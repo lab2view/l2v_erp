@@ -2,11 +2,11 @@ import store from '../../store';
 
 export const localizationRoutes = [
   {
-    path: 'localizations',
-    name: 'config.structures.localization',
+    path: '',
+    name: 'localizations',
     component: () =>
       import(
-        '/@/views/structures/localizations/LocalizationList.vue'
+        '/@/views/structures/localizations/LocalizationsList.vue'
       ),
     meta: {
       code: 'Localization.viewAny',
@@ -15,7 +15,7 @@ export const localizationRoutes = [
     children: [
       {
         path: 'form/:id?',
-        name: 'config.structures.localization.form',
+        name: 'localization.form',
         component: () =>
           import(
             '/@/views/structures/localizations/LocalizationForm.vue'
@@ -34,28 +34,28 @@ export const localizationRoutes = [
     ],
   },
   {
-    path: 'modules',
-    name: 'config.structures.module',
+    path: 'countries',
+    name: 'countries',
     component: () =>
       import(
-        '/@/views/structures/modules/ModuleList.vue'
+        '/@/views/structures/countries/CountriesList.vue'
         ),
     meta: {
-      code: 'Module.viewAny',
+      code: 'Country.viewAny',
       feather: 'filter',
     },
     children: [
       {
         path: 'form/:id?',
-        name: 'config.structures.module.form',
+        name: 'country.form',
         component: () =>
           import(
-            '/@/views/structures/modules/ModuleForm.vue'
+            '/@/views/structures/countries/CountryForm.vue'
             ),
         beforeEnter: (to) => {
           if (to.params.id) {
             return store
-              .dispatch('module/getModule', to.params.id)
+              .dispatch('country/getCountry', to.params.id)
               .then(() => {
                 return { name: to.name };
               })
@@ -67,10 +67,10 @@ export const localizationRoutes = [
   },
   {
     path: 'regions',
-    name: 'config.structures.region',
+    name: 'regions',
     component: () =>
       import(
-        '/@/views/structures/regions/RegionList.vue'
+        '/@/views/structures/regions/RegionsList.vue'
         ),
     meta: {
       code: 'Region.viewAny',
@@ -79,7 +79,7 @@ export const localizationRoutes = [
     children: [
       {
         path: 'form/:id?',
-        name: 'config.structures.region.form',
+        name: 'region.form',
         component: () =>
           import(
             '/@/views/structures/regions/RegionForm.vue'

@@ -1,5 +1,5 @@
 import regionService from '../../../services/structures/RegionService';
-import { notify } from '../../../helpers/notify';
+import { notify } from '/@/helpers/notify';
 import i18n from '../../../i18n';
 
 const state = {
