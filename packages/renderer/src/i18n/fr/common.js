@@ -12,6 +12,8 @@ export default {
   shuffle: 'Generer',
   type: 'Saisir',
   scan: 'Scanner',
+  desc_by: 'created' +
+    '_at',
 
   fields: {
     text: 'Chaine de caractere',
@@ -19,7 +21,7 @@ export default {
     date: 'Date',
     time: 'Heure',
     datetime: 'Date et Heure',
-    url: 'Lien',
+    url: "Lien",
     radio: 'Choix boolean',
   },
 

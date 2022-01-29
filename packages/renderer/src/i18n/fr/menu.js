@@ -22,6 +22,13 @@ export default {
       description: "Description de l'entreprise",
     },
   },
+  enterprisetype: {
+    create: "Ajouter un y[e d'entreprise",
+    viewany: "Liste des types d'entreprise",
+    form: {
+      description: "Description du type d'entreprise",
+    },
+  },
   product: {
     create: 'Ajouter un produit',
     viewany: 'Liste des produits',
