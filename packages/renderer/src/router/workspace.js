@@ -1,5 +1,6 @@
 import routes from './product/routes';
 import articleRoutes from './articleRoutes';
+import structureRoutes from './structures/routes';
 
 const workspace = [
   {
@@ -21,5 +22,12 @@ const workspace = [
     component: () => import('/@/components/articles/ArticleLayout.vue'),
     children: articleRoutes,
   },
+  {
+    path: '',
+    children: [
+      structureRoutes
+    ],
+  },
 ];
+
 export default workspace;

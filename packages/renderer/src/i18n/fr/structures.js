@@ -46,9 +46,11 @@ export default {
     formCreateTitle: "Ajouter les modules a l'entreprise",
     formUpdateTitle: "Modifier les modules a l'entreprise",
     store:
-      "L'enregistrement des modules a l'entreprise a ete effectue avec succes",
+      "L'enregistrement des modules de l'entreprise a ete effectue avec succes",
     update:
-      "La modification des modules a l'entreprise a ete effectuee avec succes",
+      "La modification des modules de l'entreprise a ete effectuee avec succes",
+    delete:
+      "La suppression des modules de l'entreprise a ete effectuee avec succes",
   },
   enterpriseType: {
     listTitle: "Liste des types d'entreprise",
