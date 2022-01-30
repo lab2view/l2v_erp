@@ -1,32 +1,66 @@
 export default {
-  module: {
+  modules: {
     products: 'Products',
     articles: 'Articles',
     stocks: 'Stocks',
     sales: 'Ventes',
     customers: 'Clients',
     payments: 'Paiements',
-    enterprise: 'Structures',
+    enterprises: 'Structures',
     iam: 'IAM',
+    manage: 'Modules',
   },
   products: {
     manage: 'Produits',
   },
   enterprises: {
-    manage: 'Enterprises',
+    manage: 'Structures',
+  },
+  localizations: {
+    manage: 'Localisations',
+  },
+  module: {
+    create: 'Ajouter un module',
+    viewany: 'Liste des modules',
+    form: {
+      description: "Description du module",
+    },
+  },
+  localization: {
+    create: 'Ajouter une localisation',
+    viewany: 'Liste des localisations',
+    form: {
+      description: "Description de la localisation",
+    },
+  },
+  country: {
+    create: 'Activer un pays',
+    add: 'Ajouter un pays',
+    viewany: 'Liste des pays',
+    form: {
+      description: "Description du pays",
+    },
+  },
+  region: {
+    create: 'Activer une region',
+    add: 'Ajouter une region',
+    viewany: 'Liste des regions',
+    form: {
+      description: "Description de la region",
+    },
   },
   enterprise: {
-    create: 'Ajouter une entreprise',
-    viewany: 'Liste des entreprises',
+    create: 'Ajouter une structure',
+    viewany: 'Liste des structures',
     form: {
-      description: "Description de l'entreprise",
+      description: "Description de la structure",
     },
   },
   enterprisetype: {
-    create: "Ajouter un y[e d'entreprise",
-    viewany: "Liste des types d'entreprise",
+    create: "Ajouter un type de structure",
+    viewany: "Liste des types de structure",
     form: {
-      description: "Description du type d'entreprise",
+      description: "Description du type de structure",
     },
   },
   product: {

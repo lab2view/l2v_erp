@@ -95,7 +95,7 @@ export default defineComponent({
           menus: [],
         },
         {
-          code: 'ENTERPRISE',
+          code: 'ENTERPRISES',
           menus: structureMenus,
         },
         {

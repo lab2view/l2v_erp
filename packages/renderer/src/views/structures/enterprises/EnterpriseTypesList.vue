@@ -1,17 +1,17 @@
 <template>
   <BaseContainer
-    :title="$t('enterprise_type.title')"
-    :module="$t('menu.enterpriseType.lis')"
+    :title="$t('structures.title')"
+    :module="$t('menu.modules.enterprises')"
   >
     <div class="card">
       <div class="card-header pb-2 border-bottom border-bottom-">
         <div class="row align-items-center">
           <div class="col-sm">
-            <h5>{{ $t('enterprise.listTitle') }}</h5>
+            <h5>{{ $t('structures.enterpriseType.listTitle') }}</h5>
           </div>
           <div class="col-sm-auto align-items-end">
             <router-link
-              :to="{ name: 'enterprise.form' }"
+              :to="{ name: 'enterprise.type.form' }"
               href="#"
               class="btn btn-primary"
               type="button"
@@ -23,33 +23,19 @@
         </div>
       </div>
       <div class="card-body">
-        <BaseDatatable :tfoot="false" :total="enterprises.length">
+        <BaseDatatable :tfoot="false" :total="enterpriseTypes.length">
           <template #headers>
             <th>#</th>
-            <th>{{ $t('common.attributes.type') }}</th>
-            <th>{{ $t('common.attributes.name') }}</th>
-            <th>{{ $t('common.attributes.barcode') }}</th>
-            <th>{{ $t('common.attributes.state') }}</th>
+            <th>{{ $t('common.attributes.label') }}</th>
+            <th>{{ $t('common.attributes.code') }}</th>
+            <th>{{ $t('common.attributes.description') }}</th>
             <th>{{ $t('common.actions') }}</th>
           </template>
-          <tr v-for="enterprise in enterprises" :key="enterprise.id">
-            <td>{{ enterprise.id }}</td>
-            <td>{{ enterprise.enterprise_type.label }}</td>
-            <td>{{ enterprise.name }}</td>
-            <td>{{ `${enterprise.code} / ${enterprise.reference}` }}</td>
-            <td>
-              <span
-                :class="`badge text-white badge-${
-                  enterprise.disabled_at ? 'danger' : 'primary'
-                }`"
-              >
-                {{
-                  enterprise.disabled_at
-                    ? $t('common.states.disabled')
-                    : $t('common.states.enabled')
-                }}
-              </span>
-            </td>
+          <tr v-for="enterpriseType in enterpriseTypes" :key="enterpriseType.id">
+            <td>{{ enterpriseType.id }}</td>
+            <td>{{ enterpriseType.label }}</td>
+            <td>{{ enterpriseType.code }}</td>
+            <td>{{ truncate(enterpriseType.description) }}</td>
             <td>
               <button
                 class="btn btn-secondary btn-xs"
@@ -66,7 +52,6 @@
                 {{ $t('common.update') }}
               </button>
               <button
-                v-if="!enterpriseType.not_deletable"
                 class="btn btn-danger btn-xs m-l-5"
                 type="button"
                 data-original-title="btn btn-danger btn-xs"
@@ -86,16 +71,16 @@
 </template>
 
 <script>
+import BaseContainer from '/@/components/common/BaseContainer.vue';
 import BaseDatatable from '/@/components/common/BaseDatatable.vue';
-import store from '../../../store';
+import store from '/@/store';
 import { mapGetters } from 'vuex';
-import BaseContainer from '../../../components/common/BaseContainer.vue';
 
 export default {
   components: { BaseContainer, BaseDatatable },
   beforeRouteEnter(routeTo, routeFrom, next) {
     store
-      .dispatch('enterprise/getEnterprisesList', {
+      .dispatch('enterpriseTypeConfig/getEnterpriseTypesList', {
         page: 1,
         field: {},
       })
@@ -111,13 +96,19 @@ export default {
       ...mapGetters('enterpriseTypeConfig', ['enterpriseTypes', 'enterpriseType']),
   },
   created() {
-    if (this.enterprise) this.$store.commit('enterprise/SET_CURRENT_ENTERPRISE', null);
+    if (this.enterpriseType) this.$store.commit('enterpriseTypeConfig/SET_CURRENT_ENTERPRISE_TYPE', null);
   },
 
   methods: {
-    deleteEnterpriseType(enterprise) {
-      if (confirm(this.$t('messages.confirmDelete', { label: enterprise.name })))
-        this.$store.dispatch('enterprise/deleteEnterpriseType', enterprise.id);
+    truncate(source, size = 100) {
+      if (! source) {
+        return '';
+      }
+      return source.length > size ? source.slice(0, size - 1) + "…" : source;
+    },
+    deleteEnterpriseType(enterpriseType) {
+      if (confirm(this.$t('messages.confirmDelete', { label: enterpriseType.name })))
+        this.$store.dispatch('enterpriseTypeConfig/deleteEnterpriseType', enterpriseType.id);
     },
   },
 };

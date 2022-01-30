@@ -19,20 +19,26 @@ const actions = {
     if (getters.enterpriseTypes.length > 0) {
       return getters.enterpriseTypes;
     } else
-      return enterpriseTypeService.getList(page, field).then(({ data }) => {
+      return enterpriseTypeService.getEnterpriseTypesList(page, field).then(({ data }) => {
         commit('SET_ENTERPRISE_TYPES', data);
         return data;
       });
   },
 
   getEnterpriseType({ getters, commit }, id) {
+    console.log('after enter route');
+
     const enterpriseType = getters.enterpriseTypes.find((p) => p.id.toString() === id);
     if (enterpriseType !== undefined) {
       commit('SET_CURRENT_ENTERPRISE_TYPE', enterpriseType);
+      console.log('enterpriseType');
+      console.log(enterpriseType);
       return enterpriseType;
     } else
       return enterpriseTypeService.get(id).then(({ data }) => {
         commit('SET_CURRENT_ENTERPRISE_TYPE', data);
+        console.log('data');
+        console.log(data);
         return data;
       });
   },
@@ -79,7 +85,9 @@ const mutations = {
     state.enterpriseTypes = JSON.stringify(enterpriseTypes);
   },
   SET_CURRENT_ENTERPRISE_TYPE(state, pack) {
-    state.enterpriseType = JSON.stringify(pack);
+    console.log('pack');
+    console.log(pack);
+    state.enterpriseType = pack === null ? null : JSON.stringify(pack);
   },
   ADD_ENTERPRISE_TYPE(state, pack) {
     let enterpriseTypes = JSON.parse(state.enterpriseTypes);

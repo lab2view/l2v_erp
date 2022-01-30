@@ -70,9 +70,11 @@ export const enterpriseRoutes = [
             ),
         beforeEnter: (to) => {
           if (to.params.id) {
+            console.log('enter route');
             return store
               .dispatch('enterpriseTypeConfig/getEnterpriseType', to.params.id)
               .then(() => {
+                console.log('enter enter route');
                 return { name: to.name };
               })
               .catch(() => -1);

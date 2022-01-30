@@ -21,7 +21,7 @@ const actions = {
     if (getters.regions.length > 0) {
       return getters.regions;
     } else
-      return regionService.getList(page, field).then(({ data }) => {
+      return regionService.getRegionsList(page, field).then(({ data }) => {
         commit('SET_REGIONS', data);
         return data;
       });

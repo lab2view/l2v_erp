@@ -85,8 +85,8 @@ export const structureMenus = [
   },
   {
     icon: 'grid',
-    code: 'Products.manage',
-    prefix: 'product',
+    code: 'Localizations.manage',
+    prefix: 'localization',
     items: [
       {
         code: 'Product.create',

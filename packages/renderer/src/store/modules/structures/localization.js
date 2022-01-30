@@ -21,7 +21,7 @@ const actions = {
     if (getters.localizations.length > 0) {
       return getters.localizations;
     } else
-      return localizationService.getList(page, field).then(({ data }) => {
+      return localizationService.getLocalizationsList(page, field).then(({ data }) => {
         commit('SET_LOCALIZATIONS', data);
         return data;
       });

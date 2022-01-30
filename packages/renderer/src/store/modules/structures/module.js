@@ -21,7 +21,7 @@ const actions = {
     if (getters.modules.length > 0) {
       return getters.modules;
     } else
-      return moduleService.getList(page, field).then(({ data }) => {
+      return moduleService.getModulesList(page, field).then(({ data }) => {
         commit('SET_MODULES', data);
         return data;
       });

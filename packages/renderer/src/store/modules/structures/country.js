@@ -21,7 +21,7 @@ const actions = {
     if (getters.countries.length > 0) {
       return getters.countries;
     } else
-      return countryService.getList(page, field).then(({ data }) => {
+      return countryService.getCountriesList(page, field).then(({ data }) => {
         commit('SET_COUNTRIES', data);
         return data;
       });

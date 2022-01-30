@@ -1,7 +1,7 @@
 <template>
   <BaseContainer
     :title="$t('product.title')"
-    :module="$t('menu.module.products')"
+    :module="$t('menu.modules.products')"
   >
     <div class="card">
       <div class="card-header pb-2 border-bottom border-bottom-">

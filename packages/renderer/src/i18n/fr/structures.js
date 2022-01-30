@@ -33,13 +33,13 @@ export default {
       "La modification du module a ete effectuee avec succes",
   },
   enterprise: {
-    listTitle: 'Liste des entreprises',
-    formCreateTitle: "Ajouter une entreprise",
-    formUpdateTitle: "Modifier l'entreprise",
+    listTitle: 'Liste des structures',
+    formCreateTitle: "Ajouter une structure",
+    formUpdateTitle: "Modifier la structure",
     store:
-      "L'enregistrement de l'entreprise a ete effectue avec succes",
+      "L'enregistrement de la structure a ete effectue avec succes",
     update:
-      "La modification de l'entreprise a ete effectuee avec succes",
+      "La modification de la structure a ete effectuee avec succes",
   },
   enterpriseModule: {
     listTitle: "Liste des modules de l'entreprise",
@@ -53,10 +53,10 @@ export default {
       "La suppression des modules de l'entreprise a ete effectuee avec succes",
   },
   enterpriseType: {
-    listTitle: "Liste des types d'entreprise",
-    formCreateTitle: "Ajouter un type d'entreprise",
-    formUpdateTitle: "Modifier le type d'entreprise",
-    store: "L'enregistrement du type d'entreprise a ete effectue avec succes",
-    update: "La modification du type d'entreprise a ete effectuee avec succes",
+    listTitle: "Liste des types de structure",
+    formCreateTitle: "Ajouter un type de structure",
+    formUpdateTitle: "Modifier le type de structure",
+    store: "L'enregistrement du type de structure a ete effectue avec succes",
+    update: "La modification du type de structure a ete effectuee avec succes",
   },
 };

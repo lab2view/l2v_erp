@@ -4,7 +4,7 @@
 
 <script>
 export default {
-  name: 'StructureLayout',
+  name: 'EnterpriseTypeLayout',
 };
 </script>
 
