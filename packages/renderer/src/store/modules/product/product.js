@@ -15,8 +15,6 @@ const getters = {
   haveProduct: (state) => !!state.product,
   product_properties: (state, getters) =>
     getters.product ? getters.product.product_properties : [],
-  articles: (state, getters) =>
-    getters.product ? getters.product.articles : [],
 };
 
 // privileges
@@ -97,12 +95,12 @@ const mutations = {
       state.product = product === null ? null : JSON.stringify(product);
   },
   ADD_PRODUCT(state, product) {
-    let products = JSON.parse(state.products);
+    let products = state.products ? JSON.parse(state.products) : [];
     products.push(product);
     state.products = JSON.stringify(products);
   },
   UPDATE_PRODUCT(state, product) {
-    let products = JSON.parse(state.products);
+    let products = state.products ? JSON.parse(state.products) : [];
     const index = products.findIndex((p) => p.id === product.id);
     if (index !== -1) {
       products.splice(index, 1, product);
@@ -115,7 +113,7 @@ const mutations = {
     );
   },
   PUSH_PRODUCT_PROPERTIES(state, properties) {
-    let products = JSON.parse(state.products);
+    let products = state.products ? JSON.parse(state.products) : [];
     let product = JSON.parse(state.product);
     const index = products.findIndex((p) => p.id === product.id);
     if (index !== -1) {

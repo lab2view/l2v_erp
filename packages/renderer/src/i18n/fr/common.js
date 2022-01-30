@@ -53,5 +53,15 @@ export default {
     state: 'Etat',
     quantity: 'Quantite',
     package_id: 'Conditionnement',
+    article_id: 'Articles',
+    stock_entry_id: 'Mouvements',
+    provider_id: 'Fournisseur',
+    stock_entry_type_id: "Type d'entree",
+  },
+
+  headers: {
+    stock_entry_qty: 'Qte Entre',
+    stock_exit_qty: 'Qte Sortie',
+    stock_in: 'En Stock',
   },
 };

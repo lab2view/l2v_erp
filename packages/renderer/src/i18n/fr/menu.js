@@ -57,4 +57,8 @@ export default {
   stock: {
     manage: 'Stocks',
   },
+  movement: {
+    entry: "Mouvements d'entrees",
+    exit: 'Mouvements de sortis',
+  },
 };
