@@ -70,6 +70,12 @@ export default {
         name: null,
         phone: null,
         description: null,
+        currency: null,
+        po_box: null,
+        website: null,
+        slogan: null,
+        email: null,
+        logo: null,
       },
     };
   },

@@ -35,14 +35,14 @@ const actions = {
       commit('SET_CURRENT_REGION', region);
       return region;
     } else
-      return regionService.get(id).then(({ data }) => {
+      return regionService.getRegion(id).then(({ data }) => {
         commit('SET_CURRENT_REGION', data);
         return data;
       });
   },
 
   addRegion({ commit }, regionField) {
-    return regionService.add(regionField).then(({ data }) => {
+    return regionService.addRegion(regionField).then(({ data }) => {
       commit('ADD_REGION', data);
       notify(
         i18n.global.t('structures.region.store'),
@@ -56,7 +56,7 @@ const actions = {
 
   updateRegion({ commit }, regionField) {
     return regionService
-      .update(regionField, regionField.id)
+      .updateRegion(regionField, regionField.id)
       .then(({ data }) => {
         notify(
           i18n.global.t('structures.region.update'),
@@ -70,7 +70,7 @@ const actions = {
   },
 
   deleteRegion({ commit }, regionId) {
-    return regionService.delete(regionId).then(({ data }) => {
+    return regionService.deleteRegion(regionId).then(({ data }) => {
       commit('DELETE_REGION', regionId);
       return data;
     });

@@ -12,25 +12,7 @@ export const enterpriseRoutes = [
     },
     children: [
       {
-        path: 'form/:id?',
-        name: 'enterprise.form',
-        component: () =>
-          import(
-            '/@/views/structures/enterprises/EnterpriseForm.vue'
-            ),
-        beforeEnter: (to) => {
-          if (to.params.id) {
-            return store
-              .dispatch('enterprise/getEnterprise', to.params.id)
-              .then(() => {
-                return { name: to.name };
-              })
-              .catch(() => -1);
-          }
-        },
-      },
-      {
-        path: 'module/:id?',
+        path: 'module/:id',
         name: 'enterprise.module.form',
         component: () =>
           import(
@@ -50,8 +32,64 @@ export const enterpriseRoutes = [
     ],
   },
   {
-    path: 'types',
-    name: 'enterprise.types',
+    path: 'create/:id?',
+    name: 'enterprise.form',
+    component: () =>
+      import('/@/views/structures/enterprises/EnterpriseForm.vue'),
+    meta: {
+      code: 'enterprise.form',
+      feather: 'pencil',
+    },
+    beforeEnter: (to) => {
+      if (to.params.id) {
+        return store
+          .dispatch('enterprise/getEnterprise', to.params.id)
+          .then(() => {
+            this.meta = 'enterprise.update';
+            return { name: to.name };
+          })
+          .catch(() => -1);
+      }
+    },
+  },
+];
+
+export const enterpriseConfigRoutes = [
+  {
+    path: '',
+    name: 'modules',
+    component: () =>
+      import(
+        '/@/views/structures/modules/ModulesList.vue'
+        ),
+    meta: {
+      code: 'Module.viewAny',
+      feather: 'filter',
+    },
+    children: [
+      {
+        path: 'form/:id?',
+        name: 'module.form',
+        component: () =>
+          import(
+            '/@/views/structures/modules/ModuleForm.vue'
+            ),
+        beforeEnter: (to) => {
+          if (to.params.id) {
+            return store
+              .dispatch('module/getModule', to.params.id)
+              .then(() => {
+                return { name: to.name };
+              })
+              .catch(() => -1);
+          }
+        },
+      },
+    ],
+  },
+  {
+    path: 'enterprise-types',
+    name: 'types.entreprise',
     component: () =>
       import(
         '/@/views/structures/enterprises/EnterpriseTypesList.vue'
@@ -63,18 +101,16 @@ export const enterpriseRoutes = [
     children: [
       {
         path: 'form/:id?',
-        name: 'enterprise.type.form',
+        name: 'types.entreprise.form',
         component: () =>
           import(
             '/@/views/structures/enterprises/EnterpriseTypeForm.vue'
             ),
         beforeEnter: (to) => {
           if (to.params.id) {
-            console.log('enter route');
             return store
               .dispatch('enterpriseTypeConfig/getEnterpriseType', to.params.id)
               .then(() => {
-                console.log('enter enter route');
                 return { name: to.name };
               })
               .catch(() => -1);
@@ -84,3 +120,4 @@ export const enterpriseRoutes = [
     ],
   },
 ];
+

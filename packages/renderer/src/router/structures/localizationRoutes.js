@@ -38,7 +38,7 @@ export const localizationRoutes = [
     name: 'countries',
     component: () =>
       import(
-        '/@/views/structures/countries/CountriesList.vue'
+        '/@/views/structures/localizations/CountriesList.vue'
         ),
     meta: {
       code: 'Country.viewAny',
@@ -50,7 +50,7 @@ export const localizationRoutes = [
         name: 'country.form',
         component: () =>
           import(
-            '/@/views/structures/countries/CountryForm.vue'
+            '/@/views/structures/localizations/CountryForm.vue'
             ),
         beforeEnter: (to) => {
           if (to.params.id) {
@@ -70,7 +70,7 @@ export const localizationRoutes = [
     name: 'regions',
     component: () =>
       import(
-        '/@/views/structures/regions/RegionsList.vue'
+        '/@/views/structures/localizations/RegionsList.vue'
         ),
     meta: {
       code: 'Region.viewAny',
@@ -82,7 +82,7 @@ export const localizationRoutes = [
         name: 'region.form',
         component: () =>
           import(
-            '/@/views/structures/regions/RegionForm.vue'
+            '/@/views/structures/localizations/RegionForm.vue'
             ),
         beforeEnter: (to) => {
           if (to.params.id) {

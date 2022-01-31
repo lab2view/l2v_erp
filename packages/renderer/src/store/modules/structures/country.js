@@ -35,14 +35,14 @@ const actions = {
       commit('SET_CURRENT_COUNTRY', country);
       return country;
     } else
-      return countryService.get(id).then(({ data }) => {
+      return countryService.getCountry(id).then(({ data }) => {
         commit('SET_CURRENT_COUNTRY', data);
         return data;
       });
   },
 
   addCountry({ commit }, countryField) {
-    return countryService.add(countryField).then(({ data }) => {
+    return countryService.addCountry(countryField).then(({ data }) => {
       commit('ADD_COUNTRY', data);
       notify(
         i18n.global.t('structures.country.store'),
@@ -56,7 +56,7 @@ const actions = {
 
   updateCountry({ commit }, countryField) {
     return countryService
-      .update(countryField, countryField.id)
+      .updateCountry(countryField, countryField.id)
       .then(({ data }) => {
         notify(
           i18n.global.t('structures.country.update'),
@@ -70,7 +70,7 @@ const actions = {
   },
 
   deleteCountry({ commit }, countryId) {
-    return countryService.delete(countryId).then(({ data }) => {
+    return countryService.deleteCountry(countryId).then(({ data }) => {
       commit('DELETE_COUNTRY', countryId);
       return data;
     });

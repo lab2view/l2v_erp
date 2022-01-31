@@ -35,14 +35,14 @@ const actions = {
       commit('SET_CURRENT_LOCALIZATION', localization);
       return localization;
     } else
-      return localizationService.get(id).then(({ data }) => {
+      return localizationService.getLocalization(id).then(({ data }) => {
         commit('SET_CURRENT_LOCALIZATION', data);
         return data;
       });
   },
 
   addLocalization({ commit }, localizationField) {
-    return localizationService.add(localizationField).then(({ data }) => {
+    return localizationService.addLocalization(localizationField).then(({ data }) => {
       commit('ADD_LOCALIZATION', data);
       notify(
         i18n.global.t('structures.localization.store'),
@@ -56,7 +56,7 @@ const actions = {
 
   updateLocalization({ commit }, localizationField) {
     return localizationService
-      .update(localizationField, localizationField.id)
+      .updateLocalization(localizationField, localizationField.id)
       .then(({ data }) => {
         notify(
           i18n.global.t('structures.localization.update'),
@@ -70,7 +70,7 @@ const actions = {
   },
 
   deleteLocalization({ commit }, localizationId) {
-    return localizationService.delete(localizationId).then(({ data }) => {
+    return localizationService.deleteLocalization(localizationId).then(({ data }) => {
       commit('DELETE_LOCALIZATION', localizationId);
       return data;
     });

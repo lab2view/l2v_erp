@@ -27,10 +27,10 @@ export default {
     },
   },
   localization: {
-    create: 'Ajouter une localisation',
-    viewany: 'Liste des localisations',
+    create: 'Ajouter une adresse',
+    viewany: 'Liste des adresses',
     form: {
-      description: "Description de la localisation",
+      description: "Description de l'adresse",
     },
   },
   country: {

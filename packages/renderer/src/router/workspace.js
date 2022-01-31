@@ -1,9 +1,7 @@
 import routes from './product/routes';
 import articleRoutes from './articleRoutes';
-import { enterpriseRoutes } from './structures/enterpriseRoutes';
+import { enterpriseConfigRoutes, enterpriseRoutes } from './structures/enterpriseRoutes';
 import { localizationRoutes } from './structures/localizationRoutes';
-import { moduleRoutes } from './structures/moduleRoutes';
-
 
 const workspace = [
   {
@@ -38,7 +36,7 @@ const workspace = [
   {
     path: 'modules',
     component: () => import('/@/components/structures/ModuleLayout.vue'),
-    children: moduleRoutes,
+    children: enterpriseConfigRoutes,
   },
 ];
 

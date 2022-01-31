@@ -1,5 +1,9 @@
 export default {
   title: 'Gestion des Structures',
+  configuration: 'Configuration',
+  configurations: 'Configurations',
+  localizations: 'Localisations',
+  countries: 'Pays',
   country: {
     listTitle: 'Liste des pays',
     formCreateTitle: 'Ajouter un pays',
@@ -17,6 +21,7 @@ export default {
     update: "La modification de la region a ete effectuee avec succes",
   },
   localization: {
+    title: 'Localisation',
     listTitle: 'Liste des adresses',
     formCreateTitle: 'Ajouter une adresse',
     formUpdateTitle: "Modifier l'adresse",

@@ -35,14 +35,14 @@ const actions = {
       commit('SET_CURRENT_MODULE', module);
       return module;
     } else
-      return moduleService.get(id).then(({ data }) => {
+      return moduleService.getModule(id).then(({ data }) => {
         commit('SET_CURRENT_MODULE', data);
         return data;
       });
   },
 
   addModule({ commit }, moduleField) {
-    return moduleService.add(moduleField).then(({ data }) => {
+    return moduleService.addModule(moduleField).then(({ data }) => {
       commit('ADD_MODULE', data);
       notify(
         i18n.global.t('structures.module.store'),
@@ -56,7 +56,7 @@ const actions = {
 
   updateModule({ commit }, moduleField) {
     return moduleService
-      .update(moduleField, moduleField.id)
+      .updateModule(moduleField, moduleField.id)
       .then(({ data }) => {
         notify(
           i18n.global.t('structures.module.update'),
@@ -70,7 +70,7 @@ const actions = {
   },
 
   deleteModule({ commit }, moduleId) {
-    return moduleService.delete(moduleId).then(({ data }) => {
+    return moduleService.deleteModule(moduleId).then(({ data }) => {
       commit('DELETE_MODULE', moduleId);
       return data;
     });
