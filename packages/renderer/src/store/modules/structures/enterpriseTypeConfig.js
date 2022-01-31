@@ -26,25 +26,19 @@ const actions = {
   },
 
   getEnterpriseType({ getters, commit }, id) {
-    console.log('after enter route');
-
     const enterpriseType = getters.enterpriseTypes.find((p) => p.id.toString() === id);
     if (enterpriseType !== undefined) {
       commit('SET_CURRENT_ENTERPRISE_TYPE', enterpriseType);
-      console.log('enterpriseType');
-      console.log(enterpriseType);
       return enterpriseType;
     } else
-      return enterpriseTypeService.get(id).then(({ data }) => {
+      return enterpriseTypeService.getEnterpriseType(id).then(({ data }) => {
         commit('SET_CURRENT_ENTERPRISE_TYPE', data);
-        console.log('data');
-        console.log(data);
         return data;
       });
   },
 
   addEnterpriseType({ commit }, enterpriseTypeField) {
-    return enterpriseTypeService.add(enterpriseTypeField).then(({ data }) => {
+    return enterpriseTypeService.addEnterpriseType(enterpriseTypeField).then(({ data }) => {
       commit('ADD_ENTERPRISE_TYPE', data);
       notify(
         i18n.global.t('structures.enterpriseType.store'),
@@ -58,7 +52,7 @@ const actions = {
 
   updateEnterpriseType({ commit }, enterpriseTypeField) {
     return enterpriseTypeService
-      .update(enterpriseTypeField, enterpriseTypeField.id)
+      .updateEnterpriseType(enterpriseTypeField, enterpriseTypeField.id)
       .then(({ data }) => {
         notify(
           i18n.global.t('structures.enterpriseType.update'),
@@ -72,7 +66,7 @@ const actions = {
   },
 
   deleteEnterpriseType({ commit }, enterpriseTypeId) {
-    return enterpriseTypeService.delete(enterpriseTypeId).then(({ data }) => {
+    return enterpriseTypeService.deleteEnterpriseType(enterpriseTypeId).then(({ data }) => {
       commit('DELETE_ENTERPRISE_TYPE', enterpriseTypeId);
       return data;
     });
@@ -84,21 +78,19 @@ const mutations = {
   SET_ENTERPRISE_TYPES(state, enterpriseTypes) {
     state.enterpriseTypes = JSON.stringify(enterpriseTypes);
   },
-  SET_CURRENT_ENTERPRISE_TYPE(state, pack) {
-    console.log('pack');
-    console.log(pack);
-    state.enterpriseType = pack === null ? null : JSON.stringify(pack);
+  SET_CURRENT_ENTERPRISE_TYPE(state, enterpriseType) {
+    state.enterpriseType = enterpriseType === null ? null : JSON.stringify(enterpriseType);
   },
-  ADD_ENTERPRISE_TYPE(state, pack) {
+  ADD_ENTERPRISE_TYPE(state, enterpriseType) {
     let enterpriseTypes = JSON.parse(state.enterpriseTypes);
-    enterpriseTypes.push(pack);
+    enterpriseTypes.push(enterpriseType);
     state.enterpriseTypes = JSON.stringify(enterpriseTypes);
   },
-  UPDATE_ENTERPRISE_TYPE(state, pack) {
+  UPDATE_ENTERPRISE_TYPE(state, enterpriseType) {
     let enterpriseTypes = JSON.parse(state.enterpriseTypes);
-    const index = enterpriseTypes.findIndex((p) => p.id === pack.id);
+    const index = enterpriseTypes.findIndex((p) => p.id === enterpriseType.id);
     if (index !== -1) {
-      enterpriseTypes.splice(index, 1, pack);
+      enterpriseTypes.splice(index, 1, enterpriseType);
       state.enterpriseTypes = JSON.stringify(enterpriseTypes);
     }
   },

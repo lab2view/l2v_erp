@@ -45,7 +45,7 @@
                 @click.prevent="
                   $router.push({
                     name: 'enterprise.type.form',
-                    params: { id: enterprise.id },
+                    params: { id: enterpriseType.id },
                   })
                 "
               >

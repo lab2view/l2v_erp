@@ -9,10 +9,10 @@
         v-model="enterpriseTypeForm.label"
         class="form-control"
         type="text"
-        placeholder="Achat, Sell..."
+        placeholder="Branch, Agency..."
         required
       />
-      <div v-if="errors.label" class="invalid-feedback" style="display: inline">
+      <div v-if="errors.label && errors.label.length" class="invalid-feedback" style="display: inline">
         {{ errors.label[0] }}
       </div>
     </div>
@@ -26,9 +26,8 @@
         class="form-control"
         type="text"
         placeholder="Petite description.."
-        required
       ></textarea>
-      <div v-if="errors.description" class="invalid-feedback" style="display: inline">
+      <div v-if="errors.description && errors.description.length" class="invalid-feedback" style="display: inline">
         {{ errors.description[0] }}
       </div>
     </div>
@@ -66,8 +65,6 @@ export default {
     },
   },
   created() {
-    console.log('this.enterpriseType');
-    console.log(this.enterpriseType);
     if (this.enterpriseType && this.enterpriseType.id) this.enterpriseTypeForm = this.enterpriseType;
   },
   beforeUnmount() {
