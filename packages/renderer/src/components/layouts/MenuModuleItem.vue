@@ -1,6 +1,6 @@
 <template>
   <li class="dropdown">
-    <a class="nav-link menu-title" :class="linkClass" href="javascript:void(0)">
+    <a :class="linkClass" class="nav-link menu-title" href="javascript:void(0)">
       <i :data-feather="menu.icon"></i
       ><span>{{
         menu.label ?? $t(`menu.${menu.code?.toString().toLowerCase()}`)
@@ -12,13 +12,13 @@
     </a>
     <ul
       v-if="menu.items.length > 0"
-      class="nav-submenu menu-content"
       :style="subMenuStyle"
+      class="nav-submenu menu-content"
     >
       <li v-for="(item, indexItem) in menu.items" :key="`submenu-${indexItem}`">
-        <router-link :to="{ name: item.to }">{{
-          $t(`menu.${item.code?.toString().toLowerCase()}`)
-        }}</router-link>
+        <router-link :to="{ name: item.to }"
+          >{{ $t(`menu.${item.code?.toString().toLowerCase()}`) }}
+        </router-link>
       </li>
     </ul>
   </li>

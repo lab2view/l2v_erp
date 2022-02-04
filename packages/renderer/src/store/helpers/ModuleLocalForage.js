@@ -68,15 +68,65 @@ const PropertyConfig = new VuexPersistence({
   reducer: (state) => ({ propertyConfig: state.propertyConfig }),
 });
 
-// const Workspace = new VuexPersistence({
-//   key: "workspace",
-//   storage: localStore,
-//   asyncStorage: true,
-//   reducer: (state) => ({ workspace: state.workspace }),
-// });
+const Product = new VuexPersistence({
+  key: 'product',
+  storage: localStore,
+  asyncStorage: true,
+  reducer: (state) => ({ product: state.product }),
+});
+
+const Article = new VuexPersistence({
+  key: 'article',
+  storage: localStore,
+  asyncStorage: true,
+  reducer: (state) => ({ article: state.article }),
+});
+
+const Enterprise = new VuexPersistence({
+  key: 'enterprise',
+  storage: localStore,
+  asyncStorage: true,
+  reducer: (state) => ({ enterprise: state.enterprise }),
+});
+
+const EnterpriseTypeConfig = new VuexPersistence({
+  key: 'enterpriseTypeConfig',
+  storage: localStore,
+  asyncStorage: true,
+  reducer: (state) => ({ enterpriseTypeConfig: state.enterpriseTypeConfig }),
+});
+
+const Country = new VuexPersistence({
+  key: 'country',
+  storage: localStore,
+  asyncStorage: true,
+  reducer: (state) => ({ country: state.country }),
+});
+
+const Localization = new VuexPersistence({
+  key: 'localization',
+  storage: localStore,
+  asyncStorage: true,
+  reducer: (state) => ({ localization: state.localization }),
+});
+
+const Module = new VuexPersistence({
+  key: 'module',
+  storage: localStore,
+  asyncStorage: true,
+  reducer: (state) => ({ module: state.module }),
+});
+
+const Region = new VuexPersistence({
+  key: 'region',
+  storage: localStore,
+  asyncStorage: true,
+  reducer: (state) => ({ region: state.region }),
+});
 
 export default [
   Auth.plugin,
+  Product.plugin,
   PackageConfig.plugin,
   PropertyConfig.plugin,
   TaxConfig.plugin,
@@ -84,4 +134,11 @@ export default [
   ProductFamilyConfig.plugin,
   ProductTypeConfig.plugin,
   ProductUnitConfig.plugin,
+  Article.plugin,
+  Enterprise.plugin,
+  EnterpriseTypeConfig.plugin,
+  Country.plugin,
+  Localization.plugin,
+  Module.plugin,
+  Region.plugin,
 ];

@@ -1,5 +1,7 @@
-import productRoutes from './productRoutes';
+import productRoutes from './product/routes';
 import articleRoutes from './articleRoutes';
+import { enterpriseRoutes } from './structures/enterpriseRoutes';
+import { localizationRoutes } from './structures/localizationRoutes';
 
 const workspace = [
   {
@@ -21,5 +23,16 @@ const workspace = [
     component: () => import('/@/components/articles/ArticleLayout.vue'),
     children: articleRoutes,
   },
+  {
+    path: 'enterprises',
+    component: () => import('/@/components/structures/EnterpriseLayout.vue'),
+    children: enterpriseRoutes,
+  },
+  {
+    path: 'localizations',
+    component: () => import('/@/components/structures/LocalizationLayout.vue'),
+    children: localizationRoutes,
+  },
 ];
+
 export default workspace;

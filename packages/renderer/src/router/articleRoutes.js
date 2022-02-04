@@ -5,7 +5,7 @@ const articleRoutes = [
     component: () => import('/@/views/articles/ArticleList.vue'),
   },
   {
-    path: ':id?/forms',
+    path: ':id?/form',
     name: 'article.form',
     component: () => import('/@/views/articles/Form.vue'),
   },
@@ -18,7 +18,7 @@ const articleRoutes = [
     children: [
       {
         path: '',
-        name: 'article.detail',
+        name: 'article.details',
         component: () => import('/@/views/articles/details/Details.vue'),
       },
     ],

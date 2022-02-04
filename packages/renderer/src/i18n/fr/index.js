@@ -3,6 +3,7 @@ import messages from './messages';
 import product from './product';
 import menu from './menu';
 import article from './article';
+import structures from './structures';
 
 export default {
   common,
@@ -10,4 +11,5 @@ export default {
   messages,
   product,
   article,
+  structures,
 };

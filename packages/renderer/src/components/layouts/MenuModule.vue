@@ -1,7 +1,7 @@
 <template>
   <li class="sidebar-main-title">
     <div>
-      <h6>{{ $t(`menu.module.${module.code.toString().toLowerCase()}`) }}</h6>
+      <h6>{{ $t(`menu.modules.${module.code.toString().toLowerCase()}`) }}</h6>
     </div>
   </li>
   <MenuModuleItem
