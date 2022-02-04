@@ -1,6 +1,6 @@
-import productFamilyService from '../../services/products/ProductFamilyService';
-import { notify } from '../../helpers/notify';
-import i18n from '../../i18n';
+import productFamilyService from '../../../services/products/ProductFamilyService';
+import { notify } from '../../../helpers/notify';
+import i18n from '../../../i18n';
 
 const state = {
   productFamilies: null,
@@ -10,8 +10,10 @@ const state = {
 
 // getters
 const getters = {
-  productFamilies: (state) => (state.productFamilies ? JSON.parse(state.productFamilies) : []),
-  productFamily: (state) => (state.productFamily ? JSON.parse(state.productFamily) : null),
+  productFamilies: (state) =>
+    state.productFamilies ? JSON.parse(state.productFamilies) : [],
+  productFamily: (state) =>
+    state.productFamily ? JSON.parse(state.productFamily) : null,
 };
 
 // privileges
@@ -27,7 +29,9 @@ const actions = {
   },
 
   getProductFamily({ getters, commit }, id) {
-    const productFamily = getters.productFamilies.find((p) => p.id.toString() === id);
+    const productFamily = getters.productFamilies.find(
+      (p) => p.id.toString() === id
+    );
     if (productFamily !== undefined) {
       commit('SET_CURRENT_PRODUCT_FAMILY', productFamily);
       return productFamily;

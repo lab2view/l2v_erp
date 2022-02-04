@@ -1,6 +1,6 @@
-import productService from '../../services/products/ProductService';
-import { notify } from '../../helpers/notify';
-import i18n from '../../i18n';
+import productService from '../../../services/products/ProductService';
+import { notify } from '../../../helpers/notify';
+import i18n from '../../../i18n';
 
 const state = {
   products: null,
@@ -13,6 +13,8 @@ const getters = {
   products: (state) => (state.products ? JSON.parse(state.products) : []),
   product: (state) => (state.product ? JSON.parse(state.product) : null),
   haveProduct: (state) => !!state.product,
+  product_properties: (state, getters) =>
+    getters.product ? getters.product.product_properties : [],
 };
 
 // privileges
@@ -42,6 +44,8 @@ const actions = {
   addProduct({ commit }, productField) {
     return productService.add(productField).then(({ data }) => {
       commit('ADD_PRODUCT', data);
+      commit('article/ADD_ARTICLE', data.articles[0], { root: true });
+      commit('SET_CURRENT_PRODUCT', data);
       notify(i18n.global.t('product.form.store'), 'Ok', 'theme', 'fa fa-check');
       return data;
     });
@@ -58,6 +62,7 @@ const actions = {
           'fa fa-check'
         );
         commit('UPDATE_PRODUCT', data);
+        commit('SET_CURRENT_PRODUCT', data);
         return data;
       });
   },
@@ -65,8 +70,18 @@ const actions = {
   deleteProduct({ commit }, productId) {
     return productService.delete(productId).then(({ data }) => {
       commit('DELETE_PRODUCT', productId);
+      commit('article/DELETE_ARTICLE_BY_PRODUCT', productId, { root: true });
       return data;
     });
+  },
+
+  saveProperties({ getters, commit }, properties) {
+    return productService
+      .saveProperties(properties, getters.product.id)
+      .then(({ data }) => {
+        commit('PUSH_PRODUCT_PROPERTIES', data.properties);
+        return data;
+      });
   },
 };
 
@@ -76,15 +91,16 @@ const mutations = {
     state.products = JSON.stringify(products);
   },
   SET_CURRENT_PRODUCT(state, product) {
-    if (state.product !== product) state.product = JSON.stringify(product);
+    if (state.product !== product)
+      state.product = product === null ? null : JSON.stringify(product);
   },
   ADD_PRODUCT(state, product) {
-    let products = JSON.parse(state.products);
+    let products = state.products ? JSON.parse(state.products) : [];
     products.push(product);
     state.products = JSON.stringify(products);
   },
   UPDATE_PRODUCT(state, product) {
-    let products = JSON.parse(state.products);
+    let products = state.products ? JSON.parse(state.products) : [];
     const index = products.findIndex((p) => p.id === product.id);
     if (index !== -1) {
       products.splice(index, 1, product);
@@ -95,6 +111,19 @@ const mutations = {
     state.products = JSON.stringify(
       JSON.parse(state.products).filter((p) => p.id !== productId)
     );
+  },
+  PUSH_PRODUCT_PROPERTIES(state, properties) {
+    let products = state.products ? JSON.parse(state.products) : [];
+    let product = JSON.parse(state.product);
+    const index = products.findIndex((p) => p.id === product.id);
+    if (index !== -1) {
+      properties.forEach((property) =>
+        product.product_properties.push(property)
+      );
+      state.product = JSON.stringify(product);
+      products.splice(index, 1, product);
+      state.products = JSON.stringify(products);
+    }
   },
 };
 

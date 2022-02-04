@@ -1,6 +1,6 @@
-import taxService from '../../services/products/TaxService';
-import { notify } from '../../helpers/notify';
-import i18n from '../../i18n';
+import taxService from '../../../services/products/TaxService';
+import { notify } from '../../../helpers/notify';
+import i18n from '../../../i18n';
 
 const state = {
   taxes: null,
@@ -41,29 +41,17 @@ const actions = {
   addTax({ commit }, taxField) {
     return taxService.add(taxField).then(({ data }) => {
       commit('ADD_TAX', data);
-      notify(
-        i18n.global.t('product.tax.store'),
-        'Ok',
-        'theme',
-        'fa fa-check'
-      );
+      notify(i18n.global.t('product.tax.store'), 'Ok', 'theme', 'fa fa-check');
       return data;
     });
   },
 
   updateTax({ commit }, taxField) {
-    return taxService
-      .update(taxField, taxField.id)
-      .then(({ data }) => {
-        notify(
-          i18n.global.t('product.tax.update'),
-          'Ok',
-          'theme',
-          'fa fa-check'
-        );
-        commit('UPDATE_TAX', data);
-        return data;
-      });
+    return taxService.update(taxField, taxField.id).then(({ data }) => {
+      notify(i18n.global.t('product.tax.update'), 'Ok', 'theme', 'fa fa-check');
+      commit('UPDATE_TAX', data);
+      return data;
+    });
   },
 
   deleteTax({ commit }, taxId) {

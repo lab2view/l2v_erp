@@ -12,7 +12,7 @@
 <script>
 import BaseContainer from '../../components/common/BaseContainer.vue';
 import BaseWizardStep from '../common/BaseWizardStep.vue';
-import { productFormRoutes } from '../../router/productFormRoutes';
+import { formRoutes } from '../../router/product/formRoutes';
 import { mapGetters } from 'vuex';
 
 export default {
@@ -20,7 +20,7 @@ export default {
   computed: {
     ...mapGetters('product', ['haveProduct']),
     items() {
-      let results = Object.assign([], productFormRoutes);
+      let results = Object.assign([], formRoutes);
       return results.map((pfr) => {
         return {
           name: pfr.name,
@@ -29,7 +29,7 @@ export default {
           title: pfr.meta.title ?? null,
           disabled: pfr.meta.requireProduct ? !this.haveProduct : false,
           class: `${this.haveProduct ? 'activated' : ''} ${
-            this.$route.name === pfr.name ? 'active' : ''
+            RegExp(`^${pfr.name}*`).test(this.$route.name) ? 'active' : ''
           }`,
         };
       });

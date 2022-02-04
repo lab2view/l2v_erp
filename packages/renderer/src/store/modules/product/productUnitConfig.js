@@ -1,6 +1,6 @@
-import productUnitService from '../../services/products/ProductUnitService';
-import { notify } from '../../helpers/notify';
-import i18n from '../../i18n';
+import productUnitService from '../../../services/products/ProductUnitService';
+import { notify } from '../../../helpers/notify';
+import i18n from '../../../i18n';
 
 const state = {
   productUnits: null,
@@ -10,8 +10,10 @@ const state = {
 
 // getters
 const getters = {
-  productUnits: (state) => (state.productUnits ? JSON.parse(state.productUnits) : []),
-  productUnit: (state) => (state.productUnit ? JSON.parse(state.productUnit) : null),
+  productUnits: (state) =>
+    state.productUnits ? JSON.parse(state.productUnits) : [],
+  productUnit: (state) =>
+    state.productUnit ? JSON.parse(state.productUnit) : null,
 };
 
 // privileges
@@ -27,7 +29,9 @@ const actions = {
   },
 
   getProductUnit({ getters, commit }, id) {
-    const productUnit = getters.productUnits.find((p) => p.id.toString() === id);
+    const productUnit = getters.productUnits.find(
+      (p) => p.id.toString() === id
+    );
     if (productUnit !== undefined) {
       commit('SET_CURRENT_PRODUCT_UNIT', productUnit);
       return productUnit;

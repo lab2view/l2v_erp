@@ -1,6 +1,7 @@
 export default {
   module: {
     products: 'Products',
+    articles: 'Articles',
     stocks: 'Stocks',
     sales: 'Ventes',
     customers: 'Clients',
@@ -16,8 +17,9 @@ export default {
     viewany: 'Liste des produits',
     form: {
       description: 'Description du produit',
-      property: 'Parametrage avance',
-      tax: 'Configuration des taxes',
+      setting: 'Parametrage avance',
+      article: 'Articles',
+      stock: 'Entrees en stocks',
     },
   },
   articles: {
@@ -32,6 +34,7 @@ export default {
   },
   package: {
     viewany: 'Conditionnements',
+    create: 'Ajouter un conditionnement',
   },
   pricetype: {
     viewany: 'Types de prix',
@@ -50,5 +53,12 @@ export default {
   },
   property: {
     viewany: 'Proprietes',
+  },
+  stock: {
+    manage: 'Stocks',
+  },
+  movement: {
+    entry: "Mouvements d'entrees",
+    exit: 'Mouvements de sortis',
   },
 };

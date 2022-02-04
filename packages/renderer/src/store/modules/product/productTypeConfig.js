@@ -1,6 +1,6 @@
-import productTypeService from '../../services/products/ProductTypeService';
-import { notify } from '../../helpers/notify';
-import i18n from '../../i18n';
+import productTypeService from '../../../services/products/ProductTypeService';
+import { notify } from '../../../helpers/notify';
+import i18n from '../../../i18n';
 
 const state = {
   productTypes: null,
@@ -10,8 +10,10 @@ const state = {
 
 // getters
 const getters = {
-  productTypes: (state) => (state.productTypes ? JSON.parse(state.productTypes) : []),
-  productType: (state) => (state.productType ? JSON.parse(state.productType) : null),
+  productTypes: (state) =>
+    state.productTypes ? JSON.parse(state.productTypes) : [],
+  productType: (state) =>
+    state.productType ? JSON.parse(state.productType) : null,
 };
 
 // privileges
@@ -27,7 +29,9 @@ const actions = {
   },
 
   getProductType({ getters, commit }, id) {
-    const productType = getters.productTypes.find((p) => p.id.toString() === id);
+    const productType = getters.productTypes.find(
+      (p) => p.id.toString() === id
+    );
     if (productType !== undefined) {
       commit('SET_CURRENT_PRODUCT_TYPE', productType);
       return productType;

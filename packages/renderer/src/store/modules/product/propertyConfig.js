@@ -1,6 +1,6 @@
-import propertyService from '../../services/products/PropertyService';
-import { notify } from '../../helpers/notify';
-import i18n from '../../i18n';
+import propertyService from '../../../services/products/PropertyService';
+import { notify } from '../../../helpers/notify';
+import i18n from '../../../i18n';
 
 const state = {
   properties: null,

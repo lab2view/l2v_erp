@@ -75,12 +75,33 @@ const Product = new VuexPersistence({
   reducer: (state) => ({ product: state.product }),
 });
 
-// const Workspace = new VuexPersistence({
-//   key: "workspace",
-//   storage: localStore,
-//   asyncStorage: true,
-//   reducer: (state) => ({ workspace: state.workspace }),
-// });
+const Article = new VuexPersistence({
+  key: 'article',
+  storage: localStore,
+  asyncStorage: true,
+  reducer: (state) => ({ article: state.article }),
+});
+
+const StockProvision = new VuexPersistence({
+  key: 'stock_provision',
+  storage: localStore,
+  asyncStorage: true,
+  reducer: (state) => ({ stock_provision: state.stock_provision }),
+});
+
+const StockExit = new VuexPersistence({
+  key: 'stock_exit',
+  storage: localStore,
+  asyncStorage: true,
+  reducer: (state) => ({ stock_exit: state.stock_exit }),
+});
+
+const StockExitLine = new VuexPersistence({
+  key: 'stock_exit_line',
+  storage: localStore,
+  asyncStorage: true,
+  reducer: (state) => ({ stock_exit_line: state.stock_exit_line }),
+});
 
 export default [
   Auth.plugin,
@@ -92,4 +113,8 @@ export default [
   ProductFamilyConfig.plugin,
   ProductTypeConfig.plugin,
   ProductUnitConfig.plugin,
+  Article.plugin,
+  StockProvision.plugin,
+  StockExit.plugin,
+  StockExitLine.plugin,
 ];

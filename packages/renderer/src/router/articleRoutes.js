@@ -18,7 +18,7 @@ const articleRoutes = [
     children: [
       {
         path: '',
-        name: 'article.detail',
+        name: 'article.details',
         component: () => import('/@/views/articles/details/Details.vue'),
       },
     ],
