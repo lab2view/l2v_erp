@@ -10,10 +10,8 @@ const state = {
 
 // getters
 const getters = {
-  modules: (state) =>
-    state.modules ? JSON.parse(state.modules) : [],
-  module: (state) =>
-    state.module ? JSON.parse(state.module) : null,
+  modules: (state) => (state.modules ? JSON.parse(state.modules) : []),
+  module: (state) => (state.module ? JSON.parse(state.module) : null),
 };
 
 const actions = {
@@ -28,9 +26,7 @@ const actions = {
   },
 
   getModule({ getters, commit }, id) {
-    const module = getters.modules.find(
-      (p) => p.id.toString() === id
-    );
+    const module = getters.modules.find((p) => p.id.toString() === id);
     if (module !== undefined) {
       commit('SET_CURRENT_MODULE', module);
       return module;
@@ -82,19 +78,19 @@ const mutations = {
   SET_MODULES(state, modules) {
     state.modules = JSON.stringify(modules);
   },
-  SET_CURRENT_MODULE(state, pack) {
-    state.module = JSON.stringify(pack);
+  SET_CURRENT_MODULE(state, module) {
+    state.module = JSON.stringify(module);
   },
-  ADD_MODULE(state, pack) {
+  ADD_MODULE(state, module) {
     let modules = JSON.parse(state.modules);
-    modules.push(pack);
+    modules.push(module);
     state.modules = JSON.stringify(modules);
   },
-  UPDATE_MODULE(state, pack) {
+  UPDATE_MODULE(state, module) {
     let modules = JSON.parse(state.modules);
-    const index = modules.findIndex((p) => p.id === pack.id);
+    const index = modules.findIndex((p) => p.id === module.id);
     if (index !== -1) {
-      modules.splice(index, 1, pack);
+      modules.splice(index, 1, module);
       state.modules = JSON.stringify(modules);
     }
   },

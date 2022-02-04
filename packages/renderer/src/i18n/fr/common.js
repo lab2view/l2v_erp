@@ -19,7 +19,7 @@ export default {
     date: 'Date',
     time: 'Heure',
     datetime: 'Date et Heure',
-    url: "Lien",
+    url: 'Lien',
     radio: 'Choix boolean',
   },
 
@@ -31,7 +31,13 @@ export default {
   },
 
   attributes: {
+    calling_code: "Code d'appel",
+    iso: 'Iso',
+    iso_3166_2: 'iso_3166_2',
+    iso_3166_3: 'iso_3166_3',
+    phone_length: 'Nombre de chiffres du numero',
     code: 'Code',
+    status: 'Status',
     label: 'Libelle',
     name: 'Nom',
     email: 'Email',
@@ -59,6 +65,10 @@ export default {
     logo: 'Logo',
     po_box: 'PO Box',
     currency: 'Devise',
+    currency_name: 'Nom de la devise',
+    currency_code: 'Code de la devise',
+    currency_symbol: 'Symbole de la devise',
+    timezone: 'Fuseau horaire',
     database: 'Base de donnees',
     phone: 'Telephone',
     domain: 'Nom de domaine',

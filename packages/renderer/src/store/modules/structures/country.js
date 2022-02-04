@@ -10,35 +10,42 @@ const state = {
 
 // getters
 const getters = {
-  countries: (state) =>
-    state.countries ? JSON.parse(state.countries) : [],
-  country: (state) =>
-    state.country ? JSON.parse(state.country) : null,
+  allCountries: (state) => {
+    let countries = state.countries ? JSON.parse(state.countries) : [];
+    return countries && countries.length ? countries : [];
+  },
+  countries: (state) => {
+    let countries = state.countries ? JSON.parse(state.countries) : [];
+    return countries && countries.length
+      ? countries.filter((country) => country.is_active === true)
+      : [];
+  },
+  country: (state) => (state.country ? JSON.parse(state.country) : null),
 };
 
 const actions = {
   getCountriesList({ commit, getters }, { page, field }) {
     if (getters.countries.length > 0) {
       return getters.countries;
-    } else
-      return countryService.getCountriesList(page, field).then(({ data }) => {
-        commit('SET_COUNTRIES', data);
-        return data;
-      });
+    }
+
+    return countryService.getCountriesList(page, field).then(({ data }) => {
+      commit('SET_COUNTRIES', data);
+      return data;
+    });
   },
 
   getCountry({ getters, commit }, id) {
-    const country = getters.countries.find(
-      (p) => p.id.toString() === id
-    );
+    const country = getters.countries.find((p) => p.id.toString() === id);
     if (country !== undefined) {
       commit('SET_CURRENT_COUNTRY', country);
       return country;
-    } else
-      return countryService.getCountry(id).then(({ data }) => {
-        commit('SET_CURRENT_COUNTRY', data);
-        return data;
-      });
+    }
+
+    return countryService.getCountry(id).then(({ data }) => {
+      commit('SET_CURRENT_COUNTRY', data);
+      return data;
+    });
   },
 
   addCountry({ commit }, countryField) {
@@ -69,6 +76,32 @@ const actions = {
       });
   },
 
+  updateCountryStatus({ state, commit }, countryField) {
+    let country = state.country
+      ? JSON.parse(state.country)
+      : JSON.parse(state.countries).find((country) => {
+          return country.id.toString() === countryField.id.toString();
+        });
+    return countryService
+      .updateCountry(
+        {
+          ...country,
+          is_active: countryField.is_active,
+        },
+        countryField.id
+      )
+      .then(({ data }) => {
+        notify(
+          i18n.global.t('structures.country.update'),
+          'Ok',
+          'theme',
+          'fa fa-check'
+        );
+        commit('UPDATE_COUNTRY', data);
+        return data;
+      });
+  },
+
   deleteCountry({ commit }, countryId) {
     return countryService.deleteCountry(countryId).then(({ data }) => {
       commit('DELETE_COUNTRY', countryId);
@@ -82,21 +115,26 @@ const mutations = {
   SET_COUNTRIES(state, countries) {
     state.countries = JSON.stringify(countries);
   },
-  SET_CURRENT_COUNTRY(state, pack) {
-    state.country = JSON.stringify(pack);
+  SET_CURRENT_COUNTRY(state, country) {
+    state.country = JSON.stringify(country);
   },
-  ADD_COUNTRY(state, pack) {
-    let countries = JSON.parse(state.countries);
-    countries.push(pack);
+  ADD_COUNTRY(state, country) {
+    let countries = null;
+    if (state.countries) {
+      countries = JSON.parse(state.countries);
+      countries.push(country);
+    } else {
+      countries = [country];
+    }
     state.countries = JSON.stringify(countries);
   },
-  UPDATE_COUNTRY(state, pack) {
+  UPDATE_COUNTRY(state, country) {
     let countries = JSON.parse(state.countries);
-    const index = countries.findIndex((p) => p.id === pack.id);
+    const index = countries.findIndex((p) => p.id === country.id);
     if (index !== -1) {
-      countries.splice(index, 1, pack);
-      state.countries = JSON.stringify(countries);
+      countries.splice(index, 1, country);
     }
+    state.countries = JSON.stringify(countries);
   },
   DELETE_COUNTRY(state, countryId) {
     state.countries = JSON.stringify(

@@ -11,8 +11,11 @@ const state = {
 
 // getters
 const getters = {
-  enterprises: (state) => (state.enterprises ? JSON.parse(state.enterprises) : []),
-  enterprise: (state) => (state.enterprise ? JSON.parse(state.enterprise) : null),
+  enterprises: (state) =>
+    state.enterprises ? JSON.parse(state.enterprises) : [],
+  enterprise: (state) =>
+    state.enterprise ? JSON.parse(state.enterprise) : null,
+  haveEnterprise: (state) => !!state.enterprise,
 };
 
 const actions = {
@@ -20,10 +23,12 @@ const actions = {
     if (getters.enterprises.length > 0) {
       return getters.enterprises;
     } else
-      return enterpriseService.getEnterprisesList(page, field).then(({ data }) => {
-        commit('SET_ENTERPRISES', data);
-        return data;
-      });
+      return enterpriseService
+        .getEnterprisesList(page, field)
+        .then(({ data }) => {
+          commit('SET_ENTERPRISES', data);
+          return data;
+        });
   },
 
   getEnterprise({ getters, commit }, id) {
@@ -53,7 +58,12 @@ const actions = {
   addEnterprise({ commit }, enterpriseField) {
     return enterpriseService.addEnterprise(enterpriseField).then(({ data }) => {
       commit('ADD_ENTERPRISE', data);
-      notify(i18n.global.t('structures.enterprise.store'), 'Ok', 'theme', 'fa fa-check');
+      notify(
+        i18n.global.t('structures.enterprise.store'),
+        'Ok',
+        'theme',
+        'fa fa-check'
+      );
       return data;
     });
   },
@@ -82,12 +92,19 @@ const actions = {
   },
 
   addEnterpriseModule({ commit }, enterpriseField) {
-    return enterpriseService.addEnterpriseModule(enterpriseField).then(({ data }) => {
-      notify(i18n.global.t('structures.enterpriseModule.store'), 'Ok', 'theme', 'fa fa-check');
-      commit('UPDATE_ENTERPRISE', data);
-      commit('SET_CURRENT_ENTERPRISE', data);
-      return data;
-    });
+    return enterpriseService
+      .addEnterpriseModule(enterpriseField)
+      .then(({ data }) => {
+        notify(
+          i18n.global.t('structures.enterpriseModule.store'),
+          'Ok',
+          'theme',
+          'fa fa-check'
+        );
+        commit('UPDATE_ENTERPRISE', data);
+        commit('SET_CURRENT_ENTERPRISE', data);
+        return data;
+      });
   },
 
   updateEnterpriseModule({ commit }, enterpriseField) {
@@ -107,17 +124,19 @@ const actions = {
   },
 
   deleteEnterpriseModule({ commit }, enterpriseId) {
-    return enterpriseService.deleteEnterpriseModule(enterpriseId).then(({ data }) => {
-      notify(
-        i18n.global.t('structures.enterpriseModule.delete'),
-        'Ok',
-        'theme',
-        'fa fa-check'
-      );
-      commit('UPDATE_ENTERPRISE', data);
-      commit('SET_CURRENT_ENTERPRISE', data);
-      return data;
-    });
+    return enterpriseService
+      .deleteEnterpriseModule(enterpriseId)
+      .then(({ data }) => {
+        notify(
+          i18n.global.t('structures.enterpriseModule.delete'),
+          'Ok',
+          'theme',
+          'fa fa-check'
+        );
+        commit('UPDATE_ENTERPRISE', data);
+        commit('SET_CURRENT_ENTERPRISE', data);
+        return data;
+      });
   },
 };
 
@@ -128,7 +147,10 @@ const mutations = {
   },
   SET_CURRENT_ENTERPRISE(state, enterprise) {
     state.enterprise = enterprise === null ? null : JSON.stringify(enterprise);
-    state.enterprise_modules = enterprise === null || enterprise.modules === null ? null : JSON.stringify(enterprise.modules);
+    state.enterprise_modules =
+      enterprise === null || enterprise.modules === null
+        ? null
+        : JSON.stringify(enterprise.modules);
   },
   ADD_ENTERPRISE(state, enterprise) {
     let enterprises = JSON.parse(state.enterprises);

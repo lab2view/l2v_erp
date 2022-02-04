@@ -4,9 +4,10 @@
     <span v-if="required" class="text-danger m-l-5">*</span>
   </label>
   <select
-    class="form-control"
-    :value="modelValue"
+    :disabled="disabled"
     :required="required"
+    :value="modelValue"
+    class="form-control"
     v-bind="{
       ...$attrs,
       onChange: ($event) => {
@@ -14,7 +15,7 @@
       },
     }"
   >
-    <option value="" disabled selected>
+    <option disabled selected value="">
       {{ $t('common.choose') }}
     </option>
     <option
@@ -58,6 +59,10 @@ export default {
       default: null,
     },
     required: {
+      type: [Boolean],
+      default: false,
+    },
+    disabled: {
       type: [Boolean],
       default: false,
     },

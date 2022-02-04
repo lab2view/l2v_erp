@@ -1,7 +1,7 @@
 <template>
   <BaseContainer
-    :title="$t('structures.title')"
     :module="$t('structures.countries')"
+    :title="$t('structures.title')"
   >
     <div class="card">
       <div class="card-header pb-2 border-bottom border-bottom-">
@@ -11,14 +11,26 @@
           </div>
           <div class="col-sm-auto align-items-end">
             <router-link
-              :to="{ name: 'country.form' }"
-              href="#"
+              :to="{ name: 'country.activate' }"
               class="btn btn-primary"
+              href="#"
               type="button"
             >
-              <i class="fa fa-plus m-r-5" />
-              {{ $t('common.add') }}
+              <i class="fa fa-pencil m-r-5" />
+              {{ $t('structures.country.activate_country') }}
             </router-link>
+            <!--
+                      <div class="col-sm-auto align-items-end">
+                        <router-link
+                          :to="{ name: 'country.form' }"
+                          href="#"
+                          class="btn btn-primary"
+                          type="button"
+                        >
+                          <i class="fa fa-plus m-r-5" />
+                          {{ $t('common.add') }}
+                        </router-link>
+            -->
           </div>
         </div>
       </div>
@@ -39,22 +51,28 @@
           <tr v-for="country in countries" :key="country.id">
             <td>{{ country.id }}</td>
             <td>{{ country.name }}</td>
-            <td>{{ (country.iso_3166_2 ?? 'none') + ' ' + (country.iso_3166_3 ?? 'none') }}</td>
-            <td>{{ country.calling_code  }}</td>
-            <td>{{ country.currency_name  }}</td>
+            <td>
+              {{
+                (country.iso_3166_2 ?? 'none') +
+                ' ' +
+                (country.iso_3166_3 ?? 'none')
+              }}
+            </td>
+            <td>{{ country.calling_code }}</td>
+            <td>{{ country.currency_name }}</td>
             <td>{{ country.currency }}</td>
             <td>{{ country.currency_symbol }}</td>
             <td>{{ country.phone_length }}</td>
             <td>{{ country.timezone }}</td>
             <td>
               <button
-                class="btn btn-secondary btn-xs"
-                type="button"
-                data-original-title="btn btn-secondary btn-xs"
                 :title="$t('common.update')"
+                class="btn btn-secondary btn-xs"
+                data-original-title="btn btn-secondary btn-xs"
+                type="button"
                 @click.prevent="
                   $router.push({
-                    name: 'country.form',
+                    name: 'country.activate',
                     params: { id: country.id },
                   })
                 "
@@ -62,10 +80,10 @@
                 {{ $t('common.update') }}
               </button>
               <button
-                class="btn btn-danger btn-xs m-l-5"
-                type="button"
-                data-original-title="btn btn-danger btn-xs"
                 :title="$t('common.delete')"
+                class="btn btn-danger btn-xs m-l-5"
+                data-original-title="btn btn-danger btn-xs"
+                type="button"
                 @click.prevent="deleteCountry(country)"
               >
                 <i class="fa fa-trash-o" />
@@ -73,7 +91,6 @@
             </td>
           </tr>
         </BaseDatatable>
-
       </div>
 
       <router-view />
@@ -104,15 +121,20 @@ export default {
       });
   },
   computed: {
-      ...mapGetters('country', ['countries', 'country']),
+    ...mapGetters('country', ['countries', 'country']),
   },
   created() {
-    if (this.country && this.country.id) this.$store.commit('country/SET_CURRENT_COUNTRY', null);
+    if (this.country && this.country.id)
+      this.$store.commit('country/SET_CURRENT_COUNTRY', null);
   },
 
   methods: {
     deleteCountry(country) {
-      if (confirm(this.$t('messages.confirmDeactivation', { label: country.name })))
+      if (
+        confirm(
+          this.$t('messages.confirmDeactivation', { label: country.name })
+        )
+      )
         this.$store.dispatch('country/deleteCountry', country.id);
     },
   },

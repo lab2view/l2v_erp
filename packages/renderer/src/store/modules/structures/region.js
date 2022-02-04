@@ -10,10 +10,8 @@ const state = {
 
 // getters
 const getters = {
-  regions: (state) =>
-    state.regions ? JSON.parse(state.regions) : [],
-  region: (state) =>
-    state.region ? JSON.parse(state.region) : null,
+  regions: (state) => (state.regions ? JSON.parse(state.regions) : []),
+  region: (state) => (state.region ? JSON.parse(state.region) : null),
 };
 
 const actions = {
@@ -28,9 +26,7 @@ const actions = {
   },
 
   getRegion({ getters, commit }, id) {
-    const region = getters.regions.find(
-      (p) => p.id.toString() === id
-    );
+    const region = getters.regions.find((p) => p.id.toString() === id);
     if (region !== undefined) {
       commit('SET_CURRENT_REGION', region);
       return region;
@@ -82,19 +78,19 @@ const mutations = {
   SET_REGIONS(state, regions) {
     state.regions = JSON.stringify(regions);
   },
-  SET_CURRENT_REGION(state, pack) {
-    state.region = JSON.stringify(pack);
+  SET_CURRENT_REGION(state, region) {
+    state.region = JSON.stringify(region);
   },
-  ADD_REGION(state, pack) {
+  ADD_REGION(state, region) {
     let regions = JSON.parse(state.regions);
-    regions.push(pack);
+    regions.push(region);
     state.regions = JSON.stringify(regions);
   },
-  UPDATE_REGION(state, pack) {
+  UPDATE_REGION(state, region) {
     let regions = JSON.parse(state.regions);
-    const index = regions.findIndex((p) => p.id === pack.id);
+    const index = regions.findIndex((p) => p.id === region.id);
     if (index !== -1) {
-      regions.splice(index, 1, pack);
+      regions.splice(index, 1, region);
       state.regions = JSON.stringify(regions);
     }
   },

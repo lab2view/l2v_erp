@@ -5,9 +5,7 @@ export const localizationRoutes = [
     path: '',
     name: 'localizations',
     component: () =>
-      import(
-        '/@/views/structures/localizations/LocalizationsList.vue'
-      ),
+      import('/@/views/structures/localizations/LocalizationsList.vue'),
     meta: {
       code: 'Localization.viewAny',
       feather: 'filter',
@@ -17,9 +15,7 @@ export const localizationRoutes = [
         path: 'form/:id?',
         name: 'localization.form',
         component: () =>
-          import(
-            '/@/views/structures/localizations/LocalizationForm.vue'
-          ),
+          import('/@/views/structures/localizations/LocalizationForm.vue'),
         beforeEnter: (to) => {
           if (to.params.id) {
             return store
@@ -37,9 +33,7 @@ export const localizationRoutes = [
     path: 'countries',
     name: 'countries',
     component: () =>
-      import(
-        '/@/views/structures/localizations/CountriesList.vue'
-        ),
+      import('/@/views/structures/localizations/CountriesList.vue'),
     meta: {
       code: 'Country.viewAny',
       feather: 'filter',
@@ -49,9 +43,23 @@ export const localizationRoutes = [
         path: 'form/:id?',
         name: 'country.form',
         component: () =>
-          import(
-            '/@/views/structures/localizations/CountryForm.vue'
-            ),
+          import('/@/views/structures/localizations/CountryForm.vue'),
+        beforeEnter: (to) => {
+          if (to.params.id) {
+            return store
+              .dispatch('country/getCountry', to.params.id)
+              .then(() => {
+                return { name: to.name };
+              })
+              .catch(() => -1);
+          }
+        },
+      },
+      {
+        path: 'form/:id?/update',
+        name: 'country.activate',
+        component: () =>
+          import('/@/views/structures/localizations/CountryActivationForm.vue'),
         beforeEnter: (to) => {
           if (to.params.id) {
             return store
@@ -69,9 +77,7 @@ export const localizationRoutes = [
     path: 'regions',
     name: 'regions',
     component: () =>
-      import(
-        '/@/views/structures/localizations/RegionsList.vue'
-        ),
+      import('/@/views/structures/localizations/RegionsList.vue'),
     meta: {
       code: 'Region.viewAny',
       feather: 'filter',
@@ -81,9 +87,7 @@ export const localizationRoutes = [
         path: 'form/:id?',
         name: 'region.form',
         component: () =>
-          import(
-            '/@/views/structures/localizations/RegionForm.vue'
-            ),
+          import('/@/views/structures/localizations/RegionForm.vue'),
         beforeEnter: (to) => {
           if (to.params.id) {
             return store

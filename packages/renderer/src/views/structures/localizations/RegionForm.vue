@@ -1,38 +1,38 @@
 <template>
-  <BaseFormModal :title="title" :submit-form="submitEnterpriseTypeForm">
-    <div class="form-group mb-3">
-      <label class="form-label fw-bold" for="label">{{
-        $t('common.attributes.name')
-      }}</label>
-      <input
-        id="label"
-        v-model="enterpriseTypeForm.name"
-        class="form-control"
-        type="text"
-        placeholder="Branch, Agency..."
+  <BaseFormModal :submit-form="submitRegionForm" :title="title">
+    <div class="mb-3">
+      <BaseInput
+        v-model="regionForm.name"
+        :errors="errors?.name"
+        :label="$t('common.attributes.name')"
+        placeholder="Douala"
         required
       />
-      <div v-if="errors.name && errors.name.length" class="invalid-feedback" style="display: inline">
-        {{ errors.name[0] }}
-      </div>
     </div>
-    <div class="form-group mb-3">
-      <label class="form-label fw-bold" for="description">{{
-        $t('common.attributes.description')
-      }}</label>
-      <textarea
-        id="description"
-        v-model="enterpriseTypeForm.description"
-        class="form-control"
-        type="text"
-        placeholder="Petite description.."
-      ></textarea>
-      <div v-if="errors.description && errors.description.length" class="invalid-feedback" style="display: inline">
-        {{ errors.description[0] }}
-      </div>
+    <!--
+        <div class="mb-3">
+          <BaseInput
+            v-model="regionForm.code"
+            :errors="errors?.code"
+            :label="$t('common.attributes.code')"
+            placeholder="DLA"
+            required
+          />
+        </div>
+    -->
+    <div class="mb-3">
+      <BaseSelect
+        v-model="regionForm.country_id"
+        :errors="errors?.country_id"
+        :label="$t('common.attributes.country')"
+        :options="countries"
+        key-label="name"
+        key-value="id"
+        required
+      />
     </div>
     <template #footer>
-      <button class="btn btn-primary" type="submit" :title="$t('common.save')">
+      <button :title="$t('common.save')" class="btn btn-primary" type="submit">
         {{ $t('common.save') }}
       </button>
     </template>
@@ -41,41 +41,59 @@
 
 <script>
 import BaseFormModal from '/@/components/common/BaseFormModal.vue';
+import BaseSelect from '/@/components/common/BaseSelect.vue';
+import BaseInput from '/@/components/common/BaseInput.vue';
 import { mapGetters } from 'vuex';
+import store from '/@/store';
 
 export default {
-  components: { BaseFormModal },
+  components: { BaseInput, BaseSelect, BaseFormModal },
+  beforeRouteEnter(routeTo, routeFrom, next) {
+    store
+      .dispatch('country/getCountriesList', {
+        page: 1,
+        field: {},
+      })
+      .then(() => {
+        next();
+      })
+      .catch((error) => {
+        console.log(error);
+        next();
+      });
+  },
   data() {
     return {
       errors: [],
-      enterpriseTypeForm: {
+      regionForm: {
         id: null,
-        label: null,
+        name: null,
         code: null,
-        description: null,
+        country_id: null,
       },
     };
   },
   computed: {
-    ...mapGetters('enterpriseTypeConfig', ['enterpriseType']),
+    ...mapGetters('country', ['countries']),
+    ...mapGetters('region', ['region']),
     title() {
-      return this.enterpriseType && this.enterpriseType.id
-        ? this.$t('structures.enterpriseType.formUpdateTitle')
-        : this.$t('structures.enterpriseType.formCreateTitle');
+      return this.region && this.region.id
+        ? this.$t('structures.region.formUpdateTitle')
+        : this.$t('structures.region.formCreateTitle');
     },
   },
   created() {
-    if (this.enterpriseType && this.enterpriseType.id) this.enterpriseTypeForm = this.enterpriseType;
+    if (this.region && this.region.id) this.regionForm = this.region;
   },
   beforeUnmount() {
-    if (this.enterpriseType && this.enterpriseType.id)
-      this.$store.commit('enterpriseTypeConfig/SET_CURRENT_ENTERPRISE_TYPE', null);
+    if (this.region && this.region.id)
+      this.$store.commit('region/SET_CURRENT_REGION', null);
   },
   methods: {
-    submitEnterpriseTypeForm() {
-      if (this.enterpriseType && this.enterpriseType.id)
+    submitRegionForm() {
+      if (this.region && this.region.id)
         this.$store
-          .dispatch('enterpriseTypeConfig/updateEnterpriseType', this.enterpriseTypeForm)
+          .dispatch('region/updateRegion', this.regionForm)
           .then(() => this.$router.back())
           .catch((error) => {
             this.errors = error.response?.data?.errors;
@@ -83,7 +101,7 @@ export default {
           });
       else
         this.$store
-          .dispatch('enterpriseTypeConfig/addEnterpriseType', this.enterpriseTypeForm)
+          .dispatch('region/addRegion', this.regionForm)
           .then(() => this.$router.back())
           .catch((error) => {
             this.errors = error.response?.data?.errors;

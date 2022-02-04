@@ -1,38 +1,63 @@
 <template>
-  <BaseFormModal :title="title" :submit-form="submitEnterpriseTypeForm">
-    <div class="form-group mb-3">
-      <label class="form-label fw-bold" for="label">{{
-        $t('common.attributes.label')
-      }}</label>
-      <input
-        id="label"
-        v-model="enterpriseTypeForm.label"
-        class="form-control"
-        type="text"
-        placeholder="Branch, Agency..."
+  <BaseFormModal :submit-form="submitLocalizationForm" :title="title">
+    <div class="mb-3">
+      <BaseInput
+        v-model="localizationForm.address"
+        :errors="errors?.address"
+        :label="$t('common.attributes.address')"
+        placeholder="Address"
         required
       />
-      <div v-if="errors.label && errors.label.length" class="invalid-feedback" style="display: inline">
-        {{ errors.label[0] }}
-      </div>
     </div>
-    <div class="form-group mb-3">
-      <label class="form-label fw-bold" for="description">{{
-        $t('common.attributes.description')
-      }}</label>
-      <textarea
-        id="description"
-        v-model="enterpriseTypeForm.description"
-        class="form-control"
-        type="text"
-        placeholder="Petite description.."
-      ></textarea>
-      <div v-if="errors.description && errors.description.length" class="invalid-feedback" style="display: inline">
-        {{ errors.description[0] }}
-      </div>
+    <div class="mb-3">
+      <BaseSelect
+        v-model="localizationForm.country_id"
+        :errors="errors?.country_id"
+        :label="$t('common.attributes.country')"
+        :options="countries"
+        key-label="name"
+        key-value="id"
+        required
+      />
+    </div>
+    <div class="mb-3">
+      <BaseInput
+        v-model="localizationForm.city"
+        :errors="errors?.city"
+        :label="$t('common.attributes.city')"
+        placeholder="City"
+        required
+      />
+    </div>
+    <div class="mb-3">
+      <BaseSelect
+        v-model="localizationForm.region_id"
+        :errors="errors?.region_id"
+        :label="$t('common.attributes.region')"
+        :options="active_regions"
+        key-label="name"
+        key-value="id"
+        required
+      />
+    </div>
+    <div class="mb-3">
+      <BaseInput
+        v-model="localizationForm.longitude"
+        :errors="errors?.longitude"
+        :label="$t('common.attributes.longitude')"
+        placeholder="Longitude"
+      />
+    </div>
+    <div class="mb-3">
+      <BaseInput
+        v-model="localizationForm.latitude"
+        :errors="errors?.latitude"
+        :label="$t('common.attributes.latitude')"
+        placeholder="Latitude"
+      />
     </div>
     <template #footer>
-      <button class="btn btn-primary" type="submit" :title="$t('common.save')">
+      <button :title="$t('common.save')" class="btn btn-primary" type="submit">
         {{ $t('common.save') }}
       </button>
     </template>
@@ -41,41 +66,80 @@
 
 <script>
 import BaseFormModal from '/@/components/common/BaseFormModal.vue';
+import BaseInput from '/@/components/common/BaseInput.vue';
+import BaseSelect from '/@/components/common/BaseSelect.vue';
 import { mapGetters } from 'vuex';
+import store from '/@/store';
 
 export default {
-  components: { BaseFormModal },
+  components: { BaseInput, BaseSelect, BaseFormModal },
+  beforeRouteEnter(routeTo, routeFrom, next) {
+    Promise.all([
+      store.dispatch('country/getCountriesList', {
+        page: 1,
+        field: {},
+      }),
+      store.dispatch('region/getRegionsList', {
+        page: 1,
+        field: {},
+      }),
+    ])
+      .then(() => {
+        next();
+      })
+      .catch((error) => {
+        console.log(error);
+        next();
+      });
+  },
   data() {
     return {
       errors: [],
-      enterpriseTypeForm: {
+      localizationForm: {
         id: null,
-        label: null,
-        code: null,
-        description: null,
+        address: null,
+        latitude: null,
+        longitude: null,
+        country_id: null,
+        region_id: null,
+        city: null,
       },
     };
   },
   computed: {
-    ...mapGetters('enterpriseTypeConfig', ['enterpriseType']),
+    ...mapGetters('country', ['countries']),
+    ...mapGetters('region', ['regions']),
+    ...mapGetters('localization', ['localization']),
     title() {
-      return this.enterpriseType && this.enterpriseType.id
-        ? this.$t('structures.enterpriseType.formUpdateTitle')
-        : this.$t('structures.enterpriseType.formCreateTitle');
+      return this.localization && this.localization.id
+        ? this.$t('structures.localization.formUpdateTitle')
+        : this.$t('structures.localization.formCreateTitle');
+    },
+    active_regions() {
+      console.log('this.regions');
+      console.log(this.regions);
+      return this.localizationForm.country_id
+        ? this.regions.filter(
+            (region) =>
+              region.country_id?.toString() ===
+              this.localizationForm.country_id.toString()
+          )
+        : [];
     },
   },
   created() {
-    if (this.enterpriseType && this.enterpriseType.id) this.enterpriseTypeForm = this.enterpriseType;
+    if (this.localization && this.localization.id)
+      this.localizationForm = this.localization;
   },
   beforeUnmount() {
-    if (this.enterpriseType && this.enterpriseType.id)
-      this.$store.commit('enterpriseTypeConfig/SET_CURRENT_ENTERPRISE_TYPE', null);
+    if (this.localization && this.localization.id)
+      this.$store.commit('localization/SET_CURRENT_LOCALIZATION', null);
   },
   methods: {
-    submitEnterpriseTypeForm() {
-      if (this.enterpriseType && this.enterpriseType.id)
+    submitLocalizationForm() {
+      if (this.localization && this.localization.id)
         this.$store
-          .dispatch('enterpriseTypeConfig/updateEnterpriseType', this.enterpriseTypeForm)
+          .dispatch('localization/updateLocalization', this.localizationForm)
           .then(() => this.$router.back())
           .catch((error) => {
             this.errors = error.response?.data?.errors;
@@ -83,7 +147,7 @@ export default {
           });
       else
         this.$store
-          .dispatch('enterpriseTypeConfig/addEnterpriseType', this.enterpriseTypeForm)
+          .dispatch('localization/addLocalization', this.localizationForm)
           .then(() => this.$router.back())
           .catch((error) => {
             this.errors = error.response?.data?.errors;

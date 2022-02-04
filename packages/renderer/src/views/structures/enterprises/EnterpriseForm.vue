@@ -1,117 +1,212 @@
 <template>
-  <BaseFormModal :title="title" :submit-form="submitEnterpriseForm">
-    <div class="form-group mb-3">
-      <label class="form-label fw-bold" for="name">{{
-        $t('common.attributes.name')
-      }}</label>
-      <input
-        id="name"
-        v-model="enterpriseForm.name"
-        class="form-control"
-        type="text"
-        placeholder="Achat, Sell..."
-        required
-      />
-      <div v-if="errors.name" class="invalid-feedback" style="display: inline">
-        {{ errors.name[0] }}
+  <div class="card mb-0">
+    <form class="theme-form" @submit.prevent="submitEnterpriseForm">
+      <div class="card-header pb-0">
+        <h5>{{ formTitle }}</h5>
+        <span
+          >Using the <a href="#">card</a> component, you can extend the default
+          collapse behavior to create an accordion.</span
+        >
       </div>
-    </div>
-    <div class="form-group mb-3">
-      <label class="form-label fw-bold" for="phone">{{
-        $t('common.attributes.phone')
-      }}</label>
-      <input
-        id="phone"
-        v-model="enterpriseForm.phone"
-        class="form-control"
-        type="text"
-        placeholder="Achat, Sell..."
-        required
-      />
-      <div v-if="errors.phone" class="invalid-feedback" style="display: inline">
-        {{ errors.phone[0] }}
+      <div class="card-body">
+        <div class="mb-3">
+          <div class="row align-items-center">
+            <div class="col-md">
+              <BaseSelect
+                v-model="enterprise_type_id"
+                :errors="errors?.enterprise_type_id"
+                :label="$t('structures.enterprise_type')"
+                :options="enterpriseTypes"
+                key-label="label"
+                key-value="id"
+                required
+              />
+            </div>
+          </div>
+        </div>
+        <div class="mb-3">
+          <div class="row align-items-center">
+            <div class="col-md">
+              <BaseInput
+                v-model="enterpriseForm.name"
+                :errors="errors?.name"
+                :label="$t('common.attributes.name')"
+                placeholder="E.g. Ets Tangui"
+                required
+                type="text"
+              />
+            </div>
+          </div>
+        </div>
+        <div class="mb-3">
+          <div class="row align-items-center">
+            <div class="col-md">
+              <BaseInput
+                v-model="enterpriseForm.email"
+                :errors="errors?.email"
+                :label="$t('common.attributes.email')"
+                placeholder="mag1@gmail.com"
+                type="text"
+              />
+            </div>
+          </div>
+        </div>
+        <div class="mb-3">
+          <div class="row align-items-center">
+            <div class="col-md">
+              <BaseInput
+                v-model="enterpriseForm.phone"
+                :errors="errors?.phone"
+                :label="$t('common.attributes.phone')"
+                placeholder="699.."
+                type="text"
+              />
+            </div>
+          </div>
+        </div>
       </div>
-    </div>
-    <div class="form-group mb-3">
-      <label class="form-label fw-bold" for="description">{{
-        $t('common.attributes.description')
-      }}</label>
-      <textarea
-        id="description"
-        v-model="enterpriseForm.description"
-        class="form-control"
-        type="text"
-        placeholder="Petite description.."
-        required
-      ></textarea>
-      <div v-if="errors.description" class="invalid-feedback" style="display: inline">
-        {{ errors.description[0] }}
+      <div class="card-footer">
+        <div class="row justify-content-end">
+          <BaseButton
+            :text="$t('common.cancel')"
+            class="btn btn-secondary col-auto m-r-5"
+            type="button"
+            @click.prevent="$router.push({ name: 'enterprises' })"
+          />
+          <BaseButton
+            :text="$t('common.save')"
+            class="btn btn-primary col-auto"
+            icon="fa fa-save"
+          />
+        </div>
       </div>
-    </div>
-    <template #footer>
-      <button class="btn btn-primary" type="submit" :title="$t('common.save')">
-        {{ $t('common.save') }}
-      </button>
-    </template>
-  </BaseFormModal>
+    </form>
+  </div>
 </template>
 
 <script>
-import BaseFormModal from '/@/components/common/BaseFormModal.vue';
 import { mapGetters } from 'vuex';
+import store from '../../../store';
+import BaseInput from '../../../components/common/BaseInput.vue';
+import BaseSelect from '../../../components/common/BaseSelect.vue';
+// import BaseInputGroup from '../../../components/common/BaseInputGroup.vue';
+import BaseButton from '../../../components/common/BaseButton.vue';
+import ean from '/@/helpers/ean';
 
 export default {
-  components: { BaseFormModal },
+  // components: { BaseButton, BaseInputGroup, BaseSelect, BaseInput },
+  components: { BaseButton, BaseSelect, BaseInput },
+  beforeRouteEnter(routeTo, routeFrom, next) {
+    Promise.all([
+      store.dispatch('enterpriseTypeConfig/getEnterpriseTypesList', {
+        page: 1,
+        field: {},
+      }),
+    ])
+      .then(() => {
+        next();
+      })
+      .catch((error) => {
+        console.log(error);
+        next();
+      });
+  },
   data() {
     return {
       errors: [],
+      is_edited: true,
+      enterprise_type_id: null,
       enterpriseForm: {
-        id: null,
+        user_id: null,
+        enterprise_type_id: null,
         name: null,
-        phone: null,
-        description: null,
-        currency: null,
-        po_box: null,
-        website: null,
-        slogan: null,
+        reference: null,
         email: null,
+        phone: null,
         logo: null,
+        slogan: null,
+        po_box: null,
+        currency: null,
+        domain: null,
+        database: null,
+        website: null,
       },
     };
   },
   computed: {
     ...mapGetters('enterprise', ['enterprise']),
-    title() {
+    ...mapGetters('enterpriseTypeConfig', ['enterpriseTypes']),
+    ...mapGetters('auth', ['currentUser']),
+    ...mapGetters('workspace', ['currentWorkspace']),
+    formTitle() {
       return this.enterprise
         ? this.$t('structures.enterprise.formUpdateTitle')
         : this.$t('structures.enterprise.formCreateTitle');
     },
   },
-  created() {
-    if (this.enterprise) this.enterpriseForm = this.enterprise;
+  watch: {
+    enterprise_type_id(value) {
+      const enterprise_type = this.enterprise_types.find(
+        (pt) => pt.id.toString() === value.toString()
+      );
+      if (enterprise_type !== undefined) {
+        this.enterpriseForm.enterprise_type_id = enterprise_type.id;
+      }
+    },
+    enterpriseForm: {
+      deep: true,
+      handler() {
+        this.is_edited = true;
+      },
+    },
   },
-  beforeUnmount() {
-    if (this.enterprise)
-      this.$store.commit('enterprise/SET_CURRENT_ENTERPRISE', null);
+  created() {
+    if (this.enterprise) {
+      this.enterpriseForm = this.enterprise;
+      this.enterprise_type_id = this.enterprise.enterprise_type_id;
+      this.is_edited = false;
+    } else {
+      this.enterpriseForm.user_id = this.currentUser?.user?.id;
+      this.enterpriseForm.domain = this.currentWorkspace?.domain;
+    }
   },
   methods: {
     submitEnterpriseForm() {
-      if (this.enterprise)
-        this.$store
-          .dispatch('enterprise/updateEnterprise', this.enterpriseForm)
-          .then(() => this.$router.back())
-          .catch((error) => {
-            this.errors = error.response?.data?.errors;
-            console.log(error);
+      if (this.enterprise) {
+        if (this.is_edited)
+          this.$store
+            .dispatch('enterprise/updateEnterprise', this.enterpriseForm)
+            .then((enterprise) =>
+              this.$router.push({
+                name: 'enterprise.form.setting',
+                params: { id: enterprise.id },
+              })
+            )
+            .catch((error) => {
+              this.errors = error.response?.data?.errors;
+              console.log(error);
+            });
+        else
+          this.$router.push({
+            name: 'enterprise.form.setting',
+            params: { id: this.enterprise.id },
           });
-      else
+      } else
         this.$store
           .dispatch('enterprise/addEnterprise', this.enterpriseForm)
-          .then(() => this.$router.back())
+          .then((enterprise) =>
+            this.$router.push({
+              name: 'enterprise.form.setting',
+              params: { id: enterprise.id },
+            })
+          )
           .catch((error) => {
             this.errors = error.response?.data?.errors;
             console.log(error);
           });
+    },
+    generateBarCode() {
+      this.enterpriseForm.code = ean.generateEan13();
     },
   },
 };

@@ -23,7 +23,7 @@ export default {
     create: 'Ajouter un module',
     viewany: 'Liste des modules',
     form: {
-      description: "Description du module",
+      description: 'Description du module',
     },
   },
   localization: {
@@ -37,8 +37,9 @@ export default {
     create: 'Activer un pays',
     add: 'Ajouter un pays',
     viewany: 'Liste des pays',
+    update: 'Activer un pays',
     form: {
-      description: "Description du pays",
+      description: 'Description du pays',
     },
   },
   region: {
@@ -46,21 +47,22 @@ export default {
     add: 'Ajouter une region',
     viewany: 'Liste des regions',
     form: {
-      description: "Description de la region",
+      description: 'Description de la region',
     },
   },
   enterprise: {
     create: 'Ajouter une structure',
     viewany: 'Liste des structures',
     form: {
-      description: "Description de la structure",
+      description: 'Description de la structure',
+      setting: 'Parametres de la structure',
     },
   },
   enterprisetype: {
-    create: "Ajouter un type de structure",
-    viewany: "Liste des types de structure",
+    create: 'Ajouter un type de structure',
+    viewany: 'Liste des types de structure',
     form: {
-      description: "Description du type de structure",
+      description: 'Description du type de structure',
     },
   },
   product: {

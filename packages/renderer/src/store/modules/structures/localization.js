@@ -21,10 +21,12 @@ const actions = {
     if (getters.localizations.length > 0) {
       return getters.localizations;
     } else
-      return localizationService.getLocalizationsList(page, field).then(({ data }) => {
-        commit('SET_LOCALIZATIONS', data);
-        return data;
-      });
+      return localizationService
+        .getLocalizationsList(page, field)
+        .then(({ data }) => {
+          commit('SET_LOCALIZATIONS', data);
+          return data;
+        });
   },
 
   getLocalization({ getters, commit }, id) {
@@ -42,16 +44,18 @@ const actions = {
   },
 
   addLocalization({ commit }, localizationField) {
-    return localizationService.addLocalization(localizationField).then(({ data }) => {
-      commit('ADD_LOCALIZATION', data);
-      notify(
-        i18n.global.t('structures.localization.store'),
-        'Ok',
-        'theme',
-        'fa fa-check'
-      );
-      return data;
-    });
+    return localizationService
+      .addLocalization(localizationField)
+      .then(({ data }) => {
+        commit('ADD_LOCALIZATION', data);
+        notify(
+          i18n.global.t('structures.localization.store'),
+          'Ok',
+          'theme',
+          'fa fa-check'
+        );
+        return data;
+      });
   },
 
   updateLocalization({ commit }, localizationField) {
@@ -70,10 +74,12 @@ const actions = {
   },
 
   deleteLocalization({ commit }, localizationId) {
-    return localizationService.deleteLocalization(localizationId).then(({ data }) => {
-      commit('DELETE_LOCALIZATION', localizationId);
-      return data;
-    });
+    return localizationService
+      .deleteLocalization(localizationId)
+      .then(({ data }) => {
+        commit('DELETE_LOCALIZATION', localizationId);
+        return data;
+      });
   },
 };
 
@@ -82,19 +88,19 @@ const mutations = {
   SET_LOCALIZATIONS(state, localizations) {
     state.localizations = JSON.stringify(localizations);
   },
-  SET_CURRENT_LOCALIZATION(state, pack) {
-    state.localization = JSON.stringify(pack);
+  SET_CURRENT_LOCALIZATION(state, localization) {
+    state.localization = JSON.stringify(localization);
   },
-  ADD_LOCALIZATION(state, pack) {
+  ADD_LOCALIZATION(state, localization) {
     let localizations = JSON.parse(state.localizations);
-    localizations.push(pack);
+    localizations.push(localization);
     state.localizations = JSON.stringify(localizations);
   },
-  UPDATE_LOCALIZATION(state, pack) {
+  UPDATE_LOCALIZATION(state, localization) {
     let localizations = JSON.parse(state.localizations);
-    const index = localizations.findIndex((p) => p.id === pack.id);
+    const index = localizations.findIndex((p) => p.id === localization.id);
     if (index !== -1) {
-      localizations.splice(index, 1, pack);
+      localizations.splice(index, 1, localization);
       state.localizations = JSON.stringify(localizations);
     }
   },
