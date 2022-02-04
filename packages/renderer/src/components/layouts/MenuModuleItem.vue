@@ -35,9 +35,6 @@ export default {
   },
   computed: {
     isCurrentRoute() {
-      console.log(this.menu.prefix);
-      console.log(this.$route.name);
-      console.log(RegExp(`^${this.menu.prefix}*`).test(this.$route.name));
       return RegExp(`^${this.menu.prefix}*`).test(this.$route.name);
     },
     haveSubMenus() {
