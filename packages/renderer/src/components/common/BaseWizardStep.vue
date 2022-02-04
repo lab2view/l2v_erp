@@ -52,7 +52,7 @@ export default {
   computed: {
     progressLineStyle() {
       const index = this.links.findIndex((l) =>
-        RegExp(`^${l.name}*`).test(this.$route.name)
+        RegExp(`^${l.name}*`).test(this.$route.name.toString())
       );
       const space = 100 / this.links.length / 2;
       const percent = ((index + 1) * 100) / this.links.length;

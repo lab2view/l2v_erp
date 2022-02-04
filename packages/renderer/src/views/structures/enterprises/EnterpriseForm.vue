@@ -13,7 +13,7 @@
           <div class="row align-items-center">
             <div class="col-md">
               <BaseSelect
-                v-model="enterprise_type_id"
+                v-model="enterpriseForm.enterprise_type_id"
                 :errors="errors?.enterprise_type_id"
                 :label="$t('structures.enterprise_type')"
                 :options="enterpriseTypes"
@@ -64,27 +64,27 @@
             </div>
           </div>
         </div>
-        <div class="mb-3">
-          <div class="row align-items-center">
-            <div class="col-md">
-              <label class="form-label fw-bold">
-                {{ $t('common.attributes.description') }}
-              </label>
-              <textatea
-                v-model="enterpriseForm.description"
-                class="form-control"
-                placeholder="Description.."
-              ></textatea>
-              <div
-                v-if="errors?.description"
-                class="invalid-feedback"
-                style="display: inline"
-              >
-                {{ errors.description[0] }}
-              </div>
-            </div>
-          </div>
-        </div>
+<!--        <div class="mb-3">-->
+<!--          <div class="row align-items-center">-->
+<!--            <div class="col-md">-->
+<!--              <label class="form-label fw-bold">-->
+<!--                {{ $t('common.attributes.description') }}-->
+<!--              </label>-->
+<!--              <textarea-->
+<!--                v-model="enterpriseForm.description"-->
+<!--                class="form-control"-->
+<!--                placeholder="Description.."-->
+<!--              ></textarea>-->
+<!--              <div-->
+<!--                v-if="errors?.description"-->
+<!--                class="invalid-feedback"-->
+<!--                style="display: inline"-->
+<!--              >-->
+<!--                {{ errors.description[0] }}-->
+<!--              </div>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--        </div>-->
       </div>
       <div class="card-footer">
         <div class="row justify-content-end">
@@ -107,15 +107,13 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import store from '../../../store';
-import BaseInput from '../../../components/common/BaseInput.vue';
-import BaseSelect from '../../../components/common/BaseSelect.vue';
-// import BaseInputGroup from '../../../components/common/BaseInputGroup.vue';
-import BaseButton from '../../../components/common/BaseButton.vue';
+import store from '/@/store';
+import BaseInput from '/@/components/common/BaseInput.vue';
+import BaseSelect from '/@/components/common/BaseSelect.vue';
+import BaseButton from '/@/components/common/BaseButton.vue';
 import ean from '/@/helpers/ean';
 
 export default {
-  // components: { BaseButton, BaseInputGroup, BaseSelect, BaseInput },
   components: { BaseButton, BaseSelect, BaseInput },
   beforeRouteEnter(routeTo, routeFrom, next) {
     Promise.all([
@@ -136,7 +134,6 @@ export default {
     return {
       errors: [],
       is_edited: true,
-      enterprise_type_id: null,
       enterpriseForm: {
         user_id: null,
         enterprise_type_id: null,
@@ -146,7 +143,7 @@ export default {
         phone: null,
         logo: null,
         slogan: null,
-        description: null,
+        // description: null,
         po_box: null,
         currency: null,
         domain: null,
@@ -167,14 +164,6 @@ export default {
     },
   },
   watch: {
-    enterprise_type_id(value) {
-      const enterprise_type = this.enterprise_types.find(
-        (pt) => pt.id.toString() === value.toString()
-      );
-      if (enterprise_type !== undefined) {
-        this.enterpriseForm.enterprise_type_id = enterprise_type.id;
-      }
-    },
     enterpriseForm: {
       deep: true,
       handler() {
