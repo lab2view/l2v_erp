@@ -1,6 +1,6 @@
 import store from '../../store';
 
-export const configRoutes = [
+export default [
   {
     path: '',
     redirect: { name: 'config.product.package' },

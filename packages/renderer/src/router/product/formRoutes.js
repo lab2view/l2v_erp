@@ -1,4 +1,4 @@
-export const formRoutes = [
+export default [
   {
     path: 'description',
     name: 'product.form.desc',

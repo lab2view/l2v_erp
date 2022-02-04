@@ -1,5 +1,5 @@
-import routes from './product/routes';
-import articleRoutes from './articleRoutes';
+import productRoutes from './product/routes';
+import articleRoutes from './article/routes';
 
 const workspace = [
   {
@@ -14,7 +14,7 @@ const workspace = [
   {
     path: 'products',
     component: () => import('/@/components/products/ProductLayout.vue'),
-    children: routes,
+    children: productRoutes,
   },
   {
     path: 'articles',

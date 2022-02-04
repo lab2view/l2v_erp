@@ -1,5 +1,4 @@
 <template>
-  <!-- Container-fluid starts-->
   <div class="container-fluid">
     <div class="row">
       <div class="col-sm-12">
@@ -25,11 +24,17 @@
       </div>
     </div>
   </div>
-  <!-- Container-fluid Ends-->
 </template>
 
 <script>
-export default {};
+export default {
+  props: {
+    articleGroup: {
+      type: Object,
+      default: null,
+    },
+  },
+};
 </script>
 
 <style scoped></style>
