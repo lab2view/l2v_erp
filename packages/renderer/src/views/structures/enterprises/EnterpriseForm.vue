@@ -64,6 +64,27 @@
             </div>
           </div>
         </div>
+        <div class="mb-3">
+          <div class="row align-items-center">
+            <div class="col-md">
+              <label class="form-label fw-bold">
+                {{ $t('common.attributes.description') }}
+              </label>
+              <textatea
+                v-model="enterpriseForm.description"
+                class="form-control"
+                placeholder="Description.."
+              ></textatea>
+              <div
+                v-if="errors?.description"
+                class="invalid-feedback"
+                style="display: inline"
+              >
+                {{ errors.description[0] }}
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
       <div class="card-footer">
         <div class="row justify-content-end">
@@ -125,6 +146,7 @@ export default {
         phone: null,
         logo: null,
         slogan: null,
+        description: null,
         po_box: null,
         currency: null,
         domain: null,

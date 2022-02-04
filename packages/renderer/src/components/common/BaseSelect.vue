@@ -4,7 +4,6 @@
     <span v-if="required" class="text-danger m-l-5">*</span>
   </label>
   <select
-    :disabled="disabled"
     :required="required"
     :value="modelValue"
     class="form-control"
@@ -59,10 +58,6 @@ export default {
       default: null,
     },
     required: {
-      type: [Boolean],
-      default: false,
-    },
-    disabled: {
       type: [Boolean],
       default: false,
     },

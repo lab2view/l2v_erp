@@ -94,11 +94,11 @@ export const structureMenus = [
       },
       {
         code: 'Country.viewAny',
-        to: 'countries',
+        to: 'localizations.countries',
       },
       {
         code: 'Region.viewAny',
-        to: 'regions',
+        to: 'localizations.regions',
       },
     ],
   },

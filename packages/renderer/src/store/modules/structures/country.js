@@ -76,32 +76,6 @@ const actions = {
       });
   },
 
-  updateCountryStatus({ state, commit }, countryField) {
-    let country = state.country
-      ? JSON.parse(state.country)
-      : JSON.parse(state.countries).find((country) => {
-          return country.id.toString() === countryField.id.toString();
-        });
-    return countryService
-      .updateCountry(
-        {
-          ...country,
-          is_active: countryField.is_active,
-        },
-        countryField.id
-      )
-      .then(({ data }) => {
-        notify(
-          i18n.global.t('structures.country.update'),
-          'Ok',
-          'theme',
-          'fa fa-check'
-        );
-        commit('UPDATE_COUNTRY', data);
-        return data;
-      });
-  },
-
   deleteCountry({ commit }, countryId) {
     return countryService.deleteCountry(countryId).then(({ data }) => {
       commit('DELETE_COUNTRY', countryId);

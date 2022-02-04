@@ -179,7 +179,7 @@ export default {
             () =>
               this.$router.back() ??
               this.$router.push({
-                name: 'countries',
+                name: 'localizations.countries',
               })
           )
           .catch((error) => {
@@ -193,7 +193,7 @@ export default {
             () =>
               this.$router.back() ??
               this.$router.push({
-                name: 'countries',
+                name: 'localizations.countries',
               })
           )
           .catch((error) => {

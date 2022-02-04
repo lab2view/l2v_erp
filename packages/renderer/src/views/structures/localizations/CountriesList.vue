@@ -66,27 +66,13 @@
             <td>{{ country.timezone }}</td>
             <td>
               <button
-                :title="$t('common.update')"
-                class="btn btn-secondary btn-xs"
-                data-original-title="btn btn-secondary btn-xs"
-                type="button"
-                @click.prevent="
-                  $router.push({
-                    name: 'country.activate',
-                    params: { id: country.id },
-                  })
-                "
-              >
-                {{ $t('common.update') }}
-              </button>
-              <button
-                :title="$t('common.delete')"
+                :title="$t('common.activate')"
                 class="btn btn-danger btn-xs m-l-5"
                 data-original-title="btn btn-danger btn-xs"
                 type="button"
-                @click.prevent="deleteCountry(country)"
+                @click.prevent="deactivateCountry(country)"
               >
-                <i class="fa fa-trash-o" />
+                {{ $t('common.deactivate') }}
               </button>
             </td>
           </tr>
@@ -121,21 +107,18 @@ export default {
       });
   },
   computed: {
-    ...mapGetters('country', ['countries', 'country']),
+    ...mapGetters('country', ['countries']),
   },
-  created() {
-    if (this.country && this.country.id)
-      this.$store.commit('country/SET_CURRENT_COUNTRY', null);
-  },
-
   methods: {
-    deleteCountry(country) {
+    deactivateCountry(country) {
       if (
         confirm(
           this.$t('messages.confirmDeactivation', { label: country.name })
         )
-      )
-        this.$store.dispatch('country/deleteCountry', country.id);
+      ) {
+        country.is_active = false;
+        this.$store.dispatch('country/updateCountry', country);
+      }
     },
   },
 };

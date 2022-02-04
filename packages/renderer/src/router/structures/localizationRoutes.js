@@ -31,7 +31,7 @@ export const localizationRoutes = [
   },
   {
     path: 'countries',
-    name: 'countries',
+    name: 'localizations.countries',
     component: () =>
       import('/@/views/structures/localizations/CountriesList.vue'),
     meta: {
@@ -56,26 +56,16 @@ export const localizationRoutes = [
         },
       },
       {
-        path: 'form/:id?/update',
+        path: 'activate',
         name: 'country.activate',
         component: () =>
           import('/@/views/structures/localizations/CountryActivationForm.vue'),
-        beforeEnter: (to) => {
-          if (to.params.id) {
-            return store
-              .dispatch('country/getCountry', to.params.id)
-              .then(() => {
-                return { name: to.name };
-              })
-              .catch(() => -1);
-          }
-        },
       },
     ],
   },
   {
     path: 'regions',
-    name: 'regions',
+    name: 'localizations.regions',
     component: () =>
       import('/@/views/structures/localizations/RegionsList.vue'),
     meta: {

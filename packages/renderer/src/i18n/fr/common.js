@@ -13,6 +13,8 @@ export default {
   type: 'Saisir',
   scan: 'Scanner',
   desc_by: 'Date de creation',
+  deactivate: 'Desactiver',
+  activate: 'Activer',
   fields: {
     text: 'Chaine de caractere',
     number: 'Nombre',

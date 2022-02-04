@@ -1,9 +1,11 @@
 <template>
-  <BaseFormModal :submit-form="submitCountryForm" :title="title">
+  <BaseFormModal
+    :submit-form="submitCountryForm"
+    :title="$t('structures.country.formActivationTitle')"
+  >
     <div class="mb-3">
       <BaseSelect
-        v-model="countryForm.id"
-        :disabled="country.id"
+        v-model="country_id"
         :errors="errors?.country_id"
         :label="$t('common.attributes.country')"
         :options="countries"
@@ -12,20 +14,13 @@
         required
       />
     </div>
-    <div class="mb-3">
-      <BaseSelect
-        v-model="countryForm.is_active"
-        :errors="errors?.is_active"
-        :label="$t('common.attributes.status')"
-        :options="statuses"
-        key-label="name"
-        key-value="value"
-        required
-      />
-    </div>
     <template #footer>
-      <button :title="$t('common.save')" class="btn btn-primary" type="submit">
-        {{ $t('common.save') }}
+      <button
+        :title="$t('common.activate')"
+        class="btn btn-primary"
+        type="submit"
+      >
+        {{ $t('common.activate') }}
       </button>
     </template>
   </BaseFormModal>
@@ -56,64 +51,36 @@ export default {
   data() {
     return {
       errors: [],
-      statuses: [
-        {
-          name: 'ACTIF',
-          value: 1,
-        },
-        {
-          name: 'INACTIF',
-          value: 0,
-        },
-      ],
-      countryForm: {
-        id: null,
-        is_active: null,
-      },
+      country_id: null,
     };
   },
   computed: {
-    ...mapGetters('country', ['allCountries', 'country']),
-    title() {
-      return this.country && this.country.id
-        ? this.$t('structures.country.formUpdateTitle')
-        : this.$t('structures.country.formActivationTitle');
-    },
+    ...mapGetters('country', ['allCountries']),
     countries() {
-      return this.country && this.country.id
-        ? this.allCountries.filter(
-            (country) =>
-              country.id === this.country.id || country.is_active === false
-          )
-        : this.allCountries.filter((country) => country.is_active === false);
+      return this.allCountries.filter((country) => country.is_active === false);
     },
-  },
-  created() {
-    if (this.country && this.country.id) {
-      this.countryForm = this.country;
-      this.countryForm.is_active = this.country.is_active ? '1' : '0';
-    }
-  },
-  beforeUnmount() {
-    if (this.country && this.country.id)
-      this.$store.commit('country/SET_CURRENT_COUNTRY', null);
   },
   methods: {
     submitCountryForm() {
-      if (this.countryForm.id)
+      if (this.country_id) {
+        let countryField = this.allCountries.find(
+          (country) => country.id.toString() === this.country_id.toString()
+        );
+        countryField.is_active = 1;
         this.$store
-          .dispatch('country/updateCountryStatus', this.countryForm)
+          .dispatch('country/updateCountry', countryField)
           .then(
             () =>
               this.$router.back() ??
               this.$router.push({
-                name: 'countries',
+                name: 'localizations.countries',
               })
           )
           .catch((error) => {
             this.errors = error.response?.data?.errors;
             console.log(error);
           });
+      }
     },
   },
 };

@@ -4,6 +4,7 @@ export default {
   configurations: 'Configurations',
   localizations: 'Localisations',
   countries: 'Pays',
+  regions: 'Regions',
   enterprise_type: "Type d'entreprise",
   country: {
     listTitle: 'Liste des pays',
