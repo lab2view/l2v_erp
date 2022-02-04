@@ -40,7 +40,7 @@
 </template>
 
 <script>
-import BaseFormModal from '../../../../components/common/BaseFormModal.vue';
+import BaseFormModal from '/@/components/common/BaseFormModal.vue';
 import { mapGetters } from 'vuex';
 
 export default {
