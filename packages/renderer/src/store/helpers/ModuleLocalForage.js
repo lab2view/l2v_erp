@@ -103,6 +103,13 @@ const StockExitLine = new VuexPersistence({
   reducer: (state) => ({ stock_exit_line: state.stock_exit_line }),
 });
 
+const ArticleGroup = new VuexPersistence({
+  key: 'article_group',
+  storage: localStore,
+  asyncStorage: true,
+  reducer: (state) => ({ article_group: state.article_group }),
+});
+
 export default [
   Auth.plugin,
   Product.plugin,
@@ -117,4 +124,5 @@ export default [
   StockProvision.plugin,
   StockExit.plugin,
   StockExitLine.plugin,
+  ArticleGroup.plugin,
 ];

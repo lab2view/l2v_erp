@@ -10,8 +10,15 @@ export default {
   priceType: {
     listTitle: 'Liste des Types de prix',
     formCreateTitle: 'Ajouter un type de prix',
-    formUpdateTitle: 'Modifier un type de prix',
+    formUpdateTitle: 'Modifier le type de prix',
     store: "L'enregistrement du type de prix a ete effectue avec succes",
     update: 'La modification du type de prix a ete effectue avec succes',
+  },
+  group: {
+    listTitle: "Groupes d'articles",
+    formCreateTitle: "Ajouter un group d'article",
+    formUpdateTitle: "Modifier le group d'article",
+    store: "Groupe d'article enregistre",
+    update: "Groupe d'article modifie",
   },
 };

@@ -15,6 +15,7 @@ import article from './modules/product/article';
 import stock_provision from './modules/stock/provision';
 import stock_exit from './modules/stock/stockExit';
 import stock_exit_line from './modules/stock/stockExitLine';
+import article_group from './modules/product/articleGroup';
 
 export default createStore({
   state: {
@@ -66,6 +67,7 @@ export default createStore({
     stock_provision,
     stock_exit,
     stock_exit_line,
+    article_group,
   },
   strict: process.env.NODE_ENV !== 'production',
   plugins: [...modulePlugins],
