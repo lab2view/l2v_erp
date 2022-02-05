@@ -12,6 +12,7 @@ export default {
   shuffle: 'Generer',
   type: 'Saisir',
   scan: 'Scanner',
+  select_all: 'Tout selectionner',
 
   fields: {
     text: 'Chaine de caractere',

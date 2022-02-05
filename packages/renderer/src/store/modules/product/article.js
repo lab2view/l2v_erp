@@ -14,6 +14,8 @@ const getters = {
   article: (state) => (state.article ? JSON.parse(state.article) : null),
   getArticleByProductId: (state, getters) => (product_id) =>
     getters.articles.filter((a) => a.product_id === product_id),
+  getArticleById: (state, getters) => (id) =>
+    getters.articles.find((a) => a.id === id),
 };
 
 // privileges

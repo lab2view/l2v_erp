@@ -1,11 +1,8 @@
+import { mapGetters } from 'vuex';
+
 export default {
-  props: {
-    articleGroup: {
-      type: Object,
-      default: null,
-    },
-  },
   computed: {
+    ...mapGetters('article_group', ['articleGroup']),
     haveArticleGroup() {
       return !!this.articleGroup;
     },

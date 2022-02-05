@@ -35,6 +35,9 @@ export default {
       });
     },
   },
+  beforeUnmount() {
+    this.$store.commit('product/SET_CURRENT_PRODUCT', null);
+  },
 };
 </script>
 

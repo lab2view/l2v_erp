@@ -33,15 +33,14 @@ export default [
   },
   {
     path: 'groups/:id?/forms',
+    name: 'article.group.form',
     component: () => import('/@/components/articles/groups/FormLayout.vue'),
-    props: () => ({ articleGroup: null }),
     children: ArticleGroupFormRoutes,
     beforeEnter: (to) => {
       if (to.params.id) {
         return store
           .dispatch('article_group/getArticleGroup', to.params.id)
-          .then((data) => {
-            to.params.articleGroup = data;
+          .then(() => {
             return { name: to.name };
           })
           .catch(() => -1);

@@ -37,6 +37,9 @@ export default {
       });
     },
   },
+  beforeUnmount() {
+    this.$store.commit('article_group/SET_CURRENT_ARTICLE_GROUP', null);
+  },
 };
 </script>
 
