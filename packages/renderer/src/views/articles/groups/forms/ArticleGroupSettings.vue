@@ -1,9 +1,5 @@
 <template>
-  <div class="row justify-content-center">
-    <div class="col-md-8">
-      <router-view />
-    </div>
-  </div>
+  <router-view />
   <div class="card mb-0">
     <div class="card-header pb-0">
       <div class="row align-items-center">
@@ -17,7 +13,7 @@
           class="col-sm-auto align-items-end"
         >
           <router-link
-            :to="{ name: 'product.form.article.form' }"
+            :to="{ name: 'article.group.form.setting.form' }"
             class="btn btn-primary"
             type="button"
           >

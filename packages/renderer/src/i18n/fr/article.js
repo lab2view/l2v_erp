@@ -20,5 +20,8 @@ export default {
     formUpdateTitle: "Modifier le group d'article",
     store: "Groupe d'article enregistre",
     update: "Groupe d'article modifie",
+    line: {
+      formTitle: 'Ajouter des articles au groupe',
+    },
   },
 };

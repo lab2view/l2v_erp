@@ -22,6 +22,7 @@ export default {
     datetime: 'Date et Heure',
     url: 'Lien',
     radio: 'Choix boolean',
+    product_filter: 'Filtrer par produit',
   },
 
   states: {

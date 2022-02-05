@@ -19,5 +19,13 @@ export default [
       icon: 'fa fa-cogs',
       requireArticleGroup: true,
     },
+    children: [
+      {
+        path: 'form',
+        name: 'article.group.form.setting.form',
+        component: () =>
+          import('/@/views/articles/groups/forms/ArticleGroupLineForm.vue'),
+      },
+    ],
   },
 ];
