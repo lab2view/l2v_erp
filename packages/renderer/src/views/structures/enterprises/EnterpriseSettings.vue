@@ -7,9 +7,9 @@
       <div class="col-md-4"></div>
       <div class="col-md-8">
         <BaseDropzone
-          v-if="imagePropertyId"
-          :context="productContext"
-          @uploaded="uploadProductImage"
+          v-if="imageEnterpriseId"
+          :context="enterpriseContext"
+          @uploaded="uploadEntrepriseImage"
         />
       </div>
     </div>
@@ -18,17 +18,17 @@
 </template>
 
 <script>
-import BaseGallery from '../../../components/common/BaseGallery.vue';
-import BaseDropzone from '../../../components/common/BaseDropzone.vue';
+import BaseGallery from '/@/components/common/BaseGallery.vue';
+import BaseDropzone from '/@/components/common/BaseDropzone.vue';
 import { mapGetters } from 'vuex';
-import { productPropertyImageCode } from '../../../helpers/codes';
-import store from '../../../store';
+import store from '/@/store';
+import { enterpriseImageCode } from '/@/helpers/codes';
 
 export default {
   components: { BaseDropzone, BaseGallery },
   beforeRouteEnter(routeTo, routeFrom, next) {
     store
-      .dispatch('propertyConfig/getPropertiesList', {
+      .dispatch('enterprise/getEnterprise', {
         page: 1,
         field: {},
       })
@@ -41,41 +41,35 @@ export default {
       });
   },
   computed: {
-    ...mapGetters('product', ['product', 'product_properties']),
-    ...mapGetters('propertyConfig', ['properties']),
-    productContext() {
-      return `products/${this.product?.id}`;
+    ...mapGetters('enterprise', ['enterprise']),
+    enterpriseContext() {
+      return `enterprises/${this.enterprise?.id}`;
     },
-    imagePropertyId() {
+    imageEnterpriseId() {
       const p = this.properties.find(
-        (p) => p.code === productPropertyImageCode
+          (p) => p.code === enterpriseImageCode
       );
       if (p !== undefined) return p.id;
       return null;
     },
     images() {
-      let images = this.product_properties.filter(
-        (pp) => pp.property.code === productPropertyImageCode
-      );
-      return images.map((i) => {
-        return { url: i.value_url };
-      });
+      return [];
     },
   },
   methods: {
-    uploadProductImage(names) {
-      const properties = names.map((n) => {
-        return { value: n, property_id: this.imagePropertyId };
-      });
-      this.$store
-        .dispatch('product/saveProperties', { properties })
-        .then((data) => {
-          console.log(data);
-        })
-        .catch((error) => {
-          console.log(error);
-          console.log(error?.response?.data);
-        });
+    uploadEntrepriseImage() {
+      // const properties = names.map((n) => {
+      //   return { value: n, property_id: this.imageEnterpriseId };
+      // });
+      // this.$store
+      //   .dispatch('enterprise/saveProperties', { properties })
+      //   .then((data) => {
+      //     console.log(data);
+      //   })
+      //   .catch((error) => {
+      //     console.log(error);
+      //     console.log(error?.response?.data);
+      //   });
     },
   },
 };

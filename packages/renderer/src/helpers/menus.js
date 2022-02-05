@@ -71,7 +71,7 @@ export const structureMenus = [
   {
     icon: 'shopping-bag',
     code: 'Enterprises.manage',
-    prefix: 'enterprises',
+    prefix: 'enterprise',
     items: [
       {
         code: 'Enterprise.viewAny',
