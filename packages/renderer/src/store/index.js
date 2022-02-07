@@ -26,7 +26,7 @@ import enterprise from './modules/structures/enterprise';
 export default createStore({
   state: {
     globalLoading: true,
-    landlordDomain: 'kitbussiness.test',
+    landlordDomain: 'kitbussiness.com',
     uploaded: null,
     initiateApp: true,
   },
