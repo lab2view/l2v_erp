@@ -1,31 +1,13 @@
 <template>
   <BaseFormModal :submit-form="submitLocalizationForm" :title="title">
     <div class="mb-3">
-      <BaseInput
-        v-model="localizationForm.address"
-        :errors="errors?.address"
-        :label="$t('common.attributes.address')"
-        placeholder="Address"
-        required
-      />
-    </div>
-    <div class="mb-3">
       <BaseSelect
         v-model="localizationForm.country_id"
         :errors="errors?.country_id"
         :label="$t('common.attributes.country')"
-        :options="countries"
+        :options="activeCountries"
         key-label="name"
         key-value="id"
-        required
-      />
-    </div>
-    <div class="mb-3">
-      <BaseInput
-        v-model="localizationForm.city"
-        :errors="errors?.city"
-        :label="$t('common.attributes.city')"
-        placeholder="City"
         required
       />
     </div>
@@ -42,18 +24,20 @@
     </div>
     <div class="mb-3">
       <BaseInput
-        v-model="localizationForm.longitude"
-        :errors="errors?.longitude"
-        :label="$t('common.attributes.longitude')"
-        placeholder="Longitude"
+        v-model="localizationForm.city"
+        :errors="errors?.city"
+        :label="$t('common.attributes.city')"
+        placeholder="City"
+        required
       />
     </div>
     <div class="mb-3">
       <BaseInput
-        v-model="localizationForm.latitude"
-        :errors="errors?.latitude"
-        :label="$t('common.attributes.latitude')"
-        placeholder="Latitude"
+        v-model="localizationForm.address"
+        :errors="errors?.address"
+        :label="$t('common.attributes.address')"
+        placeholder="Address"
+        required
       />
     </div>
     <template #footer>
@@ -107,7 +91,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters('country', ['countries']),
+    ...mapGetters('country', ['activeCountries']),
     ...mapGetters('region', ['regions']),
     ...mapGetters('localization', ['localization']),
     title() {
@@ -116,15 +100,13 @@ export default {
         : this.$t('structures.localization.formCreateTitle');
     },
     active_regions() {
-      console.log('this.regions');
-      console.log(this.regions);
       return this.localizationForm.country_id
         ? this.regions.filter(
             (region) =>
-              region.country_id?.toString() ===
+              region.country_id.toString() ===
               this.localizationForm.country_id.toString()
           )
-        : [];
+        : this.regions;
     },
   },
   created() {

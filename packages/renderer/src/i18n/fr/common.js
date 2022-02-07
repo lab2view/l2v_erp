@@ -68,12 +68,6 @@ export default {
     stock_entry_id: 'Mouvements',
     provider_id: 'Fournisseur',
     stock_entry_type_id: "Type d'entree",
-  },
-
-  headers: {
-    stock_entry_qty: 'Qte Entre',
-    stock_exit_qty: 'Qte Sortie',
-    stock_in: 'En Stock',
     website: 'Site web',
     slogan: 'Slogan',
     logo: 'Logo',
@@ -93,5 +87,11 @@ export default {
     city: 'Ville',
     longitude: 'Longitude',
     latitude: 'Latitude',
+  },
+
+  headers: {
+    stock_entry_qty: 'Qte Entre',
+    stock_exit_qty: 'Qte Sortie',
+    stock_in: 'En Stock',
   },
 };

@@ -35,36 +35,21 @@
         </div>
       </div>
       <div class="card-body">
-        <BaseDatatable :tfoot="false" :total="countries.length">
+        <BaseDatatable :tfoot="false" :total="activeCountries.length">
           <template #headers>
             <th>#</th>
             <th>{{ $t('common.attributes.name') }}</th>
-            <th>{{ $t('common.attributes.iso') }}</th>
-            <th>{{ $t('common.attributes.calling_code') }}</th>
-            <th>{{ $t('common.attributes.currency_name') }}</th>
+            http://localhost:3000/#
             <th>{{ $t('common.attributes.currency') }}</th>
-            <th>{{ $t('common.attributes.currency_symbol') }}</th>
-            <th>{{ $t('common.attributes.phone_length') }}</th>
             <th>{{ $t('common.attributes.timezone') }}</th>
             <th>{{ $t('common.actions') }}</th>
           </template>
-          <tr v-for="country in countries" :key="country.id">
+          <tr v-for="country in activeCountries" :key="country.id">
             <td>{{ country.id }}</td>
             <td>{{ country.name }}</td>
-            <td>
-              {{
-                (country.iso_3166_2 ?? 'none') +
-                ' ' +
-                (country.iso_3166_3 ?? 'none')
-              }}
-            </td>
-            <td>{{ country.calling_code }}</td>
-            <td>{{ country.currency_name }}</td>
             <td>{{ country.currency }}</td>
-            <td>{{ country.currency_symbol }}</td>
-            <td>{{ country.phone_length }}</td>
             <td>{{ country.timezone }}</td>
-            <td>
+            <td v-if="country.is_active">
               <button
                 :title="$t('common.activate')"
                 class="btn btn-danger btn-xs m-l-5"
@@ -107,7 +92,7 @@ export default {
       });
   },
   computed: {
-    ...mapGetters('country', ['countries']),
+    ...mapGetters('country', ['activeCountries']),
   },
   methods: {
     deactivateCountry(country) {
@@ -116,8 +101,10 @@ export default {
           this.$t('messages.confirmDeactivation', { label: country.name })
         )
       ) {
-        country.is_active = false;
-        this.$store.dispatch('country/updateCountry', country);
+        this.$store.dispatch('country/updateCountry', {
+          ...country,
+          is_active: false,
+        });
       }
     },
   },

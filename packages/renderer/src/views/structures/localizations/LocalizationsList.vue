@@ -1,6 +1,6 @@
 <template>
   <BaseContainer
-    :title="$t('structures.title')"
+    :title="$t('structures.localisationTitle')"
     :module="$t('structures.localizations')"
   >
     <div class="card">
@@ -26,22 +26,18 @@
         <BaseDatatable :tfoot="false" :total="localizations.length">
           <template #headers>
             <th>#</th>
-            <th>{{ $t('common.attributes.address') }}</th>
             <th>{{ $t('common.attributes.country') }}</th>
             <th>{{ $t('common.attributes.region') }}</th>
             <th>{{ $t('common.attributes.city') }}</th>
-            <th>{{ $t('common.attributes.longitude') }}</th>
-            <th>{{ $t('common.attributes.latitude') }}</th>
+            <th>{{ $t('common.attributes.address') }}</th>
             <th>{{ $t('common.actions') }}</th>
           </template>
           <tr v-for="localization in localizations" :key="localization.id">
             <td>{{ localization.id }}</td>
-            <td>{{ localization.address }}</td>
-            <td>{{ localization.country?.name  }}</td>
-            <td>{{ localization.region?.name  }}</td>
+            <td>{{ localization.country.name }}</td>
+            <td>{{ localization.region.name }}</td>
             <td>{{ localization.city }}</td>
-            <td>{{ localization.longitude }}</td>
-            <td>{{ localization.latitude }}</td>
+            <td>{{ localization.address }}</td>
             <td>
               <button
                 class="btn btn-secondary btn-xs"
@@ -69,7 +65,6 @@
             </td>
           </tr>
         </BaseDatatable>
-
       </div>
 
       <router-view />
@@ -100,16 +95,24 @@ export default {
       });
   },
   computed: {
-      ...mapGetters('localization', ['localizations', 'localization']),
+    ...mapGetters('localization', ['localizations', 'localization']),
   },
   created() {
-    if (this.localization && this.localization.id) this.$store.commit('localization/SET_CURRENT_LOCALIZATION', null);
+    if (this.localization && this.localization.id)
+      this.$store.commit('localization/SET_CURRENT_LOCALIZATION', null);
   },
 
   methods: {
     deleteLocalization(localization) {
-      if (confirm(this.$t('messages.confirmDelete', { label: localization.address })))
-        this.$store.dispatch('localization/deleteLocalization', localization.id);
+      if (
+        confirm(
+          this.$t('messages.confirmDelete', { label: localization.address })
+        )
+      )
+        this.$store.dispatch(
+          'localization/deleteLocalization',
+          localization.id
+        );
     },
   },
 };

@@ -1,33 +1,22 @@
 <template>
   <BaseFormModal :submit-form="submitRegionForm" :title="title">
     <div class="mb-3">
+      <BaseSelect
+        v-model="regionForm.country_id"
+        :errors="errors?.country_id"
+        :label="$t('common.attributes.country')"
+        :options="activeCountries"
+        key-label="name"
+        key-value="id"
+        required
+      />
+    </div>
+    <div class="mb-3">
       <BaseInput
         v-model="regionForm.name"
         :errors="errors?.name"
         :label="$t('common.attributes.name')"
         placeholder="Douala"
-        required
-      />
-    </div>
-    <!--
-        <div class="mb-3">
-          <BaseInput
-            v-model="regionForm.code"
-            :errors="errors?.code"
-            :label="$t('common.attributes.code')"
-            placeholder="DLA"
-            required
-          />
-        </div>
-    -->
-    <div class="mb-3">
-      <BaseSelect
-        v-model="regionForm.country_id"
-        :errors="errors?.country_id"
-        :label="$t('common.attributes.country')"
-        :options="countries"
-        key-label="name"
-        key-value="id"
         required
       />
     </div>
@@ -74,7 +63,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters('country', ['countries']),
+    ...mapGetters('country', ['activeCountries']),
     ...mapGetters('region', ['region']),
     title() {
       return this.region && this.region.id

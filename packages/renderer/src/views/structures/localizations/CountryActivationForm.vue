@@ -8,7 +8,7 @@
         v-model="country_id"
         :errors="errors?.country_id"
         :label="$t('common.attributes.country')"
-        :options="countries"
+        :options="unActiveCountries"
         key-label="name"
         key-value="id"
         required
@@ -55,27 +55,23 @@ export default {
     };
   },
   computed: {
-    ...mapGetters('country', ['allCountries']),
-    countries() {
-      return this.allCountries.filter((country) => country.is_active === false);
+    ...mapGetters('country', ['countries']),
+    unActiveCountries() {
+      return this.countries.filter((country) => !country.is_active);
     },
   },
   methods: {
     submitCountryForm() {
       if (this.country_id) {
-        let countryField = this.allCountries.find(
+        let countryField = this.countries.find(
           (country) => country.id.toString() === this.country_id.toString()
         );
-        countryField.is_active = 1;
         this.$store
-          .dispatch('country/updateCountry', countryField)
-          .then(
-            () =>
-              this.$router.back() ??
-              this.$router.push({
-                name: 'localizations.countries',
-              })
-          )
+          .dispatch('country/updateCountry', {
+            ...countryField,
+            is_active: true,
+          })
+          .then(() => this.$router.back())
           .catch((error) => {
             this.errors = error.response?.data?.errors;
             console.log(error);

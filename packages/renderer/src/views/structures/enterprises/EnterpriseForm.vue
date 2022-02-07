@@ -22,10 +22,6 @@
                 required
               />
             </div>
-          </div>
-        </div>
-        <div class="mb-3">
-          <div class="row align-items-center">
             <div class="col-md">
               <BaseInput
                 v-model="enterpriseForm.name"
@@ -46,45 +42,35 @@
                 :errors="errors?.email"
                 :label="$t('common.attributes.email')"
                 placeholder="mag1@gmail.com"
-                type="text"
+                type="email"
+                required
               />
             </div>
-          </div>
-        </div>
-        <div class="mb-3">
-          <div class="row align-items-center">
             <div class="col-md">
-              <BaseInput
+              <BaseInputGroup
                 v-model="enterpriseForm.phone"
                 :errors="errors?.phone"
                 :label="$t('common.attributes.phone')"
                 placeholder="699.."
-                type="text"
-              />
+                type="number"
+                required
+              >
+                <template v-if="callingCode" #prefix>
+                  <div class="input-group-text">
+                    {{ callingCode }}
+                  </div>
+                </template>
+              </BaseInputGroup>
             </div>
           </div>
         </div>
-<!--        <div class="mb-3">-->
-<!--          <div class="row align-items-center">-->
-<!--            <div class="col-md">-->
-<!--              <label class="form-label fw-bold">-->
-<!--                {{ $t('common.attributes.description') }}-->
-<!--              </label>-->
-<!--              <textarea-->
-<!--                v-model="enterpriseForm.description"-->
-<!--                class="form-control"-->
-<!--                placeholder="Description.."-->
-<!--              ></textarea>-->
-<!--              <div-->
-<!--                v-if="errors?.description"-->
-<!--                class="invalid-feedback"-->
-<!--                style="display: inline"-->
-<!--              >-->
-<!--                {{ errors.description[0] }}-->
-<!--              </div>-->
-<!--            </div>-->
-<!--          </div>-->
-<!--        </div>-->
+        <BaseTextArea
+          v-model="enterpriseForm.description"
+          rows="4"
+          :errors="errors?.description"
+          :label="$t('common.attributes.description')"
+          placeholder="Enterprise description..."
+        />
       </div>
       <div class="card-footer">
         <div class="row justify-content-end">
@@ -112,9 +98,17 @@ import BaseInput from '/@/components/common/BaseInput.vue';
 import BaseSelect from '/@/components/common/BaseSelect.vue';
 import BaseButton from '/@/components/common/BaseButton.vue';
 import ean from '/@/helpers/ean';
+import BaseTextArea from '/@/components/common/BaseTextArea.vue';
+import BaseInputGroup from '/@/components/common/BaseInputGroup.vue';
 
 export default {
-  components: { BaseButton, BaseSelect, BaseInput },
+  components: {
+    BaseInputGroup,
+    BaseTextArea,
+    BaseButton,
+    BaseSelect,
+    BaseInput,
+  },
   beforeRouteEnter(routeTo, routeFrom, next) {
     Promise.all([
       store.dispatch('enterpriseTypeConfig/getEnterpriseTypesList', {
@@ -143,7 +137,7 @@ export default {
         phone: null,
         logo: null,
         slogan: null,
-        // description: null,
+        description: null,
         po_box: null,
         currency: null,
         domain: null,
@@ -156,11 +150,21 @@ export default {
     ...mapGetters('enterprise', ['enterprise']),
     ...mapGetters('enterpriseTypeConfig', ['enterpriseTypes']),
     ...mapGetters('auth', ['currentUser']),
-    ...mapGetters('workspace', ['currentWorkspace']),
+    ...mapGetters('country', ['countries']),
     formTitle() {
       return this.enterprise
         ? this.$t('structures.enterprise.formUpdateTitle')
         : this.$t('structures.enterprise.formCreateTitle');
+    },
+    userCountry() {
+      return this.countries.find(
+        (c) => c.id === this.currentUser.user.country_id
+      );
+    },
+    callingCode() {
+      return this.userCountry !== undefined
+        ? `+${this.userCountry.calling_code}`
+        : null;
     },
   },
   watch: {
@@ -173,12 +177,9 @@ export default {
   },
   created() {
     if (this.enterprise) {
-      this.enterpriseForm = this.enterprise;
+      this.enterpriseForm = Object.assign({}, this.enterprise);
       this.enterprise_type_id = this.enterprise.enterprise_type_id;
       this.is_edited = false;
-    } else {
-      this.enterpriseForm.user_id = this.currentUser?.user?.id;
-      this.enterpriseForm.domain = this.currentWorkspace?.domain;
     }
   },
   methods: {

@@ -28,7 +28,7 @@ export default {
   components: { BaseDropzone, BaseGallery },
   beforeRouteEnter(routeTo, routeFrom, next) {
     store
-      .dispatch('enterprise/getEnterprise', {
+      .dispatch('propertyConfig/getPropertiesList', {
         page: 1,
         field: {},
       })
@@ -41,14 +41,13 @@ export default {
       });
   },
   computed: {
+    ...mapGetters('propertyConfig', ['properties']),
     ...mapGetters('enterprise', ['enterprise']),
     enterpriseContext() {
       return `enterprises/${this.enterprise?.id}`;
     },
     imageEnterpriseId() {
-      const p = this.properties.find(
-          (p) => p.code === enterpriseImageCode
-      );
+      const p = this.properties.find((p) => p.code === enterpriseImageCode);
       if (p !== undefined) return p.id;
       return null;
     },

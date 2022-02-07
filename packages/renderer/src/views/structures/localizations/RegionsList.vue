@@ -26,16 +26,16 @@
         <BaseDatatable :tfoot="false" :total="regions.length">
           <template #headers>
             <th>#</th>
+            <th>{{ $t('common.attributes.country') }}</th>
             <th>{{ $t('common.attributes.name') }}</th>
             <th>{{ $t('common.attributes.code') }}</th>
-            <th>{{ $t('common.attributes.country') }}</th>
             <th>{{ $t('common.actions') }}</th>
           </template>
           <tr v-for="region in regions" :key="region.id">
             <td>{{ region.id }}</td>
+            <td>{{ region.country.name }}</td>
             <td>{{ region.name }}</td>
             <td>{{ region.code }}</td>
-            <td>{{ region.country?.name }}</td>
             <td>
               <button
                 class="btn btn-secondary btn-xs"
@@ -63,7 +63,6 @@
             </td>
           </tr>
         </BaseDatatable>
-
       </div>
 
       <router-view />
@@ -94,14 +93,17 @@ export default {
       });
   },
   computed: {
-      ...mapGetters('region', ['regions', 'region']),
+    ...mapGetters('region', ['regions', 'region']),
   },
   created() {
-    if (this.region && this.region.id) this.$store.commit('region/SET_CURRENT_REGION', null);
+    if (this.region && this.region.id)
+      this.$store.commit('region/SET_CURRENT_REGION', null);
   },
   methods: {
     deleteRegion(region) {
-      if (confirm(this.$t('messages.confirmDeactivation', { label: region.name })))
+      if (
+        confirm(this.$t('messages.confirmDeactivation', { label: region.name }))
+      )
         this.$store.dispatch('region/deleteRegion', region.id);
     },
   },

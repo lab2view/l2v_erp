@@ -1,7 +1,7 @@
 <template>
   <BaseContainer
     :title="$t('structures.title')"
-    :module="$t('menu.modules.enterprises')"
+    :module="$t('menu.modules.structures')"
   >
     <div class="card">
       <div class="card-header pb-2 border-bottom border-bottom-">
@@ -26,34 +26,18 @@
         <BaseDatatable :tfoot="false" :total="enterprises.length">
           <template #headers>
             <th>#</th>
-            <th>{{ $t('common.attributes.name') }}</th>
             <th>{{ $t('common.attributes.enterpriseType') }}</th>
+            <th>{{ $t('common.attributes.name') }}</th>
             <th>{{ $t('common.attributes.email') }}</th>
             <th>{{ $t('common.attributes.phone') }}</th>
-            <th>{{ $t('common.attributes.domain') }}</th>
-            <th>{{ $t('common.attributes.database') }}</th>
-            <th>{{ $t('common.attributes.logo') }}</th>
-            <th>{{ $t('common.attributes.description') }}</th>
-            <th>{{ $t('common.attributes.currency') }}</th>
-            <th>{{ $t('common.attributes.website') }}</th>
-            <th>{{ $t('common.attributes.slogan') }}</th>
-            <th>{{ $t('common.attributes.po_box') }}</th>
             <th>{{ $t('common.actions') }}</th>
           </template>
           <tr v-for="enterprise in enterprises" :key="enterprise.id">
             <td>{{ enterprise.id }}</td>
+            <td>{{ enterprise.enterprise_type.label }}</td>
             <td>{{ enterprise.name }}</td>
-            <td>{{ enterprise.enterprise_type?.name }} // {{ enterprise.enterpriseType?.name }}</td>
             <td>{{ enterprise.email }}</td>
             <td>{{ enterprise.phone }}</td>
-            <td>{{ enterprise.domain }}</td>
-            <td>{{ enterprise.database }}</td>
-            <td>{{ enterprise.logo }}</td>
-            <td>{{ enterprise.description }}</td>
-            <td>{{ enterprise.currency }}</td>
-            <td>{{ enterprise.website }}</td>
-            <td>{{ enterprise.slogan }}</td>
-            <td>{{ enterprise.po_box }}</td>
             <td>
               <button
                 class="btn btn-secondary btn-xs"
@@ -81,7 +65,7 @@
             </td>
           </tr>
         </BaseDatatable>
-        <br/>
+        <br />
       </div>
 
       <router-view />
@@ -115,12 +99,15 @@ export default {
     ...mapGetters('enterprise', ['enterprises', 'enterprise']),
   },
   created() {
-    if (this.enterprise) this.$store.commit('enterprise/SET_CURRENT_ENTERPRISE', null);
+    if (this.enterprise)
+      this.$store.commit('enterprise/SET_CURRENT_ENTERPRISE', null);
   },
 
   methods: {
     deleteEnterprise(enterprise) {
-      if (confirm(this.$t('messages.confirmDelete', { label: enterprise.name })))
+      if (
+        confirm(this.$t('messages.confirmDelete', { label: enterprise.name }))
+      )
         this.$store.dispatch('enterprise/deleteEnterprise', enterprise.id);
     },
   },

@@ -10,16 +10,11 @@ const state = {
 
 // getters
 const getters = {
-  allCountries: (state) => {
-    let countries = state.countries ? JSON.parse(state.countries) : [];
-    return countries && countries.length ? countries : [];
-  },
   countries: (state) => {
-    let countries = state.countries ? JSON.parse(state.countries) : [];
-    return countries && countries.length
-      ? countries.filter((country) => country.is_active === true)
-      : [];
+    return state.countries ? JSON.parse(state.countries) : [];
   },
+  activeCountries: (state, getters) =>
+    getters.countries.filter((c) => c.is_active),
   country: (state) => (state.country ? JSON.parse(state.country) : null),
 };
 
@@ -28,7 +23,6 @@ const actions = {
     if (getters.countries.length > 0) {
       return getters.countries;
     }
-
     return countryService.getCountriesList(page, field).then(({ data }) => {
       commit('SET_COUNTRIES', data);
       return data;

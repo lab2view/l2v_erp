@@ -1,5 +1,6 @@
 export default {
   title: 'Gestion des Structures',
+  localisationTitle: 'Gestion des Localisations',
   configuration: 'Configuration',
   configurations: 'Configurations',
   localizations: 'Localisations',
