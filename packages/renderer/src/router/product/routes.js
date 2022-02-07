@@ -1,9 +1,8 @@
-import { configRoutes } from './configRoutes';
-import FormLayout from '/@/components/products/FormLayout.vue';
-import { formRoutes } from './formRoutes';
+import configRoutes from './configRoutes';
+import formRoutes from './formRoutes';
 import store from '../../store';
 
-const routes = [
+export default [
   {
     path: '',
     name: 'products',
@@ -14,7 +13,7 @@ const routes = [
   },
   {
     path: ':id?/forms',
-    component: FormLayout,
+    component: () => import('/@/components/products/FormLayout.vue'),
     children: formRoutes,
     beforeEnter: (to) => {
       if (to.params.id) {
@@ -33,5 +32,3 @@ const routes = [
     children: configRoutes,
   },
 ];
-
-export default routes;

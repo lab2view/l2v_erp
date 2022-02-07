@@ -12,6 +12,7 @@ export default {
   shuffle: 'Generer',
   type: 'Saisir',
   scan: 'Scanner',
+  select_all: 'Tout selectionner',
   desc_by: 'Date de creation',
   deactivate: 'Desactiver',
   activate: 'Activer',
@@ -23,6 +24,7 @@ export default {
     datetime: 'Date et Heure',
     url: 'Lien',
     radio: 'Choix boolean',
+    product_filter: 'Filtrer par produit',
   },
 
   states: {
@@ -62,6 +64,16 @@ export default {
     state: 'Etat',
     quantity: 'Quantite',
     package_id: 'Conditionnement',
+    article_id: 'Articles',
+    stock_entry_id: 'Mouvements',
+    provider_id: 'Fournisseur',
+    stock_entry_type_id: "Type d'entree",
+  },
+
+  headers: {
+    stock_entry_qty: 'Qte Entre',
+    stock_exit_qty: 'Qte Sortie',
+    stock_in: 'En Stock',
     website: 'Site web',
     slogan: 'Slogan',
     logo: 'Logo',

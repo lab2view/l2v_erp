@@ -84,6 +84,11 @@ export default {
   },
   articlegroup: {
     viewany: "Groupes d'articles",
+    create: 'Ajouter un groupe',
+    form: {
+      description: 'Description du groupe',
+      setting: 'Gerer les articles',
+    },
   },
   package: {
     viewany: 'Conditionnements',
@@ -109,5 +114,9 @@ export default {
   },
   stock: {
     manage: 'Stocks',
+  },
+  movement: {
+    entry: "Mouvements d'entrees",
+    exit: 'Mouvements de sortis',
   },
 };

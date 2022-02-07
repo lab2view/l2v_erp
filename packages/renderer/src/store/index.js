@@ -12,13 +12,16 @@ import productTypeConfig from './modules/product/productTypeConfig';
 import productUnitConfig from './modules/product/productUnitConfig';
 import product from './modules/product/product';
 import article from './modules/product/article';
+import stock_provision from './modules/stock/provision';
+import stock_exit from './modules/stock/stockExit';
+import stock_exit_line from './modules/stock/stockExitLine';
+import article_group from './modules/product/articleGroup';
 import module from './modules/structures/module';
 import localization from './modules/structures/localization';
 import region from './modules/structures/region';
 import country from './modules/structures/country';
 import enterpriseTypeConfig from './modules/structures/enterpriseTypeConfig';
 import enterprise from './modules/structures/enterprise';
-
 
 export default createStore({
   state: {
@@ -67,6 +70,10 @@ export default createStore({
     productTypeConfig,
     productUnitConfig,
     article,
+    stock_provision,
+    stock_exit,
+    stock_exit_line,
+    article_group,
     module,
     localization,
     region,

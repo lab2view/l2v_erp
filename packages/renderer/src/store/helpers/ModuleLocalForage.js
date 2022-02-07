@@ -82,6 +82,34 @@ const Article = new VuexPersistence({
   reducer: (state) => ({ article: state.article }),
 });
 
+const StockProvision = new VuexPersistence({
+  key: 'stock_provision',
+  storage: localStore,
+  asyncStorage: true,
+  reducer: (state) => ({ stock_provision: state.stock_provision }),
+});
+
+const StockExit = new VuexPersistence({
+  key: 'stock_exit',
+  storage: localStore,
+  asyncStorage: true,
+  reducer: (state) => ({ stock_exit: state.stock_exit }),
+});
+
+const StockExitLine = new VuexPersistence({
+  key: 'stock_exit_line',
+  storage: localStore,
+  asyncStorage: true,
+  reducer: (state) => ({ stock_exit_line: state.stock_exit_line }),
+});
+
+const ArticleGroup = new VuexPersistence({
+  key: 'article_group',
+  storage: localStore,
+  asyncStorage: true,
+  reducer: (state) => ({ article_group: state.article_group }),
+});
+
 const Enterprise = new VuexPersistence({
   key: 'enterprise',
   storage: localStore,
@@ -135,6 +163,10 @@ export default [
   ProductTypeConfig.plugin,
   ProductUnitConfig.plugin,
   Article.plugin,
+  StockProvision.plugin,
+  StockExit.plugin,
+  StockExitLine.plugin,
+  ArticleGroup.plugin,
   Enterprise.plugin,
   EnterpriseTypeConfig.plugin,
   Country.plugin,

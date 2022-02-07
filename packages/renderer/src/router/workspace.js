@@ -1,5 +1,5 @@
 import productRoutes from './product/routes';
-import articleRoutes from './articleRoutes';
+import articleRoutes from './article/routes';
 import { enterpriseRoutes } from './structures/enterpriseRoutes';
 import { localizationRoutes } from './structures/localizationRoutes';
 

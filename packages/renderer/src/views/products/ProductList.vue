@@ -123,9 +123,6 @@ export default {
   computed: {
     ...mapGetters('product', ['products', 'product']),
   },
-  created() {
-    if (this.product) this.$store.commit('product/SET_CURRENT_PRODUCT', null);
-  },
 
   methods: {
     deleteProduct(product) {

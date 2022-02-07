@@ -1,4 +1,4 @@
-export const formRoutes = [
+export default [
   {
     path: 'description',
     name: 'product.form.desc',
@@ -49,30 +49,35 @@ export const formRoutes = [
   {
     path: 'stocks',
     name: 'product.form.stock',
-    component: () => import('/@/components/products/ProductStockLayout.vue'),
+    component: () => import('/@/views/products/forms/ProductStockLayout.vue'),
     meta: {
       code: 'Stock.manage',
       icon: 'fa fa-history',
       requireProduct: true,
     },
     children: [
-      {
-        path: '',
-        redirect: (to) => {
-          return { name: 'product.form.stock.entry', params: to.params };
-        },
-      },
+      // {
+      //   path: '',
+      //   redirect: (to) => {
+      //     return {
+      //       name: 'product.form.stock.stats',
+      //       params: to.params,
+      //       query: to.query,
+      //     };
+      //   },
+      // },
       {
         path: 'entries',
         name: 'product.form.stock.entry',
         props: () => ({ useCurrentProduct: true }),
-        component: () => import('/@/views/stocks/entries/StockEntryList.vue'),
+        component: () =>
+          import('/@/views/stocks/entries/StockProvisionList.vue'),
       },
       {
         path: 'exits',
         name: 'product.form.stock.exit',
         props: () => ({ useCurrentProduct: true }),
-        component: () => import('/@/views/stocks/exits/StockExitList.vue'),
+        component: () => import('/@/views/stocks/exits/StockExitLineList.vue'),
       },
     ],
   },

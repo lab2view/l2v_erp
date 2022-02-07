@@ -10,9 +10,9 @@
 </template>
 
 <script>
-import BaseContainer from '../../components/common/BaseContainer.vue';
+import BaseContainer from '../common/BaseContainer.vue';
 import BaseWizardStep from '../common/BaseWizardStep.vue';
-import { formRoutes } from '../../router/product/formRoutes';
+import formRoutes from '../../router/product/formRoutes';
 import { mapGetters } from 'vuex';
 
 export default {
@@ -34,6 +34,9 @@ export default {
         };
       });
     },
+  },
+  beforeUnmount() {
+    this.$store.commit('product/SET_CURRENT_PRODUCT', null);
   },
 };
 </script>
