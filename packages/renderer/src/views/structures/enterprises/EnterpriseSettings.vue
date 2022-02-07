@@ -1,34 +1,59 @@
 <template>
   <div class="card mb-0">
-    <div class="card-header pb-0">
-      <h5>IMAGE GALLERY</h5>
-    </div>
-    <div class="row justify-content-center">
-      <div class="col-md-4"></div>
-      <div class="col-md-8">
-        <BaseDropzone
-          v-if="imageEnterpriseId"
-          :context="enterpriseContext"
-          @uploaded="uploadEntrepriseImage"
-        />
+    <form class="theme-form" @submit.prevent="submitEnterpriseSettingForm">
+      <div class="card-header pb-0">
+        <h5>{{ $t('structures.enterprise.settingTitle') }}</h5>
+        <span
+        >Using the <a href="#">card</a> component, you can extend the default
+          collapse behavior to create an accordion.</span
+        >
       </div>
-    </div>
-    <BaseGallery :items="images" />
+      <div class="card-body">
+        <div class="mb-3">
+          <div class="row align-items-center">
+            <div class="col-md">
+              <BaseSelect
+                  v-model="enterpriseForm.module_id"
+                  :errors="errors?.module_id"
+                  :label="$t('structures.attributes.module')"
+                  :options="modules"
+                  key-label="name"
+                  key-value="id"
+                  required
+              />
+            </div>
+          </div>
+        </div>
+        <div class="mb-3">
+          <div class="row align-items-center">
+            <div class="col-md">
+              <BaseInput
+                  v-model="enterpriseForm.details"
+                  :errors="errors?.details"
+                  :label="$t('common.attributes.details')"
+                  placeholder="mag1@gmail.com"
+                  type="text"
+                  required
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
   </div>
 </template>
 
 <script>
-import BaseGallery from '/@/components/common/BaseGallery.vue';
-import BaseDropzone from '/@/components/common/BaseDropzone.vue';
+import BaseSelect from '/@/components/common/BaseSelect.vue';
+import BaseInput from '/@/components/common/BaseInput.vue';
 import { mapGetters } from 'vuex';
 import store from '/@/store';
-import { enterpriseImageCode } from '/@/helpers/codes';
 
 export default {
-  components: { BaseDropzone, BaseGallery },
+  components: { BaseInput, BaseSelect },
   beforeRouteEnter(routeTo, routeFrom, next) {
     store
-      .dispatch('propertyConfig/getPropertiesList', {
+      .dispatch('module/getModulesList', {
         page: 1,
         field: {},
       })
@@ -40,36 +65,24 @@ export default {
         next();
       });
   },
+  data() {
+    return {
+      errors: [],
+      enterpriseForm: {
+        module_id: null,
+        details: null,
+      },
+    };
+  },
   computed: {
-    ...mapGetters('propertyConfig', ['properties']),
+    ...mapGetters('module', ['modules']),
     ...mapGetters('enterprise', ['enterprise']),
     enterpriseContext() {
       return `enterprises/${this.enterprise?.id}`;
     },
-    imageEnterpriseId() {
-      const p = this.properties.find((p) => p.code === enterpriseImageCode);
-      if (p !== undefined) return p.id;
-      return null;
-    },
-    images() {
-      return [];
-    },
   },
   methods: {
-    uploadEntrepriseImage() {
-      // const properties = names.map((n) => {
-      //   return { value: n, property_id: this.imageEnterpriseId };
-      // });
-      // this.$store
-      //   .dispatch('enterprise/saveProperties', { properties })
-      //   .then((data) => {
-      //     console.log(data);
-      //   })
-      //   .catch((error) => {
-      //     console.log(error);
-      //     console.log(error?.response?.data);
-      //   });
-    },
+    submitEnterpriseSettingForm() {}
   },
 };
 </script>
