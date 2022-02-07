@@ -1,90 +1,47 @@
 <template>
   <BaseFormModal :title="title" :submit-form="submitPropertyForm">
     <div class="mb-3">
-      <label class="form-label fw-bold" for="label">{{
-        $t('common.attributes.label')
-      }}</label>
-      <input
-        id="label"
-        v-model="propertyForm.label"
-        class="form-control"
-        type="text"
-        placeholder="Cassable..."
-        required
-      />
-      <div v-if="errors.label" class="invalid-feedback" style="display: inline">
-        {{ errors.label[0] }}
-      </div>
-    </div>
-    <div class="mb-3">
-      <label class="form-label fw-bold" for="type">{{
-        $t('common.attributes.type')
-      }}</label>
-      <input
-        id="type"
-        v-model="propertyForm.type"
-        class="form-control"
-        type="text"
-        placeholder="Type..."
-        required
-      />
-      <div v-if="errors.type" class="invalid-feedback" style="display: inline">
-        {{ errors.type[0] }}
-      </div>
-    </div>
-    <div class="mb-3">
-      <label class="form-label fw-bold" for="product_type_id">{{
-        $t('common.attributes.product_type')
-      }}</label>
-      <select
-        id="product_type_id"
-        v-model="propertyForm.product_type_id"
-        class="form-control"
-      >
-        <option :value="null" disabled>{{ $t('common.choose') }}</option>
-        <option
-          v-for="(productType, index) in productTypes"
-          :key="`pt-${index}`"
-          :value="productType.id"
-        >
-          {{ productType.label }}
-        </option>
-      </select>
-      <div
-        v-if="errors.product_type_id"
-        class="invalid-feedback"
-        style="display: inline"
-      >
-        {{ errors.product_type_id[0] }}
-      </div>
-    </div>
-    <div class="mb-3">
-      <label class="form-label fw-bold" for="product_family_id">{{
-        $t('common.attributes.product_family')
-      }}</label>
-      <select
-        id="product_family_id"
+      <BaseSelect
         v-model="propertyForm.product_family_id"
-        class="form-control"
-      >
-        <option :value="null" disabled>{{ $t('common.choose') }}</option>
-        <option
-          v-for="(productFamily, index) in productFamilies"
-          :key="`pf-${index}`"
-          :value="productFamily.id"
-        >
-          {{ productFamily.label }}
-        </option>
-      </select>
-      <div
-        v-if="errors.product_family_id"
-        class="invalid-feedback"
-        style="display: inline"
-      >
-        {{ errors.product_family_id[0] }}
-      </div>
+        :label="$t('common.attributes.product_family')"
+        :options="productFamilies"
+        key-label="label"
+        key-value="id"
+        required
+        :errors="errors?.product_family_id"
+      />
     </div>
-
+    <div class="mb-3">
+      <BaseSelect
+        v-model="propertyForm.product_type_id"
+        :label="$t('common.attributes.product_type')"
+        :options="productTypes"
+        key-label="label"
+        key-value="id"
+        required
+        :errors="errors?.product_type_id"
+      />
+    </div>
+    <div class="mb-3">
+      <BaseSelect
+        v-model="propertyForm.type"
+        :label="$t('common.attributes.type')"
+        :options="propertyTypes"
+        key-label="label"
+        key-value="code"
+        required
+        :errors="errors?.type"
+      />
+    </div>
+    <div class="mb-3">
+      <BaseInput
+        v-model="propertyForm.label"
+        :label="$t('common.attributes.label')"
+        placeholder="E.g. collections"
+        :errors="errors?.label"
+        required
+      />
+    </div>
     <template #footer>
       <button class="btn btn-primary" type="submit" :title="$t('common.save')">
         {{ $t('common.save') }}
@@ -97,9 +54,11 @@
 import BaseFormModal from '../../../../components/common/BaseFormModal.vue';
 import { mapGetters } from 'vuex';
 import store from '../../../../store';
+import BaseSelect from '../../../../components/common/BaseSelect.vue';
+import BaseInput from '../../../../components/common/BaseInput.vue';
 
 export default {
-  components: { BaseFormModal },
+  components: { BaseInput, BaseSelect, BaseFormModal },
   beforeRouteEnter(routeTo, routeFrom, next) {
     Promise.all([
       store.dispatch('productFamilyConfig/getProductFamiliesList', {
@@ -140,6 +99,17 @@ export default {
       return this.property
         ? this.$t('product.property.formUpdateTitle')
         : this.$t('product.property.formCreateTitle');
+    },
+    propertyTypes() {
+      return [
+        { code: 'text', label: this.$t('common.fields.text') },
+        { code: 'number', label: this.$t('common.fields.number') },
+        { code: 'date', label: this.$t('common.fields.date') },
+        { code: 'time', label: this.$t('common.fields.time') },
+        { code: 'datetime', label: this.$t('common.fields.datetime') },
+        { code: 'url', label: this.$t('common.fields.url') },
+        { code: 'radio', label: this.$t('common.fields.radio') },
+      ];
     },
   },
   created() {

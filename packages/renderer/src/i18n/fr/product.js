@@ -1,4 +1,12 @@
 export default {
+  title: 'Gestion des produits',
+  listTitle: 'Liste des produits',
+  form: {
+    createTitle: 'Ajouter un nouveau produit',
+    updateTitle: 'Modifier un produit',
+    store: `L'enregistrement du produit a ete effectue avec succes.`,
+    update: 'Modification du produit effectue avec succes.',
+  },
   package: {
     listTitle: 'Liste des conditionnements',
     formCreateTitle: 'Ajouter un conditionnement',
@@ -12,19 +20,15 @@ export default {
     listTitle: 'Liste des proprietes',
     formCreateTitle: 'Ajouter une propriete',
     formUpdateTitle: 'Modifier une propriete',
-    store:
-      "L'enregistrement d'une propriete a ete effectue avec succes",
-    update:
-      "La modification d'une propriete a ete effectuee avec succes",
+    store: "L'enregistrement d'une propriete a ete effectue avec succes",
+    update: "La modification d'une propriete a ete effectuee avec succes",
   },
   tax: {
     listTitle: 'Liste des taxes',
     formCreateTitle: 'Ajouter une tax',
     formUpdateTitle: 'Modifier une tax',
-    store:
-      "L'enregistrement d'une tax a ete effectue avec succes",
-    update:
-      "La modification d'une tax a ete effectuee avec succes",
+    store: "L'enregistrement d'une tax a ete effectue avec succes",
+    update: "La modification d'une tax a ete effectuee avec succes",
   },
   productFamily: {
     listTitle: 'Liste des familles de produit',
@@ -39,18 +43,14 @@ export default {
     listTitle: 'Liste des types de produit',
     formCreateTitle: 'Ajouter un type de produit',
     formUpdateTitle: 'Modifier un type de produit',
-    store:
-      "L'enregistrement du type de produit a ete effectue avec succes",
-    update:
-      'La modification du type de produit a ete effectuee avec succes',
+    store: "L'enregistrement du type de produit a ete effectue avec succes",
+    update: 'La modification du type de produit a ete effectuee avec succes',
   },
   productUnit: {
     listTitle: 'Liste des unites de produit',
     formCreateTitle: 'Ajouter une unite de produit',
     formUpdateTitle: 'Modifier une unite de produit',
-    store:
-      "L'enregistrement de l'unite de produit a ete effectue avec succes",
-    update:
-      "La modification de l'unite de produit a ete effectuee avec succes",
+    store: "L'enregistrement de l'unite de produit a ete effectue avec succes",
+    update: "La modification de l'unite de produit a ete effectuee avec succes",
   },
 };

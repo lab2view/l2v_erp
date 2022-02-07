@@ -36,6 +36,7 @@ export default defineComponent({
 @import '../assets/css/themify.css';
 @import '../assets/css/flag-icon.css';
 @import '../assets/css/feather-icon.css';
+@import '../assets/css/scrollable.css';
 @import '../assets/css/bootstrap.css';
 @import '../assets/css/style.css';
 @import '../assets/css/responsive.css';

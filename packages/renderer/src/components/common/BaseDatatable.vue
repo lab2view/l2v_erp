@@ -26,9 +26,23 @@ export default {
       type: Boolean,
       default: true,
     },
+    total: {
+      type: Number,
+      default: null,
+    },
+  },
+  computed: {
+    tableInfos() {
+      return this.total ? `${this.total} lines` : false;
+    },
   },
   mounted() {
-    $('#datatable-dt').DataTable();
+    $('#datatable-dt').DataTable({
+      info: !!this.tableInfos,
+      language: {
+        info: this.tableInfos ?? false,
+      },
+    });
   },
 };
 </script>
