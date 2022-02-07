@@ -7,6 +7,7 @@ import workspaceGuard from '../guards/workspaceGuard';
 import authGuard from '../guards/authGuard';
 import unlockGuard from '../guards/unlockGuard';
 import redirectAuthGuard from '../guards/redirectAuthGuard';
+import productGuard from '../guards/productGuard';
 
 const routes = [
   {
@@ -74,6 +75,7 @@ const router = createRouter({
     if (savedPosition) return savedPosition;
     else return { top: 0 };
   },
+  // linkActiveClass: 'active',
   linkExactActiveClass: 'active',
 });
 
@@ -86,12 +88,16 @@ router.beforeEach(async (to, from, next) => {
   if (to.meta.requireAuth) authGuard(to, from, next);
   if (to.meta.redirectAuth) redirectAuthGuard(to, from, next);
   if (to.meta.requireUnlock) unlockGuard(to, from, next);
+  if (to.meta.requireProduct) productGuard(to, from, next);
 
   next();
 });
 
 router.afterEach(() => {
-  setTimeout(() => store.dispatch('setGlobalLoading', false), 1000);
+  if (store.state.initiateApp) {
+    setTimeout(() => store.dispatch('setGlobalLoading', false), 1500);
+    store.dispatch('setInitiateApp', false);
+  } else store.dispatch('setGlobalLoading', false);
 });
 
 export default router;

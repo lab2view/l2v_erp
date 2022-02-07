@@ -11,14 +11,14 @@
 <script>
 import Bookmark from '/@/components/layouts/Bookmark.vue';
 import BaseContainer from '/@/components/common/BaseContainer.vue';
-import { productConfigRoutes } from '../../router/productConfigRoutes';
+import configRoutes from '../../router/product/configRoutes';
 
 export default {
   name: 'ConfigurationLayout',
   components: { BaseContainer, Bookmark },
   computed: {
     bookmarkItems() {
-      let results = Object.assign([], productConfigRoutes);
+      let results = Object.assign([], configRoutes);
       return results.map((productConfigRoute) => {
         return productConfigRoute.meta?.feather
           ? {

@@ -1,20 +1,5 @@
 export const productMenus = [
   {
-    icon: 'grid',
-    code: 'Products.manage',
-    prefix: 'product',
-    items: [
-      {
-        code: 'Product.create',
-        to: 'product.form',
-      },
-      {
-        code: 'Product.viewAny',
-        to: 'products',
-      },
-    ],
-  },
-  {
     icon: 'shopping-cart',
     code: 'Articles.manage',
     prefix: 'article',
@@ -26,6 +11,21 @@ export const productMenus = [
       {
         code: 'ArticleGroup.viewAny',
         to: 'article.groups',
+      },
+    ],
+  },
+  {
+    icon: 'grid',
+    code: 'Products.manage',
+    prefix: 'product',
+    items: [
+      {
+        code: 'Product.create',
+        to: 'product.form.desc',
+      },
+      {
+        code: 'Product.viewAny',
+        to: 'products',
       },
     ],
   },
@@ -62,6 +62,55 @@ export const productMenus = [
       {
         code: 'Property.viewAny',
         to: 'config.product.property',
+      },
+    ],
+  },
+];
+
+export const structureMenus = [
+  {
+    icon: 'shopping-bag',
+    code: 'Enterprises.manage',
+    prefix: 'enterprise',
+    items: [
+      {
+        code: 'Enterprise.viewAny',
+        to: 'enterprises',
+      },
+      {
+        code: 'Enterprise.create',
+        to: 'enterprise.form',
+      },
+    ],
+  },
+  {
+    icon: 'grid',
+    code: 'Localizations.manage',
+    prefix: 'localizations',
+    items: [
+      {
+        code: 'Localization.viewAny',
+        to: 'localizations',
+      },
+      {
+        code: 'Country.viewAny',
+        to: 'localizations.countries',
+      },
+      {
+        code: 'Region.viewAny',
+        to: 'localizations.regions',
+      },
+    ],
+  },
+  {
+    icon: 'settings',
+    code: 'Enterprises.manage',
+    label: 'Configurations',
+    prefix: 'types.entreprise',
+    items: [
+      {
+        code: 'EnterpriseType.viewAny',
+        to: 'types.entreprise',
       },
     ],
   },

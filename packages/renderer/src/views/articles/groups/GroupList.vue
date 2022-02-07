@@ -1,193 +1,122 @@
 <template>
-  <div class="container-fluid">
-    <div class="page-header">
-      <div class="row">
-        <div class="col-sm-6">
-          <h3>Sample Page</h3>
-          <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="#">Home</a></li>
-            <li class="breadcrumb-item">Pages</li>
-            <li class="breadcrumb-item active">Sample Page</li>
-          </ol>
-        </div>
-        <div class="col-sm-6">
-          <!-- Bookmark Start-->
-          <div class="bookmark">
-            <ul>
-              <li>
-                <a
-                  href="javascript:void(0)"
-                  data-container="body"
-                  data-bs-toggle="popover"
-                  data-placement="top"
-                  title=""
-                  data-original-title="Tables"
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="24"
-                    height="24"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    class="feather feather-inbox"
-                  >
-                    <polyline
-                      points="22 12 16 12 14 15 10 15 8 12 2 12"
-                    ></polyline>
-                    <path
-                      d="M5.45 5.11L2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"
-                    ></path>
-                  </svg>
-                </a>
-              </li>
-              <li>
-                <a
-                  href="javascript:void(0)"
-                  data-container="body"
-                  data-bs-toggle="popover"
-                  data-placement="top"
-                  title=""
-                  data-original-title="Chat"
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="24"
-                    height="24"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    class="feather feather-message-square"
-                  >
-                    <path
-                      d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"
-                    ></path>
-                  </svg>
-                </a>
-              </li>
-              <li>
-                <a
-                  href="javascript:void(0)"
-                  data-container="body"
-                  data-bs-toggle="popover"
-                  data-placement="top"
-                  title=""
-                  data-original-title="Icons"
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="24"
-                    height="24"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    class="feather feather-command"
-                  >
-                    <path
-                      d="M18 3a3 3 0 0 0-3 3v12a3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3H6a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3V6a3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3h12a3 3 0 0 0 3-3 3 3 0 0 0-3-3z"
-                    ></path>
-                  </svg>
-                </a>
-              </li>
-              <li>
-                <a
-                  href="javascript:void(0)"
-                  data-container="body"
-                  data-bs-toggle="popover"
-                  data-placement="top"
-                  title=""
-                  data-original-title="Learning"
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="24"
-                    height="24"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    class="feather feather-layers"
-                  >
-                    <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
-                    <polyline points="2 17 12 22 22 17"></polyline>
-                    <polyline points="2 12 12 17 22 12"></polyline>
-                  </svg>
-                </a>
-              </li>
-              <li>
-                <a href="javascript:void(0)">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="24"
-                    height="24"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    class="feather feather-star bookmark-search"
-                  >
-                    <polygon
-                      points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"
-                    ></polygon>
-                  </svg>
-                </a>
-                <form class="form-inline search-form">
-                  <div class="form-group form-control-search">
-                    <input type="text" placeholder="Search.." />
-                  </div>
-                </form>
-              </li>
-            </ul>
+  <BaseContainer
+    :title="$t('article.group.listTitle')"
+    :module="$t('menu.modules.articles')"
+  >
+    <div class="card">
+      <div class="card-header pb-2 border-bottom border-bottom-">
+        <div class="row align-items-center">
+          <div class="col-sm">
+            <h5>{{ $t('article.group.listTitle') }}</h5>
           </div>
-          <!-- Bookmark Ends-->
-        </div>
-      </div>
-    </div>
-  </div>
-  <!-- Container-fluid starts-->
-  <div class="container-fluid">
-    <div class="row">
-      <div class="col-sm-12">
-        <div class="card">
-          <div class="card-header pb-0">
-            <h5>Sample Card</h5>
-            <span
-              >lorem ipsum dolor sit amet, consectetur adipisicing elit</span
+          <div class="col-sm-auto align-items-end">
+            <router-link
+              :to="{ name: 'article.group.form.desc' }"
+              href="#"
+              class="btn btn-primary"
+              type="button"
             >
-          </div>
-          <div class="card-body">
-            <p>
-              "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-              enim ad minim veniam, quis nostrud exercitation ullamco laboris
-              nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
-              reprehenderit in voluptate velit esse cillum dolore eu fugiat
-              nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-              sunt in culpa qui officia deserunt mollit anim id est laborum."
-            </p>
+              <i class="fa fa-plus m-r-5" />
+              {{ $t('common.add') }}
+            </router-link>
           </div>
         </div>
       </div>
+      <div class="card-body">
+        <BaseDatatable :tfoot="false" :total="articleGroups.length">
+          <template #headers>
+            <th>#</th>
+            <th>{{ $t('common.attributes.label') }}</th>
+            <th>{{ $t('common.attributes.code') }}</th>
+            <th>{{ $t('common.attributes.description') }}</th>
+            <th>{{ $t('common.actions') }}</th>
+          </template>
+          <tr v-for="articleGroup in articleGroups" :key="articleGroup.id">
+            <td>{{ articleGroup.id }}</td>
+            <td>{{ articleGroup.label }}</td>
+            <td>
+              <router-link
+                :to="{
+                  name: 'article.group.detail',
+                  params: { id: articleGroup.id },
+                }"
+              >
+                {{ articleGroup.code }}
+              </router-link>
+            </td>
+            <td>{{ articleGroup.description }}</td>
+            <td>
+              <BaseButton
+                type="button"
+                class="btn btn-iconsolid btn-info btn-sm"
+                :title="$t('common.update')"
+                @click.prevent="
+                  $router.push({
+                    name: 'article.group.form.desc',
+                    params: { id: articleGroup.id },
+                  })
+                "
+              >
+                <i class="fa fa-edit" />
+              </BaseButton>
+              <BaseButton
+                v-if="!articleGroup.not_deletable"
+                type="button"
+                class="btn btn-iconsolid btn-danger btn-sm m-l-5"
+                :title="$t('common.delete')"
+                @click.prevent="deleteArticleGroup(articleGroup)"
+              >
+                <i class="fa fa-trash-o" />
+              </BaseButton>
+            </td>
+          </tr>
+        </BaseDatatable>
+      </div>
     </div>
-  </div>
-  <!-- Container-fluid Ends-->
+  </BaseContainer>
 </template>
 
 <script>
-export default {};
+import BaseDatatable from '/@/components/common/BaseDatatable.vue';
+import store from '../../../store';
+import { mapGetters } from 'vuex';
+import BaseContainer from '../../../components/common/BaseContainer.vue';
+import BaseButton from '../../../components/common/BaseButton.vue';
+
+export default {
+  components: { BaseButton, BaseContainer, BaseDatatable },
+  beforeRouteEnter(routeTo, routeFrom, next) {
+    store
+      .dispatch('article_group/getArticleGroupList', {
+        page: 1,
+        field: {},
+      })
+      .then(() => {
+        next();
+      })
+      .catch((error) => {
+        console.log(error);
+        next();
+      });
+  },
+  computed: {
+    ...mapGetters('article_group', ['articleGroups']),
+  },
+
+  methods: {
+    deleteArticleGroup(articleGroup) {
+      if (
+        confirm(
+          this.$t('messages.confirmDelete', { label: articleGroup.label })
+        )
+      )
+        this.$store.dispatch(
+          'article_group/deleteArticleGroup',
+          articleGroup.id
+        );
+    },
+  },
+};
 </script>
 
 <style scoped></style>
