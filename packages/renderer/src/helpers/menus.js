@@ -66,3 +66,52 @@ export const productMenus = [
     ],
   },
 ];
+
+export const structureMenus = [
+  {
+    icon: 'shopping-bag',
+    code: 'Enterprises.manage',
+    prefix: 'enterprise',
+    items: [
+      {
+        code: 'Enterprise.viewAny',
+        to: 'enterprises',
+      },
+      {
+        code: 'Enterprise.create',
+        to: 'enterprise.form',
+      },
+    ],
+  },
+  {
+    icon: 'grid',
+    code: 'Localizations.manage',
+    prefix: 'localizations',
+    items: [
+      {
+        code: 'Localization.viewAny',
+        to: 'localizations',
+      },
+      {
+        code: 'Country.viewAny',
+        to: 'localizations.countries',
+      },
+      {
+        code: 'Region.viewAny',
+        to: 'localizations.regions',
+      },
+    ],
+  },
+  {
+    icon: 'settings',
+    code: 'Enterprises.manage',
+    label: 'Configurations',
+    prefix: 'types.entreprise',
+    items: [
+      {
+        code: 'EnterpriseType.viewAny',
+        to: 'types.entreprise',
+      },
+    ],
+  },
+];

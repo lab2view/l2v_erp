@@ -110,6 +110,48 @@ const ArticleGroup = new VuexPersistence({
   reducer: (state) => ({ article_group: state.article_group }),
 });
 
+const Enterprise = new VuexPersistence({
+  key: 'enterprise',
+  storage: localStore,
+  asyncStorage: true,
+  reducer: (state) => ({ enterprise: state.enterprise }),
+});
+
+const EnterpriseTypeConfig = new VuexPersistence({
+  key: 'enterpriseTypeConfig',
+  storage: localStore,
+  asyncStorage: true,
+  reducer: (state) => ({ enterpriseTypeConfig: state.enterpriseTypeConfig }),
+});
+
+const Country = new VuexPersistence({
+  key: 'country',
+  storage: localStore,
+  asyncStorage: true,
+  reducer: (state) => ({ country: state.country }),
+});
+
+const Localization = new VuexPersistence({
+  key: 'localization',
+  storage: localStore,
+  asyncStorage: true,
+  reducer: (state) => ({ localization: state.localization }),
+});
+
+const Module = new VuexPersistence({
+  key: 'module',
+  storage: localStore,
+  asyncStorage: true,
+  reducer: (state) => ({ module: state.module }),
+});
+
+const Region = new VuexPersistence({
+  key: 'region',
+  storage: localStore,
+  asyncStorage: true,
+  reducer: (state) => ({ region: state.region }),
+});
+
 export default [
   Auth.plugin,
   Product.plugin,
@@ -125,4 +167,10 @@ export default [
   StockExit.plugin,
   StockExitLine.plugin,
   ArticleGroup.plugin,
+  Enterprise.plugin,
+  EnterpriseTypeConfig.plugin,
+  Country.plugin,
+  Localization.plugin,
+  Module.plugin,
+  Region.plugin,
 ];

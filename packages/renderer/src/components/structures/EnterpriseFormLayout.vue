@@ -1,7 +1,7 @@
 <template>
   <BaseContainer
-    :title="$t('product.title')"
-    :module="$t('menu.modules.products')"
+    :module="$t('menu.modules.structures')"
+    :title="$t('structures.title')"
   >
     <div class="card">
       <BaseWizardStep :links="items" />
@@ -10,15 +10,15 @@
 </template>
 
 <script>
-import BaseContainer from '../common/BaseContainer.vue';
+import BaseContainer from '../../components/common/BaseContainer.vue';
 import BaseWizardStep from '../common/BaseWizardStep.vue';
-import formRoutes from '../../router/product/formRoutes';
+import { formRoutes } from '/@/router/structures/formRoutes';
 import { mapGetters } from 'vuex';
 
 export default {
   components: { BaseWizardStep, BaseContainer },
   computed: {
-    ...mapGetters('product', ['haveProduct']),
+    ...mapGetters('enterprise', ['haveEnterprise']),
     items() {
       let results = Object.assign([], formRoutes);
       return results.map((pfr) => {
@@ -27,16 +27,13 @@ export default {
           code: pfr.meta.code,
           icon: pfr.meta.icon,
           title: pfr.meta.title ?? null,
-          disabled: pfr.meta.requireProduct ? !this.haveProduct : false,
-          class: `${this.haveProduct ? 'activated' : ''} ${
+          disabled: pfr.meta.requireEnterprise ? !this.haveEnterprise : false,
+          class: `${this.haveEnterprise ? 'activated' : ''} ${
             RegExp(`^${pfr.name}*`).test(this.$route.name) ? 'active' : ''
           }`,
         };
       });
     },
-  },
-  beforeUnmount() {
-    this.$store.commit('product/SET_CURRENT_PRODUCT', null);
   },
 };
 </script>

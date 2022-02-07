@@ -1,16 +1,69 @@
 export default {
-  module: {
+  modules: {
     products: 'Products',
     articles: 'Articles',
     stocks: 'Stocks',
     sales: 'Ventes',
     customers: 'Clients',
     payments: 'Paiements',
-    enterprise: 'Structures',
+    structures: 'Entreprises',
     iam: 'IAM',
+    manage: 'Modules',
   },
   products: {
     manage: 'Produits',
+  },
+  enterprises: {
+    manage: 'Structures',
+  },
+  localizations: {
+    manage: 'Localisations',
+  },
+  module: {
+    create: 'Ajouter un module',
+    viewany: 'Liste des modules',
+    form: {
+      description: 'Description du module',
+    },
+  },
+  localization: {
+    create: 'Ajouter une adresse',
+    viewany: 'Liste des adresses',
+    form: {
+      description: "Description de l'adresse",
+    },
+  },
+  country: {
+    create: 'Activer un pays',
+    add: 'Ajouter un pays',
+    viewany: 'Liste des pays',
+    update: 'Activer un pays',
+    form: {
+      description: 'Description du pays',
+    },
+  },
+  region: {
+    create: 'Activer une region',
+    add: 'Ajouter une region',
+    viewany: 'Liste des regions',
+    form: {
+      description: 'Description de la region',
+    },
+  },
+  enterprise: {
+    create: 'Ajouter une structure',
+    viewany: 'Liste des structures',
+    form: {
+      description: 'Description de la structure',
+      setting: 'Parametres de la structure',
+    },
+  },
+  enterprisetype: {
+    create: 'Ajouter un type de structure',
+    viewany: 'Liste des types de structure',
+    form: {
+      description: 'Description du type de structure',
+    },
   },
   product: {
     create: 'Ajouter un produit',
