@@ -11,24 +11,6 @@ export const enterpriseRoutes = [
       code: 'Enterprise.viewAny',
       feather: 'filter',
     },
-    children: [
-      {
-        path: 'module/:id',
-        name: 'enterprise.module.form',
-        component: () =>
-          import('/@/views/structures/enterprises/EnterpriseModuleForm.vue'),
-        beforeEnter: (to) => {
-          if (to.params.id) {
-            return store
-              .dispatch('enterprise/getEnterpriseModulesList', to.params.id)
-              .then(() => {
-                return { name: to.name };
-              })
-              .catch(() => -1);
-          }
-        },
-      },
-    ],
   },
   {
     path: 'enterprise-types',
@@ -67,7 +49,8 @@ export const enterpriseRoutes = [
       if (to.params.id) {
         return store
           .dispatch('enterprise/getEnterprise', to.params.id)
-          .then(() => {
+          .then((data) => {
+            store.commit('enterprise/SET_CURRENT_ENTERPRISE', data);
             return { name: to.name };
           })
           .catch(() => -1);

@@ -28,9 +28,9 @@ export default {
           icon: pfr.meta.icon,
           title: pfr.meta.title ?? null,
           disabled: pfr.meta.requireEnterprise ? !this.haveEnterprise : false,
-          class: `${this.haveEnterprise ? 'activated' : ''} ${
-            RegExp(`^${pfr.name}*`).test(this.$route.name.toString()) ? 'active' : ''
-          }`,
+          // class: `${this.haveEnterprise ? 'activated' : ''} ${
+          //   RegExp(`^${pfr.name}*`).test(this.$route.name.toString()) ? 'active' : ''
+          // },
         };
       });
     },
