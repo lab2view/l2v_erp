@@ -10,7 +10,7 @@ export default [
   {
     path: ':id?/form',
     name: 'article.form',
-    component: () => import('/@/views/articles/FormLayout.vue'),
+    component: () => import('/@/views/articles/Form.vue'),
   },
   {
     path: ':id/details',

@@ -29,12 +29,15 @@ export default {
     return axios.delete(`/enterprises/delete/${id}`);
   },
 
-  addEnterpriseModule(enterpriseModule) {
-    return axios.post(`/enterprises/modules/add`, enterpriseModule);
+  addEnterpriseModule(fields) {
+    return axios.post(`/enterprises/modules/add`, fields);
   },
 
-  updateEnterpriseModule(enterpriseModule, id) {
-    return axios.put(`/enterprises/modules/update/${id}`, enterpriseModule);
+  updateEnterpriseModule(enterpriseModuleId, fields) {
+    return axios.post(
+      `/enterprises/modules/update/${enterpriseModuleId}`,
+      fields
+    );
   },
 
   deleteEnterpriseModule(id) {
