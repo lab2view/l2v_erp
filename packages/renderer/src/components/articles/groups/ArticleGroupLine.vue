@@ -6,6 +6,12 @@
       </div>
     </td>
     <td class="font-primary f-w-600">{{ article?.name }}</td>
+    <td class="text-center">
+      <BaseUpdateNumberForm
+        :model="articleGroupLine"
+        :store-action="updateQuantity"
+      />
+    </td>
     <td>
       <div class="row justify-content-center align-items-center">
         <div class="col-md-6 p-0">
@@ -27,8 +33,9 @@
 <script>
 import BaseButton from '../../common/BaseButton.vue';
 import { mapGetters } from 'vuex';
+import BaseUpdateNumberForm from '/@/components/common/BaseUpdateNumberForm.vue';
 export default {
-  components: { BaseButton },
+  components: { BaseUpdateNumberForm, BaseButton },
   props: {
     articleGroupLine: {
       type: Object,
@@ -67,8 +74,18 @@ export default {
         confirm(
           this.$t('messages.confirmDelete', { label: this.articleGroupLine.id })
         )
-      )
-        console.log(this.articleGroupLine);
+      ) {
+        this.loading = true;
+        this.$store
+          .dispatch('article_group/removeArticleGroupLines', [
+            this.articleGroupLine.id,
+          ])
+          .then(() => (this.loading = false));
+      }
+    },
+
+    updateQuantity(data) {
+      return this.$store.dispatch('article_group/updateArticleGroupLine', data);
     },
   },
 };

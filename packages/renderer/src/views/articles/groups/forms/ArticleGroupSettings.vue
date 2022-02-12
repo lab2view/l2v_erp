@@ -1,11 +1,11 @@
 <template>
-  <router-view />
+  <router-view :article-group="articleGroup" />
   <div class="card mb-0">
     <div class="card-header pb-0">
       <div class="row align-items-center">
         <div class="col-sm">
           <h5>
-            {{ `${$t('article.group.listTitle')} - ${articleGroup.code}` }}
+            {{ `${$t('article.group.listTitle')} - ${articleGroup.label}` }}
           </h5>
         </div>
         <div
@@ -24,18 +24,27 @@
       </div>
     </div>
     <div class="card-body">
-      <div class="user-status table-responsive">
-        <table class="table table-bordernone">
+      <div class="table-responsive">
+        <table class="table">
           <thead>
             <tr>
               <th :title="$t('common.select_all')">
-                <div class="checkbox checkbox-solid-success">
-                  <input v-if="partialSelect" type="checkbox" />
-                  <input v-else v-model="selectAll" type="checkbox" />
+                <div
+                  class="checkbox"
+                  :class="
+                    partialSelect
+                      ? 'checkbox-solid-success'
+                      : 'checkbox-primary'
+                  "
+                >
+                  <input v-model="selectAll" type="checkbox" />
+                  <label></label>
                 </div>
               </th>
               <th scope="col">{{ $t('common.attributes.name') }}</th>
-              <th scope="col">{{ $t('common.attributes.quantity') }}</th>
+              <th class="text-center" scope="col">
+                {{ $t('common.attributes.quantity') }}
+              </th>
               <th scope="col">{{ $t('common.actions') }}</th>
             </tr>
           </thead>
@@ -57,6 +66,7 @@
 import store from '/@/store';
 import ArticleGroupMixin from '/@/mixins/ArticleGroupMixin';
 import ArticleGroupLine from '/@/components/articles/groups/ArticleGroupLine.vue';
+import { mapGetters } from 'vuex';
 
 export default {
   components: { ArticleGroupLine },
@@ -82,6 +92,7 @@ export default {
     };
   },
   computed: {
+    ...mapGetters('article_group', ['articleGroup']),
     articleGroupLines() {
       return this.haveArticleGroup ? this.articleGroup.article_group_lines : [];
     },

@@ -7,111 +7,115 @@
       <div class="row justify-content-center">
         <div class="col-md-4">
           <div class="default-according style-1 faq-accordion job-accordion">
-            <div class="card">
+            <div class="card mb-0">
               <div class="card-header">
-                <h5 class="mb-0 p-0">
-                  <button
-                    class="btn btn-link ps-0"
-                    data-bs-toggle="collapse"
-                    data-bs-target="#collapseicon"
-                    aria-expanded="true"
-                    aria-controls="collapseicon"
-                  >
-                    Filter
-                  </button>
-                </h5>
+                <h5 class="mb-0 p-0">{{ $t('common.filter') }}</h5>
               </div>
-              <div
-                id="collapseicon"
-                class="collapse show"
-                aria-labelledby="collapseicon"
-                data-parent="#accordion"
-              >
-                <div class="card-body filter-cards-view animate-chk">
-                  <div class="job-filter mb-3">
-                    <div class="faq-form">
-                      <input
-                        class="form-control"
-                        type="text"
-                        placeholder="Search.."
-                      /><svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="24"
-                        height="24"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        class="feather feather-search search-icon"
-                      >
-                        <circle cx="11" cy="11" r="8"></circle>
-                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-                      </svg>
-                    </div>
+              <div class="card-body filter-cards-view animate-chk">
+                <div class="job-filter mb-3">
+                  <div class="faq-form">
+                    <input
+                      v-model="articleFilter.keyword"
+                      class="form-control"
+                      type="text"
+                      :placeholder="$t('common.attributes.search')"
+                    /><svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      class="feather feather-search search-icon"
+                    >
+                      <circle cx="11" cy="11" r="8"></circle>
+                      <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                    </svg>
                   </div>
-                  <div class="job-filter">
-                    <div class="mb-3">
-                      <BaseSelect
-                        v-model="product_id"
-                        :label="$t('common.fields.product_filter')"
-                        :options="products"
-                        key-label="label"
-                        key-value="id"
-                      />
-                    </div>
+                </div>
+                <div class="job-filter">
+                  <div class="mb-3">
+                    <BaseSelect
+                      v-model="articleFilter.product_family_id"
+                      :label="$t('common.fields.product_family_filter')"
+                      :options="productFamilies"
+                      key-label="label"
+                      key-value="id"
+                    />
                   </div>
-                  <button
-                    class="btn btn-primary text-center mt-3"
-                    type="button"
-                  >
-                    Find jobs
-                  </button>
+                </div>
+                <div class="job-filter">
+                  <div class="mb-3">
+                    <BaseSelect
+                      v-model="articleFilter.product_type_id"
+                      :label="$t('common.fields.product_type_filter')"
+                      :options="selectableProductTypes"
+                      key-label="label"
+                      key-value="id"
+                    />
+                  </div>
+                </div>
+                <div class="job-filter">
+                  <div class="mb-3">
+                    <BaseSelect
+                      v-model="articleFilter.product_id"
+                      :label="$t('common.fields.product_filter')"
+                      :options="selectableProducts"
+                      key-label="name"
+                      key-value="id"
+                    />
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
         <div class="col-md">
-          <div class="card-body">
-            <div class="vertical-scroll scroll-demo">
-              <p>
-                Lorem Ipsum is simply dummy text of the printing and typesetting
-                industry. Lorem Ipsum has been the industry's standard dummy
-                text ever since the 1500s, when an unknown printer took a galley
-                of type and scrambled it to make a type specimen book. It has
-                survived not only five centuries, but also the leap into
-                electronic typesetting, remaining essentially unchanged.
-              </p>
-              <p>
-                It was popularised in the 1960s with the release of Letraset
-                sheets containing Lorem Ipsum passages, and more recently with
-                desktop publishing software like Aldus PageMaker including
-                versions of Lorem Ipsum
-              </p>
-              <p>
-                Contrary to popular belief, Lorem Ipsum is not simply random
-                text. It has roots in a piece of classical Latin literature from
-                45 BC, making it over 2000 years old. Richard McClintock, a
-                Latin professor at Hampden-Sydney College in Virginia, looked up
-                one of the more obscure Latin words
-              </p>
-              <p>
-                It is a long established fact that a reader will be distracted
-                by the readable content of a page when looking at its layout.
-                The point of using Lorem Ipsum is that it has a more-or-less
-                normal distribution of letters, as opposed to using 'Content
-                here, content here', making it look like readable English. Many
-                desktop publishing packages and web page editors.
-              </p>
-              <p>
-                At vero eos et accusamus et iusto odio dignissimos ducimus qui
-                blanditiis praesentium voluptatum deleniti atque corrupti quos
-                dolores et quas molestias excepturi sint occaecati cupiditate
-                non provident, similique sunt in culpa qui officia deserunt
-                mollitia animi, id est laborum et dolorum fuga.
-              </p>
+          <div class="card-body p-0">
+            <div class="table-responsive">
+              <div class="vertical-scroll scroll-demo">
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th>{{ $t('article.listTitle') }}</th>
+                      <th :title="$t('common.select_all')" class="text-end">
+                        <div
+                          class="checkbox"
+                          :class="
+                            partialSelect
+                              ? 'checkbox-solid-success'
+                              : 'checkbox-primary'
+                          "
+                        >
+                          <input
+                            id="checkbox-primary-1"
+                            v-model="selectAll"
+                            type="checkbox"
+                          />
+                          <label
+                            class="m-0 pt-0 pb-0 p-l-5"
+                            for="checkbox-primary-1"
+                            >{{ $t('common.select_all') }}</label
+                          >
+                        </div>
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <ArticleSelectableLine
+                      v-for="article in selectableArticles"
+                      :key="article.id"
+                      :article="article"
+                      :selected-list="selected"
+                      @selected="selectArticle(article, true)"
+                      @unselected="selectArticle(article, false)"
+                    />
+                  </tbody>
+                </table>
+              </div>
             </div>
           </div>
         </div>
@@ -138,15 +142,23 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import BaseInput from '/@/components/common/BaseInput.vue';
 import BaseSelect from '/@/components/common/BaseSelect.vue';
 import BaseButton from '/@/components/common/BaseButton.vue';
 import store from '/@/store';
+import ArticleSelectableLine from '/@/components/articles/groups/ArticleSelectableLine.vue';
 
 export default {
-  components: { BaseButton, BaseInput, BaseSelect },
+  components: { ArticleSelectableLine, BaseButton, BaseSelect },
   beforeRouteEnter(routeTo, routeFrom, next) {
     Promise.all([
+      store.dispatch('productFamilyConfig/getProductFamiliesList', {
+        page: 1,
+        field: {},
+      }),
+      store.dispatch('productTypeConfig/getProductTypesList', {
+        page: 1,
+        field: {},
+      }),
       store.dispatch('product/getProductsList', {
         page: 1,
         field: {},
@@ -159,25 +171,96 @@ export default {
       .catch((error) => console.log(error))
       .finally(() => next());
   },
+  props: {
+    articleGroup: {
+      type: Object,
+      required: true,
+    },
+  },
   data() {
     return {
-      errors: [],
-      articleGroupLines: [],
-      product_id: null,
+      loading: false,
+      product_family_id: null,
+      articleFilter: {
+        keyword: null,
+        product_type_id: null,
+        product_id: null,
+      },
+      selected: [],
     };
   },
   computed: {
-    ...mapGetters('article', ['getArticleByProductId', 'articles']),
+    ...mapGetters('article', ['searchArticleByCriteria']),
+    ...mapGetters('productFamilyConfig', ['productFamilies']),
+    ...mapGetters('productTypeConfig', ['productTypes']),
     ...mapGetters('product', ['products']),
+    selectableProductTypes() {
+      const types = this.product_family_id
+        ? this.productTypes.filter(
+            (pt) => pt.product_family_id.toString() === this.product_family_id
+          )
+        : this.productTypes;
+
+      return [{ label: this.$t('common.all'), id: null }, ...types];
+    },
+    selectableProducts() {
+      return [{ name: this.$t('common.all'), id: null }, ...this.products];
+    },
     selectableArticles() {
-      return this.product_id
-        ? this.getArticleByProductId(this.product_id)
-        : this.articles;
+      return this.searchArticleByCriteria(this.articleFilter).filter(
+        (art) =>
+          this.articleGroup.article_group_lines.find(
+            (agl) => agl.article_id === art.id
+          ) === undefined
+      );
+    },
+    partialSelect() {
+      return (
+        this.selected.length > 0 &&
+        this.selected.length < this.selectableArticles.length
+      );
+    },
+    selectedAllArticle() {
+      if (this.selectableArticles.length)
+        return this.selected.length === this.selectableArticles.length;
+      else return false;
+    },
+    selectAll: {
+      get() {
+        return this.selectedAllArticle;
+      },
+      set(value) {
+        if (!value) this.selected = [];
+        else {
+          let result = [];
+          this.selectableArticles.forEach((sa) => result.push({ id: sa.id }));
+          this.selected = result;
+        }
+      },
+    },
+  },
+  watch: {
+    selectableArticles() {
+      this.selected = [];
     },
   },
   methods: {
     submitArticleGroupLinesForm() {
-      console.log(this.articleGroupLines);
+      if (this.selected.length > 0) {
+        this.loading = true;
+        this.$store
+          .dispatch('article_group/addArticleGroupLines', {
+            articles: this.selected,
+          })
+          .then(() => {
+            this.loading = false;
+          });
+      }
+    },
+
+    selectArticle(article, adding) {
+      if (adding) this.selected.push({ id: article.id });
+      else this.selected = this.selected.filter((s) => s.id !== article.id);
     },
   },
 };

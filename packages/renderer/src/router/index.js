@@ -8,6 +8,7 @@ import authGuard from '../guards/authGuard';
 import unlockGuard from '../guards/unlockGuard';
 import redirectAuthGuard from '../guards/redirectAuthGuard';
 import productGuard from '../guards/productGuard';
+import productArticleGroupGuard from '/@/guards/productArticleGroupGuard';
 
 const routes = [
   {
@@ -89,6 +90,7 @@ router.beforeEach(async (to, from, next) => {
   if (to.meta.redirectAuth) redirectAuthGuard(to, from, next);
   if (to.meta.requireUnlock) unlockGuard(to, from, next);
   if (to.meta.requireProduct) productGuard(to, from, next);
+  if (to.meta.requireArticleGroup) productArticleGroupGuard(to, from, next);
 
   next();
 });

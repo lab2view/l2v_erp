@@ -16,6 +16,8 @@ export default {
   desc_by: 'Date de creation',
   deactivate: 'Desactiver',
   activate: 'Activer',
+  filter: 'Filtrer',
+  all: 'Tout',
   fields: {
     text: 'Chaine de caractere',
     number: 'Nombre',
@@ -24,7 +26,9 @@ export default {
     datetime: 'Date et Heure',
     url: 'Lien',
     radio: 'Choix boolean',
-    product_filter: 'Filtrer par produit',
+    product_filter: 'Par produit',
+    product_family_filter: 'Par famille de produit',
+    product_type_filter: 'Par type de produit',
   },
 
   states: {
@@ -87,6 +91,7 @@ export default {
     city: 'Ville',
     longitude: 'Longitude',
     latitude: 'Latitude',
+    search: 'Rechercher...',
   },
 
   headers: {
