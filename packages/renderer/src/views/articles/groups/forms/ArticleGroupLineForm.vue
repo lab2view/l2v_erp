@@ -105,14 +105,14 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <ArticleSelectableLine
-                      v-for="article in selectableArticles"
-                      :key="article.id"
-                      :article="article"
-                      :selected-list="selected"
-                      @selected="selectArticle(article, true)"
-                      @unselected="selectArticle(article, false)"
-                    />
+                    <tr v-for="article in selectableArticles" :key="article.id">
+                      <ArticleSelectableColumn
+                        :article="article"
+                        :selected-list="selected"
+                        @selected="selectArticle(article, true)"
+                        @unselected="selectArticle(article, false)"
+                      />
+                    </tr>
                   </tbody>
                 </table>
               </div>
@@ -145,10 +145,10 @@ import { mapGetters } from 'vuex';
 import BaseSelect from '/@/components/common/BaseSelect.vue';
 import BaseButton from '/@/components/common/BaseButton.vue';
 import store from '/@/store';
-import ArticleSelectableLine from '/@/components/articles/groups/ArticleSelectableLine.vue';
+import ArticleSelectableColumn from '/@/components/articles/groups/ArticleSelectableColumn.vue';
 
 export default {
-  components: { ArticleSelectableLine, BaseButton, BaseSelect },
+  components: { ArticleSelectableColumn, BaseButton, BaseSelect },
   beforeRouteEnter(routeTo, routeFrom, next) {
     Promise.all([
       store.dispatch('productFamilyConfig/getProductFamiliesList', {

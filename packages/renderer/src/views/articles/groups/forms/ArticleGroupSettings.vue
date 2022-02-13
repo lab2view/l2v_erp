@@ -12,6 +12,15 @@
           v-if="$route.name === 'article.group.form.setting'"
           class="col-sm-auto align-items-end"
         >
+          <BaseButton
+            type="button"
+            class="btn btn-outline-danger m-r-5"
+            :disabled="!isSelected"
+            icon="fa fa-trash-o"
+            :text="$t('common.delete_all')"
+            :loading="loading"
+            @click.prevent="deleteSelectedArticleGroupLine"
+          />
           <router-link
             :to="{ name: 'article.group.form.setting.form' }"
             class="btn btn-primary"
@@ -37,11 +46,20 @@
                       : 'checkbox-primary'
                   "
                 >
-                  <input v-model="selectAll" type="checkbox" />
-                  <label></label>
+                  <input
+                    id="checkbox-primary-1"
+                    v-model="selectAll"
+                    type="checkbox"
+                  />
+                  <label
+                    class="m-0 pt-0 pb-0 p-l-5"
+                    for="checkbox-primary-1"
+                    style="padding-left: 60px"
+                  >
+                    {{ `${$t('article.listTitle')} ${countSelected}` }}</label
+                  >
                 </div>
               </th>
-              <th scope="col">{{ $t('common.attributes.name') }}</th>
               <th class="text-center" scope="col">
                 {{ $t('common.attributes.quantity') }}
               </th>
@@ -50,10 +68,12 @@
           </thead>
           <tbody>
             <ArticleGroupLine
-              v-for="articleGroupLine in articleGroupLines"
-              :key="articleGroupLine.id"
+              v-for="(articleGroupLine, index) in articleGroupLines"
+              :key="`art-grp-lne-${index}`"
               :article-group-line="articleGroupLine"
-              :select-all="selectAll"
+              :selected-list="selected"
+              @selected="selectArticleGroupLine(articleGroupLine, true)"
+              @unselected="selectArticleGroupLine(articleGroupLine, false)"
             />
           </tbody>
         </table>
@@ -67,28 +87,29 @@ import store from '/@/store';
 import ArticleGroupMixin from '/@/mixins/ArticleGroupMixin';
 import ArticleGroupLine from '/@/components/articles/groups/ArticleGroupLine.vue';
 import { mapGetters } from 'vuex';
+import BaseButton from '/@/components/common/BaseButton.vue';
 
 export default {
-  components: { ArticleGroupLine },
+  components: { BaseButton, ArticleGroupLine },
   mixins: [ArticleGroupMixin],
   beforeRouteEnter(routeTo, routeFrom, next) {
-    store
-      .dispatch('product/getProductsList', {
+    Promise.all([
+      store.dispatch('product/getProductsList', {
         page: 1,
         field: {},
-      })
-      .then(() => {
-        next();
-      })
-      .catch((error) => {
-        console.log(error);
-        next();
-      });
+      }),
+      store.dispatch('article/getArticlesList', {
+        page: 1,
+        field: {},
+      }),
+    ])
+      .catch((error) => console.log(error))
+      .finally(() => next());
   },
   data() {
     return {
-      selectAll: false,
       selected: [],
+      loading: false,
     };
   },
   computed: {
@@ -102,14 +123,55 @@ export default {
         this.selected.length < this.articleGroupLines.length
       );
     },
+    selectedAllArticleGroupLine() {
+      if (this.articleGroupLines.length)
+        return this.selected.length === this.articleGroupLines.length;
+      else return false;
+    },
+    selectAll: {
+      get() {
+        return this.selectedAllArticleGroupLine;
+      },
+      set(value) {
+        if (!value) this.selected = [];
+        else {
+          let result = [];
+          this.articleGroupLines.forEach((ag) => result.push(ag.id));
+          this.selected = result;
+        }
+      },
+    },
+    isSelected() {
+      return this.selected.length > 0;
+    },
+    countSelected() {
+      return this.isSelected ? `( ${this.selected.length} )` : '';
+    },
   },
-  watch: {
-    selectAll(value) {
-      if (value) {
-        this.selected = this.articleGroupLines.map((agl) => {
-          agl.id;
-        });
-      } else this.selected = [];
+  methods: {
+    selectArticleGroupLine(articleGroupLine, adding) {
+      if (adding) this.selected.push(articleGroupLine.id);
+      else
+        this.selected = this.selected.filter(
+          (id) => id !== articleGroupLine.id
+        );
+    },
+    deleteSelectedArticleGroupLine() {
+      if (
+        confirm(
+          this.$t('messages.confirmDelete', {
+            label: this.$t('common.deleted_selection'),
+          })
+        )
+      ) {
+        this.loading = true;
+        this.$store
+          .dispatch('article_group/removeArticleGroupLines', this.selected)
+          .then(() => {
+            this.loading = false;
+            this.selected = [];
+          });
+      }
     },
   },
 };

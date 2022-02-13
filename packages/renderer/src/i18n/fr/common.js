@@ -1,6 +1,7 @@
 export default {
   add: 'Ajouter',
   delete: 'Supprimer',
+  delete_all: 'Tout Supprimer',
   save: 'Enregistrer',
   update: 'Modifier',
   restore: 'Restaurer',
@@ -18,6 +19,7 @@ export default {
   activate: 'Activer',
   filter: 'Filtrer',
   all: 'Tout',
+  deleted_selection: 'la selection ',
   fields: {
     text: 'Chaine de caractere',
     number: 'Nombre',

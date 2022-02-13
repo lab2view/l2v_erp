@@ -1,21 +1,19 @@
 <template>
-  <tr>
-    <td class="font-primary" colspan="2">
-      <div class="checkbox checkbox-primary">
-        <input
-          :id="`selected-${article.id}`"
-          v-model="selected"
-          type="checkbox"
-        />
-        <label
-          :for="`selected-${article.id}`"
-          class="mt-0 pt-0"
-          style="padding-left: 60px"
-          >{{ `${article.name}` }}</label
-        >
-      </div>
-    </td>
-  </tr>
+  <td class="font-primary" colspan="2">
+    <div class="checkbox checkbox-primary">
+      <input
+        :id="`selected-${article.id}`"
+        v-model="selected"
+        type="checkbox"
+      />
+      <label
+        :for="`selected-${article.id}`"
+        class="mt-0 pt-0"
+        style="padding-left: 60px"
+        >{{ `${article.name}` }}</label
+      >
+    </div>
+  </td>
 </template>
 
 <script>

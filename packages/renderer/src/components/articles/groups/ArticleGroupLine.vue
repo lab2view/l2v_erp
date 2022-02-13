@@ -1,11 +1,20 @@
 <template>
   <tr>
-    <td>
-      <div class="checkbox checkbox-solid-primary">
-        <input v-model="selected" type="checkbox" />
+    <td class="font-primary">
+      <div class="checkbox checkbox-primary">
+        <input
+          :id="`selected-${articleGroupLine.id}`"
+          v-model="selected"
+          type="checkbox"
+        />
+        <label
+          :for="`selected-${articleGroupLine.id}`"
+          class="mt-0 pt-0"
+          style="padding-left: 60px"
+          >{{ `${article.name}` }}</label
+        >
       </div>
     </td>
-    <td class="font-primary f-w-600">{{ article?.name }}</td>
     <td class="text-center">
       <BaseUpdateNumberForm
         :model="articleGroupLine"
@@ -41,9 +50,9 @@ export default {
       type: Object,
       required: true,
     },
-    selectAll: {
-      type: Boolean,
-      default: false,
+    selectedList: {
+      type: Array,
+      required: true,
     },
   },
   emits: ['selected', 'unselected'],
@@ -59,14 +68,21 @@ export default {
       const a = this.getArticleById(this.articleGroupLine.article_id);
       return a ?? null;
     },
+    isSelected() {
+      return (
+        this.selectedList.find((id) => id === this.articleGroupLine.id) !==
+        undefined
+      );
+    },
   },
   watch: {
     selected(value) {
-      if (!this.selectAll) this.$emit(`${value ? 'selected' : 'unselected'}`);
+      if (this.isSelected && !value) this.$emit('unselected');
+      if (!this.isSelected && value) this.$emit('selected');
     },
-  },
-  created() {
-    if (this.selectAll) this.selected = true;
+    selectedList() {
+      this.selected = this.isSelected;
+    },
   },
   methods: {
     removeArticleGroupLine() {
