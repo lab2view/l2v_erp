@@ -72,6 +72,7 @@
               :key="`art-grp-lne-${index}`"
               :article-group-line="articleGroupLine"
               :selected-list="selected"
+              @deleted="selected = []"
               @selected="selectArticleGroupLine(articleGroupLine, true)"
               @unselected="selectArticleGroupLine(articleGroupLine, false)"
             />

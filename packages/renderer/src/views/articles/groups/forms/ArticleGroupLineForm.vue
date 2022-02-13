@@ -132,6 +132,7 @@
             class="btn btn-primary col-auto"
             :text="$t('common.save')"
             icon="fa fa-save"
+            :disabled="!isSelected"
           />
         </div>
       </div>
@@ -214,10 +215,12 @@ export default {
           ) === undefined
       );
     },
+    isSelected() {
+      return this.selected.length > 0;
+    },
     partialSelect() {
       return (
-        this.selected.length > 0 &&
-        this.selected.length < this.selectableArticles.length
+        this.isSelected && this.selected.length < this.selectableArticles.length
       );
     },
     selectedAllArticle() {

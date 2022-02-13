@@ -55,7 +55,7 @@ export default {
       required: true,
     },
   },
-  emits: ['selected', 'unselected'],
+  emits: ['selected', 'unselected', 'deleted'],
   data() {
     return {
       selected: false,
@@ -96,7 +96,10 @@ export default {
           .dispatch('article_group/removeArticleGroupLines', [
             this.articleGroupLine.id,
           ])
-          .then(() => (this.loading = false));
+          .then(() => {
+            this.$emit('deleted');
+            this.loading = false;
+          });
       }
     },
 
