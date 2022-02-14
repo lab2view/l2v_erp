@@ -94,6 +94,8 @@ export default {
     longitude: 'Longitude',
     latitude: 'Latitude',
     search: 'Rechercher...',
+    tax_id: 'Taxe',
+    value: 'Valeur',
   },
 
   headers: {

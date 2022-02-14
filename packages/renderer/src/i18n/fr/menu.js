@@ -71,7 +71,7 @@ export default {
     form: {
       description: 'Description du produit',
       setting: 'Parametrage avance',
-      article: 'Articles',
+      article: 'Conditionnements',
       stock: 'Entrees en stocks',
     },
   },
