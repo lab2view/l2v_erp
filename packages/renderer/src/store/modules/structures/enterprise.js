@@ -110,12 +110,7 @@ const mutations = {
   },
   UPDATE_ENTERPRISE(state, enterprise) {
     let enterprises = JSON.parse(state.enterprises);
-    const index = enterprises.findIndex((p) => {
-      if (p.id === enterprise.id) {
-        enterprise.enterprise_modules = p.enterprise_modules;
-        return true;
-      }
-    });
+    const index = enterprises.findIndex((p) => p.id === enterprise.id);
     if (index !== -1) {
       enterprises.splice(index, 1, enterprise);
     }
