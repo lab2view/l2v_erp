@@ -9,6 +9,7 @@ export default {
   actions: 'Actions',
   choose: 'Choisir',
   cancel: 'Annuler',
+  previous: 'Precedent',
   shuffle: 'Generer',
   type: 'Saisir',
   scan: 'Scanner',
@@ -16,6 +17,9 @@ export default {
   desc_by: 'Date de creation',
   deactivate: 'Desactiver',
   activate: 'Activer',
+  actif: 'Actif',
+  active: 'Active',
+  inactif: 'Inactif',
   fields: {
     text: 'Chaine de caractere',
     number: 'Nombre',

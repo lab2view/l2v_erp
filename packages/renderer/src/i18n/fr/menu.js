@@ -54,8 +54,9 @@ export default {
     create: 'Ajouter une structure',
     viewany: 'Liste des structures',
     form: {
-      description: 'Description de la structure',
+      desc: 'Description de la structure',
       setting: 'Parametres de la structure',
+      iam: 'Parametres utilisateurs de la structure',
     },
   },
   enterprisetype: {
@@ -116,7 +117,7 @@ export default {
     manage: 'Stocks',
   },
   movement: {
-    entry: "Mouvements d'entrees",
-    exit: 'Mouvements de sortis',
+    entry: "Mouvements d'entree",
+    exit: 'Mouvements de sortie',
   },
 };

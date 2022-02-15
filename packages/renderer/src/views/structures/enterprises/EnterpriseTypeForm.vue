@@ -1,5 +1,5 @@
 <template>
-  <BaseFormModal :title="title" :submit-form="submitEnterpriseTypeForm">
+  <BaseFormModal :submit-form="submitEnterpriseTypeForm" :title="title">
     <div class="form-group mb-3">
       <label class="form-label fw-bold" for="label">{{
         $t('common.attributes.label')
@@ -8,11 +8,15 @@
         id="label"
         v-model="enterpriseTypeForm.label"
         class="form-control"
-        type="text"
         placeholder="Branch, Agency..."
         required
+        type="text"
       />
-      <div v-if="errors.label && errors.label.length" class="invalid-feedback" style="display: inline">
+      <div
+        v-if="errors.label && errors.label.length"
+        class="invalid-feedback"
+        style="display: inline"
+      >
         {{ errors.label[0] }}
       </div>
     </div>
@@ -24,15 +28,19 @@
         id="description"
         v-model="enterpriseTypeForm.description"
         class="form-control"
-        type="text"
         placeholder="Petite description.."
+        type="text"
       ></textarea>
-      <div v-if="errors.description && errors.description.length" class="invalid-feedback" style="display: inline">
+      <div
+        v-if="errors.description && errors.description.length"
+        class="invalid-feedback"
+        style="display: inline"
+      >
         {{ errors.description[0] }}
       </div>
     </div>
     <template #footer>
-      <button class="btn btn-primary" type="submit" :title="$t('common.save')">
+      <button :title="$t('common.save')" class="btn btn-primary" type="submit">
         {{ $t('common.save') }}
       </button>
     </template>
@@ -65,28 +73,38 @@ export default {
     },
   },
   created() {
-    if (this.enterpriseType && this.enterpriseType.id) this.enterpriseTypeForm = this.enterpriseType;
+    if (this.enterpriseType && this.enterpriseType.id)
+      this.enterpriseTypeForm = this.enterpriseType;
   },
   beforeUnmount() {
     if (this.enterpriseType && this.enterpriseType.id)
-      this.$store.commit('enterpriseTypeConfig/SET_CURRENT_ENTERPRISE_TYPE', null);
+      this.$store.commit(
+        'enterpriseTypeConfig/SET_CURRENT_ENTERPRISE_TYPE',
+        null
+      );
   },
   methods: {
     submitEnterpriseTypeForm() {
       if (this.enterpriseType && this.enterpriseType.id)
         this.$store
-          .dispatch('enterpriseTypeConfig/updateEnterpriseType', this.enterpriseTypeForm)
+          .dispatch(
+            'enterpriseTypeConfig/updateEnterpriseType',
+            this.enterpriseTypeForm
+          )
           .then(() => this.$router.back())
           .catch((error) => {
-            this.errors = error.response?.data?.errors;
+            this.errors = error.response.data.errors;
             console.log(error);
           });
       else
         this.$store
-          .dispatch('enterpriseTypeConfig/addEnterpriseType', this.enterpriseTypeForm)
+          .dispatch(
+            'enterpriseTypeConfig/addEnterpriseType',
+            this.enterpriseTypeForm
+          )
           .then(() => this.$router.back())
           .catch((error) => {
-            this.errors = error.response?.data?.errors;
+            this.errors = error.response.data.errors;
             console.log(error);
           });
     },

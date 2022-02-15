@@ -1,6 +1,4 @@
 import enterpriseService from '../../../services/structures/EnterpriseService';
-import { notify } from '/@/helpers/notify';
-import i18n from '../../../i18n';
 
 const state = {
   enterprises: null,
@@ -30,26 +28,7 @@ const actions = {
         });
   },
 
-  findEnterprise({ getters, commit }, id) {
-    const enterprise = getters.enterprises.find((p) => p.id.toString() === id);
-    if (enterprise !== undefined) {
-      commit('SET_CURRENT_ENTERPRISE', enterprise);
-      return enterprise;
-    } else
-      return enterpriseService.getEnterprise(id).then(({ data }) => {
-        commit('SET_CURRENT_ENTERPRISE', data);
-        return data;
-      });
-  },
-
-  getEnterprise({ commit }, id) {
-    return enterpriseService.getEnterprise(id).then(({ data }) => {
-      commit('SET_CURRENT_ENTERPRISE', data);
-      return data;
-    });
-  },
-
-  getEnterpriseModulesList({ getters, commit }, id) {
+  getEnterprise({ getters, commit }, id) {
     const enterprise = getters.enterprises.find((p) => p.id.toString() === id);
     if (enterprise !== undefined) {
       commit('SET_CURRENT_ENTERPRISE', enterprise);
@@ -64,12 +43,7 @@ const actions = {
   addEnterprise({ commit }, enterpriseField) {
     return enterpriseService.addEnterprise(enterpriseField).then(({ data }) => {
       commit('ADD_ENTERPRISE', data);
-      notify(
-        i18n.global.t('structures.enterprise.store'),
-        'Ok',
-        'theme',
-        'fa fa-check'
-      );
+      commit('SET_CURRENT_ENTERPRISE', data);
       return data;
     });
   },
@@ -78,12 +52,6 @@ const actions = {
     return enterpriseService
       .updateEnterprise(enterpriseField, enterpriseField.id)
       .then(({ data }) => {
-        notify(
-          i18n.global.t('structures.enterprise.update'),
-          'Ok',
-          'theme',
-          'fa fa-check'
-        );
         commit('UPDATE_ENTERPRISE', data);
         return data;
       });
@@ -96,37 +64,31 @@ const actions = {
     });
   },
 
-  addEnterpriseModule({ commit }, { enterpriseId, moduleId }) {
+  addEnterpriseModule({ commit }, { moduleId, enterpriseId }) {
     return enterpriseService
       .addEnterpriseModule({
         enterprise_id: enterpriseId,
         module_id: moduleId,
       })
       .then(({ data }) => {
-        notify(
-          i18n.global.t('structures.enterpriseModule.store'),
-          'Ok',
-          'theme',
-          'fa fa-check'
-        );
-        commit('UPDATE_ENTERPRISE_MODULE', { enterpriseId, fields: data });
+        commit('UPDATE_ENTERPRISE_MODULE', { enterpriseModule: data });
         return data;
       });
   },
 
-  deleteEnterpriseModule({ commit }, enterpriseModuleId) {
+  deleteEnterpriseModule({ commit }, enterpriseModule) {
     return enterpriseService
-      .deleteEnterpriseModule(enterpriseModuleId)
+      .deleteEnterpriseModule(enterpriseModule.id)
       .then(({ data }) => {
-        notify(
-          i18n.global.t('structures.enterpriseModule.delete'),
-          'Ok',
-          'theme',
-          'fa fa-check'
-        );
+        // notify(
+        //   i18n.global.t('structures.enterpriseModule.deleted'),
+        //   'Ok',
+        //   'theme',
+        //   'fa fa-check'
+        // );
         commit('UPDATE_ENTERPRISE_MODULE', {
-          enterpriseModuleId,
-          fields: null,
+          enterpriseModule,
+          added: false,
         });
         return data;
       });
@@ -148,54 +110,48 @@ const mutations = {
   },
   UPDATE_ENTERPRISE(state, enterprise) {
     let enterprises = JSON.parse(state.enterprises);
-    const index = enterprises.findIndex((p) => p.id === enterprise.id);
+    const index = enterprises.findIndex((p) => {
+      if (p.id === enterprise.id) {
+        enterprise.enterprise_modules = p.enterprise_modules;
+        return true;
+      }
+    });
     if (index !== -1) {
       enterprises.splice(index, 1, enterprise);
-      state.enterprises = JSON.stringify(enterprises);
     }
+    state.enterprise = JSON.stringify(enterprise);
+    state.enterprises = JSON.stringify(enterprises);
   },
-  UPDATE_ENTERPRISE_MODULE(
-    state,
-    { enterpriseId = null, enterpriseModuleId = null, fields = null }
-  ) {
+  UPDATE_ENTERPRISE_MODULE(state, { enterpriseModule, added = true }) {
     let enterprises = JSON.parse(state.enterprises);
     let enterprise = JSON.parse(state.enterprise);
-    let index =
-      enterpriseId !== null || enterprise === null
-        ? enterprises.findIndex((p) => p.id === enterpriseId)
-        : enterprises.findIndex((p) => p.id === enterprise.id);
-    if (
-      enterpriseModuleId &&
-      (fields == null || !fields.state || fields.state !== 'ACTIVE')
-    ) {
-      if (enterprise) {
-        enterprise.enterprise_modules = enterprise.enterprise_modules.filter(
-          (enterpriseModule) =>
-            enterpriseModule.id.toString() !== enterpriseModuleId.toString()
-        );
-      }
-      if (index !== -1) {
-        enterprises[index].enterprise_modules =
-          enterprises[index].enterprise_modules ?? [];
-        enterprises[index].enterprise_modules.push(fields);
-      }
-      state.enterprise = JSON.stringify(enterprise);
+    let enterprise_modules = enterprise.enterprise_modules ?? [];
+    let index = enterprises.findIndex(
+      (ent) => ent.id === enterpriseModule.enterprise_id
+    );
+
+    if (added) {
+      enterprise_modules.push(enterpriseModule);
     } else {
-      if (index !== -1) {
-        enterprises[index].enterprise_modules =
-          enterprises[index].enterprise_modules ?? [];
-        enterprises[index].enterprise_modules.push(fields);
-      }
-      if (enterprise) {
-        enterprise.enterprise_modules.push(fields);
-        state.enterprise = JSON.stringify(enterprise);
-      }
+      enterprise_modules = enterprise_modules.filter(
+        (em) => em.id !== enterpriseModule.id
+      );
     }
+
+    enterprise.enterprise_modules = enterprise_modules;
+
+    if (index !== -1) {
+      enterprises.splice(index, 1, enterprise);
+    }
+
+    state.enterprise = JSON.stringify(enterprise);
     state.enterprises = JSON.stringify(enterprises);
   },
   DELETE_ENTERPRISE(state, enterpriseId) {
     state.enterprises = JSON.stringify(
-      JSON.parse(state.enterprises).filter((p) => p.id !== enterpriseId)
+      JSON.parse(state.enterprises).filter(
+        (enterprise) => enterprise.id !== enterpriseId
+      )
     );
   },
 };
