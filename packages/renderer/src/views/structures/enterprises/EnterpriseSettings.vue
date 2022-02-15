@@ -11,7 +11,10 @@
       <template v-if="enterprise">
         <div class="card-body">
           <div
-            v-if="enterprise.enterprise_modules.length"
+            v-if="
+              enterprise.enterprise_modules &&
+              enterprise.enterprise_modules.length
+            "
             class="row align-items-center mb-3"
           >
             <div v-for="module in activeModules" :key="module.id" class="card">
@@ -136,7 +139,8 @@ export default {
       return `enterprises/${this.enterprise.id}`;
     },
     enterpriseModules() {
-      return this.enterprise && this.enterprise.enterprise_modules.length
+      return this.enterprise.enterprise_modules &&
+        this.enterprise.enterprise_modules.length
         ? this.enterprise.enterprise_modules.map((enterpriseModule) =>
             enterpriseModule.module_id.toString()
           )
@@ -157,7 +161,10 @@ export default {
     },
   },
   mounted() {
-    if (this.enterprise.enterprise_modules.length) {
+    if (
+      this.enterprise.enterprise_modules &&
+      this.enterprise.enterprise_modules.length
+    ) {
       this.enterprise_modules = this.enterprise.enterprise_modules.map(
         (enterpriseModule) => enterpriseModule.module_id.toString()
       );
@@ -167,7 +174,10 @@ export default {
   },
   methods: {
     isSelected(moduleId) {
-      return this.enterpriseModules.includes(moduleId.toString());
+      return (
+        this.enterpriseModules &&
+        this.enterpriseModules.includes(moduleId.toString())
+      );
     },
     addModule(moduleId) {
       if (!this.isSelected(moduleId) && !this.formLoading) {
