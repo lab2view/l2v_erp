@@ -1,0 +1,35 @@
+export default {
+  title: 'Gestion des clients',
+  manage: 'Gestion des clients',
+  add_group_line: 'Ajouter un client',
+  customer_type: 'Type de client',
+  attributes: {
+    customer: 'Client',
+    customers: 'Clients',
+  },
+  customer: {
+    iamTitle: 'Ajouter les parametres utilisateurs a la client',
+    settingTitle: 'Ajouter les modules a la client',
+    listTitle: 'Liste des clients',
+    formCreateTitle: 'Ajouter un client',
+    formUpdateTitle: 'Modifier un client',
+    store: "L'enregistrement du client a ete effectue avec succes",
+    update: 'La modification du client a ete effectuee avec succes',
+  },
+  customerGroup: {
+    formActivationTitle: 'Ajouter un/des clients au groupe',
+    listTitle: 'Liste des groupes de clients',
+    formCreateTitle: 'Ajouter un groupe de clients',
+    formUpdateTitle: 'Modifier un groupe de clients',
+    store: "L'enregistrement du groupe de clients a ete effectue avec succes",
+    update: 'La modification du groupe de clients a ete effectuee avec succes',
+    delete: 'La suppression du groupe de clients a ete effectuee avec succes',
+  },
+  customerType: {
+    listTitle: 'Liste des types de client',
+    formCreateTitle: 'Ajouter un type de client',
+    formUpdateTitle: 'Modifier un type de client',
+    store: "L'enregistrement du type de client a ete effectue avec succes",
+    update: 'La modification du type de client a ete effectuee avec succes',
+  },
+};

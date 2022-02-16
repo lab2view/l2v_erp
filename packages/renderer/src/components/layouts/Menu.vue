@@ -3,16 +3,16 @@
     <div class="sidebar-user text-center">
       <a class="setting-primary" href="javascript:void(0)">
         <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
+          class="feather feather-settings"
           fill="none"
+          height="24"
           stroke="currentColor"
-          stroke-width="2"
           stroke-linecap="round"
           stroke-linejoin="round"
-          class="feather feather-settings"
+          stroke-width="2"
+          viewBox="0 0 24 24"
+          width="24"
+          xmlns="http://www.w3.org/2000/svg"
         >
           <circle cx="12" cy="12" r="3"></circle>
           <path
@@ -20,9 +20,9 @@
           ></path>
         </svg> </a
       ><img
+        alt=""
         class="img-90 rounded-circle"
         src="../../../assets/images/dashboard/1.png"
-        alt=""
       />
       <div class="badge-bottom">
         <span class="badge badge-primary">New</span>
@@ -39,7 +39,7 @@
             <li class="back-btn">
               <div class="mobile-back text-end">
                 <span>Back</span
-                ><i class="fa fa-angle-right ps-2" aria-hidden="true"></i>
+                ><i aria-hidden="true" class="fa fa-angle-right ps-2"></i>
               </div>
             </li>
             <li class="dropdown">
@@ -65,7 +65,7 @@
 <script>
 import { defineComponent } from 'vue';
 import MenuModule from '/@/components/layouts/MenuModule.vue';
-import { productMenus, structureMenus } from '/@/helpers/menus';
+import { customerMenus, productMenus, structureMenus } from '/@/helpers/menus';
 import { mapGetters } from 'vuex';
 
 export default defineComponent({
@@ -88,7 +88,7 @@ export default defineComponent({
         },
         {
           code: 'CUSTOMERS',
-          menus: [],
+          menus: customerMenus,
         },
         {
           code: 'PAYMENTS',
