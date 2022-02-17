@@ -14,7 +14,7 @@
             <div class="col-md">
               <BaseSelect
                 v-model="enterpriseForm.enterprise_type_id"
-                :errors="errors?.enterprise_type_id"
+                :errors="errors.enterprise_type_id"
                 :label="$t('structures.enterprise_type')"
                 :options="enterpriseTypes"
                 key-label="label"
@@ -25,7 +25,7 @@
             <div class="col-md">
               <BaseInput
                 v-model="enterpriseForm.name"
-                :errors="errors?.name"
+                :errors="errors.name"
                 :label="$t('common.attributes.name')"
                 placeholder="E.g. Ets Tangui"
                 required
@@ -39,21 +39,21 @@
             <div class="col-md">
               <BaseInput
                 v-model="enterpriseForm.email"
-                :errors="errors?.email"
+                :errors="errors.email"
                 :label="$t('common.attributes.email')"
                 placeholder="mag1@gmail.com"
-                type="email"
                 required
+                type="email"
               />
             </div>
             <div class="col-md">
               <BaseInputGroup
                 v-model="enterpriseForm.phone"
-                :errors="errors?.phone"
+                :errors="errors.phone"
                 :label="$t('common.attributes.phone')"
                 placeholder="699.."
-                type="number"
                 required
+                type="number"
               >
                 <template v-if="callingCode" #prefix>
                   <div class="input-group-text">
@@ -66,10 +66,10 @@
         </div>
         <BaseTextArea
           v-model="enterpriseForm.description"
-          rows="4"
-          :errors="errors?.description"
+          :errors="errors.description"
           :label="$t('common.attributes.description')"
           placeholder="Enterprise description..."
+          rows="4"
         />
       </div>
       <div class="card-footer">
@@ -195,7 +195,7 @@ export default {
               })
             )
             .catch((error) => {
-              this.errors = error.response?.data?.errors;
+              this.errors = error.response.data.errors;
               console.log(error);
             });
         else
@@ -213,7 +213,7 @@ export default {
             })
           )
           .catch((error) => {
-            this.errors = error.response?.data?.errors;
+            this.errors = error.response.data.errors;
             console.log(error);
           });
     },

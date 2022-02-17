@@ -1,7 +1,7 @@
 <template>
   <BaseContainer
-    :title="$t('structures.title')"
     :module="$t('menu.modules.structures')"
+    :title="$t('structures.title')"
   >
     <div class="card">
       <div class="card-header pb-2 border-bottom border-bottom-">
@@ -11,9 +11,9 @@
           </div>
           <div class="col-sm-auto align-items-end">
             <router-link
-              :to="{ name: 'enterprise.form' }"
-              href="#"
+              :to="{ name: 'enterprise.form.desc' }"
               class="btn btn-primary"
+              href="#"
               type="button"
             >
               <i class="fa fa-plus m-r-5" />
@@ -40,13 +40,13 @@
             <td>{{ enterprise.phone }}</td>
             <td>
               <button
-                class="btn btn-secondary btn-xs"
-                type="button"
-                data-original-title="btn btn-secondary btn-xs"
                 :title="$t('common.update')"
+                class="btn btn-secondary btn-xs"
+                data-original-title="btn btn-secondary btn-xs"
+                type="button"
                 @click.prevent="
                   $router.push({
-                    name: 'enterprise.form',
+                    name: 'enterprise.form.desc',
                     params: { id: enterprise.id },
                   })
                 "
@@ -54,10 +54,10 @@
                 {{ $t('common.update') }}
               </button>
               <button
-                class="btn btn-danger btn-xs m-l-5"
-                type="button"
-                data-original-title="btn btn-danger btn-xs"
                 :title="$t('common.delete')"
+                class="btn btn-danger btn-xs m-l-5"
+                data-original-title="btn btn-danger btn-xs"
+                type="button"
                 @click.prevent="deleteEnterprise(enterprise)"
               >
                 <i class="fa fa-trash-o" />
