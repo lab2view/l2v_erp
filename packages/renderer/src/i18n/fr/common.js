@@ -1,6 +1,7 @@
 export default {
   add: 'Ajouter',
   delete: 'Supprimer',
+  delete_all: 'Tout Supprimer',
   save: 'Enregistrer',
   update: 'Modifier',
   restore: 'Restaurer',
@@ -16,6 +17,9 @@ export default {
   desc_by: 'Date de creation',
   deactivate: 'Desactiver',
   activate: 'Activer',
+  filter: 'Filtrer',
+  all: 'Tout',
+  deleted_selection: 'la selection ',
   fields: {
     text: 'Chaine de caractere',
     number: 'Nombre',
@@ -24,7 +28,9 @@ export default {
     datetime: 'Date et Heure',
     url: 'Lien',
     radio: 'Choix boolean',
-    product_filter: 'Filtrer par produit',
+    product_filter: 'Par produit',
+    product_family_filter: 'Par famille de produit',
+    product_type_filter: 'Par type de produit',
   },
 
   states: {
@@ -87,6 +93,9 @@ export default {
     city: 'Ville',
     longitude: 'Longitude',
     latitude: 'Latitude',
+    search: 'Rechercher...',
+    tax_id: 'Taxe',
+    value: 'Valeur',
   },
 
   headers: {

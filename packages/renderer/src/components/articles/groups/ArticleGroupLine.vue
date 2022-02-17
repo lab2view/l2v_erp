@@ -1,11 +1,26 @@
 <template>
   <tr>
-    <td>
-      <div class="checkbox checkbox-solid-primary">
-        <input v-model="selected" type="checkbox" />
+    <td class="font-primary">
+      <div class="checkbox checkbox-primary">
+        <input
+          :id="`selected-${articleGroupLine.id}`"
+          v-model="selected"
+          type="checkbox"
+        />
+        <label
+          :for="`selected-${articleGroupLine.id}`"
+          class="mt-0 pt-0"
+          style="padding-left: 60px"
+          >{{ `${article.name}` }}</label
+        >
       </div>
     </td>
-    <td class="font-primary f-w-600">{{ article?.name }}</td>
+    <td class="text-center">
+      <BaseUpdateNumberForm
+        :model="articleGroupLine"
+        :store-action="updateQuantity"
+      />
+    </td>
     <td>
       <div class="row justify-content-center align-items-center">
         <div class="col-md-6 p-0">
@@ -27,19 +42,20 @@
 <script>
 import BaseButton from '../../common/BaseButton.vue';
 import { mapGetters } from 'vuex';
+import BaseUpdateNumberForm from '/@/components/common/BaseUpdateNumberForm.vue';
 export default {
-  components: { BaseButton },
+  components: { BaseUpdateNumberForm, BaseButton },
   props: {
     articleGroupLine: {
       type: Object,
       required: true,
     },
-    selectAll: {
-      type: Boolean,
-      default: false,
+    selectedList: {
+      type: Array,
+      required: true,
     },
   },
-  emits: ['selected', 'unselected'],
+  emits: ['selected', 'unselected', 'deleted'],
   data() {
     return {
       selected: false,
@@ -52,14 +68,21 @@ export default {
       const a = this.getArticleById(this.articleGroupLine.article_id);
       return a ?? null;
     },
+    isSelected() {
+      return (
+        this.selectedList.find((id) => id === this.articleGroupLine.id) !==
+        undefined
+      );
+    },
   },
   watch: {
     selected(value) {
-      if (!this.selectAll) this.$emit(`${value ? 'selected' : 'unselected'}`);
+      if (this.isSelected && !value) this.$emit('unselected');
+      if (!this.isSelected && value) this.$emit('selected');
     },
-  },
-  created() {
-    if (this.selectAll) this.selected = true;
+    selectedList() {
+      this.selected = this.isSelected;
+    },
   },
   methods: {
     removeArticleGroupLine() {
@@ -67,8 +90,21 @@ export default {
         confirm(
           this.$t('messages.confirmDelete', { label: this.articleGroupLine.id })
         )
-      )
-        console.log(this.articleGroupLine);
+      ) {
+        this.loading = true;
+        this.$store
+          .dispatch('article_group/removeArticleGroupLines', [
+            this.articleGroupLine.id,
+          ])
+          .then(() => {
+            this.$emit('deleted');
+            this.loading = false;
+          });
+      }
+    },
+
+    updateQuantity(data) {
+      return this.$store.dispatch('article_group/updateArticleGroupLine', data);
     },
   },
 };

@@ -22,6 +22,7 @@ export default {
     update: "Groupe d'article modifie",
     line: {
       formTitle: 'Ajouter des articles au groupe',
+      update: "Quantite de l'article modifie",
     },
   },
 };

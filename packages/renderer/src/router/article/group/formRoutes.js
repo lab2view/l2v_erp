@@ -10,6 +10,25 @@ export default [
     },
   },
   {
+    path: 'items',
+    name: 'article.group.form.item',
+    component: () =>
+      import('/@/views/articles/groups/forms/ArticleGroupItems.vue'),
+    meta: {
+      code: 'ArticleGroup.form.item',
+      icon: 'fa fa-list',
+      requireArticleGroup: true,
+    },
+    children: [
+      {
+        path: 'form',
+        name: 'article.group.form.item.form',
+        component: () =>
+          import('/@/views/articles/groups/forms/ArticleGroupLineForm.vue'),
+      },
+    ],
+  },
+  {
     path: 'settings',
     name: 'article.group.form.setting',
     component: () =>
@@ -19,13 +38,5 @@ export default [
       icon: 'fa fa-cogs',
       requireArticleGroup: true,
     },
-    children: [
-      {
-        path: 'form',
-        name: 'article.group.form.setting.form',
-        component: () =>
-          import('/@/views/articles/groups/forms/ArticleGroupLineForm.vue'),
-      },
-    ],
   },
 ];

@@ -1,11 +1,17 @@
 export default {
   title: 'Gestion des produits',
   listTitle: 'Liste des produits',
+  configTitle: 'Configuration du produit',
   form: {
     createTitle: 'Ajouter un nouveau produit',
     updateTitle: 'Modifier un produit',
     store: `L'enregistrement du produit a ete effectue avec succes.`,
     update: 'Modification du produit effectue avec succes.',
+    setting: {
+      gallery: 'Photos du produit',
+      desc: 'Completer la description',
+      tax: 'Configurer les taxes',
+    },
   },
   package: {
     listTitle: 'Liste des conditionnements',

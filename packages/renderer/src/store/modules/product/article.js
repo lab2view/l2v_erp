@@ -16,8 +16,21 @@ const getters = {
     getters.articles.filter((a) => a.product_id === product_id),
   getArticleById: (state, getters) => (id) =>
     getters.articles.find((a) => a.id === id),
+  searchArticleByCriteria:
+    (state, getters) =>
+    ({ product_type_id, product_id, keyword }) =>
+      getters.articles.filter((a) => {
+        let result = true;
+        if (product_type_id)
+          result = a.product.product_type_id.toString() === product_type_id;
+        if (product_id) result = a.product_id.toString() === product_id;
+        if (keyword)
+          result = RegExp(`${keyword.toString().toLowerCase()}*`).test(
+            a.name.toString().toLowerCase()
+          );
+        return result;
+      }),
 };
-
 // privileges
 const actions = {
   getArticlesList({ commit, getters }, { page, field }) {
@@ -89,7 +102,7 @@ const mutations = {
   },
   UPDATE_ARTICLE(state, article) {
     let articles = JSON.parse(state.articles);
-    const index = articles.findIndex((p) => p.id === article.id);
+    const index = articles.findIndex((a) => a.id === article.id);
     if (index !== -1) {
       articles.splice(index, 1, article);
       state.articles = JSON.stringify(articles);

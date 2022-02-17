@@ -62,6 +62,9 @@ const actions = {
           'fa fa-check'
         );
         commit('UPDATE_PRODUCT', data);
+        data.articles.forEach((article) =>
+          commit('article/UPDATE_ARTICLE', article, { root: true })
+        );
         commit('SET_CURRENT_PRODUCT', data);
         return data;
       });
