@@ -152,6 +152,41 @@ const Region = new VuexPersistence({
   reducer: (state) => ({ region: state.region }),
 });
 
+const Customer = new VuexPersistence({
+  key: 'customer',
+  storage: localStore,
+  asyncStorage: true,
+  reducer: (state) => ({ customer: state.customer }),
+});
+
+const CustomerTypeConfig = new VuexPersistence({
+  key: 'customerType',
+  storage: localStore,
+  asyncStorage: true,
+  reducer: (state) => ({ customerType: state.customerType }),
+});
+
+const CustomerGroup = new VuexPersistence({
+  key: 'customerGroup',
+  storage: localStore,
+  asyncStorage: true,
+  reducer: (state) => ({ customerGroup: state.customerGroup }),
+});
+
+const CustomerGroupLine = new VuexPersistence({
+  key: 'customerGroupLine',
+  storage: localStore,
+  asyncStorage: true,
+  reducer: (state) => ({ customerGroupLine: state.customerGroupLine }),
+});
+
+const CustomerGroupDiscount = new VuexPersistence({
+  key: 'customerGroupDiscount',
+  storage: localStore,
+  asyncStorage: true,
+  reducer: (state) => ({ customerGroupDiscount: state.customerGroupDiscount }),
+});
+
 export default [
   Auth.plugin,
   Product.plugin,
@@ -173,4 +208,9 @@ export default [
   Localization.plugin,
   Module.plugin,
   Region.plugin,
+  Customer.plugin,
+  CustomerGroup.plugin,
+  CustomerTypeConfig.plugin,
+  CustomerGroupLine.plugin,
+  CustomerGroupDiscount.plugin,
 ];

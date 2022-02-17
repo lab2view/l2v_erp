@@ -115,3 +115,37 @@ export const structureMenus = [
     ],
   },
 ];
+
+export const customerMenus = [
+  {
+    icon: 'users',
+    code: 'Customers.manage',
+    prefix: 'customer',
+    items: [
+      {
+        code: 'Customer.viewAny',
+        to: 'customers',
+      },
+      {
+        code: 'Customer.create',
+        to: 'customer.form.desc',
+      },
+    ],
+  },
+  {
+    icon: 'settings',
+    code: 'Customers.manage',
+    label: 'Configurations',
+    prefix: 'customer.config.',
+    items: [
+      {
+        code: 'CustomerType.viewAny',
+        to: 'customer.config.types',
+      },
+      {
+        code: 'CustomerGroup.viewAny',
+        to: 'customer.config.groups',
+      },
+    ],
+  },
+];

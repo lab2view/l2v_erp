@@ -19,6 +19,9 @@ export default {
   localizations: {
     manage: 'Localisations',
   },
+  customers: {
+    manage: 'Clients',
+  },
   module: {
     create: 'Ajouter un module',
     viewany: 'Liste des modules',
@@ -64,6 +67,27 @@ export default {
     viewany: 'Liste des types de structure',
     form: {
       description: 'Description du type de structure',
+    },
+  },
+  customer: {
+    create: 'Ajouter un client',
+    viewany: 'Liste des clients',
+    form: {
+      desc: 'Description du client',
+    },
+  },
+  customertype: {
+    create: 'Ajouter un type de clients',
+    viewany: 'Liste des types de clients',
+    form: {
+      description: 'Description du type de clients',
+    },
+  },
+  customergroup: {
+    create: 'Ajouter un groupe de clients',
+    viewany: 'Liste des groupes de clients',
+    form: {
+      description: 'Description du groupe de clients',
     },
   },
   product: {
