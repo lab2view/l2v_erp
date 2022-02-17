@@ -1,5 +1,5 @@
 <template>
-  <BaseFormModal :title="title" :submit-form="submitProductFamilyForm">
+  <BaseFormModal :submit-form="submitProductFamilyForm" :title="title">
     <div class="mb-3">
       <label class="form-label fw-bold" for="label">{{
         $t('common.attributes.label')
@@ -8,9 +8,9 @@
         id="label"
         v-model="productFamilyForm.label"
         class="form-control"
-        type="text"
         placeholder="Chaussures, Bijoux, ..."
         required
+        type="text"
       />
       <div v-if="errors.label" class="invalid-feedback" style="display: inline">
         {{ errors.label[0] }}
@@ -27,12 +27,16 @@
         placeholder="Chaussures de marque"
         required
       ></textarea>
-      <div v-if="errors.description" class="invalid-feedback" style="display: inline">
+      <div
+        v-if="errors.description"
+        class="invalid-feedback"
+        style="display: inline"
+      >
         {{ errors.description[0] }}
       </div>
     </div>
     <template #footer>
-      <button class="btn btn-primary" type="submit" :title="$t('common.save')">
+      <button :title="$t('common.save')" class="btn btn-primary" type="submit">
         {{ $t('common.save') }}
       </button>
     </template>
@@ -68,24 +72,33 @@ export default {
   },
   beforeUnmount() {
     if (this.productFamily)
-      this.$store.commit('productFamilyConfig/SET_CURRENT_PRODUCT_FAMILY', null);
+      this.$store.commit(
+        'productFamilyConfig/SET_CURRENT_PRODUCT_FAMILY',
+        null
+      );
   },
   methods: {
     submitProductFamilyForm() {
       if (this.productFamily)
         this.$store
-          .dispatch('productFamilyConfig/updateProductFamily', this.productFamilyForm)
+          .dispatch(
+            'productFamilyConfig/updateProductFamily',
+            this.productFamilyForm
+          )
           .then(() => this.$router.back())
           .catch((error) => {
-            this.errors = error.response?.data?.errors;
+            this.errors = error.response.data.errors;
             console.log(error);
           });
       else
         this.$store
-          .dispatch('productFamilyConfig/addProductFamily', this.productFamilyForm)
+          .dispatch(
+            'productFamilyConfig/addProductFamily',
+            this.productFamilyForm
+          )
           .then(() => this.$router.back())
           .catch((error) => {
-            this.errors = error.response?.data?.errors;
+            this.errors = error.response.data.errors;
             console.log(error);
           });
     },

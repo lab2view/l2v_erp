@@ -1,7 +1,7 @@
 <template>
   <BaseContainer
-    :title="$t('product.title')"
     :module="$t('menu.modules.products')"
+    :title="$t('product.title')"
   >
     <div class="card">
       <BaseWizardStep :links="items" />

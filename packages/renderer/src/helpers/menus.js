@@ -79,7 +79,7 @@ export const structureMenus = [
       },
       {
         code: 'Enterprise.create',
-        to: 'enterprise.form',
+        to: 'enterprise.form.desc',
       },
     ],
   },
