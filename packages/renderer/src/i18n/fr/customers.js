@@ -1,7 +1,8 @@
 export default {
   title: 'Gestion des clients',
   manage: 'Gestion des clients',
-  add_group_line: 'Ajouter un client',
+  show_customers: 'Afficher les clients',
+  show_discounts: 'Afficher les rabais',
   customer_type: 'Type de client',
   attributes: {
     customer: 'Client',
@@ -17,13 +18,19 @@ export default {
     update: 'La modification du client a ete effectuee avec succes',
   },
   customerGroup: {
-    formActivationTitle: 'Ajouter un/des clients au groupe',
     listTitle: 'Liste des groupes de clients',
     formCreateTitle: 'Ajouter un groupe de clients',
     formUpdateTitle: 'Modifier un groupe de clients',
     store: "L'enregistrement du groupe de clients a ete effectue avec succes",
     update: 'La modification du groupe de clients a ete effectuee avec succes',
     delete: 'La suppression du groupe de clients a ete effectuee avec succes',
+  },
+  customerGroupLine: {
+    listTitle: 'Liste des clients du groupe de clients',
+    store:
+      "L'ajout du client a la liste des clients du groupe de clients a ete effectue avec succes",
+    delete:
+      'La suppression du client a la liste des clients du groupe de clients a ete effectuee avec succes',
   },
   customerType: {
     listTitle: 'Liste des types de client',

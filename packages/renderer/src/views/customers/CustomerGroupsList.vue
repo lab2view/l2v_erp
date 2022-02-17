@@ -11,7 +11,7 @@
           </div>
           <div class="col-sm-auto align-items-end">
             <router-link
-              :to="{ name: 'groups.customer.form' }"
+              :to="{ name: 'customer.config.groups.form' }"
               class="btn btn-primary"
               href="#"
               type="button"
@@ -23,7 +23,7 @@
         </div>
       </div>
       <div class="card-body">
-        <BaseNewDatatable :tfoot="false" :total="customerGroups.length">
+        <BaseDatatable :tfoot="false" :total="customerGroups.length">
           <template #headers>
             <th>#</th>
             <th>{{ $t('common.attributes.label') }}</th>
@@ -36,27 +36,27 @@
             <td>{{ truncate(customerGroup.description) }}</td>
             <td>
               <button
-                :title="$t('customers.add_group_line')"
-                class="btn btn-primary btn-xs"
-                data-original-title="btn btn-primary btn-xs"
+                :title="$t('customers.show_customers')"
+                class="btn btn-default btn-xs"
+                data-original-title="btn btn-default btn-xs"
                 type="button"
                 @click.prevent="
                   $router.push({
-                    name: 'groups.customer.line',
+                    name: 'customer.config.groups.lines.form',
                     params: { id: customerGroup.id },
                   })
                 "
               >
-                {{ $t('customers.add_group_line') }}
+                {{ $t('customers.show_customers') }}
               </button>
               <button
                 :title="$t('common.update')"
                 class="btn btn-secondary btn-xs"
-                data-original-title="btn btn-secondary btn-xs"
+                data-original-title="btn btn-secondary btn-xs m-l-5"
                 type="button"
                 @click.prevent="
                   $router.push({
-                    name: 'groups.customer.form',
+                    name: 'customer.config.groups.form',
                     params: { id: customerGroup.id },
                   })
                 "
@@ -74,7 +74,7 @@
               </button>
             </td>
           </tr>
-        </BaseNewDatatable>
+        </BaseDatatable>
       </div>
 
       <router-view />
@@ -84,12 +84,12 @@
 
 <script>
 import BaseContainer from '/@/components/common/BaseContainer.vue';
-import BaseNewDatatable from '/@/components/common/BaseNewDatatable.vue';
+import BaseDatatable from '/@/components/common/BaseDatatable.vue';
 import store from '/@/store';
 import { mapGetters } from 'vuex';
 
 export default {
-  components: { BaseContainer, BaseNewDatatable },
+  components: { BaseContainer, BaseDatatable },
   beforeRouteEnter(routeTo, routeFrom, next) {
     store
       .dispatch('customerGroup/getCustomerGroupsList', {

@@ -166,11 +166,25 @@ const CustomerTypeConfig = new VuexPersistence({
   reducer: (state) => ({ customerType: state.customerType }),
 });
 
-const CustomerGroupConfig = new VuexPersistence({
+const CustomerGroup = new VuexPersistence({
   key: 'customerGroup',
   storage: localStore,
   asyncStorage: true,
   reducer: (state) => ({ customerGroup: state.customerGroup }),
+});
+
+const CustomerGroupLine = new VuexPersistence({
+  key: 'customerGroupLine',
+  storage: localStore,
+  asyncStorage: true,
+  reducer: (state) => ({ customerGroupLine: state.customerGroupLine }),
+});
+
+const CustomerGroupDiscount = new VuexPersistence({
+  key: 'customerGroupDiscount',
+  storage: localStore,
+  asyncStorage: true,
+  reducer: (state) => ({ customerGroupDiscount: state.customerGroupDiscount }),
 });
 
 export default [
@@ -195,6 +209,8 @@ export default [
   Module.plugin,
   Region.plugin,
   Customer.plugin,
-  CustomerGroupConfig.plugin,
+  CustomerGroup.plugin,
   CustomerTypeConfig.plugin,
+  CustomerGroupLine.plugin,
+  CustomerGroupDiscount.plugin,
 ];

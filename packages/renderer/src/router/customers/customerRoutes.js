@@ -13,7 +13,7 @@ export const customerRoutes = [
   },
   {
     path: 'customer-types',
-    name: 'types.customer',
+    name: 'customer.config.types',
     component: () => import('/@/views/customers/CustomerTypesList.vue'),
     meta: {
       code: 'CustomerType.viewAny',
@@ -22,7 +22,7 @@ export const customerRoutes = [
     children: [
       {
         path: 'form/:id?',
-        name: 'types.customer.form',
+        name: 'customer.config.types.form',
         component: () => import('/@/views/customers/CustomerTypeForm.vue'),
         beforeEnter: (to) => {
           if (to.params.id) {
@@ -39,7 +39,7 @@ export const customerRoutes = [
   },
   {
     path: 'customer-groups',
-    name: 'groups.customer',
+    name: 'customer.config.groups',
     component: () => import('/@/views/customers/CustomerGroupsList.vue'),
     meta: {
       code: 'CustomerGroup.viewAny',
@@ -48,12 +48,38 @@ export const customerRoutes = [
     children: [
       {
         path: 'form/:id?',
-        name: 'groups.customer.form',
+        name: 'customer.config.groups.form',
         component: () => import('/@/views/customers/CustomerGroupForm.vue'),
         beforeEnter: (to) => {
           if (to.params.id) {
             return store
               .dispatch('customerGroup/getCustomerGroup', to.params.id)
+              .then(() => {
+                return { name: to.name };
+              })
+              .catch(() => -1);
+          }
+        },
+      },
+    ],
+  },
+  {
+    path: 'customer-group-lines/:id',
+    name: 'customer.config.groups.lines',
+    component: () => import('/@/views/customers/CustomerGroupLinesList.vue'),
+    meta: {
+      code: 'CustomerGroupLine.viewAny',
+      feather: 'filter',
+    },
+    children: [
+      {
+        path: 'form/:id?',
+        name: 'customer.config.groups.lines.form',
+        component: () => import('/@/views/customers/CustomerGroupLineForm.vue'),
+        beforeEnter: (to) => {
+          if (to.params.id) {
+            return store
+              .dispatch('customerGroupLine/getCustomerGroupLine', to.params.id)
               .then(() => {
                 return { name: to.name };
               })

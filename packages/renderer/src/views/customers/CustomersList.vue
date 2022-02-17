@@ -23,7 +23,7 @@
         </div>
       </div>
       <div class="card-body">
-        <BaseNewDatatable :tfoot="false" :total="customers.length">
+        <BaseDatatable :tfoot="false" :total="customers.length">
           <template #headers>
             <th>#</th>
             <th>{{ $t('common.attributes.customerType') }}</th>
@@ -64,7 +64,7 @@
               </button>
             </td>
           </tr>
-        </BaseNewDatatable>
+        </BaseDatatable>
         <br />
       </div>
 
@@ -74,13 +74,13 @@
 </template>
 
 <script>
-import BaseNewDatatable from '/@/components/common/BaseNewDatatable.vue';
+import BaseDatatable from '/@/components/common/BaseDatatable.vue';
 import store from '../../store';
 import { mapGetters } from 'vuex';
 import BaseContainer from '../../components/common/BaseContainer.vue';
 
 export default {
-  components: { BaseContainer, BaseNewDatatable },
+  components: { BaseContainer, BaseDatatable },
   beforeRouteEnter(routeTo, routeFrom, next) {
     store
       .dispatch('customer/getCustomersList', {

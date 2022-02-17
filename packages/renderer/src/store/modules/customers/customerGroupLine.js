@@ -1,106 +1,109 @@
-import stockExitLineService from '../../../services/stocks/StockExitLineService';
-import { notify } from '../../../helpers/notify';
-import i18n from '../../../i18n';
+import customerGroupLineService from '../../../services/customers/CustomerGroupLineService';
 
 const state = {
-  stock_exit_lines: null,
+  customerGroupLines: null,
   hash: null,
-  stockExitLine: null,
+  customerGroupLine: null,
 };
 
 // getters
 const getters = {
-  stock_exit_lines: (state) =>
-    state.stock_exit_lines ? JSON.parse(state.stock_exit_lines) : [],
-  stockExitLine: (state) =>
-    state.stockExitLine ? JSON.parse(state.stockExitLine) : null,
-  getStockExitLineByProductId: (state, getters) => (product_id) =>
-    getters.stock_exit_lines.filter(
-      (a) => a.article?.product_id === product_id
+  customerGroupLines: (state) =>
+    state.customerGroupLines ? JSON.parse(state.customerGroupLines) : [],
+  customerGroupLine: (state) =>
+    state.customerGroupLine ? JSON.parse(state.customerGroupLine) : null,
+  getCustomerGroupLinesByGroupId: (state, getters) => (customer_group_id) =>
+    getters.customerGroupLines.filter(
+      (l) => l.customer_group_id === customer_group_id
     ),
+  getCustomerGroupLinesByCustomerId: (state, getters) => (customer_id) =>
+    getters.customerGroupLines.filter((l) => l.customer_id === customer_id),
 };
 
 // privileges
 const actions = {
-  getStockExitLineList({ commit, getters }, { page, field }) {
-    if (getters.stock_exit_lines.length > 0) {
-      return getters.stock_exit_lines;
+  getCustomerGroupLinesList({ commit, getters }, { page, field }) {
+    if (getters.customerGroupLines.length > 0) {
+      return getters.customerGroupLines;
     } else
-      return stockExitLineService.getList(page, field).then(({ data }) => {
-        commit('SET_STOCK_EXIT_LINES', data);
-        return data;
-      });
+      return customerGroupLineService
+        .getCustomerGroupLinesList(page, field)
+        .then(({ data }) => {
+          commit('SET_CUSTOMER_GROUP_LINES', data);
+          return data;
+        });
   },
 
-  getStockExitLine({ getters }, id) {
-    const stockExitLine = getters.stock_exit_lines.find(
+  getCustomerGroupLine({ getters }, id) {
+    const customerGroupLine = getters.customerGroupLines.find(
       (p) => p.id.toString() === id
     );
-    if (stockExitLine !== undefined) {
-      return stockExitLine;
+    if (customerGroupLine !== undefined) {
+      return customerGroupLine;
     } else
-      return stockExitLineService.get(id).then(({ data }) => {
-        return data;
-      });
+      return customerGroupLineService
+        .getCustomerGroupLine(id)
+        .then(({ data }) => {
+          return data;
+        });
   },
 
-  addStockExitLine({ commit }, stockExitLineField) {
-    return stockExitLineService.add(stockExitLineField).then(({ data }) => {
-      commit('ADD_STOCK_EXIT_LINE', data);
-      notify(
-        i18n.global.t('stockExitLine.form.store'),
-        'Ok',
-        'theme',
-        'fa fa-check'
-      );
-      return data;
-    });
-  },
-
-  updateStockExitLine({ commit }, stockExitLineField) {
-    return stockExitLineService
-      .update(stockExitLineField, stockExitLineField.id)
+  addCustomerGroupLine({ commit }, customerGroupLineField) {
+    return customerGroupLineService
+      .add(customerGroupLineField)
       .then(({ data }) => {
-        notify(
-          i18n.global.t('stockExitLine.form.update'),
-          'Ok',
-          'theme',
-          'fa fa-check'
-        );
-        commit('UPDATE_STOCK_EXIT_LINE', data);
+        commit('ADD_CUSTOMER_GROUP_LINE', data);
         return data;
       });
   },
 
-  deleteStockExitLine({ commit }, stockExitLineId) {
-    return stockExitLineService.delete(stockExitLineId).then(({ data }) => {
-      commit('DELETE_STOCK_EXIT_LINE', stockExitLineId);
-      return data;
-    });
+  updateCustomerGroupLine({ commit }, customerGroupLineField) {
+    return customerGroupLineService
+      .updateCustomerGroupLine(
+        customerGroupLineField,
+        customerGroupLineField.id
+      )
+      .then(({ data }) => {
+        commit('UPDATE_CUSTOMER_GROUP_LINE', data);
+        return data;
+      });
+  },
+
+  deleteCustomerGroupLine({ commit }, customerGroupLineId) {
+    return customerGroupLineService
+      .deleteCustomerGroupLine(customerGroupLineId)
+      .then(({ data }) => {
+        commit('DELETE_CUSTOMER_GROUP_LINE', customerGroupLineId);
+        return data;
+      });
   },
 };
 
 // mutations
 const mutations = {
-  SET_STOCK_EXIT_LINES(state, stock_exit_lines) {
-    state.stock_exit_lines = JSON.stringify(stock_exit_lines);
+  SET_CUSTOMER_GROUP_LINES(state, customerGroupLines) {
+    state.customerGroupLines = JSON.stringify(customerGroupLines);
   },
-  ADD_STOCK_EXIT_LINE(state, stockExitLine) {
-    let stock_exit_lines = JSON.parse(state.stock_exit_lines);
-    stock_exit_lines.push(stockExitLine);
-    state.stock_exit_lines = JSON.stringify(stock_exit_lines);
+  ADD_CUSTOMER_GROUP_LINE(state, customerGroupLine) {
+    let customerGroupLines = JSON.parse(state.customerGroupLines);
+    customerGroupLines.push(customerGroupLine);
+    state.customerGroupLines = JSON.stringify(customerGroupLines);
   },
-  UPDATE_STOCK_EXIT_LINE(state, stockExitLine) {
-    let stock_exit_lines = JSON.parse(state.stock_exit_lines);
-    const index = stock_exit_lines.findIndex((p) => p.id === stockExitLine.id);
+  UPDATE_CUSTOMER_GROUP_LINE(state, customerGroupLine) {
+    let customerGroupLines = JSON.parse(state.customerGroupLines);
+    const index = customerGroupLines.findIndex(
+      (p) => p.id === customerGroupLine.id
+    );
     if (index !== -1) {
-      stock_exit_lines.splice(index, 1, stockExitLine);
-      state.stock_exit_lines = JSON.stringify(stock_exit_lines);
+      customerGroupLines.splice(index, 1, customerGroupLine);
+      state.customerGroupLines = JSON.stringify(customerGroupLines);
     }
   },
-  DELETE_STOCK_EXIT_LINE(state, stockExitLineId) {
-    state.stock_exit_lines = JSON.stringify(
-      JSON.parse(state.stock_exit_lines).filter((p) => p.id !== stockExitLineId)
+  DELETE_CUSTOMER_GROUP_LINE(state, customerGroupLineId) {
+    state.customerGroupLines = JSON.stringify(
+      JSON.parse(state.customerGroupLines).filter(
+        (p) => p.id !== customerGroupLineId
+      )
     );
   },
 };

@@ -1,17 +1,17 @@
 <template>
   <BaseContainer
-    :module="$t('customers.configurations')"
+    :module="$t('common.configurations')"
     :title="$t('customers.title')"
   >
     <div class="card">
       <div class="card-header pb-2 border-bottom border-bottom-">
         <div class="row align-items-center">
           <div class="col-sm">
-            <h5>{{ $t('customers.customerType.listTitle') }}</h5>
+            <h5>{{ $t('customers.customerGroupLineLine.listTitle') }}</h5>
           </div>
           <div class="col-sm-auto align-items-end">
             <router-link
-              :to="{ name: 'customer.config.types.form' }"
+              :to="{ name: 'customer.config.groups.lines.form' }"
               class="btn btn-primary"
               href="#"
               type="button"
@@ -23,40 +23,25 @@
         </div>
       </div>
       <div class="card-body">
-        <BaseDatatable :tfoot="false" :total="customerTypes.length">
+        <BaseDatatable :tfoot="false" :total="customerGroupLines.length">
           <template #headers>
             <th>#</th>
-            <th>{{ $t('common.attributes.label') }}</th>
-            <th>{{ $t('common.attributes.code') }}</th>
-            <th>{{ $t('common.attributes.description') }}</th>
+            <th>{{ $t('common.attributes.customer') }}</th>
             <th>{{ $t('common.actions') }}</th>
           </template>
-          <tr v-for="customerType in customerTypes" :key="customerType.id">
-            <td>{{ customerType.id }}</td>
-            <td>{{ customerType.label }}</td>
-            <td>{{ customerType.code }}</td>
-            <td>{{ truncate(customerType.description) }}</td>
+          <tr
+            v-for="customerGroupLine in customerGroupLines"
+            :key="customerGroupLine.id"
+          >
+            <td>{{ customerGroupLine.id }}</td>
+            <td>{{ customerGroupLine.customer.name }}</td>
             <td>
-              <button
-                :title="$t('common.update')"
-                class="btn btn-secondary btn-xs"
-                data-original-title="btn btn-secondary btn-xs"
-                type="button"
-                @click.prevent="
-                  $router.push({
-                    name: 'customer.config.types.form',
-                    params: { id: customerType.id },
-                  })
-                "
-              >
-                {{ $t('common.update') }}
-              </button>
               <button
                 :title="$t('common.delete')"
                 class="btn btn-danger btn-xs m-l-5"
                 data-original-title="btn btn-danger btn-xs"
                 type="button"
-                @click.prevent="deleteCustomerType(customerType)"
+                @click.prevent="deleteCustomerGroup(customerGroupLine)"
               >
                 <i class="fa fa-trash-o" />
               </button>
@@ -80,7 +65,7 @@ export default {
   components: { BaseContainer, BaseDatatable },
   beforeRouteEnter(routeTo, routeFrom, next) {
     store
-      .dispatch('customerType/getCustomerTypesList', {
+      .dispatch('customerGroupLine/getCustomerGroupLinesList', {
         page: 1,
         field: {},
       })
@@ -93,29 +78,32 @@ export default {
       });
   },
   computed: {
-    ...mapGetters('customerType', ['customerTypes', 'customerType']),
+    ...mapGetters('customerGroupLine', [
+      'getCustomerGroupLinesByGroupId',
+      'customerGroupLine',
+    ]),
+    customerGroupLines() {
+      return this.getCustomerGroupLinesByGroupId(this.$route.params.id);
+    },
   },
   created() {
-    if (this.customerType)
-      this.$store.commit('customerType/SET_CURRENT_CUSTOMER_TYPE', null);
+    if (this.customerGroupLine)
+      this.$store.commit(
+        'customerGroupLine/SET_CURRENT_CUSTOMER_GROUP_LINE',
+        null
+      );
   },
 
   methods: {
-    truncate(source, size = 100) {
-      if (!source) {
-        return '';
-      }
-      return source.length > size ? source.slice(0, size - 1) + '…' : source;
-    },
-    deleteCustomerType(customerType) {
+    deleteCustomerGroup(customerGroupLine) {
       if (
         confirm(
-          this.$t('messages.confirmDelete', { label: customerType.label })
+          this.$t('messages.confirmDelete', { label: customerGroupLine.label })
         )
       )
         this.$store.dispatch(
-          'customerType/deleteCustomerType',
-          customerType.id
+          'customerGroupLine/deleteCustomerGroupLine',
+          customerGroupLine.id
         );
     },
   },
