@@ -1,5 +1,6 @@
 import productRoutes from './product/routes';
 import articleRoutes from './article/routes';
+import { customerRoutes } from './customers/customerRoutes';
 import { enterpriseRoutes } from './structures/enterpriseRoutes';
 import { localizationRoutes } from './structures/localizationRoutes';
 
@@ -32,6 +33,11 @@ const workspace = [
     path: 'localizations',
     component: () => import('/@/components/structures/LocalizationLayout.vue'),
     children: localizationRoutes,
+  },
+  {
+    path: 'customers',
+    component: () => import('/@/components/customers/CustomerLayout.vue'),
+    children: customerRoutes,
   },
 ];
 

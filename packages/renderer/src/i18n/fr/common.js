@@ -24,6 +24,7 @@ export default {
   actif: 'Actif',
   active: 'Active',
   inactif: 'Inactif',
+  configurations: 'Configurations',
   fields: {
     text: 'Chaine de caractere',
     number: 'Nombre',
@@ -91,6 +92,7 @@ export default {
     phone: 'Telephone',
     domain: 'Nom de domaine',
     enterpriseType: "Type d'entreprise",
+    customerType: 'Type de client',
     address: 'Adresse',
     country: 'Pays',
     region: 'Region',
