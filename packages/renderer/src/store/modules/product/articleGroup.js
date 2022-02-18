@@ -1,5 +1,5 @@
 import articleGroupService from '../../../services/articles/ArticleGroupService';
-import { notify } from '../../../helpers/notify';
+import { notify } from '/@/helpers/notify';
 import i18n from '../../../i18n';
 
 const state = {
@@ -79,17 +79,36 @@ const actions = {
     });
   },
 
-  addArticleGroupLines({ state, commit }, articles) {
+  addArticleGroupLines({ getters, commit }, articles) {
     return articleGroupService
-      .addArticles(articles, state.articleGroup.id)
+      .addArticles(articles, getters.articleGroup.id)
       .then(({ data }) => {
         commit('ADD_ARTICLE_GROUP_LINE', data.articleGroupLines);
       });
   },
 
-  removeArticleGroupLines({ state, commit }, articleGroupLines) {
+  updateArticleGroupLine({ commit }, { quantity, id }) {
     return articleGroupService
-      .removeArticles(articleGroupLines, state.articleGroup.id)
+      .updateArticleQuantity(quantity, id)
+      .then(({ data }) => {
+        commit('UPDATE_ARTICLE_GROUP_LINE', data);
+        notify(
+          i18n.global.t('article.group.line.update'),
+          'Ok',
+          'theme',
+          'fa fa-check'
+        );
+      });
+  },
+
+  removeArticleGroupLines({ getters, commit }, articleGroupLines) {
+    return articleGroupService
+      .removeArticles(
+        {
+          article_group_line_ids: [...articleGroupLines],
+        },
+        getters.articleGroup.id
+      )
       .then(() => {
         commit('REMOVE_ARTICLE_GROUP_LINE', articleGroupLines);
       });
@@ -128,9 +147,29 @@ const mutations = {
     let articleGroup = JSON.parse(state.articleGroup);
     let index = articleGroups.findIndex((p) => p.id === articleGroup.id);
     if (index !== -1) {
-      articleGroup.article_group_lines.push(articleGroupLines);
+      articleGroup.article_group_lines = [
+        ...articleGroup.article_group_lines,
+        ...articleGroupLines,
+      ];
       articleGroups.splice(index, 1, articleGroup);
+      state.articleGroup = JSON.stringify(articleGroup);
       state.articleGroups = JSON.stringify(articleGroups);
+    }
+  },
+  UPDATE_ARTICLE_GROUP_LINE(state, articleGroupLine) {
+    let articleGroups = JSON.parse(state.articleGroups);
+    let articleGroup = JSON.parse(state.articleGroup);
+    let index = articleGroups.findIndex((p) => p.id === articleGroup.id);
+    if (index !== -1) {
+      let i = articleGroup.article_group_lines.findIndex(
+        (al) => al.id === articleGroupLine.id
+      );
+      if (i !== -1) {
+        articleGroup.article_group_lines.splice(i, 1, articleGroupLine);
+        articleGroups.splice(index, 1, articleGroup);
+        state.articleGroup = JSON.stringify(articleGroup);
+        state.articleGroups = JSON.stringify(articleGroups);
+      }
     }
   },
   REMOVE_ARTICLE_GROUP_LINE(state, articleGroupLines) {
@@ -140,12 +179,10 @@ const mutations = {
     if (index !== -1) {
       articleGroup.article_group_lines =
         articleGroup.article_group_lines.filter((agl) => {
-          const canDelete = articleGroupLines.findIndex(
-            (al) => al.id === agl.id
-          );
-          return canDelete === -1;
+          return articleGroupLines.find((al) => al === agl.id) === undefined;
         });
       articleGroups.splice(index, 1, articleGroup);
+      state.articleGroup = JSON.stringify(articleGroup);
       state.articleGroups = JSON.stringify(articleGroups);
     }
   },

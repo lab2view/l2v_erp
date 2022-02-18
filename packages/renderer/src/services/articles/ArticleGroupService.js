@@ -39,4 +39,10 @@ export default {
       articleGroupLineIds
     );
   },
+
+  updateArticleQuantity(quantity, article_group_line_id) {
+    return axios.put(`/articles/groups/lines/${article_group_line_id}/update`, {
+      quantity,
+    });
+  },
 };

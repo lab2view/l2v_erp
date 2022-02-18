@@ -2,7 +2,7 @@ export default [
   {
     path: 'description',
     name: 'product.form.desc',
-    component: () => import('/@/views/products/forms/ProductDescription.vue'),
+    component: () => import('/@/views/products/forms/ProductPresentation.vue'),
     meta: {
       code: 'Product.form.description',
       icon: 'fa fa-info',
@@ -17,6 +17,34 @@ export default [
       icon: 'fa fa-cogs',
       requireProduct: true,
     },
+    children: [
+      {
+        path: '',
+        redirect: (to) => {
+          return {
+            name: 'product.form.setting.gallery',
+            params: to.params,
+            query: to.query,
+          };
+        },
+      },
+      {
+        path: 'gallery',
+        name: 'product.form.setting.gallery',
+        component: () => import('/@/views/products/forms/ProductGallery.vue'),
+      },
+      {
+        path: 'taxes',
+        name: 'product.form.setting.tax',
+        component: () => import('/@/views/products/forms/ProductTaxList.vue'),
+      },
+      {
+        path: 'description',
+        name: 'product.form.setting.desc',
+        component: () =>
+          import('/@/views/products/forms/ProductDescription.vue'),
+      },
+    ],
   },
   {
     path: 'articles',
@@ -56,16 +84,16 @@ export default [
       requireProduct: true,
     },
     children: [
-      // {
-      //   path: '',
-      //   redirect: (to) => {
-      //     return {
-      //       name: 'product.form.stock.stats',
-      //       params: to.params,
-      //       query: to.query,
-      //     };
-      //   },
-      // },
+      {
+        path: '',
+        redirect: (to) => {
+          return {
+            name: 'product.form.stock.stats',
+            params: to.params,
+            query: to.query,
+          };
+        },
+      },
       {
         path: 'entries',
         name: 'product.form.stock.entry',

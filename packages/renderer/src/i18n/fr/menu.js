@@ -100,7 +100,7 @@ export default {
     form: {
       description: 'Description du produit',
       setting: 'Parametrage avance',
-      article: 'Articles',
+      article: 'Conditionnements',
       stock: 'Entrees en stocks',
     },
   },
@@ -116,7 +116,8 @@ export default {
     create: 'Ajouter un groupe',
     form: {
       description: 'Description du groupe',
-      setting: 'Gerer les articles',
+      item: 'Gerer les articles',
+      setting: 'Configurations',
     },
   },
   package: {
