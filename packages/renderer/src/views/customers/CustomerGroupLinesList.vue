@@ -80,18 +80,13 @@ export default {
   computed: {
     ...mapGetters('customerGroup', ['customerGroup']),
     customerGroupLines() {
-      return this.haveCustomerGroup
-        ? this.customerGroup.customer_group_lines
-        : [];
+      return this.customerGroup.customer_group_lines ?? [];
     },
     partialSelect() {
       return (
         this.selected.length > 0 &&
         this.selected.length < this.customerGroupLines.length
       );
-    },
-    haveCustomerGroup() {
-      return !!this.customerGroup;
     },
   },
   methods: {
@@ -108,7 +103,7 @@ export default {
     },
   },
   watch: {
-    selectAll(value = null) {
+    selectAll(value) {
       if (value) {
         this.selected = this.customerGroupLines.map((cgl) => {
           cgl.id;
