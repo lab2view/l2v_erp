@@ -1,6 +1,4 @@
 import customerGroupService from '../../../services/customers/CustomerGroupService';
-import { notify } from '/@/helpers/notify';
-import i18n from '../../../i18n';
 
 const state = {
   customerGroups: null,
@@ -59,9 +57,9 @@ const actions = {
       });
   },
 
-  addCustomerToCustomerGroup({ commit }, { id, customer_id }) {
+  addCustomerToCustomerGroup({ commit }, { id, customer }) {
     return customerGroupService
-      .addCustomersToCustomerGroup(id, [customer_id])
+      .addCustomers(id, [customer])
       .then(({ data }) => {
         commit('ADD_CUSTOMER_TO_CUSTOMER_GROUP', data);
         return data;
@@ -72,12 +70,6 @@ const actions = {
     return customerGroupService
       .updateCustomerGroup(customerGroupField, customerGroupField.id)
       .then(({ data }) => {
-        notify(
-          i18n.global.t('customers.customerGroup.update'),
-          'Ok',
-          'theme',
-          'fa fa-check'
-        );
         commit('UPDATE_CUSTOMER_GROUP', data);
         return data;
       });
@@ -94,7 +86,7 @@ const actions = {
 
   deleteCustomerGroupLine({ commit }, customerGroupLine) {
     return customerGroupService
-      .forceDeleteCustomersToCustomerGroup(customerGroupLine.id)
+      .removeCustomers(customerGroupLine.id)
       .then(({ data }) => {
         commit('DELETE_CUSTOMER_GROUP_LINE', customerGroupLine);
         return data;
@@ -112,13 +104,26 @@ const mutations = {
       customerGroup === null ? null : JSON.stringify(customerGroup);
   },
   ADD_CUSTOMER_GROUP(state, customerGroup) {
-    let customerGroups = JSON.parse(state.customerGroups);
-    customerGroups.push(customerGroup);
-    state.customerGroups = JSON.stringify(customerGroups);
+    let state_cg = JSON.parse(state.customerGroup);
+    state_cg.push(customerGroup);
+    state.customerGroup = JSON.stringify(customerGroup);
   },
-  ADD_CUSTOMER_TO_CUSTOMER_GROUP(state, data) {
-    console.log('good add customer to group');
-    console.log(data);
+  ADD_CUSTOMER_TO_CUSTOMER_GROUP(state, { customerGroupLines }) {
+    let state_cg = JSON.parse(state.customerGroup);
+    state_cg.customer_group_lines = state_cg.customer_group_lines ?? [];
+    if (customerGroupLines) {
+      customerGroupLines.map((customerGroupLine) => {
+        state_cg.customer_group_lines.push(customerGroupLine);
+      });
+    }
+    state.customerGroup = JSON.stringify(state_cg);
+    state.customerGroups = JSON.stringify(
+      JSON.parse(state.customerGroups).map((customerGroup) => {
+        return customerGroup.id.toString() === state_cg.id.ToString()
+          ? state_cg
+          : customerGroup;
+      })
+    );
   },
   UPDATE_CUSTOMER_GROUP(state, customerGroup) {
     let customerGroups = JSON.parse(state.customerGroups);

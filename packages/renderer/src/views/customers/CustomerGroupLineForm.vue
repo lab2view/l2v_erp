@@ -62,6 +62,7 @@ export default {
   data() {
     return {
       errors: [],
+      formLoading: false,
       customer_id: null,
     };
   },
@@ -69,13 +70,10 @@ export default {
     ...mapGetters('customer', ['customers']),
     ...mapGetters('customerGroup', ['customerGroup']),
     unselectedCustomers() {
-      const customers = this.customerGroup?.customer_group_lines?.map(
-        (cgl) => cgl.customer_id
-      );
-      console.log('customers');
-      console.log(customers);
-      console.log('this.customers');
-      console.log(this.customers);
+      const customers =
+        this.customerGroup?.customer_group_lines?.map(
+          (cgl) => cgl.customer_id
+        ) ?? [];
       return this.customers.filter(
         (customer) => !customers.includes(customer.id)
       );
@@ -83,17 +81,21 @@ export default {
   },
   methods: {
     submitCustomerGroupLineForm() {
+      if (this.formLoading) {
+        return;
+      }
+
+      this.formLoading = true;
       this.$store
         .dispatch('customerGroup/addCustomerToCustomerGroup', {
           id: this.customerGroup.id,
-          customer_id: this.customer_id,
+          customer: { id: this.customer_id },
         })
-        .then(() => {
-          this.$router.back();
-        })
+        .then(() => this.$router.back())
         .catch((error) => {
           this.errors = error.response?.data?.errors;
-        });
+        })
+        .finally(() => (this.formLoading = false));
     },
   },
 };

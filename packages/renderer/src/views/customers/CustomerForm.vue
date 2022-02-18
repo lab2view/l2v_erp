@@ -179,6 +179,11 @@ export default {
       this.customerForm = Object.assign({}, this.customer);
     }
   },
+  beforeUnmount() {
+    if (this.customer) {
+      this.$store.commit('customer/SET_CURRENT_CUSTOMER', null);
+    }
+  },
   methods: {
     submitCustomerForm() {
       if (this.formLoading) {
