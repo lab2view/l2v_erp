@@ -29,7 +29,8 @@ import customer from './modules/customers/customer';
 export default createStore({
   state: {
     globalLoading: true,
-    landlordDomain: 'kitbussiness.com',
+    landlordDomain: 'kitbussiness.test',
+    // landlordDomain: 'kitbussiness.com',
     uploaded: null,
     initiateApp: true,
   },

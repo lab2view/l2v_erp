@@ -11,7 +11,7 @@
           </div>
           <div class="col-sm-auto align-items-end">
             <router-link
-              :to="{ name: 'customer.config.groups.lines.form' }"
+              :to="{ name: 'config.customers.groups.lines.form' }"
               class="btn btn-primary"
               href="#"
               type="button"
