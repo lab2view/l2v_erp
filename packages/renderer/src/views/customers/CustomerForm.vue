@@ -147,6 +147,7 @@ export default {
   data() {
     return {
       errors: [],
+      formLoading: false,
       customerForm: {
         id: null,
         customer_type_id: null,
@@ -180,6 +181,11 @@ export default {
   },
   methods: {
     submitCustomerForm() {
+      if (this.formLoading) {
+        return;
+      }
+
+      this.formLoading = true;
       if (this.customer) {
         this.$store
           .dispatch('customer/updateCustomer', this.customerForm)
@@ -187,7 +193,8 @@ export default {
           .catch((error) => {
             this.errors = error.response.data.errors;
             console.log(error);
-          });
+          })
+          .finally(() => (this.formLoading = false));
       } else
         this.$store
           .dispatch('customer/addCustomer', this.customerForm)
@@ -195,7 +202,8 @@ export default {
           .catch((error) => {
             this.errors = error.response.data.errors;
             console.log(error);
-          });
+          })
+          .finally(() => (this.formLoading = false));
     },
   },
 };

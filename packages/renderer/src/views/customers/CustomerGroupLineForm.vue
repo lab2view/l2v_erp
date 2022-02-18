@@ -1,42 +1,53 @@
 <template>
-  <BaseFormModal
-    :submit-form="submitCountryForm"
-    :title="$t('customers.customerGroup.formActivationTitle')"
-  >
-    <div class="mb-3">
-      <BaseSelect
-        v-model="customer_id"
-        :errors="errors?.customer_id"
-        :label="$t('common.attributes.country')"
-        :options="unSelectedCustomers"
-        key-label="name"
-        key-value="id"
-        required
-      />
+  <div class="card rounded shadow-sm">
+    <div class="card-header p-3 bg-light">
+      <h5>{{ $t('article.form.createTitle') }}</h5>
     </div>
-    <template #footer>
-      <button
-        :title="$t('common.activate')"
-        class="btn btn-primary"
-        type="submit"
-      >
-        {{ $t('common.activate') }}
-      </button>
-    </template>
-  </BaseFormModal>
+    <form class="theme-form" @submit.prevent="submitCustomerGroupLineForm">
+      <div class="card-body pb-0 pt-2">
+        <div class="mb-3">
+          <BaseSelect
+            v-model="customer_id"
+            :options="unselectedCustomers"
+            key-label="name"
+            key-value="id"
+            required
+          />
+        </div>
+      </div>
+      <div class="card-footer pt-2 pb-2">
+        <div class="row justify-content-center align-items-center">
+          <BaseButton
+            :text="$t('common.cancel')"
+            class="btn btn-secondary col-auto m-r-5"
+            type="button"
+            @click.prevent="$router.back()"
+          />
+          <BaseButton
+            :text="$t('common.save')"
+            class="btn btn-primary col-auto"
+            icon="fa fa-save"
+          />
+        </div>
+      </div>
+    </form>
+  </div>
+  <router-view />
 </template>
 
 <script>
-import BaseFormModal from '/@/components/common/BaseFormModal.vue';
-import BaseSelect from '/@/components/common/BaseSelect.vue';
 import { mapGetters } from 'vuex';
+import BaseInput from '/@/components/common/BaseInput.vue';
+import BaseSelect from '/@/components/common/BaseSelect.vue';
+import BaseButton from '/@/components/common/BaseButton.vue';
+import BaseFieldGroup from '/@/components/common/BaseFieldGroup.vue';
 import store from '/@/store';
 
 export default {
-  components: { BaseFormModal, BaseSelect },
+  components: { BaseFieldGroup, BaseButton, BaseInput, BaseSelect },
   beforeRouteEnter(routeTo, routeFrom, next) {
     store
-      .dispatch('country/getCountriesList', {
+      .dispatch('customer/getCustomersList', {
         page: 1,
         field: {},
       })
@@ -51,32 +62,38 @@ export default {
   data() {
     return {
       errors: [],
-      country_id: null,
+      customer_id: null,
     };
   },
   computed: {
-    ...mapGetters('customerGroupLineConfig', ['countries']),
-    unSelectedCustomers() {
-      return this.countries.filter((country) => !country.is_active);
+    ...mapGetters('customer', ['customers']),
+    ...mapGetters('customerGroup', ['customerGroup']),
+    unselectedCustomers() {
+      const customers = this.customerGroup?.customer_group_lines?.map(
+        (cgl) => cgl.customer_id
+      );
+      console.log('customers');
+      console.log(customers);
+      console.log('this.customers');
+      console.log(this.customers);
+      return this.customers.filter(
+        (customer) => !customers.includes(customer.id)
+      );
     },
   },
   methods: {
-    submitCountryForm() {
-      if (this.country_id) {
-        let countryField = this.countries.find(
-          (country) => country.id.toString() === this.country_id.toString()
-        );
-        this.$store
-          .dispatch('country/updateCountry', {
-            ...countryField,
-            is_active: true,
-          })
-          .then(() => this.$router.back())
-          .catch((error) => {
-            this.errors = error.response?.data?.errors;
-            console.log(error);
-          });
-      }
+    submitCustomerGroupLineForm() {
+      this.$store
+        .dispatch('customerGroup/addCustomerToCustomerGroup', {
+          id: this.customerGroup.id,
+          customer_id: this.customer_id,
+        })
+        .then(() => {
+          this.$router.back();
+        })
+        .catch((error) => {
+          this.errors = error.response?.data?.errors;
+        });
     },
   },
 };

@@ -81,28 +81,29 @@ export const customerRoutes = [
     ],
   },
   {
-    path: 'customer-group-lines/:id',
+    path: 'customer-group-lines/:id?',
     name: 'config.customers.groups.lines',
     component: () => import('/@/views/customers/CustomerGroupLinesList.vue'),
     meta: {
       code: 'CustomerGroupLine.viewAny',
       feather: 'filter',
     },
+    beforeEnter: (to) => {
+      if (to.params.id) {
+        return store
+          .dispatch('customerGroup/getCustomerGroup', to.params.id)
+          .then(() => {
+            return { name: to.name };
+          })
+          .catch(() => -1);
+      }
+      return -1;
+    },
     children: [
       {
-        path: 'form/:id?',
+        path: 'form',
         name: 'config.customers.groups.lines.form',
         component: () => import('/@/views/customers/CustomerGroupLineForm.vue'),
-        beforeEnter: (to) => {
-          if (to.params.id) {
-            return store
-              .dispatch('customerGroupLine/getCustomerGroupLine', to.params.id)
-              .then(() => {
-                return { name: to.name };
-              })
-              .catch(() => -1);
-          }
-        },
       },
     ],
   },

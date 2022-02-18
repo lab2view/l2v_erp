@@ -42,7 +42,7 @@
                 type="button"
                 @click.prevent="
                   $router.push({
-                    name: 'config.customers.groups.lines.form',
+                    name: 'config.customers.groups.lines',
                     params: { id: customerGroup.id },
                   })
                 "
