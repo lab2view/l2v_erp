@@ -39,7 +39,6 @@ const actions = {
   addCustomer({ commit }, customerField) {
     return customerService.addCustomer(customerField).then(({ data }) => {
       commit('ADD_CUSTOMER', data);
-      commit('SET_CURRENT_CUSTOMER', data);
       return data;
     });
   },

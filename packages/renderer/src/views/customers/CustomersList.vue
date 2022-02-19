@@ -11,7 +11,7 @@
           </div>
           <div class="col-sm-auto align-items-end">
             <router-link
-              :to="{ name: 'customer.form.desc' }"
+              :to="{ name: 'customer.form' }"
               class="btn btn-primary"
               href="#"
               type="button"
@@ -27,15 +27,21 @@
           <template #headers>
             <th>#</th>
             <th>{{ $t('common.attributes.customerType') }}</th>
+            <th>{{ $t('common.attributes.localization') }}</th>
+            <th>{{ $t('common.attributes.country') }}</th>
             <th>{{ $t('common.attributes.name') }}</th>
-            <th>{{ $t('common.attributes.email') }}</th>
+            <th>{{ $t('common.attributes.reference') }}</th>
             <th>{{ $t('common.attributes.phone') }}</th>
+            <th>{{ $t('common.attributes.email') }}</th>
             <th>{{ $t('common.actions') }}</th>
           </template>
           <tr v-for="customer in customers" :key="customer.id">
             <td>{{ customer.id }}</td>
-            <td>{{ customer.customer_type.label }}</td>
+            <td>{{ customer.customer_type?.label }}</td>
+            <td>{{ customer.localization?.address }}</td>
+            <td>{{ customer.country?.name }}</td>
             <td>{{ customer.name }}</td>
+            <td>{{ customer.reference }}</td>
             <td>{{ customer.email }}</td>
             <td>{{ customer.phone }}</td>
             <td>
@@ -46,7 +52,7 @@
                 type="button"
                 @click.prevent="
                   $router.push({
-                    name: 'customer.form.desc',
+                    name: 'customer.form',
                     params: { id: customer.id },
                   })
                 "
@@ -100,7 +106,7 @@ export default {
   },
   created() {
     if (this.customer)
-      this.$store.commit('customer/SET_CURRENT_customer', null);
+      this.$store.commit('customer/SET_CURRENT_CUSTOMER', null);
   },
 
   methods: {

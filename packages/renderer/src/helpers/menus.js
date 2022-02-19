@@ -126,25 +126,21 @@ export const customerMenus = [
         code: 'Customer.viewAny',
         to: 'customers',
       },
-      {
-        code: 'Customer.create',
-        to: 'customer.form.desc',
-      },
     ],
   },
   {
     icon: 'settings',
     code: 'Customers.manage',
     label: 'Configurations',
-    prefix: 'customer.config.',
+    prefix: 'config.customers',
     items: [
       {
         code: 'CustomerType.viewAny',
-        to: 'customer.config.types',
+        to: 'config.customers.types',
       },
       {
         code: 'CustomerGroup.viewAny',
-        to: 'customer.config.groups',
+        to: 'config.customers.groups',
       },
     ],
   },
