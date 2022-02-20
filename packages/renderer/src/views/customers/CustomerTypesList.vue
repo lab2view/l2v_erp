@@ -11,7 +11,7 @@
           </div>
           <div class="col-sm-auto align-items-end">
             <router-link
-              :to="{ name: 'config.customers.types.form' }"
+              :to="{ name: 'config.customers.type.form' }"
               class="btn btn-primary"
               href="#"
               type="button"
@@ -44,7 +44,7 @@
                 type="button"
                 @click.prevent="
                   $router.push({
-                    name: 'config.customers.types.form',
+                    name: 'config.customers.type.form',
                     params: { id: customerType.id },
                   })
                 "

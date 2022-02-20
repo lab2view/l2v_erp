@@ -20,7 +20,7 @@
           <div class="col-sm-auto align-items-end">
             <router-link
               :to="{
-                name: 'config.customers.groups.lines.form',
+                name: 'config.customers.groups.line.form',
                 params: { id: customerGroup.id },
               }"
               class="btn btn-primary"
@@ -89,6 +89,15 @@ export default {
       );
     },
   },
+  watch: {
+    selectAll(value) {
+      if (value) {
+        this.selected = this.customerGroupLines.map((cgl) => {
+          cgl.id;
+        });
+      } else this.selected = [];
+    },
+  },
   methods: {
     deleteCustomerGroupLine(customerGroupLine) {
       if (
@@ -100,15 +109,6 @@ export default {
           'customerGroup/deleteCustomerGroupLine',
           customerGroupLine
         );
-    },
-  },
-  watch: {
-    selectAll(value) {
-      if (value) {
-        this.selected = this.customerGroupLines.map((cgl) => {
-          cgl.id;
-        });
-      } else this.selected = [];
     },
   },
 };
