@@ -11,7 +11,7 @@
           </div>
           <div class="col-sm-auto align-items-end">
             <router-link
-              :to="{ name: 'customer.config.groups.form' }"
+              :to="{ name: 'config.customers.groups.form' }"
               class="btn btn-primary"
               href="#"
               type="button"
@@ -42,7 +42,7 @@
                 type="button"
                 @click.prevent="
                   $router.push({
-                    name: 'customer.config.groups.lines.form',
+                    name: 'config.customers.groups.lines',
                     params: { id: customerGroup.id },
                   })
                 "
@@ -56,7 +56,7 @@
                 type="button"
                 @click.prevent="
                   $router.push({
-                    name: 'customer.config.groups.form',
+                    name: 'config.customers.groups.form',
                     params: { id: customerGroup.id },
                   })
                 "

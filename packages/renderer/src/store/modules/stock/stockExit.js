@@ -1,6 +1,4 @@
 import stockExitService from '../../../services/stocks/StockExitService';
-import { notify } from '../../../helpers/notify';
-import i18n from '../../../i18n';
 
 const state = {
   stock_exits: null,
@@ -17,7 +15,7 @@ const getters = {
 
 // privileges
 const actions = {
-  getStockExitList({ commit, getters }, { page, field }) {
+  getStockExitsList({ commit, getters }, { page, field }) {
     if (getters.stock_exits.length > 0) {
       return getters.stock_exits;
     } else
@@ -27,12 +25,14 @@ const actions = {
       });
   },
 
-  getStockExit({ getters }, id) {
+  getStockExit({ getters, commit }, id) {
     const stockExit = getters.stock_exits.find((p) => p.id.toString() === id);
     if (stockExit !== undefined) {
+      commit('SET_CURRENT_STOCK_EXIT', stockExit);
       return stockExit;
     } else
       return stockExitService.get(id).then(({ data }) => {
+        commit('SET_CURRENT_STOCK_EXIT', data);
         return data;
       });
   },
@@ -40,12 +40,6 @@ const actions = {
   addStockExit({ commit }, stockExitField) {
     return stockExitService.add(stockExitField).then(({ data }) => {
       commit('ADD_STOCK_EXIT', data);
-      notify(
-        i18n.global.t('stockExit.form.store'),
-        'Ok',
-        'theme',
-        'fa fa-check'
-      );
       return data;
     });
   },
@@ -54,12 +48,6 @@ const actions = {
     return stockExitService
       .update(stockExitField, stockExitField.id)
       .then(({ data }) => {
-        notify(
-          i18n.global.t('stockExit.form.update'),
-          'Ok',
-          'theme',
-          'fa fa-check'
-        );
         commit('UPDATE_STOCK_EXIT', data);
         return data;
       });
@@ -77,6 +65,9 @@ const actions = {
 const mutations = {
   SET_STOCK_EXITS(state, stock_exits) {
     state.stock_exits = JSON.stringify(stock_exits);
+  },
+  SET_CURRENT_STOCK_EXIT(state, stockExit) {
+    state.stockExit = JSON.stringify(stockExit);
   },
   ADD_STOCK_EXIT(state, stockExit) {
     let stock_exits = JSON.parse(state.stock_exits);

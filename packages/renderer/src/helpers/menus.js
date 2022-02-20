@@ -106,11 +106,11 @@ export const structureMenus = [
     icon: 'settings',
     code: 'Enterprises.manage',
     label: 'Configurations',
-    prefix: 'types.entreprise',
+    prefix: 'types.enterprise',
     items: [
       {
         code: 'EnterpriseType.viewAny',
-        to: 'types.entreprise',
+        to: 'types.enterprise',
       },
     ],
   },
@@ -126,25 +126,88 @@ export const customerMenus = [
         code: 'Customer.viewAny',
         to: 'customers',
       },
-      {
-        code: 'Customer.create',
-        to: 'customer.form.desc',
-      },
     ],
   },
   {
     icon: 'settings',
     code: 'Customers.manage',
     label: 'Configurations',
-    prefix: 'customer.config.',
+    prefix: 'config.customers',
     items: [
       {
         code: 'CustomerType.viewAny',
-        to: 'customer.config.types',
+        to: 'config.customers.types',
       },
       {
         code: 'CustomerGroup.viewAny',
-        to: 'customer.config.groups',
+        to: 'config.customers.groups',
+      },
+    ],
+  },
+];
+
+export const stockMenus = [
+  {
+    icon: 'globe',
+    code: 'Stocks.manage',
+    prefix: 'stocks',
+    items: [
+      {
+        code: 'Provision.viewAny',
+        to: 'stocks.provisions',
+      },
+      {
+        code: 'StockExit.viewAny',
+        to: 'stocks.exits',
+      },
+    ],
+  },
+  {
+    icon: 'globe',
+    code: 'Inventory.viewAny',
+    prefix: 'inventories',
+    items: [
+      {
+        code: 'Inventory.viewAny',
+        to: 'inventories',
+      },
+    ],
+  },
+  {
+    icon: 'globe',
+    code: 'Provider.viewAny',
+    prefix: 'providers',
+    items: [
+      {
+        code: 'Provider.viewAny',
+        to: 'providers',
+      },
+    ],
+  },
+  {
+    icon: 'globe',
+    code: 'Shipping.viewAny',
+    prefix: 'shippings',
+    items: [
+      {
+        code: 'Shipping.viewAny',
+        to: 'shippings',
+      },
+    ],
+  },
+  {
+    icon: 'settings',
+    code: 'Stocks.manage',
+    label: 'Configurations',
+    prefix: 'config.stocks',
+    items: [
+      {
+        code: 'StockType.viewAny',
+        to: 'config.stocks.types',
+      },
+      {
+        code: 'StockState.viewAny',
+        to: 'config.stocks.states',
       },
     ],
   },

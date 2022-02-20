@@ -187,6 +187,55 @@ const CustomerGroupDiscount = new VuexPersistence({
   reducer: (state) => ({ customerGroupDiscount: state.customerGroupDiscount }),
 });
 
+const Inventory = new VuexPersistence({
+  key: 'inventory',
+  storage: localStore,
+  asyncStorage: true,
+  reducer: (state) => ({ inventory: state.inventory }),
+});
+
+const StockProvider = new VuexPersistence({
+  key: 'stock_provider',
+  storage: localStore,
+  asyncStorage: true,
+  reducer: (state) => ({ stock_provider: state.stock_provider }),
+});
+
+const Shipping = new VuexPersistence({
+  key: 'shipping',
+  storage: localStore,
+  asyncStorage: true,
+  reducer: (state) => ({ shipping: state.shipping }),
+});
+
+const StockState = new VuexPersistence({
+  key: 'stock_state',
+  storage: localStore,
+  asyncStorage: true,
+  reducer: (state) => ({ stock_state: state.stock_state }),
+});
+
+const StockType = new VuexPersistence({
+  key: 'stock_type',
+  storage: localStore,
+  asyncStorage: true,
+  reducer: (state) => ({ stock_type: state.stock_type }),
+});
+
+const StockEntry = new VuexPersistence({
+  key: 'stock_entry',
+  storage: localStore,
+  asyncStorage: true,
+  reducer: (state) => ({ stock_entry: state.stock_entry }),
+});
+
+const StockEntryLine = new VuexPersistence({
+  key: 'stock_entry_line',
+  storage: localStore,
+  asyncStorage: true,
+  reducer: (state) => ({ stock_entry_line: state.stock_entry_line }),
+});
+
 export default [
   Auth.plugin,
   Product.plugin,
@@ -213,4 +262,11 @@ export default [
   CustomerTypeConfig.plugin,
   CustomerGroupLine.plugin,
   CustomerGroupDiscount.plugin,
+  Inventory.plugin,
+  StockProvider.plugin,
+  Shipping.plugin,
+  StockEntry.plugin,
+  StockEntryLine.plugin,
+  StockState.plugin,
+  StockType.plugin,
 ];

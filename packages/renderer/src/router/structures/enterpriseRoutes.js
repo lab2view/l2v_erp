@@ -14,7 +14,7 @@ export const enterpriseRoutes = [
   },
   {
     path: 'enterprise-types',
-    name: 'types.entreprise',
+    name: 'types.enterprise',
     component: () =>
       import('/@/views/structures/enterprises/EnterpriseTypesList.vue'),
     meta: {
@@ -24,7 +24,7 @@ export const enterpriseRoutes = [
     children: [
       {
         path: 'form/:id?',
-        name: 'types.entreprise.form',
+        name: 'types.enterprise.form',
         component: () =>
           import('/@/views/structures/enterprises/EnterpriseTypeForm.vue'),
         beforeEnter: (to) => {

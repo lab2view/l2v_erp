@@ -29,24 +29,16 @@ export default {
     return axios.delete(`/customers/groups/delete/${id}`);
   },
 
-  addCustomersToCustomerGroup(customerGroupId, customer_ids) {
-    return axios.post(`/customers/addCustomers/${customerGroupId}`, {
-      customer_ids,
+  addCustomers(customerGroupId, customers) {
+    return axios.post(`/customers/groups/${customerGroupId}/lines/add`, {
+      customers,
     });
   },
 
-  removeCustomersToCustomerGroup(customerGroupId, customer_group_line_ids) {
-    return axios.post(`/customers/groups/removeCustomers/${customerGroupId}`, {
-      _method: 'DELETE',
-      customer_group_line_ids,
-    });
-  },
-
-  restoreCustomersToCustomerGroup(id) {
-    return axios.post(`/customers/groups/restoreCustomers/${id}`);
-  },
-
-  forceDeleteCustomersToCustomerGroup(id) {
-    return axios.delete(`/customers/groups/deleteCustomers/${id}`);
+  removeCustomers(customerGroupId, customerGroupLineIds) {
+    return axios.post(
+      `/customers/groups/${customerGroupId}/lines/remove`,
+      customerGroupLineIds
+    );
   },
 };

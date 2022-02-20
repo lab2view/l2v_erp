@@ -90,6 +90,10 @@ export default {
       description: 'Description du groupe de clients',
     },
   },
+  customergroupline: {
+    create: 'Ajouter un client a un groupe de clients',
+    viewany: 'Liste des clients du groupes de clients',
+  },
   product: {
     create: 'Ajouter un produit',
     viewany: 'Liste des produits',
@@ -138,8 +142,29 @@ export default {
   property: {
     viewany: 'Proprietes',
   },
-  stock: {
-    manage: 'Stocks',
+  stocks: {
+    manage: 'Mouvements',
+  },
+  provision: {
+    viewany: 'Approvisionnement',
+  },
+  stockexit: {
+    viewany: 'Sortie de Stock',
+  },
+  stocktype: {
+    viewany: 'Types de Stock',
+  },
+  stockstate: {
+    viewany: 'Status de Stock',
+  },
+  inventory: {
+    viewany: 'Inventaires',
+  },
+  provider: {
+    viewany: 'Fournisseurs',
+  },
+  shipping: {
+    viewany: 'Livraisons',
   },
   movement: {
     entry: "Mouvements d'entree",
