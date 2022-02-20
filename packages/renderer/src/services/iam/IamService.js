@@ -1,34 +1,31 @@
 import axios from '/@/config/axios';
 
 export default {
-  getCustomerGroupDiscountsList(page, field) {
-    return axios.post(`/customers/groups/discounts/list?page=${page}`, field);
+  getUsersList(page, field) {
+    return axios.post(`/users/list?page=${page}`, field);
   },
 
-  addCustomerGroupDiscount(customerGroupDiscount) {
-    return axios.post(`/customers/groups/discounts`, customerGroupDiscount);
+  addUser(user) {
+    return axios.post(`/users`, user);
   },
 
-  getCustomerGroupDiscount(id) {
-    return axios.get(`/customers/groups/discounts/${id}`);
+  getUser(id) {
+    return axios.get(`/users/${id}`);
   },
 
-  updateCustomerGroupDiscount(customerGroupDiscount, id) {
-    return axios.put(
-      `/customers/groups/discounts/${id}`,
-      customerGroupDiscount
-    );
+  updateUser(user, id) {
+    return axios.put(`/users/${id}`, user);
   },
 
-  deleteCustomerGroupDiscount(id) {
-    return axios.delete(`/customers/groups/discounts/${id}`);
+  deleteUser(id) {
+    return axios.delete(`/users/${id}`);
   },
 
-  restoreCustomerGroupDiscount(id) {
-    return axios.post(`/customers/groups/discounts/restore/${id}`);
+  restoreUser(id) {
+    return axios.post(`/users/restore/${id}`);
   },
 
-  forceDeleteCustomerGroupDiscount(id) {
-    return axios.delete(`/customers/groups/discounts/delete/${id}`);
+  forceDeleteUser(id) {
+    return axios.delete(`/users/delete/${id}`);
   },
 };
