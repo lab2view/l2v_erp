@@ -29,15 +29,15 @@ export default {
     return axios.delete(`/inventories/delete/${id}`);
   },
 
-  addInventoryArticles(inventoryArticles) {
+  addArticles(inventoryArticles) {
     return axios.post(`/inventories/articles`, inventoryArticles);
   },
 
-  removeInventoryArticles(inventoryArticles) {
+  removeArticles(inventoryArticles) {
     return axios.post(`/inventories/articles/delete`, inventoryArticles);
   },
 
-  updateInventoryArticle(id, inventoryArticle) {
-    return axios.put(`/inventories/articles/${id}`, inventoryArticle);
+  updateInventoryLine(id, inventoryLine) {
+    return axios.put(`/inventories/articles/${id}`, inventoryLine);
   },
 };
