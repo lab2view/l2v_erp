@@ -1,6 +1,4 @@
 import countryService from '../../../services/structures/CountryService';
-import { notify } from '/@/helpers/notify';
-import i18n from '../../../i18n';
 
 const state = {
   countries: null,
@@ -45,12 +43,6 @@ const actions = {
   addCountry({ commit }, countryField) {
     return countryService.addCountry(countryField).then(({ data }) => {
       commit('ADD_COUNTRY', data);
-      notify(
-        i18n.global.t('structures.country.store'),
-        'Ok',
-        'theme',
-        'fa fa-check'
-      );
       return data;
     });
   },
@@ -59,12 +51,6 @@ const actions = {
     return countryService
       .updateCountry(countryField, countryField.id)
       .then(({ data }) => {
-        notify(
-          i18n.global.t('structures.country.update'),
-          'Ok',
-          'theme',
-          'fa fa-check'
-        );
         commit('UPDATE_COUNTRY', data);
         return data;
       });

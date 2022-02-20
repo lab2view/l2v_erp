@@ -79,7 +79,7 @@ export default [
     name: 'product.form.stock',
     component: () => import('/@/views/products/forms/ProductStockLayout.vue'),
     meta: {
-      code: 'Stock.manage',
+      code: 'Stocks.manage',
       icon: 'fa fa-history',
       requireProduct: true,
     },

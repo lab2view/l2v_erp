@@ -65,7 +65,7 @@
 <script>
 import { defineComponent } from 'vue';
 import MenuModule from '/@/components/layouts/MenuModule.vue';
-import { customerMenus, productMenus, structureMenus } from '/@/helpers/menus';
+import { customerMenus, productMenus, stockMenus, structureMenus } from '/@/helpers/menus';
 import { mapGetters } from 'vuex';
 
 export default defineComponent({
@@ -80,7 +80,7 @@ export default defineComponent({
         },
         {
           code: 'STOCKS',
-          menus: [],
+          menus: stockMenus,
         },
         {
           code: 'SALES',

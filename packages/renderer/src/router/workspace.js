@@ -3,6 +3,7 @@ import articleRoutes from './article/routes';
 import { customerRoutes } from './customers/customerRoutes';
 import { enterpriseRoutes } from './structures/enterpriseRoutes';
 import { localizationRoutes } from './structures/localizationRoutes';
+import { stockRoutes } from '/@/router/stocks/stockRoutes';
 
 const workspace = [
   {
@@ -38,6 +39,11 @@ const workspace = [
     path: 'customers',
     component: () => import('/@/components/customers/CustomerLayout.vue'),
     children: customerRoutes,
+  },
+  {
+    path: 'stock',
+    component: () => import('/@/components/stocks/StockLayout.vue'),
+    children: stockRoutes,
   },
 ];
 

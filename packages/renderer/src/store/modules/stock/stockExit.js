@@ -1,6 +1,4 @@
 import stockExitService from '../../../services/stocks/StockExitService';
-import { notify } from '../../../helpers/notify';
-import i18n from '../../../i18n';
 
 const state = {
   stock_exits: null,

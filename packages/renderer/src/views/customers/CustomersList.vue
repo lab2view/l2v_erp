@@ -13,7 +13,6 @@
             <router-link
               :to="{ name: 'customer.form' }"
               class="btn btn-primary"
-              href="#"
               type="button"
             >
               <i class="fa fa-plus m-r-5" />
