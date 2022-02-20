@@ -41,7 +41,7 @@ const workspace = [
     children: customerRoutes,
   },
   {
-    path: 'stock',
+    path: 'stocks',
     component: () => import('/@/components/stocks/StockLayout.vue'),
     children: stockRoutes,
   },
