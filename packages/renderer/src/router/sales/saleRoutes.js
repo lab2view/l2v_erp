@@ -41,7 +41,7 @@ export const saleRoutes = [
     name: 'sales.cashier.sessions',
     component: () => import('/@/views/sales/cashiers/CashierSessionsList.vue'),
     meta: {
-      code: 'Cashier.viewAny',
+      code: 'CashierSession.viewAny',
       feather: 'filter',
     },
     children: [
@@ -69,7 +69,7 @@ export const saleRoutes = [
     component: () =>
       import('/@/views/sales/cashiers/CashierSessionCollectionsList.vue'),
     meta: {
-      code: 'Cashier.viewAny',
+      code: 'CashierSessionCollection.viewAny',
       feather: 'filter',
     },
     children: [
@@ -96,7 +96,7 @@ export const saleRoutes = [
     name: 'config.sales.cashier.groups',
     component: () => import('/@/views/sales/cashiers/CashierGroupsList.vue'),
     meta: {
-      code: 'Cashier.viewAny',
+      code: 'CashierGroup.viewAny',
       feather: 'filter',
     },
     children: [
@@ -120,9 +120,10 @@ export const saleRoutes = [
   {
     path: 'cash-registers',
     name: 'config.sales.cashRegisters',
+
     component: () => import('/@/views/sales/cashiers/CashRegistersList.vue'),
     meta: {
-      code: 'Cashier.viewAny',
+      code: 'CashierRegister.viewAny',
       feather: 'filter',
     },
     children: [
@@ -147,6 +148,32 @@ export const saleRoutes = [
     path: 'discounts',
     name: 'sales.discounts',
     component: () => import('/@/views/sales/DiscountsList.vue'),
+    meta: {
+      code: 'Discount.viewAny',
+      feather: 'filter',
+    },
+    children: [
+      {
+        path: 'form/:id?',
+        name: 'sales.discounts.form',
+        component: () => import('/@/views/sales/DiscountForm.vue'),
+        beforeEnter: (to) => {
+          if (to.params.id) {
+            return store
+              .dispatch('discount/getDiscount', to.params.id)
+              .then(() => {
+                return { name: to.name };
+              })
+              .catch(() => -1);
+          }
+        },
+      },
+    ],
+  },
+  {
+    path: 'refunds',
+    name: 'sales.refunds',
+    component: () => import('/@/views/sales/RefundVouchersList.vue'),
     meta: {
       code: 'Discount.viewAny',
       feather: 'filter',
