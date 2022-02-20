@@ -171,22 +171,74 @@ export const saleRoutes = [
     ],
   },
   {
-    path: 'refunds',
-    name: 'sales.refunds',
-    component: () => import('/@/views/sales/RefundVouchersList.vue'),
+    path: 'discount-codes',
+    name: 'sales.discount.codes',
+    component: () => import('/@/views/sales/DiscountCodesList.vue'),
     meta: {
-      code: 'Discount.viewAny',
+      code: 'DiscountCode.viewAny',
       feather: 'filter',
     },
     children: [
       {
         path: 'form/:id?',
-        name: 'sales.discounts.form',
-        component: () => import('/@/views/sales/DiscountForm.vue'),
+        name: 'sales.discount.codes.form',
+        component: () => import('/@/views/sales/DiscountCodeForm.vue'),
         beforeEnter: (to) => {
           if (to.params.id) {
             return store
-              .dispatch('discount/getDiscount', to.params.id)
+              .dispatch('discountCode/getDiscountCode', to.params.id)
+              .then(() => {
+                return { name: to.name };
+              })
+              .catch(() => -1);
+          }
+        },
+      },
+    ],
+  },
+  {
+    path: 'discount-code-usages',
+    name: 'sales.discount.code.usages',
+    component: () => import('/@/views/sales/DiscountCodeUsagesList.vue'),
+    meta: {
+      code: 'DiscountCodeUsage.viewAny',
+      feather: 'filter',
+    },
+    children: [
+      {
+        path: 'form/:id?',
+        name: 'sales.discount.code.usages.form',
+        component: () => import('/@/views/sales/DiscountCodeUsageForm.vue'),
+        beforeEnter: (to) => {
+          if (to.params.id) {
+            return store
+              .dispatch('discountCodeUsage/getDiscountCodeUsage', to.params.id)
+              .then(() => {
+                return { name: to.name };
+              })
+              .catch(() => -1);
+          }
+        },
+      },
+    ],
+  },
+  {
+    path: 'refunds',
+    name: 'sales.refunds',
+    component: () => import('/@/views/sales/RefundVouchersList.vue'),
+    meta: {
+      code: 'RefundVoucher.viewAny',
+      feather: 'filter',
+    },
+    children: [
+      {
+        path: 'form/:id?',
+        name: 'sales.refunds.form',
+        component: () => import('/@/views/sales/RefundVoucherForm.vue'),
+        beforeEnter: (to) => {
+          if (to.params.id) {
+            return store
+              .dispatch('refundVoucher/getRefundVoucher', to.params.id)
               .then(() => {
                 return { name: to.name };
               })
