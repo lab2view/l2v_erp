@@ -1,4 +1,5 @@
 import stockProviderService from '../../../services/stocks/ProviderService';
+import shippingService from '/@/services/stocks/ShippingService';
 
 const state = {
   stock_providers: null,
@@ -26,14 +27,16 @@ const actions = {
       });
   },
 
-  getStockProvider({ getters }, id) {
+  getStockProvider({ getters, commit }, id) {
     const stockProvider = getters.stock_providers.find(
       (p) => p.id.toString() === id
     );
     if (stockProvider !== undefined) {
+      commit('SET_CURRENT_STOCK_PROVIDER', stockProvider);
       return stockProvider;
     } else
       return stockProviderService.get(id).then(({ data }) => {
+        commit('SET_CURRENT_STOCK_PROVIDER', data);
         return data;
       });
   },
@@ -66,6 +69,9 @@ const actions = {
 const mutations = {
   SET_STOCK_PROVIDERS(state, stock_providers) {
     state.stock_providers = JSON.stringify(stock_providers);
+  },
+  SET_CURRENT_STOCK_PROVIDER(state, stockProvider) {
+    state.stockProvider = JSON.stringify(stockProvider);
   },
   ADD_STOCK_PROVIDER(state, stockProvider) {
     let stock_providers = JSON.parse(state.stock_providers);

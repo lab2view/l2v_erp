@@ -7,11 +7,11 @@
       <div class="card-header pb-2 border-bottom border-bottom-">
         <div class="row align-items-center">
           <div class="col-sm">
-            <h5>{{ $t('stock.stockType.listTitle') }}</h5>
+            <h5>{{ $t('stock.provider.listTitle') }}</h5>
           </div>
           <div class="col-sm-auto align-items-end">
             <router-link
-              :to="{ name: 'config.stocks.type.form' }"
+              :to="{ name: 'provider.form' }"
               class="btn btn-primary"
               href="#"
               type="button"
@@ -23,7 +23,9 @@
         </div>
       </div>
       <div class="card-body">
-        {{ stock_types.length }}
+        Providers
+        <br>
+        {{  stock_providers.length }}
       </div>
 
       <router-view />
@@ -40,7 +42,7 @@ export default {
   components: { BaseContainer },
   beforeRouteEnter(routeTo, routeFrom, next) {
     store
-      .dispatch('stock_type/getStockTypesList', {
+      .dispatch('stock_provider/getStockProvidersList', {
         page: 1,
         field: {},
       })
@@ -53,29 +55,23 @@ export default {
       });
   },
   computed: {
-    ...mapGetters('stock_type', ['stock_types', 'stockType']),
+    ...mapGetters('stock_provider', ['stock_providers', 'stockProvider']),
   },
   created() {
-    if (this.stockType)
-      this.$store.commit('stock_type/SET_CURRENT_STOCK_TYPE', null);
+    if (this.provider)
+      this.$store.commit('stock_provider/SET_CURRENT_STOCK_PROVIDER', null);
   },
 
   methods: {
-    truncate(source, size = 100) {
-      if (!source) {
-        return '';
-      }
-      return source.length > size ? source.slice(0, size - 1) + '…' : source;
-    },
-    deleteStockType(stockType) {
+    deleteProvider(provider) {
       if (
         confirm(
-          this.$t('messages.confirmDelete', { label: stockType.label })
+          this.$t('messages.confirmDelete', { label: provider.label })
         )
       )
         this.$store.dispatch(
-          'stock_type/deleteStockType',
-          stockType.id
+          'stock_provider/deleteProvider',
+          provider.id
         );
     },
   },

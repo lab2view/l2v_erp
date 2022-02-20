@@ -1,4 +1,4 @@
-import stockProvisionService from '../../../services/stocks/StockProvisionService';
+import stockEntryProvisionService from '../../../services/stocks/StockEntryProvisionService';
 
 const state = {
   stock_provisions: null,
@@ -12,6 +12,10 @@ const getters = {
     state.stock_provisions ? JSON.parse(state.stock_provisions) : [],
   stockProvision: (state) =>
     state.stockProvision ? JSON.parse(state.stockProvision) : null,
+  getStockProvisionByProductId: (state, getters) => (product_id) =>
+    getters.stock_provisions.filter(
+      (a) => a.article?.product_id === product_id
+    ),
 };
 
 // privileges
@@ -20,34 +24,36 @@ const actions = {
     if (getters.stock_provisions.length > 0) {
       return getters.stock_provisions;
     } else
-      return stockProvisionService.getStockProvisionsList(page, field).then(({ data }) => {
+      return stockEntryProvisionService.getStockEntryProvisionsList(page, field).then(({ data }) => {
         commit('SET_STOCK_PROVISIONS', data);
         return data;
       });
   },
 
-  getStockProvision({ getters }, id) {
+  getStockProvision({ getters, commit }, id) {
     const stockProvision = getters.stock_provisions.find(
       (p) => p.id.toString() === id
     );
     if (stockProvision !== undefined) {
+      commit('SET_CURRENT_STOCK_PROVISION', stockProvision);
       return stockProvision;
     } else
-      return stockProvisionService.getStockProvision(id).then(({ data }) => {
+      return stockEntryProvisionService.getStockEntryProvision(id).then(({ data }) => {
+        commit('SET_CURRENT_STOCK_PROVISION', data);
         return data;
       });
   },
 
   addStockProvision({ commit }, stockProvisionField) {
-    return stockProvisionService.addStockProvision(stockProvisionField).then(({ data }) => {
+    return stockEntryProvisionService.addStockEntryProvision(stockProvisionField).then(({ data }) => {
       commit('ADD_STOCK_PROVISION', data);
       return data;
     });
   },
 
   updateStockProvision({ commit }, stockProvisionField) {
-    return stockProvisionService
-      .updateStockProvision(stockProvisionField, stockProvisionField.id)
+    return stockEntryProvisionService
+      .updateStockEntryProvision(stockProvisionField, stockProvisionField.id)
       .then(({ data }) => {
         commit('UPDATE_STOCK_PROVISION', data);
         return data;
@@ -55,7 +61,7 @@ const actions = {
   },
 
   deleteStockProvision({ commit }, stockProvisionId) {
-    return stockProvisionService.deleteStockProvision(stockProvisionId).then(({ data }) => {
+    return stockEntryProvisionService.deleteStockEntryProvision(stockProvisionId).then(({ data }) => {
       commit('DELETE_STOCK_PROVISION', stockProvisionId);
       return data;
     });
@@ -66,6 +72,9 @@ const actions = {
 const mutations = {
   SET_STOCK_PROVISIONS(state, stock_provisions) {
     state.stock_provisions = JSON.stringify(stock_provisions);
+  },
+  SET_CURRENT_STOCK_PROVISION(state, stockProvision) {
+    state.stockProvision = JSON.stringify(stockProvision);
   },
   ADD_STOCK_PROVISION(state, stockProvision) {
     let stock_provisions = JSON.parse(state.stock_provisions);

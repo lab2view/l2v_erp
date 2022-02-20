@@ -15,11 +15,11 @@ const getters = {
 };
 
 const actions = {
-  getStockEntriesList({ commit, getters }, { page, field }) {
+  getStockTypesList({ commit, getters }, { page, field }) {
     if (getters.stock_types.length > 0) {
       return getters.stock_types;
     }
-    return stockTypeService.getStockEntriesList(page, field).then(({ data }) => {
+    return stockTypeService.getStockTypesList(page, field).then(({ data }) => {
       commit('SET_STOCK_TYPES', data);
       return data;
     });

@@ -15,47 +15,47 @@ const getters = {
 };
 
 const actions = {
-  getStockEntriesList({ commit, getters }, { page, field }) {
+  getStockStatesList({ commit, getters }, { page, field }) {
     if (getters.stock_states.length > 0) {
       return getters.stock_states;
     }
-    return stockStateService.getStockEntriesList(page, field).then(({ data }) => {
+    return stockStateService.getStockStatesList(page, field).then(({ data }) => {
       commit('SET_STOCK_STATES', data);
       return data;
     });
   },
 
-  getShipping({ getters, commit }, id) {
+  getStockState({ getters, commit }, id) {
     const stockState = getters.stock_states.find((p) => p.id.toString() === id);
     if (stockState !== undefined) {
       commit('SET_CURRENT_STOCK_STATE', stockState);
       return stockState;
     }
 
-    return stockStateService.getShipping(id).then(({ data }) => {
+    return stockStateService.getStockState(id).then(({ data }) => {
       commit('SET_CURRENT_STOCK_STATE', data);
       return data;
     });
   },
 
-  addShipping({ commit }, stockStateField) {
-    return stockStateService.addShipping(stockStateField).then(({ data }) => {
+  addStockState({ commit }, stockStateField) {
+    return stockStateService.addStockState(stockStateField).then(({ data }) => {
       commit('ADD_STOCK_STATE', data);
       return data;
     });
   },
 
-  updateShipping({ commit }, stockStateField) {
+  updateStockState({ commit }, stockStateField) {
     return stockStateService
-      .updateShipping(stockStateField, stockStateField.id)
+      .updateStockState(stockStateField, stockStateField.id)
       .then(({ data }) => {
         commit('UPDATE_STOCK_STATE', data);
         return data;
       });
   },
 
-  deleteShipping({ commit }, stockStateId) {
-    return stockStateService.deleteShipping(stockStateId).then(({ data }) => {
+  deleteStockState({ commit }, stockStateId) {
+    return stockStateService.deleteStockState(stockStateId).then(({ data }) => {
       commit('DELETE_STOCK_STATE', stockStateId);
       return data;
     });

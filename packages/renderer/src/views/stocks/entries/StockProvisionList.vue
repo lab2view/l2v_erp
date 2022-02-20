@@ -76,7 +76,7 @@ export default {
   components: { BaseDatatable },
   beforeRouteEnter(routeTo, routeFrom, next) {
     store
-      .dispatch('stock_provision/getStockProvisionList', {
+      .dispatch('stock_provision/getStockProvisionsList', {
         page: 1,
         field: {},
       })

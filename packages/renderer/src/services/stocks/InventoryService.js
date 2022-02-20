@@ -2,30 +2,30 @@ import axios from '/@/config/axios';
 
 export default {
   getInventoriesList(page, field) {
-    return axios.post(`/stocks/inventories/list?page=${page}`, field);
+    return axios.post(`/inventories/list?page=${page}`, field);
   },
 
   addInventory(inventory) {
-    return axios.post(`/stocks/inventories`, inventory);
+    return axios.post(`/inventories`, inventory);
   },
 
   getInventory(id) {
-    return axios.get(`/stocks/inventories/${id}`);
+    return axios.get(`/inventories/${id}`);
   },
 
   updateInventory(inventory, id) {
-    return axios.put(`/stocks/inventories/${id}`, inventory);
+    return axios.put(`/inventories/${id}`, inventory);
   },
 
   deleteInventory(id) {
-    return axios.delete(`/stocks/inventories/${id}`);
+    return axios.delete(`/inventories/${id}`);
   },
 
   restoreInventory(id) {
-    return axios.post(`/stocks/inventories/restore/${id}`);
+    return axios.post(`/inventories/restore/${id}`);
   },
 
   forceDeleteInventory(id) {
-    return axios.delete(`/stocks/inventories/delete/${id}`);
+    return axios.delete(`/inventories/delete/${id}`);
   },
 };

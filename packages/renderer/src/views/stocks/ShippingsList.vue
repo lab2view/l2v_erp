@@ -7,11 +7,11 @@
       <div class="card-header pb-2 border-bottom border-bottom-">
         <div class="row align-items-center">
           <div class="col-sm">
-            <h5>{{ $t('stock.stockType.listTitle') }}</h5>
+            <h5>{{ $t('stock.shipping.listTitle') }}</h5>
           </div>
           <div class="col-sm-auto align-items-end">
             <router-link
-              :to="{ name: 'config.stocks.type.form' }"
+              :to="{ name: 'shipping.form' }"
               class="btn btn-primary"
               href="#"
               type="button"
@@ -23,7 +23,9 @@
         </div>
       </div>
       <div class="card-body">
-        {{ stock_types.length }}
+        Shippings
+        <br>
+        {{  shippings.length }}
       </div>
 
       <router-view />
@@ -40,7 +42,7 @@ export default {
   components: { BaseContainer },
   beforeRouteEnter(routeTo, routeFrom, next) {
     store
-      .dispatch('stock_type/getStockTypesList', {
+      .dispatch('shipping/getShippingsList', {
         page: 1,
         field: {},
       })
@@ -53,29 +55,22 @@ export default {
       });
   },
   computed: {
-    ...mapGetters('stock_type', ['stock_types', 'stockType']),
+    ...mapGetters('shipping', ['shippings', 'shipping']),
   },
   created() {
-    if (this.stockType)
-      this.$store.commit('stock_type/SET_CURRENT_STOCK_TYPE', null);
+    if (this.shipping)
+      this.$store.commit('shipping/SET_CURRENT_SHIPPING', null);
   },
-
   methods: {
-    truncate(source, size = 100) {
-      if (!source) {
-        return '';
-      }
-      return source.length > size ? source.slice(0, size - 1) + '…' : source;
-    },
-    deleteStockType(stockType) {
+    deleteShipping(shipping) {
       if (
         confirm(
-          this.$t('messages.confirmDelete', { label: stockType.label })
+          this.$t('messages.confirmDelete', { label: shipping.label })
         )
       )
         this.$store.dispatch(
-          'stock_type/deleteStockType',
-          stockType.id
+          'shipping/deleteShipping',
+          shipping.id
         );
     },
   },

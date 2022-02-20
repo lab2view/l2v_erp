@@ -7,14 +7,14 @@
       <div class="card-header pb-2 border-bottom border-bottom-">
         <div class="row align-items-center">
           <div class="col-sm">
-            <h5>{{ $t('stock.stockType.listTitle') }}</h5>
+            <h5>{{ $t('stock.stockExit.listTitle') }}</h5>
           </div>
           <div class="col-sm-auto align-items-end">
             <router-link
-              :to="{ name: 'config.stocks.type.form' }"
+              :to="{ name: 'config.stocks.exit.form' }"
               class="btn btn-primary"
               href="#"
-              type="button"
+              exit="button"
             >
               <i class="fa fa-plus m-r-5" />
               {{ $t('common.add') }}
@@ -23,7 +23,7 @@
         </div>
       </div>
       <div class="card-body">
-        {{ stock_types.length }}
+        {{ stock_exits.length }}
       </div>
 
       <router-view />
@@ -40,7 +40,7 @@ export default {
   components: { BaseContainer },
   beforeRouteEnter(routeTo, routeFrom, next) {
     store
-      .dispatch('stock_type/getStockTypesList', {
+      .dispatch('stock_exit/getStockExitsList', {
         page: 1,
         field: {},
       })
@@ -53,11 +53,11 @@ export default {
       });
   },
   computed: {
-    ...mapGetters('stock_type', ['stock_types', 'stockType']),
+    ...mapGetters('stock_exit', ['stock_exits', 'stockExit']),
   },
   created() {
-    if (this.stockType)
-      this.$store.commit('stock_type/SET_CURRENT_STOCK_TYPE', null);
+    if (this.stockExit)
+      this.$store.commit('stock_exit/SET_CURRENT_STOCK_EXIT', null);
   },
 
   methods: {
@@ -67,15 +67,15 @@ export default {
       }
       return source.length > size ? source.slice(0, size - 1) + '…' : source;
     },
-    deleteStockType(stockType) {
+    deleteStockExit(stockExit) {
       if (
         confirm(
-          this.$t('messages.confirmDelete', { label: stockType.label })
+          this.$t('messages.confirmDelete', { label: stockExit.label })
         )
       )
         this.$store.dispatch(
-          'stock_type/deleteStockType',
-          stockType.id
+          'stock_exit/deleteStockExit',
+          stockExit.id
         );
     },
   },

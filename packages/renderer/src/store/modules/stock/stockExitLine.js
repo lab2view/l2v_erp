@@ -1,6 +1,4 @@
 import stockExitLineService from '../../../services/stocks/StockExitLineService';
-import { notify } from '../../../helpers/notify';
-import i18n from '../../../i18n';
 
 const state = {
   stock_exit_lines: null,
@@ -32,14 +30,16 @@ const actions = {
       });
   },
 
-  getStockExitLine({ getters }, id) {
+  getStockExitLine({ getters, commit }, id) {
     const stockExitLine = getters.stock_exit_lines.find(
       (p) => p.id.toString() === id
     );
     if (stockExitLine !== undefined) {
+      commit('SET_CURRENT_STOCK_EXIT_LINE', stockExitLine);
       return stockExitLine;
     } else
       return stockExitLineService.get(id).then(({ data }) => {
+        commit('SET_CURRENT_STOCK_EXIT_LINE', data);
         return data;
       });
   },
@@ -47,12 +47,6 @@ const actions = {
   addStockExitLine({ commit }, stockExitLineField) {
     return stockExitLineService.add(stockExitLineField).then(({ data }) => {
       commit('ADD_STOCK_EXIT_LINE', data);
-      notify(
-        i18n.global.t('stockExitLine.form.store'),
-        'Ok',
-        'theme',
-        'fa fa-check'
-      );
       return data;
     });
   },
@@ -61,12 +55,6 @@ const actions = {
     return stockExitLineService
       .update(stockExitLineField, stockExitLineField.id)
       .then(({ data }) => {
-        notify(
-          i18n.global.t('stockExitLine.form.update'),
-          'Ok',
-          'theme',
-          'fa fa-check'
-        );
         commit('UPDATE_STOCK_EXIT_LINE', data);
         return data;
       });
@@ -84,6 +72,9 @@ const actions = {
 const mutations = {
   SET_STOCK_EXIT_LINES(state, stock_exit_lines) {
     state.stock_exit_lines = JSON.stringify(stock_exit_lines);
+  },
+  SET_CURRENT_STOCK_EXIT_LINE(state, stockExitLine) {
+    state.stockExitLine = JSON.stringify(stockExitLine);
   },
   ADD_STOCK_EXIT_LINE(state, stockExitLine) {
     let stock_exit_lines = JSON.parse(state.stock_exit_lines);

@@ -28,4 +28,8 @@ export default {
   forceDeleteStockEntry(id) {
     return axios.delete(`/stocks/entries/delete/${id}`);
   },
+
+  addStockEntryProvision(id, stockProvisions) {
+    return axios.post(`/stocks/entries/${id}/provisions/add`, stockProvisions);
+  },
 };
