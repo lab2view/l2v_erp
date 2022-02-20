@@ -7,7 +7,7 @@
       <div class="card-header pb-2 border-bottom border-bottom-">
         <div class="row align-items-center">
           <div class="col-sm">
-            <h5>{{ $t('stock.stockType.listTitle') }}</h5>
+            <h5>{{ $t('stock.stockState.listTitle') }}</h5>
           </div>
           <div class="col-sm-auto align-items-end">
             <router-link
@@ -23,7 +23,7 @@
         </div>
       </div>
       <div class="card-body">
-        {{ stock_types.length }}
+        {{ stock_states.length }}
       </div>
 
       <router-view />
@@ -40,7 +40,7 @@ export default {
   components: { BaseContainer },
   beforeRouteEnter(routeTo, routeFrom, next) {
     store
-      .dispatch('stock_type/getStockTypesList', {
+      .dispatch('stock_state/getStockStatesList', {
         page: 1,
         field: {},
       })
@@ -53,11 +53,11 @@ export default {
       });
   },
   computed: {
-    ...mapGetters('stock_type', ['stock_types', 'stockType']),
+    ...mapGetters('stock_state', ['stock_states', 'stockState']),
   },
   created() {
-    if (this.stockType)
-      this.$store.commit('stock_type/SET_CURRENT_STOCK_TYPE', null);
+    if (this.stockState)
+      this.$store.commit('stock_state/SET_CURRENT_STOCK_STATE', null);
   },
 
   methods: {
@@ -67,15 +67,15 @@ export default {
       }
       return source.length > size ? source.slice(0, size - 1) + '…' : source;
     },
-    deleteStockType(stockType) {
+    deleteStockState(stockState) {
       if (
         confirm(
-          this.$t('messages.confirmDelete', { label: stockType.label })
+          this.$t('messages.confirmDelete', { label: stockState.label })
         )
       )
         this.$store.dispatch(
-          'stock_type/deleteStockType',
-          stockType.id
+          'stock_state/deleteStockState',
+          stockState.id
         );
     },
   },

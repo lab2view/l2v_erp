@@ -143,7 +143,7 @@ export default {
     viewany: 'Proprietes',
   },
   stocks: {
-    manage: 'Stocks',
+    manage: 'Mouvements',
   },
   provision: {
     viewany: 'Approvisionnement',

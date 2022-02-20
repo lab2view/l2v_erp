@@ -1,12 +1,12 @@
 <template>
-  <BaseFormModal :submit-form="submitStockTypeForm" :title="title">
+  <BaseFormModal :submit-form="submitStockStateForm" :title="title">
     <div class="form-group mb-3">
       <label class="form-label fw-bold" for="label">{{
         $t('common.attributes.label')
       }}</label>
       <input
         id="label"
-        v-model="stockTypeForm.label"
+        v-model="stockStateForm.label"
         class="form-control"
         placeholder="..."
         required
@@ -37,33 +37,33 @@ export default {
   data() {
     return {
       errors: [],
-      stockTypeForm: {
+      stockStateForm: {
         id: null,
         label: null,
       },
     };
   },
   computed: {
-    ...mapGetters('stock_type', ['stockType']),
+    ...mapGetters('stock_state', ['stockState']),
     title() {
-      return this.stockType && this.stockType.id
-        ? this.$t('stocks.stockType.formUpdateTitle')
-        : this.$t('stocks.stockType.formCreateTitle');
+      return this.stockState && this.stockState.id
+        ? this.$t('stocks.stockState.formUpdateTitle')
+        : this.$t('stocks.stockState.formCreateTitle');
     },
   },
   created() {
-    if (this.stockType && this.stockType.id)
-      this.stockTypeForm = this.stockType;
+    if (this.stockState && this.stockState.id)
+      this.stockStateForm = this.stockState;
   },
   beforeUnmount() {
-    if (this.stockType && this.stockType.id)
-      this.$store.commit('stock_type/SET_CURRENT_STOCK_TYPE', null);
+    if (this.stockState && this.stockState.id)
+      this.$store.commit('stock_state/SET_CURRENT_STOCK_STATE', null);
   },
   methods: {
-    submitStockTypeForm() {
-      if (this.stockType && this.stockType.id)
+    submitStockStateForm() {
+      if (this.stockState && this.stockState.id)
         this.$store
-          .dispatch('stock_type/updateStockType', this.stockTypeForm)
+          .dispatch('stock_state/updateStockState', this.stockStateForm)
           .then(() => this.$router.back())
           .catch((error) => {
             this.errors = error.response.data.errors;
@@ -71,7 +71,7 @@ export default {
           });
       else
         this.$store
-          .dispatch('stock_type/addStockType', this.stockTypeForm)
+          .dispatch('stock_state/addStockState', this.stockStateForm)
           .then(() => this.$router.back())
           .catch((error) => {
             this.errors = error.response.data.errors;

@@ -1,4 +1,5 @@
 import stockProviderService from '../../../services/stocks/ProviderService';
+import shippingService from '/@/services/stocks/ShippingService';
 
 const state = {
   stock_providers: null,
@@ -20,26 +21,28 @@ const actions = {
     if (getters.stock_providers.length > 0) {
       return getters.stock_providers;
     } else
-      return stockProviderService.getList(page, field).then(({ data }) => {
+      return stockProviderService.getProvidersList(page, field).then(({ data }) => {
         commit('SET_STOCK_PROVIDERS', data);
         return data;
       });
   },
 
-  getStockProvider({ getters }, id) {
+  getStockProvider({ getters, commit }, id) {
     const stockProvider = getters.stock_providers.find(
       (p) => p.id.toString() === id
     );
     if (stockProvider !== undefined) {
+      commit('SET_CURRENT_STOCK_PROVIDER', stockProvider);
       return stockProvider;
     } else
-      return stockProviderService.get(id).then(({ data }) => {
+      return stockProviderService.getProvider(id).then(({ data }) => {
+        commit('SET_CURRENT_STOCK_PROVIDER', data);
         return data;
       });
   },
 
   addStockProvider({ commit }, stockProviderField) {
-    return stockProviderService.add(stockProviderField).then(({ data }) => {
+    return stockProviderService.addProvider(stockProviderField).then(({ data }) => {
       commit('ADD_STOCK_PROVIDER', data);
       return data;
     });
@@ -47,7 +50,7 @@ const actions = {
 
   updateStockProvider({ commit }, stockProviderField) {
     return stockProviderService
-      .update(stockProviderField, stockProviderField.id)
+      .updateProvider(stockProviderField, stockProviderField.id)
       .then(({ data }) => {
         commit('UPDATE_STOCK_PROVIDER', data);
         return data;
@@ -55,7 +58,7 @@ const actions = {
   },
 
   deleteStockProvider({ commit }, stockProviderId) {
-    return stockProviderService.delete(stockProviderId).then(({ data }) => {
+    return stockProviderService.deleteProvider(stockProviderId).then(({ data }) => {
       commit('DELETE_STOCK_PROVIDER', stockProviderId);
       return data;
     });
@@ -66,6 +69,9 @@ const actions = {
 const mutations = {
   SET_STOCK_PROVIDERS(state, stock_providers) {
     state.stock_providers = JSON.stringify(stock_providers);
+  },
+  SET_CURRENT_STOCK_PROVIDER(state, stockProvider) {
+    state.stockProvider = JSON.stringify(stockProvider);
   },
   ADD_STOCK_PROVIDER(state, stockProvider) {
     let stock_providers = JSON.parse(state.stock_providers);

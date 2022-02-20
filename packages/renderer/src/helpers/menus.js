@@ -166,22 +166,34 @@ export const stockMenus = [
     icon: 'globe',
     code: 'Inventory.viewAny',
     prefix: 'inventories',
-    to: 'inventories',
-    items: [],
+    items: [
+      {
+        code: 'Inventory.viewAny',
+        to: 'inventories',
+      },
+    ],
   },
   {
     icon: 'globe',
     code: 'Provider.viewAny',
     prefix: 'providers',
-    to: 'providers',
-    items: [],
+    items: [
+      {
+        code: 'Provider.viewAny',
+        to: 'providers',
+      },
+    ],
   },
   {
     icon: 'globe',
     code: 'Shipping.viewAny',
     prefix: 'shippings',
-    to: 'shippings',
-    items: [],
+    items: [
+      {
+        code: 'Shipping.viewAny',
+        to: 'shippings',
+      },
+    ],
   },
   {
     icon: 'settings',

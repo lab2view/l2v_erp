@@ -194,11 +194,11 @@ const Inventory = new VuexPersistence({
   reducer: (state) => ({ inventory: state.inventory }),
 });
 
-const Provider = new VuexPersistence({
-  key: 'provider',
+const StockProvider = new VuexPersistence({
+  key: 'stock_provider',
   storage: localStore,
   asyncStorage: true,
-  reducer: (state) => ({ provider: state.provider }),
+  reducer: (state) => ({ stock_provider: state.stock_provider }),
 });
 
 const Shipping = new VuexPersistence({
@@ -263,7 +263,7 @@ export default [
   CustomerGroupLine.plugin,
   CustomerGroupDiscount.plugin,
   Inventory.plugin,
-  Provider.plugin,
+  StockProvider.plugin,
   Shipping.plugin,
   StockEntry.plugin,
   StockEntryLine.plugin,
