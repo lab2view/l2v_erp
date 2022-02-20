@@ -9,4 +9,10 @@ export default {
     list: 'Liste des sorties de stock',
     add: 'Enregistrer une sortie',
   },
+  stockType: {
+    listTitle: 'Types de stock',
+  },
+  stockState: {
+    listTitle: 'Status de stock',
+  },
 };

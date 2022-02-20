@@ -1,31 +1,31 @@
 import axios from '/@/config/axios';
 
 export default {
-  getList(page, field) {
-    return axios.post(`/provisions/list?page=${page}`, field);
+  getStockProvisionsList(page, field) {
+    return axios.post(`/stocks/provisions/list?page=${page}`, field);
   },
 
-  add(provision) {
-    return axios.post(`/provisions`, provision);
+  addStockProvision(stockProvision) {
+    return axios.post(`/stocks/provisions`, stockProvision);
   },
 
-  get(id) {
-    return axios.get(`/provisions/${id}`);
+  getStockProvision(id) {
+    return axios.get(`/stocks/provisions/${id}`);
   },
 
-  update(provision, id) {
-    return axios.put(`/provisions/${id}`, provision);
+  updateStockProvision(stockProvision, id) {
+    return axios.put(`/stocks/provisions/${id}`, stockProvision);
   },
 
-  delete(id) {
-    return axios.delete(`/provisions/${id}`);
+  deleteStockProvision(id) {
+    return axios.delete(`/stocks/provisions/${id}`);
   },
 
-  restore(id) {
-    return axios.post(`/provisions/restore/${id}`);
+  restoreStockProvision(id) {
+    return axios.post(`/stocks/provisions/restore/${id}`);
   },
 
-  forceDelete(id) {
-    return axios.delete(`/provisions/delete/${id}`);
+  forceDeleteStockProvision(id) {
+    return axios.delete(`/stocks/provisions/delete/${id}`);
   },
 };

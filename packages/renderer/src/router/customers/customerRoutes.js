@@ -39,7 +39,7 @@ export const customerRoutes = [
     children: [
       {
         path: 'form/:id?',
-        name: 'config.customers.types.form',
+        name: 'config.customers.type.form',
         component: () => import('/@/views/customers/CustomerTypeForm.vue'),
         beforeEnter: (to) => {
           if (to.params.id) {
@@ -65,7 +65,7 @@ export const customerRoutes = [
     children: [
       {
         path: 'form/:id?',
-        name: 'config.customers.groups.form',
+        name: 'config.customers.group.form',
         component: () => import('/@/views/customers/CustomerGroupForm.vue'),
         beforeEnter: (to) => {
           if (to.params.id) {
@@ -91,7 +91,7 @@ export const customerRoutes = [
     children: [
       {
         path: 'form/:id?',
-        name: 'customer.config.groups.lines.form',
+        name: 'customer.config.groups.line.form',
         component: () => import('/@/views/customers/CustomerGroupLineForm.vue'),
         beforeEnter: (to) => {
           if (to.params.id) {

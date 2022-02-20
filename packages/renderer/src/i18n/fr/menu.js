@@ -142,8 +142,29 @@ export default {
   property: {
     viewany: 'Proprietes',
   },
-  stock: {
+  stocks: {
     manage: 'Stocks',
+  },
+  provision: {
+    viewany: 'Approvisionnement',
+  },
+  stockexit: {
+    viewany: 'Sortie de Stock',
+  },
+  stocktype: {
+    viewany: 'Types de Stock',
+  },
+  stockstate: {
+    viewany: 'Status de Stock',
+  },
+  inventory: {
+    viewany: 'Inventaires',
+  },
+  provider: {
+    viewany: 'Fournisseurs',
+  },
+  shipping: {
+    viewany: 'Livraisons',
   },
   movement: {
     entry: "Mouvements d'entree",

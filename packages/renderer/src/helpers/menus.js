@@ -106,11 +106,11 @@ export const structureMenus = [
     icon: 'settings',
     code: 'Enterprises.manage',
     label: 'Configurations',
-    prefix: 'types.entreprise',
+    prefix: 'types.enterprise',
     items: [
       {
         code: 'EnterpriseType.viewAny',
-        to: 'types.entreprise',
+        to: 'types.enterprise',
       },
     ],
   },
@@ -141,6 +141,61 @@ export const customerMenus = [
       {
         code: 'CustomerGroup.viewAny',
         to: 'config.customers.groups',
+      },
+    ],
+  },
+];
+
+export const stockMenus = [
+  {
+    icon: 'globe',
+    code: 'Stocks.manage',
+    prefix: 'stocks',
+    items: [
+      {
+        code: 'Provision.viewAny',
+        to: 'stocks.provisions',
+      },
+      {
+        code: 'StockExit.viewAny',
+        to: 'stocks.exits',
+      },
+    ],
+  },
+  {
+    icon: 'globe',
+    code: 'Inventory.viewAny',
+    prefix: 'inventories',
+    to: 'inventories',
+    items: [],
+  },
+  {
+    icon: 'globe',
+    code: 'Provider.viewAny',
+    prefix: 'providers',
+    to: 'providers',
+    items: [],
+  },
+  {
+    icon: 'globe',
+    code: 'Shipping.viewAny',
+    prefix: 'shippings',
+    to: 'shippings',
+    items: [],
+  },
+  {
+    icon: 'settings',
+    code: 'Stocks.manage',
+    label: 'Configurations',
+    prefix: 'config.stocks',
+    items: [
+      {
+        code: 'StockType.viewAny',
+        to: 'config.stocks.types',
+      },
+      {
+        code: 'StockState.viewAny',
+        to: 'config.stocks.states',
       },
     ],
   },
