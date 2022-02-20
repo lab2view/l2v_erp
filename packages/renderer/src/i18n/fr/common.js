@@ -93,6 +93,7 @@ export default {
     domain: 'Nom de domaine',
     enterpriseType: "Type d'entreprise",
     customerType: 'Type de client',
+    localization: 'Adresse',
     address: 'Adresse',
     country: 'Pays',
     region: 'Region',

@@ -90,6 +90,10 @@ export default {
       description: 'Description du groupe de clients',
     },
   },
+  customergroupline: {
+    create: 'Ajouter un client a un groupe de clients',
+    viewany: 'Liste des clients du groupes de clients',
+  },
   product: {
     create: 'Ajouter un produit',
     viewany: 'Liste des produits',

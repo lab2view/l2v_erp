@@ -11,14 +11,15 @@ export const customerRoutes = [
     },
     children: [
       {
-        path: 'form/:id?',
-        name: 'customers.form',
+        path: ':id?/forms',
+        name: 'customer.form',
         component: () => import('/@/views/customers/CustomerForm.vue'),
         beforeEnter: (to) => {
           if (to.params.id) {
             return store
               .dispatch('customer/getCustomer', to.params.id)
-              .then(() => {
+              .then((data) => {
+                store.commit('customer/SET_CURRENT_CUSTOMER', data);
                 return { name: to.name };
               })
               .catch(() => -1);
@@ -30,7 +31,7 @@ export const customerRoutes = [
 /*
   {
     path: 'customer-types',
-    name: 'customer.config.types',
+    name: 'config.customers.types',
     component: () => import('/@/views/customers/CustomerTypesList.vue'),
     meta: {
       code: 'CustomerType.viewAny',
@@ -39,7 +40,7 @@ export const customerRoutes = [
     children: [
       {
         path: 'form/:id?',
-        name: 'customer.config.types.form',
+        name: 'config.customers.types.form',
         component: () => import('/@/views/customers/CustomerTypeForm.vue'),
         beforeEnter: (to) => {
           if (to.params.id) {
@@ -56,7 +57,7 @@ export const customerRoutes = [
   },
   {
     path: 'customer-groups',
-    name: 'customer.config.groups',
+    name: 'config.customers.groups',
     component: () => import('/@/views/customers/CustomerGroupsList.vue'),
     meta: {
       code: 'CustomerGroup.viewAny',
@@ -65,7 +66,7 @@ export const customerRoutes = [
     children: [
       {
         path: 'form/:id?',
-        name: 'customer.config.groups.form',
+        name: 'config.customers.groups.form',
         component: () => import('/@/views/customers/CustomerGroupForm.vue'),
         beforeEnter: (to) => {
           if (to.params.id) {
@@ -81,8 +82,8 @@ export const customerRoutes = [
     ],
   },
   {
-    path: 'customer-group-lines/:id',
-    name: 'customer.config.groups.lines',
+    path: 'customer-group-lines/:id?',
+    name: 'config.customers.groups.lines',
     component: () => import('/@/views/customers/CustomerGroupLinesList.vue'),
     meta: {
       code: 'CustomerGroupLine.viewAny',
@@ -107,4 +108,3 @@ export const customerRoutes = [
     ],
   },
 */
-];

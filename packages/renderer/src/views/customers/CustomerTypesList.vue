@@ -1,6 +1,6 @@
 <template>
   <BaseContainer
-    :module="$t('customers.configurations')"
+    :module="$t('common.configurations')"
     :title="$t('customers.title')"
   >
     <div class="card">
@@ -11,7 +11,7 @@
           </div>
           <div class="col-sm-auto align-items-end">
             <router-link
-              :to="{ name: 'customer.config.types.form' }"
+              :to="{ name: 'config.customers.types.form' }"
               class="btn btn-primary"
               href="#"
               type="button"
@@ -44,7 +44,7 @@
                 type="button"
                 @click.prevent="
                   $router.push({
-                    name: 'customer.config.types.form',
+                    name: 'config.customers.types.form',
                     params: { id: customerType.id },
                   })
                 "
