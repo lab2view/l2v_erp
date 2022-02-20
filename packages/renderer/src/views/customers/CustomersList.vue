@@ -11,7 +11,7 @@
           </div>
           <div class="col-sm-auto align-items-end">
             <router-link
-              :to="{ name: 'customer.form.desc' }"
+              :to="{ name: 'customers.form' }"
               class="btn btn-primary"
               href="#"
               type="button"
@@ -46,7 +46,7 @@
                 type="button"
                 @click.prevent="
                   $router.push({
-                    name: 'customer.form.desc',
+                    name: 'customers.form',
                     params: { id: customer.id },
                   })
                 "
@@ -100,7 +100,7 @@ export default {
   },
   created() {
     if (this.customer)
-      this.$store.commit('customer/SET_CURRENT_customer', null);
+      this.$store.commit('customer/SET_CURRENT_CUSTOMER', null);
   },
 
   methods: {

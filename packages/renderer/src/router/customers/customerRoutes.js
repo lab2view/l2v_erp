@@ -1,5 +1,4 @@
 import store from '../../store';
-import { formRoutes } from './formRoutes';
 
 export const customerRoutes = [
   {
@@ -10,7 +9,25 @@ export const customerRoutes = [
       code: 'Customer.viewAny',
       feather: 'filter',
     },
+    children: [
+      {
+        path: 'form/:id?',
+        name: 'customers.form',
+        component: () => import('/@/views/customers/CustomerForm.vue'),
+        beforeEnter: (to) => {
+          if (to.params.id) {
+            return store
+              .dispatch('customer/getCustomer', to.params.id)
+              .then(() => {
+                return { name: to.name };
+              })
+              .catch(() => -1);
+          }
+        },
+      },
+    ],
   },
+/*
   {
     path: 'customer-types',
     name: 'customer.config.types',
@@ -89,20 +106,5 @@ export const customerRoutes = [
       },
     ],
   },
-  {
-    path: ':id?/forms',
-    component: () => import('/@/components/customers/CustomerFormLayout.vue'),
-    children: formRoutes,
-    beforeEnter: (to) => {
-      if (to.params.id) {
-        return store
-          .dispatch('customer/getCustomer', to.params.id)
-          .then((data) => {
-            store.commit('customer/SET_CURRENT_CUSTOMER', data);
-            return { name: to.name };
-          })
-          .catch(() => -1);
-      }
-    },
-  },
+*/
 ];
