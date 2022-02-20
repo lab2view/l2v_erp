@@ -28,7 +28,6 @@ export const customerRoutes = [
       },
     ],
   },
-/*
   {
     path: 'customer-types',
     name: 'config.customers.types',
@@ -107,5 +106,4 @@ export const customerRoutes = [
       },
     ],
   },
-*/
 ];
