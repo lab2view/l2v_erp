@@ -1,4 +1,5 @@
 import stockEntryProvisionService from '../../../services/stocks/StockEntryProvisionService';
+import stockEntryService from '../../../services/stocks/StockEntryService';
 
 const state = {
   stock_provisions: null,
@@ -24,7 +25,7 @@ const actions = {
     if (getters.stock_provisions.length > 0) {
       return getters.stock_provisions;
     } else
-      return stockEntryProvisionService.getStockEntryProvisionsList(page, field).then(({ data }) => {
+      return stockEntryService.getStockEntriesList(page, field).then(({ data }) => {
         commit('SET_STOCK_PROVISIONS', data);
         return data;
       });

@@ -21,7 +21,7 @@ const actions = {
     if (getters.stock_providers.length > 0) {
       return getters.stock_providers;
     } else
-      return stockProviderService.getList(page, field).then(({ data }) => {
+      return stockProviderService.getProvidersList(page, field).then(({ data }) => {
         commit('SET_STOCK_PROVIDERS', data);
         return data;
       });
@@ -35,14 +35,14 @@ const actions = {
       commit('SET_CURRENT_STOCK_PROVIDER', stockProvider);
       return stockProvider;
     } else
-      return stockProviderService.get(id).then(({ data }) => {
+      return stockProviderService.getProvider(id).then(({ data }) => {
         commit('SET_CURRENT_STOCK_PROVIDER', data);
         return data;
       });
   },
 
   addStockProvider({ commit }, stockProviderField) {
-    return stockProviderService.add(stockProviderField).then(({ data }) => {
+    return stockProviderService.addProvider(stockProviderField).then(({ data }) => {
       commit('ADD_STOCK_PROVIDER', data);
       return data;
     });
@@ -50,7 +50,7 @@ const actions = {
 
   updateStockProvider({ commit }, stockProviderField) {
     return stockProviderService
-      .update(stockProviderField, stockProviderField.id)
+      .updateProvider(stockProviderField, stockProviderField.id)
       .then(({ data }) => {
         commit('UPDATE_STOCK_PROVIDER', data);
         return data;
@@ -58,7 +58,7 @@ const actions = {
   },
 
   deleteStockProvider({ commit }, stockProviderId) {
-    return stockProviderService.delete(stockProviderId).then(({ data }) => {
+    return stockProviderService.deleteProvider(stockProviderId).then(({ data }) => {
       commit('DELETE_STOCK_PROVIDER', stockProviderId);
       return data;
     });

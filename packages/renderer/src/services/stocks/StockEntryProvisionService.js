@@ -1,6 +1,13 @@
 import axios from '/@/config/axios';
 
 export default {
+  getStockEntryProvisionsList(page, field) {
+    return axios.post(`/stocks/entries/provisions/list?page=${page}`, field);
+  },
+
+  addStockEntryProvision(stockProvision) {
+    return axios.post(`/stocks/entries/provisions`, stockProvision);
+  },
 
   getStockEntryProvision(id) {
     return axios.get(`/stocks/entries/provisions/${id}`);

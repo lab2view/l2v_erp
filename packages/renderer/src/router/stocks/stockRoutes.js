@@ -56,7 +56,7 @@ export const stockRoutes = [
   {
     path: 'provisions',
     name: 'stocks.provisions',
-    component: () => import('/@/views/stocks/ProvisionsList.vue'),
+    component: () => import('/@/views/stocks/entries/StockProvisionsList.vue'),
     meta: {
       code: 'Provision.viewAny',
       feather: 'filter',
@@ -65,7 +65,7 @@ export const stockRoutes = [
       {
         path: 'form/:id?',
         name: 'stocks.provision.form',
-        component: () => import('/@/views/stocks/ProvisionForm.vue'),
+        component: () => import('/@/views/stocks/entries/ProvisionForm.vue'),
         beforeEnter: (to) => {
           if (to.params.id) {
             return store
