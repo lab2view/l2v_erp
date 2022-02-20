@@ -28,4 +28,16 @@ export default {
   forceDeleteInventory(id) {
     return axios.delete(`/inventories/delete/${id}`);
   },
+
+  addArticles(inventoryArticles) {
+    return axios.post(`/inventories/articles`, inventoryArticles);
+  },
+
+  removeArticles(inventoryArticles) {
+    return axios.post(`/inventories/articles/delete`, inventoryArticles);
+  },
+
+  updateInventoryLine(id, inventoryLine) {
+    return axios.put(`/inventories/articles/${id}`, inventoryLine);
+  },
 };

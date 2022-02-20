@@ -17,8 +17,8 @@ export default {
     return axios.get(`/cashiers/sessions/${id}`);
   },
 
-  getEndCashierSession(id) {
-    return axios.get(`/cashiers/sessions/${id}/end`);
+  getEndCashierSessions(sessionId) {
+    return axios.get(`/cashiers/sessions/${sessionId}/end`);
   },
 
   updateCashierSession(cashierSession, id) {

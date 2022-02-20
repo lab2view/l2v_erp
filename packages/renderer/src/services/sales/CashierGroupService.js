@@ -5,16 +5,16 @@ export default {
     return axios.post(`/cashiers/groups/list?page=${page}`, field);
   },
 
-  addCashierGroup(cashier) {
-    return axios.post(`/cashiers/groups`, cashier);
+  addCashierGroup(cashierGroup) {
+    return axios.post(`/cashiers/groups`, cashierGroup);
   },
 
   getCashierGroup(id) {
     return axios.get(`/cashiers/groups/${id}`);
   },
 
-  updateCashierGroup(cashier, id) {
-    return axios.put(`/cashiers/groups/${id}`, cashier);
+  updateCashierGroup(cashierGroup, id) {
+    return axios.put(`/cashiers/groups/${id}`, cashierGroup);
   },
 
   deleteCashierGroup(id) {
