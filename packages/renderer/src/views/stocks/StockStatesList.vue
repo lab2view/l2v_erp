@@ -1,8 +1,5 @@
 <template>
-  <BaseContainer
-    :module="$t('menu.modules.stocks')"
-    :title="$t('stock.title')"
-  >
+  <BaseContainer :module="$t('menu.modules.stocks')" :title="$t('stock.title')">
     <div class="card">
       <div class="card-header pb-2 border-bottom border-bottom-">
         <div class="row align-items-center">
@@ -11,7 +8,7 @@
           </div>
           <div class="col-sm-auto align-items-end">
             <router-link
-              :to="{ name: 'config.stocks.type.form' }"
+              :to="{ name: 'config.stocks.state.form' }"
               class="btn btn-primary"
               href="#"
               type="button"
@@ -23,7 +20,50 @@
         </div>
       </div>
       <div class="card-body">
-        {{ stock_states.length }}
+        <BaseDatatable :tfoot="false" :total="stock_states.length">
+          <template #headers>
+            <th>#</th>
+            <th>{{ $t('common.attributes.label') }}</th>
+            <th>{{ $t('common.attributes.stock_type') }}</th>
+            <th>{{ $t('common.actions') }}</th>
+          </template>
+          <tr v-for="stockState in stock_states" :key="stockState.id">
+            <td>{{ stockState.id }}</td>
+            <td>{{ stockState.label }}</td>
+            <td>
+              {{
+                stockState.state_for
+                  ? $t(`stock.${stockState.state_for.toLowerCase()}`)
+                  : $t('common.none')
+              }}
+            </td>
+            <td>
+              <button
+                :title="$t('common.update')"
+                class="btn btn-secondary btn-xs"
+                data-original-title="btn btn-secondary btn-xs"
+                type="button"
+                @click.prevent="
+                  $router.push({
+                    name: 'config.stocks.state.form',
+                    params: { id: stockState.id },
+                  })
+                "
+              >
+                {{ $t('common.update') }}
+              </button>
+              <button
+                :title="$t('common.delete')"
+                class="btn btn-danger btn-xs m-l-5"
+                data-original-title="btn btn-danger btn-xs"
+                type="button"
+                @click.prevent="deleteStockState(stockState)"
+              >
+                <i class="fa fa-trash-o" />
+              </button>
+            </td>
+          </tr>
+        </BaseDatatable>
       </div>
 
       <router-view />
@@ -35,9 +75,10 @@
 import BaseContainer from '/@/components/common/BaseContainer.vue';
 import store from '/@/store';
 import { mapGetters } from 'vuex';
+import BaseDatatable from '/@/components/common/BaseDatatable';
 
 export default {
-  components: { BaseContainer },
+  components: { BaseContainer, BaseDatatable },
   beforeRouteEnter(routeTo, routeFrom, next) {
     store
       .dispatch('stock_state/getStockStatesList', {
@@ -61,22 +102,11 @@ export default {
   },
 
   methods: {
-    truncate(source, size = 100) {
-      if (!source) {
-        return '';
-      }
-      return source.length > size ? source.slice(0, size - 1) + '…' : source;
-    },
     deleteStockState(stockState) {
       if (
-        confirm(
-          this.$t('messages.confirmDelete', { label: stockState.label })
-        )
+        confirm(this.$t('messages.confirmDelete', { label: stockState.label }))
       )
-        this.$store.dispatch(
-          'stock_state/deleteStockState',
-          stockState.id
-        );
+        this.$store.dispatch('stock_state/deleteStockState', stockState.id);
     },
   },
 };

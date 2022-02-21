@@ -10,7 +10,7 @@
         class="form-control"
         placeholder="..."
         required
-        type="text"
+        state="text"
       />
       <div
         v-if="errors.label && errors.label.length"
@@ -20,8 +20,49 @@
         {{ errors.label[0] }}
       </div>
     </div>
+    <div class="form-group mb-3">
+      <label class="form-label fw-bold" for="label">{{
+        $t('common.attributes.stock_state')
+      }}</label>
+      <br />
+      <br />
+
+      <input
+        id="stockEntry"
+        v-model="stockStateForm.state_for"
+        name="state_for"
+        required
+        state="radio"
+        value="stockEntry"
+      />
+      <label class="" for="stockEntry">
+        {{ $t('common.attributes.stock_entry') }}
+      </label>
+
+      <br />
+      <input
+        id="stockExit"
+        v-model="stockStateForm.state_for"
+        name="state_for"
+        required
+        state="radio"
+        value="stockExit"
+      />
+      <label class="" for="stockExit">
+        {{ $t('common.attributes.stock_entry') }}
+      </label>
+
+      <br />
+      <div
+        v-if="errors.state_for && errors.state_for.length"
+        class="invalid-feedback"
+        style="display: inline"
+      >
+        {{ errors.state_for[0] }}
+      </div>
+    </div>
     <template #footer>
-      <button :title="$t('common.save')" class="btn btn-primary" type="submit">
+      <button :title="$t('common.save')" class="btn btn-primary" state="submit">
         {{ $t('common.save') }}
       </button>
     </template>
@@ -40,6 +81,7 @@ export default {
       stockStateForm: {
         id: null,
         label: null,
+        state_for: null,
       },
     };
   },

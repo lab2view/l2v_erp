@@ -1,8 +1,5 @@
 <template>
-  <BaseContainer
-    :module="$t('menu.modules.stocks')"
-    :title="$t('stock.title')"
-  >
+  <BaseContainer :module="$t('menu.modules.stocks')" :title="$t('stock.title')">
     <div class="card">
       <div class="card-header pb-2 border-bottom border-bottom-">
         <div class="row align-items-center">
@@ -23,7 +20,50 @@
         </div>
       </div>
       <div class="card-body">
-        {{ stock_types.length }}
+        <BaseDatatable :tfoot="false" :total="stock_types.length">
+          <template #headers>
+            <th>#</th>
+            <th>{{ $t('common.attributes.label') }}</th>
+            <th>{{ $t('common.attributes.stock_type') }}</th>
+            <th>{{ $t('common.actions') }}</th>
+          </template>
+          <tr v-for="stockType in stock_types" :key="stockType.id">
+            <td>{{ stockType.id }}</td>
+            <td>{{ stockType.label }}</td>
+            <td>
+              {{
+                stockType.type_for
+                  ? $t(`stock.${stockType.type_for.toLowerCase()}`)
+                  : $t('common.none')
+              }}
+            </td>
+            <td>
+              <button
+                :title="$t('common.update')"
+                class="btn btn-secondary btn-xs"
+                data-original-title="btn btn-secondary btn-xs"
+                type="button"
+                @click.prevent="
+                  $router.push({
+                    name: 'config.stocks.type.form',
+                    params: { id: stockType.id },
+                  })
+                "
+              >
+                {{ $t('common.update') }}
+              </button>
+              <button
+                :title="$t('common.delete')"
+                class="btn btn-danger btn-xs m-l-5"
+                data-original-title="btn btn-danger btn-xs"
+                type="button"
+                @click.prevent="deleteStockType(stockType)"
+              >
+                <i class="fa fa-trash-o" />
+              </button>
+            </td>
+          </tr>
+        </BaseDatatable>
       </div>
 
       <router-view />
@@ -33,11 +73,12 @@
 
 <script>
 import BaseContainer from '/@/components/common/BaseContainer.vue';
+import BaseDatatable from '/@/components/common/BaseDatatable.vue';
 import store from '/@/store';
 import { mapGetters } from 'vuex';
 
 export default {
-  components: { BaseContainer },
+  components: { BaseContainer, BaseDatatable },
   beforeRouteEnter(routeTo, routeFrom, next) {
     store
       .dispatch('stock_type/getStockTypesList', {
@@ -61,22 +102,11 @@ export default {
   },
 
   methods: {
-    truncate(source, size = 100) {
-      if (!source) {
-        return '';
-      }
-      return source.length > size ? source.slice(0, size - 1) + '…' : source;
-    },
     deleteStockType(stockType) {
       if (
-        confirm(
-          this.$t('messages.confirmDelete', { label: stockType.label })
-        )
+        confirm(this.$t('messages.confirmDelete', { label: stockType.label }))
       )
-        this.$store.dispatch(
-          'stock_type/deleteStockType',
-          stockType.id
-        );
+        this.$store.dispatch('stock_type/deleteStockType', stockType.id);
     },
   },
 };

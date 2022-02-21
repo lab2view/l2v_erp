@@ -1,4 +1,5 @@
 export default {
+  none: '',
   add: 'Ajouter',
   delete: 'Supprimer',
   delete_all: 'Tout Supprimer',
@@ -51,6 +52,9 @@ export default {
     iso_3166_2: 'iso_3166_2',
     iso_3166_3: 'iso_3166_3',
     phone_length: 'Nombre de chiffres du numero',
+    stock_type: 'Type de stock',
+    none: 'Aucun',
+    all: 'Tous',
     code: 'Code',
     status: 'Status',
     label: 'Libelle',
