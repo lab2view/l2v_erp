@@ -56,7 +56,7 @@ export const customerRoutes = [
   },
   {
     path: 'customer-groups',
-    name: 'config.customers.groups',
+    name: 'customers.groups',
     component: () => import('/@/views/customers/CustomerGroupsList.vue'),
     meta: {
       code: 'CustomerGroup.viewAny',
@@ -65,7 +65,7 @@ export const customerRoutes = [
     children: [
       {
         path: 'form/:id?',
-        name: 'config.customers.group.form',
+        name: 'customers.group.form',
         component: () => import('/@/views/customers/CustomerGroupForm.vue'),
         beforeEnter: (to) => {
           if (to.params.id) {
@@ -81,28 +81,29 @@ export const customerRoutes = [
     ],
   },
   {
-    path: 'customer-group-lines/:id?',
-    name: 'config.customers.groups.lines',
+    path: 'customer-groups-lines/:id?',
+    name: 'customers.groups.lines',
     component: () => import('/@/views/customers/CustomerGroupLinesList.vue'),
     meta: {
       code: 'CustomerGroupLine.viewAny',
       feather: 'filter',
     },
+    beforeEnter: (to) => {
+      if (to.params.id) {
+        return store
+          .dispatch('customerGroup/getCustomerGroup', to.params.id)
+          .then(() => {
+            return { name: to.name };
+          })
+          .catch(() => -1);
+      }
+      return -1;
+    },
     children: [
       {
-        path: 'form/:id?',
-        name: 'customer.config.groups.line.form',
+        path: 'form',
+        name: 'customers.groups.line.form',
         component: () => import('/@/views/customers/CustomerGroupLineForm.vue'),
-        beforeEnter: (to) => {
-          if (to.params.id) {
-            return store
-              .dispatch('customerGroupLine/getCustomerGroupLine', to.params.id)
-              .then(() => {
-                return { name: to.name };
-              })
-              .catch(() => -1);
-          }
-        },
       },
     ],
   },
