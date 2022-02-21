@@ -33,7 +33,7 @@
         name="type_for"
         required
         type="radio"
-        value="stockEntry"
+        value="StockEntry"
       />
       <label class="" for="stockEntry">
         {{ $t('common.attributes.stock_entry') }}
@@ -46,10 +46,10 @@
         name="type_for"
         required
         type="radio"
-        value="stockExit"
+        value="StockExit"
       />
       <label class="" for="stockExit">
-        {{ $t('common.attributes.stock_entry') }}
+        {{ $t('common.attributes.stock_exit') }}
       </label>
 
       <br />
@@ -89,8 +89,8 @@ export default {
     ...mapGetters('stock_type', ['stockType']),
     title() {
       return this.stockType && this.stockType.id
-        ? this.$t('stocks.stockType.formUpdateTitle')
-        : this.$t('stocks.stockType.formCreateTitle');
+        ? this.$t('stock.stockType.formUpdateTitle')
+        : this.$t('stock.stockType.formCreateTitle');
     },
   },
   created() {

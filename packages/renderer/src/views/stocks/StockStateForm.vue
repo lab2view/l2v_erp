@@ -10,7 +10,7 @@
         class="form-control"
         placeholder="..."
         required
-        state="text"
+        type="text"
       />
       <div
         v-if="errors.label && errors.label.length"
@@ -22,7 +22,7 @@
     </div>
     <div class="form-group mb-3">
       <label class="form-label fw-bold" for="label">{{
-        $t('common.attributes.stock_state')
+        $t('common.attributes.stock_type')
       }}</label>
       <br />
       <br />
@@ -32,8 +32,8 @@
         v-model="stockStateForm.state_for"
         name="state_for"
         required
-        state="radio"
-        value="stockEntry"
+        type="radio"
+        value="StockEntry"
       />
       <label class="" for="stockEntry">
         {{ $t('common.attributes.stock_entry') }}
@@ -45,11 +45,11 @@
         v-model="stockStateForm.state_for"
         name="state_for"
         required
-        state="radio"
-        value="stockExit"
+        type="radio"
+        value="StockExit"
       />
       <label class="" for="stockExit">
-        {{ $t('common.attributes.stock_entry') }}
+        {{ $t('common.attributes.stock_exit') }}
       </label>
 
       <br />
@@ -62,7 +62,7 @@
       </div>
     </div>
     <template #footer>
-      <button :title="$t('common.save')" class="btn btn-primary" state="submit">
+      <button :title="$t('common.save')" class="btn btn-primary" type="submit">
         {{ $t('common.save') }}
       </button>
     </template>
@@ -89,9 +89,13 @@ export default {
     ...mapGetters('stock_state', ['stockState']),
     title() {
       return this.stockState && this.stockState.id
-        ? this.$t('stocks.stockState.formUpdateTitle')
-        : this.$t('stocks.stockState.formCreateTitle');
+        ? this.$t('stock.stockState.formUpdateTitle')
+        : this.$t('stock.stockState.formCreateTitle');
     },
+  },
+  mounted() {
+    console.log('stockStateForm.state_for');
+    console.log(this.stockStateForm.state_for);
   },
   created() {
     if (this.stockState && this.stockState.id)

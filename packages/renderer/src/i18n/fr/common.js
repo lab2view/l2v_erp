@@ -64,6 +64,8 @@ export default {
     reference: 'Reference',
     barcode: 'Code barre',
     stock_config: 'Configuration du niveau de stock',
+    stock_entry: 'Stock entrant',
+    stock_exit: 'Stock sortant',
     max: 'Max',
     min: 'Min',
     critical: 'Critique',

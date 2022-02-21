@@ -73,9 +73,9 @@
 
 <script>
 import BaseContainer from '/@/components/common/BaseContainer.vue';
+import BaseDatatable from '/@/components/common/BaseDatatable.vue';
 import store from '/@/store';
 import { mapGetters } from 'vuex';
-import BaseDatatable from '/@/components/common/BaseDatatable';
 
 export default {
   components: { BaseContainer, BaseDatatable },
