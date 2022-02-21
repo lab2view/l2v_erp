@@ -20,8 +20,7 @@
           <div class="col-sm-auto align-items-end">
             <router-link
               :to="{
-                name: 'config.customers.groups.line.form',
-                params: { id: customerGroup.id },
+                name: 'customers.groups.line.form',
               }"
               class="btn btn-primary"
               href="#"

@@ -104,9 +104,9 @@ const mutations = {
       customerGroup === null ? null : JSON.stringify(customerGroup);
   },
   ADD_CUSTOMER_GROUP(state, customerGroup) {
-    let state_cg = JSON.parse(state.customerGroup);
-    state_cg.push(customerGroup);
-    state.customerGroup = JSON.stringify(customerGroup);
+    let customer_groups = JSON.parse(state.customerGroups) ?? [];
+    customer_groups.push(customerGroup);
+    state.customerGroups = JSON.stringify(customer_groups);
   },
   ADD_CUSTOMER_TO_CUSTOMER_GROUP(state, { customerGroupLines }) {
     let state_cg = JSON.parse(state.customerGroup);
