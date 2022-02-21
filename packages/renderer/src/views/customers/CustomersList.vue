@@ -36,7 +36,7 @@
           </template>
           <tr v-for="customer in customers" :key="customer.id">
             <td>{{ customer.id }}</td>
-            <td>{{ customer.customer_type.label }}</td>
+            <td>{{ customer.customer_type?.label }}</td>
             <td>{{ customer.localization?.address }}</td>
             <td>{{ customer.country?.name }}</td>
             <td>{{ customer.name }}</td>
