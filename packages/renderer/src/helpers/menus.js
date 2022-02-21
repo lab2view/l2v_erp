@@ -148,7 +148,7 @@ export const customerMenus = [
 
 export const stockMenus = [
   {
-    icon: 'globe',
+    icon: 'repeat',
     code: 'Stocks.manage',
     prefix: 'stocks',
     items: [
@@ -163,37 +163,22 @@ export const stockMenus = [
     ],
   },
   {
-    icon: 'globe',
+    icon: 'clipboard',
     code: 'Inventory.viewAny',
     prefix: 'inventories',
-    items: [
-      {
-        code: 'Inventory.viewAny',
-        to: 'inventories',
-      },
-    ],
+    to: 'inventories',
   },
   {
-    icon: 'globe',
+    icon: 'user-check',
     code: 'Provider.viewAny',
     prefix: 'providers',
-    items: [
-      {
-        code: 'Provider.viewAny',
-        to: 'providers',
-      },
-    ],
+    to: 'providers',
   },
   {
-    icon: 'globe',
+    icon: 'truck',
     code: 'Shipping.viewAny',
     prefix: 'shippings',
-    items: [
-      {
-        code: 'Shipping.viewAny',
-        to: 'shippings',
-      },
-    ],
+    to: 'shippings',
   },
   {
     icon: 'settings',
