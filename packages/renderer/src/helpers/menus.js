@@ -126,6 +126,10 @@ export const customerMenus = [
         code: 'Customer.viewAny',
         to: 'customers',
       },
+      {
+        code: 'CustomerGroup.viewAny',
+        to: 'customers.groups',
+      },
     ],
   },
   {
@@ -137,10 +141,6 @@ export const customerMenus = [
       {
         code: 'CustomerType.viewAny',
         to: 'config.customers.types',
-      },
-      {
-        code: 'CustomerGroup.viewAny',
-        to: 'config.customers.groups',
       },
     ],
   },

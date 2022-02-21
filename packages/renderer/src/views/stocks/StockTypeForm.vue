@@ -20,6 +20,47 @@
         {{ errors.label[0] }}
       </div>
     </div>
+    <div class="form-group mb-3">
+      <label class="form-label fw-bold" for="label">{{
+        $t('common.attributes.stock_type')
+      }}</label>
+      <br />
+      <br />
+
+      <input
+        id="stockEntry"
+        v-model="stockTypeForm.type_for"
+        name="type_for"
+        required
+        type="radio"
+        value="StockEntry"
+      />
+      <label class="" for="stockEntry">
+        {{ $t('common.attributes.stock_entry') }}
+      </label>
+
+      <br />
+      <input
+        id="stockExit"
+        v-model="stockTypeForm.type_for"
+        name="type_for"
+        required
+        type="radio"
+        value="StockExit"
+      />
+      <label class="" for="stockExit">
+        {{ $t('common.attributes.stock_exit') }}
+      </label>
+
+      <br />
+      <div
+        v-if="errors.type_for && errors.type_for.length"
+        class="invalid-feedback"
+        style="display: inline"
+      >
+        {{ errors.type_for[0] }}
+      </div>
+    </div>
     <template #footer>
       <button :title="$t('common.save')" class="btn btn-primary" type="submit">
         {{ $t('common.save') }}
@@ -40,6 +81,7 @@ export default {
       stockTypeForm: {
         id: null,
         label: null,
+        type_for: null,
       },
     };
   },
@@ -47,8 +89,8 @@ export default {
     ...mapGetters('stock_type', ['stockType']),
     title() {
       return this.stockType && this.stockType.id
-        ? this.$t('stocks.stockType.formUpdateTitle')
-        : this.$t('stocks.stockType.formCreateTitle');
+        ? this.$t('stock.stockType.formUpdateTitle')
+        : this.$t('stock.stockType.formCreateTitle');
     },
   },
   created() {
