@@ -19,16 +19,6 @@ export default [
     },
     children: [
       {
-        path: '',
-        redirect: (to) => {
-          return {
-            name: 'product.form.setting.gallery',
-            params: to.params,
-            query: to.query,
-          };
-        },
-      },
-      {
         path: 'gallery',
         name: 'product.form.setting.gallery',
         component: () => import('/@/views/products/forms/ProductGallery.vue'),
@@ -37,6 +27,24 @@ export default [
         path: 'taxes',
         name: 'product.form.setting.tax',
         component: () => import('/@/views/products/forms/ProductTaxList.vue'),
+        children: [
+          {
+            path: 'form',
+            name: 'product.form.article.form',
+            component: () =>
+              import('/@/views/products/forms/ProductArticleForm.vue'),
+            children: [
+              {
+                path: 'add-package',
+                name: 'product.form.article.form.package',
+                component: () =>
+                  import(
+                    '/@/views/products/configurations/package/PackageForm.vue'
+                  ),
+              },
+            ],
+          },
+        ],
       },
       {
         path: 'description',

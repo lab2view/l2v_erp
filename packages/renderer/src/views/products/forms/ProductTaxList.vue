@@ -11,7 +11,7 @@
           <h5>{{ `${$t('product.tax.listTitle')} - ${product.reference}` }}</h5>
         </div>
         <div
-          v-if="$route.name === 'product.form.article'"
+          v-if="$route.name === 'product.form.setting.tax'"
           class="col-sm-auto align-items-end"
         >
           <router-link
@@ -37,9 +37,9 @@
           </thead>
           <tbody>
             <ProductTaxLine
-              v-for="(tax, index) in taxes"
+              v-for="(tax, index) in product_taxes"
               :key="index"
-              :tax="tax"
+              :product-tax="tax"
             />
           </tbody>
         </table>
@@ -71,7 +71,9 @@ export default {
   },
   computed: {
     ...mapGetters('product', ['product']),
-    ...mapGetters('taxConfig', ['taxes']),
+    product_taxes() {
+      return this.product.product_taxes ?? [];
+    },
   },
 };
 </script>
