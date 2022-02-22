@@ -26,7 +26,7 @@ export default {
     delete: 'La suppression du groupe de clients a ete effectuee avec succes',
   },
   customerGroupLine: {
-    listTitle: 'Liste des clients du groupe de clients',
+    listTitle: 'Groupe de client ',
     store:
       "L'ajout du client a la liste des clients du groupe de clients a ete effectue avec succes",
     delete:

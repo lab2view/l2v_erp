@@ -1,38 +1,39 @@
 import axios from '/@/config/axios';
 
 export default {
-  getCustomerGroupsList(page, field) {
+  getList(page, field) {
     return axios.post(`/customers/groups/list?page=${page}`, field);
   },
 
-  addCustomerGroup(customerGroup) {
+  add(customerGroup) {
     return axios.post(`/customers/groups`, customerGroup);
   },
 
-  getCustomerGroup(id) {
+  get(id) {
     return axios.get(`/customers/groups/${id}`);
   },
 
-  updateCustomerGroup(customerGroup, id) {
+  update(customerGroup, id) {
     return axios.put(`/customers/groups/${id}`, customerGroup);
   },
 
-  deleteCustomerGroup(id) {
+  delete(id) {
     return axios.delete(`/customers/groups/${id}`);
   },
 
-  restoreCustomerGroup(id) {
+  restore(id) {
     return axios.post(`/customers/groups/restore/${id}`);
   },
 
-  forceDeleteCustomerGroup(id) {
+  forceDelete(id) {
     return axios.delete(`/customers/groups/delete/${id}`);
   },
 
   addCustomers(customerGroupId, customers) {
-    return axios.post(`/customers/groups/${customerGroupId}/lines/add`, {
-      customers,
-    });
+    return axios.post(
+      `/customers/groups/${customerGroupId}/lines/add`,
+      customers
+    );
   },
 
   removeCustomers(customerGroupId, customerGroupLineIds) {

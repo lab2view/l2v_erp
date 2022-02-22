@@ -21,7 +21,7 @@ import region from './modules/structures/region';
 import country from './modules/structures/country';
 import enterpriseTypeConfig from './modules/structures/enterpriseTypeConfig';
 import enterprise from './modules/structures/enterprise';
-import customerGroup from './modules/customers/customerGroup';
+import customer_group from './modules/customers/customerGroup';
 import customerType from './modules/customers/customerType';
 import customer from './modules/customers/customer';
 import inventory from './modules/stock/inventory';
@@ -94,8 +94,8 @@ export default createStore({
     enterpriseTypeConfig,
     enterprise,
     customerType,
-    customerGroup,
     customer,
+    customer_group,
     inventory,
     stock_provider,
     shipping,

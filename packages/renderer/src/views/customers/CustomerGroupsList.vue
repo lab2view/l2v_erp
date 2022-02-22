@@ -33,16 +33,15 @@
           <tr v-for="customerGroup in customerGroups" :key="customerGroup.id">
             <td>{{ customerGroup.id }}</td>
             <td>{{ customerGroup.label }}</td>
-            <td>{{ truncate(customerGroup.description) }}</td>
+            <td>{{ truncate(customerGroup.description, 100) }}</td>
             <td>
               <button
                 :title="$t('customers.show_customers')"
                 class="btn btn-default btn-xs"
-                data-original-title="btn btn-default btn-xs"
                 type="button"
                 @click.prevent="
                   $router.push({
-                    name: 'customers.groups.lines',
+                    name: 'customerGroup.details',
                     params: { id: customerGroup.id },
                   })
                 "
@@ -87,12 +86,14 @@ import BaseContainer from '/@/components/common/BaseContainer.vue';
 import BaseDatatable from '/@/components/common/BaseDatatable.vue';
 import store from '/@/store';
 import { mapGetters } from 'vuex';
+import FilterMixin from '/@/mixins/FilterMixin.js';
 
 export default {
   components: { BaseContainer, BaseDatatable },
+  mixins: [FilterMixin],
   beforeRouteEnter(routeTo, routeFrom, next) {
     store
-      .dispatch('customerGroup/getCustomerGroupsList', {
+      .dispatch('customer_group/getCustomerGroupsList', {
         page: 1,
         field: {},
       })
@@ -105,20 +106,14 @@ export default {
       });
   },
   computed: {
-    ...mapGetters('customerGroup', ['customerGroups', 'customerGroup']),
+    ...mapGetters('customer_group', ['customerGroups', 'customerGroup']),
   },
   created() {
     if (this.customerGroup)
-      this.$store.commit('customerGroup/SET_CURRENT_CUSTOMER_GROUP', null);
+      this.$store.commit('customer_group/SET_CURRENT_CUSTOMER_GROUP', null);
   },
 
   methods: {
-    truncate(source, size = 100) {
-      if (!source) {
-        return '';
-      }
-      return source.length > size ? source.slice(0, size - 1) + '…' : source;
-    },
     deleteCustomerGroup(customerGroup) {
       if (
         confirm(
@@ -126,7 +121,7 @@ export default {
         )
       )
         this.$store.dispatch(
-          'customerGroup/deleteCustomerGroup',
+          'customer_group/deleteCustomerGroup',
           customerGroup.id
         );
     },

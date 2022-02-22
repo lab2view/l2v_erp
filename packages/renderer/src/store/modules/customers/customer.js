@@ -11,6 +11,22 @@ const getters = {
   customers: (state) => (state.customers ? JSON.parse(state.customers) : []),
   customer: (state) => (state.customer ? JSON.parse(state.customer) : null),
   haveCustomer: (state) => !!state.customer,
+  searchCustomerByCriteria:
+    (state, getters) =>
+    ({ customer_type_id, country_id, keyword }) =>
+      getters.customers.filter((c) => {
+        let result = true;
+        if (customer_type_id)
+          result = c.customer_type_id.toString() === customer_type_id;
+        if (country_id) result = c.country_id.toString() === country_id;
+        if (keyword)
+          result = RegExp(`${keyword.toString().toLowerCase()}*`).test(
+            `${c.name.toString().toLowerCase()} ${c.phone
+              .toString()
+              .toLowerCase()} ${c.reference.toString().toLowerCase()}`
+          );
+        return result;
+      }),
 };
 
 const actions = {

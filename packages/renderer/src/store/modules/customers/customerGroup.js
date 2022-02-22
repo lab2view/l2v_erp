@@ -21,54 +21,36 @@ const actions = {
     if (getters.customerGroups.length > 0) {
       return getters.customerGroups;
     } else
-      return customerGroupService
-        .getCustomerGroupsList(page, field)
-        .then(({ data }) => {
-          commit('SET_CUSTOMER_GROUPS', data);
-          return data;
-        });
+      return customerGroupService.getList(page, field).then(({ data }) => {
+        commit('SET_CUSTOMER_GROUPS', data);
+        return data;
+      });
   },
 
   getCustomerGroup({ getters, commit }, id) {
     const customerGroup = getters.customerGroups.find(
       (cg) => cg.id.toString() === id.toString()
     );
-
     if (customerGroup !== undefined) {
       commit('SET_CURRENT_CUSTOMER_GROUP', customerGroup);
       return customerGroup;
     }
-
-    return customerGroupService.getCustomerGroup(id).then(({ data }) => {
-      if (data) {
-        commit('SET_CURRENT_CUSTOMER_GROUP', data);
-        return data;
-      }
-      return null;
+    return customerGroupService.get(id).then(({ data }) => {
+      commit('SET_CURRENT_CUSTOMER_GROUP', data);
+      return data;
     });
   },
 
   addCustomerGroup({ commit }, customerGroupField) {
-    return customerGroupService
-      .addCustomerGroup(customerGroupField)
-      .then(({ data }) => {
-        commit('ADD_CUSTOMER_GROUP', data);
-        return data;
-      });
-  },
-
-  addCustomerToCustomerGroup({ commit }, { id, customer }) {
-    return customerGroupService
-      .addCustomers(id, [customer])
-      .then(({ data }) => {
-        commit('ADD_CUSTOMER_TO_CUSTOMER_GROUP', data);
-        return data;
-      });
+    return customerGroupService.add(customerGroupField).then(({ data }) => {
+      commit('ADD_CUSTOMER_GROUP', data);
+      return data;
+    });
   },
 
   updateCustomerGroup({ commit }, customerGroupField) {
     return customerGroupService
-      .updateCustomerGroup(customerGroupField, customerGroupField.id)
+      .update(customerGroupField, customerGroupField.id)
       .then(({ data }) => {
         commit('UPDATE_CUSTOMER_GROUP', data);
         return data;
@@ -76,19 +58,27 @@ const actions = {
   },
 
   deleteCustomerGroup({ commit }, customerGroupId) {
+    return customerGroupService.delete(customerGroupId).then(({ data }) => {
+      commit('DELETE_CUSTOMER_GROUP', customerGroupId);
+      return data;
+    });
+  },
+
+  addCustomerGroupLines({ getters, commit }, customers) {
     return customerGroupService
-      .deleteCustomerGroup(customerGroupId)
+      .addCustomers(getters.customerGroup.id, customers)
       .then(({ data }) => {
-        commit('DELETE_CUSTOMER_GROUP', customerGroupId);
-        return data;
+        commit('ADD_CUSTOMER_GROUP_LINE', data.customerGroupLines);
       });
   },
 
-  deleteCustomerGroupLine({ commit }, customerGroupLine) {
+  removeCustomerGroupLine({ commit, getters }, customerGroupLines) {
     return customerGroupService
-      .removeCustomers(customerGroupLine.id)
+      .removeCustomers(getters.customerGroup.id, {
+        customer_group_line_ids: [...customerGroupLines],
+      })
       .then(({ data }) => {
-        commit('DELETE_CUSTOMER_GROUP_LINE', customerGroupLine);
+        commit('DELETE_CUSTOMER_GROUP_LINE', customerGroupLines);
         return data;
       });
   },
@@ -108,23 +98,6 @@ const mutations = {
     customer_groups.push(customerGroup);
     state.customerGroups = JSON.stringify(customer_groups);
   },
-  ADD_CUSTOMER_TO_CUSTOMER_GROUP(state, { customerGroupLines }) {
-    let state_cg = JSON.parse(state.customerGroup);
-    state_cg.customer_group_lines = state_cg.customer_group_lines ?? [];
-    if (customerGroupLines) {
-      customerGroupLines.map((customerGroupLine) => {
-        state_cg.customer_group_lines.push(customerGroupLine);
-      });
-    }
-    state.customerGroup = JSON.stringify(state_cg);
-    state.customerGroups = JSON.stringify(
-      JSON.parse(state.customerGroups).map((customerGroup) => {
-        return customerGroup.id.toString() === state_cg.id.ToString()
-          ? state_cg
-          : customerGroup;
-      })
-    );
-  },
   UPDATE_CUSTOMER_GROUP(state, customerGroup) {
     let customerGroups = JSON.parse(state.customerGroups);
     const index = customerGroups.findIndex((p) => p.id === customerGroup.id);
@@ -138,18 +111,33 @@ const mutations = {
       JSON.parse(state.customerGroups).filter((p) => p.id !== customerGroupId)
     );
   },
-  DELETE_CUSTOMER_GROUP_LINE(state, customerGroupLine) {
+  ADD_CUSTOMER_GROUP_LINE(state, customerGroupLines) {
+    let customerGroups = JSON.parse(state.customerGroups);
     let customerGroup = JSON.parse(state.customerGroup);
-    customerGroup.customer_group_lines =
-      customerGroup.customer_group_lines?.filter(
-        (cgl) => cgl.id !== customerGroupLine.id
-      );
-    state.customerGroup = JSON.stringify(customerGroup);
-    state.customerGroups = JSON.stringify(
-      JSON.parse(state.customerGroups).map((cg) => {
-        return customerGroup.id === cg.id ? customerGroup : cg;
-      })
-    );
+    let index = customerGroups.findIndex((cg) => cg.id === customerGroup.id);
+    if (index !== -1) {
+      customerGroup.customer_group_lines = [
+        ...customerGroup.customer_group_lines,
+        ...customerGroupLines,
+      ];
+      customerGroups.splice(index, 1, customerGroup);
+      state.customerGroup = JSON.stringify(customerGroup);
+      state.customerGroups = JSON.stringify(customerGroups);
+    }
+  },
+  DELETE_CUSTOMER_GROUP_LINE(state, customerGroupLines) {
+    let customerGroups = JSON.parse(state.customerGroups);
+    let customerGroup = JSON.parse(state.customerGroup);
+    let index = customerGroups.findIndex((cg) => cg.id === customerGroup.id);
+    if (index !== -1) {
+      customerGroup.customer_group_lines =
+        customerGroup.customer_group_lines.filter((cgl) => {
+          return customerGroupLines.find((cl) => cl === cgl.id) === undefined;
+        });
+      customerGroups.splice(index, 1, customerGroup);
+      state.customerGroup = JSON.stringify(customerGroup);
+      state.customerGroups = JSON.stringify(customerGroups);
+    }
   },
 };
 
