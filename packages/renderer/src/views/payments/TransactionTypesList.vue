@@ -1,17 +1,17 @@
 <template>
   <BaseContainer
-    :module="$t('menu.modules.stocks')"
-    :title="$t('stock.title')"
+    :module="$t('menu.modules.payments')"
+    :title="$t('payments.title')"
   >
     <div class="card">
       <div class="card-header pb-2 border-bottom border-bottom-">
         <div class="row align-items-center">
           <div class="col-sm">
-            <h5>{{ $t('stock.provider.listTitle') }}</h5>
+            <h5>{{ $t('payments.transactionType.listTitle') }}</h5>
           </div>
           <div class="col-sm-auto align-items-end">
             <router-link
-              :to="{ name: 'provider.form' }"
+              :to="{ name: 'config.payments.transaction.type.form' }"
               class="btn btn-primary"
               href="#"
               type="button"
@@ -23,21 +23,15 @@
         </div>
       </div>
       <div class="card-body">
-        <BaseDatatable :tfoot="false" :total="stock_providers.length">
+        <BaseDatatable :tfoot="false" :total="transactionTypes.length">
           <template #headers>
             <th>#</th>
-            <th>{{ $t('common.attributes.country') }}</th>
-            <th>{{ $t('common.attributes.name') }}</th>
-            <th>{{ $t('common.attributes.phone') }}</th>
-            <th>{{ $t('common.attributes.email') }}</th>
+            <th>{{ $t('common.attributes.label') }}</th>
             <th>{{ $t('common.actions') }}</th>
           </template>
-          <tr v-for="provider in stock_providers" :key="provider.id">
-            <td>{{ provider.id }}</td>
-            <td>{{ provider.country.name }}</td>
-            <td>{{ provider.name }}</td>
-            <td>{{ provider.phone }}</td>
-            <td>{{ provider.email }}</td>
+          <tr v-for="transactionType in transactionTypes" :key="transactionType.id">
+            <td>{{ transactionType.id }}</td>
+            <td>{{ transactionType.label }}</td>
             <td>
               <button
                 :title="$t('common.update')"
@@ -46,8 +40,8 @@
                 type="button"
                 @click.prevent="
                   $router.push({
-                    name: 'provider.form',
-                    params: { id: provider.id },
+                    name: 'config.payments.transaction.type.form',
+                    params: { id: transactionType.id },
                   })
                 "
               >
@@ -58,14 +52,13 @@
                 class="btn btn-danger btn-xs m-l-5"
                 data-original-title="btn btn-danger btn-xs"
                 type="button"
-                @click.prevent="deleteProvider(provider)"
+                @click.prevent="deleteTransactionType(transactionType)"
               >
                 <i class="fa fa-trash-o" />
               </button>
             </td>
           </tr>
         </BaseDatatable>
-        <br />
       </div>
 
       <router-view />
@@ -83,7 +76,7 @@ export default {
   components: { BaseContainer, BaseDatatable },
   beforeRouteEnter(routeTo, routeFrom, next) {
     store
-      .dispatch('stock_provider/getStockProvidersList', {
+      .dispatch('transactionType/getTransactionTypesList', {
         page: 1,
         field: {},
       })
@@ -96,23 +89,23 @@ export default {
       });
   },
   computed: {
-    ...mapGetters('stock_provider', ['stock_providers', 'stockProvider']),
+    ...mapGetters('transactionType', ['transactionTypes', 'transactionType']),
   },
   created() {
-    if (this.provider)
-      this.$store.commit('stock_provider/SET_CURRENT_STOCK_PROVIDER', null);
+    if (this.transactionType)
+      this.$store.commit('transactionType/SET_CURRENT_TRANSACTION_TYPE', null);
   },
 
   methods: {
-    deleteProvider(provider) {
+    deleteTransactionType(transactionType) {
       if (
         confirm(
-          this.$t('messages.confirmDelete', { label: provider.label })
+          this.$t('messages.confirmDelete', { label: transactionType.label })
         )
       )
         this.$store.dispatch(
-          'stock_provider/deleteStockProvider',
-          provider.id
+          'transactionType/deleteTransactionType',
+          transactionType.id
         );
     },
   },

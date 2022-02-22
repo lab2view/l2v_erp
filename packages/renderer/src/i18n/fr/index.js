@@ -7,6 +7,7 @@ import stock from './stock';
 import structures from './structures';
 import customers from './customers';
 import sales from './sales';
+import payments from './payments';
 
 export default {
   common,
@@ -18,4 +19,5 @@ export default {
   stock,
   structures,
   sales,
+  payments,
 };
