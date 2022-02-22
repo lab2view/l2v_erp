@@ -127,7 +127,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters('customerGroup', ['customerGroup']),
+    ...mapGetters('customer_group', ['customerGroup']),
     customerGroupLines() {
       return this.customerGroup.customer_group_lines ?? [];
     },
@@ -181,7 +181,7 @@ export default {
       ) {
         this.loading = true;
         this.$store
-          .dispatch('customerGroup/removeCustomerGroupLine', this.selected)
+          .dispatch('customer_group/removeCustomerGroupLine', this.selected)
           .then(() => {
             this.loading = false;
             this.selected = [];

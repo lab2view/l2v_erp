@@ -64,7 +64,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters('customerGroup', ['customerGroup']),
+    ...mapGetters('customer_group', ['customerGroup']),
     title() {
       return this.customerGroup && this.customerGroup.id
         ? this.$t('customers.customerGroup.formUpdateTitle')
@@ -77,13 +77,16 @@ export default {
   },
   beforeUnmount() {
     if (this.customerGroup && this.customerGroup.id)
-      this.$store.commit('customerGroup/SET_CURRENT_CUSTOMER_GROUP', null);
+      this.$store.commit('customer_group/SET_CURRENT_CUSTOMER_GROUP', null);
   },
   methods: {
     submitCustomerGroupForm() {
       if (this.customerGroup && this.customerGroup.id)
         this.$store
-          .dispatch('customerGroup/updateCustomerGroup', this.customerGroupForm)
+          .dispatch(
+            'customer_group/updateCustomerGroup',
+            this.customerGroupForm
+          )
           .then(() => this.$router.back())
           .catch((error) => {
             this.errors = error.response.data.errors;
@@ -91,7 +94,7 @@ export default {
           });
       else
         this.$store
-          .dispatch('customerGroup/addCustomerGroup', this.customerGroupForm)
+          .dispatch('customer_group/addCustomerGroup', this.customerGroupForm)
           .then(() => this.$router.back())
           .catch((error) => {
             this.errors = error.response.data.errors;

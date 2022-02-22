@@ -68,7 +68,7 @@ export default {
   },
   computed: {
     ...mapGetters('customer', ['customers']),
-    ...mapGetters('customerGroup', ['customerGroup']),
+    ...mapGetters('customer_group', ['customerGroup']),
     unselectedCustomers() {
       const customers =
         this.customerGroup?.customer_group_lines?.map(
@@ -87,7 +87,7 @@ export default {
 
       this.formLoading = true;
       this.$store
-        .dispatch('customerGroup/addCustomerToCustomerGroup', {
+        .dispatch('customer_group/addCustomerToCustomerGroup', {
           id: this.customerGroup.id,
           customer: { id: this.customer_id },
         })

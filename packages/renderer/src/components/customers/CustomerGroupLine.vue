@@ -91,7 +91,7 @@ export default {
       ) {
         this.loading = true;
         this.$store
-          .dispatch('customerGroup/removeCustomerGroupLine', [
+          .dispatch('customer_group/removeCustomerGroupLine', [
             this.customerGroupLine.id,
           ])
           .then(() => {

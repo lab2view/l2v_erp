@@ -70,7 +70,7 @@ export const customerRoutes = [
         beforeEnter: (to) => {
           if (to.params.id) {
             return store
-              .dispatch('customerGroup/getCustomerGroup', to.params.id)
+              .dispatch('customer_group/getCustomerGroup', to.params.id)
               .then(() => {
                 return { name: to.name };
               })
@@ -90,7 +90,7 @@ export const customerRoutes = [
     },
     beforeEnter: (to) => {
       return store
-        .dispatch('customerGroup/getCustomerGroup', to.params.id)
+        .dispatch('customer_group/getCustomerGroup', to.params.id)
         .then(() => 1)
         .catch(() => -1);
     },

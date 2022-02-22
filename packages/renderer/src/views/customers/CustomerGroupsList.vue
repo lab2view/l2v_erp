@@ -91,7 +91,7 @@ export default {
   components: { BaseContainer, BaseDatatable },
   beforeRouteEnter(routeTo, routeFrom, next) {
     store
-      .dispatch('customerGroup/getCustomerGroupsList', {
+      .dispatch('customer_group/getCustomerGroupsList', {
         page: 1,
         field: {},
       })
@@ -104,11 +104,11 @@ export default {
       });
   },
   computed: {
-    ...mapGetters('customerGroup', ['customerGroups', 'customerGroup']),
+    ...mapGetters('customer_group', ['customerGroups', 'customerGroup']),
   },
   created() {
     if (this.customerGroup)
-      this.$store.commit('customerGroup/SET_CURRENT_CUSTOMER_GROUP', null);
+      this.$store.commit('customer_group/SET_CURRENT_CUSTOMER_GROUP', null);
   },
 
   methods: {
@@ -125,7 +125,7 @@ export default {
         )
       )
         this.$store.dispatch(
-          'customerGroup/deleteCustomerGroup',
+          'customer_group/deleteCustomerGroup',
           customerGroup.id
         );
     },
