@@ -21,7 +21,7 @@ import region from './modules/structures/region';
 import country from './modules/structures/country';
 import enterpriseTypeConfig from './modules/structures/enterpriseTypeConfig';
 import enterprise from './modules/structures/enterprise';
-import customerGroup from './modules/customers/customerGroup';
+import customer_group from './modules/customers/customerGroup';
 import customerType from './modules/customers/customerType';
 import customer from './modules/customers/customer';
 import inventory from './modules/stock/inventory';
@@ -32,6 +32,10 @@ import stock_state from './modules/stock/stockState';
 import stock_type from './modules/stock/stockType';
 import stock_entry from './modules/stock/stockEntry';
 import stock_entry_line from './modules/stock/stockEntryLine';
+import transaction from './modules/payments/transaction';
+import transactionType from './modules/payments/transactionType';
+import paymentMethod from './modules/payments/paymentMethod';
+import paymentCharge from './modules/payments/paymentCharge';
 
 export default createStore({
   state: {
@@ -90,8 +94,8 @@ export default createStore({
     enterpriseTypeConfig,
     enterprise,
     customerType,
-    customerGroup,
     customer,
+    customer_group,
     inventory,
     stock_provider,
     shipping,
@@ -100,6 +104,10 @@ export default createStore({
     stock_type,
     stock_entry,
     stock_entry_line,
+    paymentMethod,
+    paymentCharge,
+    transaction,
+    transactionType,
   },
   strict: process.env.NODE_ENV !== 'production',
   plugins: [...modulePlugins],

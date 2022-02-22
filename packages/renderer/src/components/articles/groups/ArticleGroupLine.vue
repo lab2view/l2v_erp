@@ -29,9 +29,10 @@
             type="button"
             class="btn btn-iconsolid btn-danger btn-sm"
             :title="$t('common.delete')"
+            :loading="loading"
             @click.prevent="removeArticleGroupLine"
           >
-            <i class="fa fa-times" />
+            <i v-if="!loading" class="fa fa-times" />
           </BaseButton>
         </div>
       </div>

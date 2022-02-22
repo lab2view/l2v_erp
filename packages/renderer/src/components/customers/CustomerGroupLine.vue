@@ -1,21 +1,39 @@
 <template>
   <tr>
-    <td>
-      <div class="checkbox checkbox-solid-primary">
-        <input v-model="selected" type="checkbox" />
+    <td class="font-primary">
+      <div class="checkbox checkbox-primary">
+        <input
+          :id="`selected-${customerGroupLine.id}`"
+          v-model="selected"
+          type="checkbox"
+        />
+        <label
+          :for="`selected-${customerGroupLine.id}`"
+          class="mt-0 pt-0"
+          style="padding-left: 60px"
+        >
+          {{ `${customerGroupLine.customer.name}` }}
+          <small v-if="customerGroupLine.customer.email">
+            - {{ customerGroupLine.customer.email }}
+          </small>
+        </label>
       </div>
     </td>
-    <td class="font-primary f-w-600">{{ customerGroupLine.customer.name }}</td>
+    <td class="font-primary">
+      {{ customerGroupLine.customer.phone }}
+    </td>
     <td>
       <div class="row justify-content-center align-items-center">
         <div class="col-md-6 p-0">
           <BaseButton
-            :title="$t('common.delete')"
-            class="btn btn-iconsolid btn-danger btn-sm"
+            v-if="!customerGroupLine.not_deletable"
             type="button"
+            class="btn btn-iconsolid btn-danger btn-sm"
+            :title="$t('common.delete')"
+            :loading="loading"
             @click.prevent="removeCustomerGroupLine"
           >
-            <i class="fa fa-times" />
+            <i v-if="!loading" class="fa fa-times" />
           </BaseButton>
         </div>
       </div>
@@ -33,37 +51,53 @@ export default {
       type: Object,
       required: true,
     },
-    selectAll: {
-      type: Boolean,
-      default: false,
+    selectedList: {
+      type: Array,
+      required: true,
     },
   },
-  emits: ['selected', 'unselected'],
+  emits: ['selected', 'unselected', 'deleted'],
   data() {
     return {
       selected: false,
       loading: false,
     };
   },
-  watch: {
-    selected(value) {
-      if (!this.selectAll) this.$emit(`${value ? 'selected' : 'unselected'}`);
+  computed: {
+    isSelected() {
+      return (
+        this.selectedList.find((id) => id === this.customerGroupLine.id) !==
+        undefined
+      );
     },
   },
-  created() {
-    if (this.selectAll) this.selected = true;
+  watch: {
+    selected(value) {
+      if (this.isSelected && !value) this.$emit('unselected');
+      if (!this.isSelected && value) this.$emit('selected');
+    },
+    selectedList() {
+      this.selected = this.isSelected;
+    },
   },
   methods: {
     removeCustomerGroupLine() {
       if (
         confirm(
           this.$t('messages.confirmDelete', {
-            label: this.customerGroupLine.id,
+            label: this.customerGroupLine.customer.name,
           })
         )
       ) {
-        console.log('remove this.customerGroupLine');
-        console.log(this.customerGroupLine);
+        this.loading = true;
+        this.$store
+          .dispatch('customer_group/removeCustomerGroupLine', [
+            this.customerGroupLine.id,
+          ])
+          .then(() => {
+            this.$emit('deleted');
+            this.loading = false;
+          });
       }
     },
   },

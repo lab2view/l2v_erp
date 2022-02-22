@@ -133,6 +133,7 @@
             :text="$t('common.save')"
             icon="fa fa-save"
             :disabled="!isSelected"
+            :loading="loading"
           />
         </div>
       </div>

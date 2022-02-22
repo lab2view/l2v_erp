@@ -37,6 +37,9 @@ axios.interceptors.response.use(
     if (error.response) {
       if (error.response.data?.message)
         notify(error.response.data.message, 'Erreur', 'danger');
+      if (error.response.status === 401) {
+        store.commit('auth/SET_CURRENT_USER', null);
+      }
     }
     return Promise.reject(error);
   }

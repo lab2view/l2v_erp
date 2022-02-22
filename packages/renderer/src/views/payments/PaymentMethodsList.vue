@@ -1,17 +1,17 @@
 <template>
   <BaseContainer
-    :module="$t('common.configurations')"
-    :title="$t('customers.title')"
+    :module="$t('menu.modules.payments')"
+    :title="$t('payments.title')"
   >
     <div class="card">
       <div class="card-header pb-2 border-bottom border-bottom-">
         <div class="row align-items-center">
           <div class="col-sm">
-            <h5>{{ $t('customers.customerGroup.listTitle') }}</h5>
+            <h5>{{ $t('payments.paymentMethod.listTitle') }}</h5>
           </div>
           <div class="col-sm-auto align-items-end">
             <router-link
-              :to="{ name: 'customers.group.form' }"
+              :to="{ name: 'config.payments.method.form' }"
               class="btn btn-primary"
               href="#"
               type="button"
@@ -23,40 +23,25 @@
         </div>
       </div>
       <div class="card-body">
-        <BaseDatatable :tfoot="false" :total="customerGroups.length">
+        <BaseDatatable :tfoot="false" :total="paymentMethods.length">
           <template #headers>
             <th>#</th>
             <th>{{ $t('common.attributes.label') }}</th>
-            <th>{{ $t('common.attributes.description') }}</th>
             <th>{{ $t('common.actions') }}</th>
           </template>
-          <tr v-for="customerGroup in customerGroups" :key="customerGroup.id">
-            <td>{{ customerGroup.id }}</td>
-            <td>{{ customerGroup.label }}</td>
-            <td>{{ truncate(customerGroup.description, 100) }}</td>
+          <tr v-for="paymentMethod in paymentMethods" :key="paymentMethod.id">
+            <td>{{ paymentMethod.id }}</td>
+            <td>{{ paymentMethod.label }}</td>
             <td>
-              <button
-                :title="$t('customers.show_customers')"
-                class="btn btn-default btn-xs"
-                type="button"
-                @click.prevent="
-                  $router.push({
-                    name: 'customerGroup.details',
-                    params: { id: customerGroup.id },
-                  })
-                "
-              >
-                {{ $t('customers.show_customers') }}
-              </button>
               <button
                 :title="$t('common.update')"
                 class="btn btn-secondary btn-xs"
-                data-original-title="btn btn-secondary btn-xs m-l-5"
+                data-original-title="btn btn-secondary btn-xs"
                 type="button"
                 @click.prevent="
                   $router.push({
-                    name: 'customers.group.form',
-                    params: { id: customerGroup.id },
+                    name: 'config.payments.method.form',
+                    params: { id: paymentMethod.id },
                   })
                 "
               >
@@ -67,7 +52,7 @@
                 class="btn btn-danger btn-xs m-l-5"
                 data-original-title="btn btn-danger btn-xs"
                 type="button"
-                @click.prevent="deleteCustomerGroup(customerGroup)"
+                @click.prevent="deletePaymentMethod(paymentMethod)"
               >
                 <i class="fa fa-trash-o" />
               </button>
@@ -86,14 +71,12 @@ import BaseContainer from '/@/components/common/BaseContainer.vue';
 import BaseDatatable from '/@/components/common/BaseDatatable.vue';
 import store from '/@/store';
 import { mapGetters } from 'vuex';
-import FilterMixin from '/@/mixins/FilterMixin.js';
 
 export default {
   components: { BaseContainer, BaseDatatable },
-  mixins: [FilterMixin],
   beforeRouteEnter(routeTo, routeFrom, next) {
     store
-      .dispatch('customer_group/getCustomerGroupsList', {
+      .dispatch('paymentMethod/getPaymentMethodsList', {
         page: 1,
         field: {},
       })
@@ -106,23 +89,23 @@ export default {
       });
   },
   computed: {
-    ...mapGetters('customer_group', ['customerGroups', 'customerGroup']),
+    ...mapGetters('paymentMethod', ['paymentMethods', 'paymentMethod']),
   },
   created() {
-    if (this.customerGroup)
-      this.$store.commit('customer_group/SET_CURRENT_CUSTOMER_GROUP', null);
+    if (this.paymentMethod)
+      this.$store.commit('paymentMethod/SET_CURRENT_PAYMENT_METHOD', null);
   },
 
   methods: {
-    deleteCustomerGroup(customerGroup) {
+    deletePaymentMethod(paymentMethod) {
       if (
         confirm(
-          this.$t('messages.confirmDelete', { label: customerGroup.label })
+          this.$t('messages.confirmDelete', { label: paymentMethod.label })
         )
       )
         this.$store.dispatch(
-          'customer_group/deleteCustomerGroup',
-          customerGroup.id
+          'paymentMethod/deletePaymentMethod',
+          paymentMethod.id
         );
     },
   },

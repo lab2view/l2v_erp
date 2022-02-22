@@ -167,24 +167,10 @@ const CustomerTypeConfig = new VuexPersistence({
 });
 
 const CustomerGroup = new VuexPersistence({
-  key: 'customerGroup',
+  key: 'customer_group',
   storage: localStore,
   asyncStorage: true,
-  reducer: (state) => ({ customerGroup: state.customerGroup }),
-});
-
-const CustomerGroupLine = new VuexPersistence({
-  key: 'customerGroupLine',
-  storage: localStore,
-  asyncStorage: true,
-  reducer: (state) => ({ customerGroupLine: state.customerGroupLine }),
-});
-
-const CustomerGroupDiscount = new VuexPersistence({
-  key: 'customerGroupDiscount',
-  storage: localStore,
-  asyncStorage: true,
-  reducer: (state) => ({ customerGroupDiscount: state.customerGroupDiscount }),
+  reducer: (state) => ({ customer_group: state.customer_group }),
 });
 
 const Inventory = new VuexPersistence({
@@ -236,6 +222,34 @@ const StockEntryLine = new VuexPersistence({
   reducer: (state) => ({ stock_entry_line: state.stock_entry_line }),
 });
 
+const PaymentMethod = new VuexPersistence({
+  key: 'paymentMethod',
+  storage: localStore,
+  asyncStorage: true,
+  reducer: (state) => ({ paymentMethod: state.paymentMethod }),
+});
+
+const PaymentCharge = new VuexPersistence({
+  key: 'paymentCharge',
+  storage: localStore,
+  asyncStorage: true,
+  reducer: (state) => ({ paymentCharge: state.paymentCharge }),
+});
+
+const TransactionType = new VuexPersistence({
+  key: 'transactionType',
+  storage: localStore,
+  asyncStorage: true,
+  reducer: (state) => ({ transactionType: state.transactionType }),
+});
+
+const Transaction = new VuexPersistence({
+  key: 'transaction',
+  storage: localStore,
+  asyncStorage: true,
+  reducer: (state) => ({ transaction: state.transaction }),
+});
+
 export default [
   Auth.plugin,
   Product.plugin,
@@ -260,8 +274,6 @@ export default [
   Customer.plugin,
   CustomerGroup.plugin,
   CustomerTypeConfig.plugin,
-  CustomerGroupLine.plugin,
-  CustomerGroupDiscount.plugin,
   Inventory.plugin,
   StockProvider.plugin,
   Shipping.plugin,
@@ -269,4 +281,8 @@ export default [
   StockEntryLine.plugin,
   StockState.plugin,
   StockType.plugin,
+  PaymentCharge.plugin,
+  PaymentMethod.plugin,
+  Transaction.plugin,
+  TransactionType.plugin,
 ];
