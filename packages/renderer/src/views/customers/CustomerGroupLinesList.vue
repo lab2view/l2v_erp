@@ -3,7 +3,7 @@
     :module="$t('common.configurations')"
     :title="$t('customers.title')"
   >
-    <router-view />
+    <router-view :customer-group="customerGroup" />
 
     <div class="card">
       <div class="card-header pb-2 border-bottom border-bottom-">

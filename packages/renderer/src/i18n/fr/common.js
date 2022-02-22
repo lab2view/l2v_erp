@@ -39,6 +39,8 @@ export default {
     product_filter: 'Par produit',
     product_family_filter: 'Par famille de produit',
     product_type_filter: 'Par type de produit',
+    country_filter: 'Par pays',
+    customer_type_filter: 'Par type de client',
   },
 
   states: {
