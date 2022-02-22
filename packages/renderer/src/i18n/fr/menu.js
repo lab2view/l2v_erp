@@ -29,6 +29,18 @@ export default {
       description: 'Description du module',
     },
   },
+  transaction: {
+    viewany: 'Transactions',
+  },
+  transactiontype: {
+    viewany: 'Types de transaction',
+  },
+  paymentmethod: {
+    viewany: 'Methodes de paiement',
+  },
+  charge: {
+    viewany: 'Charges de paiement',
+  },
   localization: {
     create: 'Ajouter une adresse',
     viewany: 'Liste des adresses',

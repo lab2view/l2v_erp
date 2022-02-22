@@ -4,6 +4,7 @@ import { customerRoutes } from './customers/customerRoutes';
 import { enterpriseRoutes } from './structures/enterpriseRoutes';
 import { localizationRoutes } from './structures/localizationRoutes';
 import { stockRoutes } from '/@/router/stocks/stockRoutes';
+import { paymentRoutes } from '/@/router/payments/paymentRoutes';
 
 const workspace = [
   {
@@ -44,6 +45,11 @@ const workspace = [
     path: 'stocks',
     component: () => import('/@/components/stocks/StockLayout.vue'),
     children: stockRoutes,
+  },
+  {
+    path: 'payments',
+    component: () => import('/@/components/payments/PaymentLayout.vue'),
+    children: paymentRoutes,
   },
 ];
 

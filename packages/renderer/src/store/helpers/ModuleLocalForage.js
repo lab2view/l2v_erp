@@ -222,6 +222,34 @@ const StockEntryLine = new VuexPersistence({
   reducer: (state) => ({ stock_entry_line: state.stock_entry_line }),
 });
 
+const PaymentMethod = new VuexPersistence({
+  key: 'paymentMethod',
+  storage: localStore,
+  asyncStorage: true,
+  reducer: (state) => ({ paymentMethod: state.paymentMethod }),
+});
+
+const PaymentCharge = new VuexPersistence({
+  key: 'paymentCharge',
+  storage: localStore,
+  asyncStorage: true,
+  reducer: (state) => ({ paymentCharge: state.paymentCharge }),
+});
+
+const TransactionType = new VuexPersistence({
+  key: 'transactionType',
+  storage: localStore,
+  asyncStorage: true,
+  reducer: (state) => ({ transactionType: state.transactionType }),
+});
+
+const Transaction = new VuexPersistence({
+  key: 'transaction',
+  storage: localStore,
+  asyncStorage: true,
+  reducer: (state) => ({ transaction: state.transaction }),
+});
+
 export default [
   Auth.plugin,
   Product.plugin,
@@ -253,4 +281,8 @@ export default [
   StockEntryLine.plugin,
   StockState.plugin,
   StockType.plugin,
+  PaymentCharge.plugin,
+  PaymentMethod.plugin,
+  Transaction.plugin,
+  TransactionType.plugin,
 ];

@@ -5,6 +5,11 @@ export default {
     list: 'Liste des approvisionnements',
     add: 'Enregistrer un approvisionnement',
   },
+  provider: {
+    listTitle: 'Liste des fournisseurs',
+    formCreateTitle: 'Ajouter un fournisseur',
+    formUpdateTitle: 'Modifier un fournisseur',
+  },
   exitLine: {
     list: 'Liste des sorties de stock',
     add: 'Enregistrer une sortie',
