@@ -65,7 +65,7 @@
 <script>
 import { defineComponent } from 'vue';
 import MenuModule from '/@/components/layouts/MenuModule.vue';
-import { customerMenus, productMenus, stockMenus, structureMenus } from '/@/helpers/menus';
+import { customerMenus, paymentMenus, productMenus, stockMenus, structureMenus } from '/@/helpers/menus';
 import { mapGetters } from 'vuex';
 
 export default defineComponent({
@@ -92,7 +92,7 @@ export default defineComponent({
         },
         {
           code: 'PAYMENTS',
-          menus: [],
+          menus: paymentMenus,
         },
         {
           code: 'STRUCTURES',

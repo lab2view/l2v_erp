@@ -197,3 +197,34 @@ export const stockMenus = [
     ],
   },
 ];
+
+export const paymentMenus = [
+  {
+    icon: 'repeat',
+    code: 'Transaction.viewAny',
+    prefix: 'payments.transaction',
+    to: 'payments.transactions',
+  },
+  {
+    icon: 'repeat',
+    code: 'Charge.viewAny',
+    prefix: 'payments.charge',
+    to: 'payments.charges',
+  },
+  {
+    icon: 'settings',
+    code: 'Payments.manage',
+    label: 'Configurations',
+    prefix: 'config.payments',
+    items: [
+      {
+        code: 'TransactionType.viewAny',
+        to: 'config.payments.transaction.types',
+      },
+      {
+        code: 'PaymentMethod.viewAny',
+        to: 'config.payments.methods',
+      },
+    ],
+  },
+];

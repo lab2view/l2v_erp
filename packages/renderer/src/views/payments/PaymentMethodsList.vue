@@ -1,17 +1,17 @@
 <template>
   <BaseContainer
-    :module="$t('menu.modules.stocks')"
-    :title="$t('stock.title')"
+    :module="$t('menu.modules.payments')"
+    :title="$t('payments.title')"
   >
     <div class="card">
       <div class="card-header pb-2 border-bottom border-bottom-">
         <div class="row align-items-center">
           <div class="col-sm">
-            <h5>{{ $t('stock.provider.listTitle') }}</h5>
+            <h5>{{ $t('payments.paymentMethod.listTitle') }}</h5>
           </div>
           <div class="col-sm-auto align-items-end">
             <router-link
-              :to="{ name: 'provider.form' }"
+              :to="{ name: 'config.payments.method.form' }"
               class="btn btn-primary"
               href="#"
               type="button"
@@ -23,21 +23,15 @@
         </div>
       </div>
       <div class="card-body">
-        <BaseDatatable :tfoot="false" :total="stock_providers.length">
+        <BaseDatatable :tfoot="false" :total="paymentMethods.length">
           <template #headers>
             <th>#</th>
-            <th>{{ $t('common.attributes.country') }}</th>
-            <th>{{ $t('common.attributes.name') }}</th>
-            <th>{{ $t('common.attributes.phone') }}</th>
-            <th>{{ $t('common.attributes.email') }}</th>
+            <th>{{ $t('common.attributes.label') }}</th>
             <th>{{ $t('common.actions') }}</th>
           </template>
-          <tr v-for="provider in stock_providers" :key="provider.id">
-            <td>{{ provider.id }}</td>
-            <td>{{ provider.country.name }}</td>
-            <td>{{ provider.name }}</td>
-            <td>{{ provider.phone }}</td>
-            <td>{{ provider.email }}</td>
+          <tr v-for="paymentMethod in paymentMethods" :key="paymentMethod.id">
+            <td>{{ paymentMethod.id }}</td>
+            <td>{{ paymentMethod.label }}</td>
             <td>
               <button
                 :title="$t('common.update')"
@@ -46,8 +40,8 @@
                 type="button"
                 @click.prevent="
                   $router.push({
-                    name: 'provider.form',
-                    params: { id: provider.id },
+                    name: 'config.payments.method.form',
+                    params: { id: paymentMethod.id },
                   })
                 "
               >
@@ -58,14 +52,13 @@
                 class="btn btn-danger btn-xs m-l-5"
                 data-original-title="btn btn-danger btn-xs"
                 type="button"
-                @click.prevent="deleteProvider(provider)"
+                @click.prevent="deletePaymentMethod(paymentMethod)"
               >
                 <i class="fa fa-trash-o" />
               </button>
             </td>
           </tr>
         </BaseDatatable>
-        <br />
       </div>
 
       <router-view />
@@ -83,7 +76,7 @@ export default {
   components: { BaseContainer, BaseDatatable },
   beforeRouteEnter(routeTo, routeFrom, next) {
     store
-      .dispatch('stock_provider/getStockProvidersList', {
+      .dispatch('paymentMethod/getPaymentMethodsList', {
         page: 1,
         field: {},
       })
@@ -96,23 +89,23 @@ export default {
       });
   },
   computed: {
-    ...mapGetters('stock_provider', ['stock_providers', 'stockProvider']),
+    ...mapGetters('paymentMethod', ['paymentMethods', 'paymentMethod']),
   },
   created() {
-    if (this.provider)
-      this.$store.commit('stock_provider/SET_CURRENT_STOCK_PROVIDER', null);
+    if (this.paymentMethod)
+      this.$store.commit('paymentMethod/SET_CURRENT_PAYMENT_METHOD', null);
   },
 
   methods: {
-    deleteProvider(provider) {
+    deletePaymentMethod(paymentMethod) {
       if (
         confirm(
-          this.$t('messages.confirmDelete', { label: provider.label })
+          this.$t('messages.confirmDelete', { label: paymentMethod.label })
         )
       )
         this.$store.dispatch(
-          'stock_provider/deleteStockProvider',
-          provider.id
+          'paymentMethod/deletePaymentMethod',
+          paymentMethod.id
         );
     },
   },
