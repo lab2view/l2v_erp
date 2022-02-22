@@ -26,21 +26,19 @@
           <template #headers>
             <th>#</th>
             <th>{{ $t('common.attributes.customerType') }}</th>
-            <th>{{ $t('common.attributes.localization') }}</th>
             <th>{{ $t('common.attributes.country') }}</th>
+            <th>{{ $t('common.attributes.localization') }}</th>
             <th>{{ $t('common.attributes.name') }}</th>
-            <th>{{ $t('common.attributes.reference') }}</th>
             <th>{{ $t('common.attributes.phone') }}</th>
             <th>{{ $t('common.attributes.email') }}</th>
             <th>{{ $t('common.actions') }}</th>
           </template>
           <tr v-for="customer in customers" :key="customer.id">
             <td>{{ customer.id }}</td>
-            <td>{{ customer.customer_type?.label }}</td>
-            <td>{{ customer.localization?.address }}</td>
-            <td>{{ customer.country?.name }}</td>
+            <td>{{ customer.customer_type.label }}</td>
+            <td>{{ customer.country.name }}</td>
+            <td>{{ customer.localization.address }}</td>
             <td>{{ customer.name }}</td>
-            <td>{{ customer.reference }}</td>
             <td>{{ customer.phone }}</td>
             <td>{{ customer.email }}</td>
             <td>

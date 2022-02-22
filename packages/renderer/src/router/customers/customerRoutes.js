@@ -29,7 +29,7 @@ export const customerRoutes = [
     ],
   },
   {
-    path: 'customer-types',
+    path: 'types',
     name: 'config.customers.types',
     component: () => import('/@/views/customers/CustomerTypesList.vue'),
     meta: {
@@ -55,7 +55,7 @@ export const customerRoutes = [
     ],
   },
   {
-    path: 'customer-groups',
+    path: 'groups',
     name: 'customers.groups',
     component: () => import('/@/views/customers/CustomerGroupsList.vue'),
     meta: {
@@ -81,29 +81,27 @@ export const customerRoutes = [
     ],
   },
   {
-    path: 'customer-groups-lines/:id?',
-    name: 'customers.groups.lines',
+    path: 'groups/:id/details',
+    name: 'customerGroup.details',
     component: () => import('/@/views/customers/CustomerGroupLinesList.vue'),
     meta: {
       code: 'CustomerGroupLine.viewAny',
       feather: 'filter',
     },
     beforeEnter: (to) => {
-      if (to.params.id) {
-        return store
-          .dispatch('customerGroup/getCustomerGroup', to.params.id)
-          .then(() => {
-            return { name: to.name };
-          })
-          .catch(() => -1);
-      }
-      return -1;
+      return store
+        .dispatch('customerGroup/getCustomerGroup', to.params.id)
+        .then(() => 1)
+        .catch(() => -1);
     },
     children: [
       {
         path: 'form',
         name: 'customers.groups.line.form',
         component: () => import('/@/views/customers/CustomerGroupLineForm.vue'),
+        meta: {
+          requireCustomerGroup: true,
+        },
       },
     ],
   },

@@ -33,18 +33,13 @@ const actions = {
     const customerGroup = getters.customerGroups.find(
       (cg) => cg.id.toString() === id.toString()
     );
-
     if (customerGroup !== undefined) {
       commit('SET_CURRENT_CUSTOMER_GROUP', customerGroup);
       return customerGroup;
     }
-
     return customerGroupService.getCustomerGroup(id).then(({ data }) => {
-      if (data) {
-        commit('SET_CURRENT_CUSTOMER_GROUP', data);
-        return data;
-      }
-      return null;
+      commit('SET_CURRENT_CUSTOMER_GROUP', data);
+      return data;
     });
   },
 
@@ -84,11 +79,13 @@ const actions = {
       });
   },
 
-  deleteCustomerGroupLine({ commit }, customerGroupLine) {
+  removeCustomerGroupLine({ commit, getters }, customerGroupLines) {
     return customerGroupService
-      .removeCustomers(customerGroupLine.id)
+      .removeCustomers(getters.customerGroup.id, {
+        customer_group_line_ids: [...customerGroupLines],
+      })
       .then(({ data }) => {
-        commit('DELETE_CUSTOMER_GROUP_LINE', customerGroupLine);
+        commit('DELETE_CUSTOMER_GROUP_LINE', customerGroupLines);
         return data;
       });
   },
@@ -138,18 +135,19 @@ const mutations = {
       JSON.parse(state.customerGroups).filter((p) => p.id !== customerGroupId)
     );
   },
-  DELETE_CUSTOMER_GROUP_LINE(state, customerGroupLine) {
+  DELETE_CUSTOMER_GROUP_LINE(state, customerGroupLines) {
+    let customerGroups = JSON.parse(state.customerGroups);
     let customerGroup = JSON.parse(state.customerGroup);
-    customerGroup.customer_group_lines =
-      customerGroup.customer_group_lines?.filter(
-        (cgl) => cgl.id !== customerGroupLine.id
-      );
-    state.customerGroup = JSON.stringify(customerGroup);
-    state.customerGroups = JSON.stringify(
-      JSON.parse(state.customerGroups).map((cg) => {
-        return customerGroup.id === cg.id ? customerGroup : cg;
-      })
-    );
+    let index = customerGroups.findIndex((cg) => cg.id === customerGroup.id);
+    if (index !== -1) {
+      customerGroup.customer_group_lines =
+        customerGroup.customer_group_lines.filter((cgl) => {
+          return customerGroupLines.find((cl) => cl === cgl.id) === undefined;
+        });
+      customerGroups.splice(index, 1, customerGroup);
+      state.customerGroup = JSON.stringify(customerGroup);
+      state.customerGroups = JSON.stringify(customerGroups);
+    }
   },
 };
 

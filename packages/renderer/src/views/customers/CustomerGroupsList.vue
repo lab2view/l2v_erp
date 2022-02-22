@@ -38,11 +38,10 @@
               <button
                 :title="$t('customers.show_customers')"
                 class="btn btn-default btn-xs"
-                data-original-title="btn btn-default btn-xs"
                 type="button"
                 @click.prevent="
                   $router.push({
-                    name: 'customers.groups.lines',
+                    name: 'customerGroup.details',
                     params: { id: customerGroup.id },
                   })
                 "

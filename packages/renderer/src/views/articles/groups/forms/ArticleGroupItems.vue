@@ -159,6 +159,7 @@ export default {
     },
     deleteSelectedArticleGroupLine() {
       if (
+        this.selected.length &&
         confirm(
           this.$t('messages.confirmDelete', {
             label: this.$t('common.deleted_selection'),

@@ -26,6 +26,7 @@ export default {
   active: 'Active',
   inactif: 'Inactif',
   configurations: 'Configurations',
+  return_to_list: 'Retourner a la liste',
   fields: {
     text: 'Chaine de caractere',
     number: 'Nombre',

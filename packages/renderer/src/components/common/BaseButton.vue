@@ -4,7 +4,11 @@
     <slot>
       {{ text }}
     </slot>
-    <span v-if="loading" class="fa fa-spin fa-refresh m-l-10" />
+    <span
+      v-if="loading"
+      class="fa fa-spin fa-refresh"
+      :class="text ? 'm-l-10' : ''"
+    />
   </button>
 </template>
 
@@ -14,7 +18,7 @@ export default {
   props: {
     text: {
       type: String,
-      default: 'Button',
+      default: null,
     },
     icon: {
       type: String,
