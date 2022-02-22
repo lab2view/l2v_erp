@@ -33,7 +33,7 @@
           <tr v-for="customerGroup in customerGroups" :key="customerGroup.id">
             <td>{{ customerGroup.id }}</td>
             <td>{{ customerGroup.label }}</td>
-            <td>{{ truncate(customerGroup.description) }}</td>
+            <td>{{ truncate(customerGroup.description, 100) }}</td>
             <td>
               <button
                 :title="$t('customers.show_customers')"
@@ -86,9 +86,11 @@ import BaseContainer from '/@/components/common/BaseContainer.vue';
 import BaseDatatable from '/@/components/common/BaseDatatable.vue';
 import store from '/@/store';
 import { mapGetters } from 'vuex';
+import FilterMixin from '/@/mixins/FilterMixin.js';
 
 export default {
   components: { BaseContainer, BaseDatatable },
+  mixins: [FilterMixin],
   beforeRouteEnter(routeTo, routeFrom, next) {
     store
       .dispatch('customer_group/getCustomerGroupsList', {
@@ -112,12 +114,6 @@ export default {
   },
 
   methods: {
-    truncate(source, size = 100) {
-      if (!source) {
-        return '';
-      }
-      return source.length > size ? source.slice(0, size - 1) + '…' : source;
-    },
     deleteCustomerGroup(customerGroup) {
       if (
         confirm(
