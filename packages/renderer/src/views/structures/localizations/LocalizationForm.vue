@@ -67,18 +67,17 @@ export default {
         page: 1,
         field: {},
       }),
-    ])
-      .then(() => {
-        next();
-      })
-      .catch((error) => {
-        console.log(error);
-        next();
-      });
+    ]).then(() => {
+      next();
+    }).catch((error) => {
+      console.log(error);
+      next();
+    });
   },
   data() {
     return {
       errors: [],
+      formLoading: false,
       localizationForm: {
         id: null,
         address: null,
@@ -102,10 +101,10 @@ export default {
     active_regions() {
       return this.localizationForm.country_id
         ? this.regions.filter(
-            (region) =>
-              region.country_id.toString() ===
-              this.localizationForm.country_id.toString()
-          )
+          (region) =>
+            region.country_id.toString() ===
+            this.localizationForm.country_id.toString()
+        )
         : this.regions;
     },
   },
@@ -114,27 +113,43 @@ export default {
       this.localizationForm = this.localization;
   },
   beforeUnmount() {
+    this.setLoading();
     if (this.localization && this.localization.id)
       this.$store.commit('localization/SET_CURRENT_LOCALIZATION', null);
   },
   methods: {
+    setLoading(value = false) {
+      if (value) {
+        this.errors = [];
+      }
+
+      this.formLoading = value;
+    },
     submitLocalizationForm() {
-      if (this.localization && this.localization.id)
+      if (this.formLoading) {
+        return;
+      }
+
+      this.setLoading(true);
+      if (this.localization && this.localization.id) {
         this.$store
           .dispatch('localization/updateLocalization', this.localizationForm)
           .then(() => this.$router.back())
           .catch((error) => {
             this.errors = error.response?.data?.errors;
             console.log(error);
-          });
-      else
+          })
+          .finally(() => this.setLoading());
+      } else {
         this.$store
           .dispatch('localization/addLocalization', this.localizationForm)
           .then(() => this.$router.back())
           .catch((error) => {
             this.errors = error.response?.data?.errors;
             console.log(error);
-          });
+          })
+          .finally(() => this.setLoading());
+      }
     },
   },
 };

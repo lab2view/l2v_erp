@@ -4,7 +4,7 @@
       <div class="card-header pb-0">
         <h5>{{ formTitle }}</h5>
         <span
-          >Using the <a href="#">card</a> component, you can extend the default
+        >Using the <a href="#">card</a> component, you can extend the default
           collapse behavior to create an accordion.</span
         >
       </div>
@@ -128,6 +128,7 @@ export default {
     return {
       errors: [],
       is_edited: true,
+      formLoading: false,
       enterpriseForm: {
         user_id: null,
         enterprise_type_id: null,
@@ -182,23 +183,39 @@ export default {
       this.is_edited = false;
     }
   },
+  beforeUnmount() {
+    this.setLoading();
+  },
   methods: {
+    setLoading(value = false) {
+      if (value) {
+        this.errors = [];
+      }
+
+      this.formLoading = value;
+    },
     submitEnterpriseForm() {
+      if (this.formLoading) {
+        return;
+      }
+
+      this.setLoading(true);
       if (this.enterprise) {
-        if (this.is_edited)
+        if (this.is_edited) {
           this.$store
             .dispatch('enterprise/updateEnterprise', this.enterpriseForm)
             .then((enterprise) =>
               this.$router.push({
                 name: 'enterprise.form.setting',
-                params: { id: enterprise.id },
-              })
+                params: {id: enterprise.id},
+              }),
             )
             .catch((error) => {
               this.errors = error.response.data.errors;
               console.log(error);
-            });
-        else
+            })
+            .finally(() => this.setLoading());
+        } else
           this.$router.push({
             name: 'enterprise.form.setting',
             params: { id: this.enterprise.id },
@@ -215,7 +232,8 @@ export default {
           .catch((error) => {
             this.errors = error.response.data.errors;
             console.log(error);
-          });
+          })
+          .finally(() => this.setLoading());
     },
     generateBarCode() {
       this.enterpriseForm.code = ean.generateEan13();

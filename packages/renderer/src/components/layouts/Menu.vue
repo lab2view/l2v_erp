@@ -27,7 +27,7 @@
       <div class="badge-bottom">
         <span class="badge badge-primary">New</span>
       </div>
-      <a href="'#">
+      <a href="#">
         <h6 class="mt-3 f-14 f-w-600">{{ currentUserEmail }}</h6></a
       >
       <p class="mb-0 font-roboto">{{ currentUserRole }}</p>
@@ -65,7 +65,14 @@
 <script>
 import { defineComponent } from 'vue';
 import MenuModule from '/@/components/layouts/MenuModule.vue';
-import { customerMenus, paymentMenus, productMenus, stockMenus, structureMenus } from '/@/helpers/menus';
+import {
+  customerMenus,
+  paymentMenus,
+  productMenus,
+  saleMenus,
+  stockMenus,
+  structureMenus
+} from '/@/helpers/menus';
 import { mapGetters } from 'vuex';
 
 export default defineComponent({
@@ -84,7 +91,7 @@ export default defineComponent({
         },
         {
           code: 'SALES',
-          menus: [],
+          menus: saleMenus,
         },
         {
           code: 'CUSTOMERS',

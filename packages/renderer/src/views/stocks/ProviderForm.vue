@@ -134,18 +134,25 @@ export default {
       this.stockProviderForm = this.stockProvider;
   },
   beforeUnmount() {
-    this.formLoading = false;
+    this.setLoading();
     if (this.stockProvider && this.stockProvider.id)
       this.$store.commit('stock_provider/SET_CURRENT_STOCK_PROVIDER', null);
   },
   methods: {
+    setLoading(value = false) {
+      if (value) {
+        this.errors = [];
+      }
+
+      this.formLoading = value;
+    },
     submitStockProviderForm() {
       if (this.formLoading) {
         return;
       }
 
-      this.formLoading = true;
-      if (this.stockProvider && this.stockProvider.id)
+      this.setLoading(true);
+      if (this.stockProvider && this.stockProvider.id) {
         this.$store
           .dispatch('stock_provider/updateStockProvider', this.stockProviderForm)
           .then(() => this.$router.back())
@@ -153,8 +160,8 @@ export default {
             this.errors = error.response.data.errors;
             console.log(error);
           })
-          .finally(() => (this.formLoading = false));
-      else
+          .finally(() => this.setLoading());
+      } else {
         this.$store
           .dispatch('stock_provider/addStockProvider', this.stockProviderForm)
           .then(() => this.$router.back())
@@ -162,7 +169,8 @@ export default {
             this.errors = error.response.data.errors;
             console.log(error);
           })
-          .finally(() => (this.formLoading = false));
+          .finally(() => this.setLoading());
+      }
     },
   },
 };

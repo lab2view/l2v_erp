@@ -9,21 +9,40 @@
           <div class="col-sm">
             <h5>{{ $t('stock.stockExit.listTitle') }}</h5>
           </div>
-          <div class="col-sm-auto align-items-end">
-            <router-link
-              :to="{ name: 'config.stocks.exit.form' }"
-              class="btn btn-primary"
-              href="#"
-              exit="button"
-            >
-              <i class="fa fa-plus m-r-5" />
-              {{ $t('common.add') }}
-            </router-link>
-          </div>
         </div>
       </div>
       <div class="card-body">
-        {{ stock_exits.length }}
+        <BaseDatatable :tfoot="false" :total="stock_exits.length">
+          <template #headers>
+            <th>#</th>
+            <th>{{ $t('common.attributes.stock_type') }}</th>
+            <th>{{ $t('common.attributes.enterprise') }}</th>
+            <th>{{ $t('common.attributes.receiver_structure') }}</th>
+            <th>{{ $t('common.attributes.cashier') }}</th>
+            <th>{{ $t('common.attributes.reference') }}</th>
+            <th>{{ $t('common.actions') }}</th>
+          </template>
+          <tr v-for="stockExit in stock_exits" :key="stockExit.id">
+            <td>{{ stockExit.id }}</td>
+            <td>{{ stockExit.stock_type?.label }}</td>
+            <td>{{ stockExit.enterprise?.name }}</td>
+            <td>{{ stockExit.enterprise_receiver?.name }}</td>
+            <td>{{ stockExit.cashier?.name }}</td>
+            <td>{{ stockExit.reference }}</td>
+            <td>
+              <button
+                :title="$t('common.delete')"
+                class="btn btn-danger btn-xs m-l-5"
+                data-original-title="btn btn-danger btn-xs"
+                type="button"
+                @click.prevent="deleteStockExit(stockExit)"
+              >
+                <i class="fa fa-trash-o" />
+              </button>
+            </td>
+          </tr>
+        </BaseDatatable>
+        <br />
       </div>
 
       <router-view />
@@ -33,11 +52,12 @@
 
 <script>
 import BaseContainer from '/@/components/common/BaseContainer.vue';
+import BaseDatatable from '/@/components/common/BaseDatatable.vue';
 import store from '/@/store';
 import { mapGetters } from 'vuex';
 
 export default {
-  components: { BaseContainer },
+  components: { BaseContainer, BaseDatatable },
   beforeRouteEnter(routeTo, routeFrom, next) {
     store
       .dispatch('stock_exit/getStockExitsList', {
@@ -61,16 +81,10 @@ export default {
   },
 
   methods: {
-    truncate(source, size = 100) {
-      if (!source) {
-        return '';
-      }
-      return source.length > size ? source.slice(0, size - 1) + '…' : source;
-    },
     deleteStockExit(stockExit) {
       if (
         confirm(
-          this.$t('messages.confirmDelete', { label: stockExit.label })
+          this.$t('messages.confirmDelete', { label: stockExit.reference })
         )
       )
         this.$store.dispatch(
