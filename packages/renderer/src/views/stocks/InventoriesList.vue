@@ -23,7 +23,47 @@
         </div>
       </div>
       <div class="card-body">
-        Inventories
+        <BaseDatatable :tfoot="false" :total="inventories.length">
+          <template #headers>
+            <th>#</th>
+            <th>{{ $t('common.attributes.reference') }}</th>
+            <th>{{ $t('common.attributes.validate') }}</th>
+            <th>{{ $t('common.attributes.inventory_date') }}</th>
+            <th>{{ $t('common.actions') }}</th>
+          </template>
+          <tr v-for="inventory in inventories" :key="inventory.id">
+            <td>{{ inventory.id }}</td>
+            <td>{{ inventory.reference }}</td>
+            <td>{{ inventory.validate }}</td>
+            <td>{{ inventory.inventory_date }}</td>
+            <td>
+              <button
+                :title="$t('common.update')"
+                class="btn btn-secondary btn-xs"
+                data-original-title="btn btn-secondary btn-xs"
+                type="button"
+                @click.prevent="
+                  $router.push({
+                    name: 'inventory.form',
+                    params: { id: inventory.id },
+                  })
+                "
+              >
+                {{ $t('common.update') }}
+              </button>
+              <button
+                :title="$t('common.delete')"
+                class="btn btn-danger btn-xs m-l-5"
+                data-original-title="btn btn-danger btn-xs"
+                type="button"
+                @click.prevent="deleteInventory(inventory)"
+              >
+                <i class="fa fa-trash-o" />
+              </button>
+            </td>
+          </tr>
+        </BaseDatatable>
+        <br />
       </div>
 
       <router-view />
@@ -33,11 +73,12 @@
 
 <script>
 import BaseContainer from '/@/components/common/BaseContainer.vue';
+import BaseDatatable from '/@/components/common/BaseDatatable.vue';
 import store from '/@/store';
 import { mapGetters } from 'vuex';
 
 export default {
-  components: { BaseContainer },
+  components: { BaseContainer, BaseDatatable },
   beforeRouteEnter(routeTo, routeFrom, next) {
     store
       .dispatch('inventory/getInventoriesList', {
@@ -64,7 +105,7 @@ export default {
     deleteInventory(inventory) {
       if (
         confirm(
-          this.$t('messages.confirmDelete', { label: inventory.label })
+          this.$t('messages.confirmDelete', { label: inventory.reference })
         )
       )
         this.$store.dispatch(

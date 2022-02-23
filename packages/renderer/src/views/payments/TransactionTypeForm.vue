@@ -59,7 +59,7 @@ export default {
       this.transactionTypeForm = this.transactionType;
   },
   beforeUnmount() {
-    this.formLoading = false;
+    this.setLoading();
     if (this.transactionType && this.transactionType.id)
       this.$store.commit('transactionType/SET_CURRENT_TRANSACTION_TYPE', null);
   },
@@ -69,8 +69,8 @@ export default {
         return;
       }
 
-      this.formLoading = true;
-      if (this.transactionType && this.transactionType.id)
+      this.setLoading(true);
+      if (this.transactionType && this.transactionType.id) {
         this.$store
           .dispatch('transactionType/updateTransactionType', this.transactionTypeForm)
           .then(() => this.$router.back())
@@ -78,8 +78,8 @@ export default {
             this.errors = error.response.data.errors;
             console.log(error);
           })
-          .finally(() => (this.formLoading = false));
-      else
+          .finally(() => this.setLoading());
+      } else {
         this.$store
           .dispatch('transactionType/addTransactionType', this.transactionTypeForm)
           .then(() => this.$router.back())
@@ -87,7 +87,8 @@ export default {
             this.errors = error.response.data.errors;
             console.log(error);
           })
-          .finally(() => (this.formLoading = false));
+          .finally(() => this.setLoading());
+      }
     },
   },
 };

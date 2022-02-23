@@ -99,7 +99,7 @@ export default [
         name: 'product.form.stock.entry',
         props: () => ({ useCurrentProduct: true }),
         component: () =>
-          import('/@/views/stocks/entries/StockProvisionsList.vue'),
+          import('/@/views/stocks/entries/StockEntriesList.vue'),
       },
       {
         path: 'exits',

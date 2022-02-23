@@ -1,6 +1,34 @@
 export default {
   title: 'Gestion des ventes',
   manage: 'Gestion des ventes',
+  sale: {
+    listTitle: 'Liste des ventes',
+    formCreateTitle: 'Ajouter une vente',
+    formUpdateTitle: 'Modifier une vente',
+    store: "L'enregistrement d'une vente a ete effectue avec succes.",
+    update: "La modification d'une vente a ete effectuee avec succes.",
+  },
+  cashRegister: {
+    listTitle: 'Liste des caisses',
+    formCreateTitle: 'Ajouter une caisse',
+    formUpdateTitle: 'Modifier une caisse',
+    store: "L'enregistrement de la caisse a ete effectue avec succes.",
+    update: "La modification de la caisse a ete effectuee avec succes.",
+  },
+  cashier: {
+    listTitle: 'Liste des caissiers',
+    formCreateTitle: 'Ajouter un(e) caissier(e)',
+    formUpdateTitle: 'Modifier un(e) caissier(e)',
+    store: "L'enregistrement du(d'une) caissier(e) a ete effectue avec succes.",
+    update: "La modification du(d'une) caissier(e) a ete effectuee avec succes.",
+  },
+  cashierGroup: {
+    listTitle: 'Liste des groupes de caissiers',
+    formCreateTitle: 'Ajouter un groupe de caissiers',
+    formUpdateTitle: 'Modifier un groupe de caissiers',
+    store: "L'enregistrement du groupe de caissiers a ete effectue avec succes.",
+    update: "La modification du groupe de caissiers a ete effectuee avec succes.",
+  },
   discount: {
     listTitle: 'Liste des rabais',
     formCreateTitle: 'Ajouter un rabais',

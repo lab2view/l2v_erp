@@ -56,6 +56,7 @@ export default {
   data() {
     return {
       errors: [],
+      formLoading: false,
       customerGroupForm: {
         id: null,
         label: null,
@@ -76,30 +77,46 @@ export default {
       this.customerGroupForm = this.customerGroup;
   },
   beforeUnmount() {
+    this.setLoading();
     if (this.customerGroup && this.customerGroup.id)
       this.$store.commit('customer_group/SET_CURRENT_CUSTOMER_GROUP', null);
   },
   methods: {
+    setLoading(value = false) {
+      if (value) {
+        this.errors = [];
+      }
+
+      this.formLoading = value;
+    },
     submitCustomerGroupForm() {
-      if (this.customerGroup && this.customerGroup.id)
+      if (this.formLoading) {
+        return;
+      }
+
+      this.setLoading(true);
+      if (this.customerGroup && this.customerGroup.id) {
         this.$store
           .dispatch(
             'customer_group/updateCustomerGroup',
-            this.customerGroupForm
+            this.customerGroupForm,
           )
           .then(() => this.$router.back())
           .catch((error) => {
             this.errors = error.response.data.errors;
             console.log(error);
-          });
-      else
+          })
+          .finally(() => this.setLoading());
+      } else {
         this.$store
           .dispatch('customer_group/addCustomerGroup', this.customerGroupForm)
           .then(() => this.$router.back())
           .catch((error) => {
             this.errors = error.response.data.errors;
             console.log(error);
-          });
+          })
+          .finally(() => this.setLoading());
+      }
     },
   },
 };

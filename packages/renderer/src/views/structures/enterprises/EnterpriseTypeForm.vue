@@ -55,6 +55,7 @@ export default {
   components: { BaseFormModal },
   data() {
     return {
+      formLoading: false,
       errors: [],
       enterpriseTypeForm: {
         id: null,
@@ -77,6 +78,7 @@ export default {
       this.enterpriseTypeForm = this.enterpriseType;
   },
   beforeUnmount() {
+    this.setLoading();
     if (this.enterpriseType && this.enterpriseType.id)
       this.$store.commit(
         'enterpriseTypeConfig/SET_CURRENT_ENTERPRISE_TYPE',
@@ -84,7 +86,19 @@ export default {
       );
   },
   methods: {
+    setLoading(value = false) {
+      if (value) {
+        this.errors = [];
+      }
+
+      this.formLoading = value;
+    },
     submitEnterpriseTypeForm() {
+      if (this.formLoading) {
+        return;
+      }
+
+      this.setLoading(true);
       if (this.enterpriseType && this.enterpriseType.id)
         this.$store
           .dispatch(
@@ -95,7 +109,8 @@ export default {
           .catch((error) => {
             this.errors = error.response.data.errors;
             console.log(error);
-          });
+          })
+          .finally(() => this.setLoading());
       else
         this.$store
           .dispatch(
@@ -106,7 +121,8 @@ export default {
           .catch((error) => {
             this.errors = error.response.data.errors;
             console.log(error);
-          });
+          })
+          .finally(() => this.setLoading());
     },
   },
 };

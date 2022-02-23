@@ -37,6 +37,7 @@ export default {
   data() {
     return {
       errors: [],
+      formLoading: false,
       shippingForm: {
         id: null,
         label: null,
@@ -56,27 +57,43 @@ export default {
       this.shippingForm = this.shipping;
   },
   beforeUnmount() {
+    this.setLoading();
     if (this.shipping && this.shipping.id)
       this.$store.commit('shipping/SET_CURRENT_SHIPPING', null);
   },
   methods: {
+    setLoading(value = false) {
+      if (value) {
+        this.errors = [];
+      }
+
+      this.formLoading = value;
+    },
     submitShippingForm() {
-      if (this.shipping && this.shipping.id)
+      if (this.formLoading) {
+        return;
+      }
+
+      this.setLoading(true);
+      if (this.shipping && this.shipping.id) {
         this.$store
           .dispatch('shipping/updateShipping', this.shippingForm)
           .then(() => this.$router.back())
           .catch((error) => {
             this.errors = error.response.data.errors;
             console.log(error);
-          });
-      else
+          })
+          .finally(() => this.setLoading());
+      } else {
         this.$store
           .dispatch('shipping/addShipping', this.shippingForm)
           .then(() => this.$router.back())
           .catch((error) => {
             this.errors = error.response.data.errors;
             console.log(error);
-          });
+          })
+          .finally(() => this.setLoading());
+      }
     },
   },
 };

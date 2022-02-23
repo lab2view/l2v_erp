@@ -1,4 +1,6 @@
 import shippingService from '../../../services/stocks/ShippingService';
+import { notify } from '/@/helpers/notify';
+import i18n from '/@/i18n';
 
 const state = {
   shippings: null,
@@ -41,6 +43,12 @@ const actions = {
   addShipping({ commit }, shippingField) {
     return shippingService.addShipping(shippingField).then(({ data }) => {
       commit('ADD_SHIPPING', data);
+      notify(
+        i18n.global.t('stock.shipping.store'),
+        'Ok',
+        'theme',
+        'fa fa-check'
+      );
       return data;
     });
   },
@@ -50,6 +58,12 @@ const actions = {
       .updateShipping(shippingField, shippingField.id)
       .then(({ data }) => {
         commit('UPDATE_SHIPPING', data);
+        notify(
+          i18n.global.t('stock.shipping.update'),
+          'Ok',
+          'theme',
+          'fa fa-check'
+        );
         return data;
       });
   },

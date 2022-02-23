@@ -50,6 +50,7 @@ export default {
   },
   data() {
     return {
+      formLoading: false,
       errors: [],
       country_id: null,
     };
@@ -60,8 +61,23 @@ export default {
       return this.countries.filter((country) => !country.is_active);
     },
   },
+  beforeUnmount() {
+    this.setLoading();
+  },
   methods: {
+    setLoading(value = false) {
+      if (value) {
+        this.errors = [];
+      }
+
+      this.formLoading = value;
+    },
     submitCountryForm() {
+      if (this.formLoading) {
+        return;
+      }
+
+      this.setLoading(true);
       if (this.country_id) {
         let countryField = this.countries.find(
           (country) => country.id.toString() === this.country_id.toString()
@@ -75,7 +91,8 @@ export default {
           .catch((error) => {
             this.errors = error.response?.data?.errors;
             console.log(error);
-          });
+          })
+          .finally(() => this.setLoading());
       }
     },
   },

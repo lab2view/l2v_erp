@@ -1,5 +1,7 @@
 import stockEntryProvisionService from '../../../services/stocks/StockEntryProvisionService';
 import stockEntryService from '../../../services/stocks/StockEntryService';
+import { notify } from '/@/helpers/notify';
+import i18n from '/@/i18n';
 
 const state = {
   stock_provisions: null,
@@ -48,6 +50,12 @@ const actions = {
   addStockProvision({ commit }, stockProvisionField) {
     return stockEntryProvisionService.addStockEntryProvision(stockProvisionField).then(({ data }) => {
       commit('ADD_STOCK_PROVISION', data);
+      notify(
+        i18n.global.t('stock.provision.store'),
+        'Ok',
+        'theme',
+        'fa fa-check'
+      );
       return data;
     });
   },
@@ -57,6 +65,12 @@ const actions = {
       .updateStockEntryProvision(stockProvisionField, stockProvisionField.id)
       .then(({ data }) => {
         commit('UPDATE_STOCK_PROVISION', data);
+        notify(
+          i18n.global.t('stock.provision.update'),
+          'Ok',
+          'theme',
+          'fa fa-check'
+        );
         return data;
       });
   },

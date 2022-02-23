@@ -22,7 +22,7 @@
     </div>
     <div class="form-group mb-3">
       <label class="form-label fw-bold" for="label">{{
-        $t('common.attributes.stock_type')
+        $t('common.attributes.stock_variety')
       }}</label>
       <br />
       <br />
@@ -78,6 +78,7 @@ export default {
   data() {
     return {
       errors: [],
+      formLoading: false,
       stockStateForm: {
         id: null,
         label: null,
@@ -102,27 +103,43 @@ export default {
       this.stockStateForm = this.stockState;
   },
   beforeUnmount() {
+    this.setLoading();
     if (this.stockState && this.stockState.id)
       this.$store.commit('stock_state/SET_CURRENT_STOCK_STATE', null);
   },
   methods: {
+    setLoading(value = false) {
+      if (value) {
+        this.errors = [];
+      }
+
+      this.formLoading = value;
+    },
     submitStockStateForm() {
-      if (this.stockState && this.stockState.id)
+      if (this.formLoading) {
+        return;
+      }
+
+      this.setLoading(true);
+      if (this.stockState && this.stockState.id) {
         this.$store
           .dispatch('stock_state/updateStockState', this.stockStateForm)
           .then(() => this.$router.back())
           .catch((error) => {
             this.errors = error.response.data.errors;
             console.log(error);
-          });
-      else
+          })
+          .finally(() => this.setLoading());
+      } else {
         this.$store
           .dispatch('stock_state/addStockState', this.stockStateForm)
           .then(() => this.$router.back())
           .catch((error) => {
             this.errors = error.response.data.errors;
             console.log(error);
-          });
+          })
+          .finally(() => this.setLoading());
+      }
     },
   },
 };
