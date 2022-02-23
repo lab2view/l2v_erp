@@ -57,6 +57,7 @@
 import BaseDatatable from '../../../components/common/BaseDatatable.vue';
 import store from '../../../store';
 import { mapGetters } from 'vuex';
+
 export default {
   components: { BaseDatatable },
   beforeRouteEnter(routeTo, routeFrom, next) {
@@ -72,12 +73,6 @@ export default {
         console.log(error);
         next();
       });
-  },
-  props: {
-    useCurrentProduct: {
-      type: Boolean,
-      default: false,
-    },
   },
   computed: {
     ...mapGetters('stock_entry', [
