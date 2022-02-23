@@ -153,7 +153,7 @@ export const stockMenus = [
     prefix: 'stocks',
     items: [
       {
-        code: 'Provision.viewAny',
+        code: 'StockEntry.viewAny',
         to: 'stocks.entries',
       },
       {

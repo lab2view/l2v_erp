@@ -3,59 +3,44 @@
     <div class="card-header pb-2 border-bottom border-bottom-">
       <div class="row align-items-center">
         <div class="col-sm">
-          <h6>{{ $t('stock.provision.list') }}</h6>
+          <h6>{{ $t('stock.stockEntry.list') }}</h6>
         </div>
         <div class="col-sm-auto align-items-end">
-          <router-link
-            :to="{ name: 'product.form.desc' }"
+          <a
             href="#"
             class="btn btn-primary"
             type="button"
           >
             <i class="fa fa-save m-r-5" />
-            {{ $t('stock.provision.add') }}
-          </router-link>
+            {{ $t('stock.stockEntry.add') }}
+          </a>
         </div>
       </div>
     </div>
     <div class="card-body pb-0">
-      <BaseDatatable :tfoot="false" :total="0">
+      <BaseDatatable :tfoot="false" :total="stock_entries.length">
         <template #headers>
           <th>#</th>
-          <th>{{ $t('common.attributes.article_id') }}</th>
-          <th>{{ $t('common.attributes.stock_entry_id') }}</th>
-          <th>{{ $t('common.attributes.stock_entry_type_id') }}</th>
-          <th>{{ $t('common.attributes.quantity') }}</th>
+          <th>{{ $t('common.attributes.stock_type') }}</th>
+          <th>{{ $t('common.attributes.enterprise_sender') }}</th>
+          <th>{{ $t('common.attributes.reference') }}</th>
+          <th>{{ $t('common.attributes.availability') }}</th>
           <th>{{ $t('common.actions') }}</th>
         </template>
-        <tr v-for="stockProvision in stockProvisions" :key="stockProvision.id">
-          <td>{{ stockProvision.id }}</td>
-          <td>{{ stockProvision.article.name }}</td>
-          <td>{{ stockProvision.stock_entry.reference }}</td>
-          <td>{{ stockProvision.stock_entry.stock_type.label }}</td>
-          <td>{{ stockProvision.quantity }}</td>
+        <tr v-for="stockEntry in stock_entries" :key="stockEntry.id">
+          <td>{{ stockEntry.id }}</td>
+          <td>{{ stockEntry.stock_type.label }}</td>
+          <td>{{ stockEntry.enterprise_sender?.label }}</td>
+          <td>{{ stockEntry.reference }}</td>
+          <td>{{ stockEntry.availability }}</td>
           <td>
             <button
-              class="btn btn-secondary btn-xs"
-              type="button"
-              data-original-title="btn btn-secondary btn-xs"
-              :title="$t('common.update')"
-              @click.prevent="
-                $router.push({
-                  name: 'product.form.desc',
-                  params: { id: stockProvision.id },
-                })
-              "
-            >
-              {{ $t('common.update') }}
-            </button>
-            <button
-              v-if="!stockProvision.not_deletable"
+              v-if="!stockEntry.not_deletable"
               class="btn btn-danger btn-xs m-l-5"
               type="button"
               data-original-title="btn btn-danger btn-xs"
               :title="$t('common.delete')"
-              @click.prevent="deleteStockProvision(stockProvision)"
+              @click.prevent="deleteStockEntry(stockEntry)"
             >
               <i class="fa fa-trash-o" />
             </button>
@@ -76,7 +61,7 @@ export default {
   components: { BaseDatatable },
   beforeRouteEnter(routeTo, routeFrom, next) {
     store
-      .dispatch('stock_provision/getStockProvisionsList', {
+      .dispatch('stock_entry/getStockEntriesList', {
         page: 1,
         field: {},
       })
@@ -95,26 +80,21 @@ export default {
     },
   },
   computed: {
-    ...mapGetters('stock_provision', [
-      'stock_provisions',
-      'getStockProvisionByProductId',
+    ...mapGetters('stock_entry', [
+      'stock_entries',
     ]),
-    ...mapGetters('product', ['product']),
-    stockProvisions() {
-      return this.useCurrentProduct
-        ? this.getStockProvisionByProductId(this.product.id)
-        : this.stock_provisions;
-    },
   },
   methods: {
-    deleteStockProvision(stockProvision) {
+    deleteStockEntry(stockEntry) {
       if (
-        confirm(this.$t('messages.confirmDelete', { label: stockProvision.id }))
-      )
-        this.$store.dispatch(
-          'stock_provision/deleteStockProvision',
-          stockProvision.id
-        );
+        confirm(this.$t('messages.confirmDelete', { label: stockEntry.id }))
+      ) {
+        //     this.$store.dispatch(
+        //       'stock_entry/deleteStockEntry',
+        //       stockEntry.id
+        //     );
+        console.log('stockEntry', stockEntry);
+      }
     },
   },
 };

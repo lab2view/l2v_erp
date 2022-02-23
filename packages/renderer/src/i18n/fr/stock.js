@@ -22,7 +22,9 @@ export default {
     store: "L'enregistrement de la sortie a ete effectue avec succes.",
     update: "La modification de la sortie a ete effectuee avec succes.",
   },
-  StockEntry: {
+  stockEntry: {
+    list: 'Liste des approvisionnements',
+    add: 'Approvisionner le stock',
     listTitle: 'Liste des entrees de stock',
   },
   stockExit: {

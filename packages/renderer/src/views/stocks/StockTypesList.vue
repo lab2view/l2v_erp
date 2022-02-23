@@ -24,7 +24,7 @@
           <template #headers>
             <th>#</th>
             <th>{{ $t('common.attributes.label') }}</th>
-            <th>{{ $t('common.attributes.stock_type') }}</th>
+            <th>{{ $t('common.attributes.stock_variety') }}</th>
             <th>{{ $t('common.actions') }}</th>
           </template>
           <tr v-for="stockType in stock_types" :key="stockType.id">
