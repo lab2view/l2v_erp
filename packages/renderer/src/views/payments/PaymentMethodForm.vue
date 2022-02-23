@@ -86,18 +86,25 @@ export default {
       this.paymentMethodForm = this.paymentMethod;
   },
   beforeUnmount() {
-    this.formLoading = false;
+    this.setLoading();
     if (this.paymentMethod && this.paymentMethod.id)
       this.$store.commit('paymentMethod/SET_CURRENT_PAYMENT_METHOD', null);
   },
   methods: {
+    setLoading(value = false) {
+      if (value) {
+        this.errors = [];
+      }
+
+      this.formLoading = value;
+    },
     submitPaymentMethodForm() {
       if (this.formLoading) {
         return;
       }
 
-      this.formLoading = true;
-      if (this.paymentMethod && this.paymentMethod.id)
+      this.setLoading(true);
+      if (this.paymentMethod && this.paymentMethod.id) {
         this.$store
           .dispatch('paymentMethod/updatePaymentMethod', this.paymentMethodForm)
           .then(() => this.$router.back())
@@ -105,8 +112,8 @@ export default {
             this.errors = error.response.data.errors;
             console.log(error);
           })
-          .finally(() => (this.formLoading = false));
-      else
+          .finally(() => this.setLoading());
+      } else {
         this.$store
           .dispatch('paymentMethod/addPaymentMethod', this.paymentMethodForm)
           .then(() => this.$router.back())
@@ -114,7 +121,8 @@ export default {
             this.errors = error.response.data.errors;
             console.log(error);
           })
-          .finally(() => (this.formLoading = false));
+          .finally(() => this.setLoading());
+      }
     },
   },
 };

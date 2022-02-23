@@ -78,6 +78,7 @@ export default {
   data() {
     return {
       errors: [],
+      formLoading: false,
       stockTypeForm: {
         id: null,
         label: null,
@@ -98,27 +99,43 @@ export default {
       this.stockTypeForm = this.stockType;
   },
   beforeUnmount() {
+    this.setLoading();
     if (this.stockType && this.stockType.id)
       this.$store.commit('stock_type/SET_CURRENT_STOCK_TYPE', null);
   },
   methods: {
+    setLoading(value = false) {
+      if (value) {
+        this.errors = [];
+      }
+
+      this.formLoading = value;
+    },
     submitStockTypeForm() {
-      if (this.stockType && this.stockType.id)
+      if (this.formLoading) {
+        return;
+      }
+
+      this.setLoading(true);
+      if (this.stockType && this.stockType.id) {
         this.$store
           .dispatch('stock_type/updateStockType', this.stockTypeForm)
           .then(() => this.$router.back())
           .catch((error) => {
             this.errors = error.response.data.errors;
             console.log(error);
-          });
-      else
+          })
+          .finally(() => this.setLoading());
+      } else {
         this.$store
           .dispatch('stock_type/addStockType', this.stockTypeForm)
           .then(() => this.$router.back())
           .catch((error) => {
             this.errors = error.response.data.errors;
             console.log(error);
-          });
+          })
+          .finally(() => this.setLoading());
+      }
     },
   },
 };

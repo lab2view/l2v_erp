@@ -37,6 +37,7 @@ export default {
   data() {
     return {
       errors: [],
+      formLoading: false,
       shippingForm: {
         id: null,
         label: null,
@@ -69,6 +70,11 @@ export default {
       this.formLoading = value;
     },
     submitShippingForm() {
+      if (this.formLoading) {
+        return;
+      }
+
+      this.setLoading(true);
       if (this.shipping && this.shipping.id) {
         this.$store
           .dispatch('shipping/updateShipping', this.shippingForm)

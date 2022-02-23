@@ -220,20 +220,21 @@ export default {
             name: 'enterprise.form.setting',
             params: { id: this.enterprise.id },
           });
-      } else
+      } else {
         this.$store
           .dispatch('enterprise/addEnterprise', this.enterpriseForm)
           .then((enterprise) =>
             this.$router.push({
               name: 'enterprise.form.setting',
-              params: { id: enterprise.id },
-            })
+              params: {id: enterprise.id},
+            }),
           )
           .catch((error) => {
             this.errors = error.response.data.errors;
             console.log(error);
           })
           .finally(() => this.setLoading());
+      }
     },
     generateBarCode() {
       this.enterpriseForm.code = ean.generateEan13();
