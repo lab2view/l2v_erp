@@ -27,14 +27,12 @@
           <template #headers>
             <th>#</th>
             <th>{{ $t('common.attributes.label') }}</th>
-            <th>{{ $t('common.attributes.code') }}</th>
             <th>{{ $t('common.attributes.description') }}</th>
             <th>{{ $t('common.actions') }}</th>
           </template>
           <tr v-for="enterpriseType in enterpriseTypes" :key="enterpriseType.id">
             <td>{{ enterpriseType.id }}</td>
             <td>{{ enterpriseType.label }}</td>
-            <td>{{ enterpriseType.code }}</td>
             <td>{{ truncate(enterpriseType.description) }}</td>
             <td>
               <button

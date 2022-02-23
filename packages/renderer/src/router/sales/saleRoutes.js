@@ -1,4 +1,4 @@
-import store from '../../store';
+// import store from '../../store';
 
 export const saleRoutes = [
   {
@@ -9,11 +9,31 @@ export const saleRoutes = [
       code: 'Sale.viewAny',
       feather: 'filter',
     },
+    children: [
+      {
+        path: 'form/:id?',
+        name: 'sales.sale.form',
+        component: () => import('/@/views/sales/SaleForm.vue'),
+        beforeEnter: (to) => {
+          if (to.params.id) {
+            return to.name;
+            // return store
+            //   .dispatch('sale/getSale', to.params.id)
+            //   .then(() => {
+            //     return { name: to.name };
+            //   })
+            //   .catch(() => -1);
+          }
+
+          return -1;
+        },
+      },
+    ],
   },
   {
     path: 'cashiers',
     name: 'sales.cashiers',
-    component: () => import('/@/views/sales/cashiers/CashiersList.vue'),
+    component: () => import('/@/views/sales/CashiersList.vue'),
     meta: {
       code: 'Cashier.viewAny',
       feather: 'filter',
@@ -21,17 +41,20 @@ export const saleRoutes = [
     children: [
       {
         path: 'form/:id?',
-        name: 'sales.cashiers.form',
-        component: () => import('/@/views/sales/cashiers/CashierForm.vue'),
+        name: 'sales.cashier.form',
+        component: () => import('/@/views/sales/CashierForm.vue'),
         beforeEnter: (to) => {
           if (to.params.id) {
-            return store
-              .dispatch('cashier/getCashier', to.params.id)
-              .then(() => {
-                return { name: to.name };
-              })
-              .catch(() => -1);
+            return to.name;
+            // return store
+            //   .dispatch('cashier/getCashier', to.params.id)
+            //   .then(() => {
+            //     return { name: to.name };
+            //   })
+            //   .catch(() => -1);
           }
+
+          return -1;
         },
       },
     ],
@@ -39,7 +62,7 @@ export const saleRoutes = [
   {
     path: 'cashier-sessions',
     name: 'sales.cashier.sessions',
-    component: () => import('/@/views/sales/cashiers/CashierSessionsList.vue'),
+    component: () => import('/@/views/sales/CashierSessionsList.vue'),
     meta: {
       code: 'CashierSession.viewAny',
       feather: 'filter',
@@ -47,18 +70,21 @@ export const saleRoutes = [
     children: [
       {
         path: 'form/:id?',
-        name: 'sales.cashier.sessions.form',
+        name: 'sales.cashier.session.form',
         component: () =>
-          import('/@/views/sales/cashiers/CashierSessionForm.vue'),
+          import('/@/views/sales/CashierSessionForm.vue'),
         beforeEnter: (to) => {
           if (to.params.id) {
-            return store
-              .dispatch('cashier/getCashier', to.params.id)
-              .then(() => {
-                return { name: to.name };
-              })
-              .catch(() => -1);
+            return to.name;
+            // return store
+            //   .dispatch('cashierSession/getCashierSession', to.params.id)
+            //   .then(() => {
+            //     return { name: to.name };
+            //   })
+            //   .catch(() => -1);
           }
+
+          return -1;
         },
       },
     ],
@@ -67,7 +93,7 @@ export const saleRoutes = [
     path: 'cashier-session-collections',
     name: 'sales.cashier.session.collections',
     component: () =>
-      import('/@/views/sales/cashiers/CashierSessionCollectionsList.vue'),
+      import('/@/views/sales/CashierSessionCollectionsList.vue'),
     meta: {
       code: 'CashierSessionCollection.viewAny',
       feather: 'filter',
@@ -75,26 +101,29 @@ export const saleRoutes = [
     children: [
       {
         path: 'form/:id?',
-        name: 'sales.cashier.session.collections.form',
+        name: 'sales.cashier.session.collection.form',
         component: () =>
-          import('/@/views/sales/cashiers/CashierSessionCollectionForm.vue'),
+          import('/@/views/sales/CashierSessionCollectionForm.vue'),
         beforeEnter: (to) => {
           if (to.params.id) {
-            return store
-              .dispatch('cashier/getCashier', to.params.id)
-              .then(() => {
-                return { name: to.name };
-              })
-              .catch(() => -1);
+            return to.name;
+            // return store
+            //   .dispatch('cashier/getCashier', to.params.id)
+            //   .then(() => {
+            //     return { name: to.name };
+            //   })
+            //   .catch(() => -1);
           }
+
+          return -1;
         },
       },
     ],
   },
   {
     path: 'cashier-groups',
-    name: 'config.sales.cashier.groups',
-    component: () => import('/@/views/sales/cashiers/CashierGroupsList.vue'),
+    name: 'sales.cashier.groups',
+    component: () => import('/@/views/sales/CashierGroupsList.vue'),
     meta: {
       code: 'CashierGroup.viewAny',
       feather: 'filter',
@@ -102,44 +131,50 @@ export const saleRoutes = [
     children: [
       {
         path: 'form/:id?',
-        name: 'config.sales.cashier.groups.form',
-        component: () => import('/@/views/sales/cashiers/CashierGroupForm.vue'),
+        name: 'sales.cashier.group.form',
+        component: () => import('/@/views/sales/CashierGroupForm.vue'),
         beforeEnter: (to) => {
           if (to.params.id) {
-            return store
-              .dispatch('cashierGroup/getCashierGroup', to.params.id)
-              .then(() => {
-                return { name: to.name };
-              })
-              .catch(() => -1);
+            return to.name;
+            // return store
+            //   .dispatch('cashierGroup/getCashierGroup', to.params.id)
+            //   .then(() => {
+            //     return { name: to.name };
+            //   })
+            //   .catch(() => -1);
           }
+
+          return -1;
         },
       },
     ],
   },
   {
     path: 'cash-registers',
-    name: 'config.sales.cashRegisters',
+    name: 'sales.cashRegisters',
 
-    component: () => import('/@/views/sales/cashiers/CashRegistersList.vue'),
+    component: () => import('/@/views/sales/CashRegistersList.vue'),
     meta: {
-      code: 'CashierRegister.viewAny',
+      code: 'CashRegister.viewAny',
       feather: 'filter',
     },
     children: [
       {
         path: 'form/:id?',
-        name: 'config.sales.cashRegisters.form',
-        component: () => import('/@/views/sales/cashiers/CashRegisterForm.vue'),
+        name: 'sales.cashRegister.form',
+        component: () => import('/@/views/sales/CashRegisterForm.vue'),
         beforeEnter: (to) => {
           if (to.params.id) {
-            return store
-              .dispatch('cashRegister/getCashRegister', to.params.id)
-              .then(() => {
-                return { name: to.name };
-              })
-              .catch(() => -1);
+            return to.name;
+            // return store
+            //   .dispatch('cashRegister/getCashRegister', to.params.id)
+            //   .then(() => {
+            //     return { name: to.name };
+            //   })
+            //   .catch(() => -1);
           }
+
+          return -1;
         },
       },
     ],
@@ -155,17 +190,20 @@ export const saleRoutes = [
     children: [
       {
         path: 'form/:id?',
-        name: 'sales.discounts.form',
+        name: 'sales.discount.form',
         component: () => import('/@/views/sales/DiscountForm.vue'),
         beforeEnter: (to) => {
           if (to.params.id) {
-            return store
-              .dispatch('discount/getDiscount', to.params.id)
-              .then(() => {
-                return { name: to.name };
-              })
-              .catch(() => -1);
+            return to.name;
+            // return store
+            //   .dispatch('discount/getDiscount', to.params.id)
+            //   .then(() => {
+            //     return { name: to.name };
+            //   })
+            //   .catch(() => -1);
           }
+
+          return -1;
         },
       },
     ],
@@ -181,17 +219,20 @@ export const saleRoutes = [
     children: [
       {
         path: 'form/:id?',
-        name: 'sales.discount.codes.form',
+        name: 'sales.discount.code.form',
         component: () => import('/@/views/sales/DiscountCodeForm.vue'),
         beforeEnter: (to) => {
           if (to.params.id) {
-            return store
-              .dispatch('discountCode/getDiscountCode', to.params.id)
-              .then(() => {
-                return { name: to.name };
-              })
-              .catch(() => -1);
+            return to.name;
+            // return store
+            //   .dispatch('discountCode/getDiscountCode', to.params.id)
+            //   .then(() => {
+            //     return { name: to.name };
+            //   })
+            //   .catch(() => -1);
           }
+
+          return -1;
         },
       },
     ],
@@ -207,17 +248,20 @@ export const saleRoutes = [
     children: [
       {
         path: 'form/:id?',
-        name: 'sales.discount.code.usages.form',
+        name: 'sales.discount.code.usage.form',
         component: () => import('/@/views/sales/DiscountCodeUsageForm.vue'),
         beforeEnter: (to) => {
           if (to.params.id) {
-            return store
-              .dispatch('discountCodeUsage/getDiscountCodeUsage', to.params.id)
-              .then(() => {
-                return { name: to.name };
-              })
-              .catch(() => -1);
+            return to.name;
+            // return store
+            //   .dispatch('discountCodeUsage/getDiscountCodeUsage', to.params.id)
+            //   .then(() => {
+            //     return { name: to.name };
+            //   })
+            //   .catch(() => -1);
           }
+
+          return -1;
         },
       },
     ],
@@ -233,17 +277,20 @@ export const saleRoutes = [
     children: [
       {
         path: 'form/:id?',
-        name: 'sales.refunds.form',
+        name: 'sales.refund.form',
         component: () => import('/@/views/sales/RefundVoucherForm.vue'),
         beforeEnter: (to) => {
           if (to.params.id) {
-            return store
-              .dispatch('refundVoucher/getRefundVoucher', to.params.id)
-              .then(() => {
-                return { name: to.name };
-              })
-              .catch(() => -1);
+            return to.name;
+            // return store
+            //   .dispatch('refundVoucher/getRefundVoucher', to.params.id)
+            //   .then(() => {
+            //     return { name: to.name };
+            //   })
+            //   .catch(() => -1);
           }
+
+          return -1;
         },
       },
     ],
@@ -259,17 +306,20 @@ export const saleRoutes = [
     children: [
       {
         path: 'form/:id?',
-        name: 'config.sales.discount.types.form',
+        name: 'config.sales.discount.type.form',
         component: () => import('/@/views/sales/DiscountTypeForm.vue'),
         beforeEnter: (to) => {
           if (to.params.id) {
-            return store
-              .dispatch('discount/getDiscount', to.params.id)
-              .then(() => {
-                return { name: to.name };
-              })
-              .catch(() => -1);
+            return to.name;
+            // return store
+            //   .dispatch('discount/getDiscount', to.params.id)
+            //   .then(() => {
+            //     return { name: to.name };
+            //   })
+            //   .catch(() => -1);
           }
+
+          return -1;
         },
       },
     ],

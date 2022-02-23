@@ -125,7 +125,7 @@
             :text="$t('common.save')"
             icon="fa fa-save"
             :disabled="!isSelected"
-            :loading="loading"
+            :loading="formLoading"
           />
         </div>
       </div>
@@ -169,7 +169,7 @@ export default {
   },
   data() {
     return {
-      loading: false,
+      formLoading: false,
       customerFilter: {
         customer_type_id: null,
         country_id: null,
@@ -224,16 +224,25 @@ export default {
     },
   },
   methods: {
+    setLoading(value = false) {
+      if (value) {
+        this.errors = [];
+      }
+
+      this.formLoading = value;
+    },
     submitCustomerGroupLinesForm() {
+      if (this.formLoading) {
+        return;
+      }
+
       if (this.selected.length > 0) {
-        this.loading = true;
+        this.setLoading(true);
         this.$store
           .dispatch('customer_group/addCustomerGroupLines', {
             customers: this.selected,
           })
-          .then(() => {
-            this.loading = false;
-          });
+          .finally(() => this.setLoading());
       }
     },
 

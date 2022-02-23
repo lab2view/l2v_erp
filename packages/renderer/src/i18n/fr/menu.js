@@ -10,6 +10,9 @@ export default {
     iam: 'IAM',
     manage: 'Modules',
   },
+  sales: {
+    manage: 'Caisses',
+  },
   products: {
     manage: 'Produits',
   },
@@ -28,6 +31,24 @@ export default {
     form: {
       description: 'Description du module',
     },
+  },
+  cashier: {
+    viewany: 'Caissiers',
+  },
+  cashiergroup: {
+    viewany: 'Groupes de caissiers',
+  },
+  cashregister: {
+    viewany: 'Liste des caisses',
+  },
+  discount: {
+    viewany: 'Liste des reductions',
+  },
+  discounttype: {
+    viewany: 'Types de reduction',
+  },
+  sale: {
+    viewany: 'Liste des ventes',
   },
   transaction: {
     viewany: 'Transactions',
@@ -157,11 +178,11 @@ export default {
   stocks: {
     manage: 'Mouvements',
   },
-  provision: {
-    viewany: 'Approvisionnement',
+  stockentry: {
+    viewany: 'Approvisionnements',
   },
   stockexit: {
-    viewany: 'Sortie de Stock',
+    viewany: 'Sorties de Stock',
   },
   stocktype: {
     viewany: 'Types de Stock',

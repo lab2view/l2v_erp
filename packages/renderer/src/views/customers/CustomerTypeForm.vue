@@ -76,6 +76,7 @@ export default {
   data() {
     return {
       errors: [],
+      formLoading: false,
       customerTypeForm: {
         id: null,
         label: null,
@@ -97,27 +98,43 @@ export default {
       this.customerTypeForm = this.customerType;
   },
   beforeUnmount() {
+    this.setLoading();
     if (this.customerType && this.customerType.id)
       this.$store.commit('customerType/SET_CURRENT_CUSTOMER_TYPE', null);
   },
   methods: {
+    setLoading(value = false) {
+      if (value) {
+        this.errors = [];
+      }
+
+      this.formLoading = value;
+    },
     submitCustomerTypeForm() {
-      if (this.customerType && this.customerType.id)
+      if (this.formLoading) {
+        return;
+      }
+
+      this.setLoading(true);
+      if (this.customerType && this.customerType.id) {
         this.$store
           .dispatch('customerType/updateCustomerType', this.customerTypeForm)
           .then(() => this.$router.back())
           .catch((error) => {
             this.errors = error.response.data.errors;
             console.log(error);
-          });
-      else
+          })
+          .finally(() => this.setLoading());
+      } else {
         this.$store
           .dispatch('customerType/addCustomerType', this.customerTypeForm)
           .then(() => this.$router.back())
           .catch((error) => {
             this.errors = error.response.data.errors;
             console.log(error);
-          });
+          })
+          .finally(() => this.setLoading());
+      }
     },
   },
 };

@@ -180,17 +180,25 @@ export default {
     }
   },
   beforeUnmount() {
+    this.setLoading();
     if (this.customer) {
       this.$store.commit('customer/SET_CURRENT_CUSTOMER', null);
     }
   },
   methods: {
+    setLoading(value = false) {
+      if (value) {
+        this.errors = [];
+      }
+
+      this.formLoading = value;
+    },
     submitCustomerForm() {
       if (this.formLoading) {
         return;
       }
 
-      this.formLoading = true;
+      this.setLoading(true);
       if (this.customer) {
         this.$store
           .dispatch('customer/updateCustomer', this.customerForm)
@@ -199,8 +207,8 @@ export default {
             this.errors = error.response.data.errors;
             console.log(error);
           })
-          .finally(() => (this.formLoading = false));
-      } else
+          .finally(() => this.setLoading());
+      } else {
         this.$store
           .dispatch('customer/addCustomer', this.customerForm)
           .then(() => this.$router.back())
@@ -208,7 +216,8 @@ export default {
             this.errors = error.response.data.errors;
             console.log(error);
           })
-          .finally(() => (this.formLoading = false));
+          .finally(() => this.setLoading());
+      }
     },
   },
 };

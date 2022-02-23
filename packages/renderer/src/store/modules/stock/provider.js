@@ -1,5 +1,7 @@
 import stockProviderService from '../../../services/stocks/ProviderService';
-import shippingService from '/@/services/stocks/ShippingService';
+import { notify } from '/@/helpers/notify';
+import i18n from '/@/i18n';
+// import shippingService from '/@/services/stocks/ShippingService';
 
 const state = {
   stock_providers: null,
@@ -44,6 +46,12 @@ const actions = {
   addStockProvider({ commit }, stockProviderField) {
     return stockProviderService.addProvider(stockProviderField).then(({ data }) => {
       commit('ADD_STOCK_PROVIDER', data);
+      notify(
+        i18n.global.t('stock.provider.store'),
+        'Ok',
+        'theme',
+        'fa fa-check'
+      );
       return data;
     });
   },
@@ -53,6 +61,12 @@ const actions = {
       .updateProvider(stockProviderField, stockProviderField.id)
       .then(({ data }) => {
         commit('UPDATE_STOCK_PROVIDER', data);
+        notify(
+          i18n.global.t('stock.provider.update'),
+          'Ok',
+          'theme',
+          'fa fa-check'
+        );
         return data;
       });
   },
