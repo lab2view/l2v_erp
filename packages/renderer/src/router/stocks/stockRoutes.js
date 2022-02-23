@@ -54,11 +54,11 @@ export const stockRoutes = [
     ],
   },
   {
-    path: 'provisions',
-    name: 'stocks.provisions',
-    component: () => import('/@/views/stocks/entries/StockProvisionsList.vue'),
+    path: 'entries',
+    name: 'stocks.entries',
+    component: () => import('/@/views/stocks/entries/StockEntriesList.vue'),
     meta: {
-      code: 'Provision.viewAny',
+      code: 'StockEntry.viewAny',
       feather: 'filter',
     },
     children: [
@@ -108,20 +108,20 @@ export const stockRoutes = [
   {
     path: 'exits',
     name: 'stocks.exits',
-    component: () => import('/@/views/stocks/StockTypesList.vue'),
+    component: () => import('/@/views/stocks/exits/StockExitsList.vue'),
     meta: {
-      code: 'StockType.viewAny',
+      code: 'StockExit.viewAny',
       feather: 'filter',
     },
     children: [
       {
-        path: 'form/:id?',
-        name: 'stocks.exit.form',
-        component: () => import('/@/views/stocks/StockTypeForm.vue'),
+        path: 'lines/:id?',
+        name: 'stocks.lines',
+        component: () => import('/@/views/stocks/exits/StockExitLineList.vue'),
         beforeEnter: (to) => {
           if (to.params.id) {
             return store
-              .dispatch('stock_type/getStockType', to.params.id)
+              .dispatch('stock_exit/getStockExit', to.params.id)
               .then(() => {
                 return { name: to.name };
               })

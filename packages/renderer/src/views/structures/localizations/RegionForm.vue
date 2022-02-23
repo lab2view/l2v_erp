@@ -54,6 +54,7 @@ export default {
   data() {
     return {
       errors: [],
+      formLoading: false,
       regionForm: {
         id: null,
         name: null,
@@ -75,27 +76,43 @@ export default {
     if (this.region && this.region.id) this.regionForm = this.region;
   },
   beforeUnmount() {
+    this.setLoading();
     if (this.region && this.region.id)
       this.$store.commit('region/SET_CURRENT_REGION', null);
   },
   methods: {
+    setLoading(value = false) {
+      if (value) {
+        this.errors = [];
+      }
+
+      this.formLoading = value;
+    },
     submitRegionForm() {
-      if (this.region && this.region.id)
+      if (this.formLoading) {
+        return;
+      }
+
+      this.setLoading(true);
+      if (this.region && this.region.id) {
         this.$store
           .dispatch('region/updateRegion', this.regionForm)
           .then(() => this.$router.back())
           .catch((error) => {
             this.errors = error.response?.data?.errors;
             console.log(error);
-          });
-      else
+          })
+          .finally(() => this.setLoading());
+      } else {
         this.$store
           .dispatch('region/addRegion', this.regionForm)
           .then(() => this.$router.back())
           .catch((error) => {
             this.errors = error.response?.data?.errors;
             console.log(error);
-          });
+          })
+          .finally(() => this.setLoading());
+      }
     },
   },
 };

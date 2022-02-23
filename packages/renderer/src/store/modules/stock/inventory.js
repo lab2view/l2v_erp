@@ -1,4 +1,6 @@
 import inventoryService from '../../../services/stocks/InventoryService';
+import { notify } from '/@/helpers/notify';
+import i18n from '/@/i18n';
 
 const state = {
   inventories: null,
@@ -41,6 +43,12 @@ const actions = {
   addInventory({ commit }, inventoryField) {
     return inventoryService.addInventory(inventoryField).then(({ data }) => {
       commit('ADD_INVENTORY', data);
+      notify(
+        i18n.global.t('stock.inventory.store'),
+        'Ok',
+        'theme',
+        'fa fa-check'
+      );
       return data;
     });
   },
@@ -50,6 +58,12 @@ const actions = {
       .updateInventory(inventoryField, inventoryField.id)
       .then(({ data }) => {
         commit('UPDATE_INVENTORY', data);
+        notify(
+          i18n.global.t('stock.inventory.update'),
+          'Ok',
+          'theme',
+          'fa fa-check'
+        );
         return data;
       });
   },

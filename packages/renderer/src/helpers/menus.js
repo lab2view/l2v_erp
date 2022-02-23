@@ -153,8 +153,8 @@ export const stockMenus = [
     prefix: 'stocks',
     items: [
       {
-        code: 'Provision.viewAny',
-        to: 'stocks.provisions',
+        code: 'StockEntry.viewAny',
+        to: 'stocks.entries',
       },
       {
         code: 'StockExit.viewAny',
@@ -224,6 +224,52 @@ export const paymentMenus = [
       {
         code: 'PaymentMethod.viewAny',
         to: 'config.payments.methods',
+      },
+    ],
+  },
+];
+
+export const saleMenus = [
+  {
+    icon: 'repeat',
+    code: 'Sale.viewAny',
+    prefix: 'sales.sales',
+    to: 'sales.sales',
+  },
+  {
+    icon: 'repeat',
+    code: 'Sales.manage',
+    prefix: 'sales.cash',
+    items: [
+      {
+        code: 'CashRegister.viewAny',
+        to: 'sales.cashRegisters',
+      },
+      {
+        code: 'Cashier.viewAny',
+        to: 'sales.cashiers',
+      },
+      {
+        code: 'CashierGroup.viewAny',
+        to: 'sales.cashier.groups',
+      },
+    ],
+  },
+  {
+    icon: 'repeat',
+    code: 'Discount.viewAny',
+    prefix: 'sales.discounts',
+    to: 'sales.discounts',
+  },
+  {
+    icon: 'settings',
+    code: 'Sales.manage',
+    label: 'Configurations',
+    prefix: 'config.sales',
+    items: [
+      {
+        code: 'DiscountType.viewAny',
+        to: 'config.sales.discount.types',
       },
     ],
   },
