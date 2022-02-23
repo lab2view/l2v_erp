@@ -22,7 +22,7 @@
     </div>
     <div class="form-group mb-3">
       <label class="form-label fw-bold" for="label">{{
-        $t('common.attributes.stock_type')
+        $t('common.attributes.stock_variety')
       }}</label>
       <br />
       <br />

@@ -9,6 +9,20 @@
           <div class="col-sm">
             <h5>{{ $t('stock.stockExit.listTitle') }}</h5>
           </div>
+<<<<<<< Updated upstream
+=======
+          <div class="col-sm-auto align-items-end">
+            <router-link
+              :to="{ name: 'stocks.exit.form' }"
+              class="btn btn-primary"
+              href="#"
+              exit="button"
+            >
+              <i class="fa fa-plus m-r-5" />
+              {{ $t('common.add') }}
+            </router-link>
+          </div>
+>>>>>>> Stashed changes
         </div>
       </div>
       <div class="card-body">
