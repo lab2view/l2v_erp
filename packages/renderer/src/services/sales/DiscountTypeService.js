@@ -5,16 +5,16 @@ export default {
     return axios.post(`/discounts/types/list?page=${page}`, field);
   },
 
-  addDiscountType(sale) {
-    return axios.post(`/discounts/types`, sale);
+  addDiscountType(discountType) {
+    return axios.post(`/discounts/types`, discountType);
   },
 
   getDiscountType(id) {
     return axios.get(`/discounts/types/${id}`);
   },
 
-  updateDiscountType(sale, id) {
-    return axios.put(`/discounts/types/${id}`, sale);
+  updateDiscountType(discountType, id) {
+    return axios.put(`/discounts/types/${id}`, discountType);
   },
 
   deleteDiscountType(id) {
