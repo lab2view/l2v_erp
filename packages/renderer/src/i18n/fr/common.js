@@ -1,6 +1,10 @@
 export default {
   none: '',
   add: 'Ajouter',
+  false: 'Faux',
+  true: 'Vrai',
+  yes: 'Oui',
+  no: 'Non',
   delete: 'Supprimer',
   delete_all: 'Tout Supprimer',
   save: 'Enregistrer',
@@ -51,6 +55,7 @@ export default {
   },
 
   attributes: {
+    disable_date: "Desactive le",
     stock_variety: "Variete du stock",
     calling_code: "Code d'appel",
     iso: 'Iso',
@@ -135,6 +140,8 @@ export default {
     start_at: 'Debute le',
     end_at: "S'acheve le",
     ended_at: "Acheve le",
+    is_percent: "En pourcentage",
+    only_bill: "Uniquement au facture",
   },
 
   headers: {

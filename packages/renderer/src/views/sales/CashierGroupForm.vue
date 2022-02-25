@@ -39,6 +39,7 @@ export default {
       formLoading: false,
       errors: [],
       cashierGroupForm: {
+        id: null,
         label: null,
         code: null,
       },
@@ -66,6 +67,13 @@ export default {
   },
   methods: {
     setLoading(value = false) {
+      if (!value && this.errors.length) {
+        this.cashierGroup = {
+          id: null,
+          label: null,
+          code: null,
+        };
+      }
       if (value) {
         this.errors = [];
       }

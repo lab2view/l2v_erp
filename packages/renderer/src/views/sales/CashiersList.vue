@@ -27,19 +27,17 @@
           <template #headers>
             <th>#</th>
             <th>{{ $t('common.attributes.cashier_group') }}</th>
-            <th>{{ $t('common.attributes.pin') }}</th>
             <th>{{ $t('common.attributes.start_at') }}</th>
             <th>{{ $t('common.attributes.ended_at') }}</th>
-            <th>{{ $t('common.attributes.description') }}</th>
+            <th>{{ $t('common.attributes.disable_date') }}</th>
             <th>{{ $t('common.actions') }}</th>
           </template>
           <tr v-for="cashier in cashiers" :key="cashier.id">
             <td>{{ cashier.id }}</td>
             <td>{{ cashier.cashier_group.label }}</td>
-            <td>{{ cashier.pin }}</td>
             <td>{{ cashier.start_at }}</td>
             <td>{{ cashier.ended_at }}</td>
-            <td>{{ truncate(cashier.description) }}</td>
+            <td>{{ cashier.disabled_at }}</td>
             <td>
               <button
                 class="btn btn-secondary btn-xs"
@@ -105,12 +103,6 @@ export default {
   },
 
   methods: {
-    truncate(source, size = 100) {
-      if (!source) {
-        return '';
-      }
-      return source.length > size ? source.slice(0, size - 1) + '…' : source;
-    },
     deleteCashier(cashier) {
       if (confirm(this.$t('messages.confirmDelete', { label: cashier.label })))
         this.$store.dispatch('cashier/deleteCashier', cashier.id);

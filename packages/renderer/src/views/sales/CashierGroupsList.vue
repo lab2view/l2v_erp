@@ -40,7 +40,7 @@
                 :title="$t('common.update')"
                 @click.prevent="
                   $router.push({
-                    name: 'sales.cashierGroup.form',
+                    name: 'sales.cashier.group.form',
                     params: { id: cashierGroup.id },
                   })
                 "

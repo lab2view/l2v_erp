@@ -39,8 +39,9 @@
         id="value"
         v-model="discountForm.value"
         class="form-control"
-        placeholder="..."
+        placeholder="1"
         type="number"
+        required
       />
       <div
         v-if="errors.value && errors.value.length"
@@ -48,6 +49,44 @@
         style="display: inline"
       >
         {{ errors.value[0] }}
+      </div>
+    </div>
+    <div class="mb-3">
+      <div class="row align-items-center">
+        <div class="form-group col-md">
+          <label class="form-label fw-bold" for="is_percent">{{
+              $t('common.attributes.is_percent')
+            }}</label>
+          <input
+            id="is_percent"
+            v-model="discountForm.is_percent"
+            type="checkbox"
+          />
+          <div
+            v-if="errors.is_percent && errors.is_percent.length"
+            class="invalid-feedback"
+            style="display: inline"
+          >
+            {{ errors.is_percent[0] }}
+          </div>
+        </div>
+        <div class="form-group col-md">
+          <label class="form-label fw-bold" for="only_bill">{{
+              $t('common.attributes.only_bill')
+            }}</label>
+          <input
+            id="only_bill"
+            v-model="discountForm.only_bill"
+            type="checkbox"
+          />
+          <div
+            v-if="errors.only_bill && errors.only_bill.length"
+            class="invalid-feedback"
+            style="display: inline"
+          >
+            {{ errors.only_bill[0] }}
+          </div>
+        </div>
       </div>
     </div>
     <div class="form-group mb-3">
@@ -141,8 +180,8 @@ export default {
         value: null,
         start_at: null,
         end_at: null,
-        is_percent: null,
-        only_bill: null,
+        is_percent: false,
+        only_bill: false,
         discount_type_id: null,
         description: null,
       },

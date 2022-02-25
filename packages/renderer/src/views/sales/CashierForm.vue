@@ -12,24 +12,14 @@
       />
     </div>
     <div class="form-group mb-3">
-      <label class="form-label fw-bold" for="pin">{{
-        $t('common.attributes.pin')
-      }}</label>
-      <input
-        id="pin"
+      <BaseInput
         v-model="cashierForm.pin"
-        class="form-control"
-        placeholder="..."
+        type="password"
+        placeholder="1010"
+        :label="$t('common.attributes.pin')"
+        :errors="errors.pin"
         required
-        type="number"
       />
-      <div
-        v-if="errors.pin && errors.pin.length"
-        class="invalid-feedback"
-        style="display: inline"
-      >
-        {{ errors.pin[0] }}
-      </div>
     </div>
     <div class="form-group mb-3">
       <label class="form-label fw-bold" for="start_at">{{
@@ -81,15 +71,14 @@
     </div>
     <div class="form-group mb-3">
       <label class="form-label fw-bold" for="disabled_at">{{
-          $t('common.attributes.disabled_at')
+          $t('common.attributes.disable_date')
         }}</label>
       <input
         id="disabled_at"
         v-model="cashierForm.disabled_at"
         class="form-control"
-        placeholder="..."
-        required
-        type="checkbox"
+        placeholder="12/01/2022"
+        type="text"
       />
       <div
         v-if="errors.disabled_at && errors.disabled_at.length"
@@ -111,11 +100,12 @@
 import BaseFormModal from '/@/components/common/BaseFormModal.vue';
 import BaseSelect from '/@/components/common/BaseSelect.vue';
 import BaseTextArea from '/@/components/common/BaseTextArea.vue';
+import BaseInput from '/@/components/common/BaseInput.vue';
 import store from '/@/store';
 import { mapGetters } from 'vuex';
 
 export default {
-  components: { BaseFormModal, BaseSelect, BaseTextArea },
+  components: { BaseInput, BaseFormModal, BaseSelect, BaseTextArea },
   beforeRouteEnter(routeTo, routeFrom, next) {
     store
       .dispatch('cashierGroup/getCashierGroupsList', {
@@ -137,6 +127,7 @@ export default {
       cashierForm: {
         cashier_group_id: null,
         pin: null,
+        disabled_at: null,
         start_at: null,
         ended_at: null,
         description: null,

@@ -29,9 +29,10 @@
             <th>{{ $t('common.attributes.discount_type') }}</th>
             <th>{{ $t('common.attributes.label') }}</th>
             <th>{{ $t('common.attributes.value') }}</th>
+            <th>{{ $t('common.attributes.only_bill') }}</th>
+            <th>{{ $t('common.attributes.is_percent') }}</th>
             <th>{{ $t('common.attributes.start_at') }}</th>
             <th>{{ $t('common.attributes.end_at') }}</th>
-            <th>{{ $t('common.attributes.description') }}</th>
             <th>{{ $t('common.actions') }}</th>
           </template>
           <tr v-for="discount in discounts" :key="discount.id">
@@ -39,9 +40,10 @@
             <td>{{ discount.discount_type.label }}</td>
             <td>{{ discount.label }}</td>
             <td>{{ discount.value }}</td>
+            <td>{{ $t(`common.${discount.only_bill ? 'yes' : 'no'}`) }}</td>
+            <td>{{ $t(`common.${discount.is_percent ? 'yes' : 'no'}`) }}</td>
             <td>{{ discount.start_at }}</td>
             <td>{{ discount.end_at }}</td>
-            <td>{{ truncate(discount.description) }}</td>
             <td>
               <button
                 class="btn btn-secondary btn-xs"
