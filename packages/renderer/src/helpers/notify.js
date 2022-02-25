@@ -1,8 +1,10 @@
+import $ from './../../assets/js/jquery-3.5.1.min.js';
+
 export function notify(
   message,
-  title = "",
-  type = "theme",
-  icon = "fa fa-bell-o"
+  title = '',
+  type = 'theme',
+  icon = 'fa fa-bell-o'
 ) {
   $.notify(`<i class="${icon}"></i><strong>${title}</strong> ${message}`, {
     type: type,

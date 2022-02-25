@@ -1,15 +1,15 @@
-const {_electron: electron} = require('playwright');
-const {strict: assert} = require('assert');
+const { _electron: electron } = require('playwright');
+const { strict: assert } = require('assert');
 
 // Playwright has EXPERIMENTAL electron support.
 (async () => {
-  const electronApp = await electron.launch({args: ['.']});
+  const electronApp = await electron.launch({ args: ['.'] });
 
   /**
    * App main window state
    * @type {{isVisible: boolean; isDevToolsOpened: boolean; isCrashed: boolean}}
    */
-  const windowState = await electronApp.evaluate(({BrowserWindow}) => {
+  const windowState = await electronApp.evaluate(({ BrowserWindow }) => {
     const mainWindow = BrowserWindow.getAllWindows()[0];
 
     const getState = () => ({
@@ -22,7 +22,9 @@ const {strict: assert} = require('assert');
       if (mainWindow.isVisible()) {
         resolve(getState());
       } else
-        mainWindow.once('ready-to-show', () => setTimeout(() => resolve(getState()), 0));
+        mainWindow.once('ready-to-show', () =>
+          setTimeout(() => resolve(getState()), 0)
+        );
     });
   });
 
@@ -30,18 +32,6 @@ const {strict: assert} = require('assert');
   assert.ok(windowState.isVisible, 'Main window not visible');
   assert.ok(!windowState.isDevToolsOpened, 'DevTools opened');
   assert.ok(!windowState.isCrashed, 'Window crashed');
-
-  /**
-   * Rendered Main window web-page
-   * @type {Page}
-   */
-  const page = await electronApp.firstWindow();
-
-
-  // Check web-page content
-  const element = await page.$('#app', {strict: true});
-  assert.notStrictEqual(element, null, 'Can\'t find root element');
-  assert.notStrictEqual((await element.innerHTML()).trim(), '', 'Window content is empty');
 
   // Close app
   await electronApp.close();
