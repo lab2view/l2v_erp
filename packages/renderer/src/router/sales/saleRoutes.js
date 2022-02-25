@@ -182,82 +182,82 @@ export const saleRoutes = [
       },
     ],
   },
-  {
-    path: 'discount-codes',
-    name: 'sales.discount.codes',
-    component: () => import('/@/views/sales/DiscountCodesList.vue'),
-    meta: {
-      code: 'DiscountCode.viewAny',
-      feather: 'filter',
-    },
-    children: [
-      {
-        path: 'form/:id?',
-        name: 'sales.discount.code.form',
-        component: () => import('/@/views/sales/DiscountCodeForm.vue'),
-        beforeEnter: (to) => {
-          if (to.params.id) {
-            return store.dispatch('discountCode/getDiscountCode', to.params.id)
-              .then(() => {
-                return { name: to.name };
-              })
-              .catch(() => -1);
-          }
-        },
-      },
-    ],
-  },
-  {
-    path: 'discount-code-usages',
-    name: 'sales.discount.code.usages',
-    component: () => import('/@/views/sales/DiscountCodeUsagesList.vue'),
-    meta: {
-      code: 'DiscountCodeUsage.viewAny',
-      feather: 'filter',
-    },
-    children: [
-      {
-        path: 'form/:id?',
-        name: 'sales.discount.code.usage.form',
-        component: () => import('/@/views/sales/DiscountCodeUsageForm.vue'),
-        beforeEnter: (to) => {
-          if (to.params.id) {
-            return store
-              .dispatch('discountCodeUsage/getDiscountCodeUsage', to.params.id)
-              .then(() => {
-                return { name: to.name };
-              })
-              .catch(() => -1);
-          }
-        },
-      },
-    ],
-  },
-  {
-    path: 'refunds',
-    name: 'sales.refunds',
-    component: () => import('/@/views/sales/RefundVouchersList.vue'),
-    meta: {
-      code: 'RefundVoucher.viewAny',
-      feather: 'filter',
-    },
-    children: [
-      {
-        path: 'form/:id?',
-        name: 'sales.refund.form',
-        component: () => import('/@/views/sales/RefundVoucherForm.vue'),
-        beforeEnter: (to) => {
-          if (to.params.id) {
-            return store.dispatch('refundVoucher/getRefundVoucher', to.params.id)
-              .then(() => {
-                return { name: to.name };
-              })
-              .catch(() => -1);
-          }
-        },
-      },
-    ],
-  },
+  // {
+  //   path: 'discount-codes',
+  //   name: 'sales.discount.codes',
+  //   component: () => import('/@/views/sales/DiscountCodesList.vue'),
+  //   meta: {
+  //     code: 'DiscountCode.viewAny',
+  //     feather: 'filter',
+  //   },
+  //   children: [
+  //     {
+  //       path: 'form/:id?',
+  //       name: 'sales.discount.code.form',
+  //       component: () => import('/@/views/sales/DiscountCodeForm.vue'),
+  //       beforeEnter: (to) => {
+  //         if (to.params.id) {
+  //           return store.dispatch('discountCode/getDiscountCode', to.params.id)
+  //             .then(() => {
+  //               return { name: to.name };
+  //             })
+  //             .catch(() => -1);
+  //         }
+  //       },
+  //     },
+  //   ],
+  // },
+  // {
+  //   path: 'discount-code-usages',
+  //   name: 'sales.discount.code.usages',
+  //   component: () => import('/@/views/sales/DiscountCodeUsagesList.vue'),
+  //   meta: {
+  //     code: 'DiscountCodeUsage.viewAny',
+  //     feather: 'filter',
+  //   },
+  //   children: [
+  //     {
+  //       path: 'form/:id?',
+  //       name: 'sales.discount.code.usage.form',
+  //       component: () => import('/@/views/sales/DiscountCodeUsageForm.vue'),
+  //       beforeEnter: (to) => {
+  //         if (to.params.id) {
+  //           return store
+  //             .dispatch('discountCodeUsage/getDiscountCodeUsage', to.params.id)
+  //             .then(() => {
+  //               return { name: to.name };
+  //             })
+  //             .catch(() => -1);
+  //         }
+  //       },
+  //     },
+  //   ],
+  // },
+  // {
+  //   path: 'refunds',
+  //   name: 'sales.refunds',
+  //   component: () => import('/@/views/sales/RefundVouchersList.vue'),
+  //   meta: {
+  //     code: 'RefundVoucher.viewAny',
+  //     feather: 'filter',
+  //   },
+  //   children: [
+  //     {
+  //       path: 'form/:id?',
+  //       name: 'sales.refund.form',
+  //       component: () => import('/@/views/sales/RefundVoucherForm.vue'),
+  //       beforeEnter: (to) => {
+  //         if (to.params.id) {
+  //           return store.dispatch('refundVoucher/getRefundVoucher', to.params.id)
+  //             .then(() => {
+  //               return { name: to.name };
+  //             })
+  //             .catch(() => -1);
+  //         }
+  //       },
+  //     },
+  //   ],
+  // },
   {
     path: 'discount-types',
     name: 'config.sales.discount.types',

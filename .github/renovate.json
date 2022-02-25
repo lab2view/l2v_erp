@@ -49,9 +49,12 @@
     },
     {
       "matchPackageNames": [
-        "electron"
+        "electron",
+        "electron-releases",
+        "spectron"
       ],
-      "separateMajorMinor": false
+      "separateMajorMinor": false,
+      "groupName": "electron"
     }
   ],
   "rangeStrategy": "pin"

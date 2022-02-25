@@ -29,6 +29,7 @@ const config = {
     target: `chrome${chrome}`,
     outDir: 'dist',
     assetsDir: '.',
+    chunkSizeWarningLimit: 1500,
     rollupOptions: {
       external: [
         ...builtinModules,
