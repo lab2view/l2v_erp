@@ -8,7 +8,17 @@
   "description": "an ERP",
   "homepage": "https://kitbussiness.com",
   "version": "0.0.1",
-  "private": true,
+  "build": {
+    "appId": "com.kitbussiness.www",
+    "publish": {
+      "provider": "github",
+      "repo": "l2v_erp",
+      "owner": "lab2view",
+      "host": "github.com",
+      "protocol": "https",
+      "private": false
+    }
+  },
   "engines": {
     "node": ">=v16.13",
     "npm": ">=8.1"
