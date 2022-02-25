@@ -1,5 +1,6 @@
 {
   "name": "l2v-erp-front",
+  "version": "0.0.2",
   "author": {
     "name": "Lab2view",
     "email": "contact@lab2view.com",
@@ -7,7 +8,6 @@
   },
   "description": "an ERP",
   "homepage": "https://kitbussiness.com",
-  "version": "0.0.1",
   "build": {
     "appId": "com.kitbussiness.www",
     "publish": {

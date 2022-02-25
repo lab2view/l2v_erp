@@ -1,4 +1,7 @@
 <template>
+  <div class="absolute-top">
+    {{ version }}
+  </div>
   <!--Loader starts-->
   <Loader />
   <!-- Loader ends-->
@@ -8,6 +11,7 @@
 </template>
 
 <script>
+import { app } from 'electron';
 import { defineComponent } from 'vue';
 import Loader from '/@/components/Loader.vue';
 
@@ -17,7 +21,13 @@ export default defineComponent({
     Loader,
   },
 
+  computed: {
+    version: app.version,
+  },
+
   mounted() {
+    console.log('app.version');
+    console.log(app.version);
     setTimeout(() => {
       (async () => {
         await this.$loadScript(
