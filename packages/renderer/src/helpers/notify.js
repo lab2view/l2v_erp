@@ -1,4 +1,6 @@
-import $ from './../../assets/js/jquery-3.5.1.min.js';
+if ($ === undefined) {
+  require('./../../assets/js/jquery-3.5.1.min.js');
+}
 
 export function notify(
   message,
