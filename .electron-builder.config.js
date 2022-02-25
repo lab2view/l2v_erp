@@ -1,4 +1,3 @@
-
 /**
  * @type {import('electron-builder').Configuration}
  * @see https://www.electron.build/configuration/configuration
@@ -8,9 +7,7 @@ const config = {
     output: 'dist',
     buildResources: 'buildResources',
   },
-  files: [
-    'packages/**/dist/**',
-  ],
+  files: ['packages/**/dist/**'],
   extraMetadata: {
     version: require('electron').version,
   },

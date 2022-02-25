@@ -8,6 +8,15 @@
   },
   "description": "an ERP",
   "homepage": "https://kitbussiness.com",
+  "extraRessources": [
+    {
+      "from": "packages/renderer/assets/",
+      "to": "packages/renderer/assets/",
+      "filter": [
+        "**/*"
+      ]
+    }
+  ],
   "build": {
     "appId": "com.kitbussiness.www",
     "publish": {

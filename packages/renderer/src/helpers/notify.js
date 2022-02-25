@@ -1,4 +1,4 @@
-if ($ === undefined) {
+if ($ === undefined || jQuery === undefined) {
   require('./../../assets/js/jquery-3.5.1.min.js');
 }
 
@@ -8,7 +8,7 @@ export function notify(
   type = 'theme',
   icon = 'fa fa-bell-o'
 ) {
-  $.notify(`<i class="${icon}"></i><strong>${title}</strong> ${message}`, {
+  jQuery.notify(`<i class="${icon}"></i><strong>${title}</strong> ${message}`, {
     type: type,
     allow_dismiss: true,
     delay: 2500,

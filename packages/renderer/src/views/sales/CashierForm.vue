@@ -3,22 +3,32 @@
     <div class="form-group mb-3">
       <BaseSelect
         v-model="cashierForm.cashier_group_id"
+        :errors="errors.cashier_group_id"
         :label="$t('common.attributes.cashier_group')"
         :options="cashierGroups"
         key-label="label"
         key-value="id"
         required
-        :errors="errors.cashier_group_id"
+      />
+    </div>
+    <div class="form-group mb-3">
+      <BaseSelect
+        v-model="cashierForm.enterprise_id"
+        :errors="errors.enterprise_id"
+        :label="$t('common.attributes.enterprise')"
+        :options="enterprises"
+        key-label="label"
+        key-value="id"
       />
     </div>
     <div class="form-group mb-3">
       <BaseInput
         v-model="cashierForm.pin"
-        type="password"
-        placeholder="1010"
-        :label="$t('common.attributes.pin')"
         :errors="errors.pin"
+        :label="$t('common.attributes.pin')"
+        placeholder="1010"
         required
+        type="text"
       />
     </div>
     <div class="form-group mb-3">
@@ -63,16 +73,16 @@
     <div class="form-group mb-3">
       <BaseTextArea
         v-model="cashierForm.description"
-        rows="4"
+        :errors="errors?.description"
         :label="$t('common.attributes.description')"
         placeholder="..."
-        :errors="errors?.description"
+        rows="4"
       />
     </div>
     <div class="form-group mb-3">
       <label class="form-label fw-bold" for="disabled_at">{{
-          $t('common.attributes.disable_date')
-        }}</label>
+        $t('common.attributes.disable_date')
+      }}</label>
       <input
         id="disabled_at"
         v-model="cashierForm.disabled_at"
@@ -107,11 +117,16 @@ import { mapGetters } from 'vuex';
 export default {
   components: { BaseInput, BaseFormModal, BaseSelect, BaseTextArea },
   beforeRouteEnter(routeTo, routeFrom, next) {
-    store
-      .dispatch('cashierGroup/getCashierGroupsList', {
+    Promise.all([
+      store.dispatch('cashierGroup/getCashierGroupsList', {
         page: 1,
         field: {},
-      })
+      }),
+      store.dispatch('enterprise/getEnterprisesList', {
+        page: 1,
+        field: {},
+      }),
+    ])
       .then(() => {
         next();
       })
@@ -125,6 +140,7 @@ export default {
       formLoading: false,
       errors: [],
       cashierForm: {
+        enterprise_id: null,
         cashier_group_id: null,
         pin: null,
         disabled_at: null,
@@ -135,6 +151,7 @@ export default {
     };
   },
   computed: {
+    ...mapGetters('enterprise', ['enterprises']),
     ...mapGetters('cashierGroup', ['cashierGroups']),
     ...mapGetters('cashier', ['cashier']),
     title() {
@@ -144,16 +161,12 @@ export default {
     },
   },
   created() {
-    if (this.cashier && this.cashier.id)
-      this.cashierForm = this.cashier;
+    if (this.cashier && this.cashier.id) this.cashierForm = this.cashier;
   },
   beforeUnmount() {
     this.setLoading();
     if (this.cashier && this.cashier.id)
-      this.$store.commit(
-        'cashier/SET_CURRENT_CASHIER',
-        null
-      );
+      this.$store.commit('cashier/SET_CURRENT_CASHIER', null);
   },
   methods: {
     setLoading(value = false) {
@@ -170,10 +183,8 @@ export default {
 
       this.setLoading(true);
       if (this.cashier && this.cashier.id) {
-        this.$store.dispatch(
-          'cashier/updateCashier',
-          this.cashierForm,
-        )
+        this.$store
+          .dispatch('cashier/updateCashier', this.cashierForm)
           .then(() => this.$router.back())
           .catch((error) => {
             this.errors = error.response.data.errors;
@@ -182,10 +193,7 @@ export default {
           .finally(() => this.setLoading());
       } else {
         this.$store
-          .dispatch(
-            'cashier/addCashier',
-            this.cashierForm,
-          )
+          .dispatch('cashier/addCashier', this.cashierForm)
           .then(() => this.$router.back())
           .catch((error) => {
             this.errors = error.response.data.errors;
