@@ -84,7 +84,8 @@ jobs:
 
     strategy:
       matrix:
-        os: [ windows-latest, macos-latest, ubuntu-latest]
+        os: [ windows-latest ]
+    #        os: [ windows-latest, macos-latest, ubuntu-latest]
     #    To compile the application for different platforms, use:
     #    os: [ macos-latest, ubuntu-latest, ubuntu-18.04, ubuntu-20.04, windows-latest ]
 
@@ -125,7 +126,7 @@ jobs:
           VITE_APP_VERSION: ${{ needs.draft.outputs.version }}
         with:
           build_script_name: build
-          args: --config electron-builder.config.js
+          args: --config .electron-builder.config.js
 
           # GitHub token, automatically provided to the action
           # (No need to define this secret in the repo settings)
