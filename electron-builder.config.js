@@ -27,7 +27,6 @@ const config = {
     'target': [
       'squirrel',
       'nsis',
-      'exe',
     ],
   },
 
