@@ -25,27 +25,29 @@ const actions = {
   getCashRegistersList({ commit, getters }, { page, field }) {
     if (getters.cashRegisters.length > 0) {
       return getters.cashRegisters;
-    } else
-      return cashRegisterService
-        .getCashRegistersList(page, field)
-        .then(({ data }) => {
-          commit('SET_CASH_REGISTERS', data);
-          return data;
-        });
+    }
+    return cashRegisterService
+      .getCashRegistersList(page, field)
+      .then(({ data }) => {
+        commit('SET_CASH_REGISTERS', data);
+        return data;
+      });
   },
 
-  getCashRegister({ getters }, id) {
+  getCashRegister({ commit, getters }, id) {
     const cashRegister = getters.cashRegisters.find(
       (p) => p.id.toString() === id
     );
     if (cashRegister !== undefined) {
+      commit('SET_CURRENT_CASH_REGISTER', cashRegister);
       return cashRegister;
-    } else
-      return cashRegisterService
-        .getCashRegister(id)
-        .then(({ data }) => {
-          return data;
-        });
+    }
+    return cashRegisterService
+      .getCashRegister(id)
+      .then(({ data }) => {
+        commit('SET_CURRENT_CASH_REGISTER', data);
+        return data;
+      });
   },
 
   addCashRegister({ commit }, cashRegisterField) {
@@ -95,6 +97,9 @@ const actions = {
 const mutations = {
   SET_CASH_REGISTERS(state, cashRegisters) {
     state.cashRegisters = JSON.stringify(cashRegisters);
+  },
+  SET_CURRENT_CASH_REGISTER(state, cashRegister) {
+    state.cashRegister = JSON.stringify(cashRegister);
   },
   ADD_CASH_REGISTER(state, cashRegister) {
     let cashRegisters = JSON.parse(state.cashRegisters);

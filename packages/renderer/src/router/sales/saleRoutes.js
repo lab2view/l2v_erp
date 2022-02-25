@@ -1,4 +1,4 @@
-// import store from '../../store';
+import store from '../../store';
 
 export const saleRoutes = [
   {
@@ -16,16 +16,12 @@ export const saleRoutes = [
         component: () => import('/@/views/sales/SaleForm.vue'),
         beforeEnter: (to) => {
           if (to.params.id) {
-            return to.name;
-            // return store
-            //   .dispatch('sale/getSale', to.params.id)
-            //   .then(() => {
-            //     return { name: to.name };
-            //   })
-            //   .catch(() => -1);
+            return store.dispatch('sale/getSale', to.params.id)
+              .then(() => {
+                return { name: to.name };
+              })
+              .catch(() => -1);
           }
-
-          return -1;
         },
       },
     ],
@@ -45,81 +41,71 @@ export const saleRoutes = [
         component: () => import('/@/views/sales/CashierForm.vue'),
         beforeEnter: (to) => {
           if (to.params.id) {
-            return to.name;
-            // return store
-            //   .dispatch('cashier/getCashier', to.params.id)
-            //   .then(() => {
-            //     return { name: to.name };
-            //   })
-            //   .catch(() => -1);
+            return store.dispatch('cashier/getCashier', to.params.id)
+              .then(() => {
+                return { name: to.name };
+              })
+              .catch(() => -1);
           }
-
-          return -1;
         },
       },
     ],
   },
-  {
-    path: 'cashier-sessions',
-    name: 'sales.cashier.sessions',
-    component: () => import('/@/views/sales/CashierSessionsList.vue'),
-    meta: {
-      code: 'CashierSession.viewAny',
-      feather: 'filter',
-    },
-    children: [
-      {
-        path: 'form/:id?',
-        name: 'sales.cashier.session.form',
-        component: () =>
-          import('/@/views/sales/CashierSessionForm.vue'),
-        beforeEnter: (to) => {
-          if (to.params.id) {
-            return to.name;
-            // return store
-            //   .dispatch('cashierSession/getCashierSession', to.params.id)
-            //   .then(() => {
-            //     return { name: to.name };
-            //   })
-            //   .catch(() => -1);
-          }
-
-          return -1;
-        },
-      },
-    ],
-  },
-  {
-    path: 'cashier-session-collections',
-    name: 'sales.cashier.session.collections',
-    component: () =>
-      import('/@/views/sales/CashierSessionCollectionsList.vue'),
-    meta: {
-      code: 'CashierSessionCollection.viewAny',
-      feather: 'filter',
-    },
-    children: [
-      {
-        path: 'form/:id?',
-        name: 'sales.cashier.session.collection.form',
-        component: () =>
-          import('/@/views/sales/CashierSessionCollectionForm.vue'),
-        beforeEnter: (to) => {
-          if (to.params.id) {
-            return to.name;
-            // return store
-            //   .dispatch('cashier/getCashier', to.params.id)
-            //   .then(() => {
-            //     return { name: to.name };
-            //   })
-            //   .catch(() => -1);
-          }
-
-          return -1;
-        },
-      },
-    ],
-  },
+  // {
+  //   path: 'cashier-sessions',
+  //   name: 'sales.cashier.sessions',
+  //   component: () => import('/@/views/sales/CashierSessionsList.vue'),
+  //   meta: {
+  //     code: 'CashierSession.viewAny',
+  //     feather: 'filter',
+  //   },
+  //   children: [
+  //     {
+  //       path: 'form/:id?',
+  //       name: 'sales.cashier.session.form',
+  //       component: () =>
+  //         import('/@/views/sales/CashierSessionForm.vue'),
+  //       beforeEnter: (to) => {
+  //         if (to.params.id) {
+  //           return store.dispatch('cashierSession/getCashierSession', to.params.id)
+  //             .then(() => {
+  //               return { name: to.name };
+  //             })
+  //             .catch(() => -1);
+  //         }
+  //         return -1;
+  //       },
+  //     },
+  //   ],
+  // },
+  // {
+  //   path: 'cashier-session-collections',
+  //   name: 'sales.cashier.session.collections',
+  //   component: () =>
+  //     import('/@/views/sales/CashierSessionCollectionsList.vue'),
+  //   meta: {
+  //     code: 'CashierSessionCollection.viewAny',
+  //     feather: 'filter',
+  //   },
+  //   children: [
+  //     {
+  //       path: 'form/:id?',
+  //       name: 'sales.cashier.session.collection.form',
+  //       component: () =>
+  //         import('/@/views/sales/CashierSessionCollectionForm.vue'),
+  //       beforeEnter: (to) => {
+  //         if (to.params.id) {
+  //           return store.dispatch('cashierSessionsCollection/getCashierSessionsCollection', to.params.id)
+  //             .then(() => {
+  //               return { name: to.name };
+  //             })
+  //             .catch(() => -1);
+  //         }
+  //         return -1;
+  //       },
+  //     },
+  //   ],
+  // },
   {
     path: 'cashier-groups',
     name: 'sales.cashier.groups',
@@ -135,16 +121,12 @@ export const saleRoutes = [
         component: () => import('/@/views/sales/CashierGroupForm.vue'),
         beforeEnter: (to) => {
           if (to.params.id) {
-            return to.name;
-            // return store
-            //   .dispatch('cashierGroup/getCashierGroup', to.params.id)
-            //   .then(() => {
-            //     return { name: to.name };
-            //   })
-            //   .catch(() => -1);
+            return store.dispatch('cashierGroup/getCashierGroup', to.params.id)
+              .then(() => {
+                return { name: to.name };
+              })
+              .catch(() => -1);
           }
-
-          return -1;
         },
       },
     ],
@@ -165,16 +147,12 @@ export const saleRoutes = [
         component: () => import('/@/views/sales/CashRegisterForm.vue'),
         beforeEnter: (to) => {
           if (to.params.id) {
-            return to.name;
-            // return store
-            //   .dispatch('cashRegister/getCashRegister', to.params.id)
-            //   .then(() => {
-            //     return { name: to.name };
-            //   })
-            //   .catch(() => -1);
+            return store.dispatch('cashRegister/getCashRegister', to.params.id)
+              .then(() => {
+                return { name: to.name };
+              })
+              .catch(() => -1);
           }
-
-          return -1;
         },
       },
     ],
@@ -194,16 +172,12 @@ export const saleRoutes = [
         component: () => import('/@/views/sales/DiscountForm.vue'),
         beforeEnter: (to) => {
           if (to.params.id) {
-            return to.name;
-            // return store
-            //   .dispatch('discount/getDiscount', to.params.id)
-            //   .then(() => {
-            //     return { name: to.name };
-            //   })
-            //   .catch(() => -1);
+            return store.dispatch('discount/getDiscount', to.params.id)
+              .then(() => {
+                return { name: to.name };
+              })
+              .catch(() => -1);
           }
-
-          return -1;
         },
       },
     ],
@@ -223,16 +197,12 @@ export const saleRoutes = [
         component: () => import('/@/views/sales/DiscountCodeForm.vue'),
         beforeEnter: (to) => {
           if (to.params.id) {
-            return to.name;
-            // return store
-            //   .dispatch('discountCode/getDiscountCode', to.params.id)
-            //   .then(() => {
-            //     return { name: to.name };
-            //   })
-            //   .catch(() => -1);
+            return store.dispatch('discountCode/getDiscountCode', to.params.id)
+              .then(() => {
+                return { name: to.name };
+              })
+              .catch(() => -1);
           }
-
-          return -1;
         },
       },
     ],
@@ -252,16 +222,13 @@ export const saleRoutes = [
         component: () => import('/@/views/sales/DiscountCodeUsageForm.vue'),
         beforeEnter: (to) => {
           if (to.params.id) {
-            return to.name;
-            // return store
-            //   .dispatch('discountCodeUsage/getDiscountCodeUsage', to.params.id)
-            //   .then(() => {
-            //     return { name: to.name };
-            //   })
-            //   .catch(() => -1);
+            return store
+              .dispatch('discountCodeUsage/getDiscountCodeUsage', to.params.id)
+              .then(() => {
+                return { name: to.name };
+              })
+              .catch(() => -1);
           }
-
-          return -1;
         },
       },
     ],
@@ -281,16 +248,12 @@ export const saleRoutes = [
         component: () => import('/@/views/sales/RefundVoucherForm.vue'),
         beforeEnter: (to) => {
           if (to.params.id) {
-            return to.name;
-            // return store
-            //   .dispatch('refundVoucher/getRefundVoucher', to.params.id)
-            //   .then(() => {
-            //     return { name: to.name };
-            //   })
-            //   .catch(() => -1);
+            return store.dispatch('refundVoucher/getRefundVoucher', to.params.id)
+              .then(() => {
+                return { name: to.name };
+              })
+              .catch(() => -1);
           }
-
-          return -1;
         },
       },
     ],
@@ -300,7 +263,7 @@ export const saleRoutes = [
     name: 'config.sales.discount.types',
     component: () => import('/@/views/sales/DiscountTypesList.vue'),
     meta: {
-      code: 'Discount.viewAny',
+      code: 'DiscountType.viewAny',
       feather: 'filter',
     },
     children: [
@@ -310,16 +273,12 @@ export const saleRoutes = [
         component: () => import('/@/views/sales/DiscountTypeForm.vue'),
         beforeEnter: (to) => {
           if (to.params.id) {
-            return to.name;
-            // return store
-            //   .dispatch('discount/getDiscount', to.params.id)
-            //   .then(() => {
-            //     return { name: to.name };
-            //   })
-            //   .catch(() => -1);
+            return store.dispatch('discountType/getDiscountType', to.params.id)
+              .then(() => {
+                return { name: to.name };
+              })
+              .catch(() => -1);
           }
-
-          return -1;
         },
       },
     ],

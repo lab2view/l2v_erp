@@ -25,27 +25,30 @@ const actions = {
   getDiscountsList({ commit, getters }, { page, field }) {
     if (getters.discounts.length > 0) {
       return getters.discounts;
-    } else
-      return discountService
-        .getDiscountsList(page, field)
-        .then(({ data }) => {
-          commit('SET_DISCOUNTS', data);
-          return data;
-        });
+    }
+    return discountService
+      .getDiscountsList(page, field)
+      .then(({ data }) => {
+        commit('SET_DISCOUNTS', data);
+        return data;
+      });
   },
 
-  getDiscount({ getters }, id) {
+  getDiscount({ commit, getters }, id) {
     const discount = getters.discounts.find(
       (p) => p.id.toString() === id
     );
     if (discount !== undefined) {
+      commit('SET_CURRENT_DISCOUNT', discount);
       return discount;
-    } else
-      return discountService
-        .getDiscount(id)
-        .then(({ data }) => {
-          return data;
-        });
+    }
+
+    return discountService
+      .getDiscount(id)
+      .then(({ data }) => {
+        commit('SET_CURRENT_DISCOUNT', data);
+        return data;
+      });
   },
 
   addDiscount({ commit }, discountField) {
@@ -95,6 +98,9 @@ const actions = {
 const mutations = {
   SET_DISCOUNTS(state, discounts) {
     state.discounts = JSON.stringify(discounts);
+  },
+  SET_CURRENT_DISCOUNT(state, discount) {
+    state.discount = JSON.stringify(discount);
   },
   ADD_DISCOUNT(state, discount) {
     let discounts = JSON.parse(state.discounts);

@@ -26,7 +26,6 @@ const actions = {
     if (getters.cashierGroups.length > 0) {
       return getters.cashierGroups;
     }
-
     return cashierGroupService
       .getCashierGroupsList(page, field)
       .then(({data}) => {
@@ -35,18 +34,20 @@ const actions = {
       });
   },
 
-  getCashierGroup({ getters }, id) {
+  getCashierGroup({ commit, getters }, id) {
     const cashierGroup = getters.cashierGroups.find(
       (p) => p.id.toString() === id
     );
     if (cashierGroup !== undefined) {
+      commit('SET_CURRENT_CASHIER_GROUP', cashierGroup);
       return cashierGroup;
-    } else
-      return cashierGroupService
-        .getCashierGroup(id)
-        .then(({ data }) => {
-          return data;
-        });
+    }
+    return cashierGroupService
+      .getCashierGroup(id)
+      .then(({ data }) => {
+        commit('SET_CURRENT_CASHIER_GROUP', data);
+        return data;
+      });
   },
 
   addCashierGroup({ commit }, cashierGroupField) {
@@ -96,6 +97,9 @@ const actions = {
 const mutations = {
   SET_CASHIER_GROUPS(state, cashierGroups) {
     state.cashierGroups = JSON.stringify(cashierGroups);
+  },
+  SET_CURRENT_CASHIER_GROUP(state, cashierGroup) {
+    state.cashierGroup = JSON.stringify(cashierGroup);
   },
   ADD_CASHIER_GROUP(state, cashierGroup) {
     let cashierGroups = JSON.parse(state.cashierGroups);

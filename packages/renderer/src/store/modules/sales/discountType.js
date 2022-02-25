@@ -25,27 +25,29 @@ const actions = {
   getDiscountTypesList({ commit, getters }, { page, field }) {
     if (getters.discountTypes.length > 0) {
       return getters.discountTypes;
-    } else
-      return discountTypeService
-        .getDiscountTypesList(page, field)
-        .then(({ data }) => {
-          commit('SET_DISCOUNT_TYPES', data);
-          return data;
-        });
+    }
+    return discountTypeService
+      .getDiscountTypesList(page, field)
+      .then(({ data }) => {
+        commit('SET_DISCOUNT_TYPES', data);
+        return data;
+      });
   },
 
-  getDiscountType({ getters }, id) {
+  getDiscountType({ commit, getters }, id) {
     const discountType = getters.discountTypes.find(
       (p) => p.id.toString() === id
     );
     if (discountType !== undefined) {
+      commit('SET_CURRENT_DISCOUNT_TYPE', discountType);
       return discountType;
-    } else
-      return discountTypeService
-        .getDiscountType(id)
-        .then(({ data }) => {
-          return data;
-        });
+    }
+    return discountTypeService
+      .getDiscountType(id)
+      .then(({ data }) => {
+        commit('SET_CURRENT_DISCOUNT_TYPE', data);
+        return data;
+      });
   },
 
   addDiscountType({ commit }, discountTypeField) {
@@ -95,6 +97,9 @@ const actions = {
 const mutations = {
   SET_DISCOUNT_TYPES(state, discountTypes) {
     state.discountTypes = JSON.stringify(discountTypes);
+  },
+  SET_CURRENT_DISCOUNT_TYPE(state, discountType) {
+    state.discountType = JSON.stringify(discountType);
   },
   ADD_DISCOUNT_TYPE(state, discountType) {
     let discountTypes = JSON.parse(state.discountTypes);

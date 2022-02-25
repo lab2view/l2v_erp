@@ -25,27 +25,29 @@ const actions = {
   getCashiersList({ commit, getters }, { page, field }) {
     if (getters.cashiers.length > 0) {
       return getters.cashiers;
-    } else
-      return cashierService
-        .getCashiersList(page, field)
-        .then(({ data }) => {
-          commit('SET_CASHIERS', data);
-          return data;
-        });
+    }
+    return cashierService
+      .getCashiersList(page, field)
+      .then(({ data }) => {
+        commit('SET_CASHIERS', data);
+        return data;
+      });
   },
 
-  getCashier({ getters }, id) {
+  getCashier({ commit, getters }, id) {
     const cashier = getters.cashiers.find(
       (p) => p.id.toString() === id
     );
     if (cashier !== undefined) {
+      commit('SET_CURRENT_CASHIER', cashier);
       return cashier;
-    } else
-      return cashierService
-        .getCashier(id)
-        .then(({ data }) => {
-          return data;
-        });
+    }
+    return cashierService
+      .getCashier(id)
+      .then(({ data }) => {
+        commit('SET_CURRENT_CASHIER', data);
+        return data;
+      });
   },
 
   addCashier({ commit }, cashierField) {
@@ -95,6 +97,9 @@ const actions = {
 const mutations = {
   SET_CASHIERS(state, cashiers) {
     state.cashiers = JSON.stringify(cashiers);
+  },
+  SET_CURRENT_CASHIER(state, cashier) {
+    state.cashier = JSON.stringify(cashier);
   },
   ADD_CASHIER(state, cashier) {
     let cashiers = JSON.parse(state.cashiers);
