@@ -14,7 +14,7 @@ if (!isSingleInstance) {
 app.disableHardwareAcceleration();
 
 // Install "Vue.js devtools"
-if (isDevelopment) {
+// if (isDevelopment) {
   app.whenReady()
     .then(() => import('electron-devtools-installer'))
     .then(({default: installExtension, VUEJS3_DEVTOOLS}) => installExtension(VUEJS3_DEVTOOLS, {
@@ -23,7 +23,7 @@ if (isDevelopment) {
       },
     }))
     .catch(e => console.error('Failed install extension:', e));
-}
+// }
 
 let mainWindow = null;
 
@@ -99,10 +99,10 @@ ipcMain.on('reload', (event) => {
 });
 
 // Auto-updates
-if (import.meta.env.PROD) {
+// if (import.meta.env.PROD) {
   app.whenReady()
     .then(() => import('electron-updater'))
     .then(({autoUpdater}) => autoUpdater.checkForUpdatesAndNotify())
     .catch((e) => console.error('Failed check updates:', e));
-}
+// }
 
