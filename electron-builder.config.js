@@ -23,29 +23,30 @@ const config = {
   'productName': 'Lab2view ERP',
   'copyright': 'Copyright © 2022 lab2view',
 
-  // @see https://www.electron.build/configuration/linux
-  'linux': {
-    'target': [
-       'zip',
-       'AppImage',
-       'deb',
-      //  'snap',
-    ],
-  },
-
   'win': {
     'target': [
       'squirrel',
       'nsis',
+      'exe',
     ],
   },
 
-  'mac': {
-    'target': [
-       'zip',
-       'dmg',
-    ],
- },
+  // @see https://www.electron.build/configuration/linux
+  // 'linux': {
+  //   'target': [
+  //     'zip',
+  //     'AppImage',
+  //     'deb',
+  //     //  'snap',
+  //   ],
+  // },
+
+  // 'mac': {
+  //   'target': [
+  //     'zip',
+  //     'dmg',
+  //   ],
+  // },
 };
 
 module.exports = config;
