@@ -41,7 +41,6 @@
     },
     {
       "matchPackagePatterns": [
-        "^@typescript-eslint",
         "^eslint"
       ],
       "automerge": true,
