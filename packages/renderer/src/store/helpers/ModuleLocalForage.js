@@ -250,6 +250,41 @@ const Transaction = new VuexPersistence({
   reducer: (state) => ({ transaction: state.transaction }),
 });
 
+const DiscountType = new VuexPersistence({
+  key: 'discountType',
+  storage: localStore,
+  asyncStorage: true,
+  reducer: (state) => ({ discountType: state.discountType }),
+});
+
+const Discount = new VuexPersistence({
+  key: 'discount',
+  storage: localStore,
+  asyncStorage: true,
+  reducer: (state) => ({ discount: state.discount }),
+});
+
+const CashRegister = new VuexPersistence({
+  key: 'cashRegister',
+  storage: localStore,
+  asyncStorage: true,
+  reducer: (state) => ({ cashRegister: state.cashRegister }),
+});
+
+const Cashier = new VuexPersistence({
+  key: 'cashier',
+  storage: localStore,
+  asyncStorage: true,
+  reducer: (state) => ({ cashier: state.cashier }),
+});
+
+const CashierGroup = new VuexPersistence({
+  key: 'cashierGroup',
+  storage: localStore,
+  asyncStorage: true,
+  reducer: (state) => ({ cashierGroup: state.cashierGroup }),
+});
+
 export default [
   Auth.plugin,
   Product.plugin,
@@ -285,4 +320,9 @@ export default [
   PaymentMethod.plugin,
   Transaction.plugin,
   TransactionType.plugin,
+  Discount.plugin,
+  DiscountType.plugin,
+  CashRegister.plugin,
+  Cashier.plugin,
+  CashierGroup.plugin,
 ];

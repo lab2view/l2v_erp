@@ -41,7 +41,6 @@
     },
     {
       "matchPackagePatterns": [
-        "^@typescript-eslint",
         "^eslint"
       ],
       "automerge": true,
@@ -49,9 +48,12 @@
     },
     {
       "matchPackageNames": [
-        "electron"
+        "electron",
+        "electron-releases",
+        "spectron"
       ],
-      "separateMajorMinor": false
+      "separateMajorMinor": false,
+      "groupName": "electron"
     }
   ],
   "rangeStrategy": "pin"

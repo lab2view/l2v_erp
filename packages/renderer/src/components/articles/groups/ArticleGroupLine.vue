@@ -17,7 +17,7 @@
     </td>
     <td class="text-center">
       <BaseUpdateNumberForm
-        :model="articleGroupLine"
+        :quantity="articleGroupLine.quantity"
         :store-action="updateQuantity"
       />
     </td>
@@ -104,8 +104,11 @@ export default {
       }
     },
 
-    updateQuantity(data) {
-      return this.$store.dispatch('article_group/updateArticleGroupLine', data);
+    updateQuantity(quantity) {
+      return this.$store.dispatch('article_group/updateArticleGroupLine', {
+        ...this.articleGroupLine,
+        quantity,
+      });
     },
   },
 };
