@@ -1,8 +1,4 @@
 <template>
-  <div class="absolute-top">
-    {{ version }}
-    <img alt="" src="./assets/logo.svg" />
-  </div>
   <!--Loader starts-->
   <Loader />
   <!-- Loader ends-->
@@ -21,15 +17,7 @@ export default defineComponent({
     Loader,
   },
 
-  data() {
-    return {
-      version: '0.0.1',
-    };
-  },
-
   mounted() {
-    console.log('app.version');
-    console.log(this.version);
     setTimeout(() => {
       (async () => {
         return Promise.all([
