@@ -8,6 +8,7 @@ export default {
   delete: 'Supprimer',
   delete_all: 'Tout Supprimer',
   save: 'Enregistrer',
+  find: 'Rechercher',
   update: 'Modifier',
   restore: 'Restaurer',
   forceDelete: 'Supprimer definitivement',
@@ -32,6 +33,9 @@ export default {
   configuration: 'Configuration',
   configurations: 'Configurations',
   return_to_list: 'Retourner a la liste',
+  login: 'Connexion',
+  no_action: "Pas d'action",
+
   fields: {
     text: 'Chaine de caractere',
     number: 'Nombre',
@@ -55,8 +59,8 @@ export default {
   },
 
   attributes: {
-    disable_date: "Desactive le",
-    stock_variety: "Variete du stock",
+    disable_date: 'Desactive le',
+    stock_variety: 'Variete du stock',
     calling_code: "Code d'appel",
     iso: 'Iso',
     iso_3166_2: 'iso_3166_2',
@@ -124,7 +128,7 @@ export default {
     database: 'Base de donnees',
     phone: 'Telephone',
     domain: 'Nom de domaine',
-    discount_type: "Type de rabais",
+    discount_type: 'Type de rabais',
     enterpriseType: "Type d'entreprise",
     customerType: 'Type de client',
     localization: 'Adresse',
@@ -139,9 +143,10 @@ export default {
     value: 'Valeur',
     start_at: 'Debute le',
     end_at: "S'acheve le",
-    ended_at: "Acheve le",
-    is_percent: "En pourcentage",
-    only_bill: "Uniquement au facture",
+    ended_at: 'Acheve le',
+    is_percent: 'En pourcentage',
+    only_bill: 'Uniquement au facture',
+    price_type_id: 'Type de prix',
   },
 
   headers: {

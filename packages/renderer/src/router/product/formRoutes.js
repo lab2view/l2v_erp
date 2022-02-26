@@ -52,6 +52,12 @@ export default [
         component: () =>
           import('/@/views/products/forms/ProductDescription.vue'),
       },
+      {
+        path: 'properties',
+        name: 'product.form.setting.property',
+        component: () =>
+          import('/@/views/products/forms/ProductProperties.vue'),
+      },
     ],
   },
   {
@@ -106,8 +112,7 @@ export default [
         path: 'entries',
         name: 'product.form.stock.entry',
         props: () => ({ useCurrentProduct: true }),
-        component: () =>
-          import('/@/views/stocks/entries/StockEntriesList.vue'),
+        component: () => import('/@/views/stocks/entries/StockEntriesList.vue'),
       },
       {
         path: 'exits',

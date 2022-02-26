@@ -40,6 +40,16 @@
                 <span class="fa fa-file-text m-r-10" />
                 {{ $t('product.form.setting.desc') }}
               </router-link>
+              <router-link
+                :to="{
+                  name: 'product.form.setting.property',
+                  params: { ...$route.params },
+                }"
+                class="list-group-item list-group-item-action mt-3"
+              >
+                <span class="fa fa-cog m-r-10" />
+                {{ $t('product.form.setting.property') }}
+              </router-link>
             </div>
           </div>
         </div>
