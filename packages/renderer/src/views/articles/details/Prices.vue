@@ -24,9 +24,6 @@
             <tr>
               <th scope="col">{{ $t('common.attributes.price_type_id') }}</th>
               <th scope="col">{{ $t('common.attributes.amount') }}</th>
-              <th scope="col" class="text-center">
-                {{ $t('common.actions') }}
-              </th>
             </tr>
           </thead>
           <tbody>
