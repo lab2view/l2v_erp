@@ -78,5 +78,5 @@ export default {
 </script>
 
 <style scoped>
-@import '../../../assets/css/dropzone.css';
+@import '/assets/css/dropzone.css';
 </style>

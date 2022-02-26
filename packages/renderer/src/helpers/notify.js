@@ -1,5 +1,5 @@
 if ($ === undefined || jQuery === undefined) {
-  require('./../../assets/js/jquery-3.5.1.min.js');
+  require('/assets/js/jquery-3.5.1.min.js');
 }
 
 export function notify(

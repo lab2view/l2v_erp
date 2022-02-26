@@ -1,9 +1,9 @@
 <template>
   <div v-if="canShowWorkspace" class="customizer-links">
     <div
+      aria-orientation="vertical"
       class="nav flex-column nac-pills"
       role="tablist"
-      aria-orientation="vertical"
       title="Espace de travail"
     >
       <a
@@ -60,7 +60,7 @@ export default defineComponent({
   created() {
     setTimeout(() => {
       (async () => {
-        await this.$loadScript(`../../../assets/js/sidebar-menu.js`);
+        await this.$loadScript(`/assets/js/sidebar-menu.js`);
         // await this.$loadScript(
         //   `../../../assets/js/theme-customizer/customizer.js`
         // );
@@ -77,5 +77,5 @@ export default defineComponent({
 </script>
 
 <style scoped>
-@import '../../../assets/css/prism.css';
+@import '/assets/css/prism.css';
 </style>

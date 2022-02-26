@@ -22,7 +22,7 @@
       ><img
         alt=""
         class="img-90 rounded-circle"
-        src="../../../assets/images/dashboard/1.png"
+        src="/assets/images/dashboard/1.png"
       />
       <div class="badge-bottom">
         <span class="badge badge-primary">New</span>
@@ -71,7 +71,7 @@ import {
   productMenus,
   saleMenus,
   stockMenus,
-  structureMenus
+  structureMenus,
 } from '/@/helpers/menus';
 import { mapGetters } from 'vuex';
 
