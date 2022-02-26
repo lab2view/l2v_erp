@@ -10,6 +10,7 @@
   "homepage": "https://kitbussiness.com",
   "build": {
     "appId": "com.kitbussiness",
+    "extends": null,
     "publish": {
       "provider": "github",
       "repo": "l2v_erp",

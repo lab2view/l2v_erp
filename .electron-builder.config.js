@@ -9,6 +9,7 @@ const config = {
   },
   files: ['packages/**/dist/**'],
   asar: false,
+  extends: null,
   extraFiles: [
     {
       from: 'packages/renderer/src/assets',
