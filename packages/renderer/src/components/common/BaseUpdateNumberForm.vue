@@ -7,6 +7,16 @@
     :disabled="!is_form"
     :errors="errors[fieldName]"
   >
+    <template v-if="prefix" #prefix>
+      <button
+        :title="prefix"
+        class="btn btn-iconsolid btn-info"
+        type="button"
+        :disabled="true"
+      >
+        {{ prefix }}
+      </button>
+    </template>
     <button
       :class="btnClass"
       :title="btnTitle"
@@ -37,6 +47,10 @@ export default {
     fieldName: {
       type: String,
       default: 'quantity',
+    },
+    prefix: {
+      type: String,
+      default: null,
     },
   },
   data() {

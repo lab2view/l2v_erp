@@ -9,7 +9,7 @@
           {{ `${$t('article.detail.title')} : #${article.id}` }}
         </h5>
       </div>
-      <div class="card-body">
+      <div class="card-body p-0">
         <div class="tabbed-card">
           <ul
             id="top-tabdanger"

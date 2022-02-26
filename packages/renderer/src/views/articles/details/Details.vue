@@ -1,5 +1,5 @@
 <template>
-  <div class="card">
+  <div class="card border-top-0">
     <div class="card-header">
       <div class="header-top d-sm-flex align-items-center">
         <h5>Sell Overview</h5>

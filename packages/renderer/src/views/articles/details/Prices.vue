@@ -1,5 +1,5 @@
 <template>
-  <div class="card mb-0">
+  <div class="card mb-0 border-top-0">
     <div class="card-header pb-0">
       <div class="row align-items-center">
         <div class="col-sm">
@@ -17,26 +17,28 @@
         </div>
       </div>
     </div>
-    <div class="table-responsive">
-      <table class="table">
-        <thead>
-          <tr>
-            <th scope="col">{{ $t('common.attributes.price_type_id') }}</th>
-            <th scope="col">{{ $t('common.attributes.amount') }}</th>
-            <th scope="col" class="text-center">
-              {{ $t('common.actions') }}
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          <ArticlePriceTableLine
-            v-for="(priceType, index) in priceTypes"
-            :key="`price-type-${index}`"
-            :price-type="priceType"
-            :article="article"
-          />
-        </tbody>
-      </table>
+    <div class="card-body">
+      <div class="table-responsive">
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">{{ $t('common.attributes.price_type_id') }}</th>
+              <th scope="col">{{ $t('common.attributes.amount') }}</th>
+              <th scope="col" class="text-center">
+                {{ $t('common.actions') }}
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <ArticlePriceTableLine
+              v-for="(priceType, index) in priceTypes"
+              :key="`price-type-${index}`"
+              :price-type="priceType"
+              :article="article"
+            />
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
   <router-view />

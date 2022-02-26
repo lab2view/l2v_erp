@@ -1,8 +1,9 @@
 <template>
   <tr>
     <td>{{ priceType.label }}</td>
-    <td>
+    <td style="width: 250px">
       <BaseUpdateNumberForm
+        prefix="XAF"
         field-name="prices"
         :quantity="price ? price.value : 1"
         :store-action="updatePriceValue"
