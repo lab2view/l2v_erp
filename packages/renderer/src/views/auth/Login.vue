@@ -60,9 +60,11 @@
                 >
               </div>
               <div class="form-group">
-                <button class="btn btn-primary btn-block" type="submit">
-                  Sign in
-                </button>
+                <BaseButton
+                  :text="$t('common.login')"
+                  :loading="loading"
+                  class="btn btn-primary btn-block"
+                />
               </div>
               <div class="login-social-title">
                 <h5>.</h5>
@@ -87,9 +89,12 @@
 </template>
 
 <script>
+import BaseButton from '/@/components/common/BaseButton.vue';
 export default {
+  components: { BaseButton },
   data() {
     return {
+      loading: false,
       loginInput: {
         email: null,
         password: null,
@@ -99,8 +104,10 @@ export default {
   },
   methods: {
     submitLoginForm() {
+      this.loading = true;
       this.$store.dispatch('auth/login', this.loginInput).catch((error) => {
         console.log(error);
+        this.loading = false;
       });
     },
   },
