@@ -2,7 +2,12 @@
   <tr>
     <td>{{ article.package.label }}</td>
     <td>
-      <BaseUpdateNumberForm :model="article" :store-action="updateQuantity" />
+      <BaseUpdateNumberForm
+        v-if="!article.not_deletable"
+        :quantity="article.quantity"
+        :store-action="updateQuantity"
+      />
+      <span v-else>{{ article.quantity }}</span>
     </td>
     <td class="font-primary f-w-600">{{ article.name }}</td>
     <td>
@@ -59,8 +64,11 @@ export default {
       if (confirm(this.$t('messages.confirmDelete', { label: article.name })))
         this.$store.dispatch('article/deleteArticle', article.id);
     },
-    updateQuantity(data) {
-      return this.$store.dispatch('article/updateArticle', data);
+    updateQuantity(quantity) {
+      return this.$store.dispatch('article/updateArticle', {
+        ...this.article,
+        quantity,
+      });
     },
   },
 };

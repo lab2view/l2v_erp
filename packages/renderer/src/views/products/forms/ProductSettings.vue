@@ -58,6 +58,14 @@ export default {
   computed: {
     ...mapGetters('product', ['product']),
   },
+  beforeCreate() {
+    if (this.$route.name === 'product.form.setting')
+      this.$router.push({
+        name: 'product.form.setting.gallery',
+        params: this.$route.params,
+        query: this.$route.query,
+      });
+  },
 };
 </script>
 

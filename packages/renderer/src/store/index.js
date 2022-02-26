@@ -45,7 +45,6 @@ import cashierGroup from './modules/sales/cashierGroup';
 export default createStore({
   state: {
     globalLoading: true,
-    // landlordDomain: 'kitbussiness.com',
     landlordDomain: 'kitbussiness.test',
     uploaded: null,
     initiateApp: true,

@@ -8,11 +8,6 @@ export default [
     component: () => import('/@/views/articles/ArticleList.vue'),
   },
   {
-    path: ':id?/form',
-    name: 'article.form',
-    component: () => import('/@/views/articles/Form.vue'),
-  },
-  {
     path: ':id/details',
     component: () => import('/@/components/articles/DetailLayout.vue'),
     meta: {
@@ -48,10 +43,5 @@ export default [
         if (to.meta.requireArticleGroup) return -1;
       }
     },
-  },
-  {
-    path: 'groups/:id/details',
-    name: 'article.group.detail',
-    component: () => import('/@/views/articles/groups/Details.vue'),
   },
 ];
