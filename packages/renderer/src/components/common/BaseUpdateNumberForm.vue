@@ -26,8 +26,8 @@ export default {
   name: 'BaseUpdateNumberForm',
   components: { BaseInputGroup },
   props: {
-    model: {
-      type: Object,
+    quantity: {
+      type: [Number, String],
       required: true,
     },
     storeAction: {
@@ -76,18 +76,18 @@ export default {
   },
   watch: {
     quantityField(value) {
-      this.is_edited = value !== this.model.quantity;
+      this.is_edited = value !== this.quantity;
     },
   },
   created() {
-    this.quantityField = this.model.quantity;
+    this.quantityField = this.quantity;
   },
   methods: {
     onInputBtnClick() {
       if (this.is_form) {
         if (this.is_edited) {
           this.loading = true;
-          this.storeAction({ ...this.model, quantity: this.quantityField })
+          this.storeAction(this.quantityField)
             .then(() => {
               this.is_edited = false;
               this.is_form = false;

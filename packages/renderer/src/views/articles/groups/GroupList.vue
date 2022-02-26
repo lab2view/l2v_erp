@@ -34,17 +34,8 @@
           <tr v-for="articleGroup in articleGroups" :key="articleGroup.id">
             <td>{{ articleGroup.id }}</td>
             <td>{{ articleGroup.label }}</td>
-            <td>
-              <router-link
-                :to="{
-                  name: 'article.group.detail',
-                  params: { id: articleGroup.id },
-                }"
-              >
-                {{ articleGroup.code }}
-              </router-link>
-            </td>
-            <td>{{ articleGroup.description }}</td>
+            <td>{{ articleGroup.code }}</td>
+            <td>{{ truncate(articleGroup.description, 100) }}</td>
             <td>
               <BaseButton
                 type="button"
@@ -82,9 +73,11 @@ import store from '../../../store';
 import { mapGetters } from 'vuex';
 import BaseContainer from '../../../components/common/BaseContainer.vue';
 import BaseButton from '../../../components/common/BaseButton.vue';
+import FilterMixin from '/@/mixins/FilterMixin.js';
 
 export default {
   components: { BaseButton, BaseContainer, BaseDatatable },
+  mixins: [FilterMixin],
   beforeRouteEnter(routeTo, routeFrom, next) {
     store
       .dispatch('article_group/getArticleGroupList', {
