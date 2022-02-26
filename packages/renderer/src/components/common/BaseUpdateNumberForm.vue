@@ -5,8 +5,18 @@
     required
     style="width: 40px"
     :disabled="!is_form"
-    :errors="errors?.quantity"
+    :errors="errors[fieldName]"
   >
+    <template v-if="prefix" #prefix>
+      <button
+        :title="prefix"
+        class="btn btn-iconsolid btn-info"
+        type="button"
+        :disabled="true"
+      >
+        {{ prefix }}
+      </button>
+    </template>
     <button
       :class="btnClass"
       :title="btnTitle"
@@ -33,6 +43,14 @@ export default {
     storeAction: {
       type: Function,
       required: true,
+    },
+    fieldName: {
+      type: String,
+      default: 'quantity',
+    },
+    prefix: {
+      type: String,
+      default: null,
     },
   },
   data() {

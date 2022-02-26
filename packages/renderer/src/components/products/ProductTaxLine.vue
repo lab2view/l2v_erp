@@ -1,12 +1,7 @@
 <template>
   <tr>
     <td>{{ productTax.tax.label }}</td>
-    <td>
-      <BaseUpdateNumberForm
-        :store-action="updateProductTaxValue"
-        :quantity="productTax.value"
-      />
-    </td>
+    <td>{{ productTax.value }}</td>
     <td>
       <div class="row justify-content-center align-items-center">
         <div class="col-md-6 p-0">
@@ -42,9 +37,9 @@
 
 <script>
 import BaseButton from '../common/BaseButton.vue';
-import BaseUpdateNumberForm from '/@/components/common/BaseUpdateNumberForm.vue';
+
 export default {
-  components: { BaseUpdateNumberForm, BaseButton },
+  components: { BaseButton },
   props: {
     productTax: {
       type: Object,

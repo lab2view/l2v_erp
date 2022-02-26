@@ -9,15 +9,43 @@ export default [
   },
   {
     path: ':id/details',
-    component: () => import('/@/components/articles/DetailLayout.vue'),
     meta: {
       requireArticle: true,
+    },
+    component: () => import('/@/components/articles/DetailLayout.vue'),
+    beforeEnter: (to) => {
+      return store
+        .dispatch('article/getArticle', to.params.id)
+        .then(() => {
+          return 1;
+        })
+        .catch(() => -1);
     },
     children: [
       {
         path: '',
         name: 'article.details',
         component: () => import('/@/views/articles/details/Details.vue'),
+      },
+      {
+        path: 'prices',
+        name: 'article.prices',
+        component: () => import('/@/views/articles/details/Prices.vue'),
+        children: [
+          {
+            path: 'form',
+            name: 'article.prices.from',
+            component: () =>
+              import(
+                '/@/views/products/configurations/priceType/PriceTypeForm.vue'
+              ),
+          },
+        ],
+      },
+      {
+        path: 'compositions',
+        name: 'article.compositions',
+        component: () => import('/@/views/articles/details/Compositions.vue'),
       },
     ],
   },
