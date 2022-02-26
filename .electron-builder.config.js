@@ -19,6 +19,9 @@ const config = {
   extraMetadata: {
     version: require('electron').version,
   },
+  win: {
+    target: ['nsis', 'squirrel'],
+  },
 };
 
 module.exports = config;

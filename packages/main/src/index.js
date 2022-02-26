@@ -13,6 +13,10 @@ if (!isSingleInstance) {
 
 app.disableHardwareAcceleration();
 
+if (!isDevelopment) {
+  app.setPath('appData', app.getPath('appData').replace('app.asar', 'app'));
+}
+
 // Install "Vue.js devtools"
 // if (isDevelopment) {
 app
