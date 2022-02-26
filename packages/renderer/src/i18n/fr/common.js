@@ -34,6 +34,7 @@ export default {
   configurations: 'Configurations',
   return_to_list: 'Retourner a la liste',
   login: 'Connexion',
+  no_action: "Pas d'action",
 
   fields: {
     text: 'Chaine de caractere',
@@ -145,6 +146,7 @@ export default {
     ended_at: 'Acheve le',
     is_percent: 'En pourcentage',
     only_bill: 'Uniquement au facture',
+    price_type_id: 'Type de prix',
   },
 
   headers: {

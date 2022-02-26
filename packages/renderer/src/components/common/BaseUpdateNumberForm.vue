@@ -5,7 +5,7 @@
     required
     style="width: 40px"
     :disabled="!is_form"
-    :errors="errors?.quantity"
+    :errors="errors[fieldName]"
   >
     <button
       :class="btnClass"
@@ -33,6 +33,10 @@ export default {
     storeAction: {
       type: Function,
       required: true,
+    },
+    fieldName: {
+      type: String,
+      default: 'quantity',
     },
   },
   data() {

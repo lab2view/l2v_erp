@@ -5,7 +5,9 @@
   >
     <div class="card">
       <div class="card-header">
-        <h5 class="pull-left">Material tab with color</h5>
+        <h5 class="pull-left">
+          {{ `${$t('article.detail.title')} : #${article.id}` }}
+        </h5>
       </div>
       <div class="card-body">
         <div class="tabbed-card">
@@ -15,48 +17,40 @@
             role="tablist"
           >
             <li class="nav-item">
-              <a
-                id="top-home-danger"
+              <router-link
+                :to="{ name: 'article.details', params: $route.params }"
                 class="nav-link"
-                data-bs-toggle="tab"
-                href="#top-homedanger"
-                role="tab"
-                aria-controls="top-homedanger"
-                aria-selected="false"
-                ><i class="icofont icofont-ui-home"></i>Home</a
+                active-class="active"
               >
+                <i class="icofont icofont-chart-bar-graph"></i>
+                {{ $t('menu.article.detail') }}
+              </router-link>
               <div class="material-border"></div>
             </li>
             <li class="nav-item">
-              <a
-                id="profile-top-danger"
+              <router-link
+                :to="{ name: 'article.prices', params: $route.params }"
                 class="nav-link"
-                data-bs-toggle="tab"
-                href="#top-profiledanger"
-                role="tab"
-                aria-controls="top-profiledanger"
-                aria-selected="false"
-                ><i class="icofont icofont-man-in-glasses"></i>Profile</a
+                active-class="active"
               >
+                <i class="icofont icofont-money"></i>
+                {{ $t('menu.article.price') }}
+              </router-link>
               <div class="material-border"></div>
             </li>
             <li class="nav-item">
-              <a
-                id="contact-top-danger"
-                class="nav-link active"
-                data-bs-toggle="tab"
-                href="#top-contactdanger"
-                role="tab"
-                aria-controls="top-contactdanger"
-                aria-selected="true"
-                ><i class="icofont icofont-contacts"></i>Contact</a
+              <router-link
+                :to="{ name: 'article.compositions', params: $route.params }"
+                class="nav-link"
+                active-class="active"
               >
+                <i class="icofont icofont-bricks"></i>
+                {{ $t('menu.article.composition') }}
+              </router-link>
               <div class="material-border"></div>
             </li>
           </ul>
-          <div class="tab-content">
-            <router-view></router-view>
-          </div>
+          <router-view :article="article"></router-view>
         </div>
       </div>
     </div>
@@ -65,9 +59,11 @@
 
 <script>
 import BaseContainer from '/@/components/common/BaseContainer.vue';
+import { mapGetters } from 'vuex';
 export default {
   name: 'DetailLayout',
   components: { BaseContainer },
+  computed: mapGetters('article', ['article']),
 };
 </script>
 

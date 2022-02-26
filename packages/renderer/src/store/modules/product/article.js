@@ -1,5 +1,5 @@
 import articleService from '../../../services/articles/ArticleService';
-import { notify } from '../../../helpers/notify';
+import { notify } from '/@/helpers/notify.js';
 import i18n from '../../../i18n';
 
 const state = {
@@ -85,6 +85,37 @@ const actions = {
       return data;
     });
   },
+
+  addPrices({ getters, commit }, prices) {
+    return articleService
+      .addPrices(prices, getters.article.id)
+      .then(({ data }) => {
+        commit('ADD_PRICES', data.prices);
+      });
+  },
+  updatePrice({ commit }, price) {
+    return articleService.updatePrice(price).then(({ data }) => {
+      commit('UPDATE_PRICE', data);
+      notify(
+        i18n.global.t('article.detail.price.update'),
+        'Ok',
+        'theme',
+        'fa fa-check'
+      );
+    });
+  },
+  removePrices({ getters, commit }, pricesIds) {
+    return articleService
+      .removePrices(
+        {
+          price_ids: [...pricesIds],
+        },
+        getters.article.id
+      )
+      .then(() => {
+        commit('REMOVE_PRICES', pricesIds);
+      });
+  },
 };
 
 // mutations
@@ -117,6 +148,45 @@ const mutations = {
     state.articles = JSON.stringify(
       JSON.parse(state.articles).filter((p) => p.product_id !== productId)
     );
+  },
+
+  ADD_PRICES(state, prices) {
+    let articles = JSON.parse(state.articles);
+    let article = JSON.parse(state.article);
+    let index = articles.findIndex((a) => a.id === article.id);
+    if (index !== -1) {
+      article.prices = [...article.prices, ...prices];
+      articles.splice(index, 1, article);
+      state.article = JSON.stringify(article);
+      state.articles = JSON.stringify(articles);
+    }
+  },
+  UPDATE_PRICE(state, price) {
+    let articles = JSON.parse(state.articles);
+    let article = JSON.parse(state.article);
+    let index = articles.findIndex((a) => a.id === article.id);
+    if (index !== -1) {
+      let p = article.prices.findIndex((p) => p.id === price.id);
+      if (p !== -1) {
+        article.prices.splice(p, 1, price);
+        articles.splice(index, 1, article);
+        state.article = JSON.stringify(article);
+        state.articles = JSON.stringify(articles);
+      }
+    }
+  },
+  REMOVE_PRICES(state, prices) {
+    let articles = JSON.parse(state.articles);
+    let article = JSON.parse(state.article);
+    let index = articles.findIndex((a) => a.id === article.id);
+    if (index !== -1) {
+      article.prices = article.prices.filter((ap) => {
+        return prices.find((p) => p === ap.id) === undefined;
+      });
+      articles.splice(index, 1, article);
+      state.article = JSON.stringify(article);
+      state.articles = JSON.stringify(articles);
+    }
   },
 };
 

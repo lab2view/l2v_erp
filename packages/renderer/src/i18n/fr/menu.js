@@ -143,6 +143,9 @@ export default {
   article: {
     create: 'Ajouter un article',
     viewany: 'Liste des articles',
+    detail: 'Statistiques',
+    price: 'Configurer les prix',
+    composition: 'Compositions',
   },
   articlegroup: {
     viewany: "Groupes d'articles",

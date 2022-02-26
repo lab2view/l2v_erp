@@ -29,18 +29,29 @@ export default {
     return axios.delete(`/articles/delete/${id}`);
   },
 
-  savePrices(prices, article_id) {
-    return axios.post(`/articles/${article_id}/prices/save`, prices);
+  addPrices(prices, article_id) {
+    return axios.post(`/articles/${article_id}/prices/add`, prices);
+  },
+
+  updatePrice(price) {
+    return axios.put(`/articles/prices/${price.id}/update`, price);
   },
 
   removePrices(pricesIds, article_id) {
     return axios.post(`/articles/${article_id}/prices/remove`, pricesIds);
   },
 
-  saveCompositionPresets(childArticles, article_id) {
+  addCompositionPresets(childArticles, article_id) {
     return axios.post(
-      `/articles/${article_id}/compositions/presets/save`,
+      `/articles/${article_id}/compositions/presets/add`,
       childArticles
+    );
+  },
+
+  updateCompositionPreset(compositionPreset) {
+    return axios.put(
+      `/articles/compositions/presets/${compositionPreset.id}update`,
+      compositionPreset
     );
   },
 
