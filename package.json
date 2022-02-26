@@ -1,6 +1,33 @@
 {
-  "name": "vite-electron-builder",
-  "private": true,
+  "name": "l2v-erp-front",
+  "version": "0.0.2",
+  "author": {
+    "name": "Lab2view",
+    "email": "contact@lab2view.com",
+    "url": "https://lab2view.com"
+  },
+  "description": "an ERP",
+  "homepage": "https://kitbussiness.com",
+  "extraRessources": [
+    {
+      "from": "packages/renderer/assets/",
+      "to": "packages/renderer/assets/",
+      "filter": [
+        "**/*"
+      ]
+    }
+  ],
+  "build": {
+    "appId": "com.kitbussiness.www",
+    "publish": {
+      "provider": "github",
+      "repo": "l2v_erp",
+      "owner": "lab2view",
+      "host": "github.com",
+      "protocol": "https",
+      "private": false
+    }
+  },
   "engines": {
     "node": ">=v16.13",
     "npm": ">=8.1"
@@ -21,6 +48,7 @@
     "cross-env": "7.0.3",
     "electron": "16.0.4",
     "electron-builder": "22.14.5",
+    "electron-builder-squirrel-windows": "^23.0.1",
     "electron-devtools-installer": "3.2.0",
     "eslint": "^8.5.0",
     "eslint-config-prettier": "^8.3.0",

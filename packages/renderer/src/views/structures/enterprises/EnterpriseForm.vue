@@ -223,13 +223,15 @@ export default {
       } else {
         this.$store
           .dispatch('enterprise/addEnterprise', this.enterpriseForm)
-          .then((enterprise) =>
+          .then((enterprise) => {
+            console.log(enterprise);
             this.$router.push({
               name: 'enterprise.form.setting',
               params: {id: enterprise.id},
-            }),
-          )
+            });
+          })
           .catch((error) => {
+            console.log(error);
             this.errors = error.response.data.errors;
             console.log(error);
           })

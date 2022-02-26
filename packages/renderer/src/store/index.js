@@ -36,6 +36,11 @@ import transaction from './modules/payments/transaction';
 import transactionType from './modules/payments/transactionType';
 import paymentMethod from './modules/payments/paymentMethod';
 import paymentCharge from './modules/payments/paymentCharge';
+import discount from './modules/sales/discount';
+import discountType from './modules/sales/discountType';
+import cashRegister from './modules/sales/cashRegister';
+import cashier from './modules/sales/cashier';
+import cashierGroup from './modules/sales/cashierGroup';
 
 export default createStore({
   state: {
@@ -108,6 +113,11 @@ export default createStore({
     paymentCharge,
     transaction,
     transactionType,
+    discount,
+    discountType,
+    cashRegister,
+    cashier,
+    cashierGroup,
   },
   strict: process.env.NODE_ENV !== 'production',
   plugins: [...modulePlugins],
