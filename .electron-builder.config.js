@@ -21,7 +21,7 @@ const config = {
     version: require('electron').version,
   },
   win: {
-    target: ['nsis', 'squirrel'],
+    target: ['nsis'],
   },
 };
 
