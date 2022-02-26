@@ -1,4 +1,4 @@
-import { app, BrowserWindow, ipcMain } from 'electron';
+import { app, BrowserWindow, ipcMain, Notification } from 'electron';
 import { join } from 'path';
 import { URL } from 'url';
 import './security-restrictions';
@@ -12,6 +12,13 @@ if (!isSingleInstance) {
 }
 
 app.disableHardwareAcceleration();
+
+function showNotification(message) {
+  new Notification({
+    title: 'NOTIFICATION_TITLE',
+    body: message,
+  }).show();
+}
 
 // Install "Vue.js devtools"
 if (isDevelopment) {
@@ -89,6 +96,7 @@ app
   .whenReady()
   .then(createWindow)
   .then(() => {
+    showNotification('Bienvenue');
     mainWindow?.webContents?.send('message', 'Debut du programme');
   })
   .catch((e) => console.error('Failed create window:', e));
@@ -106,6 +114,9 @@ if (import.meta.env.PROD) {
   app
     .whenReady()
     .then(() => import('electron-updater'))
-    .then(({ autoUpdater }) => autoUpdater.checkForUpdatesAndNotify())
+    .then(({ autoUpdater }) => {
+      showNotification('Mis a jour trouve');
+      return autoUpdater.checkForUpdatesAndNotify();
+    })
     .catch((e) => console.error('Failed check updates:', e));
 }

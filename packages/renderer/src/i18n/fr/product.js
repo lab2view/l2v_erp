@@ -11,6 +11,7 @@ export default {
       gallery: 'Photos du produit',
       desc: 'Completer la description',
       tax: 'Configurer les taxes',
+      property: 'Gerer les caracteristiques',
     },
   },
   package: {
