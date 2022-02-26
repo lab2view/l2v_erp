@@ -105,7 +105,6 @@
 import { string, object } from 'yup';
 import { useStore, mapGetters } from 'vuex';
 import { useField, useForm } from 'vee-validate';
-import { useRouter } from 'vue-router';
 import { ref } from 'vue';
 import BaseButton from '/@/components/common/BaseButton.vue';
 
@@ -113,7 +112,6 @@ export default {
   components: { BaseButton },
   setup() {
     const store = useStore();
-    const router = useRouter();
     const loading = ref(false);
 
     const validationSchema = object({

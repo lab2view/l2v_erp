@@ -5,17 +5,17 @@
         <div class="logo-wrapper">
           <a href="/"
             ><img
-              class="img-fluid"
-              src="../../../assets/images/logo/logo.png"
               alt=""
+              class="img-fluid"
+              src="../../assets/images/logo/logo.png"
           /></a>
         </div>
         <div class="dark-logo-wrapper">
           <a href="/"
             ><img
-              class="img-fluid"
-              src="../../../assets/images/logo/dark-logo.png"
               alt=""
+              class="img-fluid"
+              src="../../assets/images/logo/dark-logo.png"
           /></a>
         </div>
         <div class="toggle-sidebar">
@@ -61,8 +61,8 @@
                   </div>
                   <input
                     class="form-control"
-                    type="text"
                     placeholder="Search for bookmark..."
+                    type="text"
                   />
                 </div>
               </div>
@@ -164,9 +164,9 @@
               <li>
                 <div class="media">
                   <img
-                    class="img-fluid rounded-circle me-3"
-                    src="../../../assets/images/user/4.jpg"
                     alt=""
+                    class="img-fluid rounded-circle me-3"
+                    src="../../assets/images/user/4.jpg"
                   />
                   <div class="media-body">
                     <span>Ain Chavez</span>
@@ -180,9 +180,9 @@
               <li>
                 <div class="media">
                   <img
-                    class="img-fluid rounded-circle me-3"
-                    src="../../../assets/images/user/1.jpg"
                     alt=""
+                    class="img-fluid rounded-circle me-3"
+                    src="../../assets/images/user/1.jpg"
                   />
                   <div class="media-body">
                     <span>Erica Hughes</span>
@@ -196,9 +196,9 @@
               <li>
                 <div class="media">
                   <img
-                    class="img-fluid rounded-circle me-3"
-                    src="../../../assets/images/user/2.jpg"
                     alt=""
+                    class="img-fluid rounded-circle me-3"
+                    src="../../assets/images/user/2.jpg"
                   />
                   <div class="media-body">
                     <span>Kori Thomas</span>

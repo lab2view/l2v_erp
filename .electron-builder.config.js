@@ -8,8 +8,20 @@ const config = {
     buildResources: 'buildResources',
   },
   files: ['packages/**/dist/**'],
+  asar: false,
+  extends: null,
+  extraFiles: [
+    {
+      from: 'packages/renderer/src/assets',
+      to: 'resources/app/packages/renderer/dist/src/assets',
+      filter: ['**/*'],
+    },
+  ],
   extraMetadata: {
     version: require('electron').version,
+  },
+  win: {
+    target: ['nsis'],
   },
 };
 
