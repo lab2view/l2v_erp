@@ -40,7 +40,7 @@ import paymentCharge from './modules/payments/paymentCharge';
 export default createStore({
   state: {
     globalLoading: true,
-    landlordDomain: 'kitbussiness.com',
+    landlordDomain: 'kitbussiness.test',
     uploaded: null,
     initiateApp: true,
   },
