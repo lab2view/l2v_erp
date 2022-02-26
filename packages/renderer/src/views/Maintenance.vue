@@ -10,83 +10,6 @@
               xmlns="http://www.w3.org/2000/svg"
               viewbox="0 0 424 403"
             >
-              <style>
-                tspan {
-                  white-space: pre;
-                }
-                .shp0 {
-                  fill: #e0e0e0;
-                }
-                .shp1 {
-                  fill: #455a64;
-                }
-                .shp2 {
-                  fill: #24695c;
-                }
-                .shp3 {
-                  opacity: 0.4;
-                  mix-blend-mode: soft-light;
-                  fill: #ffffff;
-                }
-                .shp4 {
-                  opacity: 0.051;
-                  mix-blend-mode: multiply;
-                  fill: #000000;
-                }
-                .shp5 {
-                  opacity: 0.4;
-                  fill: #ffffff;
-                }
-                .shp6 {
-                  opacity: 0.2;
-                  fill: #000000;
-                }
-                .shp7 {
-                  opacity: 0.102;
-                  fill: #000000;
-                }
-                .shp8 {
-                  fill: #ffffff;
-                }
-                .shp9 {
-                  opacity: 0.2;
-                  fill: #ffffff;
-                }
-                .shp10 {
-                  fill: #000000;
-                }
-                .shp11 {
-                  opacity: 0.149;
-                  fill: #000000;
-                }
-                .shp12 {
-                  fill: #37474f;
-                }
-                .shp13 {
-                  fill: #263238;
-                }
-                .shp14 {
-                  opacity: 0.302;
-                  fill: #000000;
-                }
-                .shp15 {
-                  opacity: 0.502;
-                  fill: #000000;
-                }
-                .shp16 {
-                  opacity: 0.702;
-                  fill: #000000;
-                }
-                .shp17 {
-                  fill: #fafafa;
-                }
-                .shp18 {
-                  fill: #ffa8a7;
-                }
-                .shp19 {
-                  fill: #f28f8f;
-                }
-              </style>
               <g id="freepik--Floor--inject-1--inject-5"></g>
               <g id="freepik--Shadows--inject-1--inject-5">
                 <path
@@ -1590,9 +1513,9 @@
               The page you are attempting to reach is currently not available.
               This may be because the page does not exist or has been moved.
             </p>
-            <a class="btn btn-primary btn-lg" href="index.html"
-              >BACK TO HOME PAGE</a
-            >
+            <a class="btn btn-primary btn-lg" href="/">
+              BACK TO HOME PAGE
+            </a>
           </div>
         </div>
       </div>
@@ -1605,4 +1528,80 @@
 export default {};
 </script>
 
-<style scoped></style>
+<style scoped>
+tspan {
+  white-space: pre;
+}
+.shp0 {
+  fill: #e0e0e0;
+}
+.shp1 {
+  fill: #455a64;
+}
+.shp2 {
+  fill: #24695c;
+}
+.shp3 {
+  opacity: 0.4;
+  mix-blend-mode: soft-light;
+  fill: #ffffff;
+}
+.shp4 {
+  opacity: 0.051;
+  mix-blend-mode: multiply;
+  fill: #000000;
+}
+.shp5 {
+  opacity: 0.4;
+  fill: #ffffff;
+}
+.shp6 {
+  opacity: 0.2;
+  fill: #000000;
+}
+.shp7 {
+  opacity: 0.102;
+  fill: #000000;
+}
+.shp8 {
+  fill: #ffffff;
+}
+.shp9 {
+  opacity: 0.2;
+  fill: #ffffff;
+}
+.shp10 {
+  fill: #000000;
+}
+.shp11 {
+  opacity: 0.149;
+  fill: #000000;
+}
+.shp12 {
+  fill: #37474f;
+}
+.shp13 {
+  fill: #263238;
+}
+.shp14 {
+  opacity: 0.302;
+  fill: #000000;
+}
+.shp15 {
+  opacity: 0.502;
+  fill: #000000;
+}
+.shp16 {
+  opacity: 0.702;
+  fill: #000000;
+}
+.shp17 {
+  fill: #fafafa;
+}
+.shp18 {
+  fill: #ffa8a7;
+}
+.shp19 {
+  fill: #f28f8f;
+}
+</style>

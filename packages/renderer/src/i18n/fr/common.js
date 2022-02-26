@@ -1,6 +1,10 @@
 export default {
   none: '',
   add: 'Ajouter',
+  false: 'Faux',
+  true: 'Vrai',
+  yes: 'Oui',
+  no: 'Non',
   delete: 'Supprimer',
   delete_all: 'Tout Supprimer',
   save: 'Enregistrer',
@@ -51,6 +55,7 @@ export default {
   },
 
   attributes: {
+    disable_date: "Desactive le",
     stock_variety: "Variete du stock",
     calling_code: "Code d'appel",
     iso: 'Iso',
@@ -73,11 +78,13 @@ export default {
     stock_exit: 'Stock sortant',
     max: 'Max',
     min: 'Min',
+    pin: 'Pin',
     critical: 'Critique',
     alert: 'Alerte',
     weight: 'Quantite par unite',
     type: 'Type',
     cashier: 'Caissier',
+    cashier_group: 'Groupe de caissiers',
     enterprise_receiver: 'Entreprise de destination',
     receiver_structure: 'Structure de destination',
     structure: 'Structure',
@@ -117,6 +124,7 @@ export default {
     database: 'Base de donnees',
     phone: 'Telephone',
     domain: 'Nom de domaine',
+    discount_type: "Type de rabais",
     enterpriseType: "Type d'entreprise",
     customerType: 'Type de client',
     localization: 'Adresse',
@@ -129,6 +137,11 @@ export default {
     search: 'Rechercher...',
     tax_id: 'Taxe',
     value: 'Valeur',
+    start_at: 'Debute le',
+    end_at: "S'acheve le",
+    ended_at: "Acheve le",
+    is_percent: "En pourcentage",
+    only_bill: "Uniquement au facture",
   },
 
   headers: {

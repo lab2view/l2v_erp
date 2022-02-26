@@ -1,7 +1,12 @@
 <template>
   <tr>
     <td>{{ productTax.tax.label }}</td>
-    <td>{{ productTax.value }}</td>
+    <td>
+      <BaseUpdateNumberForm
+        :store-action="updateProductTaxValue"
+        :quantity="productTax.value"
+      />
+    </td>
     <td>
       <div class="row justify-content-center align-items-center">
         <div class="col-md-6 p-0">
@@ -25,7 +30,7 @@
             type="button"
             class="btn btn-iconsolid btn-danger btn-sm"
             :title="$t('common.delete')"
-            @click.prevent="deleteArticle(productTax)"
+            @click.prevent="deleteProductTax"
           >
             <i class="fa fa-trash-o" />
           </BaseButton>

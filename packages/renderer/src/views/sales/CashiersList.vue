@@ -23,7 +23,48 @@
         </div>
       </div>
       <div class="card-body">
-        CashiersList
+        <BaseDatatable :tfoot="false" :total="cashiers.length">
+          <template #headers>
+            <th>#</th>
+            <th>{{ $t('common.attributes.cashier_group') }}</th>
+            <th>{{ $t('common.attributes.start_at') }}</th>
+            <th>{{ $t('common.attributes.ended_at') }}</th>
+            <th>{{ $t('common.attributes.disable_date') }}</th>
+            <th>{{ $t('common.actions') }}</th>
+          </template>
+          <tr v-for="cashier in cashiers" :key="cashier.id">
+            <td>{{ cashier.id }}</td>
+            <td>{{ cashier.cashier_group.label }}</td>
+            <td>{{ cashier.start_at }}</td>
+            <td>{{ cashier.ended_at }}</td>
+            <td>{{ cashier.disabled_at }}</td>
+            <td>
+              <button
+                class="btn btn-secondary btn-xs"
+                type="button"
+                data-original-title="btn btn-secondary btn-xs"
+                :title="$t('common.update')"
+                @click.prevent="
+                  $router.push({
+                    name: 'sales.cashier.form',
+                    params: { id: cashier.id },
+                  })
+                "
+              >
+                {{ $t('common.update') }}
+              </button>
+              <button
+                class="btn btn-danger btn-xs m-l-5"
+                type="button"
+                data-original-title="btn btn-danger btn-xs"
+                :title="$t('common.delete')"
+                @click.prevent="deleteCashier(cashier)"
+              >
+                <i class="fa fa-trash-o" />
+              </button>
+            </td>
+          </tr>
+        </BaseDatatable>
       </div>
 
       <router-view />
@@ -33,9 +74,40 @@
 
 <script>
 import BaseContainer from '/@/components/common/BaseContainer.vue';
+import BaseDatatable from '/@/components/common/BaseDatatable.vue';
+import store from '/@/store';
+import { mapGetters } from 'vuex';
 
 export default {
-  components: { BaseContainer },
+  components: { BaseContainer, BaseDatatable },
+  beforeRouteEnter(routeTo, routeFrom, next) {
+    store
+      .dispatch('cashier/getCashiersList', {
+        page: 1,
+        field: {},
+      })
+      .then(() => {
+        next();
+      })
+      .catch((error) => {
+        console.log(error);
+        next();
+      });
+  },
+  computed: {
+    ...mapGetters('cashier', ['cashiers', 'cashier']),
+  },
+  created() {
+    if (this.cashier)
+      this.$store.commit('cashier/SET_CURRENT_CASHIER', null);
+  },
+
+  methods: {
+    deleteCashier(cashier) {
+      if (confirm(this.$t('messages.confirmDelete', { label: cashier.label })))
+        this.$store.dispatch('cashier/deleteCashier', cashier.id);
+    },
+  },
 };
 </script>
 

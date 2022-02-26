@@ -42,6 +42,8 @@ const actions = {
 
   addEnterprise({ commit }, enterpriseField) {
     return enterpriseService.addEnterprise(enterpriseField).then(({ data }) => {
+      console.log('data enterprise');
+      console.log(data);
       commit('ADD_ENTERPRISE', data);
       commit('SET_CURRENT_ENTERPRISE', data);
       return data;

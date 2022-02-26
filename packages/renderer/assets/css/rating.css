@@ -279,13 +279,13 @@
   clear: both; }
 
 .clearfix {
-  *zoom: 1; }
+  zoom: 1; }
 
 /* Center ratings in container */
 .box-example-1to10 .br-wrapper {
   width: 210px;
   position: absolute;
-  margin: 0px 0 0 -105px;
+  margin: 0 0 0 -105px;
   left: 50%; }
 
 .box-example-movie .br-wrapper {
