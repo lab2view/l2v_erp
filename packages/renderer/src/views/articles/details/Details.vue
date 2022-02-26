@@ -130,7 +130,8 @@ export default {
           ],
         };
 
-        var chart17 = new ApexCharts(
+        // eslint-disable-next-line no-undef
+        let chart17 = new ApexCharts(
           document.querySelector('#chart-dashbord'),
           options17
         );
