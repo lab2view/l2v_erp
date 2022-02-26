@@ -22,13 +22,11 @@
       <BaseDatatable :tfoot="false" :total="packages.length">
         <template #headers>
           <th>#</th>
-          <th>{{ $t('common.attributes.code') }}</th>
           <th>{{ $t('common.attributes.label') }}</th>
           <th>{{ $t('common.actions') }}</th>
         </template>
         <tr v-for="pack in packages" :key="pack.id">
           <td>{{ pack.id }}</td>
-          <td>{{ pack.code }}</td>
           <td>{{ pack.label }}</td>
           <td>
             <button

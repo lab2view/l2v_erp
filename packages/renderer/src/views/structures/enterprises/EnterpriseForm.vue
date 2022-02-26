@@ -4,7 +4,7 @@
       <div class="card-header pb-0">
         <h5>{{ formTitle }}</h5>
         <span
-          >Using the <a href="#">card</a> component, you can extend the default
+        >Using the <a href="#">card</a> component, you can extend the default
           collapse behavior to create an accordion.</span
         >
       </div>
@@ -14,7 +14,7 @@
             <div class="col-md">
               <BaseSelect
                 v-model="enterpriseForm.enterprise_type_id"
-                :errors="errors?.enterprise_type_id"
+                :errors="errors.enterprise_type_id"
                 :label="$t('structures.enterprise_type')"
                 :options="enterpriseTypes"
                 key-label="label"
@@ -25,7 +25,7 @@
             <div class="col-md">
               <BaseInput
                 v-model="enterpriseForm.name"
-                :errors="errors?.name"
+                :errors="errors.name"
                 :label="$t('common.attributes.name')"
                 placeholder="E.g. Ets Tangui"
                 required
@@ -39,21 +39,21 @@
             <div class="col-md">
               <BaseInput
                 v-model="enterpriseForm.email"
-                :errors="errors?.email"
+                :errors="errors.email"
                 :label="$t('common.attributes.email')"
                 placeholder="mag1@gmail.com"
-                type="email"
                 required
+                type="email"
               />
             </div>
             <div class="col-md">
               <BaseInputGroup
                 v-model="enterpriseForm.phone"
-                :errors="errors?.phone"
+                :errors="errors.phone"
                 :label="$t('common.attributes.phone')"
                 placeholder="699.."
-                type="number"
                 required
+                type="number"
               >
                 <template v-if="callingCode" #prefix>
                   <div class="input-group-text">
@@ -66,10 +66,10 @@
         </div>
         <BaseTextArea
           v-model="enterpriseForm.description"
-          rows="4"
-          :errors="errors?.description"
+          :errors="errors.description"
           :label="$t('common.attributes.description')"
           placeholder="Enterprise description..."
+          rows="4"
         />
       </div>
       <div class="card-footer">
@@ -128,6 +128,7 @@ export default {
     return {
       errors: [],
       is_edited: true,
+      formLoading: false,
       enterpriseForm: {
         user_id: null,
         enterprise_type_id: null,
@@ -182,40 +183,60 @@ export default {
       this.is_edited = false;
     }
   },
+  beforeUnmount() {
+    this.setLoading();
+  },
   methods: {
+    setLoading(value = false) {
+      if (value) {
+        this.errors = [];
+      }
+
+      this.formLoading = value;
+    },
     submitEnterpriseForm() {
+      if (this.formLoading) {
+        return;
+      }
+
+      this.setLoading(true);
       if (this.enterprise) {
-        if (this.is_edited)
+        if (this.is_edited) {
           this.$store
             .dispatch('enterprise/updateEnterprise', this.enterpriseForm)
             .then((enterprise) =>
               this.$router.push({
                 name: 'enterprise.form.setting',
-                params: { id: enterprise.id },
-              })
+                params: {id: enterprise.id},
+              }),
             )
             .catch((error) => {
-              this.errors = error.response?.data?.errors;
+              this.errors = error.response.data.errors;
               console.log(error);
-            });
-        else
+            })
+            .finally(() => this.setLoading());
+        } else
           this.$router.push({
             name: 'enterprise.form.setting',
             params: { id: this.enterprise.id },
           });
-      } else
+      } else {
         this.$store
           .dispatch('enterprise/addEnterprise', this.enterpriseForm)
-          .then((enterprise) =>
+          .then((enterprise) => {
+            console.log(enterprise);
             this.$router.push({
               name: 'enterprise.form.setting',
-              params: { id: enterprise.id },
-            })
-          )
+              params: {id: enterprise.id},
+            });
+          })
           .catch((error) => {
-            this.errors = error.response?.data?.errors;
             console.log(error);
-          });
+            this.errors = error.response.data.errors;
+            console.log(error);
+          })
+          .finally(() => this.setLoading());
+      }
     },
     generateBarCode() {
       this.enterpriseForm.code = ean.generateEan13();

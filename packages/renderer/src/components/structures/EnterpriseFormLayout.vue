@@ -29,11 +29,16 @@ export default {
           title: pfr.meta.title ?? null,
           disabled: pfr.meta.requireEnterprise ? !this.haveEnterprise : false,
           class: `${this.haveEnterprise ? 'activated' : ''} ${
-            RegExp(`^${pfr.name}*`).test(this.$route.name) ? 'active' : ''
+            RegExp(`^${pfr.name}*`).test(this.$route.name.toString())
+              ? 'active'
+              : ''
           }`,
         };
       });
     },
+  },
+  beforeUnmount() {
+    this.$store.commit('enterprise/SET_CURRENT_ENTERPRISE', null);
   },
 };
 </script>

@@ -31,9 +31,12 @@
                   </span>
                 </div>
                 <div class="form-group">
-                  <button class="btn btn-primary btn-block" type="submit">
-                    Rechercher
-                  </button>
+                  <BaseButton
+                    :loading="loading"
+                    :text="$t('common.find')"
+                    class="btn btn-primary btn-block"
+                    icon="fa fa-search"
+                  />
                 </div>
                 <div v-if="canShowWorkspaces" class="login-social-title">
                   <h5>Choisir un espace existant</h5>
@@ -102,10 +105,16 @@
 import { string, object } from 'yup';
 import { useStore, mapGetters } from 'vuex';
 import { useField, useForm } from 'vee-validate';
+import { useRouter } from 'vue-router';
+import { ref } from 'vue';
+import BaseButton from '/@/components/common/BaseButton.vue';
 
 export default {
+  components: { BaseButton },
   setup() {
     const store = useStore();
+    const router = useRouter();
+    const loading = ref(false);
 
     const validationSchema = object({
       domain: string().required(),
@@ -117,6 +126,7 @@ export default {
     const { value: domain, errorMessage: domainError } = useField('domain');
 
     const handleFindWorkspace = handleSubmit((values) => {
+      loading.value = true;
       store
         .dispatch(
           'workspace/findWorkspaceByDomain',
@@ -124,6 +134,7 @@ export default {
         )
         .catch((error) => {
           console.log(error);
+          loading.value = false;
         });
     });
 
@@ -131,6 +142,7 @@ export default {
       handleFindWorkspace,
       domain: domain,
       domainError: domainError,
+      loading,
     };
   },
 

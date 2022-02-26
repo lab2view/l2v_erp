@@ -2,7 +2,7 @@ export default [
   {
     path: 'description',
     name: 'product.form.desc',
-    component: () => import('/@/views/products/forms/ProductDescription.vue'),
+    component: () => import('/@/views/products/forms/ProductPresentation.vue'),
     meta: {
       code: 'Product.form.description',
       icon: 'fa fa-info',
@@ -17,6 +17,48 @@ export default [
       icon: 'fa fa-cogs',
       requireProduct: true,
     },
+    children: [
+      {
+        path: 'gallery',
+        name: 'product.form.setting.gallery',
+        component: () => import('/@/views/products/forms/ProductGallery.vue'),
+      },
+      {
+        path: 'taxes',
+        name: 'product.form.setting.tax',
+        component: () => import('/@/views/products/forms/ProductTaxList.vue'),
+        children: [
+          {
+            path: 'form',
+            name: 'product.form.article.form',
+            component: () =>
+              import('/@/views/products/forms/ProductArticleForm.vue'),
+            children: [
+              {
+                path: 'add-package',
+                name: 'product.form.article.form.package',
+                component: () =>
+                  import(
+                    '/@/views/products/configurations/package/PackageForm.vue'
+                  ),
+              },
+            ],
+          },
+        ],
+      },
+      {
+        path: 'description',
+        name: 'product.form.setting.desc',
+        component: () =>
+          import('/@/views/products/forms/ProductDescription.vue'),
+      },
+      {
+        path: 'properties',
+        name: 'product.form.setting.property',
+        component: () =>
+          import('/@/views/products/forms/ProductProperties.vue'),
+      },
+    ],
   },
   {
     path: 'articles',
@@ -51,27 +93,26 @@ export default [
     name: 'product.form.stock',
     component: () => import('/@/views/products/forms/ProductStockLayout.vue'),
     meta: {
-      code: 'Stock.manage',
+      code: 'Stocks.manage',
       icon: 'fa fa-history',
       requireProduct: true,
     },
     children: [
-      // {
-      //   path: '',
-      //   redirect: (to) => {
-      //     return {
-      //       name: 'product.form.stock.stats',
-      //       params: to.params,
-      //       query: to.query,
-      //     };
-      //   },
-      // },
+      {
+        path: '',
+        redirect: (to) => {
+          return {
+            name: 'product.form.stock.stats',
+            params: to.params,
+            query: to.query,
+          };
+        },
+      },
       {
         path: 'entries',
         name: 'product.form.stock.entry',
         props: () => ({ useCurrentProduct: true }),
-        component: () =>
-          import('/@/views/stocks/entries/StockProvisionList.vue'),
+        component: () => import('/@/views/stocks/entries/StockEntriesList.vue'),
       },
       {
         path: 'exits',

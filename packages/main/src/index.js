@@ -1,6 +1,6 @@
-import {app, ipcMain, BrowserWindow} from 'electron';
-import {join} from 'path';
-import {URL} from 'url';
+import { app, BrowserWindow, ipcMain, Notification } from 'electron';
+import { join } from 'path';
+import { URL } from 'url';
 import './security-restrictions';
 
 const isSingleInstance = app.requestSingleInstanceLock();
@@ -13,16 +13,26 @@ if (!isSingleInstance) {
 
 app.disableHardwareAcceleration();
 
+function showNotification(message) {
+  new Notification({
+    title: 'NOTIFICATION_TITLE',
+    body: message,
+  }).show();
+}
+
 // Install "Vue.js devtools"
 if (isDevelopment) {
-  app.whenReady()
+  app
+    .whenReady()
     .then(() => import('electron-devtools-installer'))
-    .then(({default: installExtension, VUEJS3_DEVTOOLS}) => installExtension(VUEJS3_DEVTOOLS, {
-      loadExtensionOptions: {
-        allowFileAccess: true,
-      },
-    }))
-    .catch(e => console.error('Failed install extension:', e));
+    .then(({ default: installExtension, VUEJS3_DEVTOOLS }) =>
+      installExtension(VUEJS3_DEVTOOLS, {
+        loadExtensionOptions: {
+          allowFileAccess: true,
+        },
+      })
+    )
+    .catch((e) => console.error('Failed install extension:', e));
 }
 
 let mainWindow = null;
@@ -57,15 +67,16 @@ const createWindow = async () => {
    * Vite dev server for development.
    * `file://../renderer/index.html` for production and test
    */
-  const pageUrl = isDevelopment && import.meta.env.VITE_DEV_SERVER_URL !== undefined
-    ? import.meta.env.VITE_DEV_SERVER_URL
-    : new URL('../renderer/dist/index.html', 'file://' + __dirname).toString();
-
+  const pageUrl =
+    isDevelopment && import.meta.env.VITE_DEV_SERVER_URL !== undefined
+      ? import.meta.env.VITE_DEV_SERVER_URL
+      : new URL(
+          '../renderer/dist/index.html',
+          'file://' + __dirname
+        ).toString();
 
   await mainWindow.loadURL(pageUrl);
 };
-
-
 
 app.on('second-instance', () => {
   // Someone tried to run a second instance, we should focus our window.
@@ -75,17 +86,17 @@ app.on('second-instance', () => {
   }
 });
 
-
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
     app.quit();
   }
 });
 
-
-app.whenReady()
+app
+  .whenReady()
   .then(createWindow)
   .then(() => {
+    showNotification('Bienvenue');
     mainWindow?.webContents?.send('message', 'Debut du programme');
   })
   .catch((e) => console.error('Failed create window:', e));
@@ -100,9 +111,12 @@ ipcMain.on('reload', (event) => {
 
 // Auto-updates
 if (import.meta.env.PROD) {
-  app.whenReady()
+  app
+    .whenReady()
     .then(() => import('electron-updater'))
-    .then(({autoUpdater}) => autoUpdater.checkForUpdatesAndNotify())
+    .then(({ autoUpdater }) => {
+      showNotification('Mis a jour trouve');
+      return autoUpdater.checkForUpdatesAndNotify();
+    })
     .catch((e) => console.error('Failed check updates:', e));
 }
-

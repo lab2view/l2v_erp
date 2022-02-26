@@ -7,6 +7,9 @@ export default {
   countries: 'Pays',
   regions: 'Regions',
   enterprise_type: "Type d'entreprise",
+  attributes: {
+    module: 'Module',
+  },
   country: {
     listTitle: 'Liste des pays',
     formCreateTitle: 'Ajouter un pays',
@@ -39,6 +42,8 @@ export default {
     update: 'La modification du module a ete effectuee avec succes',
   },
   enterprise: {
+    iamTitle: 'Ajouter les parametres utilisateurs a la structure',
+    settingTitle: 'Ajouter les modules a la structure',
     listTitle: 'Liste des structures',
     formCreateTitle: 'Ajouter une structure',
     formUpdateTitle: 'Modifier la structure',

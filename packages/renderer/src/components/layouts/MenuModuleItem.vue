@@ -1,17 +1,33 @@
 <template>
   <li class="dropdown">
-    <a :class="linkClass" class="nav-link menu-title" href="javascript:void(0)">
+    <a
+      v-if="haveSubMenus"
+      :class="linkClass"
+      class="nav-link menu-title"
+      href="javascript:void(0)"
+    >
       <i :data-feather="menu.icon"></i
       ><span>{{
         menu.label ?? $t(`menu.${menu.code?.toString().toLowerCase()}`)
       }}</span>
-      <div v-if="haveSubMenus" class="according-menu">
+      <div class="according-menu">
         <i v-if="isCurrentRoute" class="fa fa-angle-down"></i>
         <i v-else class="fa fa-angle-right"></i>
       </div>
     </a>
+    <router-link
+      v-else
+      :class="linkClass"
+      class="nav-link menu-title"
+      :to="{ name: menu.to }"
+    >
+      <i :data-feather="menu.icon"></i
+      ><span>{{
+        menu.label ?? $t(`menu.${menu.code?.toString().toLowerCase()}`)
+      }}</span>
+    </router-link>
     <ul
-      v-if="menu.items.length > 0"
+      v-if="haveSubMenus"
       :style="subMenuStyle"
       class="nav-submenu menu-content"
     >

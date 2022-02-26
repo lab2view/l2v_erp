@@ -10,6 +10,9 @@ export default {
     iam: 'IAM',
     manage: 'Modules',
   },
+  sales: {
+    manage: 'Caisses',
+  },
   products: {
     manage: 'Produits',
   },
@@ -19,12 +22,45 @@ export default {
   localizations: {
     manage: 'Localisations',
   },
+  customers: {
+    manage: 'Clients',
+  },
   module: {
     create: 'Ajouter un module',
     viewany: 'Liste des modules',
     form: {
       description: 'Description du module',
     },
+  },
+  cashier: {
+    viewany: 'Caissiers',
+  },
+  cashiergroup: {
+    viewany: 'Groupes de caissiers',
+  },
+  cashregister: {
+    viewany: 'Liste des caisses',
+  },
+  discount: {
+    viewany: 'Liste des reductions',
+  },
+  discounttype: {
+    viewany: 'Types de reduction',
+  },
+  sale: {
+    viewany: 'Liste des ventes',
+  },
+  transaction: {
+    viewany: 'Transactions',
+  },
+  transactiontype: {
+    viewany: 'Types de transaction',
+  },
+  paymentmethod: {
+    viewany: 'Methodes de paiement',
+  },
+  charge: {
+    viewany: 'Charges de paiement',
   },
   localization: {
     create: 'Ajouter une adresse',
@@ -54,8 +90,9 @@ export default {
     create: 'Ajouter une structure',
     viewany: 'Liste des structures',
     form: {
-      description: 'Description de la structure',
+      desc: 'Description de la structure',
       setting: 'Parametres de la structure',
+      iam: 'Parametres utilisateurs de la structure',
     },
   },
   enterprisetype: {
@@ -65,13 +102,38 @@ export default {
       description: 'Description du type de structure',
     },
   },
+  customer: {
+    create: 'Ajouter un client',
+    viewany: 'Liste des clients',
+    form: {
+      desc: 'Description du client',
+    },
+  },
+  customertype: {
+    create: 'Ajouter un type de clients',
+    viewany: 'Liste des types de clients',
+    form: {
+      description: 'Description du type de clients',
+    },
+  },
+  customergroup: {
+    create: 'Ajouter un groupe de clients',
+    viewany: 'Liste des groupes de clients',
+    form: {
+      description: 'Description du groupe de clients',
+    },
+  },
+  customergroupline: {
+    create: 'Ajouter un client a un groupe de clients',
+    viewany: 'Liste des clients du groupes de clients',
+  },
   product: {
     create: 'Ajouter un produit',
     viewany: 'Liste des produits',
     form: {
       description: 'Description du produit',
       setting: 'Parametrage avance',
-      article: 'Articles',
+      article: 'Conditionnements',
       stock: 'Entrees en stocks',
     },
   },
@@ -81,13 +143,17 @@ export default {
   article: {
     create: 'Ajouter un article',
     viewany: 'Liste des articles',
+    detail: 'Statistiques',
+    price: 'Configurer les prix',
+    composition: 'Compositions',
   },
   articlegroup: {
     viewany: "Groupes d'articles",
     create: 'Ajouter un groupe',
     form: {
       description: 'Description du groupe',
-      setting: 'Gerer les articles',
+      item: 'Gerer les articles',
+      setting: 'Configurations',
     },
   },
   package: {
@@ -112,11 +178,32 @@ export default {
   property: {
     viewany: 'Proprietes',
   },
-  stock: {
-    manage: 'Stocks',
+  stocks: {
+    manage: 'Mouvements',
+  },
+  stockentry: {
+    viewany: 'Approvisionnements',
+  },
+  stockexit: {
+    viewany: 'Sorties de Stock',
+  },
+  stocktype: {
+    viewany: 'Types de Stock',
+  },
+  stockstate: {
+    viewany: 'Status de Stock',
+  },
+  inventory: {
+    viewany: 'Inventaires',
+  },
+  provider: {
+    viewany: 'Fournisseurs',
+  },
+  shipping: {
+    viewany: 'Livraisons',
   },
   movement: {
-    entry: "Mouvements d'entrees",
-    exit: 'Mouvements de sortis',
+    entry: "Mouvements d'entree",
+    exit: 'Mouvements de sortie',
   },
 };

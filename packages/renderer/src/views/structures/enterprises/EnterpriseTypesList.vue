@@ -11,7 +11,7 @@
           </div>
           <div class="col-sm-auto align-items-end">
             <router-link
-              :to="{ name: 'types.entreprise.form' }"
+              :to="{ name: 'types.enterprise.form' }"
               href="#"
               class="btn btn-primary"
               type="button"
@@ -27,14 +27,12 @@
           <template #headers>
             <th>#</th>
             <th>{{ $t('common.attributes.label') }}</th>
-            <th>{{ $t('common.attributes.code') }}</th>
             <th>{{ $t('common.attributes.description') }}</th>
             <th>{{ $t('common.actions') }}</th>
           </template>
           <tr v-for="enterpriseType in enterpriseTypes" :key="enterpriseType.id">
             <td>{{ enterpriseType.id }}</td>
             <td>{{ enterpriseType.label }}</td>
-            <td>{{ enterpriseType.code }}</td>
             <td>{{ truncate(enterpriseType.description) }}</td>
             <td>
               <button
@@ -44,7 +42,7 @@
                 :title="$t('common.update')"
                 @click.prevent="
                   $router.push({
-                    name: 'types.entreprise.form',
+                    name: 'types.enterprise.form',
                     params: { id: enterpriseType.id },
                   })
                 "

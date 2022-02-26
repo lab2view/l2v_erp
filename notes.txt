@@ -1,0 +1,6 @@
+Amelioration on form
+
+Make loader variable that will block form submit when its already loading
+
+// todo: show inventory lines
+

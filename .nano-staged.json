@@ -1,3 +1,0 @@
-{
-  "*.{js,ts,jsx,tsx,html,vue}": "eslint --cache --fix"
-}

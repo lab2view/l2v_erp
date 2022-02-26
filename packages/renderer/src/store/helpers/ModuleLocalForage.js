@@ -152,6 +152,139 @@ const Region = new VuexPersistence({
   reducer: (state) => ({ region: state.region }),
 });
 
+const Customer = new VuexPersistence({
+  key: 'customer',
+  storage: localStore,
+  asyncStorage: true,
+  reducer: (state) => ({ customer: state.customer }),
+});
+
+const CustomerTypeConfig = new VuexPersistence({
+  key: 'customerType',
+  storage: localStore,
+  asyncStorage: true,
+  reducer: (state) => ({ customerType: state.customerType }),
+});
+
+const CustomerGroup = new VuexPersistence({
+  key: 'customer_group',
+  storage: localStore,
+  asyncStorage: true,
+  reducer: (state) => ({ customer_group: state.customer_group }),
+});
+
+const Inventory = new VuexPersistence({
+  key: 'inventory',
+  storage: localStore,
+  asyncStorage: true,
+  reducer: (state) => ({ inventory: state.inventory }),
+});
+
+const StockProvider = new VuexPersistence({
+  key: 'stock_provider',
+  storage: localStore,
+  asyncStorage: true,
+  reducer: (state) => ({ stock_provider: state.stock_provider }),
+});
+
+const Shipping = new VuexPersistence({
+  key: 'shipping',
+  storage: localStore,
+  asyncStorage: true,
+  reducer: (state) => ({ shipping: state.shipping }),
+});
+
+const StockState = new VuexPersistence({
+  key: 'stock_state',
+  storage: localStore,
+  asyncStorage: true,
+  reducer: (state) => ({ stock_state: state.stock_state }),
+});
+
+const StockType = new VuexPersistence({
+  key: 'stock_type',
+  storage: localStore,
+  asyncStorage: true,
+  reducer: (state) => ({ stock_type: state.stock_type }),
+});
+
+const StockEntry = new VuexPersistence({
+  key: 'stock_entry',
+  storage: localStore,
+  asyncStorage: true,
+  reducer: (state) => ({ stock_entry: state.stock_entry }),
+});
+
+const StockEntryLine = new VuexPersistence({
+  key: 'stock_entry_line',
+  storage: localStore,
+  asyncStorage: true,
+  reducer: (state) => ({ stock_entry_line: state.stock_entry_line }),
+});
+
+const PaymentMethod = new VuexPersistence({
+  key: 'paymentMethod',
+  storage: localStore,
+  asyncStorage: true,
+  reducer: (state) => ({ paymentMethod: state.paymentMethod }),
+});
+
+const PaymentCharge = new VuexPersistence({
+  key: 'paymentCharge',
+  storage: localStore,
+  asyncStorage: true,
+  reducer: (state) => ({ paymentCharge: state.paymentCharge }),
+});
+
+const TransactionType = new VuexPersistence({
+  key: 'transactionType',
+  storage: localStore,
+  asyncStorage: true,
+  reducer: (state) => ({ transactionType: state.transactionType }),
+});
+
+const Transaction = new VuexPersistence({
+  key: 'transaction',
+  storage: localStore,
+  asyncStorage: true,
+  reducer: (state) => ({ transaction: state.transaction }),
+});
+
+const DiscountType = new VuexPersistence({
+  key: 'discountType',
+  storage: localStore,
+  asyncStorage: true,
+  reducer: (state) => ({ discountType: state.discountType }),
+});
+
+const Discount = new VuexPersistence({
+  key: 'discount',
+  storage: localStore,
+  asyncStorage: true,
+  reducer: (state) => ({ discount: state.discount }),
+});
+
+const CashRegister = new VuexPersistence({
+  key: 'cashRegister',
+  storage: localStore,
+  asyncStorage: true,
+  reducer: (state) => ({ cashRegister: state.cashRegister }),
+});
+
+const Cashier = new VuexPersistence({
+  key: 'cashier',
+  storage: localStore,
+  asyncStorage: true,
+  reducer: (state) => ({ cashier: state.cashier }),
+});
+
+const CashierGroup = new VuexPersistence({
+  key: 'cashierGroup',
+  storage: localStore,
+  asyncStorage: true,
+  reducer: (state) => ({ cashierGroup: state.cashierGroup }),
+});
+
 export default [
   Auth.plugin,
   Product.plugin,
@@ -173,4 +306,23 @@ export default [
   Localization.plugin,
   Module.plugin,
   Region.plugin,
+  Customer.plugin,
+  CustomerGroup.plugin,
+  CustomerTypeConfig.plugin,
+  Inventory.plugin,
+  StockProvider.plugin,
+  Shipping.plugin,
+  StockEntry.plugin,
+  StockEntryLine.plugin,
+  StockState.plugin,
+  StockType.plugin,
+  PaymentCharge.plugin,
+  PaymentMethod.plugin,
+  Transaction.plugin,
+  TransactionType.plugin,
+  Discount.plugin,
+  DiscountType.plugin,
+  CashRegister.plugin,
+  Cashier.plugin,
+  CashierGroup.plugin,
 ];

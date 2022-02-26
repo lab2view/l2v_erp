@@ -13,7 +13,7 @@ axios.interceptors.request.use(
   function (config) {
     const workspace = store.getters['workspace/currentWorkspace'];
     const currentDomain = workspace?.domain ?? store.state.landlordDomain;
-    const protocol = process.env.NODE_ENV !== 'production' ? 'https' : 'https';
+    const protocol = process.env.NODE_ENV !== 'production' ? 'http' : 'https';
     config.baseURL = `${protocol}://${currentDomain}/api/`;
 
     const token = store.getters['auth/token'] ?? null;
@@ -37,6 +37,9 @@ axios.interceptors.response.use(
     if (error.response) {
       if (error.response.data?.message)
         notify(error.response.data.message, 'Erreur', 'danger');
+      if (error.response.status === 401) {
+        store.commit('auth/SET_CURRENT_USER', null);
+      }
     }
     return Promise.reject(error);
   }

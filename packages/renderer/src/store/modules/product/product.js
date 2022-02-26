@@ -1,5 +1,5 @@
 import productService from '../../../services/products/ProductService';
-import { notify } from '../../../helpers/notify';
+import { notify } from '/@/helpers/notify.js';
 import i18n from '../../../i18n';
 
 const state = {
@@ -62,6 +62,9 @@ const actions = {
           'fa fa-check'
         );
         commit('UPDATE_PRODUCT', data);
+        data.articles.forEach((article) =>
+          commit('article/UPDATE_ARTICLE', article, { root: true })
+        );
         commit('SET_CURRENT_PRODUCT', data);
         return data;
       });
@@ -78,6 +81,15 @@ const actions = {
   saveProperties({ getters, commit }, properties) {
     return productService
       .saveProperties(properties, getters.product.id)
+      .then(({ data }) => {
+        commit('PUSH_PRODUCT_PROPERTIES', data.properties);
+        return data;
+      });
+  },
+
+  saveTaxes({ getters, commit }, productTaxes) {
+    return productService
+      .saveTaxes(productTaxes, getters.product.id)
       .then(({ data }) => {
         commit('PUSH_PRODUCT_PROPERTIES', data.properties);
         return data;

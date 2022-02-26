@@ -1,6 +1,25 @@
 {
-  "name": "vite-electron-builder",
-  "private": true,
+  "name": "erp-app",
+  "version": "0.0.2",
+  "author": {
+    "name": "Lab2view",
+    "email": "contact@lab2view.com",
+    "url": "https://lab2view.com"
+  },
+  "description": "an ERP",
+  "homepage": "https://kitbussiness.com",
+  "build": {
+    "appId": "com.kitbussiness",
+    "extends": null,
+    "publish": {
+      "provider": "github",
+      "repo": "l2v_erp",
+      "owner": "lab2view",
+      "host": "github.com",
+      "protocol": "https",
+      "private": false
+    }
+  },
   "engines": {
     "node": ">=v16.13",
     "npm": ">=8.1"
@@ -10,6 +29,7 @@
     "build": "node scripts/build.js",
     "precompile": "cross-env MODE=production npm run build",
     "compile": "electron-builder build --config .electron-builder.config.js --dir --config.asar=false",
+    "asar": "electron-builder build --config .electron-builder.config.js --dir --config.asar=true",
     "pretest": "npm run build",
     "test": "node tests/app.spec.js",
     "watch": "node scripts/watch.js",
@@ -21,6 +41,7 @@
     "cross-env": "7.0.3",
     "electron": "16.0.4",
     "electron-builder": "22.14.5",
+    "electron-builder-squirrel-windows": "^23.0.1",
     "electron-devtools-installer": "3.2.0",
     "eslint": "^8.5.0",
     "eslint-config-prettier": "^8.3.0",

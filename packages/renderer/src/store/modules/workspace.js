@@ -63,8 +63,9 @@ const mutations = {
     if (workspace)
       localStorage.setItem('currentWorkspace', JSON.stringify(workspace));
     else localStorage.removeItem('currentWorkspace');
-
-    window?.ipcRenderer?.send('reload', 'Changing workspace');
+    if (window?.ipcRenderer)
+      window?.ipcRenderer?.send('reload', 'Changing workspace');
+    else location.reload();
   },
 
   ADD_WORKSPACES(state, workspace) {

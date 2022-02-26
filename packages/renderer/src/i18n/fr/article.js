@@ -1,6 +1,13 @@
 export default {
   title: 'Gestion des articles',
   listTitle: 'Liste des articles',
+  detail: {
+    title: 'Details article',
+    price: {
+      title: 'Prix',
+      update: 'Le prix a bien ete modifie',
+    },
+  },
   form: {
     createTitle: 'Ajouter un conditionnement',
     updateTitle: 'Modifier le conditionnement',
@@ -22,6 +29,7 @@ export default {
     update: "Groupe d'article modifie",
     line: {
       formTitle: 'Ajouter des articles au groupe',
+      update: "Quantite de l'article modifie",
     },
   },
 };
