@@ -15,7 +15,6 @@ const config = {
   resolve: {
     alias: {
       '/@/': join(PACKAGE_ROOT, 'src') + '/',
-      '@assets/': '/assets/',
     },
   },
   plugins: [vue()],

@@ -8,6 +8,14 @@ const config = {
     buildResources: 'buildResources',
   },
   files: ['packages/**/dist/**'],
+  asar: false,
+  extraFiles: [
+    {
+      from: 'packages/renderer/src/assets',
+      to: 'resources/app/packages/renderer/dist/src/assets',
+      filter: ['**/*'],
+    },
+  ],
   extraMetadata: {
     version: require('electron').version,
   },

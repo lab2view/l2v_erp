@@ -4,7 +4,10 @@
       <div class="main-header-left">
         <div class="logo-wrapper">
           <a href="/"
-            ><img alt="" class="img-fluid" src="/assets/images/logo/logo.png"
+            ><img
+              alt=""
+              class="img-fluid"
+              src="../../assets/images/logo/logo.png"
           /></a>
         </div>
         <div class="dark-logo-wrapper">
@@ -12,7 +15,7 @@
             ><img
               alt=""
               class="img-fluid"
-              src="/assets/images/logo/dark-logo.png"
+              src="../../assets/images/logo/dark-logo.png"
           /></a>
         </div>
         <div class="toggle-sidebar">
@@ -163,7 +166,7 @@
                   <img
                     alt=""
                     class="img-fluid rounded-circle me-3"
-                    src="/assets/images/user/4.jpg"
+                    src="../../assets/images/user/4.jpg"
                   />
                   <div class="media-body">
                     <span>Ain Chavez</span>
@@ -179,7 +182,7 @@
                   <img
                     alt=""
                     class="img-fluid rounded-circle me-3"
-                    src="/assets/images/user/1.jpg"
+                    src="../../assets/images/user/1.jpg"
                   />
                   <div class="media-body">
                     <span>Erica Hughes</span>
@@ -195,7 +198,7 @@
                   <img
                     alt=""
                     class="img-fluid rounded-circle me-3"
-                    src="/assets/images/user/2.jpg"
+                    src="../../assets/images/user/2.jpg"
                   />
                   <div class="media-body">
                     <span>Kori Thomas</span>
