@@ -13,6 +13,15 @@
           v-if="$route.name === 'article.compositions.config'"
           class="col-sm-auto align-items-end"
         >
+          <BaseButton
+            type="button"
+            class="btn btn-outline-danger m-r-5"
+            :disabled="!isSelected"
+            icon="fa fa-trash-o"
+            :text="$t('common.delete_all')"
+            :loading="loading"
+            @click.prevent="deleteSelectedCompositionPreset"
+          />
           <router-link
             :to="{ name: 'article.compositions.config.from' }"
             class="btn btn-primary"
@@ -83,9 +92,10 @@
 import store from '/@/store';
 import ArticleMixin from '/@/mixins/ArticleMixin.js';
 import ArticleLineSelectable from '/@/components/articles/ArticleLineSelectable.vue';
+import BaseButton from '/@/components/common/BaseButton.vue';
 
 export default {
-  components: { ArticleLineSelectable },
+  components: { BaseButton, ArticleLineSelectable },
   mixins: [ArticleMixin],
   beforeRouteEnter(routeTo, routeFrom, next) {
     store
@@ -104,7 +114,11 @@ export default {
   },
   computed: {
     compositionPresets() {
-      return this.article ? this.article.composition_presets : [];
+      return this.article
+        ? this.article.composition_presets.map((cp) => {
+            return { ...cp, article_id: cp.child_article_id };
+          })
+        : [];
     },
     partialSelect() {
       return (
@@ -155,13 +169,12 @@ export default {
         )
       ) {
         this.loading = true;
-        console.log(this.selected);
-        // this.$store
-        //   .dispatch('article/', this.selected)
-        //   .then(() => {
-        //     this.loading = false;
-        //     this.selected = [];
-        //   });
+        this.$store
+          .dispatch('article/removeCompositionPresets', this.selected)
+          .then(() => {
+            this.loading = false;
+            this.selected = [];
+          });
       }
     },
   },

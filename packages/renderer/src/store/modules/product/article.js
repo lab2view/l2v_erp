@@ -21,6 +21,7 @@ const getters = {
     ({ product_type_id, product_id, keyword }) =>
       getters.articles.filter((a) => {
         let result = true;
+        if (getters.article.id) result = a.id !== getters.article.id;
         if (product_type_id)
           result = a.product.product_type_id.toString() === product_type_id;
         if (product_id) result = a.product_id.toString() === product_id;
@@ -153,6 +154,18 @@ const actions = {
         commit('REMOVE_COMPOSITION_PRESETS', compositionPresetIds);
       });
   },
+
+  makeComposition({ commit }, article) {
+    return articleService.makeComposition(article.id).then(({ data }) => {
+      commit('ADD_COMPOSITIONS', data.compositions);
+    });
+  },
+
+  makeDecomposition({ commit }, article) {
+    return articleService.makeDecomposition(article.id).then(({ data }) => {
+      commit('MAKE_DECOMPOSITION', data.lot);
+    });
+  },
 };
 
 // mutations
@@ -264,6 +277,49 @@ const mutations = {
       article.composition_presets = article.composition_presets.filter((cp) => {
         return composition_presets_ids.find((p) => p === cp.id) === undefined;
       });
+      articles.splice(index, 1, article);
+      state.article = JSON.stringify(article);
+      state.articles = JSON.stringify(articles);
+    }
+  },
+
+  ADD_COMPOSITIONS(state, compositions) {
+    let articles = JSON.parse(state.articles);
+    let article = JSON.parse(state.article);
+    let index = articles.findIndex((a) => a.id === article.id);
+    if (index !== -1) {
+      article.compositions = [...article.compositions, ...compositions];
+      article.stock.total_entry_composition++;
+      compositions.forEach((cp) => {
+        let ind = articles.findIndex((a) => a.id === cp.child_article_id);
+        if (ind !== -1)
+          articles[ind].stock.total_exit_composition =
+            parseInt(articles[ind].stock.total_exit_composition) +
+            parseInt(cp.quantity);
+      });
+      articles.splice(index, 1, article);
+      state.article = JSON.stringify(article);
+      state.articles = JSON.stringify(articles);
+    }
+  },
+
+  MAKE_DECOMPOSITION(state, lot) {
+    let articles = JSON.parse(state.articles);
+    let article = JSON.parse(state.article);
+    let index = articles.findIndex((a) => a.id === article.id);
+    if (index !== -1) {
+      const compositions = article.compositions.filter((c) => c.lot === lot);
+      article.compositions = article.compositions.filter((c) => c.lot !== lot);
+      article.stock.total_entry_composition--;
+      if (compositions !== undefined) {
+        compositions.forEach((cp) => {
+          let ind = articles.findIndex((a) => a.id === cp.child_article_id);
+          if (ind !== -1)
+            articles[ind].stock.total_exit_composition =
+              parseInt(articles[ind].stock.total_exit_composition) -
+              parseInt(cp.quantity);
+        });
+      }
       articles.splice(index, 1, article);
       state.article = JSON.stringify(article);
       state.articles = JSON.stringify(articles);
