@@ -41,8 +41,7 @@
             <li class="nav-item">
               <router-link
                 :to="{ name: 'article.compositions', params: $route.params }"
-                class="nav-link"
-                active-class="active"
+                :class="`nav-link ${compositionActiveClass}`"
               >
                 <i class="icofont icofont-bricks"></i>
                 {{ $t('menu.article.composition') }}
@@ -63,7 +62,14 @@ import { mapGetters } from 'vuex';
 export default {
   name: 'DetailLayout',
   components: { BaseContainer },
-  computed: mapGetters('article', ['article']),
+  computed: {
+    ...mapGetters('article', ['article']),
+    compositionActiveClass() {
+      return RegExp(`^article.composition*`).test(this.$route.name)
+        ? 'active'
+        : '';
+    },
+  },
 };
 </script>
 

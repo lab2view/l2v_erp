@@ -3,12 +3,12 @@
     <td class="font-primary">
       <div class="checkbox checkbox-primary">
         <input
-          :id="`selected-${articleGroupLine.id}`"
+          :id="`selected-${model.id}`"
           v-model="selected"
           type="checkbox"
         />
         <label
-          :for="`selected-${articleGroupLine.id}`"
+          :for="`selected-${model.id}`"
           class="mt-0 pt-0"
           style="padding-left: 60px"
           >{{ `${article.name}` }}</label
@@ -17,20 +17,20 @@
     </td>
     <td class="text-center">
       <BaseUpdateNumberForm
-        :quantity="articleGroupLine.quantity"
+        :quantity="model.quantity"
         :store-action="updateQuantity"
       />
     </td>
-    <td>
+    <td v-if="removeDispatchName">
       <div class="row justify-content-center align-items-center">
         <div class="col-md-6 p-0">
           <BaseButton
-            v-if="!articleGroupLine.not_deletable"
+            v-if="!model.not_deletable"
             type="button"
             class="btn btn-iconsolid btn-danger btn-sm"
             :title="$t('common.delete')"
             :loading="loading"
-            @click.prevent="removeArticleGroupLine"
+            @click.prevent="removeModel"
           >
             <i v-if="!loading" class="fa fa-times" />
           </BaseButton>
@@ -41,19 +41,27 @@
 </template>
 
 <script>
-import BaseButton from '../../common/BaseButton.vue';
+import BaseButton from '/@/components/common/BaseButton.vue';
 import { mapGetters } from 'vuex';
 import BaseUpdateNumberForm from '/@/components/common/BaseUpdateNumberForm.vue';
 export default {
   components: { BaseUpdateNumberForm, BaseButton },
   props: {
-    articleGroupLine: {
+    model: {
       type: Object,
       required: true,
     },
     selectedList: {
       type: Array,
       required: true,
+    },
+    updateDispatchName: {
+      type: String,
+      required: true,
+    },
+    removeDispatchName: {
+      type: String,
+      default: null,
     },
   },
   emits: ['selected', 'unselected', 'deleted'],
@@ -66,14 +74,11 @@ export default {
   computed: {
     ...mapGetters('article', ['getArticleById']),
     article() {
-      const a = this.getArticleById(this.articleGroupLine.article_id);
+      const a = this.getArticleById(this.model.article_id);
       return a ?? null;
     },
     isSelected() {
-      return (
-        this.selectedList.find((id) => id === this.articleGroupLine.id) !==
-        undefined
-      );
+      return this.selectedList.find((id) => id === this.model.id) !== undefined;
     },
   },
   watch: {
@@ -86,17 +91,13 @@ export default {
     },
   },
   methods: {
-    removeArticleGroupLine() {
+    removeModel() {
       if (
-        confirm(
-          this.$t('messages.confirmDelete', { label: this.articleGroupLine.id })
-        )
+        confirm(this.$t('messages.confirmDelete', { label: this.model.id }))
       ) {
         this.loading = true;
         this.$store
-          .dispatch('article_group/removeArticleGroupLines', [
-            this.articleGroupLine.id,
-          ])
+          .dispatch(this.removeDispatchName, [this.model.id])
           .then(() => {
             this.$emit('deleted');
             this.loading = false;
@@ -105,8 +106,8 @@ export default {
     },
 
     updateQuantity(quantity) {
-      return this.$store.dispatch('article_group/updateArticleGroupLine', {
-        ...this.articleGroupLine,
+      return this.$store.dispatch(this.updateDispatchName, {
+        ...this.model,
         quantity,
       });
     },

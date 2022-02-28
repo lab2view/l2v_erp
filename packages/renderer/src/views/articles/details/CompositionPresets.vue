@@ -1,33 +1,25 @@
 <template>
-  <router-view :article-group="articleGroup" />
+  <router-view :article="article" />
   <div class="card mb-0">
     <div class="card-header pb-0">
       <div class="row align-items-center">
         <div class="col-sm">
-          <h5>
-            {{ `${$t('article.group.listTitle')} - ${articleGroup.label}` }}
-          </h5>
+          <h6>
+            {{ $t('article.detail.composition.config.title') }} :
+            <em class="f-12">{{ article.name }}</em>
+          </h6>
         </div>
         <div
-          v-if="$route.name === 'article.group.form.item'"
+          v-if="$route.name === 'article.compositions.config'"
           class="col-sm-auto align-items-end"
         >
-          <BaseButton
-            type="button"
-            class="btn btn-outline-danger m-r-5"
-            :disabled="!isSelected"
-            icon="fa fa-trash-o"
-            :text="$t('common.delete_all')"
-            :loading="loading"
-            @click.prevent="deleteSelectedArticleGroupLine"
-          />
           <router-link
-            :to="{ name: 'article.group.form.item.form' }"
+            :to="{ name: 'article.compositions.config.from' }"
             class="btn btn-primary"
             type="button"
           >
             <i class="fa fa-plus m-r-5" />
-            {{ $t('common.add') }}
+            {{ $t('common.add_article') }}
           </router-link>
         </div>
       </div>
@@ -56,7 +48,9 @@
                     for="checkbox-primary-1"
                     style="padding-left: 60px"
                   >
-                    {{ `${$t('article.listTitle')} ${countSelected}` }}</label
+                    {{
+                      `${$t('common.attributes.article_id')} ${countSelected}`
+                    }}</label
                   >
                 </div>
               </th>
@@ -68,15 +62,15 @@
           </thead>
           <tbody>
             <ArticleLineSelectable
-              v-for="(articleGroupLine, index) in articleGroupLines"
-              :key="`art-grp-lne-${index}`"
-              :model="articleGroupLine"
+              v-for="(compositionPreset, index) in compositionPresets"
+              :key="`comp-pre-${index}`"
+              :model="compositionPreset"
               :selected-list="selected"
-              update-dispatch-name="article_group/updateArticleGroupLine"
-              remove-dispatch-name="article_group/removeArticleGroupLines"
+              update-dispatch-name="article/updateCompositionPreset"
+              remove-dispatch-name="article/removeCompositionPresets"
               @deleted="selected = []"
-              @selected="selectArticleGroupLine(articleGroupLine, true)"
-              @unselected="selectArticleGroupLine(articleGroupLine, false)"
+              @selected="selectCompositionPreset(compositionPreset, true)"
+              @unselected="selectCompositionPreset(compositionPreset, false)"
             />
           </tbody>
         </table>
@@ -87,25 +81,18 @@
 
 <script>
 import store from '/@/store';
-import ArticleGroupMixin from '/@/mixins/ArticleGroupMixin';
-import { mapGetters } from 'vuex';
-import BaseButton from '/@/components/common/BaseButton.vue';
+import ArticleMixin from '/@/mixins/ArticleMixin.js';
 import ArticleLineSelectable from '/@/components/articles/ArticleLineSelectable.vue';
 
 export default {
-  components: { ArticleLineSelectable, BaseButton },
-  mixins: [ArticleGroupMixin],
+  components: { ArticleLineSelectable },
+  mixins: [ArticleMixin],
   beforeRouteEnter(routeTo, routeFrom, next) {
-    Promise.all([
-      store.dispatch('product/getProductsList', {
+    store
+      .dispatch('article/getArticlesList', {
         page: 1,
         field: {},
-      }),
-      store.dispatch('article/getArticlesList', {
-        page: 1,
-        field: {},
-      }),
-    ])
+      })
       .catch((error) => console.log(error))
       .finally(() => next());
   },
@@ -116,30 +103,29 @@ export default {
     };
   },
   computed: {
-    ...mapGetters('article_group', ['articleGroup']),
-    articleGroupLines() {
-      return this.haveArticleGroup ? this.articleGroup.article_group_lines : [];
+    compositionPresets() {
+      return this.article ? this.article.composition_presets : [];
     },
     partialSelect() {
       return (
         this.selected.length > 0 &&
-        this.selected.length < this.articleGroupLines.length
+        this.selected.length < this.compositionPresets.length
       );
     },
-    selectedAllArticleGroupLine() {
-      if (this.articleGroupLines.length)
-        return this.selected.length === this.articleGroupLines.length;
+    selectedAllCompositionPreset() {
+      if (this.compositionPresets.length)
+        return this.selected.length === this.compositionPresets.length;
       else return false;
     },
     selectAll: {
       get() {
-        return this.selectedAllArticleGroupLine;
+        return this.selectedAllCompositionPreset;
       },
       set(value) {
         if (!value) this.selected = [];
         else {
           let result = [];
-          this.articleGroupLines.forEach((ag) => result.push(ag.id));
+          this.compositionPresets.forEach((ag) => result.push(ag.id));
           this.selected = result;
         }
       },
@@ -152,14 +138,14 @@ export default {
     },
   },
   methods: {
-    selectArticleGroupLine(articleGroupLine, adding) {
-      if (adding) this.selected.push(articleGroupLine.id);
+    selectCompositionPreset(compositionPreset, adding) {
+      if (adding) this.selected.push(compositionPreset.id);
       else
         this.selected = this.selected.filter(
-          (id) => id !== articleGroupLine.id
+          (id) => id !== compositionPreset.id
         );
     },
-    deleteSelectedArticleGroupLine() {
+    deleteSelectedCompositionPreset() {
       if (
         this.selected.length &&
         confirm(
@@ -169,16 +155,15 @@ export default {
         )
       ) {
         this.loading = true;
-        this.$store
-          .dispatch('article_group/removeArticleGroupLines', this.selected)
-          .then(() => {
-            this.loading = false;
-            this.selected = [];
-          });
+        console.log(this.selected);
+        // this.$store
+        //   .dispatch('article/', this.selected)
+        //   .then(() => {
+        //     this.loading = false;
+        //     this.selected = [];
+        //   });
       }
     },
   },
 };
 </script>
-
-<style scoped></style>

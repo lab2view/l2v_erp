@@ -93,6 +93,7 @@ const actions = {
         commit('ADD_PRICES', data.prices);
       });
   },
+
   updatePrice({ commit }, price) {
     return articleService.updatePrice(price).then(({ data }) => {
       commit('UPDATE_PRICE', data);
@@ -104,6 +105,7 @@ const actions = {
       );
     });
   },
+
   removePrices({ getters, commit }, pricesIds) {
     return articleService
       .removePrices(
@@ -114,6 +116,41 @@ const actions = {
       )
       .then(() => {
         commit('REMOVE_PRICES', pricesIds);
+      });
+  },
+
+  addCompositionPresets({ getters, commit }, articles) {
+    return articleService
+      .addCompositionPresets(articles, getters.article.id)
+      .then(({ data }) => {
+        commit('ADD_COMPOSITION_PRESETS', data.composition_presets);
+      });
+  },
+
+  updateCompositionPreset({ commit }, compositionPreset) {
+    return articleService
+      .updateCompositionPreset(compositionPreset)
+      .then(({ data }) => {
+        commit('UPDATE_COMPOSITION_PRESET', data);
+        notify(
+          i18n.global.t('article.detail.composition.config.update'),
+          'Ok',
+          'theme',
+          'fa fa-check'
+        );
+      });
+  },
+
+  removeCompositionPresets({ getters, commit }, compositionPresetIds) {
+    return articleService
+      .removeCompositionPresets(
+        {
+          composition_preset_ids: [...compositionPresetIds],
+        },
+        getters.article.id
+      )
+      .then(() => {
+        commit('REMOVE_COMPOSITION_PRESETS', compositionPresetIds);
       });
   },
 };
@@ -182,6 +219,50 @@ const mutations = {
     if (index !== -1) {
       article.prices = article.prices.filter((ap) => {
         return prices.find((p) => p === ap.id) === undefined;
+      });
+      articles.splice(index, 1, article);
+      state.article = JSON.stringify(article);
+      state.articles = JSON.stringify(articles);
+    }
+  },
+
+  ADD_COMPOSITION_PRESETS(state, composition_presets) {
+    let articles = JSON.parse(state.articles);
+    let article = JSON.parse(state.article);
+    let index = articles.findIndex((a) => a.id === article.id);
+    if (index !== -1) {
+      article.composition_presets = [
+        ...article.composition_presets,
+        ...composition_presets,
+      ];
+      articles.splice(index, 1, article);
+      state.article = JSON.stringify(article);
+      state.articles = JSON.stringify(articles);
+    }
+  },
+  UPDATE_COMPOSITION_PRESET(state, compositionPreset) {
+    let articles = JSON.parse(state.articles);
+    let article = JSON.parse(state.article);
+    let index = articles.findIndex((a) => a.id === article.id);
+    if (index !== -1) {
+      let art = article.composition_presets.findIndex(
+        (p) => p.id === compositionPreset.id
+      );
+      if (art !== -1) {
+        article.composition_presets.splice(art, 1, compositionPreset);
+        articles.splice(index, 1, article);
+        state.article = JSON.stringify(article);
+        state.articles = JSON.stringify(articles);
+      }
+    }
+  },
+  REMOVE_COMPOSITION_PRESETS(state, composition_presets_ids) {
+    let articles = JSON.parse(state.articles);
+    let article = JSON.parse(state.article);
+    let index = articles.findIndex((a) => a.id === article.id);
+    if (index !== -1) {
+      article.composition_presets = article.composition_presets.filter((cp) => {
+        return composition_presets_ids.find((p) => p === cp.id) === undefined;
       });
       articles.splice(index, 1, article);
       state.article = JSON.stringify(article);

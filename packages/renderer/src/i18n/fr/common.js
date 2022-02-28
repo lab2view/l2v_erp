@@ -1,6 +1,7 @@
 export default {
   none: '',
   add: 'Ajouter',
+  add_article: 'Ajouter un article',
   false: 'Faux',
   true: 'Vrai',
   yes: 'Oui',
@@ -35,6 +36,8 @@ export default {
   return_to_list: 'Retourner a la liste',
   login: 'Connexion',
   no_action: "Pas d'action",
+  makeComposition: "Composer l'article",
+  unmakeComposition: "Decomposer l'article",
 
   fields: {
     text: 'Chaine de caractere',
