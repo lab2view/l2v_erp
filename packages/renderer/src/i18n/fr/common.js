@@ -4,6 +4,7 @@ export default {
   add_article: 'Ajouter un article',
   false: 'Faux',
   true: 'Vrai',
+  back: 'Precedent',
   yes: 'Oui',
   no: 'Non',
   delete: 'Supprimer',
