@@ -1,77 +1,155 @@
 <template>
-  <BaseFormModal :title="title" :submit-form="submitProductTaxForm">
-    <div class="mb-3">
-      <label class="form-label fw-bold" for="label">{{
-        $t('common.attributes.label')
-      }}</label>
-      <input
-        id="label"
-        v-model="taxForm.label"
-        class="form-control"
-        type="text"
-        placeholder="TVA,..."
-        required
-      />
-      <div v-if="errors.label" class="invalid-feedback" style="display: inline">
-        {{ errors.label[0] }}
-      </div>
+  <div class="card rounded shadow-sm">
+    <div class="card-header p-3">
+      <h5>{{ $t('product.tax.formCreateTitle') }}</h5>
     </div>
-    <template #footer>
-      <button class="btn btn-primary" type="submit" :title="$t('common.save')">
-        {{ $t('common.save') }}
-      </button>
-    </template>
-  </BaseFormModal>
+    <form class="theme-form" @submit.prevent="submitProductTaxForm">
+      <div class="card-body pb-0 pt-2">
+        <div v-if="!productTax" class="mb-3">
+          <BaseFieldGroup
+            :label="$t('common.attributes.tax_id')"
+            required
+            :errors="errors?.tax_id"
+            @btn-click="
+              $router.push({ name: 'product.form.setting.tax.form.tax' })
+            "
+          >
+            <BaseSelect
+              v-model="productTaxForm.tax_id"
+              :options="selectTaxes"
+              key-label="label"
+              key-value="id"
+              required
+            />
+          </BaseFieldGroup>
+        </div>
+        <div class="mb-3">
+          <div class="row align-items-end">
+            <div class="col">
+              <BaseInput
+                v-model="productTaxForm.value"
+                :label="$t('common.attributes.value')"
+                rel="any"
+                placeholder="E.g. 19.25"
+                :errors="errors?.value"
+                required
+              />
+            </div>
+            <div class="col">
+              <BaseSwitchInput
+                v-model="productTaxForm.is_percent"
+                :label="$t('common.attributes.is_percent')"
+                :errors="errors?.is_percent"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card-footer pt-2 pb-2">
+        <div class="row justify-content-center align-items-center">
+          <BaseButton
+            type="button"
+            class="btn btn-secondary col-auto m-r-5"
+            :text="$t('common.cancel')"
+            @click.prevent="$router.back()"
+          />
+          <BaseButton
+            class="btn btn-primary col-auto"
+            :text="$t('common.save')"
+            icon="fa fa-save"
+            :loading="loading"
+          />
+        </div>
+      </div>
+    </form>
+  </div>
+  <router-view />
 </template>
 
 <script>
-import BaseFormModal from '../../../../components/common/BaseFormModal.vue';
 import { mapGetters } from 'vuex';
+import BaseInput from '/@/components/common/BaseInput.vue';
+import BaseSelect from '/@/components/common/BaseSelect.vue';
+import BaseButton from '/@/components/common/BaseButton.vue';
+import BaseFieldGroup from '/@/components/common/BaseFieldGroup.vue';
+import store from '/@/store';
+import BaseSwitchInput from '/@/components/common/BaseSwitchInput.vue';
 
 export default {
-  components: { BaseFormModal },
+  components: {
+    BaseSwitchInput,
+    BaseFieldGroup,
+    BaseButton,
+    BaseInput,
+    BaseSelect,
+  },
+  beforeRouteEnter(routeTo, routeFrom, next) {
+    store
+      .dispatch('taxConfig/getTaxesList', {
+        page: 1,
+        field: {},
+      })
+      .then(() => {
+        next();
+      })
+      .catch((error) => {
+        console.log(error);
+        next();
+      });
+  },
+  props: {
+    product: {
+      type: Object,
+      required: true,
+    },
+  },
   data() {
     return {
       errors: [],
-      taxForm: {
+      loading: false,
+      productTaxForm: {
         id: null,
-        label: null,
-        code: null,
+        tax_id: null,
+        value: null,
+        is_percent: true,
       },
     };
   },
   computed: {
-    ...mapGetters('taxConfig', ['tax']),
-    title() {
-      return this.tax
-        ? this.$t('product.tax.formUpdateTitle')
-        : this.$t('product.tax.formCreateTitle');
+    ...mapGetters('taxConfig', ['taxes']),
+    selectTaxes() {
+      return this.taxes.filter((tax) => {
+        return (
+          this.product.product_taxes.find((t) => t.id === tax.id) === undefined
+        );
+      });
+    },
+    productTax() {
+      return this.$route.params.product_tax_id
+        ? this.product.product_taxes.find(
+            (pt) => pt.id.toString() === this.$route.params.product_tax_id
+          )
+        : null;
     },
   },
   created() {
-    if (this.tax) this.taxForm = this.tax;
-  },
-  beforeUnmount() {
-    if (this.tax) this.$store.commit('taxConfig/SET_CURRENT_TAX', null);
+    if (this.productTax) this.productTaxForm = { ...this.productTax };
   },
   methods: {
     submitProductTaxForm() {
-      if (this.tax)
+      this.loading = true;
+      if (this.productTaxForm.id)
         this.$store
-          .dispatch('taxConfig/updateTax', this.taxForm)
+          .dispatch('product/updateTax', this.productTaxForm)
           .then(() => this.$router.back())
-          .catch((error) => {
-            this.errors = error.response?.data?.errors;
-            console.log(error);
-          });
+          .catch((error) => (this.errors = error.response?.data?.errors))
+          .finally(() => (this.loading = false));
       else
         this.$store
-          .dispatch('taxConfig/addTax', this.taxForm)
+          .dispatch('product/addTaxes', [this.productTaxForm])
           .then(() => this.$router.back())
-          .catch((error) => {
-            this.errors = error.response?.data?.errors;
-            console.log(error);
-          });
+          .catch((error) => (this.errors = error.response?.data?.errors))
+          .finally(() => (this.loading = false));
     },
   },
 };

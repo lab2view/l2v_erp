@@ -1,7 +1,7 @@
 <template>
-  <div class="row justify-content-center">
-    <div class="col-md-6">
-      <router-view />
+  <div class="row justify-content-center mt-2">
+    <div class="col-md-10">
+      <router-view :product="product" />
     </div>
   </div>
   <div class="card mb-0">
@@ -15,7 +15,7 @@
           class="col-sm-auto align-items-end"
         >
           <router-link
-            :to="{ name: 'product.form.article.form' }"
+            :to="{ name: 'product.form.setting.tax.form' }"
             class="btn btn-primary"
             type="button"
           >
@@ -32,7 +32,9 @@
             <tr>
               <th scope="col">{{ $t('common.attributes.tax_id') }}</th>
               <th scope="col">{{ $t('common.attributes.value') }}</th>
-              <th scope="col">{{ $t('common.actions') }}</th>
+              <th scope="col" class="text-center">
+                {{ $t('common.actions') }}
+              </th>
             </tr>
           </thead>
           <tbody>

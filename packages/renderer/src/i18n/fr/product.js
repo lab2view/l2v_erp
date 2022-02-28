@@ -32,10 +32,10 @@ export default {
   },
   tax: {
     listTitle: 'Liste des taxes',
-    formCreateTitle: 'Ajouter une tax',
-    formUpdateTitle: 'Modifier une tax',
-    store: "L'enregistrement d'une tax a ete effectue avec succes",
-    update: "La modification d'une tax a ete effectuee avec succes",
+    formCreateTitle: 'Ajouter une taxe',
+    formUpdateTitle: 'Modifier une taxe',
+    store: "L'enregistrement d'une taxe a ete effectue avec succes",
+    update: 'La taxe a ete effectuee avec succes',
   },
   productFamily: {
     listTitle: 'Liste des familles de produit',
