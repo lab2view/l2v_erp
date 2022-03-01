@@ -41,6 +41,7 @@ import discountType from './modules/sales/discountType';
 import cashRegister from './modules/sales/cashRegister';
 import cashier from './modules/sales/cashier';
 import cashierGroup from './modules/sales/cashierGroup';
+import saleType from './modules/sales/saleType';
 
 export default createStore({
   state: {
@@ -115,6 +116,7 @@ export default createStore({
     transactionType,
     discount,
     discountType,
+    saleType,
     cashRegister,
     cashier,
     cashierGroup,

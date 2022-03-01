@@ -8,6 +8,13 @@ export default {
     store: "L'enregistrement d'une vente a ete effectue avec succes.",
     update: "La modification d'une vente a ete effectuee avec succes.",
   },
+  saleType: {
+    listTitle: 'Liste des types de vente',
+    formCreateTitle: 'Ajouter un type de vente',
+    formUpdateTitle: 'Modifier un type de vente',
+    store: "L'enregistrement du type de vente a ete effectue avec succes.",
+    update: "La modification du type de vente a ete effectuee avec succes.",
+  },
   cashRegister: {
     listTitle: 'Liste des caisses',
     formCreateTitle: 'Ajouter une caisse',
