@@ -96,7 +96,7 @@ app
   .whenReady()
   .then(createWindow)
   .then(() => {
-    showNotification('Bienvenue');
+    // showNotification('Bienvenue');
     mainWindow?.webContents?.send('message', 'Debut du programme');
   })
   .catch((e) => console.error('Failed create window:', e));
@@ -115,7 +115,7 @@ if (import.meta.env.PROD) {
     .whenReady()
     .then(() => import('electron-updater'))
     .then(({ autoUpdater }) => {
-      showNotification('Mis a jour trouve');
+      // showNotification('Mis a jour trouve');
       return autoUpdater.checkForUpdatesAndNotify();
     })
     .catch((e) => console.error('Failed check updates:', e));

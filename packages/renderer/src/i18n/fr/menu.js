@@ -35,6 +35,9 @@ export default {
       description: 'Description du module',
     },
   },
+  saletype: {
+    viewany: "Type de vente",
+  },
   cashier: {
     viewany: 'Caissiers',
   },
