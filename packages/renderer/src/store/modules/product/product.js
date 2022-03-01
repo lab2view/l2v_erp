@@ -78,21 +78,61 @@ const actions = {
     });
   },
 
-  saveProperties({ getters, commit }, properties) {
+  addProperties({ getters, commit }, properties) {
     return productService
-      .saveProperties(properties, getters.product.id)
+      .addProperties(properties, getters.product.id)
       .then(({ data }) => {
-        commit('PUSH_PRODUCT_PROPERTIES', data.properties);
+        commit('ADD_PROPERTIES', data.product_properties);
         return data;
       });
   },
 
-  saveTaxes({ getters, commit }, productTaxes) {
+  updateProperty({ commit }, productProperty) {
+    return productService.updateProperty(productProperty).then(({ data }) => {
+      commit('UPDATE_PROPERTY', data);
+      notify(i18n.global.t('product.tax.update'), 'Ok', 'theme', 'fa fa-check');
+    });
+  },
+
+  removeProperties({ getters, commit }, productPropertyIds) {
     return productService
-      .saveTaxes(productTaxes, getters.product.id)
+      .removeProperties(
+        {
+          product_property_ids: [...productPropertyIds],
+        },
+        getters.product.id
+      )
+      .then(() => {
+        commit('REMOVE_PROPERTIES', productPropertyIds);
+      });
+  },
+
+  addTaxes({ getters, commit }, productTaxes) {
+    return productService
+      .addTaxes({ taxes: productTaxes }, getters.product.id)
       .then(({ data }) => {
-        commit('PUSH_PRODUCT_PROPERTIES', data.properties);
+        commit('ADD_TAXES', data.product_taxes);
         return data;
+      });
+  },
+
+  updateTax({ commit }, productTax) {
+    return productService.updateTax(productTax).then(({ data }) => {
+      commit('UPDATE_TAX', data);
+      notify(i18n.global.t('product.tax.update'), 'Ok', 'theme', 'fa fa-check');
+    });
+  },
+
+  removeTaxes({ getters, commit }, productTaxIds) {
+    return productService
+      .removeTaxes(
+        {
+          product_tax_ids: [...productTaxIds],
+        },
+        getters.product.id
+      )
+      .then(() => {
+        commit('REMOVE_TAXES', productTaxIds);
       });
   },
 };
@@ -124,16 +164,88 @@ const mutations = {
       JSON.parse(state.products).filter((p) => p.id !== productId)
     );
   },
-  PUSH_PRODUCT_PROPERTIES(state, properties) {
-    let products = state.products ? JSON.parse(state.products) : [];
+
+  ADD_PROPERTIES(state, product_properties) {
+    let products = JSON.parse(state.products);
     let product = JSON.parse(state.product);
-    const index = products.findIndex((p) => p.id === product.id);
+    let index = products.findIndex((p) => p.id === product.id);
     if (index !== -1) {
-      properties.forEach((property) =>
-        product.product_properties.push(property)
-      );
-      state.product = JSON.stringify(product);
+      product.product_properties = [
+        ...product.product_properties,
+        ...product_properties,
+      ];
       products.splice(index, 1, product);
+      state.product = JSON.stringify(product);
+      state.products = JSON.stringify(products);
+    }
+  },
+  UPDATE_PROPERTY(state, productProperty) {
+    let products = JSON.parse(state.products);
+    let product = JSON.parse(state.product);
+    let index = products.findIndex((p) => p.id === product.id);
+    if (index !== -1) {
+      let ind = product.product_properties.findIndex(
+        (pp) => pp.id === productProperty.id
+      );
+      if (ind !== -1) {
+        product.product_properties.splice(ind, 1, productProperty);
+        products.splice(index, 1, product);
+        state.product = JSON.stringify(product);
+        state.products = JSON.stringify(products);
+      }
+    }
+  },
+  REMOVE_PROPERTIES(state, productPropertyIds) {
+    let products = JSON.parse(state.products);
+    let product = JSON.parse(state.product);
+    let index = products.findIndex((p) => p.id === product.id);
+    if (index !== -1) {
+      product.product_properties = product.product_properties.filter((pp) => {
+        return productPropertyIds.find((id) => id === pp.id) === undefined;
+      });
+      products.splice(index, 1, product);
+      state.product = JSON.stringify(product);
+      state.products = JSON.stringify(products);
+    }
+  },
+
+  ADD_TAXES(state, product_taxes) {
+    let products = JSON.parse(state.products);
+    let product = JSON.parse(state.product);
+    let index = products.findIndex((p) => p.id === product.id);
+    if (index !== -1) {
+      product.product_taxes = [...product.product_taxes, ...product_taxes];
+      products.splice(index, 1, product);
+      state.product = JSON.stringify(product);
+      state.products = JSON.stringify(products);
+    }
+  },
+  UPDATE_TAX(state, productTax) {
+    let products = JSON.parse(state.products);
+    let product = JSON.parse(state.product);
+    let index = products.findIndex((p) => p.id === product.id);
+    if (index !== -1) {
+      let ind = product.product_taxes.findIndex(
+        (pt) => pt.id === productTax.id
+      );
+      if (ind !== -1) {
+        product.product_taxes.splice(ind, 1, productTax);
+        products.splice(index, 1, product);
+        state.product = JSON.stringify(product);
+        state.products = JSON.stringify(products);
+      }
+    }
+  },
+  REMOVE_TAXES(state, productTaxIds) {
+    let products = JSON.parse(state.products);
+    let product = JSON.parse(state.product);
+    let index = products.findIndex((p) => p.id === product.id);
+    if (index !== -1) {
+      product.product_taxes = product.product_taxes.filter((pt) => {
+        return productTaxIds.find((id) => id === pt.id) === undefined;
+      });
+      products.splice(index, 1, product);
+      state.product = JSON.stringify(product);
       state.products = JSON.stringify(products);
     }
   },

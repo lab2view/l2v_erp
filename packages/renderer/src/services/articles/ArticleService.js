@@ -50,7 +50,7 @@ export default {
 
   updateCompositionPreset(compositionPreset) {
     return axios.put(
-      `/articles/compositions/presets/${compositionPreset.id}update`,
+      `/articles/compositions/presets/${compositionPreset.id}/update`,
       compositionPreset
     );
   },

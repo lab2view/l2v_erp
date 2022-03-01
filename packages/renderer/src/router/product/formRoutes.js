@@ -29,18 +29,16 @@ export default [
         component: () => import('/@/views/products/forms/ProductTaxList.vue'),
         children: [
           {
-            path: 'form',
-            name: 'product.form.article.form',
+            path: ':product_tax_id?/form',
+            name: 'product.form.setting.tax.form',
             component: () =>
-              import('/@/views/products/forms/ProductArticleForm.vue'),
+              import('/@/views/products/forms/ProductTaxForm.vue'),
             children: [
               {
-                path: 'add-package',
-                name: 'product.form.article.form.package',
+                path: 'add-tax',
+                name: 'product.form.setting.tax.form.tax',
                 component: () =>
-                  import(
-                    '/@/views/products/configurations/package/PackageForm.vue'
-                  ),
+                  import('/@/views/products/configurations/tax/TaxForm.vue'),
               },
             ],
           },

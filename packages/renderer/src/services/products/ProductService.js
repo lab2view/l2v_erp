@@ -29,13 +29,18 @@ export default {
     return axios.delete(`/products/delete/${id}`);
   },
 
-  saveProperties(productProperties, product_id) {
+  addProperties(productProperties, product_id) {
     return axios.post(
-      `/products/${product_id}/properties/save`,
+      `/products/${product_id}/properties/add`,
       productProperties
     );
   },
-
+  updateProperty(productProperty) {
+    return axios.put(
+      `/products/properties/${productProperty.id}/update`,
+      productProperty
+    );
+  },
   removeProperties(productPropertyIds, product_id) {
     return axios.post(
       `/products/${product_id}/properties/remove`,
@@ -43,10 +48,12 @@ export default {
     );
   },
 
-  saveTaxes(productTaxes, product_id) {
-    return axios.post(`/products/${product_id}/taxes/save`, productTaxes);
+  addTaxes(productTaxes, product_id) {
+    return axios.post(`/products/${product_id}/taxes/add`, productTaxes);
   },
-
+  updateTax(productTax) {
+    return axios.put(`/products/taxes/${productTax.id}/update`, productTax);
+  },
   removeTaxes(productTaxIds, product_id) {
     return axios.post(`/products/${product_id}/taxes/remove`, productTaxIds);
   },

@@ -58,7 +58,7 @@
 import { mapGetters } from 'vuex';
 import BaseInput from '../../../components/common/BaseInput.vue';
 import BaseSelect from '../../../components/common/BaseSelect.vue';
-import { unitPackageCode } from '../../../helpers/codes';
+import { unitPackageCode } from '/@/helpers/codes.js';
 import BaseButton from '../../../components/common/BaseButton.vue';
 import BaseFieldGroup from '../../../components/common/BaseFieldGroup.vue';
 import store from '../../../store';
