@@ -200,13 +200,13 @@ export const stockMenus = [
 
 export const paymentMenus = [
   {
-    icon: 'repeat',
+    icon: 'activity',
     code: 'Transaction.viewAny',
     prefix: 'payments.transaction',
     to: 'payments.transactions',
   },
   {
-    icon: 'repeat',
+    icon: 'tag',
     code: 'Charge.viewAny',
     prefix: 'payments.charge',
     to: 'payments.charges',
@@ -231,13 +231,13 @@ export const paymentMenus = [
 
 export const saleMenus = [
   {
-    icon: 'repeat',
+    icon: 'trending-up',
     code: 'Sale.viewAny',
     prefix: 'sales.sales',
     to: 'sales.sales',
   },
   {
-    icon: 'repeat',
+    icon: 'credit-card',
     code: 'Sales.manage',
     prefix: 'sales.cash',
     items: [
@@ -256,7 +256,7 @@ export const saleMenus = [
     ],
   },
   {
-    icon: 'repeat',
+    icon: 'gift',
     code: 'Discount.viewAny',
     prefix: 'sales.discounts',
     to: 'sales.discounts',
