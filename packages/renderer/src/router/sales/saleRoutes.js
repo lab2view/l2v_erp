@@ -27,6 +27,31 @@ export const saleRoutes = [
     ],
   },
   {
+    path: 'types',
+    name: 'config.sales.sale.types',
+    component: () => import('/@/views/sales/SaleTypesList.vue'),
+    meta: {
+      code: 'SaleType.viewAny',
+      feather: 'filter',
+    },
+    children: [
+      {
+        path: 'form/:id?',
+        name: 'config.sales.sale.type.form',
+        component: () => import('/@/views/sales/SaleTypeForm.vue'),
+        beforeEnter: (to) => {
+          if (to.params.id) {
+            return store.dispatch('saleType/getSaleType', to.params.id)
+              .then(() => {
+                return { name: to.name };
+              })
+              .catch(() => -1);
+          }
+        },
+      },
+    ],
+  },
+  {
     path: 'cashiers',
     name: 'sales.cashiers',
     component: () => import('/@/views/sales/CashiersList.vue'),
