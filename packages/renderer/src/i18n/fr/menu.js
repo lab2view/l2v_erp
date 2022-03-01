@@ -10,6 +10,9 @@ export default {
     iam: 'IAM',
     manage: 'Modules',
   },
+  salediscounts: {
+    manage: 'Reductions',
+  },
   sales: {
     manage: 'Caisses',
   },

@@ -18,7 +18,7 @@ const getters = {
     state.discount
       ? JSON.parse(state.discount)
       : null,
-  haveDiscount: (state) => !!state.discount,
+  haveDiscount: (state, getters) => !!getters.discount,
 };
 
 // privileges

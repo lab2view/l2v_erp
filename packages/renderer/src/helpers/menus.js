@@ -256,7 +256,7 @@ export const saleMenus = [
     ],
   },
   {
-    icon: 'repeat',
+    icon: 'gift',
     code: 'SaleDiscounts.manage',
     prefix: 'sales.discount',
     items: [
@@ -265,7 +265,7 @@ export const saleMenus = [
         to: 'sales.discounts',
       },
       {
-        code: 'CashierGroup.viewAny',
+        code: 'Discount.create',
         to: 'sales.discount.form.desc',
       },
     ],

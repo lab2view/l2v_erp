@@ -1,10 +1,10 @@
 export default [
   {
-    path: 'description',
+    path: '',
     name: 'sales.discount.form.desc',
     component: () => import('/@/views/sales/DiscountFormDesc.vue'),
     meta: {
-      code: 'Discount.form.desc',
+      code: 'discount.form.desc',
       icon: 'fa fa-info',
     },
   },
@@ -13,7 +13,7 @@ export default [
     name: 'sales.discount.form.articles',
     component: () => import('/@/views/sales/DiscountFormArticles.vue'),
     meta: {
-      code: 'Discount.form.articles',
+      code: 'discount.form.articles',
       icon: 'fa fa-info',
       requireDiscount: true,
     },
@@ -23,7 +23,7 @@ export default [
     name: 'sales.discount.form.customers',
     component: () => import('/@/views/sales/DiscountFormCustomers.vue'),
     meta: {
-      code: 'Discount.form.customers',
+      code: 'discount.form.customers',
       icon: 'fa fa-info',
       requireDiscount: true,
     },
@@ -33,7 +33,7 @@ export default [
     name: 'sales.discount.form.codes',
     component: () => import('/@/views/sales/DiscountFormCodes.vue'),
     meta: {
-      code: 'Discount.form.codes',
+      code: 'discount.form.codes',
       icon: 'fa fa-info',
       requireDiscount: true,
     },

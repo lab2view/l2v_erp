@@ -9,7 +9,11 @@
         </span>
       </div>
       <div class="card-body">
-        Form Articles
+<!--        <ArticleSelectableList-->
+<!--          :used-articles="discount_articles"-->
+<!--          :submit-store-action="submitForm"-->
+<!--        >-->
+<!--        </ArticleSelectableList>-->
       </div>
       <div class="card-footer">
         <div class="row justify-content-end">
@@ -31,17 +35,18 @@
 </template>
 
 <script>
+// import ArticleSelectableList from '/@/components/articles/ArticleSelectableList.vue';
 import BaseButton from '/@/components/common/BaseButton.vue';
 import { mapGetters } from 'vuex';
 
 export default {
+  // components: { ArticleSelectableList, BaseButton },
   components: { BaseButton },
   data() {
     return {
       errors: [],
       formLoading: false,
-      discountId: null,
-      articles: [],
+      discount_articles: [],
     };
   },
   computed: {
@@ -49,8 +54,6 @@ export default {
   },
   created() {
     if (this.discount && this.discount.id) {
-      this.discountForm = this.discount;
-      this.is_edited = false;
     }
   },
   beforeUnmount() {
@@ -64,12 +67,14 @@ export default {
 
       this.formLoading = value;
     },
-    submitForm() {
-      if (this.formLoading) {
-        return;
-      }
+    submitForm(selected) {
+      console.log('selected');
+      console.log(selected);
+      // if (this.formLoading) {
+      //   return;
+      // }
 
-      this.setLoading(true);
+      // this.setLoading(true);
     },
   },
 };
