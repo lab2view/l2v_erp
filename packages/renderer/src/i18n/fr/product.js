@@ -7,6 +7,7 @@ export default {
     updateTitle: 'Modifier un produit',
     store: `L'enregistrement du produit a ete effectue avec succes.`,
     update: 'Modification du produit effectue avec succes.',
+    description: 'Description complete du produit',
     setting: {
       gallery: 'Photos du produit',
       desc: 'Completer la description',
