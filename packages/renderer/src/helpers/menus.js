@@ -257,9 +257,18 @@ export const saleMenus = [
   },
   {
     icon: 'repeat',
-    code: 'Discount.viewAny',
-    prefix: 'sales.discounts',
-    to: 'sales.discounts',
+    code: 'SaleDiscounts.manage',
+    prefix: 'sales.discount',
+    items: [
+      {
+        code: 'Discount.viewAny',
+        to: 'sales.discounts',
+      },
+      {
+        code: 'CashierGroup.viewAny',
+        to: 'sales.discount.form.desc',
+      },
+    ],
   },
   {
     icon: 'settings',

@@ -18,6 +18,7 @@ const getters = {
     state.discount
       ? JSON.parse(state.discount)
       : null,
+  haveDiscount: (state) => !!state.discount,
 };
 
 // privileges
@@ -92,6 +93,24 @@ const actions = {
         return data;
       });
   },
+
+  addArticles({ commit }, {articles, discount}) {
+    return discountService
+      .addArticles(articles, discount.id)
+      .then(({ data }) => {
+        commit('ADD_ARTICLE_DISCOUNTS', {discount, articleDiscounts: data});
+        return data;
+      });
+  },
+
+  removeArticleDiscount({ commit }, {articleDiscountIds, discount}) {
+    return discountService
+      .removeArticleDiscounts(articleDiscountIds, discount.id)
+      .then(({ data }) => {
+        commit('DELETE_ARTICLE_DISCOUNTS', {discount, articleDiscountIds});
+        return data;
+      });
+  },
 };
 
 // mutations
@@ -116,6 +135,33 @@ const mutations = {
       discounts.splice(index, 1, discount);
       state.discounts = JSON.stringify(discounts);
     }
+    state.discount = JSON.stringify(discount);
+  },
+  ADD_ARTICLE_DISCOUNTS(state, {discount, articleDiscounts}) {
+    console.log(articleDiscounts);
+    return;
+    let discounts = JSON.parse(state.discounts);
+    const index = discounts.findIndex(
+      (p) => p.id === discount.id
+    );
+    if (index !== -1) {
+      discounts.splice(index, 1, discount);
+      state.discounts = JSON.stringify(discounts);
+    }
+    state.discount = JSON.stringify(discount);
+  },
+  DELETE_ARTICLE_DISCOUNTS(state, {discount, articleDiscountIds}) {
+    console.log(articleDiscountIds);
+    return;
+    let discounts = JSON.parse(state.discounts);
+    const index = discounts.findIndex(
+      (p) => p.id === discount.id
+    );
+    if (index !== -1) {
+      discounts.splice(index, 1, discount);
+      state.discounts = JSON.stringify(discounts);
+    }
+    state.discount = JSON.stringify(discount);
   },
   DELETE_DISCOUNT(state, discountId) {
     state.discounts = JSON.stringify(

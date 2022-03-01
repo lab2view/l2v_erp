@@ -30,6 +30,10 @@ export default {
     update: "La modification du groupe de caissiers a ete effectuee avec succes.",
   },
   discount: {
+    articles: 'Gerer les articles de la reduction',
+    codes: 'Gerer les codes de la reduction',
+    generate_code: 'Generer codes de reduction',
+    customers: 'Gerer les clients de la reduction',
     listTitle: 'Liste des rabais',
     formCreateTitle: 'Ajouter un rabais',
     formUpdateTitle: 'Modifier un rabais',

@@ -1,4 +1,5 @@
 import store from '../../store';
+import formRoutes from './formRoutes';
 
 export const saleRoutes = [
   {
@@ -165,22 +166,20 @@ export const saleRoutes = [
       code: 'Discount.viewAny',
       feather: 'filter',
     },
-    children: [
-      {
-        path: 'form/:id?',
-        name: 'sales.discount.form',
-        component: () => import('/@/views/sales/DiscountForm.vue'),
-        beforeEnter: (to) => {
-          if (to.params.id) {
-            return store.dispatch('discount/getDiscount', to.params.id)
-              .then(() => {
-                return { name: to.name };
-              })
-              .catch(() => -1);
-          }
-        },
-      },
-    ],
+  },
+  {
+    path: ':id?/forms',
+    component: () => import('/@/components/sales/DiscountFormLayout.vue'),
+    children: formRoutes,
+    beforeEnter: (to) => {
+      if (to.params.id) {
+        return store.dispatch('discount/getDiscount', to.params.id)
+          .then(() => {
+            return { name: to.name };
+          })
+          .catch(() => -1);
+      }
+    },
   },
   // {
   //   path: 'discount-codes',

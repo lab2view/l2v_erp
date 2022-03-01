@@ -42,7 +42,14 @@ export default {
     viewany: 'Liste des caisses',
   },
   discount: {
+    create: 'Ajouter une reduction',
     viewany: 'Liste des reductions',
+    form: {
+      desc: 'Description de la reduction',
+      articles: 'Articles de la reduction',
+      customers: 'Clients de la reduction',
+      codes: 'Codes de la reduction',
+    },
   },
   discounttype: {
     viewany: 'Types de reduction',
