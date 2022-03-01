@@ -268,6 +268,10 @@ export const saleMenus = [
     prefix: 'config.sales',
     items: [
       {
+        code: 'SaleType.viewAny',
+        to: 'config.sales.sale.types',
+      },
+      {
         code: 'DiscountType.viewAny',
         to: 'config.sales.discount.types',
       },

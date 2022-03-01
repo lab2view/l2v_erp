@@ -285,6 +285,13 @@ const CashierGroup = new VuexPersistence({
   reducer: (state) => ({ cashierGroup: state.cashierGroup }),
 });
 
+const SaleType = new VuexPersistence({
+  key: 'saleType',
+  storage: localStore,
+  asyncStorage: true,
+  reducer: (state) => ({ saleType: state.saleType }),
+});
+
 export default [
   Auth.plugin,
   Product.plugin,
@@ -325,4 +332,5 @@ export default [
   CashRegister.plugin,
   Cashier.plugin,
   CashierGroup.plugin,
+  SaleType.plugin,
 ];
