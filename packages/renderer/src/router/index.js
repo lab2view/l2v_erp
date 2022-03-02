@@ -11,6 +11,7 @@ import productGuard from '../guards/productGuard';
 import productArticleGroupGuard from '/@/guards/productArticleGroupGuard';
 import customerGroupGuard from '/@/guards/customerGroupGuard';
 import discountGuard from '/@/guards/discountGuard';
+import stockEntryGuard from '/@/guards/stockEntryGuard';
 
 const routes = [
   {
@@ -95,6 +96,7 @@ router.beforeEach(async (to, from, next) => {
   if (to.meta.requireArticleGroup) productArticleGroupGuard(to, from, next);
   if (to.meta.requireCustomerGroup) customerGroupGuard(to, from, next);
   if (to.meta.requireDiscount) discountGuard(to, from, next);
+  if (to.meta.requireStockEntry) stockEntryGuard(to, from, next);
 
   next();
 });

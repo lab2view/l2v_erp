@@ -47,15 +47,17 @@ const actions = {
   addStockEntry({ commit }, stockEntryField) {
     return stockEntryService.addStockEntry(stockEntryField).then(({ data }) => {
       commit('ADD_STOCK_ENTRY', data);
+      commit('SET_CURRENT_STOCK_ENTRY', data);
       return data;
     });
   },
 
   updateStockEntry({ commit }, stockEntryField) {
     return stockEntryService
-      .updateStockEntry(stockEntryField, stockEntryField.id)
+      .updateStockEntry(stockEntryField)
       .then(({ data }) => {
         commit('UPDATE_STOCK_ENTRY', data);
+        commit('SET_CURRENT_STOCK_ENTRY', data);
         return data;
       });
   },

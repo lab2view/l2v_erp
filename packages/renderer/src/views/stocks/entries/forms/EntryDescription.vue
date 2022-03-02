@@ -20,6 +20,7 @@
                 key-value="id"
                 :errors="errors?.stock_type_id"
                 required
+                :disabled="isUpdating"
               />
             </div>
             <div class="col-md">
@@ -29,6 +30,7 @@
                 placeholder="E.g. STOCK-AP00001..."
                 :errors="errors?.reference"
                 required
+                :disabled="isUpdating"
               >
                 <button
                   type="button"
@@ -142,6 +144,9 @@ export default {
         ? this.$t('stock.form.updateTitle')
         : this.$t('stock.form.createTitle');
     },
+    isUpdating() {
+      return !!this.stockEntry;
+    },
   },
   watch: {
     stockEntryForm: {
@@ -159,7 +164,7 @@ export default {
   },
   methods: {
     submitStockEntryForm() {
-      if (this.stockEntry) {
+      if (this.isUpdating) {
         if (this.is_edited)
           this.$store
             .dispatch('stock_entry/updateStockEntry', this.stockEntryForm)

@@ -13,8 +13,8 @@ export default {
     return axios.get(`/stocks/entries/${id}`);
   },
 
-  updateStockEntry(stockEntry, id) {
-    return axios.put(`/stocks/entries/${id}`, stockEntry);
+  updateStockEntry(stockEntry) {
+    return axios.put(`/stocks/entries/${stockEntry.id}`, stockEntry);
   },
 
   deleteStockEntry(id) {

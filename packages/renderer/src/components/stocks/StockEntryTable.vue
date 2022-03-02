@@ -25,6 +25,19 @@
       <td>{{ stockEntry.reference }}</td>
       <td>{{ stockEntry.created_at }}</td>
       <td>
+        <BaseButton
+          type="button"
+          class="btn btn-iconsolid btn-secondary btn-sm"
+          :title="$t('common.update')"
+          @click.prevent="
+            $router.push({
+              name: 'stocks.entry.form.desc',
+              params: { id: stockEntry.id },
+            })
+          "
+        >
+          {{ $t('common.update') }}
+        </BaseButton>
         <button
           v-if="!stockEntry.not_deletable"
           class="btn btn-danger btn-xs m-l-5"
@@ -42,9 +55,10 @@
 
 <script>
 import BaseDatatable from '/@/components/common/BaseDatatable.vue';
+import BaseButton from '/@/components/common/BaseButton.vue';
 export default {
   name: 'StockEntryTable',
-  components: { BaseDatatable },
+  components: { BaseButton, BaseDatatable },
   props: {
     stockEntries: {
       type: Array,
