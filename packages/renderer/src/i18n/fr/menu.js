@@ -33,7 +33,7 @@ export default {
     },
   },
   saletype: {
-    viewany: "Type de vente",
+    viewany: 'Type de vente',
   },
   cashier: {
     viewany: 'Caissiers',
@@ -184,8 +184,14 @@ export default {
   stocks: {
     manage: 'Mouvements',
   },
+
   stockentry: {
     viewany: 'Approvisionnements',
+    form: {
+      description: "Description de l'entree",
+      line: 'Liste des articles',
+      provision: 'provisions',
+    },
   },
   stockexit: {
     viewany: 'Sorties de Stock',

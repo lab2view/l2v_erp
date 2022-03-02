@@ -11,7 +11,9 @@ const getters = {
   stock_entries: (state) => {
     return state.stock_entries ? JSON.parse(state.stock_entries) : [];
   },
-  stockEntry: (state) => (state.stockEntry ? JSON.parse(state.stockEntry) : null),
+  stockEntry: (state) =>
+    state.stockEntry ? JSON.parse(state.stockEntry) : null,
+  haveStockEntry: (state, getters) => !!getters.stockEntry,
 };
 
 const actions = {
@@ -19,14 +21,18 @@ const actions = {
     if (getters.stock_entries.length > 0) {
       return getters.stock_entries;
     }
-    return stockEntryService.getStockEntriesList(page, field).then(({ data }) => {
-      commit('SET_STOCK_ENTRIES', data);
-      return data;
-    });
+    return stockEntryService
+      .getStockEntriesList(page, field)
+      .then(({ data }) => {
+        commit('SET_STOCK_ENTRIES', data);
+        return data;
+      });
   },
 
   getStockEntry({ getters, commit }, id) {
-    const stockEntry = getters.stock_entries.find((p) => p.id.toString() === id);
+    const stockEntry = getters.stock_entries.find(
+      (p) => p.id.toString() === id
+    );
     if (stockEntry !== undefined) {
       commit('SET_CURRENT_STOCK_ENTRY', stockEntry);
       return stockEntry;

@@ -39,6 +39,7 @@ export default {
   no_action: "Pas d'action",
   makeComposition: "Composer l'article",
   unmakeComposition: "Decomposer l'article",
+  parent: 'Parent',
 
   fields: {
     text: 'Chaine de caractere',
@@ -151,11 +152,14 @@ export default {
     is_percent: 'En pourcentage',
     only_bill: 'Uniquement au facture',
     price_type_id: 'Type de prix',
+    created_at: 'Date de creation',
   },
 
   headers: {
     stock_entry_qty: 'Qte Entre',
     stock_exit_qty: 'Qte Sortie',
     stock_in: 'En Stock',
+    enterprise_id: 'Structures',
+    provider: 'Provenance',
   },
 };
