@@ -11,22 +11,11 @@ export default [
   },
   {
     path: 'articles',
-    name: 'stocks.entry.form.line',
+    name: 'stocks.entry.form.article',
     component: () => import('/@/views/stocks/entries/forms/EntryLineList.vue'),
     meta: {
       code: 'StockEntry.form.line',
-      icon: 'fa fa-info',
-      requireStockEntry: true,
-    },
-  },
-  {
-    path: 'provisions',
-    name: 'stocks.entry.form.provision',
-    component: () =>
-      import('/@/views/stocks/entries/forms/EntryProvisionList.vue'),
-    meta: {
-      code: 'StockEntry.form.provision',
-      icon: 'fa fa-cogs',
+      icon: 'fa fa-list',
       requireStockEntry: true,
     },
   },

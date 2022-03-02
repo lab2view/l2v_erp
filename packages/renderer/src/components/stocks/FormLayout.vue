@@ -1,8 +1,5 @@
 <template>
-  <BaseContainer
-    :module="$t('menu.modules.products')"
-    :title="$t('product.title')"
-  >
+  <BaseContainer :title="$t('stock.title')" :module="$t('menu.modules.stocks')">
     <div class="card">
       <BaseWizardStep :links="items" />
     </div>
@@ -10,9 +7,9 @@
 </template>
 
 <script>
-import BaseContainer from '../common/BaseContainer.vue';
-import BaseWizardStep from '../common/BaseWizardStep.vue';
-import formRoutes from '../../router/stocks/formRoutes';
+import BaseContainer from '/@/components/common/BaseContainer.vue';
+import BaseWizardStep from '/@/components/common/BaseWizardStep.vue';
+import formRoutes from '/@/router/stocks/formRoutes';
 import { mapGetters } from 'vuex';
 
 export default {

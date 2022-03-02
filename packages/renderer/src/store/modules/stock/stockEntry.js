@@ -74,21 +74,18 @@ const mutations = {
     state.stock_entries = JSON.stringify(stock_entries);
   },
   SET_CURRENT_STOCK_ENTRY(state, stockEntry) {
-    state.stockEntry = JSON.stringify(stockEntry);
+    state.stockEntry = stockEntry ? JSON.stringify(stockEntry) : null;
   },
   ADD_STOCK_ENTRY(state, stockEntry) {
-    let stock_entries = null;
-    if (state.stock_entries) {
-      stock_entries = JSON.parse(state.stock_entries);
-      stock_entries.push(stockEntry);
-    } else {
-      stock_entries = [stockEntry];
-    }
+    let stock_entries = state.stock_entries
+      ? JSON.parse(state.stock_entries)
+      : [];
+    stock_entries.push(stockEntry);
     state.stock_entries = JSON.stringify(stock_entries);
   },
   UPDATE_STOCK_ENTRY(state, stockEntry) {
     let stock_entries = JSON.parse(state.stock_entries);
-    const index = stock_entries.findIndex((p) => p.id === stockEntry.id);
+    const index = stock_entries.findIndex((se) => se.id === stockEntry.id);
     if (index !== -1) {
       stock_entries.splice(index, 1, stockEntry);
     }

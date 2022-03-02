@@ -120,7 +120,7 @@ export default {
     article_id: 'Articles',
     stock_entry_id: 'Mouvements',
     provider_id: 'Fournisseur',
-    stock_entry_type_id: "Type d'entree",
+    stock_entry_type_id: "Type d'approvisionnement",
     website: 'Site web',
     slogan: 'Slogan',
     logo: 'Logo',

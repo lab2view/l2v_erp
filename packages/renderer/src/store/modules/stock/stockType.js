@@ -12,6 +12,9 @@ const getters = {
     return state.stock_types ? JSON.parse(state.stock_types) : [];
   },
   stockType: (state) => (state.stockType ? JSON.parse(state.stockType) : null),
+  getListByTypeFor: (state, getters) => (typeFor) => {
+    return getters.stock_types.filter((st) => st.type_for === typeFor);
+  },
 };
 
 const actions = {

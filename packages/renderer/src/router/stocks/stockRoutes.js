@@ -64,18 +64,17 @@ export const stockRoutes = [
     },
   },
   {
-    path: ':id?/forms',
+    path: 'entries/:id?/forms',
     component: () => import('/@/components/stocks/FormLayout.vue'),
     children: formRoutes,
     beforeEnter: (to) => {
       if (to.params.id) {
-        // return store
-        //   .dispatch('provision/getProvision', to.params.id)
-        //   .then(() => {
-        //     return 1;
-        //   })
-        //   .catch(() => -1);
-        return 1;
+        return store
+          .dispatch('stock_entry/getStockEntry', to.params.id)
+          .then(() => {
+            return 1;
+          })
+          .catch(() => -1);
       }
     },
   },
