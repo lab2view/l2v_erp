@@ -28,4 +28,15 @@ export default {
   forceDeleteDiscount(id) {
     return axios.delete(`/discounts/delete/${id}`);
   },
+
+  addArticles(articles, discount_id) {
+    return axios.post(`/discounts/articles/${discount_id}/add`, articles);
+  },
+
+  removeArticleDiscounts(articleDiscountIds, discount_id) {
+    return axios.post(
+      `/discounts/articles/${discount_id}/remove`,
+      articleDiscountIds
+    );
+  },
 };
