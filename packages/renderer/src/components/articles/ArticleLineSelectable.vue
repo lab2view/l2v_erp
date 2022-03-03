@@ -15,7 +15,7 @@
         >
       </div>
     </td>
-    <td class="text-center">
+    <td v-if="hasQuantity" class="text-center">
       <BaseUpdateNumberForm
         :quantity="model.quantity"
         :store-action="updateQuantity"
@@ -50,6 +50,10 @@ export default {
     model: {
       type: Object,
       required: true,
+    },
+    hasQuantity: {
+      type: Boolean,
+      default: true,
     },
     selectedList: {
       type: Array,

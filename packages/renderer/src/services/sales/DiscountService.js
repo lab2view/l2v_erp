@@ -30,13 +30,13 @@ export default {
   },
 
   addArticles(articles, discount_id) {
-    return axios.post(`/discounts/articles/${discount_id}/add`, articles);
+    return axios.post(`/discounts/articles/${discount_id}/add`, {articles});
   },
 
   removeArticleDiscounts(articleDiscountIds, discount_id) {
     return axios.post(
       `/discounts/articles/${discount_id}/remove`,
-      articleDiscountIds
+      {article_discount_ids: articleDiscountIds},
     );
   },
 };

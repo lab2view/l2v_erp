@@ -11,12 +11,20 @@ export default [
   {
     path: 'articles',
     name: 'sales.discount.form.articles',
-    component: () => import('/@/views/sales/DiscountFormArticles.vue'),
+    component: () => import('/@/views/sales/DiscountArticlesList.vue'),
     meta: {
       code: 'discount.form.articles',
       icon: 'fa fa-info',
       requireDiscount: true,
     },
+    children: [
+      {
+        path: 'form',
+        name: 'sales.discount.form.articles.form',
+        component: () =>
+          import('/@/views/sales/DiscountArticleForm.vue'),
+      },
+    ],
   },
   {
     path: 'customers',

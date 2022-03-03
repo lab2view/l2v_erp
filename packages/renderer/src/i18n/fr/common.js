@@ -1,4 +1,5 @@
 export default {
+  next: 'Suivant',
   none: '',
   add: 'Ajouter',
   add_article: 'Ajouter un article',

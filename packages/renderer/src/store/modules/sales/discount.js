@@ -57,6 +57,7 @@ const actions = {
       .addDiscount(discountField)
       .then(({ data }) => {
         commit('ADD_DISCOUNT', data);
+        commit('SET_CURRENT_DISCOUNT', data);
         notify(
           i18n.global.t('sales.discount.store'),
           'Ok',
@@ -75,6 +76,7 @@ const actions = {
       )
       .then(({ data }) => {
         commit('UPDATE_DISCOUNT', data);
+        commit('SET_CURRENT_DISCOUNT', data);
         notify(
           i18n.global.t('sales.discount.update'),
           'Ok',
@@ -98,12 +100,13 @@ const actions = {
     return discountService
       .addArticles(articles, discount.id)
       .then(({ data }) => {
-        commit('ADD_ARTICLE_DISCOUNTS', {discount, articleDiscounts: data});
+        commit('ADD_ARTICLE_DISCOUNTS', data.articleDiscounts);
         return data;
       });
   },
 
-  removeArticleDiscount({ commit }, {articleDiscountIds, discount}) {
+  removeArticleDiscounts({ state, commit }, articleDiscountIds) {
+    let discount = JSON.parse(state.discount);
     return discountService
       .removeArticleDiscounts(articleDiscountIds, discount.id)
       .then(({ data }) => {
@@ -137,13 +140,26 @@ const mutations = {
     }
     state.discount = JSON.stringify(discount);
   },
-  ADD_ARTICLE_DISCOUNTS(state, {discount, articleDiscounts}) {
-    console.log(articleDiscounts);
-    return;
+  ADD_ARTICLE_DISCOUNTS(state, articleDiscounts) {
+    let discount = JSON.parse(state.discount);
+    let article_discounts = discount.article_discounts ?? [];
+    if (article_discounts.length) {
+      let articles = article_discounts.map((ad) => ad.article_id);
+      let articleDiscountsLength = articleDiscounts.length;
+      for (let i = 0; i < articleDiscountsLength; i++) {
+        if (! articles.includes(articleDiscounts[i].article_id)) {
+          article_discounts.push(articleDiscounts[i]);
+        }
+      }
+    } else {
+      article_discounts = articleDiscounts;
+    }
+
     let discounts = JSON.parse(state.discounts);
     const index = discounts.findIndex(
       (p) => p.id === discount.id
     );
+    discount.article_discounts = article_discounts;
     if (index !== -1) {
       discounts.splice(index, 1, discount);
       state.discounts = JSON.stringify(discounts);
@@ -151,17 +167,21 @@ const mutations = {
     state.discount = JSON.stringify(discount);
   },
   DELETE_ARTICLE_DISCOUNTS(state, {discount, articleDiscountIds}) {
-    console.log(articleDiscountIds);
-    return;
     let discounts = JSON.parse(state.discounts);
     const index = discounts.findIndex(
       (p) => p.id === discount.id
     );
-    if (index !== -1) {
-      discounts.splice(index, 1, discount);
-      state.discounts = JSON.stringify(discounts);
+
+    if (discount && discount.id) {
+      discount.article_discounts = discount.article_discounts
+        ?.filter((ad) => !articleDiscountIds.includes(ad.id)) ?? [];
+
+      if (index !== -1) {
+        discounts.splice(index, 1, discount);
+        state.discounts = JSON.stringify(discounts);
+      }
+      state.discount = JSON.stringify(discount);
     }
-    state.discount = JSON.stringify(discount);
   },
   DELETE_DISCOUNT(state, discountId) {
     state.discounts = JSON.stringify(
