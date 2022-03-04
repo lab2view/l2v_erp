@@ -9,6 +9,7 @@ export default {
     customers: 'Clients',
   },
   customer: {
+    selection: 'Selectionner les clients',
     iamTitle: 'Ajouter les parametres utilisateurs a la client',
     settingTitle: 'Ajouter les modules a la client',
     listTitle: 'Liste des clients',

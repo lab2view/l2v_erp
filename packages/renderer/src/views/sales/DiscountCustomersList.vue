@@ -5,11 +5,11 @@
       <div class="row align-items-center">
         <div class="col-sm">
           <h5>
-            {{ `${$t('sales.discount.articles')} - ${discount.label}` }}
+            {{ `${$t('sales.discount.customers')} - ${discount.label}` }}
           </h5>
         </div>
         <div
-          v-if="$route.name === 'sales.discount.form.articles'"
+          v-if="$route.name === 'sales.discount.form.customers'"
           class="col-sm-auto align-items-end"
         >
           <BaseButton
@@ -19,10 +19,10 @@
             icon="fa fa-trash-o"
             :text="$t('common.delete_all')"
             :loading="loading"
-            @click.prevent="deleteSelectedArticleDiscounts"
+            @click.prevent="deleteSelectedDiscountCustomers"
           />
           <router-link
-            :to="{ name: 'sales.discount.form.articles.form' }"
+            :to="{ name: 'sales.discount.form.customers.form' }"
             class="btn btn-primary"
             type="button"
           >
@@ -56,7 +56,7 @@
                   for="checkbox-primary-1"
                   style="padding-left: 60px"
                 >
-                  {{ `${$t('article.listTitle')} ${countSelected}` }}</label
+                  {{ `${$t('customers.customer.listTitle')} ${countSelected}` }}</label
                 >
               </div>
             </th>
@@ -64,16 +64,16 @@
           </tr>
           </thead>
           <tbody>
-          <ArticleLineSelectable
-            v-for="(articleDiscount, index) in articleDiscounts"
-            :key="`art-grp-lne-${index}`"
-            :model="articleDiscount"
-            :selected-list="selected"
-            remove-dispatch-name="discount/removeArticleDiscounts"
-            @deleted="selected = []"
-            @selected="selectArticleDiscount(articleDiscount, true)"
-            @unselected="selectArticleDiscount(articleDiscount, false)"
-          />
+            <CustomerLineSelectable
+              v-for="(discountCustomer, index) in discountCustomers"
+              :key="`disc-cust-${index}`"
+              :model="discountCustomer"
+              :selected-list="selected"
+              remove-dispatch-name="discount/removeDiscountCustomers"
+              @deleted="selected = []"
+              @selected="selectDiscountCustomer(discountCustomer, true)"
+              @unselected="selectDiscountCustomer(discountCustomer, false)"
+            />
           </tbody>
         </table>
       </div>
@@ -84,14 +84,14 @@
           :text="$t('common.prev')"
           class="btn btn-secondary col-auto m-r-5"
           type="button"
-          @click.prevent="$router.push({ name: 'sales.discount.form.desc' })"
+          @click.prevent="$router.push({ name: 'sales.discount.form.customers' })"
         />
         <BaseButton
           :text="$t('common.next')"
           class="btn btn-primary col-auto"
           icon="fa fa-save"
           @click.prevent="$router.push({
-            name: 'sales.discount.form.customers',
+            name: 'sales.discount.form.codes',
             params: { id: discount.id },
           })"
         />
@@ -101,12 +101,12 @@
 </template>
 
 <script>
-import ArticleLineSelectable from '/@/components/articles/ArticleLineSelectable.vue';
+import CustomerLineSelectable from '/@/components/customers/CustomerLineSelectable.vue';
 import BaseButton from '/@/components/common/BaseButton.vue';
 import { mapGetters } from 'vuex';
 
 export default {
-  components: { ArticleLineSelectable, BaseButton },
+  components: { CustomerLineSelectable, BaseButton },
   data() {
     return {
       selected: [],
@@ -118,29 +118,29 @@ export default {
     haveDiscount() {
       return !!this.discount;
     },
-    articleDiscounts() {
-      return this.haveDiscount ? this.discount.article_discounts : [];
+    discountCustomers() {
+      return this.haveDiscount ? this.discount.discount_customers : [];
     },
     partialSelect() {
       return (
         this.selected.length > 0 &&
-        this.selected.length < this.articleDiscounts.length
+        this.selected.length < this.discountCustomers.length
       );
     },
-    selectedAllArticleDiscounts() {
-      if (this.articleDiscounts.length)
-        return this.selected.length === this.articleDiscounts.length;
+    selectedAllDiscountCustomers() {
+      if (this.discountCustomers.length)
+        return this.selected.length === this.discountCustomers.length;
       else return false;
     },
     selectAll: {
       get() {
-        return this.selectedAllArticleDiscounts;
+        return this.selectedAllDiscountCustomers;
       },
       set(value) {
         if (!value) this.selected = [];
         else {
           let result = [];
-          this.articleDiscounts.forEach((ag) => result.push(ag.id));
+          this.discountCustomers.forEach((ag) => result.push(ag.id));
           this.selected = result;
         }
       },
@@ -153,14 +153,15 @@ export default {
     },
   },
   methods: {
-    selectArticleDiscount(articleDiscount, adding) {
-      if (adding) this.selected.push(articleDiscount.id);
-      else
+    selectDiscountCustomer(discountCustomer, adding) {
+      if (adding) this.selected.push(discountCustomer.id);
+      else {
         this.selected = this.selected.filter(
-          (id) => id !== articleDiscount.id
+          (id) => id !== discountCustomer.id,
         );
+      }
     },
-    deleteSelectedArticleDiscounts() {
+    deleteSelectedDiscountCustomers() {
       if (
         this.selected.length &&
         confirm(
@@ -171,7 +172,7 @@ export default {
       ) {
         this.loading = true;
         this.$store
-          .dispatch('discount/removeArticleDiscounts', this.selected)
+          .dispatch('discount/removeDiscountCustomers', this.selected)
           .finally(() => {
             this.loading = false;
             this.selected = [];

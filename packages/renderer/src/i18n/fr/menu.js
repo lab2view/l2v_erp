@@ -36,7 +36,7 @@ export default {
     },
   },
   saletype: {
-    viewany: "Type de vente",
+    viewany: "Types de vente",
   },
   cashier: {
     viewany: 'Caissiers',

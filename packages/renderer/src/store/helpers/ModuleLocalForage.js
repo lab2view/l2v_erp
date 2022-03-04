@@ -292,6 +292,14 @@ const SaleType = new VuexPersistence({
   reducer: (state) => ({ saleType: state.saleType }),
 });
 
+const DiscountCode = new VuexPersistence({
+  key: 'discountCode',
+  storage: localStore,
+  asyncStorage: true,
+  reducer: (state) => ({ discountCode: state.discountCode }),
+});
+
+
 export default [
   Auth.plugin,
   Product.plugin,
@@ -329,6 +337,7 @@ export default [
   TransactionType.plugin,
   Discount.plugin,
   DiscountType.plugin,
+  DiscountCode.plugin,
   CashRegister.plugin,
   Cashier.plugin,
   CashierGroup.plugin,

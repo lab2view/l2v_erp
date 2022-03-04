@@ -31,7 +31,6 @@
             <th>{{ $t('common.attributes.label') }}</th>
             <th>{{ $t('common.attributes.value') }}</th>
             <th>{{ $t('common.attributes.start_at') }}</th>
-            <th>{{ $t('common.attributes.end_at') }}</th>
             <th>{{ $t('common.actions') }}</th>
           </template>
           <tr v-for="discount in discounts" :key="discount.id">
@@ -41,7 +40,6 @@
             <td>{{ discount.label }}</td>
             <td>{{ discount.value }}</td>
             <td>{{ discount.start_at }}</td>
-            <td>{{ discount.end_at }}</td>
             <td>
               <button
                 class="btn btn-secondary btn-xs"

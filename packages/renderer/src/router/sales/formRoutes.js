@@ -29,17 +29,25 @@ export default [
   {
     path: 'customers',
     name: 'sales.discount.form.customers',
-    component: () => import('/@/views/sales/DiscountFormCustomers.vue'),
+    component: () => import('/@/views/sales/DiscountCustomersList.vue'),
     meta: {
       code: 'discount.form.customers',
       icon: 'fa fa-info',
       requireDiscount: true,
     },
+    children: [
+      {
+        path: 'form',
+        name: 'sales.discount.form.customers.form',
+        component: () =>
+          import('/@/views/sales/DiscountCustomerForm.vue'),
+      },
+    ],
   },
   {
     path: 'codes',
     name: 'sales.discount.form.codes',
-    component: () => import('/@/views/sales/DiscountFormCodes.vue'),
+    component: () => import('/@/views/sales/DiscountCodesList.vue'),
     meta: {
       code: 'discount.form.codes',
       icon: 'fa fa-info',

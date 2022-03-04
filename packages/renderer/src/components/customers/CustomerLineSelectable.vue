@@ -11,15 +11,10 @@
           :for="`selected-${model.id}`"
           class="mt-0 pt-0"
           style="padding-left: 60px"
-          >{{ `${article.name}` }}</label
-        >
+          >
+          {{ `${customer.name}` }}
+        </label>
       </div>
-    </td>
-    <td v-if="updateDispatchName" class="text-center">
-      <BaseUpdateNumberForm
-        :quantity="model.quantity"
-        :store-action="updateQuantity"
-      />
     </td>
     <td v-if="removeDispatchName">
       <div class="row justify-content-center align-items-center">
@@ -43,9 +38,9 @@
 <script>
 import BaseButton from '/@/components/common/BaseButton.vue';
 import { mapGetters } from 'vuex';
-import BaseUpdateNumberForm from '/@/components/common/BaseUpdateNumberForm.vue';
+
 export default {
-  components: { BaseUpdateNumberForm, BaseButton },
+  components: { BaseButton },
   props: {
     model: {
       type: Object,
@@ -54,10 +49,6 @@ export default {
     selectedList: {
       type: Array,
       required: true,
-    },
-    updateDispatchName: {
-      type: String,
-      default: null,
     },
     removeDispatchName: {
       type: String,
@@ -72,9 +63,9 @@ export default {
     };
   },
   computed: {
-    ...mapGetters('article', ['getArticleById']),
-    article() {
-      const a = this.getArticleById(this.model.article_id);
+    ...mapGetters('customer', ['getCustomerById']),
+    customer() {
+      const a = this.getCustomerById(this.model.customer_id);
       return a ?? null;
     },
     isSelected() {
@@ -103,13 +94,6 @@ export default {
             this.loading = false;
           });
       }
-    },
-
-    updateQuantity(quantity) {
-      return this.$store.dispatch(this.updateDispatchName, {
-        ...this.model,
-        quantity,
-      });
     },
   },
 };

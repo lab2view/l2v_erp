@@ -105,12 +105,31 @@ const actions = {
       });
   },
 
+  addCustomers({ commit }, {customers, discount}) {
+    return discountService
+      .addCustomers(customers, discount.id)
+      .then(({ data }) => {
+        commit('ADD_DISCOUNT_CUSTOMERS', data.discount_customers);
+        return data;
+      });
+  },
+
   removeArticleDiscounts({ state, commit }, articleDiscountIds) {
     let discount = JSON.parse(state.discount);
     return discountService
       .removeArticleDiscounts(articleDiscountIds, discount.id)
       .then(({ data }) => {
         commit('DELETE_ARTICLE_DISCOUNTS', {discount, articleDiscountIds});
+        return data;
+      });
+  },
+
+  removeDiscountCustomers({ state, commit }, discountCustomerIds) {
+    let discount = JSON.parse(state.discount);
+    return discountService
+      .removeDiscountCustomers(discountCustomerIds, discount.id)
+      .then(({ data }) => {
+        commit('DELETE_DISCOUNT_CUSTOMERS', {discount, discountCustomerIds});
         return data;
       });
   },
@@ -134,6 +153,32 @@ const mutations = {
     const index = discounts.findIndex(
       (p) => p.id === discount.id
     );
+    if (index !== -1) {
+      discounts.splice(index, 1, discount);
+      state.discounts = JSON.stringify(discounts);
+    }
+    state.discount = JSON.stringify(discount);
+  },
+  ADD_DISCOUNT_CUSTOMERS(state, discountCustomers) {
+    let discount = JSON.parse(state.discount);
+    let discount_customers = discount.discount_customers ?? [];
+    if (discount_customers.length) {
+      let articles = discount_customers.map((ad) => ad.article_id);
+      let discountCustomersLength = discountCustomers.length;
+      for (let i = 0; i < discountCustomersLength; i++) {
+        if (! articles.includes(discountCustomers[i].article_id)) {
+          discount_customers.push(discountCustomers[i]);
+        }
+      }
+    } else {
+      discount_customers = discountCustomers;
+    }
+
+    let discounts = JSON.parse(state.discounts);
+    const index = discounts.findIndex(
+      (p) => p.id === discount.id
+    );
+    discount.discount_customers = discount_customers;
     if (index !== -1) {
       discounts.splice(index, 1, discount);
       state.discounts = JSON.stringify(discounts);
@@ -175,6 +220,23 @@ const mutations = {
     if (discount && discount.id) {
       discount.article_discounts = discount.article_discounts
         ?.filter((ad) => !articleDiscountIds.includes(ad.id)) ?? [];
+
+      if (index !== -1) {
+        discounts.splice(index, 1, discount);
+        state.discounts = JSON.stringify(discounts);
+      }
+      state.discount = JSON.stringify(discount);
+    }
+  },
+  DELETE_DISCOUNT_CUSTOMERS(state, {discount, discountCustomerIds}) {
+    let discounts = JSON.parse(state.discounts);
+    const index = discounts.findIndex(
+      (p) => p.id === discount.id
+    );
+
+    if (discount && discount.id) {
+      discount.discount_customers = discount.discount_customers
+        ?.filter((ad) => !discountCustomerIds.includes(ad.id)) ?? [];
 
       if (index !== -1) {
         discounts.splice(index, 1, discount);
