@@ -33,6 +33,7 @@
                 :disabled="isUpdating"
               >
                 <button
+                  :disabled="isUpdating"
                   type="button"
                   class="btn btn-success btn-iconsolid"
                   :title="$t('common.shuffle')"

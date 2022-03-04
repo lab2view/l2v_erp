@@ -12,8 +12,7 @@ export default {
     add: 'Approvisionner le stock',
     store:
       "L'enregistrement de l'approvisionnement a ete effectue avec succes.",
-    update:
-      "La modification de l'approvisionnement a ete effectuee avec succes.",
+    update: 'approvisionnement modifie avec succes.',
   },
   provider: {
     listTitle: 'Liste des fournisseurs',
@@ -28,10 +27,14 @@ export default {
     store: "L'enregistrement de la sortie a ete effectue avec succes.",
     update: 'La modification de la sortie a ete effectuee avec succes.',
   },
+  entryLine: {
+    update: "L'article a ete effectue avec succes.",
+  },
   stockEntry: {
     list: 'Liste des approvisionnements',
     add: 'Approvisionner le stock',
     listTitle: 'Liste des entrees de stock',
+    updateStock: 'Le statut a ete mis a jour',
   },
   stockExit: {
     listTitle: 'Liste des sorties de stock',
