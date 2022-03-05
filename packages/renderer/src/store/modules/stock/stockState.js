@@ -11,7 +11,10 @@ const getters = {
   stock_states: (state) => {
     return state.stock_states ? JSON.parse(state.stock_states) : [];
   },
-  stockState: (state) => (state.stockState ? JSON.parse(state.stockState) : null),
+  stockState: (state) =>
+    state.stockState ? JSON.parse(state.stockState) : null,
+  getStockStateByCode: (state, getters) => (code) =>
+    getters.stock_states.find((ss) => ss.code === code),
 };
 
 const actions = {
@@ -19,10 +22,12 @@ const actions = {
     if (getters.stock_states.length > 0) {
       return getters.stock_states;
     }
-    return stockStateService.getStockStatesList(page, field).then(({ data }) => {
-      commit('SET_STOCK_STATES', data);
-      return data;
-    });
+    return stockStateService
+      .getStockStatesList(page, field)
+      .then(({ data }) => {
+        commit('SET_STOCK_STATES', data);
+        return data;
+      });
   },
 
   getStockState({ getters, commit }, id) {

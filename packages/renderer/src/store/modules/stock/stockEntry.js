@@ -1,7 +1,7 @@
 import stockEntryService from '../../../services/stocks/StockEntryService';
 import { notify } from '/@/helpers/notify.js';
 import i18n from '/@/i18n/index.js';
-import { stockTypeCode } from '/@/helpers/codes.js';
+import { stockStateCode, stockTypeCode } from '/@/helpers/codes.js';
 
 const state = {
   stock_entries: null,
@@ -23,6 +23,16 @@ const getters = {
   stockEntryIsCommand: (state, getters) => {
     return getters.stockEntry?.stock_type.code === stockTypeCode.command;
   },
+  stockEntryIsConfirm: (state, getters) => {
+    return (
+      getters.stockEntry?.current_state?.stock_state.code ===
+        stockStateCode.success ||
+      getters.stockEntry?.current_state?.stock_state.code ===
+        stockStateCode.delivered
+    );
+  },
+  currentStockEntryStateDate: (state, getters) =>
+    getters.stockEntry?.current_state?.updated_at,
 };
 
 const actions = {
@@ -78,16 +88,34 @@ const actions = {
     });
   },
 
+  changeStockEntryState({ commit, getters }, stock_state_id) {
+    return stockEntryService
+      .setStockEntryState(getters.stockEntry.id, stock_state_id)
+      .then(({ data }) => {
+        commit('ADD_STOCK_ENTRY_STATE', data);
+        if (
+          state.code === stockStateCode.success ||
+          state.code === stockStateCode.delivered
+        )
+          getters.stockEntry?.stock_provisions.forEach((sp) =>
+            commit('article/UPDATE_ARTICLE_STOCK', sp.article, {
+              root: true,
+            })
+          );
+        notify(
+          i18n.global.t('stock.stockEntry.updateStock'),
+          'Ok',
+          'theme',
+          'fa fa-check'
+        );
+      });
+  },
+
   addStockEntryLines({ commit, getters }, stockEntryLines) {
     return stockEntryService
       .addStockEntryLines(getters.stockEntry.id, stockEntryLines)
       .then(({ data }) => {
         commit('ADD_STOCK_ENTRY_LINES', data.stock_entry_lines);
-        data.stock_entry_lines.forEach((sl) =>
-          commit('article/UPDATE_ARTICLE_STOCK', sl.article, {
-            root: true,
-          })
-        );
       });
   },
   updateStockEntryLine({ commit }, stockEntryLine) {
@@ -95,9 +123,6 @@ const actions = {
       .updateStockEntryLine(stockEntryLine)
       .then(({ data }) => {
         commit('UPDATE_STOCK_ENTRY_LINE', data);
-        commit('article/UPDATE_ARTICLE_STOCK', data.article, {
-          root: true,
-        });
         notify(
           i18n.global.t('stock.entryLine.update'),
           'Ok',
@@ -288,14 +313,17 @@ const mutations = {
     let stockEntry = JSON.parse(state.stockEntry);
     let index = stock_entries.findIndex((se) => se.id === stockEntry.id);
     if (index !== -1) {
-      let oldActInd = stockEntry.stock_states.findIndex((st) => st.is_active);
+      let oldActInd = stockEntry.stock_entry_states.findIndex(
+        (st) => st.is_active
+      );
       if (oldActInd !== -1) {
-        stockEntry.stock_states.splice(oldActInd, 1, {
-          ...stockEntry.stock_states[oldActInd],
+        stockEntry.stock_entry_states.splice(oldActInd, 1, {
+          ...stockEntry.stock_entry_states[oldActInd],
           is_active: false,
         });
       }
-      stockEntry.stock_states.push(stockState);
+      stockEntry.stock_entry_states.push(stockState);
+      stockEntry.current_state = stockState;
       stock_entries.splice(index, 1, stockEntry);
       state.stockEntry = JSON.stringify(stockEntry);
       state.stock_entries = JSON.stringify(stock_entries);

@@ -17,7 +17,7 @@
             class="btn btn-outline-secondary"
             icon="fa fa-times"
             :text="$t('common.close')"
-            @click.prevent="show_select_form = false"
+            @click.prevent="closeArticleSelectable"
           />
         </div>
       </div>
@@ -169,6 +169,11 @@ export default {
           .catch((error) => (this.errors = error.response?.data?.errors))
           .finally(() => (this.loading = false));
       }
+    },
+    closeArticleSelectable() {
+      if (this.stock_entry_line_fields.length > 0)
+        this.show_select_form = false;
+      else this.$router.push({ name: 'stocks.entry.form.article' });
     },
   },
 };

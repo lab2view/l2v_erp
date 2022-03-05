@@ -1,8 +1,9 @@
 <template>
   <tr>
     <td class="font-primary">
-      <div class="checkbox checkbox-primary">
+      <div :class="{ 'checkbox checkbox-primary': !cancelSelection }">
         <input
+          v-if="!cancelSelection"
           :id="`selected-${model.id}`"
           v-model="selected"
           type="checkbox"
@@ -10,19 +11,22 @@
         <label
           :for="`selected-${model.id}`"
           class="mt-0 pt-0"
-          style="padding-left: 60px"
+          :style="{ 'padding-left: 60px': !cancelSelection }"
           >{{ `${article.name}` }}</label
         >
       </div>
     </td>
     <td v-if="updateDispatchName" class="text-center">
       <BaseUpdateNumberForm
+        v-if="!cancelSelection"
         :quantity="model.quantity"
         :store-action="updateQuantity"
+        :disabled="cancelSelection"
       />
+      <span v-else>{{ model.quantity }}</span>
     </td>
     <slot />
-    <td v-if="removeDispatchName">
+    <td v-if="removeDispatchName && !cancelSelection">
       <div class="row justify-content-center align-items-center">
         <div class="col-md-6 p-0">
           <BaseButton
@@ -63,6 +67,10 @@ export default {
     removeDispatchName: {
       type: String,
       default: null,
+    },
+    cancelSelection: {
+      type: Boolean,
+      default: false,
     },
   },
   emits: ['selected', 'unselected', 'deleted'],
@@ -107,10 +115,12 @@ export default {
     },
 
     updateQuantity(quantity) {
-      return this.$store.dispatch(this.updateDispatchName, {
-        ...this.model,
-        quantity,
-      });
+      if (!this.cancelSelection)
+        return this.$store.dispatch(this.updateDispatchName, {
+          ...this.model,
+          quantity,
+        });
+      else Promise.resolve();
     },
   },
 };

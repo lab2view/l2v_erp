@@ -14,6 +14,7 @@ export default {
   back: 'Precedent',
   yes: 'Oui',
   no: 'Non',
+  confirm_provision: "Confirmer l'approvisionnement",
   close: 'Fermer',
   delete: 'Supprimer',
   delete_all: 'Tout Supprimer',
