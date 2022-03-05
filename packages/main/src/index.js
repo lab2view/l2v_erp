@@ -13,12 +13,12 @@ if (!isSingleInstance) {
 
 app.disableHardwareAcceleration();
 
-function showNotification(message) {
-  new Notification({
-    title: 'NOTIFICATION_TITLE',
-    body: message,
-  }).show();
-}
+// function showNotification(message) {
+//   new Notification({
+//     title: 'NOTIFICATION_TITLE',
+//     body: message,
+//   }).show();
+// }
 
 // Install "Vue.js devtools"
 if (isDevelopment) {
