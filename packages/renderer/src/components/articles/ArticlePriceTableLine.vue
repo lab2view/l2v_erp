@@ -14,11 +14,10 @@
 
 <script>
 import ArticleMixin from '/@/mixins/ArticleMixin.js';
-import BaseButton from '/@/components/common/BaseButton.vue';
 import BaseUpdateNumberForm from '/@/components/common/BaseUpdateNumberForm.vue';
 
 export default {
-  components: { BaseUpdateNumberForm, BaseButton },
+  components: { BaseUpdateNumberForm },
   mixins: [ArticleMixin],
   props: {
     priceType: {

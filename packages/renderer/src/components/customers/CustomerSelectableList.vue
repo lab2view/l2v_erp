@@ -1,8 +1,8 @@
 <template>
   <div class="card rounded shadow-sm">
     <slot>
-      <div class="card-header text-center p-3">
-        <h5>{{ $t('article.selection') }}</h5>
+      <div class="card-header text-center p-3 row justify-content-around">
+        <h5>{{ $t('customers.customer.selection') }}</h5>
       </div>
     </slot>
     <form class="theme-form" @submit.prevent="submitSelectedForm">
@@ -17,7 +17,7 @@
                 <div class="job-filter mb-3">
                   <div class="faq-form">
                     <input
-                      v-model="articleFilter.keyword"
+                      v-model="customerFilter.keyword"
                       class="form-control"
                       type="text"
                       :placeholder="$t('common.attributes.search')"
@@ -41,32 +41,10 @@
                 <div class="job-filter">
                   <div class="mb-3">
                     <BaseSelect
-                      v-model="articleFilter.product_family_id"
-                      :label="$t('common.fields.product_family_filter')"
-                      :options="productFamilies"
+                      v-model="customerFilter.customer_type_id"
+                      :label="$t('common.fields.customer_type_filter')"
+                      :options="selectableCustomerTypes"
                       key-label="label"
-                      key-value="id"
-                    />
-                  </div>
-                </div>
-                <div class="job-filter">
-                  <div class="mb-3">
-                    <BaseSelect
-                      v-model="articleFilter.product_type_id"
-                      :label="$t('common.fields.product_type_filter')"
-                      :options="selectableProductTypes"
-                      key-label="label"
-                      key-value="id"
-                    />
-                  </div>
-                </div>
-                <div class="job-filter">
-                  <div class="mb-3">
-                    <BaseSelect
-                      v-model="articleFilter.product_id"
-                      :label="$t('common.fields.product_filter')"
-                      :options="selectableProducts"
-                      key-label="name"
                       key-value="id"
                     />
                   </div>
@@ -82,7 +60,7 @@
                 <table class="table">
                   <thead>
                     <tr>
-                      <th>{{ $t('article.listTitle') }}</th>
+                      <th>{{ $t('customers.customer.listTitle') }}</th>
                       <th :title="$t('common.select_all')" class="text-end">
                         <div
                           class="checkbox"
@@ -107,12 +85,12 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <tr v-for="article in selectableArticles" :key="article.id">
-                      <ArticleSelectableColumn
-                        :article="article"
+                    <tr v-for="customer in selectableCustomers" :key="customer.id">
+                      <CustomerSelectableColumn
+                        :customer="customer"
                         :selected-list="selected"
-                        @selected="selectArticle(article, true)"
-                        @unselected="selectArticle(article, false)"
+                        @selected="selectCustomer(customer, true)"
+                        @unselected="selectCustomer(customer, false)"
                       />
                     </tr>
                   </tbody>
@@ -148,25 +126,17 @@ import { mapGetters } from 'vuex';
 import BaseSelect from '/@/components/common/BaseSelect.vue';
 import BaseButton from '/@/components/common/BaseButton.vue';
 import store from '/@/store';
-import ArticleSelectableColumn from '/@/components/articles/groups/ArticleSelectableColumn.vue';
+import CustomerSelectableColumn from '/@/components/customers/CustomerSelectableColumn.vue';
 
 export default {
-  components: { ArticleSelectableColumn, BaseButton, BaseSelect },
+  components: { CustomerSelectableColumn, BaseButton, BaseSelect },
   beforeRouteEnter(routeTo, routeFrom, next) {
     Promise.all([
-      store.dispatch('productFamilyConfig/getProductFamiliesList', {
+      store.dispatch('customerType/getCustomerTypesList', {
         page: 1,
         field: {},
       }),
-      store.dispatch('productTypeConfig/getProductTypesList', {
-        page: 1,
-        field: {},
-      }),
-      store.dispatch('product/getProductsList', {
-        page: 1,
-        field: {},
-      }),
-      store.dispatch('article/getArticlesList', {
+      store.dispatch('customer/getCustomersList', {
         page: 1,
         field: {},
       }),
@@ -175,7 +145,7 @@ export default {
       .finally(() => next());
   },
   props: {
-    usedArticles: {
+    usedCustomers: {
       type: Array,
       required: true,
     },
@@ -187,36 +157,23 @@ export default {
   data() {
     return {
       loading: false,
-      product_family_id: null,
-      articleFilter: {
+      customerFilter: {
         keyword: null,
-        product_type_id: null,
-        product_id: null,
+        customer_type_id: null,
       },
       selected: [],
     };
   },
   computed: {
-    ...mapGetters('article', ['searchArticleByCriteria']),
-    ...mapGetters('productFamilyConfig', ['productFamilies']),
-    ...mapGetters('productTypeConfig', ['productTypes']),
-    ...mapGetters('product', ['products']),
-    selectableProductTypes() {
-      const types = this.product_family_id
-        ? this.productTypes.filter(
-            (pt) => pt.product_family_id.toString() === this.product_family_id
-          )
-        : this.productTypes;
-
-      return [{ label: this.$t('common.all'), id: null }, ...types];
+    ...mapGetters('customer', ['searchCustomerByCriteria']),
+    ...mapGetters('customerType', ['customerTypes']),
+    selectableCustomerTypes() {
+      return [{ label: this.$t('common.all'), id: '' }, ...this.customerTypes];
     },
-    selectableProducts() {
-      return [{ name: this.$t('common.all'), id: null }, ...this.products];
-    },
-    selectableArticles() {
-      return this.searchArticleByCriteria(this.articleFilter).filter(
-        (art) =>
-          this.usedArticles.find((ua) => ua.article_id === art.id) === undefined
+    selectableCustomers() {
+      return this.searchCustomerByCriteria(this.customerFilter).filter(
+        (c) =>
+          this.usedCustomers.find((ua) => ua.customer_id === c.id) === undefined
       );
     },
     isSelected() {
@@ -224,30 +181,30 @@ export default {
     },
     partialSelect() {
       return (
-        this.isSelected && this.selected.length < this.selectableArticles.length
+        this.isSelected && this.selected.length < this.selectableCustomers.length
       );
     },
-    selectedAllArticle() {
-      if (this.selectableArticles.length)
-        return this.selected.length === this.selectableArticles.length;
+    selectedAllCustomers() {
+      if (this.selectableCustomers.length)
+        return this.selected.length === this.selectableCustomers.length;
       else return false;
     },
     selectAll: {
       get() {
-        return this.selectedAllArticle;
+        return this.selectedAllCustomers;
       },
       set(value) {
         if (!value) this.selected = [];
         else {
           let result = [];
-          this.selectableArticles.forEach((sa) => result.push({ id: sa.id }));
+          this.selectableCustomers.forEach((sa) => result.push({ id: sa.id }));
           this.selected = result;
         }
       },
     },
   },
   watch: {
-    selectableArticles() {
+    selectableCustomers() {
       this.selected = [];
     },
   },
@@ -262,10 +219,9 @@ export default {
           .catch((err) => console.log(err));
       }
     },
-
-    selectArticle(article, adding) {
-      if (adding) this.selected.push({ id: article.id });
-      else this.selected = this.selected.filter((s) => s.id !== article.id);
+    selectCustomer(customer, adding) {
+      if (adding) this.selected.push({ id: customer.id });
+      else this.selected = this.selected.filter((s) => s.id !== customer.id);
     },
   },
 };

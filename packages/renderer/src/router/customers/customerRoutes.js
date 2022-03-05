@@ -9,24 +9,26 @@ export const customerRoutes = [
       code: 'Customer.viewAny',
       feather: 'filter',
     },
-    children: [
-      {
-        path: ':id?/forms',
-        name: 'customer.form',
-        component: () => import('/@/views/customers/CustomerForm.vue'),
-        beforeEnter: (to) => {
-          if (to.params.id) {
-            return store
-              .dispatch('customer/getCustomer', to.params.id)
-              .then((data) => {
-                store.commit('customer/SET_CURRENT_CUSTOMER', data);
-                return { name: to.name };
-              })
-              .catch(() => -1);
-          }
-        },
-      },
-    ],
+  },
+  {
+    path: ':id?/forms',
+    name: 'customer.form',
+    component: () => import('/@/views/customers/CustomerForm.vue'),
+    meta: {
+      code: 'Customer.create',
+      feather: 'filter',
+    },
+    beforeEnter: (to) => {
+      if (to.params.id) {
+        return store
+          .dispatch('customer/getCustomer', to.params.id)
+          .then((data) => {
+            store.commit('customer/SET_CURRENT_CUSTOMER', data);
+            return { name: to.name };
+          })
+          .catch(() => -1);
+      }
+    },
   },
   {
     path: 'types',

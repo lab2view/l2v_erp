@@ -10,6 +10,8 @@ const state = {
 const getters = {
   customers: (state) => (state.customers ? JSON.parse(state.customers) : []),
   customer: (state) => (state.customer ? JSON.parse(state.customer) : null),
+  getCustomerById: (state, getters) => (id) =>
+    getters.customers.find((a) => a.id === id),
   haveCustomer: (state) => !!state.customer,
   searchCustomerByCriteria:
     (state, getters) =>

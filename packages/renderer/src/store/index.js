@@ -38,15 +38,17 @@ import paymentMethod from './modules/payments/paymentMethod';
 import paymentCharge from './modules/payments/paymentCharge';
 import discount from './modules/sales/discount';
 import discountType from './modules/sales/discountType';
+import discountCode from './modules/sales/discountCode';
 import cashRegister from './modules/sales/cashRegister';
 import cashier from './modules/sales/cashier';
 import cashierGroup from './modules/sales/cashierGroup';
 import saleType from './modules/sales/saleType';
 
+
 export default createStore({
   state: {
     globalLoading: true,
-    landlordDomain: 'kitbussiness.test',
+    landlordDomain: 'kitbussiness.com',
     uploaded: null,
     initiateApp: true,
   },
@@ -116,6 +118,7 @@ export default createStore({
     transactionType,
     discount,
     discountType,
+    discountCode,
     saleType,
     cashRegister,
     cashier,

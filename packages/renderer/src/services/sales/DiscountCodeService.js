@@ -5,20 +5,12 @@ export default {
     return axios.post(`/discounts/codes/list?page=${page}`, field);
   },
 
-  generateCode() {
-    return axios.post('/discounts/codes/generate');
+  generateCode(fields) {
+    return axios.post('/discounts/codes/generate', fields);
   },
 
-  addDiscountCode(discountCode) {
-    return axios.post(`/discounts/codes`, discountCode);
-  },
-
-  restoreDiscountCode(id) {
-    return axios.post(`/discounts/codes/restore/${id}`);
-  },
-
-  forceDeleteDiscountCode(id) {
-    return axios.delete(`/discounts/codes/delete/${id}`);
+  deleteDiscountCodes(discount_code_ids) {
+    return axios.post(`/discounts/codes/delete/`, {discount_code_ids});
   },
 
   getDiscountCodeUsagesList(page, field) {
