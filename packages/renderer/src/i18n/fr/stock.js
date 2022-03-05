@@ -38,6 +38,7 @@ export default {
     add: 'Approvisionner le stock',
     listTitle: 'Liste des entrees de stock',
     updateStock: 'Le statut a ete mis a jour',
+    state_date: 'Statut mis a jour le',
   },
   stockExit: {
     listTitle: 'Liste des sorties de stock',

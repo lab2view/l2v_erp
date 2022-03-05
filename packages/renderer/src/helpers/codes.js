@@ -9,3 +9,12 @@ export const stockTypeCode = {
   transfer: 'STOCK_TRANSFER',
   sale: 'S_STOCK_SALE',
 };
+export const stockStateCode = {
+  success: 'SUCCESS',
+  pending: 'PENDING',
+  archived: 'ARCHIVED',
+  delivered: 'DELIVERED',
+  awaiting: 'AWAITING',
+  initiate: 'INITIATE',
+  partial_delivered: 'PARTIALLY_DELIVERED',
+};

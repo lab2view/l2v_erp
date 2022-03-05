@@ -14,6 +14,7 @@ export default {
   back: 'Precedent',
   yes: 'Oui',
   no: 'Non',
+  confirm_provision: "Confirmer l'approvisionnement",
   close: 'Fermer',
   delete: 'Supprimer',
   delete_all: 'Tout Supprimer',
@@ -171,5 +172,6 @@ export default {
     stock_in: 'En Stock',
     enterprise_id: 'Structures',
     provider: 'Provenance',
+    status: 'statut',
   },
 };

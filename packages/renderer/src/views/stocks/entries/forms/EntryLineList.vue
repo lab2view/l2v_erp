@@ -1,5 +1,5 @@
 <template>
-  <router-view />
+  <router-view v-if="!stockEntryIsConfirm" />
   <div v-if="$route.name === 'stocks.entry.form.article'" class="card mb-0">
     <div class="card-header pb-0">
       <div class="row align-items-center">
@@ -8,7 +8,7 @@
             {{ `${$t('stock.entryLine.list')} - ${stockEntryReference}` }}
           </h5>
         </div>
-        <div class="col-sm-auto align-items-end">
+        <div v-if="!stockEntryIsConfirm" class="col-sm-auto align-items-end">
           <BaseButton
             type="button"
             class="btn btn-outline-danger m-r-5"
@@ -27,6 +27,15 @@
             {{ $t('common.add_article') }}
           </router-link>
         </div>
+        <div
+          v-else-if="currentStockEntryStateDate"
+          class="col-sm-auto align-items-end"
+        >
+          {{ $t('stock.stockEntry.state_date') }} :
+          <span class="f-w-700">{{
+            $d(currentStockEntryStateDate, 'long')
+          }}</span>
+        </div>
       </div>
     </div>
     <div class="card-body">
@@ -36,14 +45,16 @@
             <tr>
               <th :title="$t('common.select_all')">
                 <div
-                  class="checkbox"
-                  :class="
+                  :class="`${
                     partialSelect
                       ? 'checkbox-solid-success'
                       : 'checkbox-primary'
-                  "
+                  }
+                      ${!stockEntryIsConfirm ? 'checkbox' : ''}
+                  `"
                 >
                   <input
+                    v-if="!stockEntryIsConfirm"
                     id="checkbox-stock-line-1"
                     v-model="selectAll"
                     type="checkbox"
@@ -51,7 +62,7 @@
                   <label
                     class="m-0 pt-0 pb-0 p-l-5"
                     for="checkbox-stock-line-1"
-                    style="padding-left: 60px"
+                    :style="{ 'padding-left: 60px': !stockEntryIsConfirm }"
                   >
                     {{ `${$t('article.listTitle')} ${countSelected}` }}</label
                   >
@@ -66,7 +77,9 @@
               <th class="text-center" scope="col">
                 {{ $t('common.attributes.buying_price') }}
               </th>
-              <th scope="col">{{ $t('common.actions') }}</th>
+              <th v-if="!stockEntryIsConfirm" scope="col">
+                {{ $t('common.actions') }}
+              </th>
             </tr>
           </thead>
           <tbody>
@@ -77,6 +90,7 @@
               :selected-list="selected"
               update-dispatch-name="stock_entry/updateStockEntryLine"
               remove-dispatch-name="stock_entry/removeStockEntryLines"
+              :cancel-selection="stockEntryIsConfirm"
               @deleted="selected = []"
               @selected="selectStockEntryLine(stockEntryLine, true)"
               @unselected="selectStockEntryLine(stockEntryLine, false)"
@@ -90,6 +104,18 @@
         </table>
       </div>
     </div>
+    <div v-if="!stockEntryIsConfirm" class="card-footer border-top-0">
+      <div class="row justify-content-center">
+        <BaseButton
+          class="btn btn-success col-auto"
+          type="button"
+          :text="$t('common.confirm_provision')"
+          icon="fa fa-check-circle"
+          :loading="loading"
+          @click.prevent="confirmStockEntrySate"
+        />
+      </div>
+    </div>
   </div>
 </template>
 
@@ -97,9 +123,20 @@
 import { mapGetters } from 'vuex';
 import BaseButton from '/@/components/common/BaseButton.vue';
 import ArticleLineSelectable from '/@/components/articles/ArticleLineSelectable.vue';
+import store from '/@/store/index.js';
+import { stockStateCode } from '/@/helpers/codes.js';
 
 export default {
   components: { ArticleLineSelectable, BaseButton },
+  beforeRouteEnter(routeTo, routeFrom, next) {
+    store
+      .dispatch('stock_state/getStockStatesList', {
+        page: 1,
+        field: {},
+      })
+      .catch((error) => console.log(error))
+      .finally(() => next());
+  },
   data() {
     return {
       selected: [],
@@ -111,7 +148,10 @@ export default {
       'stockEntryLines',
       'stockEntryReference',
       'stockEntryIsCommand',
+      'stockEntryIsConfirm',
+      'currentStockEntryStateDate',
     ]),
+    ...mapGetters('stock_state', ['getStockStateByCode']),
     partialSelect() {
       return (
         this.selected.length > 0 &&
@@ -165,6 +205,17 @@ export default {
             this.loading = false;
             this.selected = [];
           });
+      }
+    },
+    confirmStockEntrySate() {
+      if (confirm(this.$t('messages.confirmFinishEntryStock', { label: '' }))) {
+        const state = this.getStockStateByCode(stockStateCode.success);
+        if (state !== undefined) {
+          this.loading = true;
+          this.$store
+            .dispatch('stock_entry/changeStockEntryState', state.id)
+            .finally(() => (this.loading = false));
+        }
       }
     },
   },

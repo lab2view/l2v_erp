@@ -1,16 +1,5 @@
 import VuexPersistence from 'vuex-persist';
-import localForage from 'localforage';
-
-const currentWorkspace = localStorage.getItem('currentWorkspace')
-  ? JSON.parse(localStorage.getItem('currentWorkspace'))
-  : null;
-const currentWorkSpaceDatabase = currentWorkspace
-  ? currentWorkspace.database
-  : 'kitbusiness';
-
-let localStore = localForage.createInstance({
-  name: currentWorkSpaceDatabase,
-});
+import localStore from './localStore';
 
 const Auth = new VuexPersistence({
   key: 'auth',
@@ -284,7 +273,6 @@ const DiscountCode = new VuexPersistence({
   asyncStorage: true,
   reducer: (state) => ({ discountCode: state.discountCode }),
 });
-
 
 export default [
   Auth.plugin,
