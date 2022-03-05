@@ -17,7 +17,7 @@
         :errors="errors.enterprise_id"
         :label="$t('common.attributes.enterprise')"
         :options="enterprises"
-        key-label="label"
+        key-label="name"
         key-value="id"
       />
     </div>
@@ -35,7 +35,7 @@
       <label class="form-label fw-bold" for="start_at">{{
         $t('common.attributes.start_at')
       }}</label>
-      <input
+      <BaseDatetime
         id="start_at"
         v-model="cashierForm.start_at"
         class="form-control"
@@ -55,7 +55,7 @@
       <label class="form-label fw-bold" for="ended_at">{{
         $t('common.attributes.end_at')
       }}</label>
-      <input
+      <BaseDatetime
         id="ended_at"
         v-model="cashierForm.ended_at"
         class="form-control"
@@ -83,7 +83,7 @@
       <label class="form-label fw-bold" for="disabled_at">{{
         $t('common.attributes.disable_date')
       }}</label>
-      <input
+      <BaseDatetime
         id="disabled_at"
         v-model="cashierForm.disabled_at"
         class="form-control"
@@ -107,6 +107,7 @@
 </template>
 
 <script>
+import BaseDatetime from '/@/components/common/BaseDatetime.vue';
 import BaseFormModal from '/@/components/common/BaseFormModal.vue';
 import BaseSelect from '/@/components/common/BaseSelect.vue';
 import BaseTextArea from '/@/components/common/BaseTextArea.vue';
@@ -115,7 +116,7 @@ import store from '/@/store';
 import { mapGetters } from 'vuex';
 
 export default {
-  components: { BaseInput, BaseFormModal, BaseSelect, BaseTextArea },
+  components: {BaseDatetime, BaseInput, BaseFormModal, BaseSelect, BaseTextArea },
   beforeRouteEnter(routeTo, routeFrom, next) {
     Promise.all([
       store.dispatch('cashierGroup/getCashierGroupsList', {

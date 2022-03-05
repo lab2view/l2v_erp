@@ -30,13 +30,24 @@ export default {
   },
 
   addArticles(articles, discount_id) {
-    return axios.post(`/discounts/articles/${discount_id}/add`, articles);
+    return axios.post(`/discounts/articles/${discount_id}/add`, {articles});
+  },
+
+  addCustomers(customers, discount_id) {
+    return axios.post(`/discounts/customers/${discount_id}/add`, {customers});
   },
 
   removeArticleDiscounts(articleDiscountIds, discount_id) {
     return axios.post(
       `/discounts/articles/${discount_id}/remove`,
-      articleDiscountIds
+      {article_discount_ids: articleDiscountIds},
+    );
+  },
+
+  removeDiscountCustomers(discountCustomerIds, discount_id) {
+    return axios.post(
+      `/discounts/customers/${discount_id}/remove`,
+      {discount_customer_ids: discountCustomerIds},
     );
   },
 };

@@ -258,17 +258,18 @@ export default {
             'discount/addDiscount',
             this.discountForm,
           )
-          .then((discount) =>
+          .then((discount) => {
+            this.setLoading();
             this.$router.push({
               name: 'sales.discount.form.articles',
-              params: { id: discount.id },
-            })
-          )
+              params: {id: discount.id},
+            });
+          })
           .catch((error) => {
             this.errors = error.response.data.errors;
             console.log(error);
-          })
-          .finally(() => this.setLoading());
+            this.setLoading();
+          });
       }
     },
   },

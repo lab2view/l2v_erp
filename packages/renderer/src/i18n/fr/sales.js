@@ -37,6 +37,8 @@ export default {
     update: "La modification du groupe de caissiers a ete effectuee avec succes.",
   },
   discount: {
+    add_customers: 'Ajouter les clients a la reduction',
+    add_articles: 'Ajouter les articles a la reduction',
     articles: 'Gerer les articles de la reduction',
     codes: 'Gerer les codes de la reduction',
     generate_code: 'Generer codes de reduction',

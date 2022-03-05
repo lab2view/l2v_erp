@@ -21,26 +21,6 @@
       </div>
     </div>
     <div class="form-group mb-3">
-      <label class="form-label fw-bold" for="label">{{
-        $t('common.attributes.code')
-      }}</label>
-      <input
-        id="code"
-        v-model="customerTypeForm.code"
-        class="form-control"
-        placeholder="PARTICULAR_CUS_TYP..."
-        required
-        type="text"
-      />
-      <div
-        v-if="errors.code && errors.code.length"
-        class="invalid-feedback"
-        style="display: inline"
-      >
-        {{ errors.code[0] }}
-      </div>
-    </div>
-    <div class="form-group mb-3">
       <label class="form-label fw-bold" for="description">{{
         $t('common.attributes.description')
       }}</label>

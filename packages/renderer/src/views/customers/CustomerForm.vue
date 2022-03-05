@@ -1,122 +1,164 @@
 <template>
-  <BaseFormModal :submit-form="submitCustomerForm" :title="formTitle">
-    <div class="mb-3">
-      <div class="row align-items-center">
-        <div class="col-md">
-          <BaseSelect
-            v-model="customerForm.customer_type_id"
-            :errors="errors.customer_type_id"
-            :label="$t('common.attributes.customerType')"
-            :options="customerTypes"
-            key-label="label"
-            key-value="id"
-            required
-          />
+  <BaseContainer
+    :module="$t('menu.modules.customers')"
+    :title="$t('customers.title')"
+  >
+    <div class="card">
+      <form @submit.prevent="submitCustomerForm">
+        <div class="card-header pb-2 border-bottom border-bottom-">
+          <div class="row align-items-center">
+            <div class="col-sm">
+              <h5>{{ formTitle }}</h5>
+            </div>
+            <div class="col-sm-auto align-items-end">
+              <router-link
+                :to="{ name: 'customers' }"
+                class="btn btn-primary"
+                type="button"
+              >
+                <i class="fa fa-users m-r-5" />
+                {{ $t('customers.customer.listTitle') }}
+              </router-link>
+            </div>
+          </div>
         </div>
-        <div class="col-md">
-          <BaseSelect
-            v-model="customerForm.country_id"
-            :errors="errors.country_id"
-            :label="$t('common.attributes.country')"
-            :options="countries"
-            key-label="name"
-            key-value="id"
-            required
-          />
+        <div class="card-body">
+          <div class="mb-3">
+            <div class="row align-items-center">
+              <div class="col-md">
+                <BaseFieldGroup
+                  :label="$t('common.attributes.customerType')"
+                  required
+                  :errors="errors.customer_type_id"
+                  @btn-click="
+                    $router.push({ name: 'config.customers.type.form' })
+                  "
+                >
+                  <BaseSelect
+                    v-model="customerForm.customer_type_id"
+                    :options="customerTypes"
+                    key-label="label"
+                    key-value="id"
+                    required
+                  />
+                </BaseFieldGroup>
+              </div>
+              <div class="col-md">
+                <BaseSelect
+                  v-model="customerForm.country_id"
+                  :errors="errors.country_id"
+                  :label="$t('common.attributes.country')"
+                  :options="countries"
+                  key-label="name"
+                  key-value="id"
+                  required
+                />
+              </div>
+            </div>
+          </div>
+          <div class="mb-3">
+            <div class="row align-items-center">
+              <div class="col-md">
+                <BaseFieldGroup
+                  :label="$t('common.attributes.localization')"
+                  :errors="errors.localization_id"
+                  required
+                  @btn-click="
+                    $router.push({ name: 'localization.form' })
+                  "
+                >
+                  <BaseSelect
+                    v-model="customerForm.localization_id"
+                    :options="localizations"
+                    key-label="address"
+                    key-value="id"
+                    required
+                  />
+                </BaseFieldGroup>
+              </div>
+              <div class="col-md">
+                <BaseInput
+                  v-model="customerForm.reference"
+                  :errors="errors.reference"
+                  :label="$t('common.attributes.reference')"
+                  placeholder="Ref"
+                  required
+                  type="text"
+                />
+              </div>
+            </div>
+          </div>
+          <div class="mb-3">
+            <div class="row align-items-center">
+              <div class="col-md">
+                <BaseInput
+                  v-model="customerForm.phone"
+                  :errors="errors.phone"
+                  :label="$t('common.attributes.phone')"
+                  placeholder="699"
+                  required
+                  type="text"
+                />
+              </div>
+              <div class="col-md">
+                <BaseInput
+                  v-model="customerForm.email"
+                  :errors="errors.email"
+                  :label="$t('common.attributes.email')"
+                  placeholder="customer@gmail.com"
+                  type="email"
+                />
+              </div>
+            </div>
+          </div>
+          <div class="mb-3">
+            <div class="row align-items-center">
+              <div class="col-md">
+                <BaseInput
+                  v-model="customerForm.name"
+                  :errors="errors.name"
+                  :label="$t('common.attributes.name')"
+                  placeholder="Jean Parpaing"
+                  required
+                  type="text"
+                />
+              </div>
+            </div>
+          </div>
         </div>
-      </div>
+        <div class="card-footer">
+          <div class="row justify-content-end">
+            <BaseButton
+              :text="$t('common.cancel')"
+              class="btn btn-secondary col-auto m-r-5"
+              type="button"
+              @click.prevent="$router.push({ name: 'customers' })"
+            />
+            <BaseButton
+              :text="$t('common.save')"
+              class="btn btn-primary col-auto"
+              icon="fa fa-save"
+            />
+          </div>
+        </div>
+      </form>
     </div>
-    <div class="mb-3">
-      <div class="row align-items-center">
-        <div class="col-md">
-          <BaseSelect
-            v-model="customerForm.localization_id"
-            :errors="errors.localization_id"
-            :label="$t('common.attributes.localization')"
-            :options="localizations"
-            key-label="address"
-            key-value="id"
-            required
-          />
-        </div>
-        <div class="col-md">
-          <BaseInput
-            v-model="customerForm.reference"
-            :errors="errors.reference"
-            :label="$t('common.attributes.reference')"
-            placeholder="Ref"
-            required
-            type="text"
-          />
-        </div>
-      </div>
-    </div>
-    <div class="mb-3">
-      <div class="row align-items-center">
-        <div class="col-md">
-          <BaseInput
-            v-model="customerForm.phone"
-            :errors="errors.phone"
-            :label="$t('common.attributes.phone')"
-            placeholder="699"
-            required
-            type="text"
-          />
-        </div>
-        <div class="col-md">
-          <BaseInput
-            v-model="customerForm.email"
-            :errors="errors.email"
-            :label="$t('common.attributes.email')"
-            placeholder="customer@gmail.com"
-            type="email"
-          />
-        </div>
-      </div>
-    </div>
-    <div class="mb-3">
-      <div class="row align-items-center">
-        <div class="col-md">
-          <BaseInput
-            v-model="customerForm.name"
-            :errors="errors.name"
-            :label="$t('common.attributes.name')"
-            placeholder="Jean Parpaing"
-            required
-            type="text"
-          />
-        </div>
-      </div>
-    </div>
-    <template #footer>
-      <div class="row justify-content-end">
-        <BaseButton
-          :text="$t('common.cancel')"
-          class="btn btn-secondary col-auto m-r-5"
-          type="button"
-          @click.prevent="$router.push({ name: 'customers' })"
-        />
-        <BaseButton
-          :text="$t('common.save')"
-          class="btn btn-primary col-auto"
-          icon="fa fa-save"
-        />
-      </div>
-    </template>
-  </BaseFormModal>
+  </BaseContainer>
 </template>
 
 <script>
 import { mapGetters } from 'vuex';
 import store from '/@/store';
-import BaseFormModal from '/@/components/common/BaseFormModal.vue';
+import BaseContainer from '/@/components/common/BaseContainer.vue';
+import BaseFieldGroup from '/@/components/common/BaseFieldGroup.vue';
 import BaseInput from '/@/components/common/BaseInput.vue';
 import BaseSelect from '/@/components/common/BaseSelect.vue';
 import BaseButton from '/@/components/common/BaseButton.vue';
 
 export default {
   components: {
-    BaseFormModal,
+    BaseContainer,
+    BaseFieldGroup,
     BaseButton,
     BaseSelect,
     BaseInput,
