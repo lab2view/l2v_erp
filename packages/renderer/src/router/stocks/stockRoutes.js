@@ -1,4 +1,5 @@
 import store from '../../store';
+import formRoutes from '/@/router/stocks/formRoutes.js';
 
 export const stockRoutes = [
   {
@@ -19,7 +20,7 @@ export const stockRoutes = [
             return store
               .dispatch('inventory/getInventory', to.params.id)
               .then(() => {
-                return { name: to.name };
+                return 1;
               })
               .catch(() => -1);
           }
@@ -45,7 +46,7 @@ export const stockRoutes = [
             return store
               .dispatch('stock_provider/getStockProvider', to.params.id)
               .then(() => {
-                return { name: to.name };
+                return 1;
               })
               .catch(() => -1);
           }
@@ -61,23 +62,21 @@ export const stockRoutes = [
       code: 'StockEntry.viewAny',
       feather: 'filter',
     },
-    children: [
-      {
-        path: 'form/:id?',
-        name: 'stocks.provision.form',
-        component: () => import('/@/views/stocks/entries/ProvisionForm.vue'),
-        beforeEnter: (to) => {
-          if (to.params.id) {
-            return store
-              .dispatch('provision/getProvision', to.params.id)
-              .then(() => {
-                return { name: to.name };
-              })
-              .catch(() => -1);
-          }
-        },
-      },
-    ],
+  },
+  {
+    path: 'entries/:id?/forms',
+    component: () => import('/@/components/stocks/FormLayout.vue'),
+    children: formRoutes,
+    beforeEnter: (to) => {
+      if (to.params.id) {
+        return store
+          .dispatch('stock_entry/getStockEntry', to.params.id)
+          .then(() => {
+            return 1;
+          })
+          .catch(() => -1);
+      }
+    },
   },
   {
     path: 'shippings',
@@ -97,7 +96,7 @@ export const stockRoutes = [
             return store
               .dispatch('shipping/getShipping', to.params.id)
               .then(() => {
-                return { name: to.name };
+                return 1;
               })
               .catch(() => -1);
           }
@@ -113,23 +112,6 @@ export const stockRoutes = [
       code: 'StockExit.viewAny',
       feather: 'filter',
     },
-    children: [
-      {
-        path: 'lines/:id?',
-        name: 'stocks.lines',
-        component: () => import('/@/views/stocks/exits/StockExitLineList.vue'),
-        beforeEnter: (to) => {
-          if (to.params.id) {
-            return store
-              .dispatch('stock_exit/getStockExit', to.params.id)
-              .then(() => {
-                return { name: to.name };
-              })
-              .catch(() => -1);
-          }
-        },
-      },
-    ],
   },
   {
     path: 'types',
@@ -149,7 +131,7 @@ export const stockRoutes = [
             return store
               .dispatch('stock_type/getStockType', to.params.id)
               .then(() => {
-                return { name: to.name };
+                return 1;
               })
               .catch(() => -1);
           }
@@ -175,7 +157,7 @@ export const stockRoutes = [
             return store
               .dispatch('stock_state/getStockState', to.params.id)
               .then(() => {
-                return { name: to.name };
+                return 1;
               })
               .catch(() => -1);
           }

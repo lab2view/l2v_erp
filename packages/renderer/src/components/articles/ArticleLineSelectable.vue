@@ -21,6 +21,7 @@
         :store-action="updateQuantity"
       />
     </td>
+    <slot />
     <td v-if="removeDispatchName">
       <div class="row justify-content-center align-items-center">
         <div class="col-md-6 p-0">

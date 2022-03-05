@@ -125,6 +125,7 @@
       <div class="card-footer pt-2 pb-2">
         <div class="row justify-content-center align-items-center">
           <BaseButton
+            v-if="canCancel"
             type="button"
             class="btn btn-secondary col-auto m-r-5"
             :text="$t('common.close')"
@@ -132,7 +133,7 @@
           />
           <BaseButton
             class="btn btn-primary col-auto"
-            :text="$t('common.save')"
+            :text="$t(`${confirmBtnLabel}`)"
             icon="fa fa-save"
             :disabled="!isSelected"
             :loading="loading"
@@ -182,6 +183,14 @@ export default {
     submitStoreAction: {
       type: Function,
       required: true,
+    },
+    canCancel: {
+      type: Boolean,
+      default: true,
+    },
+    confirmBtnLabel: {
+      type: String,
+      default: 'common.save',
     },
   },
   data() {

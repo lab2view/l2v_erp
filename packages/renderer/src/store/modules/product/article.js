@@ -189,6 +189,15 @@ const mutations = {
       state.articles = JSON.stringify(articles);
     }
   },
+  UPDATE_ARTICLE_STOCK(state, article) {
+    let articles = JSON.parse(state.articles);
+    const index = articles.findIndex((a) => a.id === article.id);
+    if (index !== -1) {
+      articles.splice(index, 1, { ...articles[index], stock: article.stock });
+      console.log(article);
+      state.articles = JSON.stringify(articles);
+    }
+  },
   DELETE_ARTICLE(state, articleId) {
     state.articles = JSON.stringify(
       JSON.parse(state.articles).filter((p) => p.id !== articleId)

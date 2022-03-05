@@ -1,8 +1,5 @@
 <template>
-  <BaseContainer
-    :module="$t('menu.modules.products')"
-    :title="$t('product.title')"
-  >
+  <BaseContainer :title="$t('stock.title')" :module="$t('menu.modules.stocks')">
     <div class="card">
       <BaseWizardStep :links="items" />
     </div>
@@ -10,15 +7,15 @@
 </template>
 
 <script>
-import BaseContainer from '../common/BaseContainer.vue';
-import BaseWizardStep from '../common/BaseWizardStep.vue';
-import formRoutes from '../../router/product/formRoutes';
+import BaseContainer from '/@/components/common/BaseContainer.vue';
+import BaseWizardStep from '/@/components/common/BaseWizardStep.vue';
+import formRoutes from '/@/router/stocks/formRoutes';
 import { mapGetters } from 'vuex';
 
 export default {
   components: { BaseWizardStep, BaseContainer },
   computed: {
-    ...mapGetters('product', ['haveProduct']),
+    ...mapGetters('stock_entry', ['haveStockEntry']),
     items() {
       let results = Object.assign([], formRoutes);
       return results.map((pfr) => {
@@ -27,8 +24,8 @@ export default {
           code: pfr.meta.code,
           icon: pfr.meta.icon,
           title: pfr.meta.title ?? null,
-          disabled: pfr.meta.requireProduct ? !this.haveProduct : false,
-          class: `${this.haveProduct ? 'activated' : ''} ${
+          disabled: pfr.meta.requireStockEntry ? !this.haveStockEntry : false,
+          class: `${this.haveStockEntry ? 'activated' : ''} ${
             RegExp(`^${pfr.name}*`).test(this.$route.name) ? 'active' : ''
           }`,
         };
@@ -36,7 +33,7 @@ export default {
     },
   },
   beforeUnmount() {
-    this.$store.commit('product/SET_CURRENT_PRODUCT', null);
+    this.$store.commit('stock_entry/SET_CURRENT_STOCK_ENTRY', null);
   },
 };
 </script>
