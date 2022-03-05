@@ -96,13 +96,6 @@ const StockExit = new VuexPersistence({
   reducer: (state) => ({ stock_exit: state.stock_exit }),
 });
 
-const StockExitLine = new VuexPersistence({
-  key: 'stock_exit_line',
-  storage: localStore,
-  asyncStorage: true,
-  reducer: (state) => ({ stock_exit_line: state.stock_exit_line }),
-});
-
 const ArticleGroup = new VuexPersistence({
   key: 'article_group',
   storage: localStore,
@@ -215,13 +208,6 @@ const StockEntry = new VuexPersistence({
   reducer: (state) => ({ stock_entry: state.stock_entry }),
 });
 
-const StockEntryLine = new VuexPersistence({
-  key: 'stock_entry_line',
-  storage: localStore,
-  asyncStorage: true,
-  reducer: (state) => ({ stock_entry_line: state.stock_entry_line }),
-});
-
 const PaymentMethod = new VuexPersistence({
   key: 'paymentMethod',
   storage: localStore,
@@ -305,7 +291,6 @@ export default [
   Article.plugin,
   StockProvision.plugin,
   StockExit.plugin,
-  StockExitLine.plugin,
   ArticleGroup.plugin,
   Enterprise.plugin,
   EnterpriseTypeConfig.plugin,
@@ -320,7 +305,6 @@ export default [
   StockProvider.plugin,
   Shipping.plugin,
   StockEntry.plugin,
-  StockEntryLine.plugin,
   StockState.plugin,
   StockType.plugin,
   PaymentCharge.plugin,

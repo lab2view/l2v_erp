@@ -28,7 +28,10 @@ export default {
     update: 'La modification de la sortie a ete effectuee avec succes.',
   },
   entryLine: {
+    list: 'Approvisionnement',
     update: "L'article a ete effectue avec succes.",
+    articleSelect: 'Selectionner les articles a approvisionner',
+    articleForm: "Finalisation de l'approvisionnement",
   },
   stockEntry: {
     list: 'Liste des approvisionnements',

@@ -1,12 +1,15 @@
 export default {
   none: '',
   add: 'Ajouter',
-  add_article: 'Ajouter un article',
+  add_article: 'Ajouter des articles',
+  add_to_list: 'Ajouter a la liste',
+  selected_article: 'Selectionner les articles',
   false: 'Faux',
   true: 'Vrai',
   back: 'Precedent',
   yes: 'Oui',
   no: 'Non',
+  close: 'Fermer',
   delete: 'Supprimer',
   delete_all: 'Tout Supprimer',
   save: 'Enregistrer',
@@ -153,6 +156,8 @@ export default {
     only_bill: 'Uniquement au facture',
     price_type_id: 'Type de prix',
     created_at: 'Date de creation',
+    provider_price: 'P.U fournisseur',
+    buying_price: 'P.U de reviens',
   },
 
   headers: {

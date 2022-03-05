@@ -1,6 +1,7 @@
 import stockEntryService from '../../../services/stocks/StockEntryService';
 import { notify } from '/@/helpers/notify.js';
 import i18n from '/@/i18n/index.js';
+import { stockTypeCode } from '/@/helpers/codes.js';
 
 const state = {
   stock_entries: null,
@@ -15,7 +16,13 @@ const getters = {
   },
   stockEntry: (state) =>
     state.stockEntry ? JSON.parse(state.stockEntry) : null,
+  stockEntryReference: (state, getters) => getters.stockEntry?.reference,
   haveStockEntry: (state, getters) => !!getters.stockEntry,
+  stockEntryLines: (state, getters) =>
+    getters.haveStockEntry ? getters.stockEntry.stock_entry_lines : [],
+  stockEntryIsCommand: (state, getters) => {
+    return getters.stockEntry?.stock_type.code === stockTypeCode.command;
+  },
 };
 
 const actions = {
@@ -76,6 +83,11 @@ const actions = {
       .addStockEntryLines(getters.stockEntry.id, stockEntryLines)
       .then(({ data }) => {
         commit('ADD_STOCK_ENTRY_LINES', data.stock_entry_lines);
+        data.stock_entry_lines.forEach((sl) =>
+          commit('article/UPDATE_ARTICLE_STOCK', sl.article, {
+            root: true,
+          })
+        );
       });
   },
   updateStockEntryLine({ commit }, stockEntryLine) {
@@ -83,6 +95,9 @@ const actions = {
       .updateStockEntryLine(stockEntryLine)
       .then(({ data }) => {
         commit('UPDATE_STOCK_ENTRY_LINE', data);
+        commit('article/UPDATE_ARTICLE_STOCK', data.article, {
+          root: true,
+        });
         notify(
           i18n.global.t('stock.entryLine.update'),
           'Ok',
@@ -93,12 +108,9 @@ const actions = {
   },
   removeStockEntryLines({ getters, commit }, stockEntryLineIds) {
     return stockEntryService
-      .removeStockEntryLines(
-        {
-          stock_entry_line_ids: [...stockEntryLineIds],
-        },
-        getters.stockEntry.id
-      )
+      .removeStockEntryLines(getters.stockEntry.id, {
+        stock_entry_line_ids: [...stockEntryLineIds],
+      })
       .then(() => {
         commit('REMOVE_STOCK_ENTRY_LINES', stockEntryLineIds);
       });
@@ -218,7 +230,7 @@ const mutations = {
     if (index !== -1) {
       stockEntry.stock_entry_lines = stockEntry.stock_entry_lines.filter(
         (cp) => {
-          return stock_entry_lines_ids.find((p) => p === cp.id) === undefined;
+          return stock_entry_lines_ids.find((id) => id === cp.id) === undefined;
         }
       );
       stock_entries.splice(index, 1, stockEntry);

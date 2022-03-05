@@ -18,5 +18,13 @@ export default [
       icon: 'fa fa-list',
       requireStockEntry: true,
     },
+    children: [
+      {
+        path: 'form',
+        name: 'stocks.entry.form.article.form',
+        component: () =>
+          import('/@/views/stocks/entries/forms/EntryLinesForm.vue'),
+      },
+    ],
   },
 ];
