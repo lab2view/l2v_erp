@@ -4,9 +4,9 @@
       <th>#</th>
       <th>{{ $t('common.headers.enterprise_id') }}</th>
       <th>{{ $t('common.attributes.stock_type') }}</th>
-      <th>{{ $t('common.headers.provider') }}</th>
       <th>{{ $t('common.attributes.reference') }}</th>
-      <th>{{ $t('common.attributes.created_at') }}</th>
+      <th>{{ $t('common.headers.status') }}</th>
+      <th>{{ $t('common.attributes.date') }}</th>
       <th>{{ $t('common.actions') }}</th>
     </template>
     <tr v-for="stockEntry in stockEntries" :key="stockEntry.id">
@@ -19,11 +19,11 @@
         }}
       </td>
       <td>{{ stockEntry.stock_type.label }}</td>
-      <td>
-        {{ stockEntry.enterprise_sender?.label || $t('common.parent') }}
-      </td>
       <td>{{ stockEntry.reference }}</td>
-      <td>{{ stockEntry.created_at }}</td>
+      <td>
+        {{ stockEntry.current_state?.stock_state.label }}
+      </td>
+      <td>{{ $d(stockEntry.created_at, 'short') }}</td>
       <td>
         <BaseButton
           type="button"

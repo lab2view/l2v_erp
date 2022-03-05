@@ -172,5 +172,6 @@ export default {
     stock_in: 'En Stock',
     enterprise_id: 'Structures',
     provider: 'Provenance',
+    status: 'statut',
   },
 };
