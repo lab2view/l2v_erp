@@ -47,6 +47,20 @@ export default [
         name: 'article.compositions',
         component: () => import('/@/views/articles/details/Compositions.vue'),
       },
+      {
+        path: 'compositions/config',
+        name: 'article.compositions.config',
+        component: () =>
+          import('/@/views/articles/details/CompositionPresets.vue'),
+        children: [
+          {
+            path: 'form',
+            name: 'article.compositions.config.from',
+            component: () =>
+              import('/@/views/articles/details/CompositionPresetForm.vue'),
+          },
+        ],
+      },
     ],
   },
   {

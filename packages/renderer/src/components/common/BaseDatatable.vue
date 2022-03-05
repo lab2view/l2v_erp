@@ -37,12 +37,23 @@ export default {
     },
   },
   mounted() {
-    $('#datatable-dt').DataTable({
-      info: !!this.tableInfos,
-      language: {
-        info: this.tableInfos ?? false,
-      },
-    });
+    setTimeout(() => {
+      (async () => {
+        return Promise.all([
+          await this.$loadScript(`./src/assets/js/jquery-3.5.1.min.js`),
+          await this.$loadScript(
+            `./src/assets/js/datatable/datatables/jquery.dataTables.min.js`
+          ),
+        ]);
+      })().then(() => {
+        $('#datatable-dt').DataTable({
+          info: !!this.tableInfos,
+          language: {
+            info: this.tableInfos ?? false,
+          },
+        });
+      });
+    }, 1);
   },
 };
 </script>

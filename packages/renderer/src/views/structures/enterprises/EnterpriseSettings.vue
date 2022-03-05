@@ -81,7 +81,7 @@
         <div class="card-footer">
           <div class="row justify-content-end">
             <BaseButton
-              :text="$t('common.previous')"
+              :text="$t('common.prev')"
               class="btn btn-secondary col-auto m-r-5"
               type="button"
               @click.prevent="$router.push({ name: 'enterprise.form.desc' })"

@@ -13,8 +13,8 @@ export default {
     return axios.get(`/stocks/entries/${id}`);
   },
 
-  updateStockEntry(stockEntry, id) {
-    return axios.put(`/stocks/entries/${id}`, stockEntry);
+  updateStockEntry(stockEntry) {
+    return axios.put(`/stocks/entries/${stockEntry.id}`, stockEntry);
   },
 
   deleteStockEntry(id) {
@@ -29,7 +29,47 @@ export default {
     return axios.delete(`/stocks/entries/delete/${id}`);
   },
 
-  addStockEntryProvision(id, stockProvisions) {
-    return axios.post(`/stocks/entries/${id}/provisions/add`, stockProvisions);
+  addStockEntryLines(stockEntryId, stockEntryLines) {
+    return axios.post(
+      `/stocks/entries/${stockEntryId}/lines/add`,
+      stockEntryLines
+    );
+  },
+  updateStockEntryLine(stockEntryLine) {
+    return axios.put(
+      `/stocks/entries/lines/${stockEntryLine.id}/update`,
+      stockEntryLine
+    );
+  },
+  removeStockEntryLines(stockEntryId, stockEntryLineIds) {
+    return axios.post(
+      `/stocks/entries/${stockEntryId}/lines/remove`,
+      stockEntryLineIds
+    );
+  },
+
+  addStockProvisions(stockEntryId, stockProvisions) {
+    return axios.post(
+      `/stocks/entries/${stockEntryId}/provisions/add`,
+      stockProvisions
+    );
+  },
+  updateStockProvision(stockProvision) {
+    return axios.put(
+      `/stocks/entries/provisions/${stockProvision.id}/update`,
+      stockProvision
+    );
+  },
+  removeStockProvisions(stockEntryId, stockProvisionIds) {
+    return axios.post(
+      `/stocks/entries/${stockEntryId}/provisions/remove`,
+      stockProvisionIds
+    );
+  },
+
+  setStockEntryState(stockEntryId, stock_state_id) {
+    return axios.post(`/stocks/entries/${stockEntryId}/states`, {
+      stock_state_id,
+    });
   },
 };

@@ -3,7 +3,7 @@
     <div class="mb-3">
       <BaseSelect
         v-model="localizationForm.country_id"
-        :errors="errors?.country_id"
+        :errors="errors.country_id"
         :label="$t('common.attributes.country')"
         :options="activeCountries"
         key-label="name"
@@ -12,20 +12,27 @@
       />
     </div>
     <div class="mb-3">
-      <BaseSelect
-        v-model="localizationForm.region_id"
-        :errors="errors?.region_id"
+      <BaseFieldGroup
         :label="$t('common.attributes.region')"
-        :options="active_regions"
-        key-label="name"
-        key-value="id"
+        :errors="errors.region_id"
         required
-      />
+        @btn-click="
+          $router.push({ name: 'region.form' })
+        "
+      >
+        <BaseSelect
+          v-model="localizationForm.region_id"
+          :options="active_regions"
+          key-label="name"
+          key-value="id"
+          required
+        />
+      </BaseFieldGroup>
     </div>
     <div class="mb-3">
       <BaseInput
         v-model="localizationForm.city"
-        :errors="errors?.city"
+        :errors="errors.city"
         :label="$t('common.attributes.city')"
         placeholder="City"
         required
@@ -34,7 +41,7 @@
     <div class="mb-3">
       <BaseInput
         v-model="localizationForm.address"
-        :errors="errors?.address"
+        :errors="errors.address"
         :label="$t('common.attributes.address')"
         placeholder="Address"
         required
@@ -46,17 +53,25 @@
       </button>
     </template>
   </BaseFormModal>
+  <br/>
+  <router-view />
 </template>
 
 <script>
 import BaseFormModal from '/@/components/common/BaseFormModal.vue';
+import BaseFieldGroup from '/@/components/common/BaseFieldGroup.vue';
 import BaseInput from '/@/components/common/BaseInput.vue';
 import BaseSelect from '/@/components/common/BaseSelect.vue';
 import { mapGetters } from 'vuex';
 import store from '/@/store';
 
 export default {
-  components: { BaseInput, BaseSelect, BaseFormModal },
+  components: {
+    BaseInput,
+    BaseSelect,
+    BaseFormModal,
+    BaseFieldGroup
+  },
   beforeRouteEnter(routeTo, routeFrom, next) {
     Promise.all([
       store.dispatch('country/getCountriesList', {

@@ -13,7 +13,6 @@ import productUnitConfig from './modules/product/productUnitConfig';
 import product from './modules/product/product';
 import article from './modules/product/article';
 import stock_exit from './modules/stock/stockExit';
-import stock_exit_line from './modules/stock/stockExitLine';
 import article_group from './modules/product/articleGroup';
 import module from './modules/structures/module';
 import localization from './modules/structures/localization';
@@ -31,16 +30,17 @@ import shipping from './modules/stock/shipping';
 import stock_state from './modules/stock/stockState';
 import stock_type from './modules/stock/stockType';
 import stock_entry from './modules/stock/stockEntry';
-import stock_entry_line from './modules/stock/stockEntryLine';
 import transaction from './modules/payments/transaction';
 import transactionType from './modules/payments/transactionType';
 import paymentMethod from './modules/payments/paymentMethod';
 import paymentCharge from './modules/payments/paymentCharge';
 import discount from './modules/sales/discount';
 import discountType from './modules/sales/discountType';
+import discountCode from './modules/sales/discountCode';
 import cashRegister from './modules/sales/cashRegister';
 import cashier from './modules/sales/cashier';
 import cashierGroup from './modules/sales/cashierGroup';
+import saleType from './modules/sales/saleType';
 
 export default createStore({
   state: {
@@ -89,8 +89,6 @@ export default createStore({
     productTypeConfig,
     productUnitConfig,
     article,
-    stock_exit,
-    stock_exit_line,
     article_group,
     module,
     localization,
@@ -108,13 +106,15 @@ export default createStore({
     stock_state,
     stock_type,
     stock_entry,
-    stock_entry_line,
+    stock_exit,
     paymentMethod,
     paymentCharge,
     transaction,
     transactionType,
     discount,
     discountType,
+    discountCode,
+    saleType,
     cashRegister,
     cashier,
     cashierGroup,

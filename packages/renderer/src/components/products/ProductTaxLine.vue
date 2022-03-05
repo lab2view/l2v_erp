@@ -2,35 +2,29 @@
   <tr>
     <td>{{ productTax.tax.label }}</td>
     <td>{{ productTax.value }}</td>
-    <td>
-      <div class="row justify-content-center align-items-center">
-        <div class="col-md-6 p-0">
-          <BaseButton
-            type="button"
-            class="btn btn-iconsolid btn-info btn-sm"
-            :title="$t('common.update')"
-            @click.prevent="
-              $router.push({
-                name: 'productTax.details',
-                params: { id: productTax.id },
-              })
-            "
-          >
-            <i class="fa fa-edit" />
-          </BaseButton>
-        </div>
-        <div class="col-md-6 p-0">
-          <BaseButton
-            v-if="!productTax.not_deletable"
-            type="button"
-            class="btn btn-iconsolid btn-danger btn-sm"
-            :title="$t('common.delete')"
-            @click.prevent="deleteProductTax"
-          >
-            <i class="fa fa-trash-o" />
-          </BaseButton>
-        </div>
-      </div>
+    <td class="text-center">
+      <BaseButton
+        type="button"
+        class="btn btn-iconsolid btn-secondary btn-sm"
+        :title="$t('common.update')"
+        @click.prevent="
+          $router.push({
+            name: 'product.form.setting.tax.form',
+            params: { ...$route.params, product_tax_id: productTax.id },
+          })
+        "
+      >
+        <i class="fa fa-edit" />
+      </BaseButton>
+      <BaseButton
+        v-if="!productTax.not_deletable"
+        type="button"
+        class="btn btn-iconsolid btn-danger btn-sm m-l-10"
+        :title="$t('common.delete')"
+        @click.prevent="deleteProductTax"
+      >
+        <i class="fa fa-trash-o" />
+      </BaseButton>
     </td>
   </tr>
 </template>
@@ -55,10 +49,16 @@ export default {
     deleteProductTax() {
       if (
         confirm(
-          this.$t('messages.confirmDelete', { label: this.productTax.label })
+          this.$t('messages.confirmDelete', {
+            label: this.productTax.tax.label,
+          })
         )
-      )
-        this.$store.dispatch('product/deleteTax', this.productTax.id);
+      ) {
+        this.loading = true;
+        this.$store
+          .dispatch('product/removeTaxes', [this.productTax.id])
+          .finally(() => (this.loading = false));
+      }
     },
     updateProductTaxValue(value) {
       console.log(value);

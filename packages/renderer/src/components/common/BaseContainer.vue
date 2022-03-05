@@ -20,7 +20,15 @@
         </div>
         <div class="col-sm-auto">
           <!-- Bookmark Start-->
-          <slot name="bookmark"></slot>
+          <slot name="bookmark">
+            <BaseButton
+              type="button"
+              class="btn btn-outline-secondary"
+              icon="fa fa-arrow-left"
+              :text="$t('common.back')"
+              @click.prevent="$router.back()"
+            />
+          </slot>
           <!-- Bookmark Ends-->
         </div>
       </div>
@@ -34,8 +42,10 @@
 </template>
 
 <script>
+import BaseButton from '/@/components/common/BaseButton.vue';
 export default {
   name: 'BaseContainer',
+  components: { BaseButton },
   props: {
     title: {
       type: String,

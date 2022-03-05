@@ -1,4 +1,5 @@
 import EnterpriseService from '../../services/EnterpriseService';
+import localStore from '/@/store/helpers/localStore';
 
 const state = {};
 
@@ -60,9 +61,12 @@ const actions = {
 // mutations
 const mutations = {
   SET_CURRENT_WORKSPACE(state, workspace) {
-    if (workspace)
+    if (workspace) {
       localStorage.setItem('currentWorkspace', JSON.stringify(workspace));
-    else localStorage.removeItem('currentWorkspace');
+    } else {
+      localStore.dropInstance().then(() => alert('INSTANCE DROP'));
+      localStorage.removeItem('currentWorkspace');
+    }
     if (window?.ipcRenderer)
       window?.ipcRenderer?.send('reload', 'Changing workspace');
     else location.reload();

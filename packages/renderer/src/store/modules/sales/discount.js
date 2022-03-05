@@ -18,6 +18,7 @@ const getters = {
     state.discount
       ? JSON.parse(state.discount)
       : null,
+  haveDiscount: (state, getters) => !!getters.discount,
 };
 
 // privileges
@@ -56,6 +57,7 @@ const actions = {
       .addDiscount(discountField)
       .then(({ data }) => {
         commit('ADD_DISCOUNT', data);
+        commit('SET_CURRENT_DISCOUNT', data);
         notify(
           i18n.global.t('sales.discount.store'),
           'Ok',
@@ -74,6 +76,7 @@ const actions = {
       )
       .then(({ data }) => {
         commit('UPDATE_DISCOUNT', data);
+        commit('SET_CURRENT_DISCOUNT', data);
         notify(
           i18n.global.t('sales.discount.update'),
           'Ok',
@@ -89,6 +92,44 @@ const actions = {
       .deleteDiscount(discountId)
       .then(({ data }) => {
         commit('DELETE_DISCOUNT', discountId);
+        return data;
+      });
+  },
+
+  addArticles({ commit }, {articles, discount}) {
+    return discountService
+      .addArticles(articles, discount.id)
+      .then(({ data }) => {
+        commit('ADD_ARTICLE_DISCOUNTS', data.articleDiscounts);
+        return data;
+      });
+  },
+
+  addCustomers({ commit }, {customers, discount}) {
+    return discountService
+      .addCustomers(customers, discount.id)
+      .then(({ data }) => {
+        commit('ADD_DISCOUNT_CUSTOMERS', data.discount_customers);
+        return data;
+      });
+  },
+
+  removeArticleDiscounts({ state, commit }, articleDiscountIds) {
+    let discount = JSON.parse(state.discount);
+    return discountService
+      .removeArticleDiscounts(articleDiscountIds, discount.id)
+      .then(({ data }) => {
+        commit('DELETE_ARTICLE_DISCOUNTS', {discount, articleDiscountIds});
+        return data;
+      });
+  },
+
+  removeDiscountCustomers({ state, commit }, discountCustomerIds) {
+    let discount = JSON.parse(state.discount);
+    return discountService
+      .removeDiscountCustomers(discountCustomerIds, discount.id)
+      .then(({ data }) => {
+        commit('DELETE_DISCOUNT_CUSTOMERS', {discount, discountCustomerIds});
         return data;
       });
   },
@@ -115,6 +156,93 @@ const mutations = {
     if (index !== -1) {
       discounts.splice(index, 1, discount);
       state.discounts = JSON.stringify(discounts);
+    }
+    state.discount = JSON.stringify(discount);
+  },
+  ADD_DISCOUNT_CUSTOMERS(state, discountCustomers) {
+    let discount = JSON.parse(state.discount);
+    let discount_customers = discount.discount_customers ?? [];
+    if (discount_customers.length) {
+      let articles = discount_customers.map((ad) => ad.article_id);
+      let discountCustomersLength = discountCustomers.length;
+      for (let i = 0; i < discountCustomersLength; i++) {
+        if (! articles.includes(discountCustomers[i].article_id)) {
+          discount_customers.push(discountCustomers[i]);
+        }
+      }
+    } else {
+      discount_customers = discountCustomers;
+    }
+
+    let discounts = JSON.parse(state.discounts);
+    const index = discounts.findIndex(
+      (p) => p.id === discount.id
+    );
+    discount.discount_customers = discount_customers;
+    if (index !== -1) {
+      discounts.splice(index, 1, discount);
+      state.discounts = JSON.stringify(discounts);
+    }
+    state.discount = JSON.stringify(discount);
+  },
+  ADD_ARTICLE_DISCOUNTS(state, articleDiscounts) {
+    let discount = JSON.parse(state.discount);
+    let article_discounts = discount.article_discounts ?? [];
+    if (article_discounts.length) {
+      let articles = article_discounts.map((ad) => ad.article_id);
+      let articleDiscountsLength = articleDiscounts.length;
+      for (let i = 0; i < articleDiscountsLength; i++) {
+        if (! articles.includes(articleDiscounts[i].article_id)) {
+          article_discounts.push(articleDiscounts[i]);
+        }
+      }
+    } else {
+      article_discounts = articleDiscounts;
+    }
+
+    let discounts = JSON.parse(state.discounts);
+    const index = discounts.findIndex(
+      (p) => p.id === discount.id
+    );
+    discount.article_discounts = article_discounts;
+    if (index !== -1) {
+      discounts.splice(index, 1, discount);
+      state.discounts = JSON.stringify(discounts);
+    }
+    state.discount = JSON.stringify(discount);
+  },
+  DELETE_ARTICLE_DISCOUNTS(state, {discount, articleDiscountIds}) {
+    let discounts = JSON.parse(state.discounts);
+    const index = discounts.findIndex(
+      (p) => p.id === discount.id
+    );
+
+    if (discount && discount.id) {
+      discount.article_discounts = discount.article_discounts
+        ?.filter((ad) => !articleDiscountIds.includes(ad.id)) ?? [];
+
+      if (index !== -1) {
+        discounts.splice(index, 1, discount);
+        state.discounts = JSON.stringify(discounts);
+      }
+      state.discount = JSON.stringify(discount);
+    }
+  },
+  DELETE_DISCOUNT_CUSTOMERS(state, {discount, discountCustomerIds}) {
+    let discounts = JSON.parse(state.discounts);
+    const index = discounts.findIndex(
+      (p) => p.id === discount.id
+    );
+
+    if (discount && discount.id) {
+      discount.discount_customers = discount.discount_customers
+        ?.filter((ad) => !discountCustomerIds.includes(ad.id)) ?? [];
+
+      if (index !== -1) {
+        discounts.splice(index, 1, discount);
+        state.discounts = JSON.stringify(discounts);
+      }
+      state.discount = JSON.stringify(discount);
     }
   },
   DELETE_DISCOUNT(state, discountId) {

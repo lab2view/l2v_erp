@@ -179,7 +179,6 @@ export default {
   created() {
     if (this.enterprise) {
       this.enterpriseForm = Object.assign({}, this.enterprise);
-      this.enterprise_type_id = this.enterprise.enterprise_type_id;
       this.is_edited = false;
     }
   },

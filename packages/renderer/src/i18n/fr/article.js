@@ -1,11 +1,20 @@
 export default {
   title: 'Gestion des articles',
   listTitle: 'Liste des articles',
+  selection: 'Selectionner les articles a utiliser',
   detail: {
     title: 'Details article',
     price: {
       title: 'Prix',
       update: 'Le prix a bien ete modifie',
+    },
+    composition: {
+      title: 'Liste des compositions',
+
+      config: {
+        title: 'Liste des composantes',
+        update: 'Modification effectuee avec succes',
+      },
     },
   },
   form: {

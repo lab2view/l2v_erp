@@ -3,8 +3,8 @@
     <td class="f-w-600">
       {{ article.name }}
     </td>
-    <td class="text-center font-primary">{{ article.stock.total_entry }}</td>
-    <td class="text-center font-secondary">{{ article.stock.total_exit }}</td>
+    <td class="text-center font-primary">{{ totalEntry }}</td>
+    <td class="text-center font-secondary">{{ totalExit }}</td>
     <td class="text-center"><ArticleStockIn :article="article" /></td>
   </tr>
 </template>

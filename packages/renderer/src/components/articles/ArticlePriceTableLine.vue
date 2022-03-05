@@ -9,29 +9,15 @@
         :store-action="updatePriceValue"
       />
     </td>
-    <td class="text-center">
-      <BaseButton
-        v-if="price"
-        type="button"
-        class="btn btn-iconsolid btn-danger btn-sm"
-        :title="$t('common.delete')"
-        :loading="loading"
-        @click.prevent="removePrice"
-      >
-        <i v-if="!loading" class="fa fa-times" />
-      </BaseButton>
-      <em v-else>{{ $t('common.no_action') }}</em>
-    </td>
   </tr>
 </template>
 
 <script>
 import ArticleMixin from '/@/mixins/ArticleMixin.js';
-import BaseButton from '/@/components/common/BaseButton.vue';
 import BaseUpdateNumberForm from '/@/components/common/BaseUpdateNumberForm.vue';
 
 export default {
-  components: { BaseUpdateNumberForm, BaseButton },
+  components: { BaseUpdateNumberForm },
   mixins: [ArticleMixin],
   props: {
     priceType: {
@@ -55,10 +41,6 @@ export default {
   },
 
   methods: {
-    removePrice() {
-      console.log('delete price');
-    },
-
     updatePriceValue(value) {
       if (this.price) {
         return this.$store.dispatch('article/updatePrice', {
