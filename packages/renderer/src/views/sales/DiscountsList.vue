@@ -11,7 +11,7 @@
           </div>
           <div class="col-sm-auto align-items-end">
             <router-link
-              :to="{ name: 'sales.discount.form' }"
+              :to="{ name: 'sales.discount.form.desc' }"
               href="#"
               class="btn btn-primary"
               type="button"
@@ -27,23 +27,19 @@
           <template #headers>
             <th>#</th>
             <th>{{ $t('common.attributes.discount_type') }}</th>
+            <th>{{ $t('common.attributes.enterprise') }}</th>
             <th>{{ $t('common.attributes.label') }}</th>
             <th>{{ $t('common.attributes.value') }}</th>
-            <th>{{ $t('common.attributes.only_bill') }}</th>
-            <th>{{ $t('common.attributes.is_percent') }}</th>
             <th>{{ $t('common.attributes.start_at') }}</th>
-            <th>{{ $t('common.attributes.end_at') }}</th>
             <th>{{ $t('common.actions') }}</th>
           </template>
           <tr v-for="discount in discounts" :key="discount.id">
             <td>{{ discount.id }}</td>
             <td>{{ discount.discount_type.label }}</td>
+            <td>{{ discount.enterprise?.label }}</td>
             <td>{{ discount.label }}</td>
             <td>{{ discount.value }}</td>
-            <td>{{ $t(`common.${discount.only_bill ? 'yes' : 'no'}`) }}</td>
-            <td>{{ $t(`common.${discount.is_percent ? 'yes' : 'no'}`) }}</td>
             <td>{{ discount.start_at }}</td>
-            <td>{{ discount.end_at }}</td>
             <td>
               <button
                 class="btn btn-secondary btn-xs"
@@ -52,7 +48,7 @@
                 :title="$t('common.update')"
                 @click.prevent="
                   $router.push({
-                    name: 'sales.discount.form',
+                    name: 'sales.discount.form.desc',
                     params: { id: discount.id },
                   })
                 "
@@ -109,12 +105,6 @@ export default {
   },
 
   methods: {
-    truncate(source, size = 100) {
-      if (! source) {
-        return '';
-      }
-      return source.length > size ? source.slice(0, size - 1) + "…" : source;
-    },
     deleteDiscount(discount) {
       if (confirm(this.$t('messages.confirmDelete', { label: discount.label })))
         this.$store.dispatch('discount/deleteDiscount', discount.id);

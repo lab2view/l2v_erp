@@ -27,6 +27,7 @@
           <template #headers>
             <th>#</th>
             <th>{{ $t('common.attributes.cashier_group') }}</th>
+            <th>{{ $t('common.attributes.structure') }}</th>
             <th>{{ $t('common.attributes.start_at') }}</th>
             <th>{{ $t('common.attributes.ended_at') }}</th>
             <th>{{ $t('common.attributes.disable_date') }}</th>
@@ -35,6 +36,7 @@
           <tr v-for="cashier in cashiers" :key="cashier.id">
             <td>{{ cashier.id }}</td>
             <td>{{ cashier.cashier_group.label }}</td>
+            <td>{{ cashier.enterprise.name }}</td>
             <td>{{ cashier.start_at }}</td>
             <td>{{ cashier.ended_at }}</td>
             <td>{{ cashier.disabled_at }}</td>
@@ -101,7 +103,6 @@ export default {
     if (this.cashier)
       this.$store.commit('cashier/SET_CURRENT_CASHIER', null);
   },
-
   methods: {
     deleteCashier(cashier) {
       if (confirm(this.$t('messages.confirmDelete', { label: cashier.label })))

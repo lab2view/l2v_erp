@@ -67,11 +67,13 @@
             </tr>
           </thead>
           <tbody>
-            <ArticleGroupLine
+            <ArticleLineSelectable
               v-for="(articleGroupLine, index) in articleGroupLines"
               :key="`art-grp-lne-${index}`"
-              :article-group-line="articleGroupLine"
+              :model="articleGroupLine"
               :selected-list="selected"
+              update-dispatch-name="article_group/updateArticleGroupLine"
+              remove-dispatch-name="article_group/removeArticleGroupLines"
               @deleted="selected = []"
               @selected="selectArticleGroupLine(articleGroupLine, true)"
               @unselected="selectArticleGroupLine(articleGroupLine, false)"
@@ -86,12 +88,12 @@
 <script>
 import store from '/@/store';
 import ArticleGroupMixin from '/@/mixins/ArticleGroupMixin';
-import ArticleGroupLine from '/@/components/articles/groups/ArticleGroupLine.vue';
 import { mapGetters } from 'vuex';
 import BaseButton from '/@/components/common/BaseButton.vue';
+import ArticleLineSelectable from '/@/components/articles/ArticleLineSelectable.vue';
 
 export default {
-  components: { BaseButton, ArticleGroupLine },
+  components: { ArticleLineSelectable, BaseButton },
   mixins: [ArticleGroupMixin],
   beforeRouteEnter(routeTo, routeFrom, next) {
     Promise.all([

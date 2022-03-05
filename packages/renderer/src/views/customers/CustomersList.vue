@@ -70,8 +70,6 @@
         </BaseDatatable>
         <br />
       </div>
-
-      <router-view />
     </div>
   </BaseContainer>
 </template>

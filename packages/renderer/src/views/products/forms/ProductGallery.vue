@@ -58,7 +58,7 @@ export default {
         return { value: n, property_id: this.imagePropertyId };
       });
       this.$store
-        .dispatch('product/saveProperties', { properties })
+        .dispatch('product/addProperties', { properties })
         .then((data) => {
           console.log(data);
         })

@@ -11,13 +11,15 @@
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title">{{ title }}</h5>
-          <button
-            class="btn-close"
-            type="button"
-            data-bs-dismiss="modal"
-            aria-label="Close"
-            @click.prevent="$router.back()"
-          ></button>
+          <slot name="close">
+            <button
+              class="btn-close"
+              type="button"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+              @click.prevent="$router.back()"
+            ></button>
+          </slot>
         </div>
         <form @submit.prevent="submitForm">
           <div class="modal-body">

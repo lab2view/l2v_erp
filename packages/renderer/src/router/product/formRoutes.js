@@ -29,18 +29,16 @@ export default [
         component: () => import('/@/views/products/forms/ProductTaxList.vue'),
         children: [
           {
-            path: 'form',
-            name: 'product.form.article.form',
+            path: ':product_tax_id?/form',
+            name: 'product.form.setting.tax.form',
             component: () =>
-              import('/@/views/products/forms/ProductArticleForm.vue'),
+              import('/@/views/products/forms/ProductTaxForm.vue'),
             children: [
               {
-                path: 'add-package',
-                name: 'product.form.article.form.package',
+                path: 'add-tax',
+                name: 'product.form.setting.tax.form.tax',
                 component: () =>
-                  import(
-                    '/@/views/products/configurations/package/PackageForm.vue'
-                  ),
+                  import('/@/views/products/configurations/tax/TaxForm.vue'),
               },
             ],
           },
@@ -102,7 +100,7 @@ export default [
         path: '',
         redirect: (to) => {
           return {
-            name: 'product.form.stock.stats',
+            name: 'product.form.stock.entry',
             params: to.params,
             query: to.query,
           };
@@ -112,13 +110,15 @@ export default [
         path: 'entries',
         name: 'product.form.stock.entry',
         props: () => ({ useCurrentProduct: true }),
-        component: () => import('/@/views/stocks/entries/StockEntriesList.vue'),
+        component: () =>
+          import('/@/views/products/forms/ProductStockEntries.vue'),
       },
       {
         path: 'exits',
         name: 'product.form.stock.exit',
         props: () => ({ useCurrentProduct: true }),
-        component: () => import('/@/views/stocks/exits/StockExitLineList.vue'),
+        component: () =>
+          import('/@/views/products/forms/ProductStockExits.vue'),
       },
     ],
   },

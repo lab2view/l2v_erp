@@ -1,16 +1,5 @@
 import VuexPersistence from 'vuex-persist';
-import localForage from 'localforage';
-
-const currentWorkspace = localStorage.getItem('currentWorkspace')
-  ? JSON.parse(localStorage.getItem('currentWorkspace'))
-  : null;
-const currentWorkSpaceDatabase = currentWorkspace
-  ? currentWorkspace.database
-  : 'kitbusiness';
-
-let localStore = localForage.createInstance({
-  name: currentWorkSpaceDatabase,
-});
+import localStore from './localStore';
 
 const Auth = new VuexPersistence({
   key: 'auth',
@@ -94,13 +83,6 @@ const StockExit = new VuexPersistence({
   storage: localStore,
   asyncStorage: true,
   reducer: (state) => ({ stock_exit: state.stock_exit }),
-});
-
-const StockExitLine = new VuexPersistence({
-  key: 'stock_exit_line',
-  storage: localStore,
-  asyncStorage: true,
-  reducer: (state) => ({ stock_exit_line: state.stock_exit_line }),
 });
 
 const ArticleGroup = new VuexPersistence({
@@ -215,13 +197,6 @@ const StockEntry = new VuexPersistence({
   reducer: (state) => ({ stock_entry: state.stock_entry }),
 });
 
-const StockEntryLine = new VuexPersistence({
-  key: 'stock_entry_line',
-  storage: localStore,
-  asyncStorage: true,
-  reducer: (state) => ({ stock_entry_line: state.stock_entry_line }),
-});
-
 const PaymentMethod = new VuexPersistence({
   key: 'paymentMethod',
   storage: localStore,
@@ -285,6 +260,20 @@ const CashierGroup = new VuexPersistence({
   reducer: (state) => ({ cashierGroup: state.cashierGroup }),
 });
 
+const SaleType = new VuexPersistence({
+  key: 'saleType',
+  storage: localStore,
+  asyncStorage: true,
+  reducer: (state) => ({ saleType: state.saleType }),
+});
+
+const DiscountCode = new VuexPersistence({
+  key: 'discountCode',
+  storage: localStore,
+  asyncStorage: true,
+  reducer: (state) => ({ discountCode: state.discountCode }),
+});
+
 export default [
   Auth.plugin,
   Product.plugin,
@@ -298,7 +287,6 @@ export default [
   Article.plugin,
   StockProvision.plugin,
   StockExit.plugin,
-  StockExitLine.plugin,
   ArticleGroup.plugin,
   Enterprise.plugin,
   EnterpriseTypeConfig.plugin,
@@ -313,7 +301,6 @@ export default [
   StockProvider.plugin,
   Shipping.plugin,
   StockEntry.plugin,
-  StockEntryLine.plugin,
   StockState.plugin,
   StockType.plugin,
   PaymentCharge.plugin,
@@ -322,7 +309,9 @@ export default [
   TransactionType.plugin,
   Discount.plugin,
   DiscountType.plugin,
+  DiscountCode.plugin,
   CashRegister.plugin,
   Cashier.plugin,
   CashierGroup.plugin,
+  SaleType.plugin,
 ];
