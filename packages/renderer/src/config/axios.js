@@ -13,7 +13,7 @@ axios.interceptors.request.use(
   function (config) {
     const workspace = store.getters['workspace/currentWorkspace'];
     const currentDomain = workspace?.domain ?? store.state.landlordDomain;
-    const protocol = 'https';
+    const protocol = import.meta.env.VITE_PROTOCOL ?? 'https';
     config.baseURL = `${protocol}://${currentDomain}/api/`;
 
     const token = store.getters['auth/token'] ?? null;
