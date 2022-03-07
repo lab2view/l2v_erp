@@ -45,7 +45,7 @@ import saleType from './modules/sales/saleType';
 export default createStore({
   state: {
     globalLoading: true,
-    landlordDomain: 'kitbussiness.com',
+    landlordDomain: import.meta.env.VITE_DOMAIN ?? 'kitbussiness.com',
     uploaded: null,
     initiateApp: true,
   },
