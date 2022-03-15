@@ -1,10 +1,11 @@
-import productService from '../../../services/products/ProductService';
+import productService from '/@/services/products/ProductService';
 import { notify } from '/@/helpers/notify.js';
 import i18n from '../../../i18n';
 
 const state = {
   products: null,
   hash: null,
+  loading: false,
   product: null,
 };
 
@@ -15,6 +16,7 @@ const getters = {
   haveProduct: (state) => !!state.product,
   product_properties: (state, getters) =>
     getters.product ? getters.product.product_properties : [],
+  getHash: (state) => state.hash ?? null,
 };
 
 // privileges
@@ -139,6 +141,14 @@ const actions = {
 
 // mutations
 const mutations = {
+  SET_PRODUCTS_HASH(state, hash) {
+    state.hash = hash;
+  },
+
+  SET_LOADING(state, loading) {
+    state.loading = loading;
+  },
+
   SET_PRODUCTS(state, products) {
     state.products = JSON.stringify(products);
   },

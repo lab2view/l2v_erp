@@ -4,7 +4,6 @@ import i18n from '../../../i18n';
 
 const state = {
   articles: null,
-  hash: null,
   article: null,
 };
 
@@ -38,10 +37,16 @@ const actions = {
     if (getters.articles.length > 0) {
       return getters.articles;
     } else
-      return articleService.getList(page, field).then(({ data }) => {
-        commit('SET_ARTICLES', data);
-        return data;
-      });
+      return articleService
+        .getList(page, field)
+        .then(({ data }) => {
+          commit('SET_ARTICLES', data);
+          return data;
+        })
+        .catch((error) => {
+          commit('SET_ARTICLES', []);
+          Promise.reject(error);
+        });
   },
 
   getArticle({ getters, commit }, id) {

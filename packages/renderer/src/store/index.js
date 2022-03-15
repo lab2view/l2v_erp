@@ -41,6 +41,8 @@ import cashRegister from './modules/sales/cashRegister';
 import cashier from './modules/sales/cashier';
 import cashierGroup from './modules/sales/cashierGroup';
 import saleType from './modules/sales/saleType';
+import SyncService from '/@/services/SyncService.js';
+import { getMutationPathName } from '/@/helpers/utils.js';
 
 export default createStore({
   state: {
@@ -61,6 +63,44 @@ export default createStore({
         commit('SET_FRESH_UPLOADED', data);
         return data;
       });
+    },
+
+    getLastHash(context, module) {
+      return SyncService.getLastHash(module).then(({ data }) => data);
+    },
+
+    initModuleSynchronisation({ dispatch }, field) {
+      return dispatch('fetchSynchronisationChanges', {
+        page: 1,
+        field: { ...field, paginate: 2 },
+      });
+    },
+
+    fetchSynchronisationChanges({ commit, dispatch }, { page, field }) {
+      return SyncService.getSynchronizationList(page, field).then(
+        ({ data }) => {
+          let hash = null;
+          const changes = data.data ?? [];
+          if (changes.length) {
+            changes.forEach((change) => {
+              const mutation = getMutationPathName(change);
+              if (mutation) {
+                commit(mutation, change.model, { root: true });
+                hash = change.hash;
+              }
+            });
+            commit(`${field.mutation}/SET_${field.module}_HASH`, hash, {
+              root: true,
+            });
+          }
+          if (data.next_page_url)
+            return dispatch('fetchSynchronisationChanges', {
+              page: page + 1,
+              field,
+            });
+          return data;
+        }
+      );
     },
   },
   mutations: {

@@ -24,7 +24,7 @@ const workspace = [
   },
   {
     path: 'articles',
-    component: () => import('/@/components/articles/ArticleLayout.vue'),
+    component: () => import('/@/components/products/ProductLayout.vue'),
     children: articleRoutes,
   },
   {

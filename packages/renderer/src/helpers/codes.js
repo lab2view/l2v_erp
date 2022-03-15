@@ -18,3 +18,19 @@ export const stockStateCode = {
   initiate: 'INITIATE',
   partial_delivered: 'PARTIALLY_DELIVERED',
 };
+export const moduleCode = {
+  customer: 'CUSTOMERS',
+  enterprise: 'ENTERPRISE',
+  iam: 'IAM',
+  payments: 'PAYMENTS',
+  product: 'PRODUCTS',
+  sale: 'SALES',
+  stock: 'STOCKS',
+};
+
+export const actionCode = {
+  created: 'created',
+  updated: 'updated',
+  deleted: 'deleted',
+  restored: 'restored',
+};
