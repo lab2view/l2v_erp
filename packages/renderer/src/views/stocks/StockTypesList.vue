@@ -34,7 +34,7 @@
               <td>
                 {{
                   stockType.type_for
-                    ? $t(`stock.${stockType.type_for.toLowerCase()}`)
+                    ? $t(`stocks.${stockType.type_for.toLowerCase()}`)
                     : $t('common.none')
                 }}
               </td>

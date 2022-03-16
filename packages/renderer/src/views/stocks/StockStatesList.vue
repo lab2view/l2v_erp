@@ -33,7 +33,7 @@
             <td>
               {{
                 stockState.state_for
-                  ? $t(`stock.${stockState.state_for.toLowerCase()}`)
+                  ? $t(`stocks.${stockState.state_for.toLowerCase()}`)
                   : $t('common.none')
               }}
             </td>
