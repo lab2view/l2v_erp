@@ -73,7 +73,7 @@ export default {
   components: { BaseDatatable },
   beforeRouteEnter(routeTo, routeFrom, next) {
     store
-      .dispatch('productUnitConfig/getProductUnitsList', {
+      .dispatch('product_unit/getProductUnitsList', {
         page: 1,
         field: {},
       })
@@ -86,14 +86,14 @@ export default {
       });
   },
   computed: {
-    ...mapGetters('productUnitConfig', ['productUnits']),
+    ...mapGetters('product_unit', ['productUnits']),
   },
   methods: {
     deleteProductUnit(productUnit) {
       if (
         confirm(this.$t('messages.confirmDelete', { label: productUnit.label }))
       )
-        this.$store.dispatch('productUnitConfig/deleteProductUnit', productUnit.id);
+        this.$store.dispatch('product_unit/deleteProductUnit', productUnit.id);
     },
   },
 };

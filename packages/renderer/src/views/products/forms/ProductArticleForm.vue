@@ -67,7 +67,7 @@ export default {
   components: { BaseFieldGroup, BaseButton, BaseInput, BaseSelect },
   beforeRouteEnter(routeTo, routeFrom, next) {
     store
-      .dispatch('packageConfig/getPackageList', {
+      .dispatch('product_package/getPackageList', {
         page: 1,
         field: {},
       })
@@ -89,7 +89,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters('packageConfig', ['packages']),
+    ...mapGetters('product_package', ['packages']),
     ...mapGetters('product', ['product']),
     selectPackages() {
       return this.packages.filter((p) => p.code !== unitPackageCode);

@@ -56,7 +56,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters('productFamilyConfig', ['productFamily']),
+    ...mapGetters('product_family', ['productFamily']),
     title() {
       return this.productFamily
         ? this.$t('product.productFamily.formUpdateTitle')
@@ -68,13 +68,13 @@ export default {
   },
   beforeUnmount() {
     if (this.productFamily)
-      this.$store.commit('productFamilyConfig/SET_CURRENT_PRODUCT_FAMILY', null);
+      this.$store.commit('product_family/SET_CURRENT_PRODUCT_FAMILY', null);
   },
   methods: {
     submitProductFamilyForm() {
       if (this.productFamily)
         this.$store
-          .dispatch('productFamilyConfig/updateProductFamily', this.productFamilyForm)
+          .dispatch('product_family/updateProductFamily', this.productFamilyForm)
           .then(() => this.$router.back())
           .catch((error) => {
             this.errors = error.response?.data?.errors;
@@ -82,7 +82,7 @@ export default {
           });
       else
         this.$store
-          .dispatch('productFamilyConfig/addProductFamily', this.productFamilyForm)
+          .dispatch('product_family/addProductFamily', this.productFamilyForm)
           .then(() => this.$router.back())
           .catch((error) => {
             this.errors = error.response?.data?.errors;

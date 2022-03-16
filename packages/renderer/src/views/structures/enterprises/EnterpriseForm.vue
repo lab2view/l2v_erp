@@ -111,7 +111,7 @@ export default {
   },
   beforeRouteEnter(routeTo, routeFrom, next) {
     Promise.all([
-      store.dispatch('enterpriseTypeConfig/getEnterpriseTypesList', {
+      store.dispatch('enterprise_type/getEnterpriseTypesList', {
         page: 1,
         field: {},
       }),
@@ -149,7 +149,7 @@ export default {
   },
   computed: {
     ...mapGetters('enterprise', ['enterprise']),
-    ...mapGetters('enterpriseTypeConfig', ['enterpriseTypes']),
+    ...mapGetters('enterprise_type', ['enterpriseTypes']),
     ...mapGetters('auth', ['currentUser']),
     ...mapGetters('country', ['countries']),
     formTitle() {

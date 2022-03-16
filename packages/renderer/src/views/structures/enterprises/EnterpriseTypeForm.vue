@@ -66,7 +66,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters('enterpriseTypeConfig', ['enterpriseType']),
+    ...mapGetters('enterprise_type', ['enterpriseType']),
     title() {
       return this.enterpriseType && this.enterpriseType.id
         ? this.$t('structures.enterpriseType.formUpdateTitle')
@@ -81,7 +81,7 @@ export default {
     this.setLoading();
     if (this.enterpriseType && this.enterpriseType.id)
       this.$store.commit(
-        'enterpriseTypeConfig/SET_CURRENT_ENTERPRISE_TYPE',
+        'enterprise_type/SET_CURRENT_ENTERPRISE_TYPE',
         null
       );
   },
@@ -102,7 +102,7 @@ export default {
       if (this.enterpriseType && this.enterpriseType.id)
         this.$store
           .dispatch(
-            'enterpriseTypeConfig/updateEnterpriseType',
+            'enterprise_type/updateEnterpriseType',
             this.enterpriseTypeForm
           )
           .then(() => this.$router.back())
@@ -114,7 +114,7 @@ export default {
       else
         this.$store
           .dispatch(
-            'enterpriseTypeConfig/addEnterpriseType',
+            'enterprise_type/addEnterpriseType',
             this.enterpriseTypeForm
           )
           .then(() => this.$router.back())

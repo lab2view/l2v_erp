@@ -71,7 +71,7 @@ export default {
   components: { BaseDatatable },
   beforeRouteEnter(routeTo, routeFrom, next) {
     store
-      .dispatch('priceTypeConfig/getPriceTypeList', {
+      .dispatch('price_type/getPriceTypeList', {
         page: 1,
         field: {},
       })
@@ -84,14 +84,14 @@ export default {
       });
   },
   computed: {
-    ...mapGetters('priceTypeConfig', ['priceTypes']),
+    ...mapGetters('price_type', ['priceTypes']),
   },
   methods: {
     deletePriceType(priceType) {
       if (
         confirm(this.$t('messages.confirmDelete', { label: priceType.label }))
       )
-        this.$store.dispatch('priceTypeConfig/deletePriceType', priceType.id);
+        this.$store.dispatch('price_type/deletePriceType', priceType.id);
     },
   },
 };

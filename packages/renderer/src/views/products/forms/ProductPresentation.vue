@@ -224,15 +224,15 @@ export default {
   components: { BaseButton, BaseInputGroup, BaseSelect, BaseInput },
   beforeRouteEnter(routeTo, routeFrom, next) {
     Promise.all([
-      store.dispatch('productFamilyConfig/getProductFamiliesList', {
+      store.dispatch('product_family/getProductFamiliesList', {
         page: 1,
         field: {},
       }),
-      store.dispatch('productUnitConfig/getProductUnitsList', {
+      store.dispatch('product_unit/getProductUnitsList', {
         page: 1,
         field: {},
       }),
-      store.dispatch('productTypeConfig/getProductTypesList', {
+      store.dispatch('product_type/getProductTypesList', {
         page: 1,
         field: {},
       }),
@@ -274,9 +274,9 @@ export default {
   },
   computed: {
     ...mapGetters('product', ['product']),
-    ...mapGetters('productFamilyConfig', ['productFamilies']),
-    ...mapGetters('productTypeConfig', ['productTypes']),
-    ...mapGetters('productUnitConfig', ['productUnits']),
+    ...mapGetters('product_family', ['productFamilies']),
+    ...mapGetters('product_type', ['productTypes']),
+    ...mapGetters('product_unit', ['productUnits']),
     product_types() {
       return this.product_family_id
         ? this.productTypes.filter(

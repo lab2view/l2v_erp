@@ -18,6 +18,7 @@ const getters = {
     state.stockEntry ? JSON.parse(state.stockEntry) : null,
   stockEntryReference: (state, getters) => getters.stockEntry?.reference,
   haveStockEntry: (state, getters) => !!getters.stockEntry,
+  getStocksHash: (state) => state.hash ?? null,
   stockEntryLines: (state, getters) =>
     getters.haveStockEntry ? getters.stockEntry.stock_entry_lines : [],
   stockEntryIsCommand: (state, getters) => {
@@ -191,6 +192,9 @@ const actions = {
 
 // mutations
 const mutations = {
+  SET_STOCKS_HASH(state, hash) {
+    state.hash = hash;
+  },
   SET_STOCK_ENTRIES(state, stock_entries) {
     state.stock_entries = JSON.stringify(stock_entries);
   },

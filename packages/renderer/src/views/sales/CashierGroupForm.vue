@@ -46,7 +46,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters('cashierGroup', ['cashierGroup']),
+    ...mapGetters('cashier_group', ['cashierGroup']),
     title() {
       return this.cashierGroup && this.cashierGroup.id
         ? this.$t('sales.cashierGroup.formUpdateTitle')
@@ -61,7 +61,7 @@ export default {
     this.setLoading();
     if (this.cashierGroup && this.cashierGroup.id)
       this.$store.commit(
-        'cashierGroup/SET_CURRENT_CASHIER_GROUP',
+        'cashier_group/SET_CURRENT_CASHIER_GROUP',
         null
       );
   },
@@ -88,7 +88,7 @@ export default {
       this.setLoading(true);
       if (this.cashierGroup && this.cashierGroup.id) {
         this.$store.dispatch(
-          'cashierGroup/updateCashierGroup',
+          'cashier_group/updateCashierGroup',
           this.cashierGroupForm,
         )
           .then(() => this.$router.back())
@@ -100,7 +100,7 @@ export default {
       } else {
         this.$store
           .dispatch(
-            'cashierGroup/addCashierGroup',
+            'cashier_group/addCashierGroup',
             this.cashierGroupForm,
           )
           .then(() => this.$router.back())

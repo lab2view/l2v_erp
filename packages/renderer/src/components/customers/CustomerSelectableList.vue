@@ -132,7 +132,7 @@ export default {
   components: { CustomerSelectableColumn, BaseButton, BaseSelect },
   beforeRouteEnter(routeTo, routeFrom, next) {
     Promise.all([
-      store.dispatch('customerType/getCustomerTypesList', {
+      store.dispatch('customer_type/getCustomerTypesList', {
         page: 1,
         field: {},
       }),
@@ -166,7 +166,7 @@ export default {
   },
   computed: {
     ...mapGetters('customer', ['searchCustomerByCriteria']),
-    ...mapGetters('customerType', ['customerTypes']),
+    ...mapGetters('customer_type', ['customerTypes']),
     selectableCustomerTypes() {
       return [{ label: this.$t('common.all'), id: '' }, ...this.customerTypes];
     },

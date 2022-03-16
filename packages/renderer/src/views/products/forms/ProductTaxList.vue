@@ -59,7 +59,7 @@ export default {
   components: { ProductTaxLine },
   beforeRouteEnter(routeTo, routeFrom, next) {
     store
-      .dispatch('taxConfig/getTaxesList', {
+      .dispatch('tax/getTaxesList', {
         page: 1,
         field: {},
       })

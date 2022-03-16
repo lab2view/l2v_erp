@@ -71,7 +71,7 @@ export default {
   components: { BaseDatatable },
   beforeRouteEnter(routeTo, routeFrom, next) {
     store
-      .dispatch('taxConfig/getTaxesList', {
+      .dispatch('tax/getTaxesList', {
         page: 1,
         field: {},
       })
@@ -84,12 +84,12 @@ export default {
       });
   },
   computed: {
-    ...mapGetters('taxConfig', ['taxes']),
+    ...mapGetters('tax', ['taxes']),
   },
   methods: {
     deleteTax(tax) {
       if (confirm(this.$t('messages.confirmDelete', { label: tax.label })))
-        this.$store.dispatch('taxConfig/deleteTax', tax.id);
+        this.$store.dispatch('tax/deleteTax', tax.id);
     },
   },
 };

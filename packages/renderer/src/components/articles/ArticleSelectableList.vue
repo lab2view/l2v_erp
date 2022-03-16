@@ -155,11 +155,11 @@ export default {
   components: { ArticleSelectableColumn, BaseButton, BaseSelect },
   beforeRouteEnter(routeTo, routeFrom, next) {
     Promise.all([
-      store.dispatch('productFamilyConfig/getProductFamiliesList', {
+      store.dispatch('product_family/getProductFamiliesList', {
         page: 1,
         field: {},
       }),
-      store.dispatch('productTypeConfig/getProductTypesList', {
+      store.dispatch('product_type/getProductTypesList', {
         page: 1,
         field: {},
       }),
@@ -207,8 +207,8 @@ export default {
   },
   computed: {
     ...mapGetters('article', ['searchArticleByCriteria']),
-    ...mapGetters('productFamilyConfig', ['productFamilies']),
-    ...mapGetters('productTypeConfig', ['productTypes']),
+    ...mapGetters('product_family', ['productFamilies']),
+    ...mapGetters('product_type', ['productTypes']),
     ...mapGetters('product', ['products']),
     selectableProductTypes() {
       const types = this.product_family_id

@@ -23,7 +23,7 @@ export default [
         beforeEnter: (to) => {
           if (to.params.id) {
             return store
-              .dispatch('packageConfig/getPackage', to.params.id)
+              .dispatch('product_package/getPackage', to.params.id)
               .then(() => {
                 return { name: to.name };
               })
@@ -53,7 +53,7 @@ export default [
         beforeEnter: (to) => {
           if (to.params.id) {
             return store
-              .dispatch('priceTypeConfig/getPriceType', to.params.id)
+              .dispatch('price_type/getPriceType', to.params.id)
               .then(() => {
                 return { name: to.name };
               })
@@ -85,7 +85,7 @@ export default [
         beforeEnter: (to) => {
           if (to.params.id) {
             return store
-              .dispatch('productTypeConfig/getProductType', to.params.id)
+              .dispatch('product_type/getProductType', to.params.id)
               .then(() => {
                 return { name: to.name };
               })
@@ -117,7 +117,7 @@ export default [
         beforeEnter: (to) => {
           if (to.params.id) {
             return store
-              .dispatch('productFamilyConfig/getProductFamily', to.params.id)
+              .dispatch('product_family/getProductFamily', to.params.id)
               .then(() => {
                 return { name: to.name };
               })
@@ -149,7 +149,7 @@ export default [
         beforeEnter: (to) => {
           if (to.params.id) {
             return store
-              .dispatch('productUnitConfig/getProductUnit', to.params.id)
+              .dispatch('product_unit/getProductUnit', to.params.id)
               .then(() => {
                 return { name: to.name };
               })
@@ -177,7 +177,7 @@ export default [
         beforeEnter: (to) => {
           if (to.params.id) {
             return store
-              .dispatch('propertyConfig/getProperty', to.params.id)
+              .dispatch('property/getProperty', to.params.id)
               .then(() => {
                 return { name: to.name };
               })
@@ -204,7 +204,7 @@ export default [
         beforeEnter: (to) => {
           if (to.params.id) {
             return store
-              .dispatch('taxConfig/getTax', to.params.id)
+              .dispatch('tax/getTax', to.params.id)
               .then(() => {
                 return { name: to.name };
               })

@@ -47,7 +47,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters('transactionType', ['transactionType']),
+    ...mapGetters('transaction_type', ['transactionType']),
     title() {
       return this.transactionType && this.transactionType.id
         ? this.$t('payments.transactionType.formUpdateTitle')
@@ -61,7 +61,7 @@ export default {
   beforeUnmount() {
     this.setLoading();
     if (this.transactionType && this.transactionType.id)
-      this.$store.commit('transactionType/SET_CURRENT_TRANSACTION_TYPE', null);
+      this.$store.commit('transaction_type/SET_CURRENT_TRANSACTION_TYPE', null);
   },
   methods: {
     submitTransactionTypeForm() {
@@ -72,7 +72,7 @@ export default {
       this.setLoading(true);
       if (this.transactionType && this.transactionType.id) {
         this.$store
-          .dispatch('transactionType/updateTransactionType', this.transactionTypeForm)
+          .dispatch('transaction_type/updateTransactionType', this.transactionTypeForm)
           .then(() => this.$router.back())
           .catch((error) => {
             this.errors = error.response.data.errors;
@@ -81,7 +81,7 @@ export default {
           .finally(() => this.setLoading());
       } else {
         this.$store
-          .dispatch('transactionType/addTransactionType', this.transactionTypeForm)
+          .dispatch('transaction_type/addTransactionType', this.transactionTypeForm)
           .then(() => this.$router.back())
           .catch((error) => {
             this.errors = error.response.data.errors;

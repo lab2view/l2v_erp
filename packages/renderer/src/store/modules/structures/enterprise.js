@@ -13,6 +13,7 @@ const getters = {
   enterprise: (state) =>
     state.enterprise ? JSON.parse(state.enterprise) : null,
   haveEnterprise: (state) => !!state.enterprise,
+  getEnterpriseHash: (state) => state.hash ?? null,
 };
 
 const actions = {
@@ -99,6 +100,9 @@ const actions = {
 
 // mutations
 const mutations = {
+  SET_ENTERPRISE_HASH(state, hash) {
+    state.hash = hash;
+  },
   SET_ENTERPRISES(state, enterprises) {
     state.enterprises = JSON.stringify(enterprises);
   },

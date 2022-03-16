@@ -81,7 +81,7 @@ export default {
   components: { BaseDatatable },
   beforeRouteEnter(routeTo, routeFrom, next) {
     store
-      .dispatch('propertyConfig/getPropertiesList', {
+      .dispatch('property/getPropertiesList', {
         page: 1,
         field: {},
       })
@@ -94,12 +94,12 @@ export default {
       });
   },
   computed: {
-    ...mapGetters('propertyConfig', ['properties']),
+    ...mapGetters('property', ['properties']),
   },
   methods: {
     deleteProperty(property) {
       if (confirm(this.$t('messages.confirmDelete', { label: property.label })))
-        this.$store.dispatch('propertyConfig/deleteProperty', property.id);
+        this.$store.dispatch('property/deleteProperty', property.id);
     },
   },
 };

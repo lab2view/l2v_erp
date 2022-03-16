@@ -71,7 +71,7 @@ export default {
   components: { BaseDatatable },
   beforeRouteEnter(routeTo, routeFrom, next) {
     store
-      .dispatch('packageConfig/getPackageList', {
+      .dispatch('product_package/getPackageList', {
         page: 1,
         field: {},
       })
@@ -84,12 +84,12 @@ export default {
       });
   },
   computed: {
-    ...mapGetters('packageConfig', ['packages']),
+    ...mapGetters('product_package', ['packages']),
   },
   methods: {
     deletePackage(pack) {
       if (confirm(this.$t('messages.confirmDelete', { label: pack.label })))
-        this.$store.dispatch('packageConfig/deletePackage', pack.id);
+        this.$store.dispatch('product_package/deletePackage', pack.id);
     },
   },
 };

@@ -73,7 +73,7 @@ export default {
   components: { BaseDatatable },
   beforeRouteEnter(routeTo, routeFrom, next) {
     store
-      .dispatch('productFamilyConfig/getProductFamiliesList', {
+      .dispatch('product_family/getProductFamiliesList', {
         page: 1,
         field: {},
       })
@@ -86,12 +86,12 @@ export default {
       });
   },
   computed: {
-    ...mapGetters('productFamilyConfig', ['productFamilies']),
+    ...mapGetters('product_family', ['productFamilies']),
   },
   methods: {
     deleteProductFamily(productFamily) {
       if (confirm(this.$t('messages.confirmDelete', { label: productFamily.label })))
-        this.$store.dispatch('productFamilyConfig/deleteProductFamily', productFamily.id);
+        this.$store.dispatch('product_family/deleteProductFamily', productFamily.id);
     },
   },
 };

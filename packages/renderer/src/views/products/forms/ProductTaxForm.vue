@@ -85,7 +85,7 @@ export default {
   },
   beforeRouteEnter(routeTo, routeFrom, next) {
     store
-      .dispatch('taxConfig/getTaxesList', {
+      .dispatch('tax/getTaxesList', {
         page: 1,
         field: {},
       })
@@ -116,7 +116,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters('taxConfig', ['taxes']),
+    ...mapGetters('tax', ['taxes']),
     selectTaxes() {
       return this.taxes.filter((tax) => {
         return (

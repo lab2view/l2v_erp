@@ -76,7 +76,7 @@ export default {
   components: { BaseContainer, BaseDatatable },
   beforeRouteEnter(routeTo, routeFrom, next) {
     store
-      .dispatch('cashRegister/getCashRegistersList', {
+      .dispatch('cash_register/getCashRegistersList', {
         page: 1,
         field: {},
       })
@@ -89,17 +89,17 @@ export default {
       });
   },
   computed: {
-    ...mapGetters('cashRegister', ['cashRegisters', 'cashRegister']),
+    ...mapGetters('cash_register', ['cashRegisters', 'cashRegister']),
   },
   created() {
     if (this.cashRegister)
-      this.$store.commit('cashRegister/SET_CURRENT_CASH_REGISTER', null);
+      this.$store.commit('cash_register/SET_CURRENT_CASH_REGISTER', null);
   },
 
   methods: {
     deleteCashRegister(cashRegister) {
       if (confirm(this.$t('messages.confirmDelete', { label: cashRegister.label })))
-        this.$store.dispatch('cashRegister/deleteCashRegister', cashRegister.id);
+        this.$store.dispatch('cash_register/deleteCashRegister', cashRegister.id);
     },
   },
 };

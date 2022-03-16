@@ -89,7 +89,7 @@ export default {
   components: { BaseDatatable },
   beforeRouteEnter(routeTo, routeFrom, next) {
     store
-      .dispatch('productTypeConfig/getProductTypesList', {
+      .dispatch('product_type/getProductTypesList', {
         page: 1,
         field: {},
       })
@@ -102,7 +102,7 @@ export default {
       });
   },
   computed: {
-    ...mapGetters('productTypeConfig', ['productTypes']),
+    ...mapGetters('product_type', ['productTypes']),
   },
   methods: {
     deleteProductType(productType) {
@@ -110,7 +110,7 @@ export default {
         confirm(this.$t('messages.confirmDelete', { label: productType.label }))
       )
         this.$store.dispatch(
-          'productTypeConfig/deleteProductType',
+          'product_type/deleteProductType',
           productType.id
         );
     },

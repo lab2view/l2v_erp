@@ -78,7 +78,7 @@ export default {
   components: { BaseContainer, BaseDatatable },
   beforeRouteEnter(routeTo, routeFrom, next) {
     store
-      .dispatch('enterpriseTypeConfig/getEnterpriseTypesList', {
+      .dispatch('enterprise_type/getEnterpriseTypesList', {
         page: 1,
         field: {},
       })
@@ -91,10 +91,10 @@ export default {
       });
   },
   computed: {
-      ...mapGetters('enterpriseTypeConfig', ['enterpriseTypes', 'enterpriseType']),
+      ...mapGetters('enterprise_type', ['enterpriseTypes', 'enterpriseType']),
   },
   created() {
-    if (this.enterpriseType) this.$store.commit('enterpriseTypeConfig/SET_CURRENT_ENTERPRISE_TYPE', null);
+    if (this.enterpriseType) this.$store.commit('enterprise_type/SET_CURRENT_ENTERPRISE_TYPE', null);
   },
 
   methods: {
@@ -106,7 +106,7 @@ export default {
     },
     deleteEnterpriseType(enterpriseType) {
       if (confirm(this.$t('messages.confirmDelete', { label: enterpriseType.label })))
-        this.$store.dispatch('enterpriseTypeConfig/deleteEnterpriseType', enterpriseType.id);
+        this.$store.dispatch('enterprise_type/deleteEnterpriseType', enterpriseType.id);
     },
   },
 };

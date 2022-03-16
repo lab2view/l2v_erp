@@ -52,7 +52,7 @@ export default {
   mixins: [ArticleMixin],
   beforeRouteEnter(routeTo, routeFrom, next) {
     store
-      .dispatch('priceTypeConfig/getPriceTypeList', {
+      .dispatch('price_type/getPriceTypeList', {
         page: 1,
         field: {},
       })
@@ -65,7 +65,7 @@ export default {
       });
   },
   computed: {
-    ...mapGetters('priceTypeConfig', ['priceTypes']),
+    ...mapGetters('price_type', ['priceTypes']),
   },
 };
 </script>

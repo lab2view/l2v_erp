@@ -34,7 +34,7 @@ const workspace = [
   },
   {
     path: 'localizations',
-    component: () => import('/@/components/structures/LocalizationLayout.vue'),
+    component: () => import('/@/components/structures/EnterpriseLayout.vue'),
     children: localizationRoutes,
   },
   {

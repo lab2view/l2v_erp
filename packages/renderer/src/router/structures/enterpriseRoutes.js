@@ -30,7 +30,7 @@ export const enterpriseRoutes = [
         beforeEnter: (to) => {
           if (to.params.id) {
             return store
-              .dispatch('enterpriseTypeConfig/getEnterpriseType', to.params.id)
+              .dispatch('enterprise_type/getEnterpriseType', to.params.id)
               .then(() => {
                 return { name: to.name };
               })

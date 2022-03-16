@@ -45,7 +45,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters('saleType', ['saleType']),
+    ...mapGetters('sale_type', ['saleType']),
     title() {
       return this.saleType && this.saleType.id
         ? this.$t('sales.saleType.formUpdateTitle')
@@ -60,7 +60,7 @@ export default {
     this.setLoading();
     if (this.saleType && this.saleType.id)
       this.$store.commit(
-        'saleType/SET_CURRENT_SALE_TYPE',
+        'sale_type/SET_CURRENT_SALE_TYPE',
         null
       );
   },
@@ -80,7 +80,7 @@ export default {
       this.setLoading(true);
       if (this.saleType && this.saleType.id) {
         this.$store.dispatch(
-          'saleType/updateSaleType',
+          'sale_type/updateSaleType',
           this.saleTypeForm,
         )
           .then(() => this.$router.back())
@@ -92,7 +92,7 @@ export default {
       } else {
         this.$store
           .dispatch(
-            'saleType/addSaleType',
+            'sale_type/addSaleType',
             this.saleTypeForm,
           )
           .then(() => this.$router.back())
