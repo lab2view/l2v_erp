@@ -18,9 +18,9 @@
               <router-link
                 class="nav-link"
                 :class="
-                  $route.name === 'products.form.stocks.entry' ? 'active' : ''
+                  $route.name === 'product.form.stocks.entry' ? 'active' : ''
                 "
-                :to="{ name: 'products.form.stocks.entry' }"
+                :to="{ name: 'product.form.stocks.entry' }"
               >
                 <i class="fa fa-long-arrow-up"></i>
                 {{ $t('menu.movement.entry') }}
@@ -30,9 +30,9 @@
               <router-link
                 class="nav-link"
                 :class="
-                  $route.name === 'products.form.stocks.exit' ? 'active' : ''
+                  $route.name === 'product.form.stocks.exit' ? 'active' : ''
                 "
-                :to="{ name: 'products.form.stocks.exit' }"
+                :to="{ name: 'product.form.stocks.exit' }"
               >
                 <i class="fa fa-long-arrow-down"></i>
                 {{ $t('menu.movement.exit') }}

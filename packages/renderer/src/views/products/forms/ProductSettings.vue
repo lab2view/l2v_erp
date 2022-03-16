@@ -12,7 +12,7 @@
             <div class="list-group p-l-5">
               <router-link
                 :to="{
-                  name: 'products.form.setting.gallery',
+                  name: 'product.form.setting.gallery',
                   params: { ...$route.params },
                 }"
                 class="list-group-item list-group-item-action"
@@ -22,7 +22,7 @@
               </router-link>
               <router-link
                 :to="{
-                  name: 'products.form.setting.tax',
+                  name: 'product.form.setting.tax',
                   params: { ...$route.params },
                 }"
                 class="list-group-item list-group-item-action mt-3"
@@ -32,7 +32,7 @@
               </router-link>
               <router-link
                 :to="{
-                  name: 'products.form.setting.desc',
+                  name: 'product.form.setting.desc',
                   params: { ...$route.params },
                 }"
                 class="list-group-item list-group-item-action mt-3"
@@ -42,7 +42,7 @@
               </router-link>
               <router-link
                 :to="{
-                  name: 'products.form.setting.property',
+                  name: 'product.form.setting.property',
                   params: { ...$route.params },
                 }"
                 class="list-group-item list-group-item-action mt-3"
@@ -69,9 +69,9 @@ export default {
     ...mapGetters('product', ['product']),
   },
   beforeCreate() {
-    if (this.$route.name === 'products.form.setting')
+    if (this.$route.name === 'product.form.setting')
       this.$router.push({
-        name: 'products.form.setting.gallery',
+        name: 'product.form.setting.gallery',
         params: this.$route.params,
         query: this.$route.query,
       });

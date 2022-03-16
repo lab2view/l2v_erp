@@ -11,11 +11,11 @@
           <h5>{{ `${$t('articles.listTitle')} - ${product.reference}` }}</h5>
         </div>
         <div
-          v-if="$route.name === 'products.form.article'"
+          v-if="$route.name === 'product.form.article'"
           class="col-sm-auto align-items-end"
         >
           <router-link
-            :to="{ name: 'products.form.article.form' }"
+            :to="{ name: 'product.form.article.form' }"
             class="btn btn-primary"
             type="button"
           >

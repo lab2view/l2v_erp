@@ -9,7 +9,7 @@
         :title="$t('common.update')"
         @click.prevent="
           $router.push({
-            name: 'products.form.setting.tax.form',
+            name: 'product.form.setting.tax.form',
             params: { ...$route.params, product_tax_id: productTax.id },
           })
         "

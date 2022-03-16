@@ -11,7 +11,7 @@
           </div>
           <div class="col-sm-auto align-items-end">
             <router-link
-              :to="{ name: 'products.form.desc' }"
+              :to="{ name: 'product.form.desc' }"
               href="#"
               class="btn btn-primary"
               type="button"
@@ -71,7 +71,7 @@
                 :title="$t('common.update')"
                 @click.prevent="
                   $router.push({
-                    name: 'products.form.desc',
+                    name: 'product.form.desc',
                     params: { id: product.id },
                   })
                 "

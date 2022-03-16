@@ -20,23 +20,23 @@ export default [
     children: [
       {
         path: 'gallery',
-        name: 'products.form.setting.gallery',
+        name: 'product.form.setting.gallery',
         component: () => import('/@/views/products/forms/ProductGallery.vue'),
       },
       {
         path: 'taxes',
-        name: 'products.form.setting.tax',
+        name: 'product.form.setting.tax',
         component: () => import('/@/views/products/forms/ProductTaxList.vue'),
         children: [
           {
             path: ':product_tax_id?/form',
-            name: 'products.form.setting.tax.form',
+            name: 'product.form.setting.tax.form',
             component: () =>
               import('/@/views/products/forms/ProductTaxForm.vue'),
             children: [
               {
                 path: 'add-tax',
-                name: 'products.form.setting.tax.form.tax',
+                name: 'product.form.setting.tax.form.tax',
                 component: () =>
                   import('/@/views/products/configurations/tax/TaxForm.vue'),
               },
@@ -46,13 +46,13 @@ export default [
       },
       {
         path: 'description',
-        name: 'products.form.setting.desc',
+        name: 'product.form.setting.desc',
         component: () =>
           import('/@/views/products/forms/ProductDescription.vue'),
       },
       {
         path: 'properties',
-        name: 'products.form.setting.property',
+        name: 'product.form.setting.property',
         component: () =>
           import('/@/views/products/forms/ProductProperties.vue'),
       },
@@ -70,13 +70,13 @@ export default [
     children: [
       {
         path: 'form',
-        name: 'products.form.article.form',
+        name: 'product.form.article.form',
         component: () =>
           import('/@/views/products/forms/ProductArticleForm.vue'),
         children: [
           {
             path: 'add-package',
-            name: 'products.form.article.form.package',
+            name: 'product.form.article.form.package',
             component: () =>
               import(
                 '/@/views/products/configurations/package/PackageForm.vue'
@@ -100,7 +100,7 @@ export default [
         path: '',
         redirect: (to) => {
           return {
-            name: 'products.form.stocks.entry',
+            name: 'product.form.stocks.entry',
             params: to.params,
             query: to.query,
           };
@@ -108,14 +108,14 @@ export default [
       },
       {
         path: 'entries',
-        name: 'products.form.stocks.entry',
+        name: 'product.form.stocks.entry',
         props: () => ({ useCurrentProduct: true }),
         component: () =>
           import('/@/views/products/forms/ProductStockEntries.vue'),
       },
       {
         path: 'exits',
-        name: 'products.form.stocks.exit',
+        name: 'product.form.stocks.exit',
         props: () => ({ useCurrentProduct: true }),
         component: () =>
           import('/@/views/products/forms/ProductStockExits.vue'),

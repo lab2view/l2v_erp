@@ -21,7 +21,7 @@ export const productMenus = [
     items: [
       {
         code: 'Product.create',
-        to: 'products.form.desc',
+        to: 'product.form.desc',
       },
       {
         code: 'Product.viewAny',

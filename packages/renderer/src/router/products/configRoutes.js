@@ -7,7 +7,7 @@ export default [
   },
   {
     path: 'packages',
-    name: 'config.product.package',
+    name: 'config.products.package',
     component: () =>
       import('/@/views/products/configurations/package/PackageList.vue'),
     meta: {
@@ -35,7 +35,7 @@ export default [
   },
   {
     path: 'price-types',
-    name: 'config.product.priceType',
+    name: 'config.products.priceType',
     component: () =>
       import('/@/views/products/configurations/priceType/PriceTypeList.vue'),
     meta: {
@@ -65,7 +65,7 @@ export default [
   },
   {
     path: 'products-types',
-    name: 'config.product.productType',
+    name: 'config.products.productType',
     component: () =>
       import(
         '/@/views/products/configurations/productType/ProductTypeList.vue'
@@ -97,7 +97,7 @@ export default [
   },
   {
     path: 'products-families',
-    name: 'config.product.productFamily',
+    name: 'config.products.productFamily',
     component: () =>
       import(
         '/@/views/products/configurations/productFamily/ProductFamilyList.vue'
@@ -129,7 +129,7 @@ export default [
   },
   {
     path: 'products-units',
-    name: 'config.product.productUnit',
+    name: 'config.products.productUnit',
     component: () =>
       import(
         '/@/views/products/configurations/productUnit/ProductUnitList.vue'
@@ -161,7 +161,7 @@ export default [
   },
   {
     path: 'properties',
-    name: 'config.product.property',
+    name: 'config.products.property',
     component: () =>
       import('/@/views/products/configurations/property/PropertyList.vue'),
     meta: {
@@ -189,7 +189,7 @@ export default [
   },
   {
     path: 'taxes',
-    name: 'config.product.tax',
+    name: 'config.products.tax',
     component: () => import('/@/views/products/configurations/tax/TaxList.vue'),
     meta: {
       code: 'Tax.viewAny',
