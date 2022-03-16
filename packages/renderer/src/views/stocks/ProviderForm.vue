@@ -2,7 +2,7 @@
   <BaseFormModal :submit-form="submitStockProviderForm" :title="title">
     <div class="form-group mb-3">
       <BaseSelect
-        v-model="stockProviderForm.country_id"
+        v-model="providerForm.country_id"
         :label="$t('common.attributes.country')"
         :options="activeCountries"
         key-label="name"
@@ -17,7 +17,7 @@
       }}</label>
       <input
         id="name"
-        v-model="stockProviderForm.name"
+        v-model="providerForm.name"
         class="form-control"
         placeholder="..."
         required
@@ -33,7 +33,7 @@
     </div>
     <div class="form-group mb-3">
       <BaseInputGroup
-        v-model="stockProviderForm.phone"
+        v-model="providerForm.phone"
         :errors="errors.phone"
         :label="$t('common.attributes.phone')"
         placeholder="699.."
@@ -53,7 +53,7 @@
         }}</label>
       <input
         id="email"
-        v-model="stockProviderForm.email"
+        v-model="providerForm.email"
         class="form-control"
         placeholder="..."
         type="email"
@@ -103,18 +103,18 @@ export default {
     return {
       errors: [],
       formLoading: false,
-      stockProviderForm: {
+      providerForm: {
         id: null,
         label: null,
       },
     };
   },
   computed: {
-    ...mapGetters('stock_provider', ['stockProvider']),
+    ...mapGetters('provider', ['provider']),
     ...mapGetters('country', ['countries', 'activeCountries']),
     ...mapGetters('auth', ['currentUser']),
     title() {
-      return this.stockProvider && this.stockProvider.id
+      return this.provider && this.provider.id
         ? this.$t('stocks.provider.formUpdateTitle')
         : this.$t('stocks.provider.formCreateTitle');
     },
@@ -130,13 +130,13 @@ export default {
     },
   },
   created() {
-    if (this.stockProvider && this.stockProvider.id)
-      this.stockProviderForm = this.stockProvider;
+    if (this.provider && this.provider.id)
+      this.providerForm = this.provider;
   },
   beforeUnmount() {
     this.setLoading();
-    if (this.stockProvider && this.stockProvider.id)
-      this.$store.commit('stock_provider/SET_CURRENT_STOCK_PROVIDER', null);
+    if (this.provider && this.provider.id)
+      this.$store.commit('provider/SET_CURRENT_PROVIDER', null);
   },
   methods: {
     setLoading(value = false) {
@@ -152,9 +152,9 @@ export default {
       }
 
       this.setLoading(true);
-      if (this.stockProvider && this.stockProvider.id) {
+      if (this.provider && this.provider.id) {
         this.$store
-          .dispatch('stock_provider/updateStockProvider', this.stockProviderForm)
+          .dispatch('provider/updateStockProvider', this.providerForm)
           .then(() => this.$router.back())
           .catch((error) => {
             this.errors = error.response.data.errors;
@@ -163,7 +163,7 @@ export default {
           .finally(() => this.setLoading());
       } else {
         this.$store
-          .dispatch('stock_provider/addStockProvider', this.stockProviderForm)
+          .dispatch('provider/addStockProvider', this.providerForm)
           .then(() => this.$router.back())
           .catch((error) => {
             this.errors = error.response.data.errors;

@@ -71,11 +71,11 @@ const Article = new VuexPersistence({
   reducer: (state) => ({ article: state.article }),
 });
 
-const Provision = new VuexPersistence({
-  key: 'provision',
+const StockProvision = new VuexPersistence({
+  key: 'stock_provision',
   storage: localStore,
   asyncStorage: true,
-  reducer: (state) => ({ provision: state.provision }),
+  reducer: (state) => ({ stock_provision: state.stock_provision }),
 });
 
 const StockExit = new VuexPersistence({
@@ -162,11 +162,11 @@ const Inventory = new VuexPersistence({
   reducer: (state) => ({ inventory: state.inventory }),
 });
 
-const StockProvider = new VuexPersistence({
-  key: 'stock_provider',
+const Provider = new VuexPersistence({
+  key: 'provider',
   storage: localStore,
   asyncStorage: true,
-  reducer: (state) => ({ stock_provider: state.stock_provider }),
+  reducer: (state) => ({ provider: state.provider }),
 });
 
 const Shipping = new VuexPersistence({
@@ -285,7 +285,7 @@ export default [
   ProductType.plugin,
   ProductUnit.plugin,
   Article.plugin,
-  Provision.plugin,
+  StockProvision.plugin,
   StockExit.plugin,
   ArticleGroup.plugin,
   Enterprise.plugin,
@@ -298,7 +298,7 @@ export default [
   CustomerGroup.plugin,
   CustomerType.plugin,
   Inventory.plugin,
-  StockProvider.plugin,
+  Provider.plugin,
   Shipping.plugin,
   StockEntry.plugin,
   StockState.plugin,

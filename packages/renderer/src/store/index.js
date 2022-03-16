@@ -24,7 +24,7 @@ import customer_group from './modules/customers/customer_group';
 import customer_type from './modules/customers/customer_type';
 import customer from './modules/customers/customer';
 import inventory from './modules/stocks/inventory';
-import provision from './modules/stocks/provision';
+import stock_provision from './modules/stocks/stock_provision';
 import provider from './modules/stocks/provider';
 import shipping from './modules/stocks/shipping';
 import stock_state from './modules/stocks/stock_state';
@@ -142,7 +142,7 @@ export default createStore({
     inventory,
     provider,
     shipping,
-    provision,
+    stock_provision,
     stock_state,
     stock_type,
     stock_entry,

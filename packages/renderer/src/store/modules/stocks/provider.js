@@ -1,51 +1,51 @@
-import stockProviderService from '../../../services/stocks/ProviderService';
+import providerService from '../../../services/stocks/ProviderService';
 import { notify } from '/@/helpers/notify';
 import i18n from '/@/i18n';
 // import shippingService from '/@/services/stocks/ShippingService';
 
 const state = {
-  stock_providers: null,
+  providers: null,
   hash: null,
-  stockProvider: null,
+  provider: null,
 };
 
 // getters
 const getters = {
-  stock_providers: (state) =>
-    state.stock_providers ? JSON.parse(state.stock_providers) : [],
-  stockProvider: (state) =>
-    state.stockProvider ? JSON.parse(state.stockProvider) : null,
+  providers: (state) =>
+    state.providers ? JSON.parse(state.providers) : [],
+  provider: (state) =>
+    state.provider ? JSON.parse(state.provider) : null,
 };
 
 // privileges
 const actions = {
   getStockProvidersList({ commit, getters }, { page, field }) {
-    if (getters.stock_providers.length > 0) {
-      return getters.stock_providers;
+    if (getters.providers.length > 0) {
+      return getters.providers;
     } else
-      return stockProviderService.getProvidersList(page, field).then(({ data }) => {
-        commit('SET_STOCK_PROVIDERS', data);
+      return providerService.getProvidersList(page, field).then(({ data }) => {
+        commit('SET_PROVIDERS', data);
         return data;
       });
   },
 
   getStockProvider({ getters, commit }, id) {
-    const stockProvider = getters.stock_providers.find(
+    const provider = getters.providers.find(
       (p) => p.id.toString() === id
     );
-    if (stockProvider !== undefined) {
-      commit('SET_CURRENT_STOCK_PROVIDER', stockProvider);
-      return stockProvider;
+    if (provider !== undefined) {
+      commit('SET_CURRENT_PROVIDER', provider);
+      return provider;
     } else
-      return stockProviderService.getProvider(id).then(({ data }) => {
-        commit('SET_CURRENT_STOCK_PROVIDER', data);
+      return providerService.getProvider(id).then(({ data }) => {
+        commit('SET_CURRENT_PROVIDER', data);
         return data;
       });
   },
 
-  addStockProvider({ commit }, stockProviderField) {
-    return stockProviderService.addProvider(stockProviderField).then(({ data }) => {
-      commit('ADD_STOCK_PROVIDER', data);
+  addStockProvider({ commit }, providerField) {
+    return providerService.addProvider(providerField).then(({ data }) => {
+      commit('ADD_PROVIDER', data);
       notify(
         i18n.global.t('stocks.provider.store'),
         'Ok',
@@ -56,11 +56,11 @@ const actions = {
     });
   },
 
-  updateStockProvider({ commit }, stockProviderField) {
-    return stockProviderService
-      .updateProvider(stockProviderField, stockProviderField.id)
+  updateStockProvider({ commit }, providerField) {
+    return providerService
+      .updateProvider(providerField, providerField.id)
       .then(({ data }) => {
-        commit('UPDATE_STOCK_PROVIDER', data);
+        commit('UPDATE_PROVIDER', data);
         notify(
           i18n.global.t('stocks.provider.update'),
           'Ok',
@@ -71,9 +71,9 @@ const actions = {
       });
   },
 
-  deleteStockProvider({ commit }, stockProviderId) {
-    return stockProviderService.deleteProvider(stockProviderId).then(({ data }) => {
-      commit('DELETE_STOCK_PROVIDER', stockProviderId);
+  deleteStockProvider({ commit }, providerId) {
+    return providerService.deleteProvider(providerId).then(({ data }) => {
+      commit('DELETE_PROVIDER', providerId);
       return data;
     });
   },
@@ -81,29 +81,29 @@ const actions = {
 
 // mutations
 const mutations = {
-  SET_STOCK_PROVIDERS(state, stock_providers) {
-    state.stock_providers = JSON.stringify(stock_providers);
+  SET_PROVIDERS(state, providers) {
+    state.providers = JSON.stringify(providers);
   },
-  SET_CURRENT_STOCK_PROVIDER(state, stockProvider) {
-    state.stockProvider = JSON.stringify(stockProvider);
+  SET_CURRENT_PROVIDER(state, provider) {
+    state.provider = JSON.stringify(provider);
   },
-  ADD_STOCK_PROVIDER(state, stockProvider) {
-    let stock_providers = JSON.parse(state.stock_providers);
-    stock_providers.push(stockProvider);
-    state.stock_providers = JSON.stringify(stock_providers);
+  ADD_PROVIDER(state, provider) {
+    let providers = JSON.parse(state.providers);
+    providers.push(provider);
+    state.providers = JSON.stringify(providers);
   },
-  UPDATE_STOCK_PROVIDER(state, stockProvider) {
-    let stock_providers = JSON.parse(state.stock_providers);
-    const index = stock_providers.findIndex((p) => p.id === stockProvider.id);
+  UPDATE_PROVIDER(state, provider) {
+    let providers = JSON.parse(state.providers);
+    const index = providers.findIndex((p) => p.id === provider.id);
     if (index !== -1) {
-      stock_providers.splice(index, 1, stockProvider);
-      state.stock_providers = JSON.stringify(stock_providers);
+      providers.splice(index, 1, provider);
+      state.providers = JSON.stringify(providers);
     }
   },
-  DELETE_STOCK_PROVIDER(state, stockProviderId) {
-    state.stock_providers = JSON.stringify(
-      JSON.parse(state.stock_providers).filter(
-        (p) => p.id !== stockProviderId
+  DELETE_PROVIDER(state, providerId) {
+    state.providers = JSON.stringify(
+      JSON.parse(state.providers).filter(
+        (p) => p.id !== providerId
       )
     );
   },

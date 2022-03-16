@@ -111,7 +111,7 @@ export default {
   components: { EntryLineFormField, BaseButton, ArticleSelectableList },
   beforeRouteEnter(routeTo, routeFrom, next) {
     store
-      .dispatch('stock_provider/getStockProvidersList', {
+      .dispatch('provider/getStockProvidersList', {
         page: 1,
         field: {},
       })

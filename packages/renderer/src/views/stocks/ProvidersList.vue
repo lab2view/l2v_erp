@@ -23,7 +23,7 @@
         </div>
       </div>
       <div class="card-body">
-        <BaseDatatable :tfoot="false" :total="stock_providers.length">
+        <BaseDatatable :tfoot="false" :total="providers.length">
           <template #headers>
             <th>#</th>
             <th>{{ $t('common.attributes.country') }}</th>
@@ -32,7 +32,7 @@
             <th>{{ $t('common.attributes.email') }}</th>
             <th>{{ $t('common.actions') }}</th>
           </template>
-          <tr v-for="provider in stock_providers" :key="provider.id">
+          <tr v-for="provider in providers" :key="provider.id">
             <td>{{ provider.id }}</td>
             <td>{{ provider.country.name }}</td>
             <td>{{ provider.name }}</td>
@@ -83,7 +83,7 @@ export default {
   components: { BaseContainer, BaseDatatable },
   beforeRouteEnter(routeTo, routeFrom, next) {
     store
-      .dispatch('stock_provider/getStockProvidersList', {
+      .dispatch('provider/getStockProvidersList', {
         page: 1,
         field: {},
       })
@@ -96,11 +96,11 @@ export default {
       });
   },
   computed: {
-    ...mapGetters('stock_provider', ['stock_providers', 'stockProvider']),
+    ...mapGetters('provider', ['providers', 'provider']),
   },
   created() {
     if (this.provider)
-      this.$store.commit('stock_provider/SET_CURRENT_STOCK_PROVIDER', null);
+      this.$store.commit('provider/SET_CURRENT_PROVIDER', null);
   },
 
   methods: {
@@ -111,7 +111,7 @@ export default {
         )
       )
         this.$store.dispatch(
-          'stock_provider/deleteStockProvider',
+          'provider/deleteStockProvider',
           provider.id
         );
     },
