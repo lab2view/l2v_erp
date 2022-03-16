@@ -44,7 +44,7 @@ export default {
   enterprise: {
     iamTitle: 'Ajouter les parametres utilisateurs a la structure',
     settingTitle: 'Ajouter les modules a la structure',
-    listTitle: 'Liste des structures',
+    listTitle: 'Liste des enterprise',
     formCreateTitle: 'Ajouter une structure',
     formUpdateTitle: 'Modifier la structure',
     store: "L'enregistrement de la structure a ete effectue avec succes",

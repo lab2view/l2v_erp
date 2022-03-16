@@ -3,11 +3,11 @@
     <div class="card-header pb-2 border-bottom border-bottom-">
       <div class="row align-items-center">
         <div class="col-sm">
-          <h5>{{ $t('product.tax.listTitle') }}</h5>
+          <h5>{{ $t('products.tax.listTitle') }}</h5>
         </div>
         <div class="col-sm-auto align-items-end">
           <router-link
-            :to="{ name: 'config.product.tax.form' }"
+            :to="{ name: 'config.products.tax.form' }"
             href="#"
             class="btn btn-primary"
             type="button"
@@ -36,7 +36,7 @@
               :title="$t('common.update')"
               @click.prevent="
                 $router.push({
-                  name: 'config.product.tax.form',
+                  name: 'config.products.tax.form',
                   params: { id: tax.id },
                 })
               "

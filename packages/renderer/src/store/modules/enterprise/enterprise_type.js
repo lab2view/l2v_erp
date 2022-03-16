@@ -1,4 +1,4 @@
-import enterpriseTypeService from '../../../services/structures/EnterpriseTypeService';
+import enterpriseTypeService from '../../../services/enterprise/EnterpriseTypeService';
 import { notify } from '/@/helpers/notify';
 import i18n from '../../../i18n';
 
@@ -41,7 +41,7 @@ const actions = {
     return enterpriseTypeService.addEnterpriseType(enterpriseTypeField).then(({ data }) => {
       commit('ADD_ENTERPRISE_TYPE', data);
       notify(
-        i18n.global.t('structures.enterpriseType.store'),
+        i18n.global.t('enterprise.enterpriseType.store'),
         'Ok',
         'theme',
         'fa fa-check'
@@ -55,7 +55,7 @@ const actions = {
       .updateEnterpriseType(enterpriseTypeField, enterpriseTypeField.id)
       .then(({ data }) => {
         notify(
-          i18n.global.t('structures.enterpriseType.update'),
+          i18n.global.t('enterprise.enterpriseType.update'),
           'Ok',
           'theme',
           'fa fa-check'

@@ -3,7 +3,7 @@ import store from '../../store';
 export default [
   {
     path: '',
-    redirect: { name: 'config.product.package' },
+    redirect: { name: 'config.products.package' },
   },
   {
     path: 'packages',
@@ -17,13 +17,13 @@ export default [
     children: [
       {
         path: 'form/:id?',
-        name: 'config.product.package.form',
+        name: 'config.products.package.form',
         component: () =>
           import('/@/views/products/configurations/package/PackageForm.vue'),
         beforeEnter: (to) => {
           if (to.params.id) {
             return store
-              .dispatch('product_package/getPackage', to.params.id)
+              .dispatch('package/getPackage', to.params.id)
               .then(() => {
                 return { name: to.name };
               })
@@ -45,7 +45,7 @@ export default [
     children: [
       {
         path: 'form/:id?',
-        name: 'config.product.priceType.form',
+        name: 'config.products.priceType.form',
         component: () =>
           import(
             '/@/views/products/configurations/priceType/PriceTypeForm.vue'
@@ -64,7 +64,7 @@ export default [
     ],
   },
   {
-    path: 'product-types',
+    path: 'products-types',
     name: 'config.product.productType',
     component: () =>
       import(
@@ -77,7 +77,7 @@ export default [
     children: [
       {
         path: 'form/:id?',
-        name: 'config.product.productType.form',
+        name: 'config.products.productType.form',
         component: () =>
           import(
             '/@/views/products/configurations/productType/ProductTypeForm.vue'
@@ -96,7 +96,7 @@ export default [
     ],
   },
   {
-    path: 'product-families',
+    path: 'products-families',
     name: 'config.product.productFamily',
     component: () =>
       import(
@@ -109,7 +109,7 @@ export default [
     children: [
       {
         path: 'form/:id?',
-        name: 'config.product.productFamily.form',
+        name: 'config.products.productFamily.form',
         component: () =>
           import(
             '/@/views/products/configurations/productFamily/ProductFamilyForm.vue'
@@ -128,7 +128,7 @@ export default [
     ],
   },
   {
-    path: 'product-units',
+    path: 'products-units',
     name: 'config.product.productUnit',
     component: () =>
       import(
@@ -141,7 +141,7 @@ export default [
     children: [
       {
         path: 'form/:id?',
-        name: 'config.product.productUnit.form',
+        name: 'config.products.productUnit.form',
         component: () =>
           import(
             '/@/views/products/configurations/productUnit/ProductUnitForm.vue'
@@ -171,7 +171,7 @@ export default [
     children: [
       {
         path: 'form/:id?',
-        name: 'config.product.property.form',
+        name: 'config.products.property.form',
         component: () =>
           import('/@/views/products/configurations/property/PropertyForm.vue'),
         beforeEnter: (to) => {
@@ -198,7 +198,7 @@ export default [
     children: [
       {
         path: 'form/:id?',
-        name: 'config.product.tax.form',
+        name: 'config.products.tax.form',
         component: () =>
           import('/@/views/products/configurations/tax/TaxForm.vue'),
         beforeEnter: (to) => {

@@ -69,8 +69,8 @@ export default {
     ...mapGetters('enterprise_type', ['enterpriseType']),
     title() {
       return this.enterpriseType && this.enterpriseType.id
-        ? this.$t('structures.enterpriseType.formUpdateTitle')
-        : this.$t('structures.enterpriseType.formCreateTitle');
+        ? this.$t('enterprise.enterpriseType.formUpdateTitle')
+        : this.$t('enterprise.enterpriseType.formCreateTitle');
     },
   },
   created() {

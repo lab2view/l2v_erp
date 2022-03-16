@@ -47,7 +47,7 @@ const actions = {
     return stockProviderService.addProvider(stockProviderField).then(({ data }) => {
       commit('ADD_STOCK_PROVIDER', data);
       notify(
-        i18n.global.t('stock.provider.store'),
+        i18n.global.t('stocks.provider.store'),
         'Ok',
         'theme',
         'fa fa-check'
@@ -62,7 +62,7 @@ const actions = {
       .then(({ data }) => {
         commit('UPDATE_STOCK_PROVIDER', data);
         notify(
-          i18n.global.t('stock.provider.update'),
+          i18n.global.t('stocks.provider.update'),
           'Ok',
           'theme',
           'fa fa-check'

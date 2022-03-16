@@ -1,4 +1,4 @@
-import moduleService from '../../../services/structures/ModuleService';
+import moduleService from '../../../services/enterprise/ModuleService';
 import { notify } from '/@/helpers/notify';
 import i18n from '../../../i18n';
 
@@ -41,7 +41,7 @@ const actions = {
     return moduleService.addModule(moduleField).then(({ data }) => {
       commit('ADD_MODULE', data);
       notify(
-        i18n.global.t('structures.module.store'),
+        i18n.global.t('enterprise.module.store'),
         'Ok',
         'theme',
         'fa fa-check'
@@ -55,7 +55,7 @@ const actions = {
       .updateModule(moduleField, moduleField.id)
       .then(({ data }) => {
         notify(
-          i18n.global.t('structures.module.update'),
+          i18n.global.t('enterprise.module.update'),
           'Ok',
           'theme',
           'fa fa-check'

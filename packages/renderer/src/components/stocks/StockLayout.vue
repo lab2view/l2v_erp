@@ -24,7 +24,7 @@ export default {
         store.dispatch('stock_state/getStockStatesList', field),
         store.dispatch('stock_type/getStockTypesList', field),
         store.dispatch('stock_provider/getStockProvidersList', field),
-        store.dispatch('stock_provision/getStockProvisionsList', field),
+        store.dispatch('provision/getProvisionsList', field),
         store.dispatch('inventory/getInventoriesList', field),
         store.dispatch('shipping/getShippingsList', field),
         store.dispatch('stock_exit/getStockExitsList', field),

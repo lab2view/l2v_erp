@@ -1,4 +1,4 @@
-import enterpriseService from '../../../services/structures/EnterpriseService';
+import enterpriseService from '../../../services/enterprise/EnterpriseService';
 
 const state = {
   enterprises: null,
@@ -84,7 +84,7 @@ const actions = {
       .deleteEnterpriseModule(enterpriseModule.id)
       .then(({ data }) => {
         // notify(
-        //   i18n.global.t('structures.enterpriseModule.deleted'),
+        //   i18n.global.t('enterprise.enterpriseModule.deleted'),
         //   'Ok',
         //   'theme',
         //   'fa fa-check'

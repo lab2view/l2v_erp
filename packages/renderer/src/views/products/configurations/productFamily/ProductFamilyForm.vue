@@ -59,8 +59,8 @@ export default {
     ...mapGetters('product_family', ['productFamily']),
     title() {
       return this.productFamily
-        ? this.$t('product.productFamily.formUpdateTitle')
-        : this.$t('product.productFamily.formCreateTitle');
+        ? this.$t('products.productFamily.formUpdateTitle')
+        : this.$t('products.productFamily.formCreateTitle');
     },
   },
   created() {

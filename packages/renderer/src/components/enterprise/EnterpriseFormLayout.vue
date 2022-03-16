@@ -1,7 +1,7 @@
 <template>
   <BaseContainer
-    :module="$t('menu.modules.structures')"
-    :title="$t('structures.title')"
+    :module="$t('menu.modules.enterprise')"
+    :title="$t('enterprise.title')"
   >
     <div class="card">
       <BaseWizardStep :links="items" />
@@ -12,7 +12,7 @@
 <script>
 import BaseContainer from '../../components/common/BaseContainer.vue';
 import BaseWizardStep from '../common/BaseWizardStep.vue';
-import { formRoutes } from '/@/router/structures/formRoutes';
+import { formRoutes } from '/@/router/enterprise/formRoutes';
 import { mapGetters } from 'vuex';
 
 export default {

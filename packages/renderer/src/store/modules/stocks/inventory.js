@@ -44,7 +44,7 @@ const actions = {
     return inventoryService.addInventory(inventoryField).then(({ data }) => {
       commit('ADD_INVENTORY', data);
       notify(
-        i18n.global.t('stock.inventory.store'),
+        i18n.global.t('stocks.inventory.store'),
         'Ok',
         'theme',
         'fa fa-check'
@@ -59,7 +59,7 @@ const actions = {
       .then(({ data }) => {
         commit('UPDATE_INVENTORY', data);
         notify(
-          i18n.global.t('stock.inventory.update'),
+          i18n.global.t('stocks.inventory.update'),
           'Ok',
           'theme',
           'fa fa-check'

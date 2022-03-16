@@ -101,7 +101,7 @@ export default {
   },
   enterprise: {
     create: 'Ajouter une structure',
-    viewany: 'Liste des structures',
+    viewany: 'Liste des enterprise',
     form: {
       desc: 'Description de la structure',
       setting: 'Parametres de la structure',

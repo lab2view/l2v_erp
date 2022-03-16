@@ -46,7 +46,7 @@ const actions = {
     return productUnitService.add(productUnitField).then(({ data }) => {
       commit('ADD_PRODUCT_UNIT', data);
       notify(
-        i18n.global.t('product.productUnit.store'),
+        i18n.global.t('products.productUnit.store'),
         'Ok',
         'theme',
         'fa fa-check'
@@ -60,7 +60,7 @@ const actions = {
       .update(productUnitField, productUnitField.id)
       .then(({ data }) => {
         notify(
-          i18n.global.t('product.productUnit.update'),
+          i18n.global.t('products.productUnit.update'),
           'Ok',
           'theme',
           'fa fa-check'

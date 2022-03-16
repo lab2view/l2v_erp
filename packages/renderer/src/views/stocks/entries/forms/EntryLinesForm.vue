@@ -9,7 +9,7 @@
     <div class="card-header p-3">
       <div class="row align-items-center">
         <div class="col">
-          <h5>{{ $t('stock.entryLine.articleSelect') }}</h5>
+          <h5>{{ $t('stocks.entryLine.articleSelect') }}</h5>
         </div>
         <div class="col-auto">
           <BaseButton
@@ -28,7 +28,7 @@
       <div class="row align-items-center">
         <div class="col-sm">
           <h5>
-            {{ `${$t('stock.entryLine.articleForm')}` }}
+            {{ `${$t('stocks.entryLine.articleForm')}` }}
           </h5>
         </div>
         <div v-if="!show_select_form" class="col-sm-auto align-items-end">

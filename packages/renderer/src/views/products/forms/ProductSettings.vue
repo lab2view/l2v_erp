@@ -6,49 +6,49 @@
           <div class="card">
             <div class="card-header">
               <h6>
-                {{ `${$t('product.configTitle')}` }}
+                {{ `${$t('products.configTitle')}` }}
               </h6>
             </div>
             <div class="list-group p-l-5">
               <router-link
                 :to="{
-                  name: 'product.form.setting.gallery',
+                  name: 'products.form.setting.gallery',
                   params: { ...$route.params },
                 }"
                 class="list-group-item list-group-item-action"
               >
                 <span class="fa fa-file-image-o m-r-10" />
-                {{ $t('product.form.setting.gallery') }}
+                {{ $t('products.form.setting.gallery') }}
               </router-link>
               <router-link
                 :to="{
-                  name: 'product.form.setting.tax',
+                  name: 'products.form.setting.tax',
                   params: { ...$route.params },
                 }"
                 class="list-group-item list-group-item-action mt-3"
               >
                 <span class="fa fa-percent m-r-10" />
-                {{ $t('product.form.setting.tax') }}
+                {{ $t('products.form.setting.tax') }}
               </router-link>
               <router-link
                 :to="{
-                  name: 'product.form.setting.desc',
+                  name: 'products.form.setting.desc',
                   params: { ...$route.params },
                 }"
                 class="list-group-item list-group-item-action mt-3"
               >
                 <span class="fa fa-file-text m-r-10" />
-                {{ $t('product.form.setting.desc') }}
+                {{ $t('products.form.setting.desc') }}
               </router-link>
               <router-link
                 :to="{
-                  name: 'product.form.setting.property',
+                  name: 'products.form.setting.property',
                   params: { ...$route.params },
                 }"
                 class="list-group-item list-group-item-action mt-3"
               >
                 <span class="fa fa-cog m-r-10" />
-                {{ $t('product.form.setting.property') }}
+                {{ $t('products.form.setting.property') }}
               </router-link>
             </div>
           </div>
@@ -69,9 +69,9 @@ export default {
     ...mapGetters('product', ['product']),
   },
   beforeCreate() {
-    if (this.$route.name === 'product.form.setting')
+    if (this.$route.name === 'products.form.setting')
       this.$router.push({
-        name: 'product.form.setting.gallery',
+        name: 'products.form.setting.gallery',
         params: this.$route.params,
         query: this.$route.query,
       });

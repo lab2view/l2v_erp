@@ -1,4 +1,4 @@
-import localizationService from '../../../services/structures/LocalizationService';
+import localizationService from '../../../services/enterprise/LocalizationService';
 import { notify } from '/@/helpers/notify';
 import i18n from '../../../i18n';
 
@@ -49,7 +49,7 @@ const actions = {
       .then(({ data }) => {
         commit('ADD_LOCALIZATION', data);
         notify(
-          i18n.global.t('structures.localization.store'),
+          i18n.global.t('enterprise.localization.store'),
           'Ok',
           'theme',
           'fa fa-check'
@@ -63,7 +63,7 @@ const actions = {
       .updateLocalization(localizationField, localizationField.id)
       .then(({ data }) => {
         notify(
-          i18n.global.t('structures.localization.update'),
+          i18n.global.t('enterprise.localization.update'),
           'Ok',
           'theme',
           'fa fa-check'

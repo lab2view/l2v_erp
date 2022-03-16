@@ -1,4 +1,4 @@
-import regionService from '../../../services/structures/RegionService';
+import regionService from '../../../services/enterprise/RegionService';
 import { notify } from '/@/helpers/notify';
 import i18n from '../../../i18n';
 
@@ -41,7 +41,7 @@ const actions = {
     return regionService.addRegion(regionField).then(({ data }) => {
       commit('ADD_REGION', data);
       notify(
-        i18n.global.t('structures.region.store'),
+        i18n.global.t('enterprise.region.store'),
         'Ok',
         'theme',
         'fa fa-check'
@@ -55,7 +55,7 @@ const actions = {
       .updateRegion(regionField, regionField.id)
       .then(({ data }) => {
         notify(
-          i18n.global.t('structures.region.update'),
+          i18n.global.t('enterprise.region.update'),
           'Ok',
           'theme',
           'fa fa-check'

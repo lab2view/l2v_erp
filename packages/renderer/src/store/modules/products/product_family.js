@@ -46,7 +46,7 @@ const actions = {
     return productFamilyService.add(productFamilyField).then(({ data }) => {
       commit('ADD_PRODUCT_FAMILY', data);
       notify(
-        i18n.global.t('product.productFamily.store'),
+        i18n.global.t('products.productFamily.store'),
         'Ok',
         'theme',
         'fa fa-check'
@@ -60,7 +60,7 @@ const actions = {
       .update(productFamilyField, productFamilyField.id)
       .then(({ data }) => {
         notify(
-          i18n.global.t('product.productFamily.update'),
+          i18n.global.t('products.productFamily.update'),
           'Ok',
           'theme',
           'fa fa-check'

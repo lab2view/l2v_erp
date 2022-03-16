@@ -97,8 +97,8 @@ export default {
 
     title() {
       return this.property
-        ? this.$t('product.property.formUpdateTitle')
-        : this.$t('product.property.formCreateTitle');
+        ? this.$t('products.property.formUpdateTitle')
+        : this.$t('products.property.formCreateTitle');
     },
     propertyTypes() {
       return [

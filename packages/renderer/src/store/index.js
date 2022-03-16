@@ -3,33 +3,33 @@ import modulePlugins from './helpers/ModuleLocalForage';
 import FileService from '../services/FileService';
 import auth from './modules/auth';
 import workspace from './modules/workspace';
-import product_package from './modules/product/product_package';
-import property from './modules/product/property';
-import tax from './modules/product/tax';
-import price_type from './modules/product/price_type';
-import product_family from './modules/product/product_family';
-import product_type from './modules/product/product_type';
-import product_unit from './modules/product/product_unit';
-import product from './modules/product/product';
-import article from './modules/product/article';
-import stock_exit from './modules/stock/stock_exit';
-import article_group from './modules/product/article_group';
-import module from './modules/structures/module';
-import localization from './modules/structures/localization';
-import region from './modules/structures/region';
-import country from './modules/structures/country';
-import enterprise_type from './modules/structures/enterprise_type';
-import enterprise from './modules/structures/enterprise';
+import product_package from './modules/products/package';
+import property from './modules/products/property';
+import tax from './modules/products/tax';
+import price_type from './modules/products/price_type';
+import product_family from './modules/products/product_family';
+import product_type from './modules/products/product_type';
+import product_unit from './modules/products/product_unit';
+import product from './modules/products/product';
+import article from './modules/products/article';
+import stock_exit from './modules/stocks/stock_exit';
+import article_group from './modules/products/article_group';
+import module from './modules/enterprise/module';
+import localization from './modules/enterprise/localization';
+import region from './modules/enterprise/region';
+import country from './modules/enterprise/country';
+import enterprise_type from './modules/enterprise/enterprise_type';
+import enterprise from './modules/enterprise/enterprise';
 import customer_group from './modules/customers/customer_group';
 import customer_type from './modules/customers/customer_type';
 import customer from './modules/customers/customer';
-import inventory from './modules/stock/inventory';
-import stock_provision from './modules/stock/provision';
-import stock_provider from './modules/stock/provider';
-import shipping from './modules/stock/shipping';
-import stock_state from './modules/stock/stock_state';
-import stock_type from './modules/stock/stock_type';
-import stock_entry from './modules/stock/stock_entry';
+import inventory from './modules/stocks/inventory';
+import provision from './modules/stocks/provision';
+import provider from './modules/stocks/provider';
+import shipping from './modules/stocks/shipping';
+import stock_state from './modules/stocks/stock_state';
+import stock_type from './modules/stocks/stock_type';
+import stock_entry from './modules/stocks/stock_entry';
 import transaction from './modules/payments/transaction';
 import transaction_type from './modules/payments/transaction_type';
 import payment_method from './modules/payments/payment_method';
@@ -121,7 +121,7 @@ export default createStore({
     auth,
     workspace,
     product,
-    product_package,
+    package: product_package,
     property,
     tax,
     price_type,
@@ -140,9 +140,9 @@ export default createStore({
     customer,
     customer_group,
     inventory,
-    stock_provider,
+    provider,
     shipping,
-    stock_provision,
+    provision,
     stock_state,
     stock_type,
     stock_entry,

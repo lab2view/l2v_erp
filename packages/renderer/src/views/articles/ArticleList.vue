@@ -15,7 +15,7 @@
         <BaseDatatable :tfoot="false" :total="articles.length">
           <template #headers>
             <th>#</th>
-            <th>{{ $t('common.attributes.product') }}</th>
+            <th>{{ $t('common.attributes.products') }}</th>
             <th>{{ $t('common.attributes.name') }}</th>
             <th class="text-center">{{ $t('common.headers.stock_in') }}</th>
             <th>{{ $t('common.attributes.reference') }}</th>

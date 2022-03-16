@@ -47,8 +47,8 @@ export default {
     ...mapGetters('inventory', ['inventory']),
     title() {
       return this.inventory && this.inventory.id
-        ? this.$t('stock.inventory.formUpdateTitle')
-        : this.$t('stock.inventory.formCreateTitle');
+        ? this.$t('stocks.inventory.formUpdateTitle')
+        : this.$t('stocks.inventory.formCreateTitle');
     },
   },
   created() {

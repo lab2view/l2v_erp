@@ -41,14 +41,14 @@ const actions = {
   addTax({ commit }, taxField) {
     return taxService.add(taxField).then(({ data }) => {
       commit('ADD_TAX', data);
-      notify(i18n.global.t('product.tax.store'), 'Ok', 'theme', 'fa fa-check');
+      notify(i18n.global.t('products.tax.store'), 'Ok', 'theme', 'fa fa-check');
       return data;
     });
   },
 
   updateTax({ commit }, taxField) {
     return taxService.update(taxField, taxField.id).then(({ data }) => {
-      notify(i18n.global.t('product.tax.update'), 'Ok', 'theme', 'fa fa-check');
+      notify(i18n.global.t('products.tax.update'), 'Ok', 'theme', 'fa fa-check');
       commit('UPDATE_TAX', data);
       return data;
     });

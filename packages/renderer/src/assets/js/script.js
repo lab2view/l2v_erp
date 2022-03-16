@@ -13,10 +13,10 @@
     $(".form-control-search").toggleClass("open");
   });
   $(".filter-toggle").click(function () {
-    $(".product-sidebar").toggleClass("open");
+    $(".products-sidebar").toggleClass("open");
   });
   $(".toggle-data").click(function () {
-    $(".product-wrapper").toggleClass("sidebaron");
+    $(".products-wrapper").toggleClass("sidebaron");
   });
   $(".form-control-search").keyup(function (e) {
     if (e.target.value) {
@@ -284,8 +284,8 @@ $(".menu-back").click(function () {
   $(".landing-menu").toggleClass("open");
 });
 
-$(".product-size ul li ").on("click", function (e) {
-  $(".product-size ul li ").removeClass("active");
+$(".products-size ul li ").on("click", function (e) {
+  $(".products-size ul li ").removeClass("active");
   $(this).addClass("active");
 });
 

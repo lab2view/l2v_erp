@@ -60,8 +60,8 @@ export default {
     ...mapGetters('product_unit', ['productUnit']),
     title() {
       return this.productUnit
-        ? this.$t('product.productUnit.formUpdateTitle')
-        : this.$t('product.productUnit.formCreateTitle');
+        ? this.$t('products.productUnit.formUpdateTitle')
+        : this.$t('products.productUnit.formCreateTitle');
     },
   },
   created() {

@@ -1,7 +1,7 @@
 <template>
   <div class="card rounded shadow-sm">
     <div class="card-header p-3">
-      <h5>{{ $t('product.tax.formCreateTitle') }}</h5>
+      <h5>{{ $t('products.tax.formCreateTitle') }}</h5>
     </div>
     <form class="theme-form" @submit.prevent="submitProductTaxForm">
       <div class="card-body pb-0 pt-2">
@@ -11,7 +11,7 @@
             required
             :errors="errors?.tax_id"
             @btn-click="
-              $router.push({ name: 'product.form.setting.tax.form.tax' })
+              $router.push({ name: 'products.form.setting.tax.form.tax' })
             "
           >
             <BaseSelect

@@ -43,7 +43,7 @@ export const enterpriseRoutes = [
   {
     path: ':id?/forms',
     component: () =>
-      import('/@/components/structures/EnterpriseFormLayout.vue'),
+      import('/@/components/enterprise/EnterpriseFormLayout.vue'),
     children: formRoutes,
     beforeEnter: (to) => {
       if (to.params.id) {

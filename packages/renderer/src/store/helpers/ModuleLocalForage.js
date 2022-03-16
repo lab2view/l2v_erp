@@ -8,11 +8,11 @@ const Auth = new VuexPersistence({
   reducer: (state) => ({ auth: state.auth }),
 });
 
-const ProductPackage = new VuexPersistence({
-  key: 'product_package',
+const Package = new VuexPersistence({
+  key: 'package',
   storage: localStore,
   asyncStorage: true,
-  reducer: (state) => ({ product_package: state.product_package }),
+  reducer: (state) => ({ package: state.package }),
 });
 
 const PriceType = new VuexPersistence({
@@ -71,11 +71,11 @@ const Article = new VuexPersistence({
   reducer: (state) => ({ article: state.article }),
 });
 
-const StockProvision = new VuexPersistence({
-  key: 'stock_provision',
+const Provision = new VuexPersistence({
+  key: 'provision',
   storage: localStore,
   asyncStorage: true,
-  reducer: (state) => ({ stock_provision: state.stock_provision }),
+  reducer: (state) => ({ provision: state.provision }),
 });
 
 const StockExit = new VuexPersistence({
@@ -277,7 +277,7 @@ const DiscountCode = new VuexPersistence({
 export default [
   Auth.plugin,
   Product.plugin,
-  ProductPackage.plugin,
+  Package.plugin,
   Property.plugin,
   Tax.plugin,
   PriceType.plugin,
@@ -285,7 +285,7 @@ export default [
   ProductType.plugin,
   ProductUnit.plugin,
   Article.plugin,
-  StockProvision.plugin,
+  Provision.plugin,
   StockExit.plugin,
   ArticleGroup.plugin,
   Enterprise.plugin,

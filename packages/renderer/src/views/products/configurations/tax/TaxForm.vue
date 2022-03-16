@@ -44,8 +44,8 @@ export default {
     ...mapGetters('tax', ['tax']),
     title() {
       return this.tax
-        ? this.$t('product.tax.formUpdateTitle')
-        : this.$t('product.tax.formCreateTitle');
+        ? this.$t('products.tax.formUpdateTitle')
+        : this.$t('products.tax.formCreateTitle');
     },
   },
   created() {

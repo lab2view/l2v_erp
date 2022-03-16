@@ -1,4 +1,4 @@
-import countryService from '../../../services/structures/CountryService';
+import countryService from '../../../services/enterprise/CountryService';
 
 const state = {
   countries: null,

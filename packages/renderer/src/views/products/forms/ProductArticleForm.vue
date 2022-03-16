@@ -11,7 +11,7 @@
             required
             :errors="errors?.package_id"
             @btn-click="
-              $router.push({ name: 'product.form.article.form.package' })
+              $router.push({ name: 'products.form.article.form.package' })
             "
           >
             <BaseSelect
@@ -67,7 +67,7 @@ export default {
   components: { BaseFieldGroup, BaseButton, BaseInput, BaseSelect },
   beforeRouteEnter(routeTo, routeFrom, next) {
     store
-      .dispatch('product_package/getPackageList', {
+      .dispatch('package/getPackageList', {
         page: 1,
         field: {},
       })
@@ -89,7 +89,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters('product_package', ['packages']),
+    ...mapGetters('package', ['packages']),
     ...mapGetters('product', ['product']),
     selectPackages() {
       return this.packages.filter((p) => p.code !== unitPackageCode);

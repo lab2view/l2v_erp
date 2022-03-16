@@ -288,8 +288,8 @@ export default {
     },
     formTitle() {
       return this.product
-        ? this.$t('product.form.updateTitle')
-        : this.$t('product.form.createTitle');
+        ? this.$t('products.form.updateTitle')
+        : this.$t('products.form.createTitle');
     },
     disableWeightField() {
       return this.productForm.product_unit_id === null;
@@ -339,7 +339,7 @@ export default {
             .dispatch('product/updateProduct', this.productForm)
             .then((product) =>
               this.$router.push({
-                name: 'product.form.setting',
+                name: 'products.form.setting',
                 params: { id: product.id },
               })
             )
@@ -349,7 +349,7 @@ export default {
             });
         else
           this.$router.push({
-            name: 'product.form.setting',
+            name: 'products.form.setting',
             params: { id: this.product.id },
           });
       } else
@@ -357,7 +357,7 @@ export default {
           .dispatch('product/addProduct', this.productForm)
           .then((product) =>
             this.$router.push({
-              name: 'product.form.setting',
+              name: 'products.form.setting',
               params: { id: product.id },
             })
           )

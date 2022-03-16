@@ -46,7 +46,7 @@ const actions = {
     return productTypeService.add(productTypeField).then(({ data }) => {
       commit('ADD_PRODUCT_TYPE', data);
       notify(
-        i18n.global.t('product.productType.store'),
+        i18n.global.t('products.productType.store'),
         'Ok',
         'theme',
         'fa fa-check'
@@ -60,7 +60,7 @@ const actions = {
       .update(productTypeField, productTypeField.id)
       .then(({ data }) => {
         notify(
-          i18n.global.t('product.productType.update'),
+          i18n.global.t('products.productType.update'),
           'Ok',
           'theme',
           'fa fa-check'

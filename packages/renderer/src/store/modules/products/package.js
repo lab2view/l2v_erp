@@ -43,7 +43,7 @@ const actions = {
     return packageService.add(packageField).then(({ data }) => {
       commit('ADD_PACKAGE', data);
       notify(
-        i18n.global.t('product.package.store'),
+        i18n.global.t('products.package.store'),
         'Ok',
         'theme',
         'fa fa-check'
@@ -57,7 +57,7 @@ const actions = {
       .update(packageField, packageField.id)
       .then(({ data }) => {
         notify(
-          i18n.global.t('product.package.update'),
+          i18n.global.t('products.package.update'),
           'Ok',
           'theme',
           'fa fa-check'

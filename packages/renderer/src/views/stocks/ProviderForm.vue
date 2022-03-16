@@ -115,8 +115,8 @@ export default {
     ...mapGetters('auth', ['currentUser']),
     title() {
       return this.stockProvider && this.stockProvider.id
-        ? this.$t('stock.provider.formUpdateTitle')
-        : this.$t('stock.provider.formCreateTitle');
+        ? this.$t('stocks.provider.formUpdateTitle')
+        : this.$t('stocks.provider.formCreateTitle');
     },
     userCountry() {
       return this.countries.find(

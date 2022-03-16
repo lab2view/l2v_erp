@@ -98,13 +98,13 @@ const actions = {
           state.code === stockStateCode.success ||
           state.code === stockStateCode.delivered
         )
-          getters.stockEntry?.stock_provisions.forEach((sp) =>
+          getters.stockEntry?.provisions.forEach((sp) =>
             commit('article/UPDATE_ARTICLE_STOCK', sp.article, {
               root: true,
             })
           );
         notify(
-          i18n.global.t('stock.stockEntry.updateStock'),
+          i18n.global.t('stocks.stockEntry.updateStock'),
           'Ok',
           'theme',
           'fa fa-check'
@@ -125,7 +125,7 @@ const actions = {
       .then(({ data }) => {
         commit('UPDATE_STOCK_ENTRY_LINE', data);
         notify(
-          i18n.global.t('stock.entryLine.update'),
+          i18n.global.t('stocks.entryLine.update'),
           'Ok',
           'theme',
           'fa fa-check'
@@ -142,36 +142,36 @@ const actions = {
       });
   },
 
-  addStockProvisions({ commit, getters }, stockProvisions) {
+  addProvisions({ commit, getters }, provisions) {
     return stockEntryService
-      .addStockProvisions(getters.stockEntry.id, stockProvisions)
+      .addProvisions(getters.stockEntry.id, provisions)
       .then(({ data }) => {
-        commit('ADD_STOCK_PROVISIONS', data.stock_provisions);
+        commit('ADD_PROVISIONS', data.provisions);
       });
   },
-  updateStockProvision({ commit }, stockProvision) {
+  updateProvision({ commit }, provision) {
     return stockEntryService
-      .updateStockProvision(stockProvision)
+      .updateProvision(provision)
       .then(({ data }) => {
-        commit('UPDATE_STOCK_PROVISION', data);
+        commit('UPDATE_PROVISION', data);
         notify(
-          i18n.global.t('stock.provision.update'),
+          i18n.global.t('stocks.provision.update'),
           'Ok',
           'theme',
           'fa fa-check'
         );
       });
   },
-  removeStockProvisions({ getters, commit }, stockProvisionIds) {
+  removeProvisions({ getters, commit }, provisionIds) {
     return stockEntryService
-      .removeStockProvisions(
+      .removeProvisions(
         {
-          stock_provision_ids: [...stockProvisionIds],
+          stock_provision_ids: [...provisionIds],
         },
         getters.stockEntry.id
       )
       .then(() => {
-        commit('REMOVE_STOCK_PROVISIONS', stockProvisionIds);
+        commit('REMOVE_PROVISIONS', provisionIds);
       });
   },
 
@@ -181,7 +181,7 @@ const actions = {
       .then(({ data }) => {
         commit('ADD_STOCK_ENTRY_STATE', data);
         notify(
-          i18n.global.t('stock.stockEntry.updateStock'),
+          i18n.global.t('stocks.stockEntry.updateStock'),
           'Ok',
           'theme',
           'fa fa-check'
@@ -268,43 +268,43 @@ const mutations = {
     }
   },
 
-  ADD_STOCK_PROVISIONS(state, stock_provisions) {
+  ADD_PROVISIONS(state, provisions) {
     let stock_entries = JSON.parse(state.stock_entries);
     let stockEntry = JSON.parse(state.stockEntry);
     let index = stock_entries.findIndex((se) => se.id === stockEntry.id);
     if (index !== -1) {
-      stockEntry.stock_provisions = [
-        ...stockEntry.stock_provisions,
-        ...stock_provisions,
+      stockEntry.provisions = [
+        ...stockEntry.provisions,
+        ...provisions,
       ];
       stock_entries.splice(index, 1, stockEntry);
       state.stockEntry = JSON.stringify(stockEntry);
       state.stock_entries = JSON.stringify(stock_entries);
     }
   },
-  UPDATE_STOCK_PROVISION(state, stockPrevision) {
+  UPDATE_PROVISION(state, stockPrevision) {
     let stock_entries = JSON.parse(state.stock_entries);
     let stockEntry = JSON.parse(state.stockEntry);
     let index = stock_entries.findIndex((se) => se.id === stockEntry.id);
     if (index !== -1) {
-      let art = stockEntry.stock_provisions.findIndex(
+      let art = stockEntry.provisions.findIndex(
         (p) => p.id === stockPrevision.id
       );
       if (art !== -1) {
-        stockEntry.stock_provisions.splice(art, 1, stockPrevision);
+        stockEntry.provisions.splice(art, 1, stockPrevision);
         stock_entries.splice(index, 1, stockEntry);
         state.stockEntry = JSON.stringify(stockEntry);
         state.stock_entries = JSON.stringify(stock_entries);
       }
     }
   },
-  REMOVE_STOCK_PROVISIONS(state, stock_provisions_ids) {
+  REMOVE_PROVISIONS(state, provision_ids) {
     let stock_entries = JSON.parse(state.stock_entries);
     let stockEntry = JSON.parse(state.stockEntry);
     let index = stock_entries.findIndex((se) => se.id === stockEntry.id);
     if (index !== -1) {
-      stockEntry.stock_provisions = stockEntry.stock_provisions.filter((cp) => {
-        return stock_provisions_ids.find((p) => p === cp.id) === undefined;
+      stockEntry.provisions = stockEntry.provisions.filter((cp) => {
+        return provision_ids.find((p) => p === cp.id) === undefined;
       });
       stock_entries.splice(index, 1, stockEntry);
       state.stockEntry = JSON.stringify(stockEntry);

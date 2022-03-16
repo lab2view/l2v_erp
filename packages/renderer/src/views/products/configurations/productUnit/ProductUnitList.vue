@@ -3,11 +3,11 @@
     <div class="card-header pb-2 border-bottom border-bottom-">
       <div class="row align-items-center">
         <div class="col-sm">
-          <h5>{{ $t('product.productUnit.listTitle') }}</h5>
+          <h5>{{ $t('products.productUnit.listTitle') }}</h5>
         </div>
         <div class="col-sm-auto align-items-end">
           <router-link
-            :to="{ name: 'config.product.productUnit.form' }"
+            :to="{ name: 'config.products.productUnit.form' }"
             href="#"
             class="btn btn-primary"
             type="button"
@@ -38,7 +38,7 @@
               :title="$t('common.update')"
               @click.prevent="
                 $router.push({
-                  name: 'config.product.productUnit.form',
+                  name: 'config.products.productUnit.form',
                   params: { id: productUnit.id },
                 })
               "

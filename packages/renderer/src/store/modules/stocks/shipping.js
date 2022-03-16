@@ -44,7 +44,7 @@ const actions = {
     return shippingService.addShipping(shippingField).then(({ data }) => {
       commit('ADD_SHIPPING', data);
       notify(
-        i18n.global.t('stock.shipping.store'),
+        i18n.global.t('stocks.shipping.store'),
         'Ok',
         'theme',
         'fa fa-check'
@@ -59,7 +59,7 @@ const actions = {
       .then(({ data }) => {
         commit('UPDATE_SHIPPING', data);
         notify(
-          i18n.global.t('stock.shipping.update'),
+          i18n.global.t('stocks.shipping.update'),
           'Ok',
           'theme',
           'fa fa-check'

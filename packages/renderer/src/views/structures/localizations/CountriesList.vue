@@ -1,13 +1,13 @@
 <template>
   <BaseContainer
-    :module="$t('structures.countries')"
-    :title="$t('structures.title')"
+    :module="$t('enterprise.countries')"
+    :title="$t('enterprise.title')"
   >
     <div class="card">
       <div class="card-header pb-2 border-bottom border-bottom-">
         <div class="row align-items-center">
           <div class="col-sm">
-            <h5>{{ $t('structures.country.listTitle') }}</h5>
+            <h5>{{ $t('enterprise.country.listTitle') }}</h5>
           </div>
           <div class="col-sm-auto align-items-end">
             <router-link
@@ -17,7 +17,7 @@
               type="button"
             >
               <i class="fa fa-pencil m-r-5" />
-              {{ $t('structures.country.activate_country') }}
+              {{ $t('enterprise.country.activate_country') }}
             </router-link>
             <!--
                       <div class="col-sm-auto align-items-end">

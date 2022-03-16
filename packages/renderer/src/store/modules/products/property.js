@@ -42,7 +42,7 @@ const actions = {
     return propertyService.add(propertyField).then(({ data }) => {
       commit('ADD_PROPERTY', data);
       notify(
-        i18n.global.t('product.property.store'),
+        i18n.global.t('products.property.store'),
         'Ok',
         'theme',
         'fa fa-check'
@@ -56,7 +56,7 @@ const actions = {
       .update(propertyField, propertyField.id)
       .then(({ data }) => {
         notify(
-          i18n.global.t('product.property.update'),
+          i18n.global.t('products.property.update'),
           'Ok',
           'theme',
           'fa fa-check'

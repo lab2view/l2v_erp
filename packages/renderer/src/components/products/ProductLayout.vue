@@ -28,7 +28,7 @@ export default {
         store.dispatch('product_unit/getProductUnitsList', field),
         store.dispatch('property/getPropertiesList', field),
         store.dispatch('tax/getTaxesList', field),
-        store.dispatch('product_package/getPackageList', field),
+        store.dispatch('package/getPackageList', field),
         store.dispatch('price_type/getPriceTypeList', field),
         store.dispatch('getLastHash', moduleCode.products).then((data) => {
           store.commit('product/SET_PRODUCTS_HASH', data.hash);

@@ -15,7 +15,7 @@
               <BaseSelect
                 v-model="enterpriseForm.enterprise_type_id"
                 :errors="errors.enterprise_type_id"
-                :label="$t('structures.enterprise_type')"
+                :label="$t('enterprise.enterprise_type')"
                 :options="enterpriseTypes"
                 key-label="label"
                 key-value="id"
@@ -154,8 +154,8 @@ export default {
     ...mapGetters('country', ['countries']),
     formTitle() {
       return this.enterprise
-        ? this.$t('structures.enterprise.formUpdateTitle')
-        : this.$t('structures.enterprise.formCreateTitle');
+        ? this.$t('enterprise.enterprise.formUpdateTitle')
+        : this.$t('enterprise.enterprise.formCreateTitle');
     },
     userCountry() {
       return this.countries.find(

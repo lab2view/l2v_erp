@@ -47,7 +47,7 @@ const actions = {
       commit('ADD_PRODUCT', data);
       commit('article/ADD_ARTICLE', data.articles[0], { root: true });
       commit('SET_CURRENT_PRODUCT', data);
-      notify(i18n.global.t('product.form.store'), 'Ok', 'theme', 'fa fa-check');
+      notify(i18n.global.t('products.form.store'), 'Ok', 'theme', 'fa fa-check');
       return data;
     });
   },
@@ -57,7 +57,7 @@ const actions = {
       .update(productField, productField.id)
       .then(({ data }) => {
         notify(
-          i18n.global.t('product.form.update'),
+          i18n.global.t('products.form.update'),
           'Ok',
           'theme',
           'fa fa-check'
@@ -91,7 +91,7 @@ const actions = {
   updateProperty({ commit }, productProperty) {
     return productService.updateProperty(productProperty).then(({ data }) => {
       commit('UPDATE_PROPERTY', data);
-      notify(i18n.global.t('product.tax.update'), 'Ok', 'theme', 'fa fa-check');
+      notify(i18n.global.t('products.tax.update'), 'Ok', 'theme', 'fa fa-check');
     });
   },
 
@@ -120,7 +120,7 @@ const actions = {
   updateTax({ commit }, productTax) {
     return productService.updateTax(productTax).then(({ data }) => {
       commit('UPDATE_TAX', data);
-      notify(i18n.global.t('product.tax.update'), 'Ok', 'theme', 'fa fa-check');
+      notify(i18n.global.t('products.tax.update'), 'Ok', 'theme', 'fa fa-check');
     });
   },
 
