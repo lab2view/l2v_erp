@@ -83,8 +83,8 @@ export default {
   computed: {
     formTitle() {
       return this.articleGroup
-        ? this.$t('article.group.formUpdateTitle')
-        : this.$t('article.group.formCreateTitle');
+        ? this.$t('articles.group.formUpdateTitle')
+        : this.$t('articles.group.formCreateTitle');
     },
   },
   watch: {

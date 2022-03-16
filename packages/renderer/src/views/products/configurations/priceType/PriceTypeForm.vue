@@ -44,8 +44,8 @@ export default {
     ...mapGetters('price_type', ['priceType']),
     title() {
       return this.priceType
-        ? this.$t('article.priceType.formUpdateTitle')
-        : this.$t('article.priceType.formCreateTitle');
+        ? this.$t('articles.priceType.formUpdateTitle')
+        : this.$t('articles.priceType.formCreateTitle');
     },
   },
   created() {

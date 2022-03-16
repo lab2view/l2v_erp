@@ -4,7 +4,7 @@
     :submit-store-action="submitArticleGroupLinesForm"
   >
     <div class="card-header p-3">
-      <h5>{{ $t('article.group.line.formTitle') }}</h5>
+      <h5>{{ $t('articles.group.line.formTitle') }}</h5>
     </div>
   </ArticleSelectableList>
 </template>

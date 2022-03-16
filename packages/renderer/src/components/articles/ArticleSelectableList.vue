@@ -2,7 +2,7 @@
   <div class="card rounded shadow-sm">
     <slot>
       <div class="card-header text-center p-3">
-        <h5>{{ $t('article.selection') }}</h5>
+        <h5>{{ $t('articles.selection') }}</h5>
       </div>
     </slot>
     <form class="theme-form" @submit.prevent="submitSelectedForm">
@@ -82,7 +82,7 @@
                 <table class="table">
                   <thead>
                     <tr>
-                      <th>{{ $t('article.listTitle') }}</th>
+                      <th>{{ $t('articles.listTitle') }}</th>
                       <th :title="$t('common.select_all')" class="text-end">
                         <div
                           class="checkbox"

@@ -64,7 +64,7 @@
                     for="checkbox-stock-line-1"
                     :style="{ 'padding-left: 60px': !stockEntryIsConfirm }"
                   >
-                    {{ `${$t('article.listTitle')} ${countSelected}` }}</label
+                    {{ `${$t('articles.listTitle')} ${countSelected}` }}</label
                   >
                 </div>
               </th>

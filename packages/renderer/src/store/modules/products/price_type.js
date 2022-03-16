@@ -42,7 +42,7 @@ const actions = {
     return priceTypeService.add(priceTypeField).then(({ data }) => {
       commit('ADD_PRICE_TYPE', data);
       notify(
-        i18n.global.t('article.priceType.store'),
+        i18n.global.t('articles.priceType.store'),
         'Ok',
         'theme',
         'fa fa-check'
@@ -56,7 +56,7 @@ const actions = {
       .update(priceTypeField, priceTypeField.id)
       .then(({ data }) => {
         notify(
-          i18n.global.t('article.priceType.update'),
+          i18n.global.t('articles.priceType.update'),
           'Ok',
           'theme',
           'fa fa-check'

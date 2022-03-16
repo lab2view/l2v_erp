@@ -1,7 +1,7 @@
 <template>
   <div class="card rounded shadow-sm">
     <div class="card-header p-3 bg-light">
-      <h5>{{ $t('article.form.createTitle') }}</h5>
+      <h5>{{ $t('articles.form.createTitle') }}</h5>
     </div>
     <form class="theme-form" @submit.prevent="submitProductArticleForm">
       <div class="card-body pb-0 pt-2">

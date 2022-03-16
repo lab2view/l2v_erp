@@ -8,7 +8,7 @@
     <div class="card-header pb-0">
       <div class="row align-items-center">
         <div class="col-sm">
-          <h5>{{ `${$t('article.listTitle')} - ${product.reference}` }}</h5>
+          <h5>{{ `${$t('articles.listTitle')} - ${product.reference}` }}</h5>
         </div>
         <div
           v-if="$route.name === 'products.form.article'"

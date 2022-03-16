@@ -3,7 +3,7 @@
     <div class="card-header pb-0">
       <div class="row align-items-center">
         <div class="col-sm">
-          <h5>{{ `${$t('article.detail.price.title')} : ${article.name}` }}</h5>
+          <h5>{{ `${$t('articles.detail.price.title')} : ${article.name}` }}</h5>
         </div>
         <div class="col-sm-auto align-items-end">
           <router-link

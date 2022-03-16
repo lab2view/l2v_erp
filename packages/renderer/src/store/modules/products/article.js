@@ -64,7 +64,7 @@ const actions = {
   addArticle({ commit }, articleField) {
     return articleService.add(articleField).then(({ data }) => {
       commit('ADD_ARTICLE', data);
-      notify(i18n.global.t('article.form.store'), 'Ok', 'theme', 'fa fa-check');
+      notify(i18n.global.t('articles.form.store'), 'Ok', 'theme', 'fa fa-check');
       return data;
     });
   },
@@ -74,7 +74,7 @@ const actions = {
       .update(articleField, articleField.id)
       .then(({ data }) => {
         notify(
-          i18n.global.t('article.form.update'),
+          i18n.global.t('articles.form.update'),
           'Ok',
           'theme',
           'fa fa-check'
@@ -104,7 +104,7 @@ const actions = {
     return articleService.updatePrice(price).then(({ data }) => {
       commit('UPDATE_PRICE', data);
       notify(
-        i18n.global.t('article.detail.price.update'),
+        i18n.global.t('articles.detail.price.update'),
         'Ok',
         'theme',
         'fa fa-check'
@@ -139,7 +139,7 @@ const actions = {
       .then(({ data }) => {
         commit('UPDATE_COMPOSITION_PRESET', data);
         notify(
-          i18n.global.t('article.detail.composition.config.update'),
+          i18n.global.t('articles.detail.composition.config.update'),
           'Ok',
           'theme',
           'fa fa-check'

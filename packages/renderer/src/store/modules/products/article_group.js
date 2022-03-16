@@ -47,7 +47,7 @@ const actions = {
       commit('ADD_ARTICLE_GROUP', data);
       commit('SET_CURRENT_ARTICLE_GROUP', data);
       notify(
-        i18n.global.t('article.articleGroup.store'),
+        i18n.global.t('articles.articleGroup.store'),
         'Ok',
         'theme',
         'fa fa-check'
@@ -61,7 +61,7 @@ const actions = {
       .update(articleGroupField, articleGroupField.id)
       .then(({ data }) => {
         notify(
-          i18n.global.t('article.group.update'),
+          i18n.global.t('articles.group.update'),
           'Ok',
           'theme',
           'fa fa-check'
@@ -93,7 +93,7 @@ const actions = {
       .then(({ data }) => {
         commit('UPDATE_ARTICLE_GROUP_LINE', data);
         notify(
-          i18n.global.t('article.group.line.update'),
+          i18n.global.t('articles.group.line.update'),
           'Ok',
           'theme',
           'fa fa-check'
