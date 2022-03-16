@@ -64,6 +64,13 @@ export default {
       this.$store.commit('transaction_type/SET_CURRENT_TRANSACTION_TYPE', null);
   },
   methods: {
+    setLoading(value = false) {
+      if (value) {
+        this.errors = [];
+      }
+
+      this.formLoading = value;
+    },
     submitTransactionTypeForm() {
       if (this.formLoading) {
         return;
