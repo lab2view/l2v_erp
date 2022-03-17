@@ -41,11 +41,11 @@ export default {
     };
   },
   computed: {
-    ...mapGetters('taxConfig', ['tax']),
+    ...mapGetters('tax', ['tax']),
     title() {
       return this.tax
-        ? this.$t('product.tax.formUpdateTitle')
-        : this.$t('product.tax.formCreateTitle');
+        ? this.$t('products.tax.formUpdateTitle')
+        : this.$t('products.tax.formCreateTitle');
     },
   },
   created() {
@@ -53,13 +53,13 @@ export default {
   },
   beforeUnmount() {
     if (this.tax)
-      this.$store.commit('taxConfig/SET_CURRENT_TAX', null);
+      this.$store.commit('tax/SET_CURRENT_TAX', null);
   },
   methods: {
     submitTaxForm() {
       if (this.tax)
         this.$store
-          .dispatch('taxConfig/updateTax', this.taxForm)
+          .dispatch('tax/updateTax', this.taxForm)
           .then(() => this.$router.back())
           .catch((error) => {
             this.errors = error.response?.data?.errors;
@@ -67,7 +67,7 @@ export default {
           });
       else
         this.$store
-          .dispatch('taxConfig/addTax', this.taxForm)
+          .dispatch('tax/addTax', this.taxForm)
           .then(() => this.$router.back())
           .catch((error) => {
             this.errors = error.response?.data?.errors;

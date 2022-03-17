@@ -1,7 +1,7 @@
 <template>
   <div class="card rounded shadow-sm">
     <div class="card-header p-3">
-      <h5>{{ $t('product.tax.formCreateTitle') }}</h5>
+      <h5>{{ $t('products.tax.formCreateTitle') }}</h5>
     </div>
     <form class="theme-form" @submit.prevent="submitProductTaxForm">
       <div class="card-body pb-0 pt-2">
@@ -85,7 +85,7 @@ export default {
   },
   beforeRouteEnter(routeTo, routeFrom, next) {
     store
-      .dispatch('taxConfig/getTaxesList', {
+      .dispatch('tax/getTaxesList', {
         page: 1,
         field: {},
       })
@@ -116,7 +116,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters('taxConfig', ['taxes']),
+    ...mapGetters('tax', ['taxes']),
     selectTaxes() {
       return this.taxes.filter((tax) => {
         return (

@@ -119,7 +119,7 @@ export default {
   components: {BaseDatetime, BaseInput, BaseFormModal, BaseSelect, BaseTextArea },
   beforeRouteEnter(routeTo, routeFrom, next) {
     Promise.all([
-      store.dispatch('cashierGroup/getCashierGroupsList', {
+      store.dispatch('cashier_group/getCashierGroupsList', {
         page: 1,
         field: {},
       }),
@@ -153,7 +153,7 @@ export default {
   },
   computed: {
     ...mapGetters('enterprise', ['enterprises']),
-    ...mapGetters('cashierGroup', ['cashierGroups']),
+    ...mapGetters('cashier_group', ['cashierGroups']),
     ...mapGetters('cashier', ['cashier']),
     title() {
       return this.cashier && this.cashier.id

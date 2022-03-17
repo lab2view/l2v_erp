@@ -3,11 +3,11 @@
     <div class="card-header pb-2 border-bottom border-bottom-">
       <div class="row align-items-center">
         <div class="col-sm">
-          <h5>{{ $t('product.productFamily.listTitle') }}</h5>
+          <h5>{{ $t('products.productFamily.listTitle') }}</h5>
         </div>
         <div class="col-sm-auto align-items-end">
           <router-link
-            :to="{ name: 'config.product.productFamily.form' }"
+            :to="{ name: 'config.products.productFamily.form' }"
             href="#"
             class="btn btn-primary"
             type="button"
@@ -38,7 +38,7 @@
               :title="$t('common.update')"
               @click.prevent="
                 $router.push({
-                  name: 'config.product.productFamily.form',
+                  name: 'config.products.productFamily.form',
                   params: { id: productFamily.id },
                 })
               "
@@ -73,7 +73,7 @@ export default {
   components: { BaseDatatable },
   beforeRouteEnter(routeTo, routeFrom, next) {
     store
-      .dispatch('productFamilyConfig/getProductFamiliesList', {
+      .dispatch('product_family/getProductFamiliesList', {
         page: 1,
         field: {},
       })
@@ -86,12 +86,12 @@ export default {
       });
   },
   computed: {
-    ...mapGetters('productFamilyConfig', ['productFamilies']),
+    ...mapGetters('product_family', ['productFamilies']),
   },
   methods: {
     deleteProductFamily(productFamily) {
       if (confirm(this.$t('messages.confirmDelete', { label: productFamily.label })))
-        this.$store.dispatch('productFamilyConfig/deleteProductFamily', productFamily.id);
+        this.$store.dispatch('product_family/deleteProductFamily', productFamily.id);
     },
   },
 };

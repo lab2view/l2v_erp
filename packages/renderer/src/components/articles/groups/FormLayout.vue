@@ -1,6 +1,6 @@
 <template>
   <BaseContainer
-    :title="$t('article.title')"
+    :title="$t('articles.title')"
     :module="$t('menu.modules.articles')"
   >
     <div class="card">

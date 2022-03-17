@@ -76,7 +76,7 @@ export default {
   components: { BaseContainer, BaseDatatable },
   beforeRouteEnter(routeTo, routeFrom, next) {
     store
-      .dispatch('paymentMethod/getPaymentMethodsList', {
+      .dispatch('payment_method/getPaymentMethodsList', {
         page: 1,
         field: {},
       })
@@ -89,11 +89,11 @@ export default {
       });
   },
   computed: {
-    ...mapGetters('paymentMethod', ['paymentMethods', 'paymentMethod']),
+    ...mapGetters('payment_method', ['paymentMethods', 'paymentMethod']),
   },
   created() {
     if (this.paymentMethod)
-      this.$store.commit('paymentMethod/SET_CURRENT_PAYMENT_METHOD', null);
+      this.$store.commit('payment_method/SET_CURRENT_PAYMENT_METHOD', null);
   },
 
   methods: {
@@ -104,7 +104,7 @@ export default {
         )
       )
         this.$store.dispatch(
-          'paymentMethod/deletePaymentMethod',
+          'payment_method/deletePaymentMethod',
           paymentMethod.id
         );
     },

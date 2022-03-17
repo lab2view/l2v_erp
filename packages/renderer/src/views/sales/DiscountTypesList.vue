@@ -78,7 +78,7 @@ export default {
   components: { BaseContainer, BaseDatatable },
   beforeRouteEnter(routeTo, routeFrom, next) {
     store
-      .dispatch('discountType/getDiscountTypesList', {
+      .dispatch('discount_type/getDiscountTypesList', {
         page: 1,
         field: {},
       })
@@ -91,11 +91,11 @@ export default {
       });
   },
   computed: {
-    ...mapGetters('discountType', ['discountTypes', 'discountType']),
+    ...mapGetters('discount_type', ['discountTypes', 'discountType']),
   },
   created() {
     if (this.discountType)
-      this.$store.commit('discountType/SET_CURRENT_DISCOUNT_TYPE', null);
+      this.$store.commit('discount_type/SET_CURRENT_DISCOUNT_TYPE', null);
   },
 
   methods: {
@@ -107,7 +107,7 @@ export default {
     },
     deleteDiscountType(discountType) {
       if (confirm(this.$t('messages.confirmDelete', { label: discountType.label })))
-        this.$store.dispatch('discountType/deleteDiscountType', discountType.id);
+        this.$store.dispatch('discount_type/deleteDiscountType', discountType.id);
     },
   },
 };

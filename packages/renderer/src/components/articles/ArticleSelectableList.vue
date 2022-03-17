@@ -2,7 +2,7 @@
   <div class="card rounded shadow-sm">
     <slot>
       <div class="card-header text-center p-3">
-        <h5>{{ $t('article.selection') }}</h5>
+        <h5>{{ $t('articles.selection') }}</h5>
       </div>
     </slot>
     <form class="theme-form" @submit.prevent="submitSelectedForm">
@@ -82,7 +82,7 @@
                 <table class="table">
                   <thead>
                     <tr>
-                      <th>{{ $t('article.listTitle') }}</th>
+                      <th>{{ $t('articles.listTitle') }}</th>
                       <th :title="$t('common.select_all')" class="text-end">
                         <div
                           class="checkbox"
@@ -155,11 +155,11 @@ export default {
   components: { ArticleSelectableColumn, BaseButton, BaseSelect },
   beforeRouteEnter(routeTo, routeFrom, next) {
     Promise.all([
-      store.dispatch('productFamilyConfig/getProductFamiliesList', {
+      store.dispatch('product_family/getProductFamiliesList', {
         page: 1,
         field: {},
       }),
-      store.dispatch('productTypeConfig/getProductTypesList', {
+      store.dispatch('product_type/getProductTypesList', {
         page: 1,
         field: {},
       }),
@@ -207,8 +207,8 @@ export default {
   },
   computed: {
     ...mapGetters('article', ['searchArticleByCriteria']),
-    ...mapGetters('productFamilyConfig', ['productFamilies']),
-    ...mapGetters('productTypeConfig', ['productTypes']),
+    ...mapGetters('product_family', ['productFamilies']),
+    ...mapGetters('product_type', ['productTypes']),
     ...mapGetters('product', ['products']),
     selectableProductTypes() {
       const types = this.product_family_id

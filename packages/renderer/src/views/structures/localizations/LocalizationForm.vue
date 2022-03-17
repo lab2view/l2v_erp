@@ -110,8 +110,8 @@ export default {
     ...mapGetters('localization', ['localization']),
     title() {
       return this.localization && this.localization.id
-        ? this.$t('structures.localization.formUpdateTitle')
-        : this.$t('structures.localization.formCreateTitle');
+        ? this.$t('enterprise.localization.formUpdateTitle')
+        : this.$t('enterprise.localization.formCreateTitle');
     },
     active_regions() {
       return this.localizationForm.country_id

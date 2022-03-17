@@ -178,7 +178,7 @@
     chartlinechart3.render();
 
     // column chart
-    
+
     var options = {
         series: [{
         name: 'Net Profit',
@@ -214,7 +214,7 @@
           text: '$ (thousands)'
         }
       },
- 
+
       fill: {
         opacity: 1,
         colors: [vihoAdminConfig.primary, vihoAdminConfig.secondary],
@@ -228,7 +228,7 @@
             opacityTo: 0.8,
             stops: [0, 100]
         }
-    },  
+    },
     colors: [vihoAdminConfig.primary, vihoAdminConfig.secondary],
       tooltip: {
         y: {
@@ -322,8 +322,8 @@
     };
     var chart = new ApexCharts(document.querySelector("#chart-widget5"), options);
     chart.render();
-    
-    // product chart
+
+    // products chart
     var optionsproductchart = {
         chart: {
             height: 320,
@@ -416,7 +416,7 @@
         series: [{
             name: "STOCK ABC",
             data: series.monthDataSeries1.prices
-        }],   
+        }],
         colors: [vihoAdminConfig.primary],
         labels: series.monthDataSeries1.dates,
         xaxis: {
@@ -467,7 +467,7 @@
             name: 'Series 3',
             data: [44, 76, 78, 13, 43, 10],
         }],
-   
+
         stroke: {
             width: 0
         },
@@ -552,7 +552,7 @@
     }
     var chartuserchart = new ApexCharts(document.querySelector("#chart-widget9"), optionsuserchart);
     chartuserchart.render();
-    
+
     // browser-candlestick chart
     var optionscandlestickchart = {
         chart: {
@@ -772,6 +772,5 @@
     }
     var chartcandlestickchart = new ApexCharts(document.querySelector("#chart-widget13"), optionscandlestickchart);
     chartcandlestickchart.render();
-    
-    
-    
+
+

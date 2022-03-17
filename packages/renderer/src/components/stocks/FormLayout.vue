@@ -1,5 +1,5 @@
 <template>
-  <BaseContainer :title="$t('stock.title')" :module="$t('menu.modules.stocks')">
+  <BaseContainer :title="$t('stocks.title')" :module="$t('menu.modules.stocks')">
     <div class="card">
       <BaseWizardStep :links="items" />
     </div>

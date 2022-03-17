@@ -19,13 +19,13 @@ export const stockStateCode = {
   partial_delivered: 'PARTIALLY_DELIVERED',
 };
 export const moduleCode = {
-  customer: 'CUSTOMERS',
+  customers: 'CUSTOMERS',
   enterprise: 'ENTERPRISE',
   iam: 'IAM',
   payments: 'PAYMENTS',
-  product: 'PRODUCTS',
-  sale: 'SALES',
-  stock: 'STOCKS',
+  products: 'PRODUCTS',
+  sales: 'SALES',
+  stocks: 'STOCKS',
 };
 
 export const actionCode = {

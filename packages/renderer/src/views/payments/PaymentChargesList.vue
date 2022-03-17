@@ -51,7 +51,7 @@ export default {
   components: { BaseContainer, BaseDatatable },
   beforeRouteEnter(routeTo, routeFrom, next) {
     store
-      .dispatch('paymentCharge/getPaymentChargesList', {
+      .dispatch('payment_charge/getPaymentChargesList', {
         page: 1,
         field: {},
       })
@@ -64,11 +64,11 @@ export default {
       });
   },
   computed: {
-    ...mapGetters('paymentCharge', ['paymentCharges', 'paymentCharge']),
+    ...mapGetters('payment_charge', ['paymentCharges', 'paymentCharge']),
   },
   created() {
     if (this.paymentCharge)
-      this.$store.commit('paymentCharge/SET_CURRENT_PAYMENT_CHARGE', null);
+      this.$store.commit('payment_charge/SET_CURRENT_PAYMENT_CHARGE', null);
   },
 };
 </script>

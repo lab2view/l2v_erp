@@ -1,10 +1,10 @@
 import common from './common';
 import messages from './messages';
-import product from './product';
+import products from './products';
 import menu from './menu';
-import article from './article';
-import stock from './stock';
-import structures from './structures';
+import articles from './articles';
+import stocks from './stocks';
+import enterprise from './enterprise';
 import customers from './customers';
 import sales from './sales';
 import payments from './payments';
@@ -14,10 +14,10 @@ export default {
   customers,
   menu,
   messages,
-  product,
-  article,
-  stock,
-  structures,
+  products,
+  articles,
+  stocks,
+  enterprise,
   sales,
   payments,
 };

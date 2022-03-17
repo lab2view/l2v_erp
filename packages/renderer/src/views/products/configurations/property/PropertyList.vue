@@ -3,11 +3,11 @@
     <div class="card-header pb-2 border-bottom border-bottom-">
       <div class="row align-items-center">
         <div class="col-sm">
-          <h5>{{ $t('product.property.listTitle') }}</h5>
+          <h5>{{ $t('products.property.listTitle') }}</h5>
         </div>
         <div class="col-sm-auto align-items-end">
           <router-link
-            :to="{ name: 'config.product.property.form' }"
+            :to="{ name: 'config.products.property.form' }"
             href="#"
             class="btn btn-primary"
             type="button"
@@ -46,7 +46,7 @@
               :title="$t('common.update')"
               @click.prevent="
                 $router.push({
-                  name: 'config.product.property.form',
+                  name: 'config.products.property.form',
                   params: { id: property.id },
                 })
               "
@@ -81,7 +81,7 @@ export default {
   components: { BaseDatatable },
   beforeRouteEnter(routeTo, routeFrom, next) {
     store
-      .dispatch('propertyConfig/getPropertiesList', {
+      .dispatch('property/getPropertiesList', {
         page: 1,
         field: {},
       })
@@ -94,12 +94,12 @@ export default {
       });
   },
   computed: {
-    ...mapGetters('propertyConfig', ['properties']),
+    ...mapGetters('property', ['properties']),
   },
   methods: {
     deleteProperty(property) {
       if (confirm(this.$t('messages.confirmDelete', { label: property.label })))
-        this.$store.dispatch('propertyConfig/deleteProperty', property.id);
+        this.$store.dispatch('property/deleteProperty', property.id);
     },
   },
 };

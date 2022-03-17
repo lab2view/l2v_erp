@@ -33,35 +33,35 @@ export const productMenus = [
     icon: 'settings',
     label: 'Configurations',
     code: null,
-    prefix: 'config.product',
+    prefix: 'config.products',
     items: [
       {
         code: 'package.viewAny',
-        to: 'config.product.package',
+        to: 'config.products.package',
       },
       {
         code: 'PriceType.viewAny',
-        to: 'config.product.priceType',
+        to: 'config.products.priceType',
       },
       {
         code: 'ProductFamily.viewAny',
-        to: 'config.product.productFamily',
+        to: 'config.products.productFamily',
       },
       {
         code: 'ProductType.viewAny',
-        to: 'config.product.productType',
+        to: 'config.products.productType',
       },
       {
         code: 'ProductUnit.viewAny',
-        to: 'config.product.productUnit',
+        to: 'config.products.productUnit',
       },
       {
         code: 'Tax.viewAny',
-        to: 'config.product.tax',
+        to: 'config.products.tax',
       },
       {
         code: 'Property.viewAny',
-        to: 'config.product.property',
+        to: 'config.products.property',
       },
     ],
   },

@@ -18,7 +18,7 @@ export default {
   components: { BaseGallery, BaseDropzone },
   beforeRouteEnter(routeTo, routeFrom, next) {
     store
-      .dispatch('propertyConfig/getPropertiesList', {
+      .dispatch('property/getPropertiesList', {
         page: 1,
         field: {},
       })
@@ -32,7 +32,7 @@ export default {
   },
   computed: {
     ...mapGetters('product', ['product', 'product_properties']),
-    ...mapGetters('propertyConfig', ['properties']),
+    ...mapGetters('property', ['properties']),
     productContext() {
       return `products/${this.product?.id}`;
     },

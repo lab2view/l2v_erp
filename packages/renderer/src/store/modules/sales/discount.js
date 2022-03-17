@@ -19,6 +19,7 @@ const getters = {
       ? JSON.parse(state.discount)
       : null,
   haveDiscount: (state, getters) => !!getters.discount,
+  getSalesHash: (state) => state.hash ?? null,
 };
 
 // privileges
@@ -137,6 +138,9 @@ const actions = {
 
 // mutations
 const mutations = {
+  SET_SALES_HASH(state, hash) {
+    state.hash = hash;
+  },
   SET_DISCOUNTS(state, discounts) {
     state.discounts = JSON.stringify(discounts);
   },
