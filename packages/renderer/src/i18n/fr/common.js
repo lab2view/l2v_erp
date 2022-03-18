@@ -15,6 +15,7 @@ export default {
   yes: 'Oui',
   no: 'Non',
   confirm_provision: "Confirmer l'approvisionnement",
+  confirm_command: 'Confirmer le bon de commande',
   close: 'Fermer',
   delete: 'Supprimer',
   delete_all: 'Tout Supprimer',
@@ -47,7 +48,7 @@ export default {
   no_action: "Pas d'action",
   makeComposition: "Composer l'article",
   unmakeComposition: "Decomposer l'article",
-  parent: 'Parent',
+  parent: 'Principale',
 
   fields: {
     text: 'Chaine de caractere',

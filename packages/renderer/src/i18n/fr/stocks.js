@@ -42,6 +42,7 @@ export default {
   },
   stockExit: {
     listTitle: 'Liste des sorties de stocks',
+    add: 'Effectuer une sortie de stock',
   },
   stockType: {
     listTitle: 'Types de stocks',

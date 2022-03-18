@@ -72,6 +72,9 @@
                 {{ $t('common.attributes.quantity') }}
               </th>
               <th v-if="stockEntryIsCommand" class="text-center" scope="col">
+                {{ $t('common.attributes.provider_id') }}
+              </th>
+              <th v-if="stockEntryIsCommand" class="text-center" scope="col">
                 {{ $t('common.attributes.provider_price') }}
               </th>
               <th class="text-center" scope="col">
@@ -96,6 +99,9 @@
               @unselected="selectStockEntryLine(stockEntryLine, false)"
             >
               <td v-if="stockEntryIsCommand">
+                {{ stockEntryLine.provider?.name }}
+              </td>
+              <td v-if="stockEntryIsCommand">
                 {{ stockEntryLine.provider_price }}
               </td>
               <td class="text-center">{{ stockEntryLine.buying_price }}</td>
@@ -109,7 +115,11 @@
         <BaseButton
           class="btn btn-success col-auto"
           type="button"
-          :text="$t('common.confirm_provision')"
+          :text="
+            stockEntryIsCommand
+              ? $t('common.confirm_command')
+              : $t('common.confirm_provision')
+          "
           icon="fa fa-check-circle"
           :loading="loading"
           @click.prevent="confirmStockEntrySate"
