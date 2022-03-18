@@ -5,7 +5,7 @@
       <div class="row align-items-center">
         <div class="col-sm">
           <h5>
-            {{ `${$t('article.group.listTitle')} - ${articleGroup.label}` }}
+            {{ `${$t('articles.group.listTitle')} - ${articleGroup.label}` }}
           </h5>
         </div>
         <div
@@ -56,7 +56,7 @@
                     for="checkbox-primary-1"
                     style="padding-left: 60px"
                   >
-                    {{ `${$t('article.listTitle')} ${countSelected}` }}</label
+                    {{ `${$t('articles.listTitle')} ${countSelected}` }}</label
                   >
                 </div>
               </th>

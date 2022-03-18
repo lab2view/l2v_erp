@@ -74,7 +74,7 @@ export default {
   },
   computed: {
     ...mapGetters('country', ['activeCountries']),
-    ...mapGetters('paymentMethod', ['paymentMethod']),
+    ...mapGetters('payment_method', ['paymentMethod']),
     title() {
       return this.paymentMethod && this.paymentMethod.id
         ? this.$t('payments.paymentMethod.formUpdateTitle')
@@ -88,7 +88,7 @@ export default {
   beforeUnmount() {
     this.setLoading();
     if (this.paymentMethod && this.paymentMethod.id)
-      this.$store.commit('paymentMethod/SET_CURRENT_PAYMENT_METHOD', null);
+      this.$store.commit('payment_method/SET_CURRENT_PAYMENT_METHOD', null);
   },
   methods: {
     setLoading(value = false) {
@@ -106,7 +106,7 @@ export default {
       this.setLoading(true);
       if (this.paymentMethod && this.paymentMethod.id) {
         this.$store
-          .dispatch('paymentMethod/updatePaymentMethod', this.paymentMethodForm)
+          .dispatch('payment_method/updatePaymentMethod', this.paymentMethodForm)
           .then(() => this.$router.back())
           .catch((error) => {
             this.errors = error.response.data.errors;
@@ -115,7 +115,7 @@ export default {
           .finally(() => this.setLoading());
       } else {
         this.$store
-          .dispatch('paymentMethod/addPaymentMethod', this.paymentMethodForm)
+          .dispatch('payment_method/addPaymentMethod', this.paymentMethodForm)
           .then(() => this.$router.back())
           .catch((error) => {
             this.errors = error.response.data.errors;

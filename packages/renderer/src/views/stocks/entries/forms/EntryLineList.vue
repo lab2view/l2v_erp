@@ -5,7 +5,7 @@
       <div class="row align-items-center">
         <div class="col-sm">
           <h5>
-            {{ `${$t('stock.entryLine.list')} - ${stockEntryReference}` }}
+            {{ `${$t('stocks.entryLine.list')} - ${stockEntryReference}` }}
           </h5>
         </div>
         <div v-if="!stockEntryIsConfirm" class="col-sm-auto align-items-end">
@@ -31,7 +31,7 @@
           v-else-if="currentStockEntryStateDate"
           class="col-sm-auto align-items-end"
         >
-          {{ $t('stock.stockEntry.state_date') }} :
+          {{ $t('stocks.stockEntry.state_date') }} :
           <span class="f-w-700">{{
             $d(currentStockEntryStateDate, 'long')
           }}</span>
@@ -64,7 +64,7 @@
                     for="checkbox-stock-line-1"
                     :style="{ 'padding-left: 60px': !stockEntryIsConfirm }"
                   >
-                    {{ `${$t('article.listTitle')} ${countSelected}` }}</label
+                    {{ `${$t('articles.listTitle')} ${countSelected}` }}</label
                   >
                 </div>
               </th>

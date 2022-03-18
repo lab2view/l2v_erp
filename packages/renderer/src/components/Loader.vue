@@ -7,15 +7,13 @@
 </template>
 
 <script>
-import {defineComponent} from 'vue';
-import {mapState} from "vuex";
+import { defineComponent } from 'vue';
+import { mapState } from 'vuex';
 export default defineComponent({
   computed: {
-    ...mapState(["globalLoading"])
-  }
-})
+    ...mapState(['globalLoading']),
+  },
+});
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

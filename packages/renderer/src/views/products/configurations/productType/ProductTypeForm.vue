@@ -134,7 +134,7 @@ export default {
   components: { BaseFormModal },
   beforeRouteEnter(routeTo, routeFrom, next) {
     store
-      .dispatch('productFamilyConfig/getProductFamiliesList', {
+      .dispatch('product_family/getProductFamiliesList', {
         page: 1,
         field: {},
       })
@@ -162,12 +162,12 @@ export default {
     };
   },
   computed: {
-    ...mapGetters('productTypeConfig', ['productType']),
-    ...mapGetters('productFamilyConfig', ['productFamilies']),
+    ...mapGetters('product_type', ['productType']),
+    ...mapGetters('product_family', ['productFamilies']),
     title() {
       return this.productType
-        ? this.$t('product.productType.formUpdateTitle')
-        : this.$t('product.productType.formCreateTitle');
+        ? this.$t('products.productType.formUpdateTitle')
+        : this.$t('products.productType.formCreateTitle');
     },
   },
   created() {
@@ -175,13 +175,13 @@ export default {
   },
   beforeUnmount() {
     if (this.productType)
-      this.$store.commit('productTypeConfig/SET_CURRENT_PRODUCT_FAMILY', null);
+      this.$store.commit('product_type/SET_CURRENT_PRODUCT_FAMILY', null);
   },
   methods: {
     submitProductTypeForm() {
       if (this.productType)
         this.$store
-          .dispatch('productTypeConfig/updateProductType', this.productTypeForm)
+          .dispatch('product_type/updateProductType', this.productTypeForm)
           .then(() => this.$router.back())
           .catch((error) => {
             this.errors = error.response?.data?.errors;
@@ -189,7 +189,7 @@ export default {
           });
       else
         this.$store
-          .dispatch('productTypeConfig/addProductType', this.productTypeForm)
+          .dispatch('product_type/addProductType', this.productTypeForm)
           .then(() => this.$router.back())
           .catch((error) => {
             this.errors = error.response?.data?.errors;

@@ -90,8 +90,8 @@ export default {
     ...mapGetters('stock_state', ['stockState']),
     title() {
       return this.stockState && this.stockState.id
-        ? this.$t('stock.stockState.formUpdateTitle')
-        : this.$t('stock.stockState.formCreateTitle');
+        ? this.$t('stocks.stockState.formUpdateTitle')
+        : this.$t('stocks.stockState.formCreateTitle');
     },
   },
   mounted() {

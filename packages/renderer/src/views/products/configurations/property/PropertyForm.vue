@@ -61,11 +61,11 @@ export default {
   components: { BaseInput, BaseSelect, BaseFormModal },
   beforeRouteEnter(routeTo, routeFrom, next) {
     Promise.all([
-      store.dispatch('productFamilyConfig/getProductFamiliesList', {
+      store.dispatch('product_family/getProductFamiliesList', {
         page: 1,
         field: {},
       }),
-      store.dispatch('productTypeConfig/getProductTypesList', {
+      store.dispatch('product_type/getProductTypesList', {
         page: 1,
         field: {},
       }),
@@ -91,14 +91,14 @@ export default {
     };
   },
   computed: {
-    ...mapGetters('propertyConfig', ['property']),
-    ...mapGetters('productFamilyConfig', ['productFamilies']),
-    ...mapGetters('productTypeConfig', ['productTypes']),
+    ...mapGetters('property', ['property']),
+    ...mapGetters('product_family', ['productFamilies']),
+    ...mapGetters('product_type', ['productTypes']),
 
     title() {
       return this.property
-        ? this.$t('product.property.formUpdateTitle')
-        : this.$t('product.property.formCreateTitle');
+        ? this.$t('products.property.formUpdateTitle')
+        : this.$t('products.property.formCreateTitle');
     },
     propertyTypes() {
       return [
@@ -117,13 +117,13 @@ export default {
   },
   beforeUnmount() {
     if (this.property)
-      this.$store.commit('propertyConfig/SET_CURRENT_PROPERTY', null);
+      this.$store.commit('property/SET_CURRENT_PROPERTY', null);
   },
   methods: {
     submitPropertyForm() {
       if (this.property)
         this.$store
-          .dispatch('propertyConfig/updateProperty', this.propertyForm)
+          .dispatch('property/updateProperty', this.propertyForm)
           .then(() => this.$router.back())
           .catch((error) => {
             this.errors = error.response?.data?.errors;
@@ -131,7 +131,7 @@ export default {
           });
       else
         this.$store
-          .dispatch('propertyConfig/addProperty', this.propertyForm)
+          .dispatch('property/addProperty', this.propertyForm)
           .then(() => this.$router.back())
           .catch((error) => {
             this.errors = error.response?.data?.errors;

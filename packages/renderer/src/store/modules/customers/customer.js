@@ -13,6 +13,7 @@ const getters = {
   getCustomerById: (state, getters) => (id) =>
     getters.customers.find((a) => a.id === id),
   haveCustomer: (state) => !!state.customer,
+  getCustomersHash: (state) => state.hash ?? null,
   searchCustomerByCriteria:
     (state, getters) =>
     ({ customer_type_id, country_id, keyword }) =>
@@ -80,6 +81,9 @@ const actions = {
 
 // mutations
 const mutations = {
+  SET_CUSTOMERS_HASH(state, hash) {
+    state.hash = hash;
+  },
   SET_CUSTOMERS(state, customers) {
     state.customers = JSON.stringify(customers);
   },

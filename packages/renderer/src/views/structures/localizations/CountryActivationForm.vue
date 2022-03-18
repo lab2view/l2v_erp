@@ -1,7 +1,7 @@
 <template>
   <BaseFormModal
     :submit-form="submitCountryForm"
-    :title="$t('structures.country.formActivationTitle')"
+    :title="$t('enterprise.country.formActivationTitle')"
   >
     <div class="mb-3">
       <BaseSelect

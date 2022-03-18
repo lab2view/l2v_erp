@@ -142,8 +142,8 @@ export default {
     },
     formTitle() {
       return this.stockEntry
-        ? this.$t('stock.form.updateTitle')
-        : this.$t('stock.form.createTitle');
+        ? this.$t('stocks.form.updateTitle')
+        : this.$t('stocks.form.createTitle');
     },
     isUpdating() {
       return !!this.stockEntry;

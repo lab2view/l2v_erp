@@ -11,7 +11,7 @@
 <script>
 import Bookmark from '/@/components/layouts/Bookmark.vue';
 import BaseContainer from '/@/components/common/BaseContainer.vue';
-import configRoutes from '../../router/product/configRoutes';
+import configRoutes from '../../router/products/configRoutes';
 
 export default {
   name: 'ConfigurationLayout',

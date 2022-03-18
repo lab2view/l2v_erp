@@ -8,7 +8,7 @@
     <div class="card-header pb-0">
       <div class="row align-items-center">
         <div class="col-sm">
-          <h5>{{ `${$t('product.tax.listTitle')} - ${product.reference}` }}</h5>
+          <h5>{{ `${$t('products.tax.listTitle')} - ${product.reference}` }}</h5>
         </div>
         <div
           v-if="$route.name === 'product.form.setting.tax'"
@@ -59,7 +59,7 @@ export default {
   components: { ProductTaxLine },
   beforeRouteEnter(routeTo, routeFrom, next) {
     store
-      .dispatch('taxConfig/getTaxesList', {
+      .dispatch('tax/getTaxesList', {
         page: 1,
         field: {},
       })

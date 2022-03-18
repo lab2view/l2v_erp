@@ -1,12 +1,12 @@
 <template>
   <BaseContainer
-    :title="$t('article.title')"
+    :title="$t('articles.title')"
     :module="$t('menu.modules.articles')"
   >
     <div class="card">
       <div class="card-header">
         <h5 class="pull-left">
-          {{ `${$t('article.detail.title')} : #${article.id}` }}
+          {{ `${$t('articles.detail.title')} : #${article.id}` }}
         </h5>
       </div>
       <div class="card-body p-0">

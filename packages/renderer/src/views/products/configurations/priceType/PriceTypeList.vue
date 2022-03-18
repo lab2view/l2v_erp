@@ -3,11 +3,11 @@
     <div class="card-header pb-2 border-bottom border-bottom-">
       <div class="row align-items-center">
         <div class="col-sm">
-          <h5>{{ $t('article.priceType.listTitle') }}</h5>
+          <h5>{{ $t('articles.priceType.listTitle') }}</h5>
         </div>
         <div class="col-sm-auto align-items-end">
           <router-link
-            :to="{ name: 'config.product.priceType.form' }"
+            :to="{ name: 'config.products.priceType.form' }"
             href="#"
             class="btn btn-primary"
             type="button"
@@ -36,7 +36,7 @@
               :title="$t('common.update')"
               @click.prevent="
                 $router.push({
-                  name: 'config.product.priceType.form',
+                  name: 'config.products.priceType.form',
                   params: { id: priceType.id },
                 })
               "
@@ -71,7 +71,7 @@ export default {
   components: { BaseDatatable },
   beforeRouteEnter(routeTo, routeFrom, next) {
     store
-      .dispatch('priceTypeConfig/getPriceTypeList', {
+      .dispatch('price_type/getPriceTypeList', {
         page: 1,
         field: {},
       })
@@ -84,14 +84,14 @@ export default {
       });
   },
   computed: {
-    ...mapGetters('priceTypeConfig', ['priceTypes']),
+    ...mapGetters('price_type', ['priceTypes']),
   },
   methods: {
     deletePriceType(priceType) {
       if (
         confirm(this.$t('messages.confirmDelete', { label: priceType.label }))
       )
-        this.$store.dispatch('priceTypeConfig/deletePriceType', priceType.id);
+        this.$store.dispatch('price_type/deletePriceType', priceType.id);
     },
   },
 };

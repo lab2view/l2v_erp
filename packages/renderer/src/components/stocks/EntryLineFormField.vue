@@ -4,7 +4,7 @@
     <td v-if="stockEntryIsCommand">
       <BaseSelect
         v-model="provider_id"
-        :options="stock_providers"
+        :options="providers"
         key-label="name"
         :errors="errors?.[`stock_entry_lines.${index}.provider_id`]"
         key-value="id"
@@ -93,7 +93,7 @@ export default {
   computed: {
     ...mapGetters('stock_entry', ['stockEntryIsCommand']),
     ...mapGetters('article', ['getArticleById']),
-    ...mapGetters('stock_provider', ['stock_providers']),
+    ...mapGetters('provider', ['providers']),
     article() {
       return this.getArticleById(this.stockEntryLine.article_id);
     },
