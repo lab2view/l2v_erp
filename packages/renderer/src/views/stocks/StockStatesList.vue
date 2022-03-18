@@ -1,10 +1,10 @@
 <template>
-  <BaseContainer :module="$t('menu.modules.stocks')" :title="$t('stock.title')">
+  <BaseContainer :module="$t('menu.modules.stocks')" :title="$t('stocks.title')">
     <div class="card">
       <div class="card-header pb-2 border-bottom border-bottom-">
         <div class="row align-items-center">
           <div class="col-sm">
-            <h5>{{ $t('stock.stockState.listTitle') }}</h5>
+            <h5>{{ $t('stocks.stockState.listTitle') }}</h5>
           </div>
           <div class="col-sm-auto align-items-end">
             <router-link
@@ -33,7 +33,7 @@
             <td>
               {{
                 stockState.state_for
-                  ? $t(`stock.${stockState.state_for.toLowerCase()}`)
+                  ? $t(`stocks.${stockState.state_for.toLowerCase()}`)
                   : $t('common.none')
               }}
             </td>

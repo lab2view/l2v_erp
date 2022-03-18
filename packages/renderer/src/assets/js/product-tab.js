@@ -1,17 +1,17 @@
 //list layout view
 $('.grid-layout-view').on('click', function(e) {
-    $('.product-wrapper-grid').removeClass("list-view");
-    $(".product-wrapper-grid").children().children().removeClass("col-xl-12");
+    $('.products-wrapper-grid').removeClass("list-view");
+    $(".products-wrapper-grid").children().children().removeClass("col-xl-12");
 
 });
 $('.list-layout-view').on('click', function(e) {
     $('.collection-grid-view').css('opacity', '0');
-    $(".product-wrapper-grid").css("opacity","0.2");
-    $('.product-wrapper-grid').addClass("list-view");
-    $(".product-wrapper-grid").children().children();
-    $(".product-wrapper-grid").children().children().addClass("col-xl-12");
+    $(".products-wrapper-grid").css("opacity","0.2");
+    $('.products-wrapper-grid').addClass("list-view");
+    $(".products-wrapper-grid").children().children();
+    $(".products-wrapper-grid").children().children().addClass("col-xl-12");
     setTimeout(function(){
-        $(".product-wrapper-grid").css("opacity","1");
+        $(".products-wrapper-grid").css("opacity","1");
     }, 500);
 });
 
@@ -29,35 +29,35 @@ $(document).ready(function() {
 });
 
 // grid options
-$('.product-2-layout-view').on('click', function(e) {
-    if($('.product-wrapper-grid').hasClass("list-view")) {}
+$('.products-2-layout-view').on('click', function(e) {
+    if($('.products-wrapper-grid').hasClass("list-view")) {}
     else{
-        $(".product-wrapper-grid").children().children().removeClass();
-        $(".product-wrapper-grid").children().children().addClass("col-xl-6");
-        $(".product-wrapper-grid").children().children().addClass("col-sm-6");
+        $(".products-wrapper-grid").children().children().removeClass();
+        $(".products-wrapper-grid").children().children().addClass("col-xl-6");
+        $(".products-wrapper-grid").children().children().addClass("col-sm-6");
     }
 });
-$('.product-3-layout-view').on('click', function(e) {
-    if($('.product-wrapper-grid').hasClass("list-view")) {}
+$('.products-3-layout-view').on('click', function(e) {
+    if($('.products-wrapper-grid').hasClass("list-view")) {}
     else{
-        $(".product-wrapper-grid").children().children().removeClass();
-        $(".product-wrapper-grid").children().children().addClass("col-xl-4");
-        $(".product-wrapper-grid").children().children().addClass("col-sm-4");
+        $(".products-wrapper-grid").children().children().removeClass();
+        $(".products-wrapper-grid").children().children().addClass("col-xl-4");
+        $(".products-wrapper-grid").children().children().addClass("col-sm-4");
     }
 });
-$('.product-4-layout-view').on('click', function(e) {
-    if($('.product-wrapper-grid').hasClass("list-view")) {}
+$('.products-4-layout-view').on('click', function(e) {
+    if($('.products-wrapper-grid').hasClass("list-view")) {}
     else{
-        $(".product-wrapper-grid").children().children().removeClass();
-        $(".product-wrapper-grid").children().children().addClass("col-xl-3");
-        $(".product-wrapper-grid").children().children().addClass("col-sm-3");
+        $(".products-wrapper-grid").children().children().removeClass();
+        $(".products-wrapper-grid").children().children().addClass("col-xl-3");
+        $(".products-wrapper-grid").children().children().addClass("col-sm-3");
     }
 });
-$('.product-6-layout-view').on('click', function(e) {
-    if($('.product-wrapper-grid').hasClass("list-view")) {}
+$('.products-6-layout-view').on('click', function(e) {
+    if($('.products-wrapper-grid').hasClass("list-view")) {}
     else{
-        $(".product-wrapper-grid").children().children().removeClass();
-        $(".product-wrapper-grid").children().children().addClass("col-xl-2");
+        $(".products-wrapper-grid").children().children().removeClass();
+        $(".products-wrapper-grid").children().children().addClass("col-xl-2");
     }
 });
 

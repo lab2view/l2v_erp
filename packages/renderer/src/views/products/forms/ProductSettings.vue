@@ -6,7 +6,7 @@
           <div class="card">
             <div class="card-header">
               <h6>
-                {{ `${$t('product.configTitle')}` }}
+                {{ `${$t('products.configTitle')}` }}
               </h6>
             </div>
             <div class="list-group p-l-5">
@@ -18,7 +18,7 @@
                 class="list-group-item list-group-item-action"
               >
                 <span class="fa fa-file-image-o m-r-10" />
-                {{ $t('product.form.setting.gallery') }}
+                {{ $t('products.form.setting.gallery') }}
               </router-link>
               <router-link
                 :to="{
@@ -28,7 +28,7 @@
                 class="list-group-item list-group-item-action mt-3"
               >
                 <span class="fa fa-percent m-r-10" />
-                {{ $t('product.form.setting.tax') }}
+                {{ $t('products.form.setting.tax') }}
               </router-link>
               <router-link
                 :to="{
@@ -38,7 +38,7 @@
                 class="list-group-item list-group-item-action mt-3"
               >
                 <span class="fa fa-file-text m-r-10" />
-                {{ $t('product.form.setting.desc') }}
+                {{ $t('products.form.setting.desc') }}
               </router-link>
               <router-link
                 :to="{
@@ -48,7 +48,7 @@
                 class="list-group-item list-group-item-action mt-3"
               >
                 <span class="fa fa-cog m-r-10" />
-                {{ $t('product.form.setting.property') }}
+                {{ $t('products.form.setting.property') }}
               </router-link>
             </div>
           </div>

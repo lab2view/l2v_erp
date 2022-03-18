@@ -6,7 +6,7 @@
     <div class="card-header">
       <div class="row align-items-center">
         <div class="col-md">
-          <h5>{{ `${$t('stock.movement')} - ${product.reference}` }}</h5>
+          <h5>{{ `${$t('stocks.movement')} - ${product.reference}` }}</h5>
         </div>
         <div class="col-md-auto">
           <ul
@@ -18,9 +18,9 @@
               <router-link
                 class="nav-link"
                 :class="
-                  $route.name === 'product.form.stock.entry' ? 'active' : ''
+                  $route.name === 'product.form.stocks.entry' ? 'active' : ''
                 "
-                :to="{ name: 'product.form.stock.entry' }"
+                :to="{ name: 'product.form.stocks.entry' }"
               >
                 <i class="fa fa-long-arrow-up"></i>
                 {{ $t('menu.movement.entry') }}
@@ -30,9 +30,9 @@
               <router-link
                 class="nav-link"
                 :class="
-                  $route.name === 'product.form.stock.exit' ? 'active' : ''
+                  $route.name === 'product.form.stocks.exit' ? 'active' : ''
                 "
-                :to="{ name: 'product.form.stock.exit' }"
+                :to="{ name: 'product.form.stocks.exit' }"
               >
                 <i class="fa fa-long-arrow-down"></i>
                 {{ $t('menu.movement.exit') }}

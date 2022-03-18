@@ -5,7 +5,7 @@
       <div class="row align-items-center">
         <div class="col-sm">
           <h6>
-            {{ $t('article.detail.composition.config.title') }} :
+            {{ $t('articles.detail.composition.config.title') }} :
             <em class="f-12">{{ article.name }}</em>
           </h6>
         </div>

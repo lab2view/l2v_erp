@@ -161,7 +161,7 @@ export default {
   components: { BaseButton, BaseDatetime, BaseSelect },
   beforeRouteEnter(routeTo, routeFrom, next) {
     store
-      .dispatch('discountType/getDiscountTypesList', {
+      .dispatch('discount_type/getDiscountTypesList', {
         page: 1,
         field: {},
       })
@@ -191,7 +191,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters('discountType', ['discountTypes']),
+    ...mapGetters('discount_type', ['discountTypes']),
     ...mapGetters('discount', ['discount']),
     formTitle() {
       return this.discount && this.discount.id

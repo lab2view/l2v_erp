@@ -1,7 +1,7 @@
 <template>
   <div class="card rounded shadow-sm">
     <div class="card-header p-3 bg-light">
-      <h5>{{ $t('article.form.createTitle') }}</h5>
+      <h5>{{ $t('articles.form.createTitle') }}</h5>
     </div>
     <form class="theme-form" @submit.prevent="submitProductArticleForm">
       <div class="card-body pb-0 pt-2">
@@ -67,7 +67,7 @@ export default {
   components: { BaseFieldGroup, BaseButton, BaseInput, BaseSelect },
   beforeRouteEnter(routeTo, routeFrom, next) {
     store
-      .dispatch('packageConfig/getPackageList', {
+      .dispatch('package/getPackageList', {
         page: 1,
         field: {},
       })
@@ -89,7 +89,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters('packageConfig', ['packages']),
+    ...mapGetters('package', ['packages']),
     ...mapGetters('product', ['product']),
     selectPackages() {
       return this.packages.filter((p) => p.code !== unitPackageCode);

@@ -42,7 +42,7 @@ export const saleRoutes = [
         component: () => import('/@/views/sales/SaleTypeForm.vue'),
         beforeEnter: (to) => {
           if (to.params.id) {
-            return store.dispatch('saleType/getSaleType', to.params.id)
+            return store.dispatch('sale_type/getSaleType', to.params.id)
               .then(() => {
                 return { name: to.name };
               })
@@ -92,7 +92,7 @@ export const saleRoutes = [
         component: () => import('/@/views/sales/CashierGroupForm.vue'),
         beforeEnter: (to) => {
           if (to.params.id) {
-            return store.dispatch('cashierGroup/getCashierGroup', to.params.id)
+            return store.dispatch('cashier_group/getCashierGroup', to.params.id)
               .then(() => {
                 return 1;
               })
@@ -118,7 +118,7 @@ export const saleRoutes = [
         component: () => import('/@/views/sales/CashRegisterForm.vue'),
         beforeEnter: (to) => {
           if (to.params.id) {
-            return store.dispatch('cashRegister/getCashRegister', to.params.id)
+            return store.dispatch('cash_register/getCashRegister', to.params.id)
               .then(() => {
                 return 1;
               })
@@ -167,7 +167,7 @@ export const saleRoutes = [
         component: () => import('/@/views/sales/DiscountTypeForm.vue'),
         beforeEnter: (to) => {
           if (to.params.id) {
-            return store.dispatch('discountType/getDiscountType', to.params.id)
+            return store.dispatch('discount_type/getDiscountType', to.params.id)
               .then(() => {
                 return 1;
               })

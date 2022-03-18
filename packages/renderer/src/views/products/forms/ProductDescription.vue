@@ -2,7 +2,7 @@
   <div class="card mb-0">
     <form class="theme-form" @submit.prevent="submitProductForm">
       <div class="card-header pb-0">
-        <h5>{{ $t('product.form.description') }}</h5>
+        <h5>{{ $t('products.form.description') }}</h5>
       </div>
       <div class="card-body">
         <div class="mb-3">

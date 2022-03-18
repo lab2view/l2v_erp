@@ -68,8 +68,8 @@ export default {
     ...mapGetters('region', ['region']),
     title() {
       return this.region && this.region.id
-        ? this.$t('structures.region.formUpdateTitle')
-        : this.$t('structures.region.formCreateTitle');
+        ? this.$t('enterprise.region.formUpdateTitle')
+        : this.$t('enterprise.region.formCreateTitle');
     },
   },
   created() {

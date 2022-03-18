@@ -78,7 +78,7 @@ export default {
   components: { BaseContainer, BaseDatatable },
   beforeRouteEnter(routeTo, routeFrom, next) {
     store
-      .dispatch('customerType/getCustomerTypesList', {
+      .dispatch('customer_type/getCustomerTypesList', {
         page: 1,
         field: {},
       })
@@ -91,11 +91,11 @@ export default {
       });
   },
   computed: {
-    ...mapGetters('customerType', ['customerTypes', 'customerType']),
+    ...mapGetters('customer_type', ['customerTypes', 'customerType']),
   },
   created() {
     if (this.customerType)
-      this.$store.commit('customerType/SET_CURRENT_CUSTOMER_TYPE', null);
+      this.$store.commit('customer_type/SET_CURRENT_CUSTOMER_TYPE', null);
   },
 
   methods: {
@@ -112,7 +112,7 @@ export default {
         )
       )
         this.$store.dispatch(
-          'customerType/deleteCustomerType',
+          'customer_type/deleteCustomerType',
           customerType.id
         );
     },

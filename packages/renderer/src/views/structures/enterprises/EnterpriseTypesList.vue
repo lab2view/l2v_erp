@@ -1,13 +1,13 @@
 <template>
   <BaseContainer
-    :title="$t('structures.title')"
-    :module="$t('structures.configurations')"
+    :title="$t('enterprise.title')"
+    :module="$t('enterprise.configurations')"
   >
     <div class="card">
       <div class="card-header pb-2 border-bottom border-bottom-">
         <div class="row align-items-center">
           <div class="col-sm">
-            <h5>{{ $t('structures.enterpriseType.listTitle') }}</h5>
+            <h5>{{ $t('enterprise.enterpriseType.listTitle') }}</h5>
           </div>
           <div class="col-sm-auto align-items-end">
             <router-link
@@ -78,7 +78,7 @@ export default {
   components: { BaseContainer, BaseDatatable },
   beforeRouteEnter(routeTo, routeFrom, next) {
     store
-      .dispatch('enterpriseTypeConfig/getEnterpriseTypesList', {
+      .dispatch('enterprise_type/getEnterpriseTypesList', {
         page: 1,
         field: {},
       })
@@ -91,10 +91,10 @@ export default {
       });
   },
   computed: {
-      ...mapGetters('enterpriseTypeConfig', ['enterpriseTypes', 'enterpriseType']),
+      ...mapGetters('enterprise_type', ['enterpriseTypes', 'enterpriseType']),
   },
   created() {
-    if (this.enterpriseType) this.$store.commit('enterpriseTypeConfig/SET_CURRENT_ENTERPRISE_TYPE', null);
+    if (this.enterpriseType) this.$store.commit('enterprise_type/SET_CURRENT_ENTERPRISE_TYPE', null);
   },
 
   methods: {
@@ -106,7 +106,7 @@ export default {
     },
     deleteEnterpriseType(enterpriseType) {
       if (confirm(this.$t('messages.confirmDelete', { label: enterpriseType.label })))
-        this.$store.dispatch('enterpriseTypeConfig/deleteEnterpriseType', enterpriseType.id);
+        this.$store.dispatch('enterprise_type/deleteEnterpriseType', enterpriseType.id);
     },
   },
 };

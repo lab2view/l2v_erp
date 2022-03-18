@@ -59,7 +59,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters('discountType', ['discountType']),
+    ...mapGetters('discount_type', ['discountType']),
     title() {
       return this.discountType && this.discountType.id
         ? this.$t('sales.discountType.formUpdateTitle')
@@ -74,7 +74,7 @@ export default {
     this.setLoading();
     if (this.discountType && this.discountType.id)
       this.$store.commit(
-        'discountType/SET_CURRENT_DISCOUNT_TYPE',
+        'discount_type/SET_CURRENT_DISCOUNT_TYPE',
         null
       );
   },
@@ -94,7 +94,7 @@ export default {
       this.setLoading(true);
       if (this.discountType && this.discountType.id) {
         this.$store.dispatch(
-          'discountType/updateDiscountType',
+          'discount_type/updateDiscountType',
           this.discountTypeForm,
         )
           .then(() => this.$router.back())
@@ -106,7 +106,7 @@ export default {
       } else {
         this.$store
           .dispatch(
-            'discountType/addDiscountType',
+            'discount_type/addDiscountType',
             this.discountTypeForm,
           )
           .then(() => this.$router.back())

@@ -160,8 +160,8 @@ export default {
     ...mapGetters('country', ['country']),
     title() {
       return this.country && this.country.id
-        ? this.$t('structures.country.formUpdateTitle')
-        : this.$t('structures.country.formCreateTitle');
+        ? this.$t('enterprise.country.formUpdateTitle')
+        : this.$t('enterprise.country.formCreateTitle');
     },
   },
   created() {

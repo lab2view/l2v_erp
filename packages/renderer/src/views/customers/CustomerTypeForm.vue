@@ -66,7 +66,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters('customerType', ['customerType']),
+    ...mapGetters('customer_type', ['customerType']),
     title() {
       return this.customerType && this.customerType.id
         ? this.$t('customers.customerType.formUpdateTitle')
@@ -80,7 +80,7 @@ export default {
   beforeUnmount() {
     this.setLoading();
     if (this.customerType && this.customerType.id)
-      this.$store.commit('customerType/SET_CURRENT_CUSTOMER_TYPE', null);
+      this.$store.commit('customer_type/SET_CURRENT_CUSTOMER_TYPE', null);
   },
   methods: {
     setLoading(value = false) {
@@ -98,7 +98,7 @@ export default {
       this.setLoading(true);
       if (this.customerType && this.customerType.id) {
         this.$store
-          .dispatch('customerType/updateCustomerType', this.customerTypeForm)
+          .dispatch('customer_type/updateCustomerType', this.customerTypeForm)
           .then(() => this.$router.back())
           .catch((error) => {
             this.errors = error.response.data.errors;
@@ -107,7 +107,7 @@ export default {
           .finally(() => this.setLoading());
       } else {
         this.$store
-          .dispatch('customerType/addCustomerType', this.customerTypeForm)
+          .dispatch('customer_type/addCustomerType', this.customerTypeForm)
           .then(() => this.$router.back())
           .catch((error) => {
             this.errors = error.response.data.errors;

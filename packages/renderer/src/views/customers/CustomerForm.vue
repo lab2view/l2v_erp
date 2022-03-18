@@ -169,7 +169,7 @@ export default {
         page: 1,
         field: {},
       }),
-      store.dispatch('customerType/getCustomerTypesList', {
+      store.dispatch('customer_type/getCustomerTypesList', {
         page: 1,
         field: {},
       }),
@@ -208,7 +208,7 @@ export default {
   computed: {
     ...mapGetters('localization', ['localizations']),
     ...mapGetters('customer', ['customer']),
-    ...mapGetters('customerType', ['customerTypes']),
+    ...mapGetters('customer_type', ['customerTypes']),
     ...mapGetters('country', { countries: 'activeCountries' }),
     formTitle() {
       return this.customer

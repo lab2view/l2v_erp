@@ -3,11 +3,11 @@
     <div class="card-header pb-2 border-bottom border-bottom-">
       <div class="row align-items-center">
         <div class="col-sm">
-          <h5>{{ $t('product.productType.listTitle') }}</h5>
+          <h5>{{ $t('products.productType.listTitle') }}</h5>
         </div>
         <div class="col-sm-auto align-items-end">
           <router-link
-            :to="{ name: 'config.product.productType.form' }"
+            :to="{ name: 'config.products.productType.form' }"
             href="#"
             class="btn btn-primary"
             type="button"
@@ -54,7 +54,7 @@
               :title="$t('common.update')"
               @click.prevent="
                 $router.push({
-                  name: 'config.product.productType.form',
+                  name: 'config.products.productType.form',
                   params: { id: productType.id },
                 })
               "
@@ -89,7 +89,7 @@ export default {
   components: { BaseDatatable },
   beforeRouteEnter(routeTo, routeFrom, next) {
     store
-      .dispatch('productTypeConfig/getProductTypesList', {
+      .dispatch('product_type/getProductTypesList', {
         page: 1,
         field: {},
       })
@@ -102,7 +102,7 @@ export default {
       });
   },
   computed: {
-    ...mapGetters('productTypeConfig', ['productTypes']),
+    ...mapGetters('product_type', ['productTypes']),
   },
   methods: {
     deleteProductType(productType) {
@@ -110,7 +110,7 @@ export default {
         confirm(this.$t('messages.confirmDelete', { label: productType.label }))
       )
         this.$store.dispatch(
-          'productTypeConfig/deleteProductType',
+          'product_type/deleteProductType',
           productType.id
         );
     },

@@ -1,8 +1,8 @@
-import productRoutes from './product/routes';
+import productRoutes from './products/routes';
 import articleRoutes from './article/routes';
 import { customerRoutes } from './customers/customerRoutes';
-import { enterpriseRoutes } from './structures/enterpriseRoutes';
-import { localizationRoutes } from './structures/localizationRoutes';
+import { enterpriseRoutes } from './enterprise/enterpriseRoutes';
+import { localizationRoutes } from './enterprise/localizationRoutes';
 import { saleRoutes } from '/@/router/sales/saleRoutes';
 import { stockRoutes } from '/@/router/stocks/stockRoutes';
 import { paymentRoutes } from '/@/router/payments/paymentRoutes';
@@ -24,17 +24,17 @@ const workspace = [
   },
   {
     path: 'articles',
-    component: () => import('/@/components/articles/ArticleLayout.vue'),
+    component: () => import('/@/components/products/ProductLayout.vue'),
     children: articleRoutes,
   },
   {
     path: 'enterprises',
-    component: () => import('/@/components/structures/EnterpriseLayout.vue'),
+    component: () => import('/@/components/enterprise/EnterpriseLayout.vue'),
     children: enterpriseRoutes,
   },
   {
     path: 'localizations',
-    component: () => import('/@/components/structures/LocalizationLayout.vue'),
+    component: () => import('/@/components/enterprise/EnterpriseLayout.vue'),
     children: localizationRoutes,
   },
   {
