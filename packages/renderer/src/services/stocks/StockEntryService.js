@@ -48,7 +48,7 @@ export default {
     );
   },
 
-  addprovisions(stockEntryId, provisions) {
+  addProvisions(stockEntryId, provisions) {
     return axios.post(
       `/stocks/entries/${stockEntryId}/provisions/add`,
       provisions
