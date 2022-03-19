@@ -8,6 +8,7 @@
 </template>
 
 <script>
+// import Echo from 'laravel-echo';
 import { defineComponent } from 'vue';
 import Loader from '/@/components/Loader.vue';
 
@@ -18,6 +19,20 @@ export default defineComponent({
   },
 
   mounted() {
+    // let echoServer = new Echo({
+    //   broadcast: "socket.io",
+    //   host: "127.0.0.1:6001"
+    // });
+    // // let synchroChannel = echoServer.channel('laravel-database-private-App.Channel');
+    // let synchroChannel = echoServer.channel('App.Channel');
+    // console.log('synchroChannel');
+    // console.log(synchroChannel);
+
+    // synchroChannel.listen((data) => {
+    //   console.log('data');
+    //   console.log(data);
+    // })
+
     setTimeout(() => {
       (async () => {
         return Promise.all([

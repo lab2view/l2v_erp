@@ -7,6 +7,7 @@ export default {
     customers: 'Clients',
     payments: 'Paiements',
     structures: 'Entreprises',
+    enterprise: 'Entreprises',
     iam: 'IAM',
     manage: 'Modules',
   },
