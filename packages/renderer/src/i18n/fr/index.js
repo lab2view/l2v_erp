@@ -8,6 +8,7 @@ import enterprise from './enterprise';
 import customers from './customers';
 import sales from './sales';
 import payments from './payments';
+import iam from './iam';
 
 export default {
   common,
@@ -20,4 +21,5 @@ export default {
   enterprise,
   sales,
   payments,
+  iam,
 };

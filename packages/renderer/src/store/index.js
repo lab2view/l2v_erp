@@ -40,6 +40,8 @@ import discount_code from './modules/sales/discount_code';
 import cash_register from './modules/sales/cash_register';
 import cashier from './modules/sales/cashier';
 import cashier_group from './modules/sales/cashier_group';
+import role from './modules/iam/role.js';
+import user from './modules/iam/user.js';
 import sale_type from './modules/sales/sale_type';
 import SyncService from '/@/services/SyncService.js';
 import { getMutationPathName } from '/@/helpers/utils.js';
@@ -158,6 +160,8 @@ export default createStore({
     cash_register,
     cashier,
     cashier_group,
+    role,
+    user,
   },
   strict: process.env.NODE_ENV !== 'production',
   plugins: [...modulePlugins],
