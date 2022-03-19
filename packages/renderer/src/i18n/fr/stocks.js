@@ -4,8 +4,14 @@ export default {
   stockentry: 'Entree de stocks',
   stockexit: 'Sortie de stocks',
   form: {
-    updateTitle: "Modification de l'approvisionnement",
-    createTitle: "Creation de l'approvisionnement",
+    entry: {
+      updateTitle: "Modification de l'approvisionnement",
+      createTitle: "Creation de l'approvisionnement",
+    },
+    exit: {
+      updateTitle: 'Modification de la sortie de stock',
+      createTitle: 'Creation de le sortie de stock',
+    },
   },
   provision: {
     list: 'Liste des approvisionnements',

@@ -49,6 +49,7 @@ export default {
   makeComposition: "Composer l'article",
   unmakeComposition: "Decomposer l'article",
   parent: 'Principale',
+  not_set: 'Non defini',
 
   fields: {
     text: 'Chaine de caractere',
@@ -63,6 +64,8 @@ export default {
     product_type_filter: 'Par type de produit',
     country_filter: 'Par pays',
     customer_type_filter: 'Par type de client',
+    enterprise_from: 'Structure source',
+    enterprise_to: 'Structure cible',
   },
 
   states: {
@@ -84,7 +87,7 @@ export default {
     none: 'Aucun',
     all: 'Tous',
     code: 'Code',
-    status: 'Status',
+    status: 'Statut',
     label: 'Libelle',
     name: 'Nom',
     email: 'Email',
@@ -105,7 +108,7 @@ export default {
     cashier: 'Caissier',
     cashier_group: 'Groupe de caissiers',
     enterprise_receiver: 'Entreprise de destination',
-    receiver_structure: 'Structure de destination',
+    receiver_structure: 'Structure cible',
     structure: 'Structure',
     enterprise: 'Entreprise',
     product: 'Produit',
@@ -131,6 +134,7 @@ export default {
     stock_entry_id: 'Mouvements',
     provider_id: 'Fournisseur',
     stock_entry_type_id: "Type d'approvisionnement",
+    stock_exit_type_id: 'Type de sortie',
     website: 'Site web',
     slogan: 'Slogan',
     logo: 'Logo',
@@ -173,6 +177,5 @@ export default {
     stock_in: 'En Stock',
     enterprise_id: 'Structures',
     provider: 'Provenance',
-    status: 'statut',
   },
 };

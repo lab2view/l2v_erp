@@ -11,7 +11,7 @@
           </div>
           <div class="col-sm-auto align-items-end">
             <router-link
-              :to="{ name: 'stocks.entry.form.desc' }"
+              :to="{ name: 'stocks.exit.form.desc' }"
               class="btn btn-primary"
               type="button"
             >

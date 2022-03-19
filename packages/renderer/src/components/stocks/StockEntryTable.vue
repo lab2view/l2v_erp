@@ -5,7 +5,7 @@
       <th>{{ $t('common.headers.enterprise_id') }}</th>
       <th>{{ $t('common.attributes.stock_type') }}</th>
       <th>{{ $t('common.attributes.reference') }}</th>
-      <th>{{ $t('common.headers.status') }}</th>
+      <th>{{ $t('common.attributes.status') }}</th>
       <th>{{ $t('common.attributes.date') }}</th>
       <th>{{ $t('common.actions') }}</th>
     </template>
@@ -21,7 +21,9 @@
       <td>{{ stockEntry.stock_type.label }}</td>
       <td>{{ stockEntry.reference }}</td>
       <td>
-        {{ stockEntry.current_state?.stock_state.label }}
+        {{
+          stockEntry.current_state?.stock_state.label || $t('common.not_set')
+        }}
       </td>
       <td>{{ $d(stockEntry.created_at, 'short') }}</td>
       <td>

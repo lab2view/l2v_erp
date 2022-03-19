@@ -1,5 +1,6 @@
 import store from '../../store';
-import formRoutes from '/@/router/stocks/formRoutes.js';
+import exitFormRoutes from '/@/router/stocks/exitFormRoutes.js';
+import entryFormRoutes from '/@/router/stocks/entryFormRoutes.js';
 
 export const stockRoutes = [
   {
@@ -65,12 +66,36 @@ export const stockRoutes = [
   },
   {
     path: 'entries/:id?/forms',
-    component: () => import('/@/components/stocks/FormLayout.vue'),
-    children: formRoutes,
+    component: () => import('/@/components/stocks/EntryFormLayout.vue'),
+    children: entryFormRoutes,
     beforeEnter: (to) => {
       if (to.params.id) {
         return store
           .dispatch('stock_entry/getStockEntry', to.params.id)
+          .then(() => {
+            return 1;
+          })
+          .catch(() => -1);
+      }
+    },
+  },
+  {
+    path: 'exits',
+    name: 'stocks.exits',
+    component: () => import('/@/views/stocks/exits/StockExitsList.vue'),
+    meta: {
+      code: 'StockExit.viewAny',
+      feather: 'filter',
+    },
+  },
+  {
+    path: 'exits/:id?/forms',
+    component: () => import('/@/components/stocks/ExitFormLayout.vue'),
+    children: exitFormRoutes,
+    beforeEnter: (to) => {
+      if (to.params.id) {
+        return store
+          .dispatch('stock_exit/getStockExit', to.params.id)
           .then(() => {
             return 1;
           })
@@ -103,15 +128,6 @@ export const stockRoutes = [
         },
       },
     ],
-  },
-  {
-    path: 'exits',
-    name: 'stocks.exits',
-    component: () => import('/@/views/stocks/exits/StockExitsList.vue'),
-    meta: {
-      code: 'StockExit.viewAny',
-      feather: 'filter',
-    },
   },
   {
     path: 'types',

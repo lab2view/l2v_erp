@@ -11,6 +11,7 @@ const getters = {
   stock_exits: (state) =>
     state.stock_exits ? JSON.parse(state.stock_exits) : [],
   stockExit: (state) => (state.stockExit ? JSON.parse(state.stockExit) : null),
+  haveStockExit: (state, getters) => !!getters.stockExit,
 };
 
 // privileges
@@ -40,6 +41,7 @@ const actions = {
   addStockExit({ commit }, stockExitField) {
     return stockExitService.add(stockExitField).then(({ data }) => {
       commit('ADD_STOCK_EXIT', data);
+      commit('SET_CURRENT_STOCK_EXIT', data);
       return data;
     });
   },
@@ -49,6 +51,7 @@ const actions = {
       .update(stockExitField, stockExitField.id)
       .then(({ data }) => {
         commit('UPDATE_STOCK_EXIT', data);
+        commit('SET_CURRENT_STOCK_EXIT', data);
         return data;
       });
   },
@@ -84,7 +87,9 @@ const mutations = {
   },
   DELETE_STOCK_EXIT(state, stockExitId) {
     state.stock_exits = JSON.stringify(
-      JSON.parse(state.stock_exits).filter((p) => p.id !== stockExitId)
+      JSON.parse(state.stock_exits).filter(
+        (p) => p.id.toString() !== stockExitId.toString()
+      )
     );
   },
 };

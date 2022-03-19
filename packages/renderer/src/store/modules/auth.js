@@ -1,4 +1,5 @@
 import AuthService from '../../services/AuthService';
+import { roleAdminCode } from '/@/helpers/codes.js';
 
 const state = {
   currentUser: null,
@@ -15,6 +16,8 @@ const getters = {
   },
   currentUserEmail: (state, getters) => getters.currentUser?.user?.email,
   currentUserRole: (state, getters) => getters.currentUser?.user?.role?.label,
+  isRoleAdmin: (state, getters) =>
+    getters.currentUser?.user?.role?.code === roleAdminCode,
 };
 
 // privileges
