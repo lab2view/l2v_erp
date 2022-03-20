@@ -16,6 +16,7 @@ export default {
   no: 'Non',
   confirm_provision: "Confirmer l'approvisionnement",
   confirm_command: 'Confirmer le bon de commande',
+  confirm_operation: "Confirmer l'operation",
   close: 'Fermer',
   delete: 'Supprimer',
   delete_all: 'Tout Supprimer',
@@ -177,5 +178,6 @@ export default {
     stock_in: 'En Stock',
     enterprise_id: 'Structures',
     provider: 'Provenance',
+    total_price: 'Prix total',
   },
 };

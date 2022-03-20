@@ -28,6 +28,7 @@ const getters = {
   },
   currentStockExitStateDate: (state, getters) =>
     getters.stockExit?.current_state?.updated_at,
+  manage_price: () => false,
 };
 
 // privileges

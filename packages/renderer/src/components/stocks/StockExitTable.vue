@@ -27,7 +27,9 @@
       <td>
         <BaseButton
           type="button"
-          class="btn btn-iconsolid btn-secondary btn-sm"
+          :class="`btn btn-iconsolid btn-sm ${
+            stockExit.not_deletable ? 'btn-success' : 'btn-secondary'
+          }`"
           :title="$t('common.update')"
           @click.prevent="
             $router.push({
@@ -36,7 +38,7 @@
             })
           "
         >
-          {{ $t('common.update') }}
+          {{ $t(`common.${stockExit.not_deletable ? 'show' : 'update'}`) }}
         </BaseButton>
         <button
           v-if="!stockExit.not_deletable"

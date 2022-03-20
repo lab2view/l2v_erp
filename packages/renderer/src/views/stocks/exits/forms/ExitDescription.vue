@@ -74,7 +74,13 @@
         </div>
       </div>
       <div class="card-footer">
-        <div class="row justify-content-end">
+        <div
+          :class="`row ${
+            stockExitIsConfirm
+              ? 'justify-content-center'
+              : 'justify-content-end'
+          }`"
+        >
           <BaseButton
             type="button"
             class="btn btn-secondary col-auto m-r-5"
@@ -82,6 +88,7 @@
             @click.prevent="$router.push({ name: 'stocks.exits' })"
           />
           <BaseButton
+            v-if="!stockExitIsConfirm"
             class="btn btn-primary col-auto"
             :text="$t('common.save')"
             icon="fa fa-save"
@@ -143,7 +150,7 @@ export default {
   },
   computed: {
     ...mapGetters('stock_type', ['getListByTypeFor']),
-    ...mapGetters('stock_exit', ['stockExit']),
+    ...mapGetters('stock_exit', ['stockExit', 'stockExitIsConfirm']),
     ...mapGetters('enterprise', ['enterprises']),
     stockTypes() {
       return this.getListByTypeFor(stockFor.exit).filter(

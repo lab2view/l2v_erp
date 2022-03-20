@@ -29,16 +29,16 @@ export default {
     return axios.delete(`/stocks/exits/delete/${id}`);
   },
 
-  addExitLines(stockExitId, stockExitLines) {
+  addStockExitLines(stockExitId, stockExitLines) {
     return axios.post(`/stocks/exits/${stockExitId}/lines/add`, stockExitLines);
   },
-  updateExitLine(stockExitLine) {
+  updateStockExitLine(stockExitLine) {
     return axios.put(
       `/stocks/exits/lines/${stockExitLine.id}/update`,
       stockExitLine
     );
   },
-  removeExitLines(stockExitId, stockExitLineIds) {
+  removeStockExitLines(stockExitId, stockExitLineIds) {
     return axios.post(
       `/stocks/exits/${stockExitId}/lines/remove`,
       stockExitLineIds

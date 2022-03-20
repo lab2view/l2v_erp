@@ -218,7 +218,7 @@ export default {
       }
     },
     confirmStockEntrySate() {
-      if (confirm(this.$t('messages.confirmFinishEntryStock', { label: '' }))) {
+      if (confirm(this.$t('messages.confirmFinishStock', { label: '' }))) {
         const state = this.getStockStateByCode(stockStateCode.success);
         if (state !== undefined) {
           this.loading = true;
