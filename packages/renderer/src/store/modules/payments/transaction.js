@@ -12,6 +12,7 @@ const getters = {
     state.transactions ? JSON.parse(state.transactions) : [],
   transaction: (state) =>
     state.transaction ? JSON.parse(state.transaction) : null,
+  getPaymentsHash: (state) => state.hash ?? null,
 };
 
 const actions = {
@@ -71,6 +72,9 @@ const actions = {
 
 // mutations
 const mutations = {
+  SET_PAYMENTS_HASH(state, hash) {
+    state.hash = hash;
+  },
   SET_TRANSACTIONS(state, transactions) {
     state.transactions = JSON.stringify(transactions);
   },

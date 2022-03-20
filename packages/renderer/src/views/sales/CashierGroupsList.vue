@@ -76,7 +76,7 @@ export default {
   components: { BaseContainer, BaseDatatable },
   beforeRouteEnter(routeTo, routeFrom, next) {
     store
-      .dispatch('cashierGroup/getCashierGroupsList', {
+      .dispatch('cashier_group/getCashierGroupsList', {
         page: 1,
         field: {},
       })
@@ -89,17 +89,17 @@ export default {
       });
   },
   computed: {
-    ...mapGetters('cashierGroup', ['cashierGroups', 'cashierGroup']),
+    ...mapGetters('cashier_group', ['cashierGroups', 'cashierGroup']),
   },
   created() {
     if (this.cashierGroup)
-      this.$store.commit('cashierGroup/SET_CURRENT_CASHIER_GROUP', null);
+      this.$store.commit('cashier_group/SET_CURRENT_CASHIER_GROUP', null);
   },
 
   methods: {
     deleteCashierGroup(cashierGroup) {
       if (confirm(this.$t('messages.confirmDelete', { label: cashierGroup.label })))
-        this.$store.dispatch('cashierGroup/deleteCashierGroup', cashierGroup.id);
+        this.$store.dispatch('cashier_group/deleteCashierGroup', cashierGroup.id);
     },
   },
 };

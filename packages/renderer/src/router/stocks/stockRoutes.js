@@ -44,7 +44,7 @@ export const stockRoutes = [
         beforeEnter: (to) => {
           if (to.params.id) {
             return store
-              .dispatch('stock_provider/getStockProvider', to.params.id)
+              .dispatch('provider/getStockProvider', to.params.id)
               .then(() => {
                 return 1;
               })

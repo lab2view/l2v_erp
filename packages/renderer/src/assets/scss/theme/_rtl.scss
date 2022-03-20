@@ -6,22 +6,22 @@
     &.compact-wrapper{
       .page-body-wrapper{
           header {
-            &.main-nav {                            
+            &.main-nav {
               text-align:right;
               transition:0.5s;
               border-left:1px solid $light-gray;
               border-right:unset;
               &.close_icon {
                 margin-right: 0;
-                margin-left:unset;               
+                margin-left:unset;
                 transform: translate(290px);
-                ~ .page-body {                 
+                ~ .page-body {
                   margin-right:0;
                   margin-left:unset;
                   transition:0.5s;
                 }
                 ~ footer {
-                  margin-left:0;                 
+                  margin-left:0;
                   transition:0.5s;
                 }
                 .main-navbar {
@@ -39,14 +39,14 @@
                         &.active {
                           ~ .menu-content {
                             display: none !important;
-                            
+
                           }
                         }
                       }
                     }
                   }
 
-                  
+
                 }
                 .according-menu {
                   display: none !important;
@@ -99,7 +99,7 @@
                         right:-14px;
                         left:unset;
                       }
-                    }                   
+                    }
                   }
                 }
                 .setting-primary{
@@ -107,10 +107,10 @@
                   left:35px;
                 }
               }
-            }    
+            }
           }
           .page-body{
-              margin-left: unset;             
+              margin-left: unset;
               margin-right: 290px;
             }
             .main-nav{
@@ -131,12 +131,12 @@
             .according-menu{
               right: unset;
               left: 15px;
-          }       
+          }
       }
     }
     &.compact-sidebar{
       &.compact-wrapper {
-        .page-body-wrapper{         
+        .page-body-wrapper{
             header{
               &.main-nav {
                 .main-navbar {
@@ -158,7 +158,7 @@
             .page-body{
               margin-right: 150px;
               margin-left: unset;
-            }         
+            }
         }
       }
     }
@@ -189,9 +189,9 @@
       }
     }
   }
-  
 
-  // product-page
+
+  // products-page
   .product-social {
     li{
       &:nth-child(n+2){
@@ -406,7 +406,7 @@
         }
       }
     }
-   }  
+   }
    .input-group{
     .form-control{
       border-top-left-radius:0 !important;
@@ -419,12 +419,12 @@
       border-bottom-left-radius:5px !important;
       border-top-right-radius:0 !important;
       border-bottom-right-radius:0 !important;
-    }   
+    }
    }
  }
 
 
- // invoice 
+ // invoice
  .invo-profile{
   .text-xl-end{
     text-align: left !important;
@@ -473,9 +473,9 @@
       .nav-right{
         text-align:right;
         > ul{
-          > li{             
+          > li{
               margin-left:20px;
-              margin-right:unset !important;             
+              margin-right:unset !important;
           }
         }
         .btn-primary-light{
@@ -553,8 +553,8 @@
       }
     }
   }
-  
-  // default page 
+
+  // default page
   .apexcharts-canvas {
     direction: ltr;
   }
@@ -617,7 +617,7 @@
     right:unset;
     left:20px;
     float:left;
-    .setting-option{     
+    .setting-option{
       text-align:left;
     }
   }
@@ -635,7 +635,7 @@
           }
         }
         .header-top{
-          direction:rtl;                  
+          direction:rtl;
         }
       }
     }
@@ -683,9 +683,9 @@
         }
       }
     }
-    
+
   }
-  
+
   .activity-timeline {
     .media {
       .media-body{
@@ -729,8 +729,8 @@
       padding-left: unset;
       padding-right: 30px;
     }
-  } 
- 
+  }
+
 
 
   .ProfileCard-details {
@@ -904,10 +904,10 @@
       }
     }
   }
-  // .product-wrapper {
+  // .products-wrapper {
   //   &.sidebaron {
-  //     .product-grid {
-  //       .product-wrapper-grid {
+  //     .products-grid {
+  //       .products-wrapper-grid {
   //         margin-right: calc(25% + 9px);
   //         margin-left: unset;
   //       }
@@ -978,8 +978,8 @@
   }
   .page-wrapper{
     .page-body-wrapper{
-      .page-header{       
-        .bookmark{         
+      .page-header{
+        .bookmark{
           margin-right:auto;
           text-align:left;
         }
@@ -1062,7 +1062,7 @@
       margin-left:10px;
     }
   }
-   
+
   .me-0, .mx-0 {
     margin-left: 0 !important;
     margin-right: unset !important;
@@ -1070,7 +1070,7 @@
   .footer {
     .pull-right {
       float: left;
-    }  
+    }
   }
   .checkbox_animated, .radio_animated {
     margin: 0 8px 0 16px;
@@ -1238,7 +1238,7 @@
   .m-r-15 {
     margin-left: 15px;
     margin-right: unset;
-     
+
   }
   .b-l-light {
     border-right: 1px solid $light-gray !important;
@@ -1328,7 +1328,7 @@
     .btn-close {
       margin-left: 0;
     }
-    
+
   }
   .modal-footer {
     > :not(:first-child) {
@@ -1389,7 +1389,7 @@
       }
     }
   }
-  
+
 
 
 
@@ -1414,7 +1414,7 @@
       padding-right:10px;
     }
   }
-  
+
 
   .breadcrumb-item {
     & + .breadcrumb-item {
@@ -1424,10 +1424,10 @@
         padding-left: 0.5rem;
         padding-right: unset;
         float:right;
-      }     
-    }   
+      }
+    }
   }
-  
+
   code[class*=language-], pre[class*=language-] {
     text-align: right;
   }
@@ -1519,7 +1519,7 @@
         margin-right:unset;
       }
     }
-  } 
+  }
   .avatar-showcase {
     .friend-pic {
       margin-left: 8px;
@@ -1537,7 +1537,7 @@
       }
     }
   }
-  
+
   .edit-profile {
     .profile-title{
       .media {
@@ -1562,14 +1562,14 @@
         }
       }
     }
-  }  
+  }
   .contacts-tabs {
     .nav-pills{
       border-left: 1px solid $light-gray;
       border-right: unset;
     }
   }
-  // calender 
+  // calender
   .calendar-basic {
     #menu-navi {
       .menu-navi-right {
@@ -1603,7 +1603,7 @@
       margin-left:5px;
     }
   }
-  
+
   // faq page css
   .faq-form {
     .search-icon {
@@ -1611,7 +1611,7 @@
       right: unset;
     }
   }
-  
+
   .faq-widgets {
     .media-body {
       p {
@@ -1646,7 +1646,7 @@
         }
       }
     }
-  }   
+  }
   .navigation-option {
     ul {
       li {
@@ -1666,7 +1666,7 @@
     margin-right: unset;
     margin-left: 30px;
   }
-  // knowledgebase page css 
+  // knowledgebase page css
   .browse {
     .browse-articles {
       span {
@@ -1761,7 +1761,7 @@
       }
     }
   }
-  
+
   .card{
     .card-header{
       h5{
@@ -2013,7 +2013,7 @@
     }
   }
   // email css
-  .email-wrap {   
+  .email-wrap {
     .email-app-sidebar {
       .main-menu {
         & > li {
@@ -2038,7 +2038,7 @@
           }
         }
       }
-    }   
+    }
     .email-body {
       .attachment {
         ul {
@@ -2049,8 +2049,8 @@
             }
           }
         }
-      } 
-    }   
+      }
+    }
     .actions {
       text-align:left;
       li{
@@ -2067,7 +2067,7 @@
             .inbox{
               svg{
                 margin-right: unset;
-                margin-left:10px ;          
+                margin-left:10px ;
               }
             }
           }
@@ -2087,7 +2087,7 @@
           }
         }
       }
-      
+
       .email-profile {
         .inbox {
           p{
@@ -2095,8 +2095,8 @@
             margin-left: unset;
           }
         }
-      }     
-    }      
+      }
+    }
   }
   // calender css
   .calendar-wrap {
@@ -2474,7 +2474,7 @@
       }
     }
   }
-  
+
   @media (min-width: 1200px){
     .pixelstrap {
       ul:not(.mega-menu) li a:before {
@@ -2792,7 +2792,7 @@
     }
   }
 
-  // job search 
+  // job search
   .job-search {
     .media {
       .media-body {
@@ -2806,7 +2806,7 @@
         margin-left:unset ;
       }
     }
-    
+
   }
 
   // blog page
@@ -2816,7 +2816,7 @@
       padding-right:unset;
       text-align: right;
       .blog-social {
-        padding-right: 0;       
+        padding-right: 0;
         li{
           &:nth-child(n+2){
             margin-right: 20px;
@@ -2828,7 +2828,7 @@
           }
         }
       }
-      
+
     }
     .blog-details-main {
       .blog-social {
@@ -2877,9 +2877,9 @@
       }
     }
   }
-   
-  
-  .comment-box {   
+
+
+  .comment-box {
     .media {
       img {
         margin-left: 45px;
@@ -2893,11 +2893,11 @@
       ul {
         margin-right: 135px;
         margin-left: unset;
-        padding-right: 0;       
+        padding-right: 0;
       }
     }
     .comment-social {
-      text-align: left;      
+      text-align: left;
       margin-right: unset;
       li{
         &:nth-child(n+2){
@@ -2911,7 +2911,7 @@
       }
     }
   }
-  
+
   .location-checkbox {
     span{
       padding-right:33px;
@@ -2982,12 +2982,12 @@
     }
   }
 
-  
 
 
-  
 
-  
+
+
+
 
   .email-wrap {
     .email-app-sidebar {
@@ -3056,7 +3056,7 @@
     }
     .chat-menu{
       left: 10px;
-      right: unset;     
+      right: unset;
       .nav {
         padding-right:0;
       }
@@ -3167,15 +3167,15 @@
           border-left: unset;
         }
       }
-    }   
+    }
     .card-social {
       li{
         &:nth-child(n+2){
           margin-left:unset;
-          margin-right:10px;         
+          margin-right:10px;
         }
       }
-    }   
+    }
   }
   .card-social {
     padding-right: 0;
@@ -3332,7 +3332,7 @@
     }
   }
 
-  // product page
+  // products page
   // .slick-slider{
   //   direction: ltr;
   // }
@@ -3341,7 +3341,7 @@
       margin-right: 20px;
       margin-left: unset;
     }
-  }  
+  }
   .product-box {
     .ribbon-bookmark.ribbon-vertical-left.ribbon-info:before, .ribbon-bookmark.ribbon-vertical-right.ribbon-info:before {
       border-left-color: #007bff;
@@ -3366,7 +3366,7 @@
         left: unset;
       }
     }
-  } 
+  }
   .product-hover {
     ul {
       padding-right: 0;
@@ -3435,7 +3435,7 @@
       .details {
         border-right: 1px solid $light-gray;
         border-left: unset;
-        
+
       }
       .media-body {
         text-align: right;
@@ -3617,7 +3617,7 @@
       }
     }
   }
-  // product-page
+  // products-page
   .product-page-details {
     span {
       padding-right: 15px;
@@ -4153,21 +4153,21 @@
   }
   // responsive css
   @media screen and (max-width: 1660px) {
-    // video chat page   
+    // video chat page
     .chat-box {
       .chat-right-aside {
         .chat {
           .chat-header {
             .chat-menu-icons {
               li{
-                margin-left:10px;                
+                margin-left:10px;
               }
             }
           }
         }
       }
     }
-  
+
   }
   @media screen and (min-width: 1200px) and (max-width: 1660px){
     .latest-articles {
@@ -4187,7 +4187,7 @@
         &.update-line {
           .media {
             .activity-line{
-              right:26px;             
+              right:26px;
             }
           }
         }
@@ -4210,7 +4210,7 @@
         }
       }
     }
-    
+
   }
   @media screen and (min-width: 1200px) and (max-width: 1366px){
     .learning-comment{
@@ -4228,8 +4228,8 @@
         }
       }
     }
-    
-  }  
+
+  }
   @media only screen and (max-width: 1366px) {
     .product-wrapper {
       .product-grid {
@@ -4245,7 +4245,7 @@
       margin-left: 10px;
       margin-right: unset;
     }
-  
+
 
     // chat page
     .chat-left-aside {
@@ -4312,7 +4312,7 @@
       }
     }
   }
-  
+
   @media (min-width: 1200px){
     // chat page
     .chat-box{
@@ -4345,10 +4345,10 @@
   @media only screen and (max-width: 1199px){
     .page-wrapper {
       .page-main-header {
-        .main-header-right {         
+        .main-header-right {
           .nav-right {
           > ul{
-              li{             
+              li{
               .submenu {
                 li {
                   &:first-child {
@@ -4387,13 +4387,13 @@
           }
         }
 
-        
+
       }
 
 
-      
-    }    
-    .email-wrap {      
+
+    }
+    .email-wrap {
       .email-app-sidebar {
         .main-menu {
           & > li {
@@ -4418,7 +4418,7 @@
             }
           }
         }
-      }    
+      }
       .email-sidebar {
         .email-left-aside{
           right: 0;
@@ -4467,7 +4467,7 @@
           .comment-social{
             margin-right:unset;
           }
-        }        
+        }
       }
     }
     .job-sidebar {
@@ -4481,7 +4481,7 @@
 
 
 
-    
+
   }
   @media only screen and (max-width: 991px) {
     .faq-accordion {
@@ -4495,7 +4495,7 @@
       .learning-header {
         padding-right: 20px;
       }
-    }   
+    }
   .page-wrapper {
       .page-main-header {
         .main-header-left {
@@ -4513,7 +4513,7 @@
             padding-right:unset;
           }
         }
-      }    
+      }
     }
     .main {
       .langChoice {
@@ -4572,19 +4572,19 @@
       }
     }
 
-    
-    
+
+
     // footer
     .page-body-wrapper{
       .page-body,footer {
          margin-right: 0 !important;
          margin-left:unset !important;
       }
-    }  
+    }
     .page-wrapper.compact-wrapper .page-body-wrapper.sidebar-icon header.main-nav.close_icon{
       transform: translate(290px);
     }
-   
+
 
     // faq
     .updates-faq {
@@ -4623,8 +4623,8 @@
   }
 
 
-   
-  @media only screen and (max-width: 767px) {   
+
+  @media only screen and (max-width: 767px) {
     .ecommerce-widget{
       .text-md-end {
         text-align: left !important;
@@ -4654,7 +4654,7 @@
           }
         }
       }
-    }    
+    }
     .comment-box{
       ul{
         ul{
@@ -4663,7 +4663,7 @@
           margin-right: 0;
         }
       }
-      
+
     }
     .blog-single {
       .comment-box {
@@ -4678,7 +4678,7 @@
       .btn{
         float: right;
       }
-    }   
+    }
     .follow {
       .text-md-end{
         text-align: center !important;
@@ -4696,7 +4696,7 @@
           }
         }
       }
-      
+
     }
     .feature-products {
       span.f-w-600{
@@ -4705,8 +4705,8 @@
       }
     }
 
-   
-    
+
+
 
 
   }
@@ -4759,7 +4759,7 @@
       .learning-header {
         padding-right: 15px;
       }
-    }    
+    }
     .main {
       .langChoice {
         left: 15px;
@@ -4804,7 +4804,7 @@
               margin-right:15px;
               padding-right:unset;
               border-right:none;
-            }           
+            }
           }
         }
       }
@@ -4876,8 +4876,8 @@
     }
 
 
-     
-    
+
+
 
 
     // user-profile
@@ -4899,7 +4899,7 @@
         }
       }
     }
-  
+
 
   }
 
@@ -4928,7 +4928,7 @@
       }
     }
   }
-  
+
 
   @media only screen and (max-width: 360px) {
     .social-app-profile {
@@ -4952,7 +4952,7 @@
   }
 
 
-  
+
   @media only screen and (max-width: 480px){
     .page-wrapper {
       .page-main-header {
@@ -4981,7 +4981,7 @@
 
 
 
-  
+
 
 }
 

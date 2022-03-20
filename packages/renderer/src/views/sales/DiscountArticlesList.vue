@@ -56,7 +56,7 @@
                   for="checkbox-primary-1"
                   style="padding-left: 60px"
                 >
-                  {{ `${$t('article.listTitle')} ${countSelected}` }}</label
+                  {{ `${$t('articles.listTitle')} ${countSelected}` }}</label
                 >
               </div>
             </th>

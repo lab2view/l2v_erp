@@ -46,7 +46,7 @@ export const customerRoutes = [
         beforeEnter: (to) => {
           if (to.params.id) {
             return store
-              .dispatch('customerType/getCustomerType', to.params.id)
+              .dispatch('customer_type/getCustomerType', to.params.id)
               .then(() => {
                 return { name: to.name };
               })

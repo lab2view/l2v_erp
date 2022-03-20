@@ -3,7 +3,7 @@
     <div class="card-header pb-2 border-bottom border-bottom-">
       <div class="row align-items-center">
         <div class="col-sm">
-          <h6>{{ $t('stock.stockEntry.list') }}</h6>
+          <h6>{{ $t('stocks.stockEntry.list') }}</h6>
         </div>
         <div class="col-sm-auto align-items-end">
           <router-link
@@ -12,7 +12,7 @@
             type="button"
           >
             <i class="fa fa-save m-r-5" />
-            {{ $t('stock.stockEntry.add') }}
+            {{ $t('stocks.stockEntry.add') }}
           </router-link>
         </div>
       </div>

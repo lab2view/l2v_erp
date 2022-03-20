@@ -57,11 +57,11 @@ export default {
     };
   },
   computed: {
-    ...mapGetters('productUnitConfig', ['productUnit']),
+    ...mapGetters('product_unit', ['productUnit']),
     title() {
       return this.productUnit
-        ? this.$t('product.productUnit.formUpdateTitle')
-        : this.$t('product.productUnit.formCreateTitle');
+        ? this.$t('products.productUnit.formUpdateTitle')
+        : this.$t('products.productUnit.formCreateTitle');
     },
   },
   created() {
@@ -69,13 +69,13 @@ export default {
   },
   beforeUnmount() {
     if (this.productUnit)
-      this.$store.commit('productUnitConfig/SET_CURRENT_PRODUCT_UNIT', null);
+      this.$store.commit('product_unit/SET_CURRENT_PRODUCT_UNIT', null);
   },
   methods: {
     submitProductUnitForm() {
       if (this.productUnit)
         this.$store
-          .dispatch('productUnitConfig/updateProductUnit', this.productUnitForm)
+          .dispatch('product_unit/updateProductUnit', this.productUnitForm)
           .then(() => this.$router.back())
           .catch((error) => {
             this.errors = error.response?.data?.errors;
@@ -83,7 +83,7 @@ export default {
           });
       else
         this.$store
-          .dispatch('productUnitConfig/addProductUnit', this.productUnitForm)
+          .dispatch('product_unit/addProductUnit', this.productUnitForm)
           .then(() => this.$router.back())
           .catch((error) => {
             this.errors = error.response?.data?.errors;

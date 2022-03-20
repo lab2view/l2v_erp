@@ -124,7 +124,7 @@ export default {
   },
   beforeRouteEnter(routeTo, routeFrom, next) {
     store
-      .dispatch('discountCode/getDiscountCodesList', {
+      .dispatch('discount_code/getDiscountCodesList', {
         page: 1,
         field: {},
       })
@@ -150,7 +150,7 @@ export default {
   },
   computed: {
     ...mapGetters('discount', ['discount']),
-    ...mapGetters('discountCode', ['discountCodes']),
+    ...mapGetters('discount_code', ['discountCodes']),
     discount_codes() {
       return this.discountCodes?.filter((dc) => dc.discount_id === this.discount.id) ?? [];
     }
@@ -173,7 +173,7 @@ export default {
 
       this.setLoading(true);
       this.$store
-        .dispatch('discountCode/generateCodes', {
+        .dispatch('discount_code/generateCodes', {
           discount_id: this.discount.id,
           count: this.discountCodeForm.count,
           is_active: this.discountCodeForm.is_active,
@@ -194,7 +194,7 @@ export default {
 
       this.setLoading(true);
       this.$store
-        .dispatch('discountCode/deleteDiscountCodes', [discountCodeId])
+        .dispatch('discount_code/deleteDiscountCodes', [discountCodeId])
         .catch((error) => {
           this.errors = error.response.data.errors;
           console.log('this.errors');

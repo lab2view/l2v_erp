@@ -1,10 +1,10 @@
 <template>
-  <BaseContainer :module="$t('menu.modules.stocks')" :title="$t('stock.title')">
+  <BaseContainer :module="$t('menu.modules.stocks')" :title="$t('stocks.title')">
     <div class="card">
       <div class="card-header pb-2 border-bottom border-bottom-">
         <div class="row align-items-center">
           <div class="col-sm">
-            <h5>{{ $t('stock.stockType.listTitle') }}</h5>
+            <h5>{{ $t('stocks.stockType.listTitle') }}</h5>
           </div>
           <div class="col-sm-auto align-items-end">
             <router-link
@@ -27,42 +27,44 @@
             <th>{{ $t('common.attributes.stock_variety') }}</th>
             <th>{{ $t('common.actions') }}</th>
           </template>
-          <tr v-for="stockType in stock_types" :key="stockType.id">
-            <td>{{ stockType.id }}</td>
-            <td>{{ stockType.label }}</td>
-            <td>
-              {{
-                stockType.type_for
-                  ? $t(`stock.${stockType.type_for.toLowerCase()}`)
-                  : $t('common.none')
-              }}
-            </td>
-            <td>
-              <button
-                :title="$t('common.update')"
-                class="btn btn-secondary btn-xs"
-                data-original-title="btn btn-secondary btn-xs"
-                type="button"
-                @click.prevent="
+          <template v-if="stock_types.length">
+            <tr v-for="stockType in stock_types" :key="stockType.id">
+              <td>{{ stockType.id }}</td>
+              <td>{{ stockType.label }}</td>
+              <td>
+                {{
+                  stockType.type_for
+                    ? $t(`stocks.${stockType.type_for.toLowerCase()}`)
+                    : $t('common.none')
+                }}
+              </td>
+              <td>
+                <button
+                  :title="$t('common.update')"
+                  class="btn btn-secondary btn-xs"
+                  data-original-title="btn btn-secondary btn-xs"
+                  type="button"
+                  @click.prevent="
                   $router.push({
                     name: 'config.stocks.type.form',
                     params: { id: stockType.id },
                   })
                 "
-              >
-                {{ $t('common.update') }}
-              </button>
-              <button
-                :title="$t('common.delete')"
-                class="btn btn-danger btn-xs m-l-5"
-                data-original-title="btn btn-danger btn-xs"
-                type="button"
-                @click.prevent="deleteStockType(stockType)"
-              >
-                <i class="fa fa-trash-o" />
-              </button>
-            </td>
-          </tr>
+                >
+                  {{ $t('common.update') }}
+                </button>
+                <button
+                  :title="$t('common.delete')"
+                  class="btn btn-danger btn-xs m-l-5"
+                  data-original-title="btn btn-danger btn-xs"
+                  type="button"
+                  @click.prevent="deleteStockType(stockType)"
+                >
+                  <i class="fa fa-trash-o" />
+                </button>
+              </td>
+            </tr>
+          </template>
         </BaseDatatable>
       </div>
 
