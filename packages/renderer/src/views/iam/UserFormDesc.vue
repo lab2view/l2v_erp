@@ -121,28 +121,30 @@
           </div>
         </div>
         <div class="form-group mb-3">
-          <label class="form-label fw-bold" for="gender">{{
+          <h3 class="form-label fw-bold">{{
               $t('common.attributes.gender')
-            }}</label>
+            }}</h3>
           <br/>
-          {{ $t('common.gender.male') }}
-          <input
-              id="male"
-              v-model="userForm.gender"
-              class=""
-              value="H"
-              type="radio"
-              required
-          />
-          {{ $t('common.gender.female') }}
-          <input
-              id="gender"
-              v-model="userForm.gender"
-              class=""
-              value="F"
-              type="radio"
-              required
-          />
+          <label for="male">
+            {{ $t('common.gender.male') }}
+            <input
+                id="male"
+                v-model="userForm.gender"
+                value="H"
+                type="radio"
+                required
+            />
+          </label>
+          <label for="female" class="m-l-5">
+            {{ $t('common.gender.female') }}
+            <input
+                id="female"
+                v-model="userForm.gender"
+                value="F"
+                type="radio"
+                required
+            />
+          </label>
           <div
               v-if="errors.gender && errors.gender.length"
               class="invalid-feedback"
@@ -161,7 +163,7 @@
               class="form-control"
               placeholder="******"
               type="password"
-              required
+              :required="!is_edited"
           />
           <div
               v-if="errors.password && errors.password.length"
@@ -181,7 +183,7 @@
               class="form-control"
               placeholder="*******"
               type="password"
-              required
+              :required="!is_edited"
           />
           <div
               v-if="errors.password_confirmation && errors.password_confirmation.length"
@@ -251,6 +253,7 @@ export default {
       is_edited: true,
       formLoading: false,
       userForm: {
+        id: null,
         role_id: null,
         country_id: null,
         localization_id: null,
@@ -284,7 +287,7 @@ export default {
   created() {
     if (this.user && this.user.id) {
       this.userForm = this.user;
-      this.is_edited = false;
+      this.is_edited = true;
     }
   },
   beforeUnmount() {
@@ -323,7 +326,7 @@ export default {
               .finally(() => this.setLoading());
         } else
           this.$router.push({
-            name: 'iam.user.form.privileges',
+            name: 'iam.users',
             params: { id: this.user.id },
           });
       } else {
