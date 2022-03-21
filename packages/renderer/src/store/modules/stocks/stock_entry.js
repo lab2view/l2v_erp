@@ -32,6 +32,11 @@ const getters = {
         stockStateCode.delivered
     );
   },
+  canEditStockEntry: (state, getters) => {
+    return getters.stockEntryIsConfirm
+      ? false
+      : getters.stockEntry.stock_exit_id === null;
+  },
   currentStockEntryStateDate: (state, getters) =>
     getters.stockEntry?.current_state?.updated_at,
 };
@@ -97,12 +102,17 @@ const actions = {
         if (
           state.code === stockStateCode.success ||
           state.code === stockStateCode.delivered
-        )
+        ) {
+          commit('UPDATE_STOCK_ENTRY', {
+            ...getters.stockEntry,
+            not_deletable: true,
+          });
           getters.stockEntry?.provisions.forEach((sp) =>
             commit('article/UPDATE_ARTICLE_STOCK', sp.article, {
               root: true,
             })
           );
+        }
         notify(
           i18n.global.t('stocks.stockEntry.updateStock'),
           'Ok',

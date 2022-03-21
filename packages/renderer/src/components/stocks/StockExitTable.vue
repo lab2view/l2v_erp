@@ -33,7 +33,9 @@
           :title="$t('common.update')"
           @click.prevent="
             $router.push({
-              name: 'stocks.exit.form.desc',
+              name: `stocks.exit.form.${
+                stockExit.not_deletable ? 'article' : 'desc'
+              }`,
               params: { id: stockExit.id },
             })
           "

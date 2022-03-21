@@ -8,7 +8,7 @@
             {{ `${$t('stocks.entryLine.list')} - ${stockEntryReference}` }}
           </h5>
         </div>
-        <div v-if="!stockEntryIsConfirm" class="col-sm-auto align-items-end">
+        <div v-if="canEditStockEntry" class="col-sm-auto align-items-end">
           <BaseButton
             type="button"
             class="btn btn-outline-danger m-r-5"
@@ -50,11 +50,11 @@
                       ? 'checkbox-solid-success'
                       : 'checkbox-primary'
                   }
-                      ${!stockEntryIsConfirm ? 'checkbox' : ''}
+                      ${canEditStockEntry ? 'checkbox' : ''}
                   `"
                 >
                   <input
-                    v-if="!stockEntryIsConfirm"
+                    v-if="canEditStockEntry"
                     id="checkbox-stock-line-1"
                     v-model="selectAll"
                     type="checkbox"
@@ -80,7 +80,7 @@
               <th class="text-center" scope="col">
                 {{ $t('common.attributes.buying_price') }}
               </th>
-              <th v-if="!stockEntryIsConfirm" scope="col">
+              <th v-if="canEditStockEntry" scope="col">
                 {{ $t('common.actions') }}
               </th>
             </tr>
@@ -93,7 +93,7 @@
               :selected-list="selected"
               update-dispatch-name="stock_entry/updateStockEntryLine"
               remove-dispatch-name="stock_entry/removeStockEntryLines"
-              :cancel-selection="stockEntryIsConfirm"
+              :cancel-selection="!canEditStockEntry"
               @deleted="selected = []"
               @selected="selectStockEntryLine(stockEntryLine, true)"
               @unselected="selectStockEntryLine(stockEntryLine, false)"
@@ -110,7 +110,10 @@
         </table>
       </div>
     </div>
-    <div v-if="!stockEntryIsConfirm" class="card-footer border-top-0">
+    <div
+      v-if="!stockEntryIsConfirm && stockEntryLines.length"
+      class="card-footer border-top-0"
+    >
       <div class="row justify-content-center">
         <BaseButton
           class="btn btn-success col-auto"
@@ -160,6 +163,7 @@ export default {
       'stockEntryIsCommand',
       'stockEntryIsConfirm',
       'currentStockEntryStateDate',
+      'canEditStockEntry',
     ]),
     ...mapGetters('stock_state', ['getStockStateByCode']),
     partialSelect() {

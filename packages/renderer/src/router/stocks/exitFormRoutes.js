@@ -1,3 +1,5 @@
+import store from '/@/store/index.js';
+
 export default [
   {
     path: 'description',
@@ -15,7 +17,14 @@ export default [
     meta: {
       code: 'StockExit.form.line',
       icon: 'fa fa-list',
-      requireStockExit: true,
+    },
+    beforeEnter: (to) => {
+      return store
+        .dispatch('stock_exit/getStockExit', to.params.id)
+        .then(() => {
+          return 1;
+        })
+        .catch(() => -1);
     },
     children: [
       {

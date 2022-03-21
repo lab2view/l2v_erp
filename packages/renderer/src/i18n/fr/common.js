@@ -131,6 +131,7 @@ export default {
     state: 'Etat',
     quantity: 'Quantite',
     package_id: 'Conditionnement',
+    product_id: 'Produit',
     article_id: 'Articles',
     stock_entry_id: 'Mouvements',
     provider_id: 'Fournisseur',

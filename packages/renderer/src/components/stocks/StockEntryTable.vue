@@ -29,16 +29,20 @@
       <td>
         <BaseButton
           type="button"
-          class="btn btn-iconsolid btn-secondary btn-sm"
-          :title="$t('common.update')"
+          :class="`btn btn-iconsolid btn-${
+            stockEntry.not_deletable ? 'success' : 'secondary'
+          } btn-sm`"
+          :title="$t(`common.${stockEntry.not_deletable ? 'show' : 'update'}`)"
           @click.prevent="
             $router.push({
-              name: 'stocks.entry.form.desc',
+              name: `stocks.entry.form.${
+                stockEntry.not_deletable ? 'article' : 'desc'
+              }`,
               params: { id: stockEntry.id },
             })
           "
         >
-          {{ $t('common.update') }}
+          {{ $t(`common.${stockEntry.not_deletable ? 'show' : 'update'}`) }}
         </BaseButton>
         <button
           v-if="!stockEntry.not_deletable"
@@ -72,11 +76,7 @@ export default {
       if (
         confirm(this.$t('messages.confirmDelete', { label: stockEntry.id }))
       ) {
-        //     this.$store.dispatch(
-        //       'stock_entry/deleteStockEntry',
-        //       stockEntry.id
-        //     );
-        console.log('stockEntry', stockEntry);
+        this.$store.dispatch('stock_entry/deleteStockEntry', stockEntry.id);
       }
     },
   },
