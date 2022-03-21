@@ -2,6 +2,7 @@ export default {
   prev: 'Precedent',
   next: 'Suivant',
   none: '',
+  configure: 'Configurer',
   code: 'Code',
   size: 'Longueur',
   add: 'Ajouter',
@@ -72,6 +73,12 @@ export default {
   },
 
   attributes: {
+    first_name: 'Noms',
+    last_name: 'Prenoms',
+    password: "Mot de passe",
+    password_confirmation: "Confirmation de Mot de passe",
+    role: 'Role',
+    gender: 'Sexe',
     products: 'Produits',
     disable_date: 'Desactive le',
     stock_variety: 'Variete du stocks',
@@ -167,12 +174,17 @@ export default {
     buying_price: 'P.U de reviens',
   },
 
+  gender: {
+    male: "Homme",
+    female: "Femme",
+  },
+
   headers: {
     stock_entry_qty: 'Qte Entre',
     stock_exit_qty: 'Qte Sortie',
     stock_in: 'En Stock',
     enterprise_id: 'Structures',
     provider: 'Provenance',
-    status: 'statut',
+    status: 'Statut',
   },
 };

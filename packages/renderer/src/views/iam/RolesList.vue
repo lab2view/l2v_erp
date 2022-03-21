@@ -41,7 +41,21 @@
                 type="button"
                 @click.prevent="
                   $router.push({
-                    name: 'role.form',
+                    name: 'iam.config.role',
+                    params: { id: role.id },
+                  })
+                "
+              >
+                {{ $t('common.configure') }}
+              </button>
+              <button
+                :title="$t('common.update')"
+                class="btn btn-secondary m-l-5"
+                data-original-title="btn btn-secondary btn-xs"
+                type="button"
+                @click.prevent="
+                  $router.push({
+                    name: 'iam.role.form',
                     params: { id: role.id },
                   })
                 "
@@ -60,8 +74,10 @@
             </td>
           </tr>
         </BaseDatatable>
-        <br />
+        <br/>
       </div>
+
+      <router-view />
     </div>
   </BaseContainer>
 </template>
