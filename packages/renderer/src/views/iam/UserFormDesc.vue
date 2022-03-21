@@ -9,8 +9,9 @@
         >
       </div>
       <div class="card-body">
-        <div class="form-group mb-3">
-          <BaseSelect
+        <div class="row align-items-center mb-3">
+          <div class="form-group col-md">
+            <BaseSelect
               v-model="userForm.role_id"
               :label="$t('common.attributes.role')"
               :options="roles"
@@ -18,10 +19,10 @@
               key-value="id"
               required
               :errors="errors.role_id"
-          />
-        </div>
-        <div class="form-group mb-3">
-          <BaseSelect
+            />
+          </div>
+          <div class="form-group col-md">
+            <BaseSelect
               v-model="userForm.country_id"
               :label="$t('common.attributes.country')"
               :options="activeCountries"
@@ -29,183 +30,126 @@
               key-value="id"
               required
               :errors="errors.country_id"
-          />
+            />
+          </div>
         </div>
-        <div class="form-group mb-3">
-          <BaseSelect
-              v-model="userForm.localization_id"
-              :label="$t('common.attributes.localization')"
-              :options="localizations"
-              key-label="label"
-              key-value="id"
-              :errors="errors.localization_id"
-          />
-        </div>
-        <div class="form-group mb-3">
-          <label class="form-label fw-bold" for="first_name">{{
-              $t('common.attributes.first_name')
-            }}</label>
-          <input
-              id="first_name"
+        <div class="row align-items-center mb-3">
+          <div class="form-group col-md">
+            <BaseInput
               v-model="userForm.first_name"
-              class="form-control"
+              :label="$t('common.attributes.first_name')"
               placeholder="..."
+              :errors="errors.first_name"
               required
-              type="text"
-          />
-          <div
-              v-if="errors.first_name && errors.first_name.length"
-              class="invalid-feedback"
-              style="display: inline"
-          >
-            {{ errors.first_name[0] }}
+            />
           </div>
-        </div>
-        <div class="form-group mb-3">
-          <label class="form-label fw-bold" for="first_name">{{
-              $t('common.attributes.last_name')
-            }}</label>
-          <input
-              id="last_name"
+          <div class="form-group col-md">
+            <BaseInput
               v-model="userForm.last_name"
-              class="form-control"
+              :label="$t('common.attributes.last_name')"
               placeholder="..."
               type="text"
-          />
-          <div
-              v-if="errors.last_name && errors.last_name.length"
-              class="invalid-feedback"
-              style="display: inline"
-          >
-            {{ errors.last_name[0] }}
+              :errors="errors.last_name"
+            />
           </div>
         </div>
-        <div class="form-group mb-3">
-          <label class="form-label fw-bold" for="email">{{
-              $t('common.attributes.email')
-            }}</label>
-          <input
-              id="email"
+        <div class="row align-items-center mb-3">
+          <div class="form-group col-md">
+            <BaseInput
+              :label="$t('common.attributes.email')"
               v-model="userForm.email"
-              class="form-control"
-              placeholder="..."
               type="email"
               required
-          />
-          <div
-              v-if="errors.email && errors.email.length"
-              class="invalid-feedback"
-              style="display: inline"
-          >
-            {{ errors.email[0] }}
+              :errors="errors.email"
+            />
           </div>
-        </div>
-        <div class="form-group mb-3">
-          <label class="form-label fw-bold" for="phone">{{
-              $t('common.attributes.phone')
-            }}</label>
-          <input
-              id="phone"
+          <div class="form-group col-md">
+            <BaseInput
+              :label="$t('common.attributes.phone')"
               v-model="userForm.phone"
-              class="form-control"
               placeholder="1"
               type="number"
               required
-          />
-          <div
-              v-if="errors.phone && errors.phone.length"
-              class="invalid-feedback"
-              style="display: inline"
-          >
-            {{ errors.phone[0] }}
+              :errors="errors.phone"
+            />
           </div>
         </div>
         <div class="form-group mb-3">
-          <h3 class="form-label fw-bold">{{
+          <BaseSelect
+            v-model="userForm.localization_id"
+            :label="$t('common.attributes.localization')"
+            :options="localizations"
+            key-label="label"
+            key-value="id"
+            :errors="errors.localization_id"
+          />
+        </div>
+        <div class="form-group mb-3">
+          <h6 class="form-label fw-bold">{{
               $t('common.attributes.gender')
-            }}</h3>
+            }}</h6>
           <br/>
           <label for="male">
             {{ $t('common.gender.male') }}
             <input
-                id="male"
-                v-model="userForm.gender"
-                value="H"
-                type="radio"
-                required
+              id="male"
+              v-model="userForm.gender"
+              value="H"
+              type="radio"
+              required
             />
           </label>
           <label for="female" class="m-l-5">
             {{ $t('common.gender.female') }}
             <input
-                id="female"
-                v-model="userForm.gender"
-                value="F"
-                type="radio"
-                required
+              id="female"
+              v-model="userForm.gender"
+              value="F"
+              type="radio"
+              required
             />
           </label>
           <div
-              v-if="errors.gender && errors.gender.length"
-              class="invalid-feedback"
-              style="display: inline"
+            v-if="errors.gender && errors.gender.length"
+            class="invalid-feedback"
+            style="display: inline"
           >
             {{ errors.gender[0] }}
           </div>
         </div>
         <div class="form-group mb-3">
-          <label class="form-label fw-bold" for="password">{{
-              $t('common.attributes.password')
-            }}</label>
-          <input
-              id="password"
-              v-model="userForm.password"
-              class="form-control"
-              placeholder="******"
-              type="password"
-              :required="!is_edited"
+          <BaseInput
+            :label="$t('common.attributes.password')"
+            v-model="userForm.password"
+            placeholder="******"
+            type="password"
+            :errors="errors.password"
+            :required="!is_edited"
           />
-          <div
-              v-if="errors.password && errors.password.length"
-              class="invalid-feedback"
-              style="display: inline"
-          >
-            {{ errors.password[0] }}
-          </div>
         </div>
         <div class="form-group mb-3">
-          <label class="form-label fw-bold" for="password_confirmation">{{
-              $t('common.attributes.password_confirmation')
-            }}</label>
-          <input
-              id="password_confirmation"
-              v-model="userForm.password_confirmation"
-              class="form-control"
-              placeholder="*******"
-              type="password"
-              :required="!is_edited"
+          <BaseInput
+            :label="$t('common.attributes.password_confirmation')"
+            v-model="userForm.password_confirmation"
+            placeholder="******"
+            type="password"
+            :errors="errors.password_confirmation"
+            :required="!is_edited"
           />
-          <div
-              v-if="errors.password_confirmation && errors.password_confirmation.length"
-              class="invalid-feedback"
-              style="display: inline"
-          >
-            {{ errors.password_confirmation[0] }}
-          </div>
         </div>
       </div>
       <div class="card-footer">
         <div class="row justify-content-end">
           <BaseButton
-              :text="$t('common.cancel')"
-              class="btn btn-secondary col-auto m-r-5"
-              type="button"
-              @click.prevent="$router.push({ name: 'iam.user.form.privileges' })"
+            :text="$t('common.cancel')"
+            class="btn btn-secondary col-auto m-r-5"
+            type="button"
+            @click.prevent="$router.push({ name: 'iam.user.form.privileges' })"
           />
           <BaseButton
-              :text="$t('common.save')"
-              class="btn btn-primary col-auto"
-              icon="fa fa-save"
+            :text="$t('common.save')"
+            class="btn btn-primary col-auto"
+            icon="fa fa-save"
           />
         </div>
       </div>
@@ -215,42 +159,43 @@
 
 <script>
 import BaseButton from '/@/components/common/BaseButton.vue';
+import BaseInput from "/@/components/common/BaseInput.vue";
 import BaseSelect from '/@/components/common/BaseSelect.vue';
 import { mapGetters } from 'vuex';
 import store from '/@/store';
 
 export default {
-  components: { BaseSelect, BaseButton },
+  components: {BaseInput, BaseSelect, BaseButton },
   beforeRouteEnter(routeTo, routeFrom, next) {
     Promise.all([
       store
-          .dispatch('role/getRolesList', {
-            page: 1,
-            field: {},
-          }),
+        .dispatch('role/getRolesList', {
+          page: 1,
+          field: {},
+        }),
       store
-          .dispatch('country/getCountriesList', {
-            page: 1,
-            field: {},
-          }),
+        .dispatch('country/getCountriesList', {
+          page: 1,
+          field: {},
+        }),
       store
-          .dispatch('localization/getLocalizationsList', {
-            page: 1,
-            field: {},
-          })
-    ])
-        .then(() => {
-          next();
+        .dispatch('localization/getLocalizationsList', {
+          page: 1,
+          field: {},
         })
-        .catch((error) => {
-          console.log(error);
-          next();
-        });
+    ])
+      .then(() => {
+        next();
+      })
+      .catch((error) => {
+        console.log(error);
+        next();
+      });
   },
   data() {
     return {
       errors: [],
-      is_edited: true,
+      is_edited: false,
       formLoading: false,
       userForm: {
         id: null,
@@ -272,15 +217,17 @@ export default {
     ...mapGetters('role', ['roles', 'actions']),
     formTitle() {
       return this.user && this.user.id
-          ? this.$t('iam.user.formUpdateTitle')
-          : this.$t('iam.user.formCreateTitle');
+        ? this.$t('iam.user.formUpdateTitle')
+        : this.$t('iam.user.formCreateTitle');
     },
   },
   watch: {
     userForm: {
       deep: true,
-      handler() {
-        this.is_edited = true;
+      handler(value) {
+        if (value.id) {
+          this.is_edited = true;
+        }
       },
     },
   },
@@ -310,20 +257,20 @@ export default {
       if (this.user && this.user.id) {
         if (this.is_edited) {
           this.$store.dispatch(
-              'user/updateUser',
-              this.userForm,
+            'user/updateUser',
+            this.userForm,
           )
-              .then((user) =>
-                  this.$router.push({
-                    name: 'iam.user.form.privileges',
-                    params: { id: user.id },
-                  })
-              )
-              .catch((error) => {
-                this.errors = error.response.data.errors;
-                console.log(error);
+            .then((user) =>
+              this.$router.push({
+                name: 'iam.user.form.privileges',
+                params: { id: user.id },
               })
-              .finally(() => this.setLoading());
+            )
+            .catch((error) => {
+              this.errors = error.response.data.errors;
+              console.log(error);
+            })
+            .finally(() => this.setLoading());
         } else
           this.$router.push({
             name: 'iam.users',
@@ -331,22 +278,22 @@ export default {
           });
       } else {
         this.$store
-            .dispatch(
-                'user/addUser',
-                this.userForm,
-            )
-            .then((user) => {
-              this.setLoading();
-              this.$router.push({
-                name: 'iam.user.form.privileges',
-                params: {id: user.id},
-              });
-            })
-            .catch((error) => {
-              this.errors = error.response.data.errors;
-              console.log(error);
-              this.setLoading();
+          .dispatch(
+            'user/addUser',
+            this.userForm,
+          )
+          .then((user) => {
+            this.setLoading();
+            this.$router.push({
+              name: 'iam.user.form.privileges',
+              params: {id: user.id},
             });
+          })
+          .catch((error) => {
+            this.errors = error.response.data.errors;
+            console.log(error);
+            this.setLoading();
+          });
       }
     },
   },

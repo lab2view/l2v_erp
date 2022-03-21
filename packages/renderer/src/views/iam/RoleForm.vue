@@ -1,6 +1,6 @@
 <template>
   <BaseFormModal :submit-form="submitRoleForm" :title="title">
-    <div class="form-group mb-3">
+    <div class="form-group">
       <label class="form-label fw-bold" for="label">{{
         $t('common.attributes.label')
       }}</label>
