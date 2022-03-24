@@ -8,6 +8,7 @@ const protocol = import.meta.env.VITE_PROTOCOL ?? 'https';
 let echo = new Echo({
   broadcaster: 'socket.io',
   host: `${protocol}://${currentDomain}:6001`,
+  namespace: 'kit_business_app_database_',
 });
 echo.connector.options.auth.headers['X-tenant-domain'] = currentDomain;
 
