@@ -67,6 +67,7 @@ export default {
     customer_type_filter: 'Par type de client',
     enterprise_from: 'Structure source',
     enterprise_to: 'Structure cible',
+    select_enterprise_for_custom_price: 'Editer le prix pour une entreprise ?',
   },
 
   states: {
@@ -74,6 +75,8 @@ export default {
     no: 'Non',
     enabled: 'Active',
     disabled: 'Desactive',
+    custom_price: 'Specifique',
+    global_price: 'General',
   },
 
   attributes: {

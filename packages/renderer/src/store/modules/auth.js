@@ -9,15 +9,16 @@ const state = {
 // getters
 const getters = {
   currentUser: (state) => {
-    return JSON.parse(state.currentUser);
+    return JSON.parse(state.currentUser)?.user;
   },
-  token: (state, getters) => {
-    return getters.currentUser?.token;
+  token: (state) => {
+    return JSON.parse(state.currentUser)?.token;
   },
-  currentUserEmail: (state, getters) => getters.currentUser?.user?.email,
-  currentUserRole: (state, getters) => getters.currentUser?.user?.role?.label,
+  currentUserEmail: (state, getters) => getters.currentUser?.email,
+  currentUserRole: (state, getters) => getters.currentUser?.role?.label,
   isRoleAdmin: (state, getters) =>
-    getters.currentUser?.user?.role?.code === roleAdminCode,
+    getters.currentUser?.role?.code === roleAdminCode,
+  currentEnterprise: (state, getters) => getters.currentUser?.enterprise,
 };
 
 // privileges
