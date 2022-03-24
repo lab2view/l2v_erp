@@ -274,6 +274,21 @@ const DiscountCode = new VuexPersistence({
   reducer: (state) => ({ discount_code: state.discount_code }),
 });
 
+const Role = new VuexPersistence({
+  key: 'role',
+  storage: localStore,
+  asyncStorage: true,
+  reducer: (state) => ({ role: state.role }),
+});
+
+const User = new VuexPersistence({
+  key: 'user',
+  storage: localStore,
+  asyncStorage: true,
+  reducer: (state) => ({ user: state.user }),
+});
+
+
 export default [
   Auth.plugin,
   Product.plugin,
@@ -314,4 +329,6 @@ export default [
   Cashier.plugin,
   CashierGroup.plugin,
   SaleType.plugin,
+  Role.plugin,
+  User.plugin,
 ];

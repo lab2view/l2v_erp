@@ -47,7 +47,7 @@ const actions = {
       commit('ADD_ARTICLE_GROUP', data);
       commit('SET_CURRENT_ARTICLE_GROUP', data);
       notify(
-        i18n.global.t('articles.articleGroup.store'),
+        i18n.global.t('articles.group.store'),
         'Ok',
         'theme',
         'fa fa-check'

@@ -36,6 +36,15 @@ export default {
       description: 'Description du module',
     },
   },
+  iam: {
+    manage: 'IAM',
+    user: {
+      form: {
+        desc: "Description de l'utilisateur",
+        privileges: "Privileges de l'utilisateur",
+      },
+    },
+  },
   saletype: {
     viewany: 'Types de vente',
   },
@@ -195,7 +204,6 @@ export default {
   stocks: {
     manage: 'Mouvements',
   },
-
   stockentry: {
     viewany: 'Approvisionnements',
     form: {
@@ -229,5 +237,14 @@ export default {
   movement: {
     entry: "Mouvements d'entree",
     exit: 'Mouvements de sortie',
+  },
+  role: {
+    manage: 'Roles',
+    viewany: 'Liste des roles',
+  },
+  user: {
+    manage: 'Utilisateurs',
+    viewany: 'Liste des utilisateurs',
+    create: 'Ajouter un utilisateur',
   },
 };

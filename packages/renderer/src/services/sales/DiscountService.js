@@ -37,10 +37,10 @@ export default {
     return axios.post(`/discounts/customers/${discount_id}/add`, {customers});
   },
 
-  removeArticleDiscounts(articleDiscountIds, discount_id) {
+  removeArticleDiscounts(discountArticleIds, discount_id) {
     return axios.post(
       `/discounts/articles/${discount_id}/remove`,
-      {article_discount_ids: articleDiscountIds},
+      {discount_article_ids: discountArticleIds},
     );
   },
 

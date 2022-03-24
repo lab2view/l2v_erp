@@ -6,6 +6,7 @@ import { localizationRoutes } from './enterprise/localizationRoutes';
 import { saleRoutes } from '/@/router/sales/saleRoutes';
 import { stockRoutes } from '/@/router/stocks/stockRoutes';
 import { paymentRoutes } from '/@/router/payments/paymentRoutes';
+import { iamRoutes } from '/@/router/iam/iamRoutes';
 
 const workspace = [
   {
@@ -36,6 +37,11 @@ const workspace = [
     path: 'localizations',
     component: () => import('/@/components/enterprise/EnterpriseLayout.vue'),
     children: localizationRoutes,
+  },
+  {
+    path: 'iam',
+    component: () => import('/@/components/iam/IAMLayout.vue'),
+    children: iamRoutes,
   },
   {
     path: 'customers',
