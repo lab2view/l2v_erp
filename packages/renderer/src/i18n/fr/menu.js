@@ -7,6 +7,7 @@ export default {
     customers: 'Clients',
     payments: 'Paiements',
     structures: 'Entreprises',
+    enterprise: 'Structures',
     iam: 'IAM',
     manage: 'Modules',
   },
@@ -205,6 +206,10 @@ export default {
   },
   stockexit: {
     viewany: 'Sorties de Stock',
+    form: {
+      description: 'Description de la sortie',
+      line: 'Liste des articles',
+    },
   },
   stocktype: {
     viewany: 'Types de Stock',

@@ -15,6 +15,8 @@ export default {
   yes: 'Oui',
   no: 'Non',
   confirm_provision: "Confirmer l'approvisionnement",
+  confirm_command: 'Confirmer le bon de commande',
+  confirm_operation: "Confirmer l'operation",
   close: 'Fermer',
   delete: 'Supprimer',
   delete_all: 'Tout Supprimer',
@@ -47,7 +49,8 @@ export default {
   no_action: "Pas d'action",
   makeComposition: "Composer l'article",
   unmakeComposition: "Decomposer l'article",
-  parent: 'Parent',
+  parent: 'Principale',
+  not_set: 'Non defini',
 
   fields: {
     text: 'Chaine de caractere',
@@ -62,6 +65,9 @@ export default {
     product_type_filter: 'Par type de produit',
     country_filter: 'Par pays',
     customer_type_filter: 'Par type de client',
+    enterprise_from: 'Structure source',
+    enterprise_to: 'Structure cible',
+    select_enterprise_for_custom_price: 'Editer le prix pour une entreprise ?',
   },
 
   states: {
@@ -69,6 +75,8 @@ export default {
     no: 'Non',
     enabled: 'Active',
     disabled: 'Desactive',
+    custom_price: 'Specifique',
+    global_price: 'General',
   },
 
   attributes: {
@@ -83,7 +91,7 @@ export default {
     none: 'Aucun',
     all: 'Tous',
     code: 'Code',
-    status: 'Status',
+    status: 'Statut',
     label: 'Libelle',
     name: 'Nom',
     email: 'Email',
@@ -104,7 +112,7 @@ export default {
     cashier: 'Caissier',
     cashier_group: 'Groupe de caissiers',
     enterprise_receiver: 'Entreprise de destination',
-    receiver_structure: 'Structure de destination',
+    receiver_structure: 'Structure cible',
     structure: 'Structure',
     enterprise: 'Entreprise',
     product: 'Produit',
@@ -126,10 +134,12 @@ export default {
     state: 'Etat',
     quantity: 'Quantite',
     package_id: 'Conditionnement',
+    product_id: 'Produit',
     article_id: 'Articles',
     stock_entry_id: 'Mouvements',
     provider_id: 'Fournisseur',
     stock_entry_type_id: "Type d'approvisionnement",
+    stock_exit_type_id: 'Type de sortie',
     website: 'Site web',
     slogan: 'Slogan',
     logo: 'Logo',
@@ -172,6 +182,6 @@ export default {
     stock_in: 'En Stock',
     enterprise_id: 'Structures',
     provider: 'Provenance',
-    status: 'statut',
+    total_price: 'Prix total',
   },
 };

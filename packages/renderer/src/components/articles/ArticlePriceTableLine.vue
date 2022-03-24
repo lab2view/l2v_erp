@@ -1,11 +1,12 @@
 <template>
   <tr>
     <td>{{ priceType.label }}</td>
+    <td>{{ priceStateLabel }}</td>
     <td style="width: 250px">
       <BaseUpdateNumberForm
         prefix="XAF"
         field-name="prices"
-        :quantity="price ? price.value : 1"
+        :quantity="priceValue"
         :store-action="updatePriceValue"
       />
     </td>
@@ -24,6 +25,10 @@ export default {
       type: Object,
       required: true,
     },
+    enterpriseId: {
+      type: Number,
+      default: null,
+    },
   },
   data() {
     return {
@@ -38,15 +43,57 @@ export default {
       if (price !== undefined) return price;
       return null;
     },
-  },
 
+    customPrice() {
+      if (this.enterpriseId) {
+        if (this.price?.customs?.length) {
+          const custom = this.price.customs.find(
+            (cp) => cp.enterpriseId === this.enterpriseId
+          );
+          if (custom !== undefined) return custom;
+        }
+      }
+      return null;
+    },
+
+    priceValue() {
+      return this.customPrice
+        ? this.customPrice.value
+        : this.price
+        ? this.price.value
+        : 1;
+    },
+
+    priceStateLabel() {
+      return this.price && this.customPrice
+        ? this.$t('common.states.custom_price')
+        : this.$t('common.states.global_price');
+    },
+  },
   methods: {
     updatePriceValue(value) {
       if (this.price) {
-        return this.$store.dispatch('article/updatePrice', {
-          ...this.price,
-          value,
-        });
+        if (this.enterpriseId) {
+          if (this.customPrice)
+            return this.$store.dispatch('article/updatePrice', {
+              ...this.customPrice,
+              value,
+            });
+          else
+            return this.$store.dispatch('article/addPrices', {
+              prices: [
+                {
+                  value: value,
+                  price_type_id: this.priceType.id,
+                  enterprise_id: this.enterpriseId,
+                },
+              ],
+            });
+        } else
+          return this.$store.dispatch('article/updatePrice', {
+            ...this.price,
+            value,
+          });
       } else {
         return this.$store.dispatch('article/addPrices', {
           prices: [{ value: value, price_type_id: this.priceType.id }],

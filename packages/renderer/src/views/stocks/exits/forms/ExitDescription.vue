@@ -13,8 +13,8 @@
           <div class="row align-items-center">
             <div class="col-md">
               <BaseSelect
-                v-model="stockEntryForm.stock_type_id"
-                :label="$t('common.attributes.stock_entry_type_id')"
+                v-model="stockExitForm.stock_type_id"
+                :label="$t('common.attributes.stock_exit_type_id')"
                 :options="stockTypes"
                 key-label="label"
                 key-value="id"
@@ -25,7 +25,7 @@
             </div>
             <div class="col-md">
               <BaseInputGroup
-                v-model="stockEntryForm.reference"
+                v-model="stockExitForm.reference"
                 :label="$t('common.attributes.reference')"
                 placeholder="E.g. STOCK-AP00001..."
                 :errors="errors?.reference"
@@ -47,34 +47,48 @@
         </div>
         <div class="mb-3">
           <div class="row align-items-center">
-            <div class="col-md-8">
-              <BaseTextArea
-                v-model="stockEntryForm.description"
-                :label="$t('common.attributes.description')"
-                rows="4"
-                placeholder="Description..."
-                :errors="errors?.description"
+            <div class="col-md">
+              <BaseSelect
+                v-model="stockExitForm.enterprise_id"
+                :label="$t('common.fields.enterprise_from')"
+                :options="sourceEnterprises"
+                key-label="name"
+                key-value="id"
+                :errors="errors?.enterprise_id"
+                :disabled="isUpdating"
               />
             </div>
-            <div class="col-md-4">
-              <BaseSwitchInput
-                v-model="stockEntryForm.availability"
-                :label="$t('common.attributes.availability')"
-                :errors="errors?.availability"
+            <div class="col-md">
+              <BaseSelect
+                v-model="stockExitForm.enterprise_receiver_id"
+                :label="$t('common.fields.enterprise_to')"
+                :options="targetEnterprises"
+                key-label="name"
+                key-value="id"
+                :errors="errors?.enterprise_receiver_id"
+                required
+                :disabled="isUpdating"
               />
             </div>
           </div>
         </div>
       </div>
       <div class="card-footer">
-        <div class="row justify-content-end">
+        <div
+          :class="`row ${
+            stockExitIsConfirm
+              ? 'justify-content-center'
+              : 'justify-content-end'
+          }`"
+        >
           <BaseButton
             type="button"
             class="btn btn-secondary col-auto m-r-5"
             :text="$t('common.cancel')"
-            @click.prevent="$router.push({ name: 'stocks.entries' })"
+            @click.prevent="$router.push({ name: 'stocks.exits' })"
           />
           <BaseButton
+            v-if="!stockExitIsConfirm"
             class="btn btn-primary col-auto"
             :text="$t('common.save')"
             icon="fa fa-save"
@@ -89,28 +103,29 @@
 <script>
 import store from '/@/store';
 import { mapGetters } from 'vuex';
-import { stockFor } from '/@/helpers/codes.js';
+import { stockFor, stockTypeCode } from '/@/helpers/codes.js';
 import BaseButton from '/@/components/common/BaseButton.vue';
 import BaseSelect from '/@/components/common/BaseSelect.vue';
 import BaseInputGroup from '/@/components/common/BaseInputGroup.vue';
-import BaseTextArea from '/@/components/common/BaseTextArea.vue';
-import BaseSwitchInput from '/@/components/common/BaseSwitchInput.vue';
 import { random } from 'lodash/number.js';
 
 export default {
   components: {
-    BaseSwitchInput,
-    BaseTextArea,
     BaseInputGroup,
     BaseSelect,
     BaseButton,
   },
   beforeRouteEnter(routeTo, routeFrom, next) {
-    store
-      .dispatch('stock_type/getStockTypesList', {
+    Promise.all([
+      store.dispatch('stock_type/getStockTypesList', {
         page: 1,
         field: {},
-      })
+      }),
+      store.dispatch('enterprise/getEnterprisesList', {
+        page: 1,
+        field: {},
+      }),
+    ])
       .then(() => {
         next();
       })
@@ -124,33 +139,49 @@ export default {
       errors: [],
       loading: false,
       is_edited: false,
-      stockEntryForm: {
+      stockExitForm: {
         id: null,
         stock_type_id: null,
+        enterprise_id: null,
+        enterprise_receiver_id: null,
         reference: null,
-        description: null,
-        forecast_date: null,
-        availability: true,
       },
     };
   },
   computed: {
     ...mapGetters('stock_type', ['getListByTypeFor']),
-    ...mapGetters('stock_entry', ['stockEntry']),
+    ...mapGetters('stock_exit', ['stockExit', 'stockExitIsConfirm']),
+    ...mapGetters('enterprise', ['enterprises']),
     stockTypes() {
-      return this.getListByTypeFor(stockFor.entry);
+      return this.getListByTypeFor(stockFor.exit).filter(
+        (t) => t.code !== stockTypeCode.sale
+      );
+    },
+    sourceEnterprises() {
+      return [
+        { id: '', name: this.$t('common.parent') },
+        ...this.enterprises.filter(
+          (ent) =>
+            ent.id.toString() !== this.stockExitForm.enterprise_receiver_id
+        ),
+      ];
+    },
+    targetEnterprises() {
+      return this.enterprises.filter(
+        (ent) => ent.id.toString() !== this.stockExitForm.enterprise_id
+      );
     },
     formTitle() {
-      return this.stockEntry
-        ? this.$t('stocks.form.entry.updateTitle')
-        : this.$t('stocks.form.entry.createTitle');
+      return this.stockExit
+        ? this.$t('stocks.form.exit.updateTitle')
+        : this.$t('stocks.form.exit.createTitle');
     },
     isUpdating() {
-      return !!this.stockEntry;
+      return !!this.stockExit;
     },
   },
   watch: {
-    stockEntryForm: {
+    stockExitForm: {
       deep: true,
       handler() {
         this.is_edited = true;
@@ -158,8 +189,8 @@ export default {
     },
   },
   created() {
-    if (this.stockEntry) {
-      this.stockEntryForm = { ...this.stockEntry };
+    if (this.stockExit) {
+      this.stockExitForm = { ...this.stockExit };
       this.is_edited = false;
     }
   },
@@ -168,11 +199,11 @@ export default {
       if (this.isUpdating) {
         if (this.is_edited)
           this.$store
-            .dispatch('stock_entry/updateStockEntry', this.stockEntryForm)
-            .then((stockEntry) =>
+            .dispatch('stock_exit/updateStockExit', this.stockExitForm)
+            .then((stockExit) =>
               this.$router.push({
-                name: 'stocks.entry.form.article',
-                params: { id: stockEntry.id },
+                name: 'stocks.exit.form.article',
+                params: { id: stockExit.id },
               })
             )
             .catch((error) => {
@@ -181,16 +212,16 @@ export default {
             });
         else
           this.$router.push({
-            name: 'stocks.entry.form.article',
-            params: { id: this.stockEntry.id },
+            name: 'stocks.exit.form.article',
+            params: { id: this.stockExit.id },
           });
       } else
         this.$store
-          .dispatch('stock_entry/addStockEntry', this.stockEntryForm)
-          .then((stockEntry) =>
+          .dispatch('stock_exit/addStockExit', this.stockExitForm)
+          .then((stockExit) =>
             this.$router.push({
-              name: 'stocks.entry.form.article',
-              params: { id: stockEntry.id },
+              name: 'stocks.exit.form.article',
+              params: { id: stockExit.id },
             })
           )
           .catch((error) => {
@@ -199,8 +230,8 @@ export default {
           });
     },
     generateReference() {
-      //todo complete generating ref algorithm
-      this.stockEntryForm.reference = `STE-${new Date().getDay()}-${random(
+      //todo complete generating ref algorithm for exit stock
+      this.stockExitForm.reference = `STE-EXIT-${new Date().getDay()}-${random(
         1000,
         1000000
       )}`;
