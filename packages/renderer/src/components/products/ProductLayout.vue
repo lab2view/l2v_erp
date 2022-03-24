@@ -7,7 +7,6 @@ import store from '/@/store/index.js';
 import { moduleCode } from '/@/helpers/codes.js';
 
 export default {
-  name: 'ProductLayout',
   beforeRouteEnter(routeTo, routeFrom, next) {
     const hash = store.getters['product/getProductsHash'];
     if (hash) {
@@ -41,6 +40,13 @@ export default {
           next();
         });
     }
+  },
+  created() {
+    this.$echo
+      .private(`synchronisation.products.lsdjflksadjflkdsajf`)
+      .listen('Synchronisation', (notification) => {
+        console.debug(notification);
+      });
   },
 };
 </script>
