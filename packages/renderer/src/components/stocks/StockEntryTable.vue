@@ -5,7 +5,7 @@
       <th>{{ $t('common.headers.enterprise_id') }}</th>
       <th>{{ $t('common.attributes.stock_type') }}</th>
       <th>{{ $t('common.attributes.reference') }}</th>
-      <th>{{ $t('common.headers.status') }}</th>
+      <th>{{ $t('common.attributes.status') }}</th>
       <th>{{ $t('common.attributes.date') }}</th>
       <th>{{ $t('common.actions') }}</th>
     </template>
@@ -21,22 +21,28 @@
       <td>{{ stockEntry.stock_type.label }}</td>
       <td>{{ stockEntry.reference }}</td>
       <td>
-        {{ stockEntry.current_state?.stock_state.label }}
+        {{
+          stockEntry.current_state?.stock_state.label || $t('common.not_set')
+        }}
       </td>
       <td>{{ $d(stockEntry.created_at, 'short') }}</td>
       <td>
         <BaseButton
           type="button"
-          class="btn btn-iconsolid btn-secondary btn-sm"
-          :title="$t('common.update')"
+          :class="`btn btn-iconsolid btn-${
+            stockEntry.not_deletable ? 'success' : 'secondary'
+          } btn-sm`"
+          :title="$t(`common.${stockEntry.not_deletable ? 'show' : 'update'}`)"
           @click.prevent="
             $router.push({
-              name: 'stocks.entry.form.desc',
+              name: `stocks.entry.form.${
+                stockEntry.not_deletable ? 'article' : 'desc'
+              }`,
               params: { id: stockEntry.id },
             })
           "
         >
-          {{ $t('common.update') }}
+          {{ $t(`common.${stockEntry.not_deletable ? 'show' : 'update'}`) }}
         </BaseButton>
         <button
           v-if="!stockEntry.not_deletable"
@@ -70,11 +76,7 @@ export default {
       if (
         confirm(this.$t('messages.confirmDelete', { label: stockEntry.id }))
       ) {
-        //     this.$store.dispatch(
-        //       'stock_entry/deleteStockEntry',
-        //       stockEntry.id
-        //     );
-        console.log('stockEntry', stockEntry);
+        this.$store.dispatch('stock_entry/deleteStockEntry', stockEntry.id);
       }
     },
   },

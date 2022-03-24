@@ -10,11 +10,14 @@
     v-bind="{
       ...$attrs,
       onChange: ($event) => {
-        $emit('update:modelValue', $event.target.value);
+        $emit(
+          'update:modelValue',
+          $event.target.value !== '' ? $event.target.value : null
+        );
       },
     }"
   >
-    <option disabled selected value="">
+    <option v-if="!haveNullValue" disabled selected value="">
       {{ $t('common.choose') }}
     </option>
     <option
@@ -67,5 +70,13 @@ export default {
     },
   },
   emits: ['update:modelValue'],
+  computed: {
+    haveNullValue() {
+      return this.options.length
+        ? this.options[0][this.keyValue] === '' ||
+            this.options[0][this.keyValue] === null
+        : false;
+    },
+  },
 };
 </script>

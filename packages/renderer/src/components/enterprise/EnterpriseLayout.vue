@@ -17,14 +17,6 @@ export default {
           hash: hash,
           mutation: 'enterprise',
         })
-        .then((data) => {
-          console.log('data');
-          console.log(data);
-        })
-        .catch((error) => {
-          console.log('error');
-          console.log(error);
-        })
         .finally(() => next());
     } else {
       const field = { page: 1, field: {} };

@@ -1,14 +1,14 @@
 <template>
-  <router-view v-if="!stockEntryIsConfirm" />
-  <div v-if="$route.name === 'stocks.entry.form.article'" class="card mb-0">
+  <router-view v-if="!stockExitIsConfirm" />
+  <div v-if="$route.name === 'stocks.exit.form.article'" class="card mb-0">
     <div class="card-header pb-0">
       <div class="row align-items-center">
         <div class="col-sm">
           <h5>
-            {{ `${$t('stocks.entryLine.list')} - ${stockEntryReference}` }}
+            {{ `${$t('stocks.exitLine.list')} - ${stockExitReference}` }}
           </h5>
         </div>
-        <div v-if="canEditStockEntry" class="col-sm-auto align-items-end">
+        <div v-if="!stockExitIsConfirm" class="col-sm-auto align-items-end">
           <BaseButton
             type="button"
             class="btn btn-outline-danger m-r-5"
@@ -16,10 +16,10 @@
             icon="fa fa-trash-o"
             :text="$t('common.delete_all')"
             :loading="loading"
-            @click.prevent="deleteSelectedStockEntryLine"
+            @click.prevent="deleteSelectedStockExitLine"
           />
           <router-link
-            :to="{ name: 'stocks.entry.form.article.form' }"
+            :to="{ name: 'stocks.exit.form.article.form' }"
             class="btn btn-primary"
             type="button"
           >
@@ -28,12 +28,12 @@
           </router-link>
         </div>
         <div
-          v-else-if="currentStockEntryStateDate"
+          v-else-if="currentStockExitStateDate"
           class="col-sm-auto align-items-end"
         >
-          {{ $t('stocks.stockEntry.state_date') }} :
+          {{ $t('stocks.stockExit.state_date') }} :
           <span class="f-w-700">{{
-            $d(currentStockEntryStateDate, 'long')
+            $d(currentStockExitStateDate, 'long')
           }}</span>
         </div>
       </div>
@@ -50,11 +50,11 @@
                       ? 'checkbox-solid-success'
                       : 'checkbox-primary'
                   }
-                      ${canEditStockEntry ? 'checkbox' : ''}
+                      ${!stockExitIsConfirm ? 'checkbox' : ''}
                   `"
                 >
                   <input
-                    v-if="canEditStockEntry"
+                    v-if="!stockExitIsConfirm"
                     id="checkbox-stock-line-1"
                     v-model="selectAll"
                     type="checkbox"
@@ -62,7 +62,7 @@
                   <label
                     class="m-0 pt-0 pb-0 p-l-5"
                     for="checkbox-stock-line-1"
-                    :style="{ 'padding-left: 60px': !stockEntryIsConfirm }"
+                    :style="{ 'padding-left: 60px': !stockExitIsConfirm }"
                   >
                     {{ `${$t('articles.listTitle')} ${countSelected}` }}</label
                   >
@@ -71,61 +71,53 @@
               <th class="text-center" scope="col">
                 {{ $t('common.attributes.quantity') }}
               </th>
-              <th v-if="stockEntryIsCommand" class="text-center" scope="col">
-                {{ $t('common.attributes.provider_id') }}
-              </th>
-              <th v-if="stockEntryIsCommand" class="text-center" scope="col">
-                {{ $t('common.attributes.provider_price') }}
-              </th>
-              <th class="text-center" scope="col">
+              <th v-if="manage_price" class="text-center" scope="col">
                 {{ $t('common.attributes.buying_price') }}
               </th>
-              <th v-if="canEditStockEntry" scope="col">
+              <th v-if="manage_price" class="text-center" scope="col">
+                {{ $t('common.headers.total_price') }}
+              </th>
+              <th v-if="!stockExitIsConfirm" scope="col">
                 {{ $t('common.actions') }}
               </th>
             </tr>
           </thead>
           <tbody>
             <ArticleLineSelectable
-              v-for="(stockEntryLine, index) in stockEntryLines"
+              v-for="(stockExitLine, index) in stockExitLines"
               :key="`sck-ent-lne-${index}`"
-              :model="stockEntryLine"
+              :model="stockExitLine"
               :selected-list="selected"
-              update-dispatch-name="stock_entry/updateStockEntryLine"
-              remove-dispatch-name="stock_entry/removeStockEntryLines"
-              :cancel-selection="!canEditStockEntry"
+              update-dispatch-name="stock_exit/updateStockExitLine"
+              remove-dispatch-name="stock_exit/removeStockExitLines"
+              :cancel-selection="stockExitIsConfirm"
               @deleted="selected = []"
-              @selected="selectStockEntryLine(stockEntryLine, true)"
-              @unselected="selectStockEntryLine(stockEntryLine, false)"
+              @selected="selectStockExitLine(stockExitLine, true)"
+              @unselected="selectStockExitLine(stockExitLine, false)"
             >
-              <td v-if="stockEntryIsCommand">
-                {{ stockEntryLine.provider?.name }}
+              <td v-if="manage_price" class="text-center">
+                {{ stockExitLine.price }}
               </td>
-              <td v-if="stockEntryIsCommand">
-                {{ stockEntryLine.provider_price }}
+              <td v-if="manage_price" class="text-center">
+                {{ stockExitLine.sub_price }}
               </td>
-              <td class="text-center">{{ stockEntryLine.buying_price }}</td>
             </ArticleLineSelectable>
           </tbody>
         </table>
       </div>
     </div>
     <div
-      v-if="!stockEntryIsConfirm && stockEntryLines.length"
+      v-if="!stockExitIsConfirm && canConfirm"
       class="card-footer border-top-0"
     >
       <div class="row justify-content-center">
         <BaseButton
           class="btn btn-success col-auto"
           type="button"
-          :text="
-            stockEntryIsCommand
-              ? $t('common.confirm_command')
-              : $t('common.confirm_provision')
-          "
+          :text="$t('common.confirm_operation')"
           icon="fa fa-check-circle"
           :loading="loading"
-          @click.prevent="confirmStockEntrySate"
+          @click.prevent="confirmStockExitSate"
         />
       </div>
     </div>
@@ -133,10 +125,10 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
-import BaseButton from '/@/components/common/BaseButton.vue';
 import ArticleLineSelectable from '/@/components/articles/ArticleLineSelectable.vue';
+import BaseButton from '/@/components/common/BaseButton.vue';
 import store from '/@/store/index.js';
+import { mapGetters } from 'vuex';
 import { stockStateCode } from '/@/helpers/codes.js';
 
 export default {
@@ -157,35 +149,37 @@ export default {
     };
   },
   computed: {
-    ...mapGetters('stock_entry', [
-      'stockEntryLines',
-      'stockEntryReference',
-      'stockEntryIsCommand',
-      'stockEntryIsConfirm',
-      'currentStockEntryStateDate',
-      'canEditStockEntry',
+    ...mapGetters('stock_exit', [
+      'stockExitLines',
+      'stockExitReference',
+      'stockExitIsConfirm',
+      'currentStockExitStateDate',
+      'manage_price',
     ]),
     ...mapGetters('stock_state', ['getStockStateByCode']),
     partialSelect() {
       return (
         this.selected.length > 0 &&
-        this.selected.length < this.stockEntryLines.length
+        this.selected.length < this.stockExitLines.length
       );
     },
-    selectedAllStockEntryLine() {
-      if (this.stockEntryLines.length)
-        return this.selected.length === this.stockEntryLines.length;
+    canConfirm() {
+      return this.stockExitLines.length > 0;
+    },
+    selectedAllStockExitLine() {
+      if (this.stockExitLines.length)
+        return this.selected.length === this.stockExitLines.length;
       else return false;
     },
     selectAll: {
       get() {
-        return this.selectedAllStockEntryLine;
+        return this.selectedAllStockExitLine;
       },
       set(value) {
         if (!value) this.selected = [];
         else {
           let result = [];
-          this.stockEntryLines.forEach((ag) => result.push(ag.id));
+          this.stockExitLines.forEach((ag) => result.push(ag.id));
           this.selected = result;
         }
       },
@@ -198,12 +192,12 @@ export default {
     },
   },
   methods: {
-    selectStockEntryLine(stockEntryLine, adding) {
-      if (adding) this.selected.push(stockEntryLine.id);
+    selectStockExitLine(stockExitLine, adding) {
+      if (adding) this.selected.push(stockExitLine.id);
       else
-        this.selected = this.selected.filter((id) => id !== stockEntryLine.id);
+        this.selected = this.selected.filter((id) => id !== stockExitLine.id);
     },
-    deleteSelectedStockEntryLine() {
+    deleteSelectedStockExitLine() {
       if (
         this.selected.length &&
         confirm(
@@ -214,20 +208,20 @@ export default {
       ) {
         this.loading = true;
         this.$store
-          .dispatch('stock_entry/removeStockEntryLines', this.selected)
+          .dispatch('stock_exit/removeStockExitLines', this.selected)
           .then(() => {
             this.loading = false;
             this.selected = [];
           });
       }
     },
-    confirmStockEntrySate() {
+    confirmStockExitSate() {
       if (confirm(this.$t('messages.confirmFinishStock', { label: '' }))) {
         const state = this.getStockStateByCode(stockStateCode.success);
         if (state !== undefined) {
           this.loading = true;
           this.$store
-            .dispatch('stock_entry/changeStockEntryState', state.id)
+            .dispatch('stock_exit/changeStockExitState', state.id)
             .finally(() => (this.loading = false));
         }
       }

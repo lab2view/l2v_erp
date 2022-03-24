@@ -32,6 +32,11 @@ const getters = {
         stockStateCode.delivered
     );
   },
+  canEditStockEntry: (state, getters) => {
+    return getters.stockEntryIsConfirm
+      ? false
+      : getters.stockEntry.stock_exit_id === null;
+  },
   currentStockEntryStateDate: (state, getters) =>
     getters.stockEntry?.current_state?.updated_at,
 };
@@ -97,12 +102,17 @@ const actions = {
         if (
           state.code === stockStateCode.success ||
           state.code === stockStateCode.delivered
-        )
+        ) {
+          commit('UPDATE_STOCK_ENTRY', {
+            ...getters.stockEntry,
+            not_deletable: true,
+          });
           getters.stockEntry?.provisions.forEach((sp) =>
             commit('article/UPDATE_ARTICLE_STOCK', sp.article, {
               root: true,
             })
           );
+        }
         notify(
           i18n.global.t('stocks.stockEntry.updateStock'),
           'Ok',
@@ -150,17 +160,15 @@ const actions = {
       });
   },
   updateProvision({ commit }, provision) {
-    return stockEntryService
-      .updateProvision(provision)
-      .then(({ data }) => {
-        commit('UPDATE_PROVISION', data);
-        notify(
-          i18n.global.t('stocks.provision.update'),
-          'Ok',
-          'theme',
-          'fa fa-check'
-        );
-      });
+    return stockEntryService.updateProvision(provision).then(({ data }) => {
+      commit('UPDATE_PROVISION', data);
+      notify(
+        i18n.global.t('stocks.provision.update'),
+        'Ok',
+        'theme',
+        'fa fa-check'
+      );
+    });
   },
   removeProvisions({ getters, commit }, provisionIds) {
     return stockEntryService
@@ -172,20 +180,6 @@ const actions = {
       )
       .then(() => {
         commit('REMOVE_PROVISIONS', provisionIds);
-      });
-  },
-
-  setStockEntryState({ getters, commit }, stock_state_id) {
-    return stockEntryService
-      .setStockEntryState(getters.stockEntry.id, stock_state_id)
-      .then(({ data }) => {
-        commit('ADD_STOCK_ENTRY_STATE', data);
-        notify(
-          i18n.global.t('stocks.stockEntry.updateStock'),
-          'Ok',
-          'theme',
-          'fa fa-check'
-        );
       });
   },
 };
@@ -218,7 +212,9 @@ const mutations = {
   },
   DELETE_STOCK_ENTRY(state, stockEntryId) {
     state.stock_entries = JSON.stringify(
-      JSON.parse(state.stock_entries).filter((p) => p.id !== stockEntryId)
+      JSON.parse(state.stock_entries).filter(
+        (p) => p.id.toString() !== stockEntryId.toString()
+      )
     );
   },
 
@@ -236,16 +232,16 @@ const mutations = {
       state.stock_entries = JSON.stringify(stock_entries);
     }
   },
-  UPDATE_STOCK_ENTRY_LINE(state, compositionPreset) {
+  UPDATE_STOCK_ENTRY_LINE(state, stockEntryLine) {
     let stock_entries = JSON.parse(state.stock_entries);
     let stockEntry = JSON.parse(state.stockEntry);
     let index = stock_entries.findIndex((se) => se.id === stockEntry.id);
     if (index !== -1) {
       let art = stockEntry.stock_entry_lines.findIndex(
-        (p) => p.id === compositionPreset.id
+        (p) => p.id === stockEntryLine.id
       );
       if (art !== -1) {
-        stockEntry.stock_entry_lines.splice(art, 1, compositionPreset);
+        stockEntry.stock_entry_lines.splice(art, 1, stockEntryLine);
         stock_entries.splice(index, 1, stockEntry);
         state.stockEntry = JSON.stringify(stockEntry);
         state.stock_entries = JSON.stringify(stock_entries);
@@ -273,10 +269,7 @@ const mutations = {
     let stockEntry = JSON.parse(state.stockEntry);
     let index = stock_entries.findIndex((se) => se.id === stockEntry.id);
     if (index !== -1) {
-      stockEntry.provisions = [
-        ...stockEntry.provisions,
-        ...provisions,
-      ];
+      stockEntry.provisions = [...stockEntry.provisions, ...provisions];
       stock_entries.splice(index, 1, stockEntry);
       state.stockEntry = JSON.stringify(stockEntry);
       state.stock_entries = JSON.stringify(stock_entries);

@@ -18,6 +18,11 @@ axios.interceptors.request.use(
 
     const token = store.getters['auth/token'] ?? null;
     if (token) config.headers.common['Authorization'] = `Bearer ${token}`;
+
+    const currentEnterprise = store.getters['auth/currentEnterprise'] ?? null;
+    if (currentEnterprise)
+      config.headers.common['X-Enterprise-Id'] = currentEnterprise.id;
+
     return config;
   },
   function (error) {
