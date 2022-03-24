@@ -40,9 +40,12 @@ import discount_code from './modules/sales/discount_code';
 import cash_register from './modules/sales/cash_register';
 import cashier from './modules/sales/cashier';
 import cashier_group from './modules/sales/cashier_group';
+import role from './modules/iam/role.js';
+import user from './modules/iam/user.js';
 import sale_type from './modules/sales/sale_type';
 import SyncService from '/@/services/SyncService.js';
 import { getMutationPathName } from '/@/helpers/utils.js';
+import { actionCode } from '/@/helpers/codes.js';
 
 export default createStore({
   state: {
@@ -85,7 +88,11 @@ export default createStore({
             changes.forEach((change) => {
               const mutation = getMutationPathName(change);
               if (mutation) {
-                commit(mutation, change.model, { root: true });
+                const payload =
+                  change.action === actionCode.deleted
+                    ? change.model.id
+                    : change.model;
+                commit(mutation, payload, { root: true });
                 hash = change.hash;
               }
             });
@@ -158,6 +165,8 @@ export default createStore({
     cash_register,
     cashier,
     cashier_group,
+    role,
+    user,
   },
   strict: process.env.NODE_ENV !== 'production',
   plugins: [...modulePlugins],

@@ -80,6 +80,7 @@ export default {
   },
 
   attributes: {
+    products: 'Produits',
     disable_date: 'Desactive le',
     stock_variety: 'Variete du stocks',
     calling_code: "Code d'appel",

@@ -1,5 +1,5 @@
 import priceTypeService from '../../../services/articles/PriceTypeService';
-import { notify } from '../../../helpers/notify';
+import { notify } from '/@/helpers/notify.js';
 import i18n from '../../../i18n';
 
 const state = {

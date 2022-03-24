@@ -287,3 +287,39 @@ export const saleMenus = [
     ],
   },
 ];
+
+export const iamMenus = [
+  {
+    icon: 'users',
+    code: 'User.manage',
+    prefix: 'iam.user',
+    items: [
+      {
+        code: 'User.viewAny',
+        to: 'iam.users',
+      },
+      {
+        code: 'User.create',
+        to: 'iam.user.form.desc',
+      },
+    ],
+  },
+  {
+    icon: 'list',
+    code: 'Role.manage',
+    prefix: 'iam.role',
+    items: [
+      {
+        code: 'Role.viewAny',
+        to: 'iam.roles',
+      },
+    ],
+  },
+  {
+    icon: 'list',
+    label: 'Histories',
+    prefix: 'histories',
+    code: 'History.viewAny',
+    to: 'iam.histories',
+  },
+];
