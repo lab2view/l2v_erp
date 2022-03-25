@@ -149,7 +149,7 @@ export default {
         page: 1,
         field: {},
       }),
-      store.dispatch('customerType/getCustomerTypesList', {
+      store.dispatch('customer_type/getCustomerTypesList', {
         page: 1,
         field: {},
       }),
@@ -181,7 +181,7 @@ export default {
   computed: {
     ...mapGetters('customer', ['customers', 'searchCustomerByCriteria']),
     ...mapGetters('country', ['activeCountries']),
-    ...mapGetters('customerType', ['customerTypes']),
+    ...mapGetters('customer_type', ['customerTypes']),
     selectableCustomers() {
       return this.searchCustomerByCriteria(this.customerFilter).filter(
         (ct) =>

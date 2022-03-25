@@ -76,7 +76,7 @@ export default {
   components: { BaseContainer, BaseDatatable },
   beforeRouteEnter(routeTo, routeFrom, next) {
     store
-      .dispatch('saleType/getSaleTypesList', {
+      .dispatch('sale_type/getSaleTypesList', {
         page: 1,
         field: {},
       })
@@ -89,17 +89,17 @@ export default {
       });
   },
   computed: {
-    ...mapGetters('saleType', ['saleTypes', 'saleType']),
+    ...mapGetters('sale_type', ['saleTypes', 'saleType']),
   },
   created() {
     if (this.saleType)
-      this.$store.commit('saleType/SET_CURRENT_SALE_TYPE', null);
+      this.$store.commit('sale_type/SET_CURRENT_SALE_TYPE', null);
   },
 
   methods: {
     deleteSaleType(saleType) {
       if (confirm(this.$t('messages.confirmDelete', { label: saleType.label })))
-        this.$store.dispatch('saleType/deleteSaleType', saleType.id);
+        this.$store.dispatch('sale_type/deleteSaleType', saleType.id);
     },
   },
 };

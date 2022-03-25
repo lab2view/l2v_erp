@@ -5,16 +5,16 @@ export default {
     return axios.post(`/stocks/entries/provisions/list?page=${page}`, field);
   },
 
-  addStockEntryProvision(stockProvision) {
-    return axios.post(`/stocks/entries/provisions`, stockProvision);
+  addStockEntryProvision(provision) {
+    return axios.post(`/stocks/entries/provisions`, provision);
   },
 
   getStockEntryProvision(id) {
     return axios.get(`/stocks/entries/provisions/${id}`);
   },
 
-  updateStockEntryProvision(stockProvision, id) {
-    return axios.put(`/stocks/entries/provisions/${id}`, stockProvision);
+  updateStockEntryProvision(provision, id) {
+    return axios.put(`/stocks/entries/provisions/${id}`, provision);
   },
 
   deleteStockEntryProvision(id) {

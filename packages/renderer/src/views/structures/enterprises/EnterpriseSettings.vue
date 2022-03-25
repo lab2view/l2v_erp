@@ -2,7 +2,7 @@
   <div class="card mb-0">
     <form class="theme-form" @submit.prevent="submitEnterpriseSettingForm">
       <div class="card-header pb-0">
-        <h5>{{ $t('structures.enterprise.settingTitle') }}</h5>
+        <h5>{{ $t('enterprise.enterprise.settingTitle') }}</h5>
         <span>
           Using the <a href="#">card</a> component, you can extend the default
           collapse behavior to create an accordion.

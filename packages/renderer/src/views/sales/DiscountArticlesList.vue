@@ -56,7 +56,7 @@
                   for="checkbox-primary-1"
                   style="padding-left: 60px"
                 >
-                  {{ `${$t('article.listTitle')} ${countSelected}` }}</label
+                  {{ `${$t('articles.listTitle')} ${countSelected}` }}</label
                 >
               </div>
             </th>
@@ -65,14 +65,14 @@
           </thead>
           <tbody>
           <ArticleLineSelectable
-            v-for="(articleDiscount, index) in articleDiscounts"
+            v-for="(discountArticle, index) in discountArticles"
             :key="`art-grp-lne-${index}`"
-            :model="articleDiscount"
+            :model="discountArticle"
             :selected-list="selected"
             remove-dispatch-name="discount/removeArticleDiscounts"
             @deleted="selected = []"
-            @selected="selectArticleDiscount(articleDiscount, true)"
-            @unselected="selectArticleDiscount(articleDiscount, false)"
+            @selected="selectArticleDiscount(discountArticle, true)"
+            @unselected="selectArticleDiscount(discountArticle, false)"
           />
           </tbody>
         </table>
@@ -118,19 +118,20 @@ export default {
     haveDiscount() {
       return !!this.discount;
     },
-    articleDiscounts() {
-      return this.haveDiscount ? this.discount.article_discounts : [];
+    discountArticles() {
+      return this.haveDiscount ? this.discount.discount_articles : [];
     },
     partialSelect() {
       return (
         this.selected.length > 0 &&
-        this.selected.length < this.articleDiscounts.length
+        this.selected.length < this.discountArticles.length
       );
     },
     selectedAllArticleDiscounts() {
-      if (this.articleDiscounts.length)
-        return this.selected.length === this.articleDiscounts.length;
-      else return false;
+      if (this.discountArticles.length)
+        return this.selected.length === this.discountArticles.length;
+
+      return false;
     },
     selectAll: {
       get() {
@@ -140,7 +141,7 @@ export default {
         if (!value) this.selected = [];
         else {
           let result = [];
-          this.articleDiscounts.forEach((ag) => result.push(ag.id));
+          this.discountArticles.forEach((ag) => result.push(ag.id));
           this.selected = result;
         }
       },
@@ -153,11 +154,11 @@ export default {
     },
   },
   methods: {
-    selectArticleDiscount(articleDiscount, adding) {
-      if (adding) this.selected.push(articleDiscount.id);
+    selectArticleDiscount(discountArticle, adding) {
+      if (adding) this.selected.push(discountArticle.id);
       else
         this.selected = this.selected.filter(
-          (id) => id !== articleDiscount.id
+          (id) => id !== discountArticle.id
         );
     },
     deleteSelectedArticleDiscounts() {

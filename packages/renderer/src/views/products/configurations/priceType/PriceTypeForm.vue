@@ -41,11 +41,11 @@ export default {
     };
   },
   computed: {
-    ...mapGetters('priceTypeConfig', ['priceType']),
+    ...mapGetters('price_type', ['priceType']),
     title() {
       return this.priceType
-        ? this.$t('article.priceType.formUpdateTitle')
-        : this.$t('article.priceType.formCreateTitle');
+        ? this.$t('articles.priceType.formUpdateTitle')
+        : this.$t('articles.priceType.formCreateTitle');
     },
   },
   created() {
@@ -53,13 +53,13 @@ export default {
   },
   beforeUnmount() {
     if (this.priceType)
-      this.$store.commit('priceTypeConfig/SET_CURRENT_PRICE_TYPE', null);
+      this.$store.commit('price_type/SET_CURRENT_PRICE_TYPE', null);
   },
   methods: {
     submitPriceTypeForm() {
       if (this.priceType)
         this.$store
-          .dispatch('priceTypeConfig/updatePriceType', this.priceTypeForm)
+          .dispatch('price_type/updatePriceType', this.priceTypeForm)
           .then(() => this.$router.back())
           .catch((error) => {
             this.errors = error.response?.data?.errors;
@@ -67,7 +67,7 @@ export default {
           });
       else
         this.$store
-          .dispatch('priceTypeConfig/addPriceType', this.priceTypeForm)
+          .dispatch('price_type/addPriceType', this.priceTypeForm)
           .then(() => this.$router.back())
           .catch((error) => {
             this.errors = error.response?.data?.errors;

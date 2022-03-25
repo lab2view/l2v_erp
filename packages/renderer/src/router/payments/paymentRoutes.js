@@ -35,7 +35,7 @@ export const paymentRoutes = [
         beforeEnter: (to) => {
           if (to.params.id) {
             return store
-              .dispatch('transactionType/getTransactionType', to.params.id)
+              .dispatch('transaction_type/getTransactionType', to.params.id)
               .then(() => {
                 return { name: to.name };
               })
@@ -61,7 +61,7 @@ export const paymentRoutes = [
         beforeEnter: (to) => {
           if (to.params.id) {
             return store
-              .dispatch('paymentMethod/getPaymentMethod', to.params.id)
+              .dispatch('payment_method/getPaymentMethod', to.params.id)
               .then(() => {
                 return { name: to.name };
               })

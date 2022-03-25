@@ -1,13 +1,13 @@
 <template>
   <BaseContainer
-    :title="$t('article.group.listTitle')"
+    :title="$t('articles.group.listTitle')"
     :module="$t('menu.modules.articles')"
   >
     <div class="card">
       <div class="card-header pb-2 border-bottom border-bottom-">
         <div class="row align-items-center">
           <div class="col-sm">
-            <h5>{{ $t('article.group.listTitle') }}</h5>
+            <h5>{{ $t('articles.group.listTitle') }}</h5>
           </div>
           <div class="col-sm-auto align-items-end">
             <router-link

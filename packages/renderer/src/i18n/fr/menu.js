@@ -7,6 +7,7 @@ export default {
     customers: 'Clients',
     payments: 'Paiements',
     structures: 'Entreprises',
+    enterprise: 'Structures',
     iam: 'IAM',
     manage: 'Modules',
   },
@@ -33,6 +34,15 @@ export default {
     viewany: 'Liste des modules',
     form: {
       description: 'Description du module',
+    },
+  },
+  iam: {
+    manage: 'IAM',
+    user: {
+      form: {
+        desc: "Description de l'utilisateur",
+        privileges: "Privileges de l'utilisateur",
+      },
     },
   },
   saletype: {
@@ -101,7 +111,7 @@ export default {
   },
   enterprise: {
     create: 'Ajouter une structure',
-    viewany: 'Liste des structures',
+    viewany: 'Liste des enterprise',
     form: {
       desc: 'Description de la structure',
       setting: 'Parametres de la structure',
@@ -194,7 +204,6 @@ export default {
   stocks: {
     manage: 'Mouvements',
   },
-
   stockentry: {
     viewany: 'Approvisionnements',
     form: {
@@ -205,6 +214,10 @@ export default {
   },
   stockexit: {
     viewany: 'Sorties de Stock',
+    form: {
+      description: 'Description de la sortie',
+      line: 'Liste des articles',
+    },
   },
   stocktype: {
     viewany: 'Types de Stock',
@@ -224,5 +237,14 @@ export default {
   movement: {
     entry: "Mouvements d'entree",
     exit: 'Mouvements de sortie',
+  },
+  role: {
+    manage: 'Roles',
+    viewany: 'Liste des roles',
+  },
+  user: {
+    manage: 'Utilisateurs',
+    viewany: 'Liste des utilisateurs',
+    create: 'Ajouter un utilisateur',
   },
 };

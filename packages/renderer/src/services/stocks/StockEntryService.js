@@ -48,22 +48,22 @@ export default {
     );
   },
 
-  addStockProvisions(stockEntryId, stockProvisions) {
+  addProvisions(stockEntryId, provisions) {
     return axios.post(
       `/stocks/entries/${stockEntryId}/provisions/add`,
-      stockProvisions
+      provisions
     );
   },
-  updateStockProvision(stockProvision) {
+  updateProvision(provision) {
     return axios.put(
-      `/stocks/entries/provisions/${stockProvision.id}/update`,
-      stockProvision
+      `/stocks/entries/provisions/${provision.id}/update`,
+      provision
     );
   },
-  removeStockProvisions(stockEntryId, stockProvisionIds) {
+  removeProvisions(stockEntryId, provisionIds) {
     return axios.post(
       `/stocks/entries/${stockEntryId}/provisions/remove`,
-      stockProvisionIds
+      provisionIds
     );
   },
 

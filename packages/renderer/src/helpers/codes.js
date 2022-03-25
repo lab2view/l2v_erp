@@ -1,6 +1,7 @@
 export const enterpriseImageCode = 'UPLOAD_LOGO';
 export const productPropertyImageCode = 'UPLOAD_IMAGE';
 export const unitPackageCode = 'UNIT';
+export const roleAdminCode = 'ADMIN';
 export const stockFor = { entry: 'StockEntry', exit: 'StockExit' };
 export const stockTypeCode = {
   directEntry: 'E_STOCK_DIRECT',
@@ -17,4 +18,20 @@ export const stockStateCode = {
   awaiting: 'AWAITING',
   initiate: 'INITIATE',
   partial_delivered: 'PARTIALLY_DELIVERED',
+};
+export const moduleCode = {
+  customers: 'CUSTOMERS',
+  enterprise: 'ENTERPRISE',
+  iam: 'IAM',
+  payments: 'PAYMENTS',
+  products: 'PRODUCTS',
+  sales: 'SALES',
+  stocks: 'STOCKS',
+};
+
+export const actionCode = {
+  created: 'created',
+  updated: 'updated',
+  deleted: 'deleted',
+  restored: 'restored',
 };

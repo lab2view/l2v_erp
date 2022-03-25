@@ -76,7 +76,7 @@ export default {
   components: { BaseContainer, BaseDatatable },
   beforeRouteEnter(routeTo, routeFrom, next) {
     store
-      .dispatch('transactionType/getTransactionTypesList', {
+      .dispatch('transaction_type/getTransactionTypesList', {
         page: 1,
         field: {},
       })
@@ -89,11 +89,11 @@ export default {
       });
   },
   computed: {
-    ...mapGetters('transactionType', ['transactionTypes', 'transactionType']),
+    ...mapGetters('transaction_type', ['transactionTypes', 'transactionType']),
   },
   created() {
     if (this.transactionType)
-      this.$store.commit('transactionType/SET_CURRENT_TRANSACTION_TYPE', null);
+      this.$store.commit('transaction_type/SET_CURRENT_TRANSACTION_TYPE', null);
   },
 
   methods: {
@@ -104,7 +104,7 @@ export default {
         )
       )
         this.$store.dispatch(
-          'transactionType/deleteTransactionType',
+          'transaction_type/deleteTransactionType',
           transactionType.id
         );
     },

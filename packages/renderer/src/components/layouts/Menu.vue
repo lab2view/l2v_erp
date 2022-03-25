@@ -72,6 +72,7 @@ import {
   saleMenus,
   stockMenus,
   structureMenus,
+  iamMenus,
 } from '/@/helpers/menus';
 import { mapGetters } from 'vuex';
 
@@ -107,7 +108,7 @@ export default defineComponent({
         },
         {
           code: 'IAM',
-          menus: [],
+          menus: iamMenus,
         },
       ];
     },

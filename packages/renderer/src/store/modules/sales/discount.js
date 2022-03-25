@@ -19,6 +19,7 @@ const getters = {
       ? JSON.parse(state.discount)
       : null,
   haveDiscount: (state, getters) => !!getters.discount,
+  getSalesHash: (state) => state.hash ?? null,
 };
 
 // privileges
@@ -100,7 +101,7 @@ const actions = {
     return discountService
       .addArticles(articles, discount.id)
       .then(({ data }) => {
-        commit('ADD_ARTICLE_DISCOUNTS', data.articleDiscounts);
+        commit('ADD_DISCOUNT_ARTICLES', data.discountArticles);
         return data;
       });
   },
@@ -114,12 +115,12 @@ const actions = {
       });
   },
 
-  removeArticleDiscounts({ state, commit }, articleDiscountIds) {
+  removeArticleDiscounts({ state, commit }, discountArticleIds) {
     let discount = JSON.parse(state.discount);
     return discountService
-      .removeArticleDiscounts(articleDiscountIds, discount.id)
+      .removeArticleDiscounts(discountArticleIds, discount.id)
       .then(({ data }) => {
-        commit('DELETE_ARTICLE_DISCOUNTS', {discount, articleDiscountIds});
+        commit('DELETE_DISCOUNT_ARTICLES', {discount, discountArticleIds});
         return data;
       });
   },
@@ -137,6 +138,9 @@ const actions = {
 
 // mutations
 const mutations = {
+  SET_SALES_HASH(state, hash) {
+    state.hash = hash;
+  },
   SET_DISCOUNTS(state, discounts) {
     state.discounts = JSON.stringify(discounts);
   },
@@ -185,41 +189,41 @@ const mutations = {
     }
     state.discount = JSON.stringify(discount);
   },
-  ADD_ARTICLE_DISCOUNTS(state, articleDiscounts) {
+  ADD_DISCOUNT_ARTICLES(state, discountArticles) {
     let discount = JSON.parse(state.discount);
-    let article_discounts = discount.article_discounts ?? [];
-    if (article_discounts.length) {
-      let articles = article_discounts.map((ad) => ad.article_id);
-      let articleDiscountsLength = articleDiscounts.length;
-      for (let i = 0; i < articleDiscountsLength; i++) {
-        if (! articles.includes(articleDiscounts[i].article_id)) {
-          article_discounts.push(articleDiscounts[i]);
+    let discount_articles = discount.discount_articles ?? [];
+    if (discount_articles.length) {
+      let articles = discount_articles.map((ad) => ad.article_id);
+      let discountArticlesLength = discountArticles.length;
+      for (let i = 0; i < discountArticlesLength; i++) {
+        if (! articles.includes(discountArticles[i].article_id)) {
+          discount_articles.push(discountArticles[i]);
         }
       }
     } else {
-      article_discounts = articleDiscounts;
+      discount_articles = discountArticles;
     }
 
     let discounts = JSON.parse(state.discounts);
     const index = discounts.findIndex(
       (p) => p.id === discount.id
     );
-    discount.article_discounts = article_discounts;
+    discount.discount_articles = discount_articles;
     if (index !== -1) {
       discounts.splice(index, 1, discount);
       state.discounts = JSON.stringify(discounts);
     }
     state.discount = JSON.stringify(discount);
   },
-  DELETE_ARTICLE_DISCOUNTS(state, {discount, articleDiscountIds}) {
+  DELETE_DISCOUNT_ARTICLES(state, {discount, discountArticleIds}) {
     let discounts = JSON.parse(state.discounts);
     const index = discounts.findIndex(
       (p) => p.id === discount.id
     );
 
     if (discount && discount.id) {
-      discount.article_discounts = discount.article_discounts
-        ?.filter((ad) => !articleDiscountIds.includes(ad.id)) ?? [];
+      discount.discount_articles = discount.discount_articles
+        ?.filter((ad) => !discountArticleIds.includes(ad.id)) ?? [];
 
       if (index !== -1) {
         discounts.splice(index, 1, discount);

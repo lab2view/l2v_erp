@@ -45,7 +45,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters('cashRegister', ['cashRegister']),
+    ...mapGetters('cash_register', ['cashRegister']),
     title() {
       return this.cashRegister && this.cashRegister.id
         ? this.$t('sales.cashRegister.formUpdateTitle')
@@ -60,7 +60,7 @@ export default {
     this.setLoading();
     if (this.cashRegister && this.cashRegister.id)
       this.$store.commit(
-        'cashRegister/SET_CURRENT_CASH_REGISTER',
+        'cash_register/SET_CURRENT_CASH_REGISTER',
         null
       );
   },
@@ -80,7 +80,7 @@ export default {
       this.setLoading(true);
       if (this.cashRegister && this.cashRegister.id) {
         this.$store.dispatch(
-          'cashRegister/updateCashRegister',
+          'cash_register/updateCashRegister',
           this.cashRegisterForm,
         )
           .then(() => this.$router.back())
@@ -92,7 +92,7 @@ export default {
       } else {
         this.$store
           .dispatch(
-            'cashRegister/addCashRegister',
+            'cash_register/addCashRegister',
             this.cashRegisterForm,
           )
           .then(() => this.$router.back())

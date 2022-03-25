@@ -8,53 +8,53 @@ const Auth = new VuexPersistence({
   reducer: (state) => ({ auth: state.auth }),
 });
 
-const PackageConfig = new VuexPersistence({
-  key: 'packageConfig',
+const Package = new VuexPersistence({
+  key: 'package',
   storage: localStore,
   asyncStorage: true,
-  reducer: (state) => ({ packageConfig: state.packageConfig }),
+  reducer: (state) => ({ package: state.package }),
 });
 
-const PriceTypeConfig = new VuexPersistence({
-  key: 'priceTypeConfig',
+const PriceType = new VuexPersistence({
+  key: 'price_type',
   storage: localStore,
   asyncStorage: true,
-  reducer: (state) => ({ priceTypeConfig: state.priceTypeConfig }),
+  reducer: (state) => ({ price_type: state.price_type }),
 });
 
-const ProductFamilyConfig = new VuexPersistence({
-  key: 'productFamilyConfig',
+const ProductFamily = new VuexPersistence({
+  key: 'product_family',
   storage: localStore,
   asyncStorage: true,
-  reducer: (state) => ({ productFamilyConfig: state.productFamilyConfig }),
+  reducer: (state) => ({ product_family: state.product_family }),
 });
 
-const ProductTypeConfig = new VuexPersistence({
-  key: 'productTypeConfig',
+const ProductType = new VuexPersistence({
+  key: 'product_type',
   storage: localStore,
   asyncStorage: true,
-  reducer: (state) => ({ productTypeConfig: state.productTypeConfig }),
+  reducer: (state) => ({ product_type: state.product_type }),
 });
 
-const ProductUnitConfig = new VuexPersistence({
-  key: 'productUnitConfig',
+const ProductUnit = new VuexPersistence({
+  key: 'product_unit',
   storage: localStore,
   asyncStorage: true,
-  reducer: (state) => ({ productUnitConfig: state.productUnitConfig }),
+  reducer: (state) => ({ product_unit: state.product_unit }),
 });
 
-const TaxConfig = new VuexPersistence({
-  key: 'taxConfig',
+const Tax = new VuexPersistence({
+  key: 'tax',
   storage: localStore,
   asyncStorage: true,
-  reducer: (state) => ({ taxConfig: state.taxConfig }),
+  reducer: (state) => ({ tax: state.tax }),
 });
 
-const PropertyConfig = new VuexPersistence({
-  key: 'propertyConfig',
+const Property = new VuexPersistence({
+  key: 'property',
   storage: localStore,
   asyncStorage: true,
-  reducer: (state) => ({ propertyConfig: state.propertyConfig }),
+  reducer: (state) => ({ property: state.property }),
 });
 
 const Product = new VuexPersistence({
@@ -99,11 +99,11 @@ const Enterprise = new VuexPersistence({
   reducer: (state) => ({ enterprise: state.enterprise }),
 });
 
-const EnterpriseTypeConfig = new VuexPersistence({
-  key: 'enterpriseTypeConfig',
+const EnterpriseType = new VuexPersistence({
+  key: 'enterprise_type',
   storage: localStore,
   asyncStorage: true,
-  reducer: (state) => ({ enterpriseTypeConfig: state.enterpriseTypeConfig }),
+  reducer: (state) => ({ enterprise_type: state.enterprise_type }),
 });
 
 const Country = new VuexPersistence({
@@ -141,11 +141,11 @@ const Customer = new VuexPersistence({
   reducer: (state) => ({ customer: state.customer }),
 });
 
-const CustomerTypeConfig = new VuexPersistence({
-  key: 'customerType',
+const CustomerType = new VuexPersistence({
+  key: 'customer_type',
   storage: localStore,
   asyncStorage: true,
-  reducer: (state) => ({ customerType: state.customerType }),
+  reducer: (state) => ({ customer_type: state.customer_type }),
 });
 
 const CustomerGroup = new VuexPersistence({
@@ -162,11 +162,11 @@ const Inventory = new VuexPersistence({
   reducer: (state) => ({ inventory: state.inventory }),
 });
 
-const StockProvider = new VuexPersistence({
-  key: 'stock_provider',
+const Provider = new VuexPersistence({
+  key: 'provider',
   storage: localStore,
   asyncStorage: true,
-  reducer: (state) => ({ stock_provider: state.stock_provider }),
+  reducer: (state) => ({ provider: state.provider }),
 });
 
 const Shipping = new VuexPersistence({
@@ -198,24 +198,24 @@ const StockEntry = new VuexPersistence({
 });
 
 const PaymentMethod = new VuexPersistence({
-  key: 'paymentMethod',
+  key: 'payment_method',
   storage: localStore,
   asyncStorage: true,
-  reducer: (state) => ({ paymentMethod: state.paymentMethod }),
+  reducer: (state) => ({ payment_method: state.payment_method }),
 });
 
 const PaymentCharge = new VuexPersistence({
-  key: 'paymentCharge',
+  key: 'payment_charge',
   storage: localStore,
   asyncStorage: true,
-  reducer: (state) => ({ paymentCharge: state.paymentCharge }),
+  reducer: (state) => ({ payment_charge: state.payment_charge }),
 });
 
 const TransactionType = new VuexPersistence({
-  key: 'transactionType',
+  key: 'transaction_type',
   storage: localStore,
   asyncStorage: true,
-  reducer: (state) => ({ transactionType: state.transactionType }),
+  reducer: (state) => ({ transaction_type: state.transaction_type }),
 });
 
 const Transaction = new VuexPersistence({
@@ -226,10 +226,10 @@ const Transaction = new VuexPersistence({
 });
 
 const DiscountType = new VuexPersistence({
-  key: 'discountType',
+  key: 'discount_type',
   storage: localStore,
   asyncStorage: true,
-  reducer: (state) => ({ discountType: state.discountType }),
+  reducer: (state) => ({ discount_type: state.discount_type }),
 });
 
 const Discount = new VuexPersistence({
@@ -240,10 +240,10 @@ const Discount = new VuexPersistence({
 });
 
 const CashRegister = new VuexPersistence({
-  key: 'cashRegister',
+  key: 'cash_register',
   storage: localStore,
   asyncStorage: true,
-  reducer: (state) => ({ cashRegister: state.cashRegister }),
+  reducer: (state) => ({ cash_register: state.cash_register }),
 });
 
 const Cashier = new VuexPersistence({
@@ -254,51 +254,66 @@ const Cashier = new VuexPersistence({
 });
 
 const CashierGroup = new VuexPersistence({
-  key: 'cashierGroup',
+  key: 'cashier_group',
   storage: localStore,
   asyncStorage: true,
-  reducer: (state) => ({ cashierGroup: state.cashierGroup }),
+  reducer: (state) => ({ cashier_group: state.cashier_group }),
 });
 
 const SaleType = new VuexPersistence({
-  key: 'saleType',
+  key: 'sale_type',
   storage: localStore,
   asyncStorage: true,
-  reducer: (state) => ({ saleType: state.saleType }),
+  reducer: (state) => ({ sale_type: state.sale_type }),
 });
 
 const DiscountCode = new VuexPersistence({
-  key: 'discountCode',
+  key: 'discount_code',
   storage: localStore,
   asyncStorage: true,
-  reducer: (state) => ({ discountCode: state.discountCode }),
+  reducer: (state) => ({ discount_code: state.discount_code }),
 });
+
+const Role = new VuexPersistence({
+  key: 'role',
+  storage: localStore,
+  asyncStorage: true,
+  reducer: (state) => ({ role: state.role }),
+});
+
+const User = new VuexPersistence({
+  key: 'user',
+  storage: localStore,
+  asyncStorage: true,
+  reducer: (state) => ({ user: state.user }),
+});
+
 
 export default [
   Auth.plugin,
   Product.plugin,
-  PackageConfig.plugin,
-  PropertyConfig.plugin,
-  TaxConfig.plugin,
-  PriceTypeConfig.plugin,
-  ProductFamilyConfig.plugin,
-  ProductTypeConfig.plugin,
-  ProductUnitConfig.plugin,
+  Package.plugin,
+  Property.plugin,
+  Tax.plugin,
+  PriceType.plugin,
+  ProductFamily.plugin,
+  ProductType.plugin,
+  ProductUnit.plugin,
   Article.plugin,
   StockProvision.plugin,
   StockExit.plugin,
   ArticleGroup.plugin,
   Enterprise.plugin,
-  EnterpriseTypeConfig.plugin,
+  EnterpriseType.plugin,
   Country.plugin,
   Localization.plugin,
   Module.plugin,
   Region.plugin,
   Customer.plugin,
   CustomerGroup.plugin,
-  CustomerTypeConfig.plugin,
+  CustomerType.plugin,
   Inventory.plugin,
-  StockProvider.plugin,
+  Provider.plugin,
   Shipping.plugin,
   StockEntry.plugin,
   StockState.plugin,
@@ -314,4 +329,6 @@ export default [
   Cashier.plugin,
   CashierGroup.plugin,
   SaleType.plugin,
+  Role.plugin,
+  User.plugin,
 ];

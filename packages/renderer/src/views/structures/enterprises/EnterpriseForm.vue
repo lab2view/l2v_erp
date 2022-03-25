@@ -15,7 +15,7 @@
               <BaseSelect
                 v-model="enterpriseForm.enterprise_type_id"
                 :errors="errors.enterprise_type_id"
-                :label="$t('structures.enterprise_type')"
+                :label="$t('enterprise.enterprise_type')"
                 :options="enterpriseTypes"
                 key-label="label"
                 key-value="id"
@@ -111,7 +111,7 @@ export default {
   },
   beforeRouteEnter(routeTo, routeFrom, next) {
     Promise.all([
-      store.dispatch('enterpriseTypeConfig/getEnterpriseTypesList', {
+      store.dispatch('enterprise_type/getEnterpriseTypesList', {
         page: 1,
         field: {},
       }),
@@ -149,13 +149,13 @@ export default {
   },
   computed: {
     ...mapGetters('enterprise', ['enterprise']),
-    ...mapGetters('enterpriseTypeConfig', ['enterpriseTypes']),
+    ...mapGetters('enterprise_type', ['enterpriseTypes']),
     ...mapGetters('auth', ['currentUser']),
     ...mapGetters('country', ['countries']),
     formTitle() {
       return this.enterprise
-        ? this.$t('structures.enterprise.formUpdateTitle')
-        : this.$t('structures.enterprise.formCreateTitle');
+        ? this.$t('enterprise.enterprise.formUpdateTitle')
+        : this.$t('enterprise.enterprise.formCreateTitle');
     },
     userCountry() {
       return this.countries.find(

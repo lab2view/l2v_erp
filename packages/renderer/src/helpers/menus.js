@@ -33,35 +33,35 @@ export const productMenus = [
     icon: 'settings',
     label: 'Configurations',
     code: null,
-    prefix: 'config.product',
+    prefix: 'config.products',
     items: [
       {
         code: 'package.viewAny',
-        to: 'config.product.package',
+        to: 'config.products.package',
       },
       {
         code: 'PriceType.viewAny',
-        to: 'config.product.priceType',
+        to: 'config.products.priceType',
       },
       {
         code: 'ProductFamily.viewAny',
-        to: 'config.product.productFamily',
+        to: 'config.products.productFamily',
       },
       {
         code: 'ProductType.viewAny',
-        to: 'config.product.productType',
+        to: 'config.products.productType',
       },
       {
         code: 'ProductUnit.viewAny',
-        to: 'config.product.productUnit',
+        to: 'config.products.productUnit',
       },
       {
         code: 'Tax.viewAny',
-        to: 'config.product.tax',
+        to: 'config.products.tax',
       },
       {
         code: 'Property.viewAny',
-        to: 'config.product.property',
+        to: 'config.products.property',
       },
     ],
   },
@@ -285,5 +285,41 @@ export const saleMenus = [
         to: 'config.sales.discount.types',
       },
     ],
+  },
+];
+
+export const iamMenus = [
+  {
+    icon: 'users',
+    code: 'User.manage',
+    prefix: 'iam.user',
+    items: [
+      {
+        code: 'User.viewAny',
+        to: 'iam.users',
+      },
+      {
+        code: 'User.create',
+        to: 'iam.user.form.desc',
+      },
+    ],
+  },
+  {
+    icon: 'list',
+    code: 'Role.manage',
+    prefix: 'iam.role',
+    items: [
+      {
+        code: 'Role.viewAny',
+        to: 'iam.roles',
+      },
+    ],
+  },
+  {
+    icon: 'list',
+    label: 'Histories',
+    prefix: 'histories',
+    code: 'History.viewAny',
+    to: 'iam.histories',
   },
 ];

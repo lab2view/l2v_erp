@@ -1,13 +1,13 @@
 <template>
   <BaseContainer
-    :title="$t('structures.localisationTitle')"
-    :module="$t('structures.localizations')"
+    :title="$t('enterprise.localisationTitle')"
+    :module="$t('enterprise.localizations')"
   >
     <div class="card">
       <div class="card-header pb-2 border-bottom border-bottom-">
         <div class="row align-items-center">
           <div class="col-sm">
-            <h5>{{ $t('structures.localization.listTitle') }}</h5>
+            <h5>{{ $t('enterprise.localization.listTitle') }}</h5>
           </div>
           <div class="col-sm-auto align-items-end">
             <router-link

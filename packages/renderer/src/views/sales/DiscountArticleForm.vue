@@ -1,6 +1,6 @@
 <template>
   <ArticleSelectableList
-    :used-articles="discount.article_discounts"
+    :used-articles="discount.discount_articles"
     :submit-store-action="submitAddArticlesToDiscountForm"
   >
     <div class="card-header p-3">

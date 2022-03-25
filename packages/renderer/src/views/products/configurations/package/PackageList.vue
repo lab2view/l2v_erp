@@ -3,11 +3,11 @@
     <div class="card-header pb-2 border-bottom border-bottom-">
       <div class="row align-items-center">
         <div class="col-sm">
-          <h5>{{ $t('product.package.listTitle') }}</h5>
+          <h5>{{ $t('products.package.listTitle') }}</h5>
         </div>
         <div class="col-sm-auto align-items-end">
           <router-link
-            :to="{ name: 'config.product.package.form' }"
+            :to="{ name: 'config.products.package.form' }"
             href="#"
             class="btn btn-primary"
             type="button"
@@ -36,7 +36,7 @@
               :title="$t('common.update')"
               @click.prevent="
                 $router.push({
-                  name: 'config.product.package.form',
+                  name: 'config.products.package.form',
                   params: { id: pack.id },
                 })
               "
@@ -71,7 +71,7 @@ export default {
   components: { BaseDatatable },
   beforeRouteEnter(routeTo, routeFrom, next) {
     store
-      .dispatch('packageConfig/getPackageList', {
+      .dispatch('package/getPackageList', {
         page: 1,
         field: {},
       })
@@ -84,12 +84,12 @@ export default {
       });
   },
   computed: {
-    ...mapGetters('packageConfig', ['packages']),
+    ...mapGetters('package', ['packages']),
   },
   methods: {
     deletePackage(pack) {
       if (confirm(this.$t('messages.confirmDelete', { label: pack.label })))
-        this.$store.dispatch('packageConfig/deletePackage', pack.id);
+        this.$store.dispatch('package/deletePackage', pack.id);
     },
   },
 };

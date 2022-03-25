@@ -5,10 +5,10 @@
       <div class="row align-items-center">
         <div class="col-sm">
           <h5>
-            {{ `${$t('stock.entryLine.list')} - ${stockEntryReference}` }}
+            {{ `${$t('stocks.entryLine.list')} - ${stockEntryReference}` }}
           </h5>
         </div>
-        <div v-if="!stockEntryIsConfirm" class="col-sm-auto align-items-end">
+        <div v-if="canEditStockEntry" class="col-sm-auto align-items-end">
           <BaseButton
             type="button"
             class="btn btn-outline-danger m-r-5"
@@ -31,7 +31,7 @@
           v-else-if="currentStockEntryStateDate"
           class="col-sm-auto align-items-end"
         >
-          {{ $t('stock.stockEntry.state_date') }} :
+          {{ $t('stocks.stockEntry.state_date') }} :
           <span class="f-w-700">{{
             $d(currentStockEntryStateDate, 'long')
           }}</span>
@@ -50,11 +50,11 @@
                       ? 'checkbox-solid-success'
                       : 'checkbox-primary'
                   }
-                      ${!stockEntryIsConfirm ? 'checkbox' : ''}
+                      ${canEditStockEntry ? 'checkbox' : ''}
                   `"
                 >
                   <input
-                    v-if="!stockEntryIsConfirm"
+                    v-if="canEditStockEntry"
                     id="checkbox-stock-line-1"
                     v-model="selectAll"
                     type="checkbox"
@@ -64,7 +64,7 @@
                     for="checkbox-stock-line-1"
                     :style="{ 'padding-left: 60px': !stockEntryIsConfirm }"
                   >
-                    {{ `${$t('article.listTitle')} ${countSelected}` }}</label
+                    {{ `${$t('articles.listTitle')} ${countSelected}` }}</label
                   >
                 </div>
               </th>
@@ -72,12 +72,15 @@
                 {{ $t('common.attributes.quantity') }}
               </th>
               <th v-if="stockEntryIsCommand" class="text-center" scope="col">
+                {{ $t('common.attributes.provider_id') }}
+              </th>
+              <th v-if="stockEntryIsCommand" class="text-center" scope="col">
                 {{ $t('common.attributes.provider_price') }}
               </th>
               <th class="text-center" scope="col">
                 {{ $t('common.attributes.buying_price') }}
               </th>
-              <th v-if="!stockEntryIsConfirm" scope="col">
+              <th v-if="canEditStockEntry" scope="col">
                 {{ $t('common.actions') }}
               </th>
             </tr>
@@ -90,11 +93,14 @@
               :selected-list="selected"
               update-dispatch-name="stock_entry/updateStockEntryLine"
               remove-dispatch-name="stock_entry/removeStockEntryLines"
-              :cancel-selection="stockEntryIsConfirm"
+              :cancel-selection="!canEditStockEntry"
               @deleted="selected = []"
               @selected="selectStockEntryLine(stockEntryLine, true)"
               @unselected="selectStockEntryLine(stockEntryLine, false)"
             >
+              <td v-if="stockEntryIsCommand">
+                {{ stockEntryLine.provider?.name }}
+              </td>
               <td v-if="stockEntryIsCommand">
                 {{ stockEntryLine.provider_price }}
               </td>
@@ -104,12 +110,19 @@
         </table>
       </div>
     </div>
-    <div v-if="!stockEntryIsConfirm" class="card-footer border-top-0">
+    <div
+      v-if="!stockEntryIsConfirm && stockEntryLines.length"
+      class="card-footer border-top-0"
+    >
       <div class="row justify-content-center">
         <BaseButton
           class="btn btn-success col-auto"
           type="button"
-          :text="$t('common.confirm_provision')"
+          :text="
+            stockEntryIsCommand
+              ? $t('common.confirm_command')
+              : $t('common.confirm_provision')
+          "
           icon="fa fa-check-circle"
           :loading="loading"
           @click.prevent="confirmStockEntrySate"
@@ -150,6 +163,7 @@ export default {
       'stockEntryIsCommand',
       'stockEntryIsConfirm',
       'currentStockEntryStateDate',
+      'canEditStockEntry',
     ]),
     ...mapGetters('stock_state', ['getStockStateByCode']),
     partialSelect() {
@@ -208,7 +222,7 @@ export default {
       }
     },
     confirmStockEntrySate() {
-      if (confirm(this.$t('messages.confirmFinishEntryStock', { label: '' }))) {
+      if (confirm(this.$t('messages.confirmFinishStock', { label: '' }))) {
         const state = this.getStockStateByCode(stockStateCode.success);
         if (state !== undefined) {
           this.loading = true;
