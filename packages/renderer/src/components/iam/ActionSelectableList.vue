@@ -171,6 +171,7 @@ export default {
       return [{ label: this.$t('common.all'), id: '' }, ...this.actions];
     },
     selectableActions() {
+      return [];
       return this.actions;
       // return this.searchActionByCriteria(this.actionFilter).filter(
       //   (c) =>
