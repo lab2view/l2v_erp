@@ -1,5 +1,8 @@
 <template>
-  <BaseContainer :title="$t('stocks.title')" :module="$t('menu.modules.stocks')">
+  <BaseContainer
+    :title="$t('stocks.title')"
+    :module="$t('menu.modules.stocks')"
+  >
     <div class="card">
       <BaseWizardStep :links="items" />
     </div>
@@ -9,7 +12,7 @@
 <script>
 import BaseContainer from '/@/components/common/BaseContainer.vue';
 import BaseWizardStep from '/@/components/common/BaseWizardStep.vue';
-import formRoutes from '/@/router/stocks/formRoutes';
+import entryFormRoutes from '/@/router/stocks/entryFormRoutes.js';
 import { mapGetters } from 'vuex';
 
 export default {
@@ -17,7 +20,7 @@ export default {
   computed: {
     ...mapGetters('stock_entry', ['haveStockEntry']),
     items() {
-      let results = Object.assign([], formRoutes);
+      let results = Object.assign([], entryFormRoutes);
       return results.map((pfr) => {
         return {
           name: pfr.name,

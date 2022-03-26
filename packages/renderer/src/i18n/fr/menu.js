@@ -7,7 +7,7 @@ export default {
     customers: 'Clients',
     payments: 'Paiements',
     structures: 'Entreprises',
-    enterprise: 'Entreprises',
+    enterprise: 'Structures',
     iam: 'IAM',
     manage: 'Modules',
   },
@@ -41,9 +41,9 @@ export default {
     user: {
       form: {
         desc: "Description de l'utilisateur",
-        privileges: "Privileges de l'utilisateur"
+        privileges: "Privileges de l'utilisateur",
       },
-    }
+    },
   },
   saletype: {
     viewany: 'Types de vente',
@@ -214,6 +214,10 @@ export default {
   },
   stockexit: {
     viewany: 'Sorties de Stock',
+    form: {
+      description: 'Description de la sortie',
+      line: 'Liste des articles',
+    },
   },
   stocktype: {
     viewany: 'Types de Stock',

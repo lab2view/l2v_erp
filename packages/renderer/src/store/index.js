@@ -45,6 +45,7 @@ import user from './modules/iam/user.js';
 import sale_type from './modules/sales/sale_type';
 import SyncService from '/@/services/SyncService.js';
 import { getMutationPathName } from '/@/helpers/utils.js';
+import { actionCode } from '/@/helpers/codes.js';
 
 export default createStore({
   state: {
@@ -87,7 +88,11 @@ export default createStore({
             changes.forEach((change) => {
               const mutation = getMutationPathName(change);
               if (mutation) {
-                commit(mutation, change.model, { root: true });
+                const payload =
+                  change.action === actionCode.deleted
+                    ? change.model.id
+                    : change.model;
+                commit(mutation, payload, { root: true });
                 hash = change.hash;
               }
             });

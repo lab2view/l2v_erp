@@ -4,10 +4,12 @@
 
 <script>
 import store from '/@/store/index.js';
-import { moduleCode } from '/@/helpers/codes.js';
+import { actionCode, moduleCode } from '/@/helpers/codes.js';
+import { getMutationPathName } from '/@/helpers/utils.js';
+import { mapGetters } from 'vuex';
+import { notify } from '/@/helpers/notify.js';
 
 export default {
-  name: 'ProductLayout',
   beforeRouteEnter(routeTo, routeFrom, next) {
     const hash = store.getters['product/getProductsHash'];
     if (hash) {
@@ -41,6 +43,30 @@ export default {
           next();
         });
     }
+  },
+  computed: {
+    ...mapGetters('auth', ['currentUser']),
+  },
+  created() {
+    this.$echo
+      .private(`synchronisation.${moduleCode.products.toLowerCase()}`)
+      .listen('.module.synchronisation', (change) => {
+        if (change.user_id === this.currentUser.id) {
+          this.$store.commit('product/SET_PRODUCTS_HASH', change.hash);
+        } else {
+          const mutation = getMutationPathName(change);
+          if (mutation) {
+            const commitPayload =
+              change.action === actionCode.deleted
+                ? change.model.id
+                : change.model;
+            this.$store.commit(mutation, commitPayload);
+            this.$store.commit('product/SET_PRODUCTS_HASH', change.hash);
+          }
+          notify(`${change.action} ${change.mutation}`, 'New Event', 'info');
+        }
+        console.log(change);
+      });
   },
 };
 </script>

@@ -28,4 +28,26 @@ export default {
   forceDelete(id) {
     return axios.delete(`/stocks/exits/delete/${id}`);
   },
+
+  addStockExitLines(stockExitId, stockExitLines) {
+    return axios.post(`/stocks/exits/${stockExitId}/lines/add`, stockExitLines);
+  },
+  updateStockExitLine(stockExitLine) {
+    return axios.put(
+      `/stocks/exits/lines/${stockExitLine.id}/update`,
+      stockExitLine
+    );
+  },
+  removeStockExitLines(stockExitId, stockExitLineIds) {
+    return axios.post(
+      `/stocks/exits/${stockExitId}/lines/remove`,
+      stockExitLineIds
+    );
+  },
+
+  setStockExitState(stockExitId, stock_state_id) {
+    return axios.post(`/stocks/exits/${stockExitId}/states`, {
+      stock_state_id,
+    });
+  },
 };

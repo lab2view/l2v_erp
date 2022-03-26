@@ -41,6 +41,21 @@ export default {
     return axios.post(`/articles/${article_id}/prices/remove`, pricesIds);
   },
 
+  addCustomPrice(customPrice, price_id) {
+    return axios.post(`/articles/prices/${price_id}/customs/add`, customPrice);
+  },
+
+  updateCustomPrice(customPrice) {
+    return axios.put(
+      `/articles/prices/customs/${customPrice.id}/update`,
+      customPrice
+    );
+  },
+
+  deleteCustomPrice(customPriceId) {
+    return axios.delete(`/articles/prices/customs/${customPriceId}`);
+  },
+
   addCompositionPresets(childArticles, article_id) {
     return axios.post(
       `/articles/${article_id}/compositions/presets/add`,

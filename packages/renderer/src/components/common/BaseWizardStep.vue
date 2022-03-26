@@ -11,7 +11,7 @@
       <template v-for="(link, index) in links" :key="index">
         <router-link
           v-if="!link.disabled"
-          :to="{ name: link.name }"
+          :to="{ name: link.name, params: $route.params, query: $route.query }"
           class="f1-step"
           :style="`width: ${100 / links.length}%`"
           :class="link.class"
