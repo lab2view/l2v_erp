@@ -126,7 +126,7 @@ import { mapGetters } from 'vuex';
 import BaseSelect from '/@/components/common/BaseSelect.vue';
 import BaseButton from '/@/components/common/BaseButton.vue';
 import store from '/@/store';
-import ActionSelectableColumn from '/@/components/actions/ActionSelectableColumn.vue';
+import ActionSelectableColumn from '/@/components/iam/ActionSelectableColumn.vue';
 
 export default {
   components: { ActionSelectableColumn, BaseButton, BaseSelect },
