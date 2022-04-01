@@ -28,6 +28,22 @@ export const iamRoutes = [
     ],
   },
   {
+    path: 'config-role/:id',
+    name: 'iam.config.role',
+    component: () => import('/@/views/iam/RoleConfig.vue'),
+    beforeEnter: (to) => {
+      if (to.params.id) {
+        return store.dispatch('role/getRole', to.params.id)
+          .then(() => {
+            return 1;
+          })
+          .catch(() => -1);
+      }
+
+      return -1;
+    },
+  },
+  {
     path: 'users',
     name: 'iam.users',
     component: () => import('/@/views/iam/UsersList.vue'),

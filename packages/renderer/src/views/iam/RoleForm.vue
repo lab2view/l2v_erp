@@ -1,14 +1,14 @@
 <template>
-  <BaseFormModal :submit-form="submitCustomerTypeForm" :title="title">
-    <div class="form-group mb-3">
+  <BaseFormModal :submit-form="submitRoleForm" :title="title">
+    <div class="form-group">
       <label class="form-label fw-bold" for="label">{{
         $t('common.attributes.label')
       }}</label>
       <input
         id="label"
-        v-model="customerTypeForm.label"
+        v-model="roleForm.label"
         class="form-control"
-        placeholder="Particular, Agency..."
+        placeholder="Admin, Customer..."
         required
         type="text"
       />
@@ -26,7 +26,7 @@
       }}</label>
       <textarea
         id="description"
-        v-model="customerTypeForm.description"
+        v-model="roleForm.description"
         class="form-control"
         placeholder="Petite description.."
         type="text"
@@ -57,7 +57,7 @@ export default {
     return {
       errors: [],
       formLoading: false,
-      customerTypeForm: {
+      roleForm: {
         id: null,
         label: null,
         code: null,
@@ -66,21 +66,21 @@ export default {
     };
   },
   computed: {
-    ...mapGetters('customer_type', ['customerType']),
+    ...mapGetters('role', ['role']),
     title() {
-      return this.customerType && this.customerType.id
-        ? this.$t('customers.customerType.formUpdateTitle')
-        : this.$t('customers.customerType.formCreateTitle');
+      return this.role && this.role.id
+        ? this.$t('iam.role.formUpdateTitle')
+        : this.$t('iam.role.formCreateTitle');
     },
   },
   created() {
-    if (this.customerType && this.customerType.id)
-      this.customerTypeForm = this.customerType;
+    if (this.role && this.role.id)
+      this.roleForm = this.role;
   },
   beforeUnmount() {
     this.setLoading();
-    if (this.customerType && this.customerType.id)
-      this.$store.commit('customer_type/SET_CURRENT_CUSTOMER_TYPE', null);
+    if (this.role && this.role.id)
+      this.$store.commit('role/SET_CURRENT_ROLE', null);
   },
   methods: {
     setLoading(value = false) {
@@ -90,15 +90,15 @@ export default {
 
       this.formLoading = value;
     },
-    submitCustomerTypeForm() {
+    submitRoleForm() {
       if (this.formLoading) {
         return;
       }
 
       this.setLoading(true);
-      if (this.customerType && this.customerType.id) {
+      if (this.role && this.role.id) {
         this.$store
-          .dispatch('customer_type/updateCustomerType', this.customerTypeForm)
+          .dispatch('role/updateRole', this.roleForm)
           .then(() => this.$router.back())
           .catch((error) => {
             this.errors = error.response.data.errors;
@@ -107,7 +107,7 @@ export default {
           .finally(() => this.setLoading());
       } else {
         this.$store
-          .dispatch('customer_type/addCustomerType', this.customerTypeForm)
+          .dispatch('role/addRole', this.roleForm)
           .then(() => this.$router.back())
           .catch((error) => {
             this.errors = error.response.data.errors;
