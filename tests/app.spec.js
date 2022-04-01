@@ -23,7 +23,7 @@ const { strict: assert } = require('assert');
         resolve(getState());
       } else
         mainWindow.once('ready-to-show', () =>
-          setTimeout(() => resolve(getState()), 0)
+          setTimeout(() => resolve(getState()), 0),
         );
     });
   });

@@ -1,10 +1,23 @@
 <template>
-  <BaseContainer :module="$t('menu.modules.stocks')" :title="$t('stocks.title')">
+  <BaseContainer
+    :module="$t('menu.modules.stocks')"
+    :title="$t('stocks.title')"
+  >
     <div class="card">
       <div class="card-header pb-2 border-bottom border-bottom-">
         <div class="row align-items-center">
           <div class="col-sm">
             <h5>{{ $t('stocks.stockExit.listTitle') }}</h5>
+          </div>
+          <div class="col-sm-auto align-items-end">
+            <router-link
+              :to="{ name: 'stocks.exit.form.desc' }"
+              class="btn btn-primary"
+              type="button"
+            >
+              <i class="fa fa-plus m-r-5" />
+              {{ $t('stocks.stockExit.add') }}
+            </router-link>
           </div>
         </div>
       </div>

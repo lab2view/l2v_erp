@@ -1,6 +1,7 @@
 export const enterpriseImageCode = 'UPLOAD_LOGO';
 export const productPropertyImageCode = 'UPLOAD_IMAGE';
 export const unitPackageCode = 'UNIT';
+export const roleAdminCode = 'ADMIN';
 export const stockFor = { entry: 'StockEntry', exit: 'StockExit' };
 export const stockTypeCode = {
   directEntry: 'E_STOCK_DIRECT',

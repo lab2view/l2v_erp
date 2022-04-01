@@ -4,8 +4,14 @@ export default {
   stockentry: 'Entree de stocks',
   stockexit: 'Sortie de stocks',
   form: {
-    updateTitle: "Modification de l'approvisionnement",
-    createTitle: "Creation de l'approvisionnement",
+    entry: {
+      updateTitle: "Modification de l'approvisionnement",
+      createTitle: "Creation de l'approvisionnement",
+    },
+    exit: {
+      updateTitle: 'Modification de la sortie de stock',
+      createTitle: 'Creation de le sortie de stock',
+    },
   },
   provision: {
     list: 'Liste des approvisionnements',
@@ -22,10 +28,12 @@ export default {
     update: 'La modification du fournisseur a ete effectuee avec succes.',
   },
   exitLine: {
-    list: 'Liste des sorties de stocks',
+    list: 'Sorties de stocks',
     add: 'Enregistrer une sortie',
     store: "L'enregistrement de la sortie a ete effectue avec succes.",
     update: 'La modification de la sortie a ete effectuee avec succes.',
+    articleSelect: 'Selectionner les articles',
+    articleForm: 'Finalisation de la sortie de stock',
   },
   entryLine: {
     list: 'Approvisionnement',
@@ -42,6 +50,8 @@ export default {
   },
   stockExit: {
     listTitle: 'Liste des sorties de stocks',
+    add: 'Effectuer une sortie de stock',
+    state_date: 'Statut mis a jour le',
   },
   stockType: {
     listTitle: 'Types de stocks',
