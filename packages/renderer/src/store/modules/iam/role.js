@@ -10,6 +10,27 @@ const state = {
 // getters
 const getters = {
   actions: (state) => (state.actions ? JSON.parse(state.actions) : []),
+  getActionById: (state, getters) => (id) =>
+    getters.actions.find((a) => a.id === id),
+  searchActionsByCriteria:
+    (state, getters) =>
+      // ({ module_id, action_id, keyword }) =>
+      ({ module_id, keyword }) =>
+        getters.actions.filter((c) => {
+          let result = true;
+          if (module_id)
+            result = c.module_id.toString() === module_id.toString();
+          // if (action_id)
+          //   result = c.action_id.toString() === action_id.toString();
+          if (keyword && result)
+            result = RegExp(`${keyword.toString().toLowerCase()}*`).test(
+              `${c.label.toString().toLowerCase()} ${c.code
+                .toString()
+                .toLowerCase()}`
+            );
+          return result;
+        })
+  ,
   roles: (state) => (state.roles ? JSON.parse(state.roles) : []),
   role: (state) => (state.role ? JSON.parse(state.role) : null),
   getRoleById: (state, getters) => (id) =>

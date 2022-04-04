@@ -1,11 +1,11 @@
 <template>
-<!--  <router-view :user="user"/>-->
+  <router-view :user="user"/>
   <div class="card mb-0">
     <div class="card-header pb-0">
       <div class="row align-items-center">
         <div class="col-sm">
           <h5>
-            {{ `${$t('iam.user.iam')} - ${user.name}` }}
+            {{ `${$t('iam.user.privileges')} - ${fullName}` }}
           </h5>
         </div>
         <div
@@ -22,7 +22,7 @@
             @click.prevent="deleteSelectedUserPrivileges"
           />
           <router-link
-            :to="{ name: 'iam.user.form.iam.form' }"
+            :to="{ name: 'iam.user.form.privileges.form' }"
             class="btn btn-primary"
             type="button"
           >
@@ -56,7 +56,7 @@
                   for="checkbox-primary-1"
                   style="padding-left: 60px"
                 >
-                  {{ `${$t('iam.user.listTitle')} ${countSelected}` }}</label
+                  {{ `${$t('iam.privilege.listTitle')} ${countSelected}` }}</label
                 >
               </div>
             </th>
@@ -64,9 +64,9 @@
           </tr>
           </thead>
           <tbody>
-          <PrivilegeLineSelectable
+          <ActionLineSelectable
             v-for="(userPrivilege, index) in userPrivileges"
-            :key="`disc-cust-${index}`"
+            :key="`usr-priv-${index}`"
             :model="userPrivilege"
             :selected-list="selected"
             remove-dispatch-name="user/removeUserPrivileges"
@@ -100,12 +100,12 @@
 </template>
 
 <script>
-import ActionSelectableList from '/@/components/iam/ActionSelectableList.vue';
+import ActionLineSelectable from '/@/components/iam/ActionLineSelectable.vue';
 import BaseButton from '/@/components/common/BaseButton.vue';
 import { mapGetters } from 'vuex';
 
 export default {
-  components: { ActionSelectableList, BaseButton },
+  components: { ActionLineSelectable, BaseButton },
   data() {
     return {
       selected: [],
@@ -114,11 +114,14 @@ export default {
   },
   computed: {
     ...mapGetters('user', ['user']),
+    fullName() {
+      return [this.user.last_name, this.user.first_name].join(' ')
+    },
     haveUser() {
       return !!this.user;
     },
     userPrivileges() {
-      return this.haveUser ? this.user.user_customers : [];
+      return this.haveUser ? this.user.privileges : [];
     },
     partialSelect() {
       return (

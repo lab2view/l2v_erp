@@ -54,6 +54,8 @@ export default {
   not_set: 'Non defini',
 
   fields: {
+    modules: 'Modules',
+    module: 'Module',
     text: 'Chaine de caractere',
     number: 'Nombre',
     date: 'Date',
