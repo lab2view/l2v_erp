@@ -9,6 +9,17 @@ export default {
     return axios.post(`/users`, user);
   },
 
+  addUserPrivileges({user, user_privileges}) {
+    return axios.post(`/users/privileges`, {
+      user_id: user.id,
+      user_privileges: user_privileges
+    });
+  },
+
+  removeUserPrivileges(user) {
+    return axios.post(`/users`, user);
+  },
+
   getUser(id) {
     return axios.get(`/users/${id}`);
   },

@@ -94,7 +94,7 @@
             <input
               id="male"
               v-model="userForm.gender"
-              value="H"
+              value="M"
               type="radio"
               required
             />

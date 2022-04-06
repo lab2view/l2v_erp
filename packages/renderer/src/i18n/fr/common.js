@@ -54,6 +54,8 @@ export default {
   not_set: 'Non defini',
 
   fields: {
+    modules: 'Modules',
+    module: 'Module',
     text: 'Chaine de caractere',
     number: 'Nombre',
     date: 'Date',
@@ -181,7 +183,7 @@ export default {
     price_type_id: 'Type de prix',
     created_at: 'Date de creation',
     provider_price: 'P.U fournisseur',
-    buying_price: 'P.U de reviens',
+    buying_price: 'P.U de revient',
   },
 
   gender: {

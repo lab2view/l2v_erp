@@ -12,7 +12,7 @@
           class="mt-0 pt-0"
           style="padding-left: 60px"
           >
-          {{ `${action.name}` }}
+          {{ `${action.label}` }}
         </label>
       </div>
     </td>
