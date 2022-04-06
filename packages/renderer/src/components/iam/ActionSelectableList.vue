@@ -41,10 +41,10 @@
                 <div class="job-filter">
                   <div class="mb-3">
                     <BaseSelect
-                      v-model="actionFilter.action_type_id"
-                      :label="$t('common.fields.action_type_filter')"
-                      :options="selectableActionTypes"
-                      key-label="label"
+                      v-model="actionFilter.module_id"
+                      :label="$t('common.fields.modules')"
+                      :options="selectableModules"
+                      key-label="name"
                       key-value="id"
                     />
                   </div>
@@ -60,7 +60,7 @@
                 <table class="table">
                   <thead>
                     <tr>
-                      <th>{{ $t('actions.action.listTitle') }}</th>
+                      <th>{{ $t('iam.action.listTitle') }}</th>
                       <th :title="$t('common.select_all')" class="text-end">
                         <div
                           class="checkbox"
@@ -89,7 +89,7 @@
                       <ActionSelectableColumn
                         :action="action"
                         :selected-list="selected"
-                        @selected="selectAction(action, true)"
+                        @selected="selectAction(action)"
                         @unselected="selectAction(action, false)"
                       />
                     </tr>
@@ -126,23 +126,16 @@ import { mapGetters } from 'vuex';
 import BaseSelect from '/@/components/common/BaseSelect.vue';
 import BaseButton from '/@/components/common/BaseButton.vue';
 import store from '/@/store';
-import ActionSelectableColumn from '/@/components/actions/ActionSelectableColumn.vue';
+import ActionSelectableColumn from '/@/components/iam/ActionSelectableColumn.vue';
 
 export default {
   components: { ActionSelectableColumn, BaseButton, BaseSelect },
   beforeRouteEnter(routeTo, routeFrom, next) {
-    Promise.all([
-      store.dispatch('action_type/getActionTypesList', {
-        page: 1,
-        field: {},
-      }),
-      store.dispatch('action/getActionsList', {
-        page: 1,
-        field: {},
-      }),
-    ])
-      .catch((error) => console.log(error))
-      .finally(() => next());
+    store.dispatch('role/getActionsList', {
+      page: 1,
+      field: {},
+    }).catch((error) => console.log(error))
+    .finally(() => next());
   },
   props: {
     usedActions: {
@@ -165,17 +158,16 @@ export default {
     };
   },
   computed: {
-    // ...mapGetters('action', ['searchActionByCriteria']),
-    ...mapGetters('role', ['actions']),
-    selectableActionTypes() {
-      return [{ label: this.$t('common.all'), id: '' }, ...this.actions];
+    ...mapGetters('module', ['modules']),
+    ...mapGetters('role', ['actions', 'searchActionsByCriteria']),
+    selectableModules() {
+      return [{ name: this.$t('common.all'), id: '' }, ...this.modules];
     },
     selectableActions() {
-      return this.actions;
-      // return this.searchActionByCriteria(this.actionFilter).filter(
-      //   (c) =>
-      //     this.usedActions.find((ua) => ua.action_id === c.id) === undefined
-      // );
+      return this.searchActionsByCriteria(this.actionFilter).filter(
+        (a) =>
+          this.usedActions.find((ua) => ua.action_id.toString() === a.id.toString()) === undefined
+      );
     },
     isSelected() {
       return this.selected.length > 0;
@@ -206,8 +198,16 @@ export default {
   },
   watch: {
     selectableActions() {
-      this.selected = [];
+      // this.selected = [];
     },
+    selected: {
+      handler(newValue, oldValue) {
+        console.log('newValue')
+        console.log(newValue)
+        console.log('oldValue')
+        console.log(oldValue)
+      }
+    }
   },
   methods: {
     submitSelectedForm() {
@@ -220,8 +220,12 @@ export default {
           .catch((err) => console.log(err));
       }
     },
-    selectAction(action, adding) {
-      if (adding) this.selected.push({ id: action.id });
+    selectAction(action, adding = true) {
+      if (adding) {
+        let items = this.selected
+        items.push({ id: action.id });
+        this.selected = items;
+      }
       else this.selected = this.selected.filter((s) => s.id !== action.id);
     },
   },

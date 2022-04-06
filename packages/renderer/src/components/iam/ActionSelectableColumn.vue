@@ -10,7 +10,7 @@
         :for="`selected-${action.id}`"
         class="mt-0 pt-0"
         style="padding-left: 60px"
-        >{{ `${action.name} - ${action.phone}` }}</label
+        >{{ `${action.code} - ${action.label}` }}</label
       >
     </div>
   </td>
@@ -47,6 +47,9 @@ export default {
       if (!this.isSelected && value) this.$emit('selected');
     },
     selectedList() {
+    // selectedList(value) {
+      // console.log('list value')
+      // console.log(value)
       this.selected = this.isSelected;
     },
   },

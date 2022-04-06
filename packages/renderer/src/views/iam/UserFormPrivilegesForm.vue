@@ -1,55 +1,60 @@
 <template>
-  <BaseFormModal :submit-form="submitForm" :title="title">
-    <div class="form-group mb-3">
-<!--      <BaseSelect-->
-<!--          v-model="cashierForm.cashier_group_id"-->
-<!--          :errors="errors.cashier_group_id"-->
-<!--          :label="$t('common.attributes.cashier_group')"-->
-<!--          :options="cashierGroups"-->
-<!--          key-label="label"-->
-<!--          key-value="id"-->
-<!--          required-->
-<!--      />-->
+  <ActionSelectableList
+    :used-actions="[]"
+    :submit-store-action="submitAddActionsToUserForm"
+  >
+    <div class="card-header pb-2">
+      <h5>{{ $t('iam.privilege.formCreateTitle') }}</h5>
     </div>
-  </BaseFormModal>
-  <router-view />
+  </ActionSelectableList>
 </template>
 
 <script>
-import BaseFormModal from '/@/components/common/BaseFormModal.vue';
-// import BaseSelect from '/@/components/common/BaseSelect.vue';
-// import { mapGetters } from 'vuex';
-// import store from '/@/store';
+import { mapGetters } from 'vuex';
+import store from '/@/store';
+import ActionSelectableList from '/@/components/iam/ActionSelectableList.vue';
 
 export default {
-  components: { BaseFormModal },
-  // components: { BaseSelect, BaseFormModal },
-  // beforeRouteEnter(routeTo, routeFrom, next) {
-    // store
-    //   .dispatch('role/getPrivilegesList', {
-    //   .dispatch('privilege/getPrivilegesList', {
-    //     page: 1,
-    //     field: {},
-    //   })
-    //   .then(() => {
-    //     next();
-    //   })
-    //   .catch((error) => {
-    //     console.log(error);
-    //     next();
-    //   });
-  // },
+  components: { ActionSelectableList },
+  beforeRouteEnter(routeTo, routeFrom, next) {
+    Promise.all([
+      store
+        .dispatch('user/getUsersList', {
+          page: 1,
+          field: {},
+        }),
+      store
+        .dispatch('role/getActionsList', {
+          page: 1,
+          field: {},
+        }),
+      store
+        .dispatch('module/getModulesList', {
+          page: 1,
+          field: {},
+        })
+    ])
+      .then(() => {
+        next();
+      })
+      .catch((error) => {
+        console.log(error);
+        next();
+      });
+  },
   computed: {
-    // ...mapGetters('role', ['role']),
+    ...mapGetters('role', ['role']),
+    ...mapGetters('user', ['users', 'user']),
     title() {
       return this.role && this.role.id
-          ? this.$t('iam.privilege.formUpdateTitle')
-          : this.$t('iam.privilege.formCreateTitle');
+        ? this.$t('iam.privilege.formUpdateTitle')
+        : this.$t('iam.privilege.formCreateTitle');
     },
-    methods: {
-      submitForm() {
-        return;
-      }
+  },
+  methods: {
+    submitAddActionsToUserForm(selected) {
+      console.log('selected');
+      console.log(selected);
     }
   },
 };
