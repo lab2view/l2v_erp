@@ -1,8 +1,5 @@
 <template>
-  <BaseContainer
-    :module="$t('menu.modules.sales')"
-    :title="$t('sales.title')"
-  >
+  <BaseContainer :module="$t('menu.modules.sales')" :title="$t('sales.title')">
     <div class="card">
       <div class="card-header pb-2 border-bottom border-bottom-">
         <div class="row align-items-center">
@@ -30,16 +27,14 @@
             <th>{{ $t('common.attributes.structure') }}</th>
             <th>{{ $t('common.attributes.start_at') }}</th>
             <th>{{ $t('common.attributes.ended_at') }}</th>
-            <th>{{ $t('common.attributes.disable_date') }}</th>
             <th>{{ $t('common.actions') }}</th>
           </template>
           <tr v-for="cashier in cashiers" :key="cashier.id">
             <td>{{ cashier.id }}</td>
             <td>{{ cashier.cashier_group.label }}</td>
-            <td>{{ cashier.enterprise.name }}</td>
+            <td>{{ cashier.enterprise }}</td>
             <td>{{ cashier.start_at }}</td>
             <td>{{ cashier.ended_at }}</td>
-            <td>{{ cashier.disabled_at }}</td>
             <td>
               <button
                 class="btn btn-secondary btn-xs"
@@ -100,8 +95,7 @@ export default {
     ...mapGetters('cashier', ['cashiers', 'cashier']),
   },
   created() {
-    if (this.cashier)
-      this.$store.commit('cashier/SET_CURRENT_CASHIER', null);
+    if (this.cashier) this.$store.commit('cashier/SET_CURRENT_CASHIER', null);
   },
   methods: {
     deleteCashier(cashier) {
