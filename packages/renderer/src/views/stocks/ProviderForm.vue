@@ -49,8 +49,8 @@
     </div>
     <div class="form-group mb-3">
       <label class="form-label fw-bold" for="email">{{
-          $t('common.attributes.email')
-        }}</label>
+        $t('common.attributes.email')
+      }}</label>
       <input
         id="email"
         v-model="providerForm.email"
@@ -119,9 +119,7 @@ export default {
         : this.$t('stocks.provider.formCreateTitle');
     },
     userCountry() {
-      return this.countries.find(
-        (c) => c.id === this.currentUser.user.country_id
-      );
+      return this.countries.find((c) => c.id === this.currentUser.country_id);
     },
     callingCode() {
       return this.userCountry !== undefined
@@ -130,8 +128,7 @@ export default {
     },
   },
   created() {
-    if (this.provider && this.provider.id)
-      this.providerForm = this.provider;
+    if (this.provider && this.provider.id) this.providerForm = this.provider;
   },
   beforeUnmount() {
     this.setLoading();
