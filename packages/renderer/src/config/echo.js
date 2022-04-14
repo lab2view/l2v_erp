@@ -1,6 +1,6 @@
 import Echo from 'laravel-echo';
 
-async function initEchoClient(store, loadScript) {
+export default async function initEchoClient(store, loadScript) {
   const workspace = store.getters['workspace/currentWorkspace'];
   const currentDomain = workspace?.domain ?? store.state.landlordDomain;
   const protocol = import.meta.env.VITE_PROTOCOL ?? 'https';
@@ -8,21 +8,20 @@ async function initEchoClient(store, loadScript) {
   await loadScript(
     `${protocol}://${currentDomain}:6001/socket.io/socket.io.js`
   );
-
-  let echo = new Echo({
-    broadcaster: 'socket.io',
-    host: `${protocol}://${currentDomain}:6001`,
-  });
-  echo.connector.options.auth.headers['X-Tenant-Domain'] = currentDomain;
-
   await store.restored;
 
+  let headers = {
+    'X-Tenant-Domain': currentDomain,
+  };
+
   const token = store.getters['auth/token'] ?? null;
-  if (token) {
-    echo.connector.options.auth.headers['Authorization'] = `Bearer ${token}`;
-  }
+  if (token) headers['Authorization'] = `Bearer ${token}`;
 
-  return echo;
+  return new Echo({
+    broadcaster: 'socket.io',
+    host: `${protocol}://${currentDomain}:6001`,
+    auth: {
+      headers,
+    },
+  });
 }
-
-export default initEchoClient;
