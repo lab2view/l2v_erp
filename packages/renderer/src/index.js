@@ -5,7 +5,7 @@ import lodash from 'lodash';
 import router from '/@/router';
 import store from '/@/store';
 import i18n from '/@/i18n';
-import echo from '/@/config/echo.js';
+import initEcho from '/@/config/echo.js';
 
 window._ = lodash;
 
@@ -16,6 +16,9 @@ app.use(store);
 app.use(i18n);
 
 app.config.globalProperties.$loadScript = loadScript;
-app.config.globalProperties.$echo = echo;
+
+initEcho().then((echo) => {
+  app.config.globalProperties.$echo = echo;
+});
 
 app.mount('#app');

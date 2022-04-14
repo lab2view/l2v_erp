@@ -1,21 +1,30 @@
 import Echo from 'laravel-echo';
-import store from '/@/store/index.js';
+import store from '/@/store';
+import loadScript from '/@/loadscript';
 
-const workspace = store.getters['workspace/currentWorkspace'];
-const currentDomain = workspace?.domain ?? store.state.landlordDomain;
-const protocol = import.meta.env.VITE_PROTOCOL ?? 'https';
+async function initEcho() {
+  const workspace = store.getters['workspace/currentWorkspace'];
+  const currentDomain = workspace?.domain ?? store.state.landlordDomain;
+  const protocol = import.meta.env.VITE_PROTOCOL ?? 'https';
 
-let echo = new Echo({
-  broadcaster: 'socket.io',
-  host: `${protocol}://${currentDomain}:6001`,
-});
-echo.connector.options.auth.headers['X-Tenant-Domain'] = currentDomain;
+  await loadScript(
+    `${protocol}://${currentDomain}:6001/socket.io/socket.io.js`
+  );
 
-store.restored.then(() => {
+  let echo = new Echo({
+    broadcaster: 'socket.io',
+    host: `${protocol}://${currentDomain}:6001`,
+  });
+  echo.connector.options.auth.headers['X-Tenant-Domain'] = currentDomain;
+
+  await store.restored;
+
   const token = store.getters['auth/token'] ?? null;
   if (token) {
     echo.connector.options.auth.headers['Authorization'] = `Bearer ${token}`;
   }
-});
 
-export default echo;
+  return echo;
+}
+
+export default initEcho;
