@@ -4,7 +4,7 @@
       <div class="card-header pb-0">
         <h5>{{ formTitle }}</h5>
         <span
-        >Using the <a href="#">card</a> component, you can extend the default
+          >Using the <a href="#">card</a> component, you can extend the default
           collapse behavior to create an accordion.</span
         >
       </div>
@@ -158,9 +158,7 @@ export default {
         : this.$t('enterprise.enterprise.formCreateTitle');
     },
     userCountry() {
-      return this.countries.find(
-        (c) => c.id === this.currentUser.user.country_id
-      );
+      return this.countries.find((c) => c.id === this.currentUser.country_id);
     },
     callingCode() {
       return this.userCountry !== undefined
@@ -206,8 +204,8 @@ export default {
             .then((enterprise) =>
               this.$router.push({
                 name: 'enterprise.form.setting',
-                params: {id: enterprise.id},
-              }),
+                params: { id: enterprise.id },
+              })
             )
             .catch((error) => {
               this.errors = error.response.data.errors;
@@ -226,7 +224,7 @@ export default {
             console.log(enterprise);
             this.$router.push({
               name: 'enterprise.form.setting',
-              params: {id: enterprise.id},
+              params: { id: enterprise.id },
             });
           })
           .catch((error) => {

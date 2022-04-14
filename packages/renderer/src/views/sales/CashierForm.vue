@@ -32,16 +32,13 @@
       />
     </div>
     <div class="form-group mb-3">
-      <label class="form-label fw-bold" for="start_at">{{
-        $t('common.attributes.start_at')
-      }}</label>
       <BaseDatetime
-        id="start_at"
         v-model="cashierForm.start_at"
-        class="form-control"
+        :label="$t('common.attributes.start_at')"
+        label-class="form-label fw-bold"
         placeholder="..."
         required
-        type="text"
+        type="date"
       />
       <div
         v-if="errors.start_at && errors.start_at.length"
@@ -52,15 +49,12 @@
       </div>
     </div>
     <div class="form-group mb-3">
-      <label class="form-label fw-bold" for="ended_at">{{
-        $t('common.attributes.end_at')
-      }}</label>
       <BaseDatetime
-        id="ended_at"
         v-model="cashierForm.ended_at"
-        class="form-control"
+        :label="$t('common.attributes.end_at')"
+        label-class="form-label fw-bold"
         placeholder="..."
-        type="text"
+        type="date"
       />
       <div
         v-if="errors.ended_at && errors.ended_at.length"
@@ -78,25 +72,6 @@
         placeholder="..."
         rows="4"
       />
-    </div>
-    <div class="form-group mb-3">
-      <label class="form-label fw-bold" for="disabled_at">{{
-        $t('common.attributes.disable_date')
-      }}</label>
-      <BaseDatetime
-        id="disabled_at"
-        v-model="cashierForm.disabled_at"
-        class="form-control"
-        placeholder="12/01/2022"
-        type="text"
-      />
-      <div
-        v-if="errors.disabled_at && errors.disabled_at.length"
-        class="invalid-feedback"
-        style="display: inline"
-      >
-        {{ errors.disabled_at[0] }}
-      </div>
     </div>
     <template #footer>
       <button :title="$t('common.save')" class="btn btn-primary" type="submit">
@@ -116,7 +91,13 @@ import store from '/@/store';
 import { mapGetters } from 'vuex';
 
 export default {
-  components: {BaseDatetime, BaseInput, BaseFormModal, BaseSelect, BaseTextArea },
+  components: {
+    BaseDatetime,
+    BaseInput,
+    BaseFormModal,
+    BaseSelect,
+    BaseTextArea,
+  },
   beforeRouteEnter(routeTo, routeFrom, next) {
     Promise.all([
       store.dispatch('cashier_group/getCashierGroupsList', {

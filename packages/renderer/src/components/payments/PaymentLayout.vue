@@ -5,9 +5,10 @@
 <script>
 import store from '/@/store';
 import { moduleCode } from '/@/helpers/codes';
+import ModuleSyncMixin from '/@/mixins/ModuleSyncMixin';
 
 export default {
-  name: 'PaymentLayout',
+  mixins: [ModuleSyncMixin],
   beforeRouteEnter(routeTo, routeFrom, next) {
     const hash = store.getters['transaction/getPaymentsHash'];
     if (hash) {
@@ -36,6 +37,9 @@ export default {
           next();
         });
     }
+  },
+  created() {
+    this.initEchoSync(moduleCode.payments, 'transaction');
   },
 };
 </script>
