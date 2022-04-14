@@ -5,9 +5,10 @@
 <script>
 import store from '/@/store';
 import { moduleCode } from '/@/helpers/codes';
+import ModuleSyncMixin from '/@/mixins/ModuleSyncMixin';
 
 export default {
-  name: 'EnterpriseLayout',
+  mixins: [ModuleSyncMixin],
   beforeRouteEnter(routeTo, routeFrom, next) {
     const hash = store.getters['enterprise/getEnterpriseHash'];
     if (hash) {
@@ -38,6 +39,9 @@ export default {
           next();
         });
     }
+  },
+  created() {
+    this.initEchoSync(moduleCode.enterprise, 'enterprise');
   },
 };
 </script>
