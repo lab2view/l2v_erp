@@ -5,9 +5,10 @@
 <script>
 import store from '/@/store';
 import { moduleCode } from '/@/helpers/codes';
+import ModuleSyncMixin from '/@/mixins/ModuleSyncMixin';
 
 export default {
-  name: 'IAMLayout',
+  mixins: [ModuleSyncMixin],
   beforeRouteEnter(routeTo, routeFrom, next) {
     const hash = store.getters['user/getIamHash'];
     if (hash) {
@@ -35,6 +36,9 @@ export default {
           next();
         });
     }
+  },
+  created() {
+    this.initEchoSync(moduleCode.iam, 'user');
   },
 };
 </script>

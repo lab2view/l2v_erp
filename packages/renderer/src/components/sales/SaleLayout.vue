@@ -5,9 +5,10 @@
 <script>
 import store from '/@/store';
 import { moduleCode } from '/@/helpers/codes';
+import ModuleSyncMixin from '/@/mixins/ModuleSyncMixin';
 
 export default {
-  name: 'SaleLayout',
+  mixins: [ModuleSyncMixin],
   beforeRouteEnter(routeTo, routeFrom, next) {
     const hash = store.getters['discount/getSalesHash'];
     if (hash) {
@@ -39,6 +40,9 @@ export default {
           next();
         });
     }
+  },
+  created() {
+    this.initEchoSync(moduleCode.sales, 'discount');
   },
 };
 </script>
