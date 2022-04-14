@@ -1,8 +1,6 @@
 import Echo from 'laravel-echo';
-import store from '/@/store';
-import loadScript from '/@/loadscript';
 
-async function initEcho() {
+async function initEchoClient(store, loadScript) {
   const workspace = store.getters['workspace/currentWorkspace'];
   const currentDomain = workspace?.domain ?? store.state.landlordDomain;
   const protocol = import.meta.env.VITE_PROTOCOL ?? 'https';
@@ -27,4 +25,4 @@ async function initEcho() {
   return echo;
 }
 
-export default initEcho;
+export default initEchoClient;
