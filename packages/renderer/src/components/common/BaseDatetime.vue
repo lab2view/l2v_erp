@@ -8,7 +8,7 @@
     :type="type"
     :value="modelValue"
     :required="required"
-    class="form-control"
+    class="form-control digits"
     @input="$emit('update:modelValue', $event.target.value)"
   />
   <div v-if="errors" class="invalid-feedback" style="display: inline">

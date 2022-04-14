@@ -5,9 +5,10 @@
 <script>
 import store from '/@/store';
 import { moduleCode } from '/@/helpers/codes';
+import ModuleSyncMixin from '/@/mixins/ModuleSyncMixin';
 
 export default {
-  name: 'IAMLayout',
+  mixins: [ModuleSyncMixin],
   beforeRouteEnter(routeTo, routeFrom, next) {
     const hash = store.getters['user/getIamHash'];
     if (hash) {
@@ -16,14 +17,6 @@ export default {
           module: moduleCode.iam,
           hash: hash,
           mutation: 'user',
-        })
-        .then((data) => {
-          console.log('data');
-          console.log(data);
-        })
-        .catch((error) => {
-          console.log('error');
-          console.log(error);
         })
         .finally(() => next());
     } else {
@@ -43,6 +36,9 @@ export default {
           next();
         });
     }
+  },
+  created() {
+    this.initEchoSync(moduleCode.iam, 'user');
   },
 };
 </script>

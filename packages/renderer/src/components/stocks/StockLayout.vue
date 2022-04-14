@@ -5,9 +5,10 @@
 <script>
 import store from '/@/store';
 import { moduleCode } from '/@/helpers/codes';
+import ModuleSyncMixin from '/@/mixins/ModuleSyncMixin';
 
 export default {
-  name: 'StockLayout',
+  mixins: [ModuleSyncMixin],
   beforeRouteEnter(routeTo, routeFrom, next) {
     const hash = store.getters['stock_entry/getStocksHash'];
     if (hash) {
@@ -22,6 +23,7 @@ export default {
       const field = { page: 1, field: {} };
       return Promise.all([
         store.dispatch('stock_state/getStockStatesList', field),
+        store.dispatch('article/getArticlesList', field),
         store.dispatch('stock_type/getStockTypesList', field),
         store.dispatch('provider/getStockProvidersList', field),
         store.dispatch('inventory/getInventoriesList', field),
@@ -39,6 +41,9 @@ export default {
           next();
         });
     }
+  },
+  created() {
+    this.initEchoSync(moduleCode.stocks, 'stock_entry');
   },
 };
 </script>

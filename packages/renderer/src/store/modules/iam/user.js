@@ -39,9 +39,29 @@ const actions = {
       });
   },
 
+  addUserPrivileges({ getters, commit }, id) {
+    const user = getters.users.find((p) => p.id.toString() === id);
+    if (user !== undefined) {
+      commit('SET_CURRENT_USER', user);
+      return user;
+    } else
+      return userService.getUser(id).then(({ data }) => {
+        commit('SET_CURRENT_USER', data);
+        return data;
+      });
+  },
+
+  removeUserPrivileges({ commit }, userPrivilegeField) {
+    return userService.addUserPrivilege(userPrivilegeField).then(({ data }) => {
+      commit('UPDATE_USER_PRIVILEGE', data);
+      return data;
+    });
+  },
+
   addUser({ commit }, userField) {
     return userService.addUser(userField).then(({ data }) => {
       commit('ADD_USER', data);
+      commit('SET_CURRENT_USER', data);
       return data;
     });
   },
@@ -82,6 +102,19 @@ const mutations = {
   UPDATE_USER(state, user) {
     let users = JSON.parse(state.users);
     const index = users.findIndex((p) => p.id === user.id);
+    if (index !== -1) {
+      users.splice(index, 1, user);
+    }
+    state.user = JSON.stringify(user);
+    state.users = JSON.stringify(users);
+  },
+  UPDATE_USER_PRIVILEGE(state, userField) {
+    let users = JSON.parse(state.users);
+    const index = users.findIndex((p) => p.id === userField.user_id);
+    let user = {
+      ...users.find((p) => p.id === userField.user_id),
+      ...userField
+    };
     if (index !== -1) {
       users.splice(index, 1, user);
     }

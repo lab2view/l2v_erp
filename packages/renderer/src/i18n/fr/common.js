@@ -2,6 +2,7 @@ export default {
   prev: 'Precedent',
   next: 'Suivant',
   none: '',
+  configure: 'Configurer',
   code: 'Code',
   size: 'Longueur',
   add: 'Ajouter',
@@ -53,6 +54,8 @@ export default {
   not_set: 'Non defini',
 
   fields: {
+    modules: 'Modules',
+    module: 'Module',
     text: 'Chaine de caractere',
     number: 'Nombre',
     date: 'Date',
@@ -80,6 +83,12 @@ export default {
   },
 
   attributes: {
+    first_name: 'Noms',
+    last_name: 'Prenoms',
+    password: 'Mot de passe',
+    password_confirmation: 'Confirmation de Mot de passe',
+    role: 'Role',
+    gender: 'Sexe',
     products: 'Produits',
     disable_date: 'Desactive le',
     stock_variety: 'Variete du stocks',
@@ -174,7 +183,12 @@ export default {
     price_type_id: 'Type de prix',
     created_at: 'Date de creation',
     provider_price: 'P.U fournisseur',
-    buying_price: 'P.U de reviens',
+    buying_price: 'P.U de revient',
+  },
+
+  gender: {
+    male: 'Homme',
+    female: 'Femme',
   },
 
   headers: {
@@ -184,5 +198,6 @@ export default {
     enterprise_id: 'Structures',
     provider: 'Provenance',
     total_price: 'Prix total',
+    status: 'Statut',
   },
 };

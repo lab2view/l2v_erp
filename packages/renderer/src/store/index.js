@@ -46,6 +46,7 @@ import sale_type from './modules/sales/sale_type';
 import SyncService from '/@/services/SyncService.js';
 import { getMutationPathName } from '/@/helpers/utils.js';
 import { actionCode } from '/@/helpers/codes.js';
+import scanner from '/@/store/modules/scanner.js';
 
 export default createStore({
   state: {
@@ -167,6 +168,7 @@ export default createStore({
     cashier_group,
     role,
     user,
+    scanner,
   },
   strict: process.env.NODE_ENV !== 'production',
   plugins: [...modulePlugins],
