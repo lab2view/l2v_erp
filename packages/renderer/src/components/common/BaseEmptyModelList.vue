@@ -1,19 +1,21 @@
 <template>
+  <span v-if="icon" :class="icon" />
   <span class="text-center">{{ label }}</span>
   <BaseButton
+    v-if="withAction"
     type="button"
-    class="btn btn-outline-primary"
-    :icon="!loading ? icon : icon + 'fa-spin'"
-    :text="'Refresh'"
-    :loading="loading"
-    @click="reloadPage"
+    class="btn btn-outline-info"
+    :text="actionLabel"
+    @click="$emit('click')"
   />
 </template>
 
 <script>
 import BaseButton from '/@/components/common/BaseButton.vue';
 export default {
+  name: 'BaseEmptyModelList',
   components: { BaseButton },
+
   props: {
     icon: {
       type: String,
@@ -23,22 +25,16 @@ export default {
       type: String,
       required: true,
     },
-  },
-  data() {
-    return {
-      loading: false,
-    };
-  },
-  methods: {
-    reloadPage() {
-      window.location.reload();
-      this.loading = true;
-      setInterval(this.loadingStop, 5000);
+    withAction: {
+      type: Boolean,
+      default: false,
     },
-    loadingStop() {
-      return (this.loading = false);
+    actionLabel: {
+      type: String,
+      default: 'refresh',
     },
   },
+  emits: ['click'],
 };
 </script>
 
