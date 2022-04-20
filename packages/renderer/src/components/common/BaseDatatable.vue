@@ -44,7 +44,7 @@ export default {
       return this.total ? `${this.total} lines` : false;
     },
     isEmpty() {
-      return this.total === 1;
+      return this.total === 0;
     },
   },
   mounted() {

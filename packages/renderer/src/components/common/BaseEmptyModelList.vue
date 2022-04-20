@@ -3,8 +3,9 @@
   <BaseButton
     type="button"
     class="btn btn-outline-primary"
-    :icon="icon"
+    :icon="!loading ? icon : icon + 'fa-spin'"
     :text="'Refresh'"
+    :loading="loading"
     @click="reloadPage"
   />
 </template>
@@ -23,9 +24,19 @@ export default {
       required: true,
     },
   },
+  data() {
+    return {
+      loading: false,
+    };
+  },
   methods: {
     reloadPage() {
       window.location.reload();
+      this.loading = true;
+      setInterval(this.loadingStop, 5000);
+    },
+    loadingStop() {
+      return (this.loading = false);
     },
   },
 };
