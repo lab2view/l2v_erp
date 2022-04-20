@@ -1,5 +1,11 @@
 <template>
-  <div class="table-responsive product-table">
+  <EmptyModelList
+    v-if="isEmpty"
+    :label="'Aucun Enregistrement'"
+    icon="fa fa-refresh"
+  />
+
+  <div v-else class="table-responsive product-table">
     <table id="datatable-dt" class="display">
       <thead>
         <tr>
@@ -19,8 +25,10 @@
 </template>
 
 <script>
+import EmptyModelList from './BaseEmptyModelList.vue';
 export default {
   name: 'BaseDatatable',
+  components: { EmptyModelList },
   props: {
     tfoot: {
       type: Boolean,
@@ -34,6 +42,9 @@ export default {
   computed: {
     tableInfos() {
       return this.total ? `${this.total} lines` : false;
+    },
+    isEmpty() {
+      return this.total === 1;
     },
   },
   mounted() {
