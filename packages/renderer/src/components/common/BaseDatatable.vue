@@ -1,5 +1,12 @@
 <template>
-  <div class="table-responsive product-table">
+  <BaseEmptyModelList
+    v-if="isEmpty"
+    :label="'Aucun Enregistrement'"
+    :with-action="true"
+    @click="executeFetchAction"
+  />
+
+  <div v-else class="table-responsive product-table">
     <table id="datatable-dt" class="display">
       <thead>
         <tr>
@@ -19,8 +26,10 @@
 </template>
 
 <script>
+import BaseEmptyModelList from './BaseEmptyModelList.vue';
 export default {
   name: 'BaseDatatable',
+  components: { BaseEmptyModelList },
   props: {
     tfoot: {
       type: Boolean,
@@ -30,10 +39,17 @@ export default {
       type: Number,
       default: null,
     },
+    fetchAction: {
+      type: Function,
+      default: () => Promise.resolve(),
+    },
   },
   computed: {
     tableInfos() {
       return this.total ? `${this.total} lines` : false;
+    },
+    isEmpty() {
+      return this.total === 0;
     },
   },
   mounted() {
@@ -54,6 +70,14 @@ export default {
         });
       });
     }, 1);
+  },
+  methods: {
+    executeFetchAction() {
+      this.$store.dispatch('setGlobalLoading', true);
+      this.fetchAction().finally(() =>
+        this.$store.dispatch('setGlobalLoading', false)
+      );
+    },
   },
 };
 </script>
