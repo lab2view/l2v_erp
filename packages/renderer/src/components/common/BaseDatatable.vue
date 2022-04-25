@@ -2,7 +2,7 @@
   <BaseEmptyModelList
     v-if="isEmpty"
     :label="'Aucun Enregistrement'"
-    :with-action="true"
+    :with-action="hasAction"
     @click="executeFetchAction"
   />
 
@@ -32,6 +32,10 @@ export default {
   components: { BaseEmptyModelList },
   props: {
     tfoot: {
+      type: Boolean,
+      default: true,
+    },
+    hasAction: {
       type: Boolean,
       default: true,
     },
