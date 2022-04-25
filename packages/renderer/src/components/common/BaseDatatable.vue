@@ -1,6 +1,6 @@
 <template>
   <BaseEmptyModelList
-    v-if="isEmpty"
+    v-if="total < 1"
     :label="'Aucun Enregistrement'"
     :with-action="hasAction"
     @click="executeFetchAction"
@@ -78,9 +78,11 @@ export default {
   methods: {
     executeFetchAction() {
       this.$store.dispatch('setGlobalLoading', true);
-      this.fetchAction().finally(() =>
-        this.$store.dispatch('setGlobalLoading', false)
-      );
+      this.fetchAction().finally(() => {
+        setTimeout(() => {
+          this.$store.dispatch('setGlobalLoading', false);
+        }, 1000);
+      });
     },
   },
 };
