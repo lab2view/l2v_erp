@@ -33,7 +33,7 @@ export default {
   props: {
     tfoot: {
       type: Boolean,
-      default: true,
+      default: false,
     },
     hasAction: {
       type: Boolean,
