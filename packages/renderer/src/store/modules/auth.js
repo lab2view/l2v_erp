@@ -35,7 +35,11 @@ const actions = {
   },
 
   logout({ commit }) {
-    commit('SET_CURRENT_USER', null);
+    if (confirm('Do you realy want to logout?')) {
+      commit('SET_CURRENT_USER', null);
+    } else {
+      return;
+    }
   },
 };
 
