@@ -79,9 +79,7 @@ export default {
     executeFetchAction() {
       this.$store.dispatch('setGlobalLoading', true);
       this.fetchAction().finally(() => {
-        setTimeout(() => {
-          this.$store.dispatch('setGlobalLoading', false);
-        }, 1000);
+        this.$store.dispatch('setGlobalLoading', false);
       });
     },
   },
