@@ -35,11 +35,7 @@ const actions = {
   },
 
   logout({ commit }) {
-    if (confirm('Do you realy want to logout?')) {
-      commit('SET_CURRENT_USER', null);
-    } else {
-      return;
-    }
+    commit('SET_CURRENT_USER', null);
   },
 };
 
