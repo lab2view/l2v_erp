@@ -218,7 +218,7 @@
             <button
               class="btn btn-primary-light"
               type="button"
-              @click.prevent="$store.dispatch('auth/logout')"
+              @click.prevent="logout"
             >
               <a href="#"><i data-feather="log-out"></i>Log out</a>
             </button>
@@ -243,6 +243,11 @@ export default defineComponent({
   methods: {
     setDarkMode() {
       $('body').attr('class', 'dark-only');
+    },
+    logout() {
+      if (confirm('Do you realy want to logout?')) {
+        this.$store.dispatch('auth/logout');
+      }
     },
   },
 });
