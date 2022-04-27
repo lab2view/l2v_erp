@@ -52,6 +52,10 @@ export default {
   unmakeComposition: "Decomposer l'article",
   parent: 'Principale',
   not_set: 'Non defini',
+  my_account: 'Mon compte',
+  update_profile: 'Modifier le profil',
+  update_password: 'Modifier le mot de passe',
+  update_user_successfully: 'Profil modifie avec succes',
 
   fields: {
     modules: 'Modules',
@@ -170,6 +174,7 @@ export default {
     country: 'Pays',
     region: 'Region',
     city: 'Ville',
+    locale: 'Langue',
     longitude: 'Longitude',
     latitude: 'Latitude',
     search: 'Rechercher...',
@@ -184,6 +189,9 @@ export default {
     created_at: 'Date de creation',
     provider_price: 'P.U fournisseur',
     buying_price: 'P.U de revient',
+    old_password: 'Mot de passe actuel',
+    new_password: 'Nouveau mot de passe',
+    new_password_confirmation: 'Confirmer le nouveau mot de passe',
   },
 
   gender: {

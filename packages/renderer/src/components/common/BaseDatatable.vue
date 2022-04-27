@@ -1,8 +1,8 @@
 <template>
   <BaseEmptyModelList
-    v-if="isEmpty"
+    v-if="total < 1"
     :label="'Aucun Enregistrement'"
-    :with-action="true"
+    :with-action="hasAction"
     @click="executeFetchAction"
   />
 
@@ -33,11 +33,15 @@ export default {
   props: {
     tfoot: {
       type: Boolean,
-      default: true,
+      default: false,
     },
     total: {
       type: Number,
       default: null,
+    },
+    hasAction: {
+      type: Boolean,
+      default: true,
     },
     fetchAction: {
       type: Function,

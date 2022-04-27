@@ -1,4 +1,5 @@
 import common from './common';
+import errors from './errors';
 import messages from './messages';
 import products from './products';
 import menu from './menu';
@@ -12,6 +13,7 @@ import iam from './iam';
 
 export default {
   common,
+  errors,
   customers,
   menu,
   messages,
