@@ -24,17 +24,6 @@ const getters = {
 
 // privileges
 const actions = {
-  getAuthUser({ commit }) {
-    return AuthService.login()
-      .then(({ data }) => {
-        commit('SET_CURRENT_USER', data);
-      })
-      .catch((err) => {
-        if (err.response) return Promise.reject(err.response.data);
-        else return Promise.reject(err);
-      });
-  },
-
   updateAuthUser({ commit }, userFields) {
     return userService
       .updateUser(userFields, userFields.id)

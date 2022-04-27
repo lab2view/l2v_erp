@@ -55,7 +55,6 @@ export default {
   my_account: 'Mon compte',
   update_profile: 'Modifier le profil',
   update_password: 'Modifier le mot de passe',
-  update_user_successfully: 'Profil modifie avec succes',
 
   fields: {
     modules: 'Modules',

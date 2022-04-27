@@ -221,7 +221,7 @@ export default {
       if (this.password) {
         if (this.password !== this.password_confirmation) {
           this.errors = {
-            password: [this.$t('errors.password_not_match')]
+            password: [this.$t('messages.errors.password_not_match')]
           }
           return
         }
@@ -235,7 +235,7 @@ export default {
       store.dispatch('auth/updateAuthUser', data)
         .then(() => {
           notify(
-            this.$t('common.update_user_successfully'),
+            this.$t('messages.update_user_successfully'),
             'New Event',
             'success'
           );
