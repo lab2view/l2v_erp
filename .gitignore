@@ -10,6 +10,6 @@ thumbs.db
 .idea
 .vscode
 .env
-.env.*
+.env.development
 # File-based project format
 *.iws
