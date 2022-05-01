@@ -22,6 +22,9 @@ export default {
     } else {
       const field = { page: 1, field: {} };
       return Promise.all([
+        store.dispatch('country/getCountriesList', field),
+        store.dispatch('region/getRegionsList', field),
+        store.dispatch('localization/getLocalizationsList', field),
         store.dispatch('role/getRolesList', field),
         store.dispatch('role/getActionsList', field),
         store.dispatch('user/getUsersList', field),

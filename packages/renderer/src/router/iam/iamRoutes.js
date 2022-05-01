@@ -76,4 +76,10 @@ export const iamRoutes = [
       feather: 'filter',
     },
   },
+  {
+    path: 'profile',
+    name: 'iam.profile',
+    component: () => import('/@/views/iam/ProfileForm.vue'),
+    meta: {},
+  },
 ];
