@@ -56,8 +56,8 @@
         <div class="row align-items-center mb-3">
           <div class="form-group col-md">
             <BaseInput
-              :label="$t('common.attributes.email')"
               v-model="userForm.email"
+              :label="$t('common.attributes.email')"
               type="email"
               required
               :errors="errors.email"
@@ -65,8 +65,8 @@
           </div>
           <div class="form-group col-md">
             <BaseInput
-              :label="$t('common.attributes.phone')"
               v-model="userForm.phone"
+              :label="$t('common.attributes.phone')"
               placeholder="1"
               type="number"
               required
@@ -119,8 +119,8 @@
         </div>
         <div class="form-group mb-3">
           <BaseInput
-            :label="$t('common.attributes.password')"
             v-model="userForm.password"
+            :label="$t('common.attributes.password')"
             placeholder="******"
             type="password"
             :errors="errors.password"
@@ -129,8 +129,8 @@
         </div>
         <div class="form-group mb-3">
           <BaseInput
-            :label="$t('common.attributes.password_confirmation')"
             v-model="userForm.password_confirmation"
+            :label="$t('common.attributes.password_confirmation')"
             placeholder="******"
             type="password"
             :errors="errors.password_confirmation"

@@ -6,6 +6,7 @@ import router from '/@/router';
 import store from '/@/store';
 import i18n from '/@/i18n';
 import initEchoClient from '/@/config/echo.js';
+import { notify } from '/@/helpers/notify.js';
 
 window._ = lodash;
 
@@ -24,7 +25,11 @@ initEchoClient(store, loadScript)
     app.mount('#app');
   })
   .catch((error) => {
-    console.error(error);
+    alert(
+      `${error.type
+        .toString()
+        .toUpperCase()} : Socket server is not available !`
+    );
 
     app.mount('#app');
   });
