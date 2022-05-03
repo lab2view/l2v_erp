@@ -2,6 +2,7 @@ import { createRouter, createWebHashHistory } from 'vue-router';
 import Page from '/@/components/layouts/Page.vue';
 import workspace from './workspace';
 import store from '/@/store';
+
 import landlordGuard from '../guards/landlordGuard';
 import workspaceGuard from '../guards/workspaceGuard';
 import authGuard from '../guards/authGuard';

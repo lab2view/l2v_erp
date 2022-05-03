@@ -28,4 +28,12 @@ export default {
   forceDeleteCashier(id) {
     return axios.delete(`/cashiers/delete/${id}`);
   },
+
+  openSession(cashier_id, payload) {
+    return axios.post(`/cashiers/${cashier_id}/sessions/open`, payload);
+  },
+
+  closeSession(cashier_session_id) {
+    return axios.delete(`/cashiers/sessions/${cashier_session_id}/close`);
+  },
 };
