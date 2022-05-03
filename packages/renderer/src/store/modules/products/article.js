@@ -1,6 +1,7 @@
 import articleService from '../../../services/articles/ArticleService';
 import { notify } from '/@/helpers/notify.js';
 import i18n from '../../../i18n';
+import { unitPackageCode } from '/@/helpers/codes.js';
 
 const state = {
   articles: null,
@@ -10,6 +11,8 @@ const state = {
 // getters
 const getters = {
   articles: (state) => (state.articles ? JSON.parse(state.articles) : []),
+  sell_articles: (state, getters) =>
+    getters.articles.filter((a) => a.package.code === unitPackageCode),
   article: (state) => (state.article ? JSON.parse(state.article) : null),
   getArticleByProductId: (state, getters) => (product_id) =>
     getters.articles.filter((a) => a.product_id === product_id),
@@ -64,7 +67,12 @@ const actions = {
   addArticle({ commit }, articleField) {
     return articleService.add(articleField).then(({ data }) => {
       commit('ADD_ARTICLE', data);
-      notify(i18n.global.t('articles.form.store'), 'Ok', 'theme', 'fa fa-check');
+      notify(
+        i18n.global.t('articles.form.store'),
+        'Ok',
+        'theme',
+        'fa fa-check'
+      );
       return data;
     });
   },

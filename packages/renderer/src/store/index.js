@@ -76,7 +76,7 @@ export default createStore({
     initModuleSynchronisation({ dispatch }, field) {
       return dispatch('fetchSynchronisationChanges', {
         page: 1,
-        field: { ...field, paginate: 2 },
+        field: { ...field, paginate: 50 },
       });
     },
 
