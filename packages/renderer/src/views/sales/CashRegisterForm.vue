@@ -31,6 +31,10 @@
         class="form-control"
       ></textarea>
     </div>
+
+    <div class="mb-3">
+      <input id="customFile" ref="file" type="file" @change="uploadFile" />
+    </div>
     <template #footer>
       <button :title="$t('common.save')" class="btn btn-primary" type="submit">
         {{ $t('common.save') }}
@@ -53,6 +57,7 @@ export default {
         label: null,
         code: null,
         description: null,
+        image: null,
       },
     };
   },
@@ -81,6 +86,12 @@ export default {
 
       this.formLoading = value;
     },
+
+    uploadFile() {
+      this.image = this.$refs.file.files[0];
+      console.log(this.image);
+    },
+
     submitCashRegisterForm() {
       if (this.formLoading) {
         return;
