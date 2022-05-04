@@ -12,6 +12,7 @@
         required
         type="text"
       />
+
       <div
         v-if="errors.label && errors.label.length"
         class="invalid-feedback"
@@ -19,6 +20,16 @@
       >
         {{ errors.label[0] }}
       </div>
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label fw-bold">{{
+        $t('common.attributes.description')
+      }}</label>
+      <textarea
+        v-model="cashRegisterForm.description"
+        class="form-control"
+      ></textarea>
     </div>
     <template #footer>
       <button :title="$t('common.save')" class="btn btn-primary" type="submit">
@@ -41,6 +52,7 @@ export default {
       cashRegisterForm: {
         label: null,
         code: null,
+        description: null,
       },
     };
   },
@@ -59,10 +71,7 @@ export default {
   beforeUnmount() {
     this.setLoading();
     if (this.cashRegister && this.cashRegister.id)
-      this.$store.commit(
-        'cash_register/SET_CURRENT_CASH_REGISTER',
-        null
-      );
+      this.$store.commit('cash_register/SET_CURRENT_CASH_REGISTER', null);
   },
   methods: {
     setLoading(value = false) {
@@ -79,10 +88,8 @@ export default {
 
       this.setLoading(true);
       if (this.cashRegister && this.cashRegister.id) {
-        this.$store.dispatch(
-          'cash_register/updateCashRegister',
-          this.cashRegisterForm,
-        )
+        this.$store
+          .dispatch('cash_register/updateCashRegister', this.cashRegisterForm)
           .then(() => this.$router.back())
           .catch((error) => {
             this.errors = error.response.data.errors;
@@ -91,10 +98,7 @@ export default {
           .finally(() => this.setLoading());
       } else {
         this.$store
-          .dispatch(
-            'cash_register/addCashRegister',
-            this.cashRegisterForm,
-          )
+          .dispatch('cash_register/addCashRegister', this.cashRegisterForm)
           .then(() => this.$router.back())
           .catch((error) => {
             this.errors = error.response.data.errors;
