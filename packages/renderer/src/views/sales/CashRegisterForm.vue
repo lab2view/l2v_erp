@@ -57,7 +57,7 @@ export default {
         label: null,
         code: null,
         description: null,
-        image: null,
+        avatar: null,
       },
     };
   },
@@ -88,8 +88,7 @@ export default {
     },
 
     uploadFile() {
-      this.image = this.$refs.file.files[0];
-      console.log(this.image);
+      this.avatar = this.$refs.file.files[0];
     },
 
     submitCashRegisterForm() {
