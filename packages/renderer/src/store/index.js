@@ -40,13 +40,14 @@ import discount_code from './modules/sales/discount_code';
 import cash_register from './modules/sales/cash_register';
 import cashier from './modules/sales/cashier';
 import cashier_group from './modules/sales/cashier_group';
-import role from './modules/iam/role.js';
-import user from './modules/iam/user.js';
+import role from './modules/iam/role';
+import user from './modules/iam/user';
 import sale_type from './modules/sales/sale_type';
-import SyncService from '/@/services/SyncService.js';
-import { getMutationPathName } from '/@/helpers/utils.js';
-import { actionCode } from '/@/helpers/codes.js';
-import scanner from '/@/store/modules/scanner.js';
+import SyncService from '/@/services/SyncService';
+import { getMutationPathName } from '/@/helpers/utils';
+import { actionCode } from '/@/helpers/codes';
+import scanner from '/@/store/modules/scanner';
+import cashier_session from '/@/store/modules/sales/cashier_session';
 
 export default createStore({
   state: {
@@ -169,6 +170,7 @@ export default createStore({
     role,
     user,
     scanner,
+    cashier_session,
   },
   strict: process.env.NODE_ENV !== 'production',
   plugins: [...modulePlugins],

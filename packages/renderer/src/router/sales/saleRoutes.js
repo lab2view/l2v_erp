@@ -12,11 +12,20 @@ export const saleRoutes = [
     },
   },
   {
+    path: 'open-sessions',
+    name: 'sales.session.auth',
+    component: () => import('/@/views/sales/session/CashierSessionAuth.vue'),
+    meta: {
+      code: 'CashierSession.create',
+    },
+  },
+  {
     path: 'sessions',
     name: 'sales.session',
     component: () => import('/@/views/sales/session/CashierSessionPage.vue'),
     meta: {
       code: 'Sale.create',
+      requireCashierSession: true,
     },
   },
   {

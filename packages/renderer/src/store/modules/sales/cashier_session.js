@@ -3,12 +3,17 @@ import { notify } from '/@/helpers/notify';
 import i18n from '/@/i18n';
 
 const state = {
-  cashier_sessions: [],
-  cashier_session: null,
+  cashier_sessions: null,
+  current_session: null,
 };
 
 // getters
-const getters = {};
+const getters = {
+  cashierSessions: (state) =>
+    state.cashier_sessions ? JSON.parse(state.cashier_sessions) : [],
+  currentSession: (state) =>
+    state.current_session ? JSON.parse(state.current_session) : null,
+};
 
 // privileges
 const actions = {
