@@ -29,8 +29,11 @@ export default {
     return axios.delete(`/cashiers/delete/${id}`);
   },
 
-  openSession(cashier_id, payload) {
-    return axios.post(`/cashiers/${cashier_id}/sessions/open`, payload);
+  openSession(payload) {
+    const endpoint = payload.cashier_id
+      ? `/cashiers/${payload.cashier_id}/sessions/open`
+      : `/cashiers/sessions/open`;
+    return axios.post(endpoint, payload);
   },
 
   closeSession(cashier_session_id) {

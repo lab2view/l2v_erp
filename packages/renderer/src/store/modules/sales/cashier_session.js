@@ -1,6 +1,4 @@
 import cashierService from '../../../services/sales/CashierService';
-import { notify } from '/@/helpers/notify';
-import i18n from '/@/i18n';
 
 const state = {
   cashier_sessions: null,
@@ -17,44 +15,62 @@ const getters = {
 
 // privileges
 const actions = {
-  addCashier({ commit }, cashierField) {
-    return cashierService.addCashier(cashierField).then(({ data }) => {
-      commit('ADD_CASHIER', data);
-      notify(
-        i18n.global.t('sales.cashier.store'),
-        'Ok',
-        'theme',
-        'fa fa-check'
-      );
-      return data;
-    });
+  openSession({ commit }, cashierSession) {
+    return cashierService
+      .openSession(cashierSession)
+      .then(({ data }) => {
+        commit('SET_CASHIER_SESSION', data);
+        return data;
+      })
+      .catch((err) => {
+        if (err.response) return Promise.reject(err.response.data);
+        else return Promise.reject(err);
+      });
+  },
+  closeSession({ commit, getters }, cashierSessionId = null) {
+    return cashierService
+      .closeSession(cashierSessionId ?? getters.currentSession.id)
+      .then(({ data }) => {
+        commit('SET_CASHIER_SESSION', null);
+        return data;
+      })
+      .catch((err) => {
+        if (err.response) return Promise.reject(err.response.data);
+        else return Promise.reject(err);
+      });
   },
 };
 
 // mutations
 const mutations = {
-  SET_CASHIERS(state, cashiers) {
-    state.cashiers = JSON.stringify(cashiers);
+  SET_CASHIER_SESSION(state, data) {
+    state.current_session = data ? JSON.stringify(data) : null;
+    setTimeout(() => {
+      if (window?.ipcRenderer)
+        window?.ipcRenderer?.send('reload', 'User open cashier session');
+      else location.reload();
+    }, 500);
   },
-  SET_CURRENT_CASHIER(state, cashier) {
-    state.cashier = JSON.stringify(cashier);
+  ADD_CASHIER_SESSION(state, cashier_session) {
+    let cashier_sessions = JSON.parse(state.cashier_sessions);
+    cashier_sessions.push(cashier_session);
+    state.cashier_sessions = JSON.stringify(cashier_sessions);
   },
-  ADD_CASHIER(state, cashier) {
-    let cashiers = JSON.parse(state.cashiers);
-    cashiers.push(cashier);
-    state.cashiers = JSON.stringify(cashiers);
-  },
-  UPDATE_CASHIER(state, cashier) {
-    let cashiers = JSON.parse(state.cashiers);
-    const index = cashiers.findIndex((p) => p.id === cashier.id);
+  UPDATE_CASHIER_SESSION(state, cashier_session) {
+    let cashier_sessions = JSON.parse(state.cashier_sessions);
+    const index = cashier_sessions.findIndex(
+      (p) => p.id === cashier_session.id
+    );
     if (index !== -1) {
-      cashiers.splice(index, 1, cashier);
-      state.cashiers = JSON.stringify(cashiers);
+      cashier_sessions.splice(index, 1, cashier_session);
+      state.cashier_sessions = JSON.stringify(cashier_sessions);
     }
   },
-  DELETE_CASHIER(state, cashierId) {
-    state.cashiers = JSON.stringify(
-      JSON.parse(state.cashiers).filter((p) => p.id !== cashierId)
+  DELETE_CASHIER_SESSION(state, cashier_session_id) {
+    state.cashier_sessions = JSON.stringify(
+      JSON.parse(state.cashier_sessions).filter(
+        (p) => p.id !== cashier_session_id
+      )
     );
   },
 };

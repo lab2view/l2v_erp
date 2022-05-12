@@ -47,6 +47,7 @@ export default {
   configurations: 'Configurations',
   return_to_list: 'Retourner a la liste',
   login: 'Connexion',
+  logout: 'Deconnexion',
   no_action: "Pas d'action",
   makeComposition: "Composer l'article",
   unmakeComposition: "Decomposer l'article",
@@ -55,6 +56,8 @@ export default {
   my_account: 'Mon compte',
   update_profile: 'Modifier le profil',
   update_password: 'Modifier le mot de passe',
+  open_cash_register: 'Ouvrir la caisse',
+  use_another_account: 'Utiliser un autre compte?',
 
   fields: {
     modules: 'Modules',
@@ -74,6 +77,7 @@ export default {
     enterprise_from: 'Structure source',
     enterprise_to: 'Structure cible',
     select_enterprise_for_custom_price: 'Editer le prix pour une entreprise ?',
+    pin: 'Code pin',
   },
 
   states: {
@@ -191,6 +195,7 @@ export default {
     old_password: 'Mot de passe actuel',
     new_password: 'Nouveau mot de passe',
     new_password_confirmation: 'Confirmer le nouveau mot de passe',
+    cash_register_id: 'Caisse',
   },
 
   gender: {

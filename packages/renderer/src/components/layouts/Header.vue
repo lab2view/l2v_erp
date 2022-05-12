@@ -248,7 +248,9 @@ export default defineComponent({
     },
     logout() {
       if (confirm('Do you realy want to logout?')) {
-        this.$store.dispatch('auth/logout');
+        if (this.$route.meta.requireCashierSession)
+          this.$store.dispatch('cashier_session/closeSession');
+        else this.$store.dispatch('auth/logout');
       }
     },
   },
