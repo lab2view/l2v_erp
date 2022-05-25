@@ -1,6 +1,7 @@
 import priceTypeService from '../../../services/articles/PriceTypeService';
 import { notify } from '/@/helpers/notify.js';
 import i18n from '../../../i18n';
+import { priceTypeCode } from '/@/helpers/codes.js';
 
 const state = {
   priceTypes: null,
@@ -12,6 +13,8 @@ const state = {
 const getters = {
   priceTypes: (state) => (state.priceTypes ? JSON.parse(state.priceTypes) : []),
   priceType: (state) => (state.priceType ? JSON.parse(state.priceType) : null),
+  salePriceTypes: (state, getters) =>
+    getters.priceTypes.filter((pt) => pt.code !== priceTypeCode.buy),
 };
 
 // privileges
