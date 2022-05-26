@@ -1,10 +1,15 @@
 <template>
   <div class="col">
-    <div class="card table-responsive" style="height: 37vh">
+    <div class="card table-responsive mb-0 pb-0" style="height: 36vh">
       <table class="table table-lg table-hover">
         <thead class="table-primary">
           <tr>
-            <th>Articles</th>
+            <th>
+              Articles
+              <span v-if="getCurrentSaleArticleCount > 0">
+                ({{ getCurrentSaleArticleCount }})
+              </span>
+            </th>
             <th>Prix Unit</th>
             <th class="text-center" style="width: 220px">Qte</th>
             <th>Total</th>
@@ -48,6 +53,7 @@ export default {
     ...mapGetters('cashier_session', [
       'stock_exit_lines',
       'isCurrentSaleHaveArticle',
+      'getCurrentSaleArticleCount',
     ]),
   },
   methods: {

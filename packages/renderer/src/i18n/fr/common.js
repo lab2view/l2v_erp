@@ -85,6 +85,7 @@ export default {
     pin: 'Code pin',
     payment_method: 'Méthode de paiement',
     sale_type: 'Type de vente',
+    add_customer: 'Ajouter un client',
   },
 
   states: {
@@ -207,6 +208,7 @@ export default {
     total_price: 'PRIX TOTAL',
     reduction: 'REMISE',
     receive_amount: 'MONTANT RECU',
+    customer_id: 'Client',
     total_article: 'TOTAL ARTICLES',
     change_price: 'RESTE',
   },

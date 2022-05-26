@@ -3,6 +3,24 @@
     <form @submit.prevent="handleSaleProcessButton">
       <div class="row align-items-end">
         <div class="col">
+          <div class="row justify-content-center mb-2">
+            <div class="col-md-5">
+              <BaseFieldGroup
+                @btn-click="
+                  $router.push({
+                    name: 'product.form.setting.tax.form.tax',
+                  })
+                "
+              >
+                <BaseSelect
+                  v-model="customer"
+                  :options="getCustomerForSelect2"
+                  :searchable="true"
+                  :placeholder="$t('common.fields.add_customer')"
+                />
+              </BaseFieldGroup>
+            </div>
+          </div>
           <div class="row">
             <div class="col">
               <BaseCheckboxGroup
@@ -162,8 +180,15 @@ import { mapGetters } from 'vuex';
 import BaseCheckboxGroup from '/@/components/common/BaseCheckboxGroup.vue';
 import BaseSelect from '/@/components/common/BaseSelect.vue';
 import { cashPaymentMethodCode } from '/@/helpers/codes.js';
+import BaseFieldGroup from '/@/components/common/BaseFieldGroup.vue';
 export default {
-  components: { BaseSelect, BaseCheckboxGroup, BaseButton, BaseInputGroup },
+  components: {
+    BaseFieldGroup,
+    BaseSelect,
+    BaseCheckboxGroup,
+    BaseButton,
+    BaseInputGroup,
+  },
   data() {
     return {
       loading: false,
@@ -183,6 +208,7 @@ export default {
     ...mapGetters('workspace', ['currency']),
     ...mapGetters('payment_method', ['paymentMethods']),
     ...mapGetters('sale_type', ['saleTypes']),
+    ...mapGetters('customer', ['getCustomerForSelect2']),
     isCashPaymentMethod() {
       const paymentMethod = this.paymentMethods.find(
         (pm) => pm.id === this.paymentMethodId
@@ -216,6 +242,22 @@ export default {
         this.$store.commit('cashier_session/SET_CURRENT_SALE_REQUEST_FIELD', {
           value,
           field: 'sale_type_id',
+        });
+      },
+    },
+    customer: {
+      get() {
+        const customer = this.getCustomerForSelect2.find(
+          (c) =>
+            c.id ===
+            this.$store.state.cashier_session.currentSaleRequest?.customer_id
+        );
+        return customer ?? null;
+      },
+      set(value) {
+        this.$store.commit('cashier_session/SET_CURRENT_SALE_REQUEST_FIELD', {
+          value: value?.id,
+          field: 'customer_id',
         });
       },
     },
