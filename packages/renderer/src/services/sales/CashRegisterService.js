@@ -17,6 +17,13 @@ export default {
     return axios.put(`/cash-registers/${id}`, cashRegister);
   },
 
+  updateStatusCashRegister(cashRegister, id) {
+    if (cashRegister.disabled_at === null) {
+      cashRegister.disabled_at = new Date();
+      return axios.put(`/cash-registers/${id}`, cashRegister);
+    }
+  },
+
   deleteCashRegister(id) {
     return axios.delete(`/cash-registers/${id}`);
   },
