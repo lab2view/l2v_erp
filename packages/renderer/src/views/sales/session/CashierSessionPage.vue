@@ -35,11 +35,9 @@ import SaleSessionState from '/@/components/sales/session/SaleSessionState.vue';
 import store from '/@/store/index.js';
 import { moduleCode } from '/@/helpers/codes.js';
 import ModuleSyncMixin from '/@/mixins/ModuleSyncMixin.js';
-import BaseVerticalPanel from '/@/components/common/BaseVerticalPanel.vue';
 
 export default {
   components: {
-    BaseVerticalPanel,
     SaleSessionState,
     SaleSessionSelectedArticleList,
     SaleSessionHeader,
