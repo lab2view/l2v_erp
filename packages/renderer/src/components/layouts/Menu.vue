@@ -1,7 +1,7 @@
 <template>
-  <header class="main-nav">
+  <header class="main-nav" :class="sliderMenuClass">
     <div class="sidebar-user text-center">
-      <a class="setting-primary" href="javascript:void(0)">
+      <router-link class="setting-primary" :to="{ name: 'iam.profile' }">
         <svg
           class="feather feather-settings"
           fill="none"
@@ -18,21 +18,25 @@
           <path
             d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"
           ></path>
-        </svg> </a
+        </svg> </router-link
       ><img
         alt=""
         class="img-90 rounded-circle"
         src="../../assets/images/dashboard/1.png"
       />
       <div class="badge-bottom">
-        <span class="badge badge-primary">New</span>
+        <router-link :to="{ name: 'iam.profile' }">
+          <span class="badge badge-primary">
+            {{ $t('common.my_account') }}
+          </span>
+        </router-link>
       </div>
       <a href="#">
         <h6 class="mt-3 f-14 f-w-600">{{ currentUserEmail }}</h6></a
       >
       <p class="mb-0 font-roboto">{{ currentUserRole }}</p>
     </div>
-    <nav>
+    <nav v-if="!isCashierSessionRoute">
       <div class="main-navbar">
         <div id="mainnav">
           <ul class="nav-menu custom-scrollbar">
@@ -75,9 +79,11 @@ import {
   iamMenus,
 } from '/@/helpers/menus';
 import { mapGetters } from 'vuex';
+import SaleSessionMixin from '/@/mixins/SaleSessionMixin';
 
 export default defineComponent({
   components: { MenuModule },
+  mixins: [SaleSessionMixin],
   computed: {
     ...mapGetters('auth', ['currentUserEmail', 'currentUserRole']),
     modules() {

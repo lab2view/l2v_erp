@@ -3,7 +3,16 @@
     {{ label }}
     <span v-if="required" class="text-danger m-l-5">*</span>
   </label>
+  <VSelect
+    v-if="searchable"
+    v-model="searchableValue"
+    append-to-body
+    class="form-control"
+    :options="options"
+    :placeholder="placeholder ?? $t('common.choose')"
+  />
   <select
+    v-else
     :required="required"
     :value="modelValue"
     class="form-control"
@@ -18,7 +27,7 @@
     }"
   >
     <option v-if="!haveNullValue" disabled selected value="">
-      {{ $t('common.choose') }}
+      {{ placeholder ?? $t('common.choose') }}
     </option>
     <option
       v-for="(option, index) in options"
@@ -34,7 +43,11 @@
 </template>
 
 <script>
+import VSelect from 'vue-select';
+import 'vue-select/dist/vue-select.css';
+
 export default {
+  components: { VSelect },
   props: {
     label: {
       type: String,
@@ -45,7 +58,7 @@ export default {
       default: null,
     },
     modelValue: {
-      type: [String, Number],
+      type: [String, Number, Object],
       default: null,
     },
     options: {
@@ -60,7 +73,15 @@ export default {
       type: String,
       default: null,
     },
+    placeholder: {
+      type: String,
+      default: null,
+    },
     required: {
+      type: [Boolean],
+      default: false,
+    },
+    searchable: {
       type: [Boolean],
       default: false,
     },
@@ -77,6 +98,33 @@ export default {
             this.options[0][this.keyValue] === null
         : false;
     },
+    searchableValue: {
+      get() {
+        return this.modelValue;
+      },
+      set(value) {
+        this.$emit('update:modelValue', value);
+      },
+    },
   },
 };
 </script>
+
+<style scoped>
+>>> {
+  /* Font */
+  --vs-font-size: 1rem;
+  --vs-line-height: 1;
+
+  /* Borders */
+  --vs-border-width: 0px;
+  --vs-border-radius: 0px;
+
+  /* Component Controls: Clear, Open Indicator */
+  --vs-controls-size: 0;
+
+  /* Active State */
+  --vs-dropdown-option--active-bg: #24695c;
+  --vs-dropdown-option--active-color: #fff;
+}
+</style>

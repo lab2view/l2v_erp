@@ -62,10 +62,7 @@
                 <BaseFieldGroup
                   :label="$t('common.attributes.localization')"
                   :errors="errors.localization_id"
-                  required
-                  @btn-click="
-                    $router.push({ name: 'localization.form' })
-                  "
+                  @btn-click="$router.push({ name: 'localization.form' })"
                 >
                   <BaseSelect
                     v-model="customerForm.localization_id"
@@ -118,7 +115,7 @@
                   v-model="customerForm.name"
                   :errors="errors.name"
                   :label="$t('common.attributes.name')"
-                  placeholder="Jean Parpaing"
+                  placeholder="John Doe"
                   required
                   type="text"
                 />

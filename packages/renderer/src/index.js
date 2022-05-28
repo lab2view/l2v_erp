@@ -6,7 +6,7 @@ import router from '/@/router';
 import store from '/@/store';
 import i18n from '/@/i18n';
 import initEchoClient from '/@/config/echo.js';
-import { notify } from '/@/helpers/notify.js';
+import VueBarcodeScanner from 'vue3-barcode-scanner';
 
 window._ = lodash;
 
@@ -15,6 +15,11 @@ const app = createApp(App);
 app.use(router);
 app.use(store);
 app.use(i18n);
+let options = {
+  sensitivity: 300, // default is 100
+  callbackAfterTimeout: true, // default is false
+};
+app.use(VueBarcodeScanner, options);
 
 app.config.globalProperties.$loadScript = loadScript;
 

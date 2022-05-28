@@ -1,6 +1,6 @@
 <template>
   <button v-bind="$attrs">
-    <i v-if="icon" :class="`${icon} m-r-10`" />
+    <i v-if="icon" :class="`${icon} ${iconClass}`" />
     <slot>
       {{ text }}
     </slot>
@@ -23,6 +23,10 @@ export default {
     icon: {
       type: String,
       default: null,
+    },
+    iconClass: {
+      type: String,
+      default: 'm-r-10',
     },
     loading: {
       type: Boolean,

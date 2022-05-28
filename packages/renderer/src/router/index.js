@@ -2,6 +2,7 @@ import { createRouter, createWebHashHistory } from 'vue-router';
 import Page from '/@/components/layouts/Page.vue';
 import workspace from './workspace';
 import store from '/@/store';
+
 import landlordGuard from '../guards/landlordGuard';
 import workspaceGuard from '../guards/workspaceGuard';
 import authGuard from '../guards/authGuard';
@@ -13,6 +14,8 @@ import customerGroupGuard from '/@/guards/customerGroupGuard';
 import discountGuard from '/@/guards/discountGuard';
 import stockEntryGuard from '/@/guards/stockEntryGuard';
 import stockExitGuard from '/@/guards/stockExitGuard.js';
+import cashierSessionGuard from '/@/guards/cashierSessionGuard.js';
+import redirectCashierSessionGuard from '/@/guards/redirectCashierSessionGuard.js';
 
 const routes = [
   {
@@ -39,6 +42,17 @@ const routes = [
     meta: {
       requireWorkspace: true,
       requireAuth: true,
+    },
+  },
+  {
+    path: '/open-cash-register',
+    name: 'sales.session.auth',
+    component: () => import('/@/views/sales/session/CashierSessionAuth.vue'),
+    meta: {
+      requireWorkspace: true,
+      requireAuth: true,
+      redirectCashierSession: true,
+      code: 'CashierSession.create',
     },
   },
   {
@@ -99,6 +113,9 @@ router.beforeEach(async (to, from, next) => {
   if (to.meta.requireDiscount) discountGuard(to, from, next);
   if (to.meta.requireStockEntry) stockEntryGuard(to, from, next);
   if (to.meta.requireStockExit) stockExitGuard(to, from, next);
+  if (to.meta.requireCashierSession) cashierSessionGuard(to, from, next);
+  if (to.meta.redirectCashierSession)
+    redirectCashierSessionGuard(to, from, next);
 
   next();
 });

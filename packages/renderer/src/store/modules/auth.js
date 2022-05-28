@@ -1,5 +1,6 @@
 import AuthService from '../../services/AuthService';
-import { roleAdminCode } from '/@/helpers/codes.js';
+import { roleAdminCode, roleCashierCode } from '/@/helpers/codes.js';
+import userService from '/@/services/iam/IamUserService';
 
 const state = {
   currentUser: null,
@@ -18,11 +19,26 @@ const getters = {
   currentUserRole: (state, getters) => getters.currentUser?.role?.label,
   isRoleAdmin: (state, getters) =>
     getters.currentUser?.role?.code === roleAdminCode,
+  isCashierRole: (state, getters) =>
+    getters.currentUser?.role?.code === roleCashierCode,
   currentEnterprise: (state, getters) => getters.currentUser?.enterprise,
 };
 
 // privileges
 const actions = {
+  updateAuthUser({ commit }, userFields) {
+    return userService
+      .updateUser(userFields, userFields.id)
+      .then(({ data }) => {
+        commit('UPDATE_CURRENT_USER', data);
+        return data;
+      })
+      .catch((err) => {
+        if (err.response) return Promise.reject(err.response.data);
+        else return Promise.reject(err);
+      });
+  },
+
   login({ commit }, credential) {
     return AuthService.login(credential)
       .then(({ data }) => {
@@ -46,6 +62,13 @@ const mutations = {
     if (window?.ipcRenderer)
       window?.ipcRenderer?.send('reload', 'User connexion');
     else location.reload();
+  },
+  UPDATE_CURRENT_USER(state, user) {
+    user = {
+      ...JSON.parse(state.currentUser),
+      ...user,
+    };
+    state.currentUser = user ? JSON.stringify(user) : null;
   },
 };
 
