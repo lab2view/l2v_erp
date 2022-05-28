@@ -1,8 +1,5 @@
 <template>
-  <BaseContainer
-    :module="$t('menu.modules.sales')"
-    :title="$t('sales.title')"
-  >
+  <BaseContainer :module="$t('menu.modules.sales')" :title="$t('sales.title')">
     <div class="card">
       <div class="card-header pb-2 border-bottom border-bottom-">
         <div class="row align-items-center">
@@ -56,6 +53,15 @@
               >
                 <i class="fa fa-trash-o" />
               </button>
+              <button
+                class="btn btn-danger btn-xs m-l-5"
+                type="button"
+                data-original-title="btn btn-light btn-xs"
+                :title="$t('common.states.disabled')"
+                @click.prevent="updateStatusCashRegister(cashRegister)"
+              >
+                <i class="fa fa-ban" />
+              </button>
             </td>
           </tr>
         </BaseDatatable>
@@ -98,8 +104,19 @@ export default {
 
   methods: {
     deleteCashRegister(cashRegister) {
-      if (confirm(this.$t('messages.confirmDelete', { label: cashRegister.label })))
-        this.$store.dispatch('cash_register/deleteCashRegister', cashRegister.id);
+      if (
+        confirm(
+          this.$t('messages.confirmDelete', { label: cashRegister.label })
+        )
+      )
+        this.$store.dispatch(
+          'cash_register/deleteCashRegister',
+          cashRegister.id
+        );
+    },
+
+    updateStatusCashRegister(cashRegister) {
+      store.dispatch('cash_register/updateStatusCashRegister', cashRegister);
     },
   },
 };
