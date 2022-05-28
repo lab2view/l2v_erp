@@ -30,11 +30,12 @@
       <!-- Page Sidebar Start-->
       <Menu />
       <!-- Page Sidebar Ends-->
-      <div class="page-body" :class="saleSessionPageClass">
+
+      <div class="page-body">
         <router-view />
       </div>
       <!-- footer start-->
-      <Footer v-if="!isCashierSessionRoute" />
+      <Footer />
     </div>
   </div>
 </template>
@@ -42,14 +43,11 @@
 <script>
 import { defineComponent } from 'vue';
 import Header from '/@/components/layouts/Header.vue';
-import Menu from '/@/components/layouts/Menu.vue';
 import Footer from '/@/components/layouts/Footer.vue';
 import { mapGetters } from 'vuex';
-import SaleSessionMixin from '/@/mixins/SaleSessionMixin.js';
 
 export default defineComponent({
-  components: { Footer, Menu, Header },
-  mixins: [SaleSessionMixin],
+  components: { Footer, Header },
   computed: {
     ...mapGetters('workspace', ['workspaces', 'currentWorkspace']),
     selectWorkspace() {
@@ -58,25 +56,13 @@ export default defineComponent({
     canShowWorkspace() {
       return this.selectWorkspace.length > 0;
     },
-    saleSessionPageClass() {
-      return this.isCashierSessionRoute ? 'p-0 pt-2' : '';
-    },
   },
   created() {
     setTimeout(() => {
       (async () => {
         await this.$loadScript(`./src/assets/js/sidebar-menu.js`);
-        // await this.$loadScript(
-        //   `./src/assets/js/theme-customizer/customizer.js`
-        // );
       })();
     }, 1000);
-  },
-
-  methods: {
-    setCurrentWorkspace(workspace) {
-      this.$store.dispatch('workspace/setCurrentWorkspace', workspace);
-    },
   },
 });
 </script>

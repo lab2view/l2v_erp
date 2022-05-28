@@ -1,0 +1,84 @@
+<template>
+  <div class="card m-0 p-0">
+    <SaleSessionHeader />
+
+    <div class="card-body pb-2">
+      <div class="row align-items-center">
+        <SaleSessionSelectedArticleList />
+      </div>
+    </div>
+
+    <SaleSessionState />
+  </div>
+
+  <router-view />
+  <!--  <BaseVerticalPanel title="Contact History">-->
+  <!--    <div class="text-center">-->
+  <!--      <i class="icofont icofont-ui-edit"></i>-->
+  <!--      <p>Contact has not been modified yet.</p>-->
+  <!--    </div>-->
+  <!--    <div class="media">-->
+  <!--      <i class="icofont icofont-star me-3"></i>-->
+  <!--      <div class="media-body mt-0">-->
+  <!--        <h6 class="mt-0">Contact Created</h6>-->
+  <!--        <p class="mb-0">Contact is created via mail</p>-->
+  <!--        <span class="f-12">Sep 10, 2019 4:00</span>-->
+  <!--      </div>-->
+  <!--    </div>-->
+  <!--  </BaseVerticalPanel>-->
+</template>
+
+<script>
+import SaleSessionHeader from '/@/components/sales/session/SaleSessionHeader.vue';
+import SaleSessionSelectedArticleList from '/@/components/sales/session/SaleSessionSelectedArticleList.vue';
+import SaleSessionState from '/@/components/sales/session/SaleSessionState.vue';
+import store from '/@/store/index.js';
+import { moduleCode } from '/@/helpers/codes.js';
+import ModuleSyncMixin from '/@/mixins/ModuleSyncMixin.js';
+
+export default {
+  components: {
+    SaleSessionState,
+    SaleSessionSelectedArticleList,
+    SaleSessionHeader,
+  },
+  mixins: [ModuleSyncMixin],
+  beforeRouteEnter(routeTo, routeFrom, next) {
+    const hash = store.getters['product/getProductsHash'];
+    if (hash) {
+      return store
+        .dispatch('initModuleSynchronisation', {
+          module: moduleCode.products,
+          hash: hash,
+          mutation: 'product',
+        })
+        .finally(() => next());
+    } else {
+      const field = { page: 1, field: {} };
+      return Promise.all([
+        store.dispatch('article/getArticlesList', field),
+        store.dispatch('product/getProductsList', field),
+        store.dispatch('product_family/getProductFamiliesList', field),
+        store.dispatch('product_type/getProductTypesList', field),
+        store.dispatch('product_unit/getProductUnitsList', field),
+        store.dispatch('property/getPropertiesList', field),
+        store.dispatch('tax/getTaxesList', field),
+        store.dispatch('package/getPackageList', field),
+        store.dispatch('price_type/getPriceTypeList', field),
+        store.dispatch('getLastHash', moduleCode.products).then((data) => {
+          store.commit('product/SET_PRODUCTS_HASH', data.hash);
+          return data;
+        }),
+      ])
+        .then(() => next())
+        .catch((error) => {
+          console.log(error);
+          next();
+        });
+    }
+  },
+  created() {
+    this.initEchoSync(moduleCode.products, 'product');
+  },
+};
+</script>

@@ -47,6 +47,7 @@ export default {
   configurations: 'Configurations',
   return_to_list: 'Retourner a la liste',
   login: 'Connexion',
+  logout: 'Deconnexion',
   no_action: "Pas d'action",
   makeComposition: "Composer l'article",
   unmakeComposition: "Decomposer l'article",
@@ -55,6 +56,13 @@ export default {
   my_account: 'Mon compte',
   update_profile: 'Modifier le profil',
   update_password: 'Modifier le mot de passe',
+  open_cash_register: 'Ouvrir la caisse',
+  use_another_account: 'Utiliser un autre compte?',
+  remove_all_in_list: 'Vider la liste',
+  no_article_in_list: 'AUCUN ARTICLE DANS LA LISTE',
+  process_sale: 'ENCAISSER',
+  make_an_discount: 'Faire une remise',
+  send_current_sale_in_background: 'Mettre en attente',
 
   fields: {
     modules: 'Modules',
@@ -74,6 +82,10 @@ export default {
     enterprise_from: 'Structure source',
     enterprise_to: 'Structure cible',
     select_enterprise_for_custom_price: 'Editer le prix pour une entreprise ?',
+    pin: 'Code pin',
+    payment_method: 'Méthode de paiement',
+    sale_type: 'Type de vente',
+    add_customer: 'Ajouter un client',
   },
 
   states: {
@@ -191,6 +203,14 @@ export default {
     old_password: 'Mot de passe actuel',
     new_password: 'Nouveau mot de passe',
     new_password_confirmation: 'Confirmer le nouveau mot de passe',
+    cash_register_id: 'Caisse',
+    sub_price: 'SOUS TOTAL',
+    total_price: 'PRIX TOTAL',
+    reduction: 'REMISE',
+    receive_amount: 'MONTANT RECU',
+    customer_id: 'Client',
+    total_article: 'TOTAL ARTICLES',
+    change_price: 'RESTE',
   },
 
   gender: {

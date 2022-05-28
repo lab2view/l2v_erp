@@ -288,6 +288,20 @@ const User = new VuexPersistence({
   reducer: (state) => ({ user: state.user }),
 });
 
+const CashierSession = new VuexPersistence({
+  key: 'cashier_session',
+  restoreState: (key, storage) => {
+    return storage.getItem(key).then((data) => JSON.parse(data));
+  },
+  saveState: (key, state, storage) => {
+    return storage.setItem(key, JSON.stringify(state));
+  },
+  storage: localStore,
+  asyncStorage: true,
+  reducer: (state) => ({
+    cashier_session: state.cashier_session,
+  }),
+});
 
 export default [
   Auth.plugin,
@@ -331,4 +345,5 @@ export default [
   SaleType.plugin,
   Role.plugin,
   User.plugin,
+  CashierSession.plugin,
 ];

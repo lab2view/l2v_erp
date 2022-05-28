@@ -20,3 +20,5 @@ export function getMutationPathName({ mutation, action }) {
       return null;
   }
 }
+
+export const getDefaultProductImage = '/@/assets/images/smiley.png';
