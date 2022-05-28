@@ -1,10 +1,6 @@
 {
   "name": "erp-app",
-<<<<<<< HEAD
-  "version": "0.0.6",
-=======
   "version": "0.0.7",
->>>>>>> develop
   "author": {
     "name": "Lab2view",
     "email": "contact@lab2view.com",
