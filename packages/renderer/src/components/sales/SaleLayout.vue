@@ -29,6 +29,7 @@ export default {
         store.dispatch('discount_type/getDiscountTypesList', field),
         store.dispatch('discount/getDiscountsList', field),
         store.dispatch('discount_code/getDiscountCodesList', field),
+        store.dispatch('payment_method/getPaymentMethodsList', field),
         store.dispatch('getLastHash', moduleCode.sales).then((data) => {
           store.commit('discount/SET_SALES_HASH', data.hash);
           return data;

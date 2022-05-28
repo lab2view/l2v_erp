@@ -13,6 +13,7 @@ const getters = {
     localStorage.getItem('currentWorkspace')
       ? JSON.parse(localStorage.getItem('currentWorkspace'))
       : null,
+  currency: (state, getters) => getters.currentWorkspace?.currency,
 };
 
 // privileges

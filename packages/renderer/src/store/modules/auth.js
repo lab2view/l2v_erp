@@ -1,6 +1,6 @@
 import AuthService from '../../services/AuthService';
-import { roleAdminCode } from '/@/helpers/codes.js';
-import userService from "/@/services/iam/IamUserService";
+import { roleAdminCode, roleCashierCode } from '/@/helpers/codes.js';
+import userService from '/@/services/iam/IamUserService';
 
 const state = {
   currentUser: null,
@@ -19,6 +19,8 @@ const getters = {
   currentUserRole: (state, getters) => getters.currentUser?.role?.label,
   isRoleAdmin: (state, getters) =>
     getters.currentUser?.role?.code === roleAdminCode,
+  isCashierRole: (state, getters) =>
+    getters.currentUser?.role?.code === roleCashierCode,
   currentEnterprise: (state, getters) => getters.currentUser?.enterprise,
 };
 

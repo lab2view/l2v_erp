@@ -171,6 +171,7 @@ import { notify } from "/@/helpers/notify";
 import store from '/@/store';
 
 export default {
+  components: { BaseFieldGroup, BaseButton, BaseContainer, BaseInput, BaseSelect },
   beforeRouteEnter(routeTo, routeFrom, next) {
     Promise.all([
       store.dispatch('country/getCountriesList', {
@@ -185,7 +186,6 @@ export default {
       .catch((error) => console.log(error))
       .finally(() => next());
   },
-  components: { BaseFieldGroup, BaseButton, BaseContainer, BaseInput, BaseSelect },
   data() {
     return {
       loading: false,
@@ -212,6 +212,9 @@ export default {
     ...mapGetters('auth', ['currentUser']),
     ...mapGetters('localization', ['localizations']),
     ...mapGetters('country', ['countries']),
+  },
+  beforeMount() {
+    this.authUser = this.currentUser
   },
   methods: {
     submitForm() {
@@ -252,9 +255,6 @@ export default {
           this.loading = false;
         });
     }
-  },
-  beforeMount() {
-    this.authUser = this.currentUser
   }
 };
 </script>

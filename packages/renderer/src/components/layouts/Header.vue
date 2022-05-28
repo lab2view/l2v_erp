@@ -1,5 +1,5 @@
 <template>
-  <div class="page-main-header">
+  <div class="page-main-header" :class="sliderMenuClass">
     <div class="main-header-right row m-0">
       <div class="main-header-left">
         <div class="logo-wrapper">
@@ -235,8 +235,10 @@
 <script>
 import { defineComponent } from 'vue';
 import { mapGetters } from 'vuex';
+import SaleSessionMixin from '/@/mixins/SaleSessionMixin';
 
 export default defineComponent({
+  mixins: [SaleSessionMixin],
   computed: {
     ...mapGetters('workspace', ['currentWorkspace']),
   },
@@ -246,7 +248,9 @@ export default defineComponent({
     },
     logout() {
       if (confirm('Do you realy want to logout?')) {
-        this.$store.dispatch('auth/logout');
+        if (this.$route.meta.requireCashierSession)
+          this.$store.dispatch('cashier_session/closeSession');
+        else this.$store.dispatch('auth/logout');
       }
     },
   },
