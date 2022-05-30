@@ -150,6 +150,7 @@
               :text="$t('common.send_current_sale_in_background')"
               class="btn btn-outline-primary btn-block mb-3"
               :class="{ 'font-primary': !isCurrentSaleHaveArticle }"
+              @click.prevent="$router.push({ name: 'sales.session.request' })"
             />
           </div>
           <div class="row">
@@ -159,6 +160,7 @@
               :text="$t('common.make_an_discount')"
               class="btn btn-outline-primary btn-block mb-3"
               :class="{ 'font-primary': !isCurrentSaleHaveArticle }"
+              @click.prevent="$router.push({ name: 'sales.session.discount' })"
             />
           </div>
           <div class="row">
