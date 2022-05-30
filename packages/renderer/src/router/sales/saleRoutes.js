@@ -19,6 +19,13 @@ export const saleRoutes = [
       code: 'Sale.create',
       requireCashierSession: true,
     },
+    children: [
+      {
+        path: 'customers/form',
+        name: 'sales.session.customer.form',
+        component: () => import('/@/views/customers/CustomerQuickForm.vue'),
+      },
+    ],
   },
   {
     path: 'types',

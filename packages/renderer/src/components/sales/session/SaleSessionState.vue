@@ -8,7 +8,7 @@
               <BaseFieldGroup
                 @btn-click="
                   $router.push({
-                    name: 'product.form.setting.tax.form.tax',
+                    name: 'sales.session.customer.form',
                   })
                 "
               >
@@ -181,6 +181,7 @@ import BaseCheckboxGroup from '/@/components/common/BaseCheckboxGroup.vue';
 import BaseSelect from '/@/components/common/BaseSelect.vue';
 import { cashPaymentMethodCode } from '/@/helpers/codes.js';
 import BaseFieldGroup from '/@/components/common/BaseFieldGroup.vue';
+import { last } from 'lodash';
 export default {
   components: {
     BaseFieldGroup,
@@ -271,6 +272,17 @@ export default {
           field: 'cashin',
         });
       },
+    },
+  },
+  watch: {
+    getCustomerForSelect2(value) {
+      const customer = last(value);
+      if (customer) {
+        this.$store.commit('cashier_session/SET_CURRENT_SALE_REQUEST_FIELD', {
+          value: customer.id,
+          field: 'customer_id',
+        });
+      }
     },
   },
   methods: {
