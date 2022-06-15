@@ -145,12 +145,18 @@
         <div class="col-auto">
           <div class="row">
             <BaseButton
-              :disabled="!isCurrentSaleHaveArticle"
               type="button"
-              :text="$t('common.send_current_sale_in_background')"
+              :text="
+                isCurrentSaleHaveArticle
+                  ? $t('common.send_current_sale_in_background')
+                  : $t('common.show_background_sale')
+              "
               class="btn btn-outline-primary btn-block mb-3"
-              :class="{ 'font-primary': !isCurrentSaleHaveArticle }"
-              @click.prevent="$router.push({ name: 'sales.session.request' })"
+              @click.prevent="
+                isCurrentSaleHaveArticle
+                  ? saveCurrentSaleInBackground()
+                  : $router.push({ name: 'sales.session.request' })
+              "
             />
           </div>
           <div class="row">
@@ -291,9 +297,16 @@ export default {
     handleSaleProcessButton() {
       this.loading = true;
       this.errors = [];
-
       this.$store
         .dispatch('cashier_session/processToCurrentSaleRequest')
+        .catch((error) => (this.errors = error.response?.data?.errors))
+        .finally(() => (this.loading = false));
+    },
+    saveCurrentSaleInBackground() {
+      this.loading = true;
+      this.errors = [];
+      this.$store
+        .dispatch('cashier_session/saveCurrentSaleInBackground')
         .catch((error) => (this.errors = error.response?.data?.errors))
         .finally(() => (this.loading = false));
     },

@@ -21,6 +21,12 @@ import SaleSessionState from '/@/components/sales/session/SaleSessionState.vue';
 import store from '/@/store/index.js';
 import { moduleCode } from '/@/helpers/codes.js';
 import ModuleSyncMixin from '/@/mixins/ModuleSyncMixin.js';
+import {
+  JSPrintManager,
+  WSStatus,
+  ClientPrintJob,
+  InstalledPrinter,
+} from 'jsprintmanager';
 
 export default {
   components: {
@@ -65,6 +71,25 @@ export default {
   },
   created() {
     this.initEchoSync(moduleCode.products, 'product');
+
+    // JSPrintManager.auto_reconnect = true;
+    JSPrintManager.start();
+    // window.print();
+    JSPrintManager.WS.onStatusChanged = function () {
+      let printer = null;
+      if (JSPrintManager.websocket_status === WSStatus.Open) {
+        JSPrintManager.getPrinters()
+          .then(function (myPrinters) {
+            printer = myPrinters[1];
+            console.log(myPrinters, printer);
+            var cpj = new ClientPrintJob();
+            cpj.clientPrinter = new InstalledPrinter(printer);
+            // cpj.printerCommands = 'RAW PRINTER';
+            // cpj.sendToClient();
+          })
+          .catch((e) => console.log(e));
+      }
+    };
   },
 };
 </script>

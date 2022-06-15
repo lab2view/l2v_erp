@@ -5,7 +5,7 @@ const state = {
   cashier_sessions: null,
   current_session: null,
   localSales: null,
-  saleRequests: null,
+  saleRequests: [],
   price_type_id: null,
   currentSaleRequest: {
     sale_type_id: null,
@@ -34,6 +34,7 @@ const getters = {
   currentSaleRequest: (state) => state.currentSaleRequest,
   stock_exit_lines: (state) => state.currentSaleRequest.stock_exit_lines,
   isCurrentSaleHaveArticle: (state, getters) => getters.stock_exit_lines.length,
+  saleRequests: (state) => state.saleRequests,
   getCurrentSaleArticleCount: (state, getters) =>
     getters.stock_exit_lines?.length,
   getCurrentSaleSupAmount: (state, getters) => {
@@ -93,6 +94,16 @@ const actions = {
       cashout: getters.getCurrentSaleCashOutAmount,
     });
   },
+
+  saveCurrentSaleInBackground({ getters, commit }) {
+    commit('ADD_SALE_REQUESTS', {
+      ...getters.currentSaleRequest,
+      background_at: new Date(),
+      amount: getters.getCurrentSaleTotalAmount,
+    });
+    commit('RESET_CURRENT_SALE_REQUEST_FIELDS');
+    return true;
+  },
 };
 
 // mutations
@@ -122,6 +133,17 @@ const mutations = {
     );
   },
 
+  ADD_SALE_REQUESTS(state, saleRequest) {
+    state.saleRequests.push(saleRequest);
+  },
+  REMOVE_SALE_REQUEST(state, index) {
+    state.saleRequests = state.saleRequests.filter((sr, ind) => ind !== index);
+  },
+  RESTORE_CURRENT_SALE_REQUEST(state, saleRequest) {
+    delete saleRequest.amount;
+    delete saleRequest.background_at;
+    state.currentSaleRequest = saleRequest;
+  },
   SET_CURRENT_SALE_REQUEST_FIELD(state, { field, value }) {
     state.currentSaleRequest[field] = value;
   },
@@ -131,7 +153,15 @@ const mutations = {
   SET_CURRENT_SALE_REQUEST_ARTICLE_LINES(state, articleLines) {
     state.currentSaleRequest.stock_exit_lines = articleLines;
   },
-
+  RESET_CURRENT_SALE_REQUEST_FIELDS(state) {
+    state.currentSaleRequest.stock_exit_lines = [];
+    state.currentSaleRequest.customer_id = null;
+    state.currentSaleRequest.cashin = null;
+    state.currentSaleRequest.cashout = null;
+    state.currentSaleRequest.discount_id = null;
+    state.currentSaleRequest.discount = null;
+    state.currentSaleRequest.discount_code = null;
+  },
   ADD_ARTICLE_TO_CURRENT_SALE_REQUEST(state, articleLine) {
     let alIndex = state.currentSaleRequest.stock_exit_lines.findIndex(
       (al) => al.article_id === articleLine.article_id

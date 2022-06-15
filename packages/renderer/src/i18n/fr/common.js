@@ -63,6 +63,8 @@ export default {
   process_sale: 'ENCAISSER',
   make_an_discount: 'Faire une remise',
   send_current_sale_in_background: 'Mettre en attente',
+  show_background_sale: 'Rappel de vente',
+  pending_sale: 'Vente en cours | Ventes en cours',
 
   fields: {
     modules: 'Modules',
@@ -86,6 +88,7 @@ export default {
     payment_method: 'Méthode de paiement',
     sale_type: 'Type de vente',
     add_customer: 'Ajouter un client',
+    article: 'article | articles',
   },
 
   states: {
