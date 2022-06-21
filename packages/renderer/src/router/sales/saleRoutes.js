@@ -34,7 +34,7 @@ export const saleRoutes = [
       {
         path: 'current-request-discounts',
         name: 'sales.session.discount',
-        component: () => import('/@/views/sales/session/SaleDiscountPanel.vue'),
+        component: () => import('/@/views/sales/session/SaleDiscountModal.vue'),
       },
     ],
   },

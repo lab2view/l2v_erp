@@ -65,6 +65,9 @@ export default {
   send_current_sale_in_background: 'Mettre en attente',
   show_background_sale: 'Rappel de vente',
   pending_sale: 'Vente en cours | Ventes en cours',
+  apply: 'Appliquer',
+  discount_code: 'Code de reduction',
+  select_discount: 'Selectionner une reduction',
 
   fields: {
     modules: 'Modules',
