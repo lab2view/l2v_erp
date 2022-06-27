@@ -75,7 +75,7 @@
                   <tr>
                     <td class="font-primary" style="width: 20%">
                       <h6 class="mb-0">
-                        {{ $t('common.attributes.reduction') }} :
+                        {{ $t('common.attributes.discount') }} :
                       </h6>
                     </td>
                     <td class="font-primary" style="width: 30%">
@@ -173,6 +173,7 @@
             <BaseButton
               :text="$t('common.process_sale').toUpperCase()"
               class="btn btn-primary-light btn-lg"
+              :loading="loading"
             />
           </div>
         </div>
@@ -190,6 +191,7 @@ import BaseSelect from '/@/components/common/BaseSelect.vue';
 import { cashPaymentMethodCode } from '/@/helpers/codes.js';
 import BaseFieldGroup from '/@/components/common/BaseFieldGroup.vue';
 import { last } from 'lodash';
+import store from '/@/store/index.js';
 export default {
   components: {
     BaseFieldGroup,
@@ -293,12 +295,23 @@ export default {
       }
     },
   },
+  created() {
+    store.dispatch('customer/getCustomersList', {
+      page: 1,
+      field: {},
+    });
+  },
   methods: {
     handleSaleProcessButton() {
       this.loading = true;
       this.errors = [];
       this.$store
         .dispatch('cashier_session/processToCurrentSaleRequest')
+        .then((data) => {
+          console.log(data);
+          //todo add printer code on data
+          this.$store.commit('cashier_session/RESET_CURRENT_SALE_REQUEST');
+        })
         .catch((error) => (this.errors = error.response?.data?.errors))
         .finally(() => (this.loading = false));
     },

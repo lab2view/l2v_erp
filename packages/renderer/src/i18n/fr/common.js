@@ -212,7 +212,7 @@ export default {
     cash_register_id: 'Caisse',
     sub_price: 'SOUS TOTAL',
     total_price: 'PRIX TOTAL',
-    reduction: 'REMISE',
+    discount: 'REMISE',
     receive_amount: 'MONTANT RECU',
     customer_id: 'Client',
     total_article: 'TOTAL ARTICLES',

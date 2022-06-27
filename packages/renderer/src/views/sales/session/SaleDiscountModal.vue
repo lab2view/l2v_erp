@@ -131,7 +131,11 @@ export default {
     };
   },
   computed: {
-    ...mapGetters('discount', ['getDiscountByCustomerId', 'getDiscountByCode']),
+    ...mapGetters('discount', [
+      'getDiscountByCustomerId',
+      'getDiscountByCode',
+      'discounts',
+    ]),
     ...mapGetters('cashier_session', [
       'currentSaleRequest',
       'stock_exit_lines',
@@ -188,24 +192,73 @@ export default {
       return this.getCurrentSaleTotalAmount - this.totalDiscountAmount;
     },
     canShowDiscountForm() {
-      return this.discount ? this.discount.only_bill : true;
+      return this.discount
+        ? this.discount.only_bill
+          ? true
+          : this.discountArticles.length === 0
+        : true;
     },
+  },
+  created() {
+    if (this.currentSaleRequest.discount_id)
+      this.discount =
+        this.discounts.find(
+          (d) => d.id === this.currentSaleRequest.discount_id
+        ) ?? null;
   },
   methods: {
     searchDiscount() {
-      if (this.client_discount_id)
-        this.discount = this.customerDiscounts.find(
-          (cd) => cd.id === this.client_discount_id
-        );
-      if (!this.discount && this.discountCode)
+      if (this.client_discount_id) {
+        this.discount =
+          this.customerDiscounts.find(
+            (cd) => cd.id === this.client_discount_id
+          ) ?? null;
+      }
+      if (!this.discount && this.discountCode) {
         this.discount = this.getDiscountByCode(this.discountCode) ?? null;
+        if (this.discount == null) this.discountCode = null;
+      }
     },
     cancelAction() {
       if (this.discount) {
         this.discount = null;
       } else this.$router.back();
     },
-    applyDiscount() {},
+    applyDiscount() {
+      if (this.discount) {
+        this.$store.commit('cashier_session/SET_CURRENT_SALE_REQUEST_FIELD', {
+          value: this.discount.id,
+          field: 'discount_id',
+        });
+        this.$store.commit('cashier_session/SET_CURRENT_SALE_REQUEST_FIELD', {
+          value: this.totalDiscountAmount,
+          field: 'discount',
+        });
+        if (this.discountCode)
+          this.$store.commit('cashier_session/SET_CURRENT_SALE_REQUEST_FIELD', {
+            value: this.discountCode,
+            field: 'discount_code',
+          });
+        if (this.discountArticles.length) {
+          let stock_exit_lines = this.stock_exit_lines.map((sel) => {
+            const articleDiscount = this.discountArticles.find(
+              (da) => da.article_id === sel.article_id
+            );
+            if (articleDiscount !== undefined)
+              return {
+                ...sel,
+                discount_id: articleDiscount.discount_id,
+              };
+            else return sel;
+          });
+          this.$store.commit(
+            'cashier_session/SET_CURRENT_SALE_REQUEST_ARTICLE_LINES',
+            stock_exit_lines
+          );
+        }
+        this.$router.back();
+      }
+    },
   },
 };
 </script>

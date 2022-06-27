@@ -1,5 +1,6 @@
 import cashierService from '../../../services/sales/CashierService';
 import { sumBy } from 'lodash';
+import SaleService from '/@/services/sales/SaleService.js';
 
 const state = {
   cashier_sessions: null,
@@ -40,14 +41,16 @@ const getters = {
   getCurrentSaleSupAmount: (state, getters) => {
     return sumBy(getters.stock_exit_lines, 'sup_price');
   },
-  getCurrentSaleDiscountAmount: () => {
-    return 0;
+  getCurrentSaleDiscountAmount: (state, getters) => {
+    return getters.currentSaleRequest.discount ?? 0;
   },
   getCurrentSaleTaxAmount: () => {
     return 0;
   },
   getCurrentSaleTotalAmount: (state, getters) => {
-    return getters.getCurrentSaleSupAmount;
+    return (
+      getters.getCurrentSaleSupAmount - getters.currentSaleRequest.discount
+    );
   },
   getCurrentSaleCashOutAmount: (state, getters) => {
     if (getters.currentSaleRequest.cashin) {
@@ -86,13 +89,33 @@ const actions = {
       });
   },
 
-  processToCurrentSaleRequest({ getters }) {
-    console.log({
+  processToCurrentSaleRequest({ commit, getters }) {
+    const payload = {
       ...getters.currentSaleRequest,
       cashier_session_id: getters.currentSession.id,
       cashier_id: getters.currentSession.cashier_id,
       cashout: getters.getCurrentSaleCashOutAmount,
-    });
+      stock_exit_lines: [
+        ...getters.currentSaleRequest.stock_exit_lines.map((sel) => {
+          let obj = { ...sel };
+          delete obj.label;
+          delete obj.image;
+          delete obj.stock;
+          delete obj.barcode;
+          return obj;
+        }),
+      ],
+    };
+    return SaleService.addSale(payload)
+      .then(({ data }) => {
+        commit('ADD_SALE_REQUESTS', data);
+        console.log(payload);
+        return data;
+      })
+      .catch((err) => {
+        if (err.response) return Promise.reject(err.response.data);
+        else return Promise.reject(err);
+      });
   },
 
   saveCurrentSaleInBackground({ getters, commit }) {
@@ -143,6 +166,13 @@ const mutations = {
     delete saleRequest.amount;
     delete saleRequest.background_at;
     state.currentSaleRequest = saleRequest;
+  },
+  RESET_CURRENT_SALE_REQUEST(state) {
+    state.currentSaleRequest.stock_exit_lines = [];
+    state.currentSaleRequest.cashin = null;
+    state.currentSaleRequest.customer_id = null;
+    state.currentSaleRequest.discount = null;
+    state.currentSaleRequest.discount_id = null;
   },
   SET_CURRENT_SALE_REQUEST_FIELD(state, { field, value }) {
     state.currentSaleRequest[field] = value;
