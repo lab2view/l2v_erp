@@ -1,11 +1,13 @@
 import cashierService from '../../../services/sales/CashierService';
 import { sumBy } from 'lodash';
+import SaleService from '/@/services/sales/SaleService.js';
 
 const state = {
   cashier_sessions: null,
   current_session: null,
   localSales: null,
-  saleRequests: null,
+  current_session_sales: [],
+  saleRequests: [],
   price_type_id: null,
   currentSaleRequest: {
     sale_type_id: null,
@@ -34,19 +36,22 @@ const getters = {
   currentSaleRequest: (state) => state.currentSaleRequest,
   stock_exit_lines: (state) => state.currentSaleRequest.stock_exit_lines,
   isCurrentSaleHaveArticle: (state, getters) => getters.stock_exit_lines.length,
+  saleRequests: (state) => state.saleRequests,
   getCurrentSaleArticleCount: (state, getters) =>
     getters.stock_exit_lines?.length,
   getCurrentSaleSupAmount: (state, getters) => {
     return sumBy(getters.stock_exit_lines, 'sup_price');
   },
-  getCurrentSaleDiscountAmount: () => {
-    return 0;
+  getCurrentSaleDiscountAmount: (state, getters) => {
+    return getters.currentSaleRequest.discount ?? 0;
   },
   getCurrentSaleTaxAmount: () => {
     return 0;
   },
   getCurrentSaleTotalAmount: (state, getters) => {
-    return getters.getCurrentSaleSupAmount;
+    return (
+      getters.getCurrentSaleSupAmount - getters.currentSaleRequest.discount
+    );
   },
   getCurrentSaleCashOutAmount: (state, getters) => {
     if (getters.currentSaleRequest.cashin) {
@@ -85,13 +90,42 @@ const actions = {
       });
   },
 
-  processToCurrentSaleRequest({ getters }) {
-    console.log({
+  processToCurrentSaleRequest({ commit, getters }) {
+    const payload = {
       ...getters.currentSaleRequest,
       cashier_session_id: getters.currentSession.id,
       cashier_id: getters.currentSession.cashier_id,
       cashout: getters.getCurrentSaleCashOutAmount,
+      stock_exit_lines: [
+        ...getters.currentSaleRequest.stock_exit_lines.map((sel) => {
+          let obj = { ...sel };
+          delete obj.label;
+          delete obj.image;
+          delete obj.stock;
+          delete obj.barcode;
+          return obj;
+        }),
+      ],
+    };
+    return SaleService.addSale(payload)
+      .then(({ data }) => {
+        commit('ADD_CURRENT_SESSION_SALE', data);
+        return data;
+      })
+      .catch((err) => {
+        if (err.response) return Promise.reject(err.response.data);
+        else return Promise.reject(err);
+      });
+  },
+
+  saveCurrentSaleInBackground({ getters, commit }) {
+    commit('ADD_SALE_REQUESTS', {
+      ...getters.currentSaleRequest,
+      background_at: new Date(),
+      amount: getters.getCurrentSaleTotalAmount,
     });
+    commit('RESET_CURRENT_SALE_REQUEST_FIELDS');
+    return true;
   },
 };
 
@@ -122,6 +156,28 @@ const mutations = {
     );
   },
 
+  ADD_CURRENT_SESSION_SALE(state, sale) {
+    state.current_session_sales.push(sale);
+  },
+
+  ADD_SALE_REQUESTS(state, saleRequest) {
+    state.saleRequests.push(saleRequest);
+  },
+  REMOVE_SALE_REQUEST(state, index) {
+    state.saleRequests = state.saleRequests.filter((sr, ind) => ind !== index);
+  },
+  RESTORE_CURRENT_SALE_REQUEST(state, saleRequest) {
+    delete saleRequest.amount;
+    delete saleRequest.background_at;
+    state.currentSaleRequest = saleRequest;
+  },
+  RESET_CURRENT_SALE_REQUEST(state) {
+    state.currentSaleRequest.stock_exit_lines = [];
+    state.currentSaleRequest.cashin = null;
+    state.currentSaleRequest.customer_id = null;
+    state.currentSaleRequest.discount = null;
+    state.currentSaleRequest.discount_id = null;
+  },
   SET_CURRENT_SALE_REQUEST_FIELD(state, { field, value }) {
     state.currentSaleRequest[field] = value;
   },
@@ -131,7 +187,15 @@ const mutations = {
   SET_CURRENT_SALE_REQUEST_ARTICLE_LINES(state, articleLines) {
     state.currentSaleRequest.stock_exit_lines = articleLines;
   },
-
+  RESET_CURRENT_SALE_REQUEST_FIELDS(state) {
+    state.currentSaleRequest.stock_exit_lines = [];
+    state.currentSaleRequest.customer_id = null;
+    state.currentSaleRequest.cashin = null;
+    state.currentSaleRequest.cashout = null;
+    state.currentSaleRequest.discount_id = null;
+    state.currentSaleRequest.discount = null;
+    state.currentSaleRequest.discount_code = null;
+  },
   ADD_ARTICLE_TO_CURRENT_SALE_REQUEST(state, articleLine) {
     let alIndex = state.currentSaleRequest.stock_exit_lines.findIndex(
       (al) => al.article_id === articleLine.article_id

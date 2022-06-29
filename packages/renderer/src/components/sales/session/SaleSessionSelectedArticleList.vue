@@ -38,7 +38,9 @@
       class="btn btn-outline-secondary"
       icon="fa fa-trash"
       :disabled="!isCurrentSaleHaveArticle"
-      @click.prevent="resetArticles"
+      @click.prevent="
+        $store.commit('cashier_session/RESET_CURRENT_SALE_REQUEST')
+      "
     />
   </div>
 </template>
@@ -55,18 +57,6 @@ export default {
       'isCurrentSaleHaveArticle',
       'getCurrentSaleArticleCount',
     ]),
-  },
-  methods: {
-    resetArticles() {
-      this.$store.commit(
-        'cashier_session/SET_CURRENT_SALE_REQUEST_ARTICLE_LINES',
-        []
-      );
-      this.$store.commit('cashier_session/SET_CURRENT_SALE_REQUEST_FIELD', {
-        value: null,
-        field: 'cashin',
-      });
-    },
   },
 };
 </script>
