@@ -14,6 +14,7 @@ export default {
     settingTitle: 'Ajouter les modules a la client',
     listTitle: 'Liste des clients',
     formCreateTitle: 'Ajouter un client',
+    formSaveTitle: 'Enregistrer un nouveau client',
     formUpdateTitle: 'Modifier un client',
     store: "L'enregistrement du client a ete effectue avec succes",
     update: 'La modification du client a ete effectuee avec succes',

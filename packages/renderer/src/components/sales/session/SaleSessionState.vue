@@ -8,7 +8,7 @@
               <BaseFieldGroup
                 @btn-click="
                   $router.push({
-                    name: 'product.form.setting.tax.form.tax',
+                    name: 'sales.session.customer.form',
                   })
                 "
               >
@@ -75,7 +75,7 @@
                   <tr>
                     <td class="font-primary" style="width: 20%">
                       <h6 class="mb-0">
-                        {{ $t('common.attributes.reduction') }} :
+                        {{ $t('common.attributes.discount') }} :
                       </h6>
                     </td>
                     <td class="font-primary" style="width: 30%">
@@ -145,11 +145,18 @@
         <div class="col-auto">
           <div class="row">
             <BaseButton
-              :disabled="!isCurrentSaleHaveArticle"
               type="button"
-              :text="$t('common.send_current_sale_in_background')"
+              :text="
+                isCurrentSaleHaveArticle
+                  ? $t('common.send_current_sale_in_background')
+                  : $t('common.show_background_sale')
+              "
               class="btn btn-outline-primary btn-block mb-3"
-              :class="{ 'font-primary': !isCurrentSaleHaveArticle }"
+              @click.prevent="
+                isCurrentSaleHaveArticle
+                  ? saveCurrentSaleInBackground()
+                  : $router.push({ name: 'sales.session.request' })
+              "
             />
           </div>
           <div class="row">
@@ -159,12 +166,14 @@
               :text="$t('common.make_an_discount')"
               class="btn btn-outline-primary btn-block mb-3"
               :class="{ 'font-primary': !isCurrentSaleHaveArticle }"
+              @click.prevent="$router.push({ name: 'sales.session.discount' })"
             />
           </div>
           <div class="row">
             <BaseButton
               :text="$t('common.process_sale').toUpperCase()"
               class="btn btn-primary-light btn-lg"
+              :loading="loading"
             />
           </div>
         </div>
@@ -181,6 +190,8 @@ import BaseCheckboxGroup from '/@/components/common/BaseCheckboxGroup.vue';
 import BaseSelect from '/@/components/common/BaseSelect.vue';
 import { cashPaymentMethodCode } from '/@/helpers/codes.js';
 import BaseFieldGroup from '/@/components/common/BaseFieldGroup.vue';
+import { last } from 'lodash';
+import store from '/@/store/index.js';
 export default {
   components: {
     BaseFieldGroup,
@@ -273,13 +284,42 @@ export default {
       },
     },
   },
+  watch: {
+    getCustomerForSelect2(value) {
+      const customer = last(value);
+      if (customer) {
+        this.$store.commit('cashier_session/SET_CURRENT_SALE_REQUEST_FIELD', {
+          value: customer.id,
+          field: 'customer_id',
+        });
+      }
+    },
+  },
+  created() {
+    store.dispatch('customer/getCustomersList', {
+      page: 1,
+      field: {},
+    });
+  },
   methods: {
     handleSaleProcessButton() {
       this.loading = true;
       this.errors = [];
-
       this.$store
         .dispatch('cashier_session/processToCurrentSaleRequest')
+        .then((data) => {
+          console.log(data);
+          //todo add printer code on data
+          this.$store.commit('cashier_session/RESET_CURRENT_SALE_REQUEST');
+        })
+        .catch((error) => (this.errors = error.response?.data?.errors))
+        .finally(() => (this.loading = false));
+    },
+    saveCurrentSaleInBackground() {
+      this.loading = true;
+      this.errors = [];
+      this.$store
+        .dispatch('cashier_session/saveCurrentSaleInBackground')
         .catch((error) => (this.errors = error.response?.data?.errors))
         .finally(() => (this.loading = false));
     },
