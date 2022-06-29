@@ -20,12 +20,4 @@ export default {
   deleteSale(id) {
     return axios.delete(`/sales/${id}`);
   },
-
-  restoreSale(id) {
-    return axios.post(`/sales/restore/${id}`);
-  },
-
-  forceDeleteSale(id) {
-    return axios.delete(`/sales/delete/${id}`);
-  },
 };

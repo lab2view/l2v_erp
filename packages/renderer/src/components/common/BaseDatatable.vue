@@ -1,6 +1,6 @@
 <template>
   <BaseEmptyModelList
-    v-if="total < 1"
+    v-if="isEmpty"
     :label="'Aucun Enregistrement'"
     :with-action="hasAction"
     @click="executeFetchAction"
