@@ -80,7 +80,7 @@ export default {
       if (JSPrintManager.websocket_status === WSStatus.Open) {
         JSPrintManager.getPrinters()
           .then(function (myPrinters) {
-            printer = myPrinters[1];
+            printer = myPrinters[2];
             console.log(myPrinters, printer);
             var cpj = new ClientPrintJob();
             cpj.clientPrinter = new InstalledPrinter(printer);

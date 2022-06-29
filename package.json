@@ -58,7 +58,7 @@
     "axios": "^0.24.0",
     "babel-eslint": "^10.1.0",
     "electron-updater": "4.6.5",
-    "jsprintmanager": "^4.0.7",
+    "jsprintmanager": "^5.0.0",
     "laravel-echo": "^1.11.4",
     "localforage": "^1.10.0",
     "lodash": "^4.17.21",
