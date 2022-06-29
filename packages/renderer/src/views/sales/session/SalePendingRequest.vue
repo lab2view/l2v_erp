@@ -48,9 +48,9 @@
 import BaseVerticalPanel from '/@/components/common/BaseVerticalPanel.vue';
 import { mapGetters } from 'vuex';
 import FilterMixin from '/@/mixins/FilterMixin.js';
-import BaseButton from '/@/components/common/BaseButton.vue';
+
 export default {
-  components: { BaseButton, BaseVerticalPanel },
+  components: { BaseVerticalPanel },
   mixins: [FilterMixin],
   computed: {
     ...mapGetters('cashier_session', ['saleRequests']),

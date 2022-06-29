@@ -84,7 +84,8 @@ export default {
             console.log(myPrinters, printer);
             var cpj = new ClientPrintJob();
             cpj.clientPrinter = new InstalledPrinter(printer);
-            // cpj.printerCommands = 'RAW PRINTER';
+            // cpj.printerCommands =
+            //   'RAW PRINTER\n\n RAW PRINTER\n\n RAW PRINTER\n\n RAW PRINTER\n\n RAW PRINTER\n\n RAW PRINTER\n\n';
             // cpj.sendToClient();
           })
           .catch((e) => console.log(e));
