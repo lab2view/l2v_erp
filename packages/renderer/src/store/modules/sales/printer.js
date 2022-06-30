@@ -4,6 +4,7 @@ import {
   JSPrintManager,
   WSStatus,
 } from 'jsprintmanager';
+import { getPrinterRawText } from '/@/helpers/utils.js';
 
 const state = {
   default_printer: null,
@@ -15,7 +16,7 @@ const state = {
 // getters
 const getters = {
   getDefaultPrinter: (state) => state.default_printer,
-  printAfterSale: (state) => state.print_after_sale,
+  printAfterSale: (state) => state.default_printer && state.print_after_sale,
   getPrinters: (state) => state.printers,
   available_jspm: (state) => state.jspm_state === WSStatus.Open,
 };
@@ -35,6 +36,19 @@ const actions = {
     return JSPrintManager.getPrinters().then((printers) => {
       commit('SET_PRINTERS', printers);
     });
+  },
+
+  printSaleBill({ getters, rootGetters }, saleOrder) {
+    let cpj = new ClientPrintJob();
+    cpj.clientPrinter = new InstalledPrinter(getters.getDefaultPrinter);
+
+    cpj.printerCommands = getPrinterRawText({
+      ...saleOrder,
+      enterprise:
+        saleOrder.enterprise ?? rootGetters['workspace/currentWorkspace'],
+    });
+    //Send print job to printer!
+    cpj.sendToClient().then((r) => console.log(r));
   },
 };
 

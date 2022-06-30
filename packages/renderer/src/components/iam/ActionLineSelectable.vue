@@ -11,8 +11,8 @@
           :for="`selected-${model.id}`"
           class="mt-0 pt-0"
           style="padding-left: 60px"
-          >
-          {{ `${action.label}` }}
+        >
+          {{ `${model?.label}` }}
         </label>
       </div>
     </td>
