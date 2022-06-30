@@ -48,6 +48,8 @@ import { getMutationPathName } from '/@/helpers/utils';
 import { actionCode } from '/@/helpers/codes';
 import scanner from '/@/store/modules/scanner';
 import cashier_session from '/@/store/modules/sales/cashier_session';
+import sale from '/@/store/modules/sales/sale';
+import printer from '/@/store/modules/sales/printer';
 
 export default createStore({
   state: {
@@ -171,6 +173,8 @@ export default createStore({
     user,
     scanner,
     cashier_session,
+    sale,
+    printer,
   },
   strict: process.env.NODE_ENV !== 'production',
   plugins: [...modulePlugins],
