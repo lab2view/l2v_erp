@@ -1,9 +1,4 @@
-import {
-  ClientPrintJob,
-  InstalledPrinter,
-  JSPrintManager,
-  WSStatus,
-} from 'jsprintmanager';
+import { JSPrintManager, WSStatus } from 'jsprintmanager';
 
 const state = {
   default_printer: null,
