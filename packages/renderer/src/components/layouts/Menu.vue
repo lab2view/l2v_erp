@@ -1,6 +1,9 @@
 <template>
   <header class="main-nav" :class="sliderMenuClass">
-    <div class="sidebar-user text-center">
+    <div
+      class="sidebar-user text-center"
+      :class="isCashierSessionRoute ? 'mb-0 border-0' : ''"
+    >
       <router-link class="setting-primary" :to="{ name: 'iam.profile' }">
         <svg
           class="feather feather-settings"
@@ -63,6 +66,7 @@
         </div>
       </div>
     </nav>
+    <CashierSessionSaleHistory v-else />
   </header>
 </template>
 
@@ -80,9 +84,10 @@ import {
 } from '/@/helpers/menus';
 import { mapGetters } from 'vuex';
 import SaleSessionMixin from '/@/mixins/SaleSessionMixin';
+import CashierSessionSaleHistory from '/@/views/sales/session/CashierSessionSaleHistory.vue';
 
 export default defineComponent({
-  components: { MenuModule },
+  components: { CashierSessionSaleHistory, MenuModule },
   mixins: [SaleSessionMixin],
   computed: {
     ...mapGetters('auth', ['currentUserEmail', 'currentUserRole']),

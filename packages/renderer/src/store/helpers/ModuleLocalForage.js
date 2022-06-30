@@ -303,6 +303,36 @@ const CashierSession = new VuexPersistence({
   }),
 });
 
+const Sale = new VuexPersistence({
+  key: 'sale',
+  restoreState: (key, storage) => {
+    return storage.getItem(key).then((data) => JSON.parse(data));
+  },
+  saveState: (key, state, storage) => {
+    return storage.setItem(key, JSON.stringify(state));
+  },
+  storage: localStore,
+  asyncStorage: true,
+  reducer: (state) => ({
+    sale: state.sale,
+  }),
+});
+
+const Printer = new VuexPersistence({
+  key: 'printer',
+  restoreState: (key, storage) => {
+    return storage.getItem(key).then((data) => JSON.parse(data));
+  },
+  saveState: (key, state, storage) => {
+    return storage.setItem(key, JSON.stringify(state));
+  },
+  storage: localStore,
+  asyncStorage: true,
+  reducer: (state) => ({
+    printer: state.printer,
+  }),
+});
+
 export default [
   Auth.plugin,
   Product.plugin,
@@ -346,4 +376,6 @@ export default [
   Role.plugin,
   User.plugin,
   CashierSession.plugin,
+  Sale.plugin,
+  Printer.plugin,
 ];
