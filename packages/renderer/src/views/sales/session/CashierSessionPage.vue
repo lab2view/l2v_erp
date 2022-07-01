@@ -21,12 +21,6 @@ import SaleSessionState from '/@/components/sales/session/SaleSessionState.vue';
 import store from '/@/store/index.js';
 import { moduleCode } from '/@/helpers/codes.js';
 import ModuleSyncMixin from '/@/mixins/ModuleSyncMixin.js';
-import {
-  JSPrintManager,
-  WSStatus,
-  ClientPrintJob,
-  InstalledPrinter,
-} from 'jsprintmanager';
 
 export default {
   components: {
