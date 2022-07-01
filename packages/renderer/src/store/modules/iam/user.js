@@ -39,23 +39,25 @@ const actions = {
       });
   },
 
-  addUserPrivileges({ getters, commit }, id) {
-    const user = getters.users.find((p) => p.id.toString() === id);
-    if (user !== undefined) {
-      commit('SET_CURRENT_USER', user);
-      return user;
-    } else
-      return userService.getUser(id).then(({ data }) => {
-        commit('SET_CURRENT_USER', data);
-        return data;
+  addUserPrivileges({ getters, commit }, actions) {
+    return userService
+      .addUserPrivileges(actions, getters.user.id)
+      .then(({ data }) => {
+        commit('ADD_USER_PRIVILEGES', data.actions);
       });
   },
 
-  removeUserPrivileges({ commit }, userPrivilegeField) {
-    return userService.addUserPrivilege(userPrivilegeField).then(({ data }) => {
-      commit('UPDATE_USER_PRIVILEGE', data);
-      return data;
-    });
+  removeUserPrivileges({ getters, commit }, actions) {
+    return userService
+      .removeUserPrivileges(
+        {
+          actions_ids: [...actions],
+        },
+        getters.user.id
+      )
+      .then(() => {
+        commit('REMOVE_USER_PRIVILEGES', actions);
+      });
   },
 
   addUser({ commit }, userField) {
@@ -67,12 +69,10 @@ const actions = {
   },
 
   updateUser({ commit }, userField) {
-    return userService
-      .updateUser(userField, userField.id)
-      .then(({ data }) => {
-        commit('UPDATE_USER', data);
-        return data;
-      });
+    return userService.updateUser(userField, userField.id).then(({ data }) => {
+      commit('UPDATE_USER', data);
+      return data;
+    });
   },
 
   deleteUser({ commit }, userId) {
@@ -108,25 +108,35 @@ const mutations = {
     state.user = JSON.stringify(user);
     state.users = JSON.stringify(users);
   },
-  UPDATE_USER_PRIVILEGE(state, userField) {
-    let users = JSON.parse(state.users);
-    const index = users.findIndex((p) => p.id === userField.user_id);
-    let user = {
-      ...users.find((p) => p.id === userField.user_id),
-      ...userField
-    };
-    if (index !== -1) {
-      users.splice(index, 1, user);
-    }
-    state.user = JSON.stringify(user);
-    state.users = JSON.stringify(users);
-  },
   DELETE_USER(state, userId) {
     state.users = JSON.stringify(
-      JSON.parse(state.users).filter(
-        (user) => user.id !== userId
-      )
+      JSON.parse(state.users).filter((user) => user.id !== userId)
     );
+  },
+
+  ADD_USER_PRIVILEGES(state, userPrivileges) {
+    let users = JSON.parse(state.users);
+    let user = JSON.parse(state.user);
+    let index = users.findIndex((u) => u.id === user.id);
+    if (index !== -1) {
+      user.privileges = [...user.privileges, ...userPrivileges];
+      users.splice(index, 1, user);
+      state.user = JSON.stringify(user);
+      state.users = JSON.stringify(users);
+    }
+  },
+  REMOVE_USER_PRIVILEGES(state, actions) {
+    let users = JSON.parse(state.users);
+    let user = JSON.parse(state.user);
+    let index = users.findIndex((u) => u.id === user.id);
+    if (index !== -1) {
+      user.privileges = user.privileges.filter((p) => {
+        return actions.find((act) => act === p.id) === undefined;
+      });
+      users.splice(index, 1, user);
+      state.user = JSON.stringify(user);
+      state.users = JSON.stringify(users);
+    }
   },
 };
 
