@@ -41,7 +41,7 @@
                 <div class="job-filter">
                   <div class="mb-3">
                     <BaseSelect
-                      v-model="articleFilter.product_family_id"
+                      v-model.number="articleFilter.product_family_id"
                       :label="$t('common.fields.product_family_filter')"
                       :options="productFamilies"
                       key-label="label"
@@ -52,7 +52,7 @@
                 <div class="job-filter">
                   <div class="mb-3">
                     <BaseSelect
-                      v-model="articleFilter.product_type_id"
+                      v-model.number="articleFilter.product_type_id"
                       :label="$t('common.fields.product_type_filter')"
                       :options="selectableProductTypes"
                       key-label="label"
@@ -63,7 +63,7 @@
                 <div class="job-filter">
                   <div class="mb-3">
                     <BaseSelect
-                      v-model="articleFilter.product_id"
+                      v-model.number="articleFilter.product_id"
                       :label="$t('common.fields.product_filter')"
                       :options="selectableProducts"
                       key-label="name"
@@ -211,16 +211,17 @@ export default {
     ...mapGetters('product_type', ['productTypes']),
     ...mapGetters('product', ['products']),
     selectableProductTypes() {
-      const types = this.product_family_id
+      const types = this.articleFilter.product_family_id
         ? this.productTypes.filter(
-            (pt) => pt.product_family_id.toString() === this.product_family_id
+            (pt) =>
+              pt.product_family_id === this.articleFilter.product_family_id
           )
         : this.productTypes;
 
-      return [{ label: this.$t('common.all'), id: null }, ...types];
+      return [{ label: this.$t('common.all'), id: '' }, ...types];
     },
     selectableProducts() {
-      return [{ name: this.$t('common.all'), id: null }, ...this.products];
+      return [{ name: this.$t('common.all'), id: '' }, ...this.products];
     },
     selectableArticles() {
       return this.searchArticleByCriteria(this.articleFilter).filter(

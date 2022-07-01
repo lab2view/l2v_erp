@@ -71,26 +71,10 @@ export default {
   },
   created() {
     this.initEchoSync(moduleCode.products, 'product');
-
-    // JSPrintManager.auto_reconnect = true;
-    JSPrintManager.start();
-    // window.print();
-    JSPrintManager.WS.onStatusChanged = function () {
-      let printer = null;
-      if (JSPrintManager.websocket_status === WSStatus.Open) {
-        JSPrintManager.getPrinters()
-          .then(function (myPrinters) {
-            printer = myPrinters[2];
-            console.log(myPrinters, printer);
-            var cpj = new ClientPrintJob();
-            cpj.clientPrinter = new InstalledPrinter(printer);
-            // cpj.printerCommands =
-            //   'RAW PRINTER\n\n RAW PRINTER\n\n RAW PRINTER\n\n RAW PRINTER\n\n RAW PRINTER\n\n RAW PRINTER\n\n';
-            // cpj.sendToClient();
-          })
-          .catch((e) => console.log(e));
-      }
-    };
+    this.$store.dispatch('sale/getSalesList', { page: 1, field: {} });
+    this.$store.dispatch('printer/initPrint').then(() => {
+      this.$store.dispatch('printer/getInstalledPrinters');
+    });
   },
 };
 </script>

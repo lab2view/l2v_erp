@@ -68,6 +68,9 @@ export default {
   apply: 'Appliquer',
   discount_code: 'Code de reduction',
   select_discount: 'Selectionner une reduction',
+  printer_config: "Configuration de l'imprimante",
+  print_after_sale: 'Vendre & Imprimer',
+  action_not_allow: "L'action n'est pas autorise",
 
   fields: {
     modules: 'Modules',
@@ -92,6 +95,7 @@ export default {
     sale_type: 'Type de vente',
     add_customer: 'Ajouter un client',
     article: 'article | articles',
+    default_printer: 'Imprimante par default',
   },
 
   states: {
@@ -217,6 +221,8 @@ export default {
     customer_id: 'Client',
     total_article: 'TOTAL ARTICLES',
     change_price: 'RESTE',
+    trade_register: 'Registre de commerce',
+    matriculation: "Numero d'immatriculation",
   },
 
   gender: {

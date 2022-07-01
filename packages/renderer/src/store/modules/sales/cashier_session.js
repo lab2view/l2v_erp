@@ -6,7 +6,6 @@ const state = {
   cashier_sessions: null,
   current_session: null,
   localSales: null,
-  current_session_sales: [],
   saleRequests: [],
   price_type_id: null,
   currentSaleRequest: {
@@ -96,6 +95,8 @@ const actions = {
       cashier_session_id: getters.currentSession.id,
       cashier_id: getters.currentSession.cashier_id,
       cashout: getters.getCurrentSaleCashOutAmount,
+      cashin:
+        getters.currentSaleRequest.cashin ?? getters.getCurrentSaleTotalAmount,
       stock_exit_lines: [
         ...getters.currentSaleRequest.stock_exit_lines.map((sel) => {
           let obj = { ...sel };
@@ -109,7 +110,7 @@ const actions = {
     };
     return SaleService.addSale(payload)
       .then(({ data }) => {
-        commit('ADD_CURRENT_SESSION_SALE', data);
+        commit('sale/ADD_SALE', data, { root: true });
         return data;
       })
       .catch((err) => {
@@ -154,10 +155,6 @@ const mutations = {
     state.cashier_sessions = state.cashier_sessions.filter(
       (p) => p.id !== cashier_session_id
     );
-  },
-
-  ADD_CURRENT_SESSION_SALE(state, sale) {
-    state.current_session_sales.push(sale);
   },
 
   ADD_SALE_REQUESTS(state, saleRequest) {
