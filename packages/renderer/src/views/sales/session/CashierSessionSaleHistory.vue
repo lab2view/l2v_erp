@@ -33,14 +33,22 @@
         </li>
         <li class="sidebar-main-title">
           <div>
-            <h6>General</h6>
+            <h6>Liste des ventes</h6>
           </div>
         </li>
-        <li class="dropdown">
-          <a href="#" class="nav-link menu-title link-nav">
-            <i class="fa fa-list" />
-            <span>Tableau de bord</span></a
+        <li
+          v-for="(sale, index) in sales"
+          :key="`sale-history-${sale.id}`"
+          class="dropdown"
+        >
+          <a
+            href="#"
+            class="nav-link menu-title link-nav"
+            @click.prevent="printSaleTicket(sale)"
           >
+            <i class="m-r-10 font-secondary f-20">{{ `#${index + 1}` }}</i>
+            <span>{{ sale.reference }}</span>
+          </a>
         </li>
       </ul>
     </div>
@@ -56,7 +64,7 @@ export default {
   components: { BaseSwitchInput, BaseSelect },
   computed: {
     ...mapGetters('cashier_session', ['currentSession']),
-    ...mapGetters('sale', ['getSaleBySessionId']),
+    ...mapGetters('sale', ['getSaleByCashierId']),
     ...mapGetters('printer', [
       'getPrinters',
       'getDefaultPrinter',
@@ -79,7 +87,12 @@ export default {
       },
     },
     sales() {
-      return this.getSaleBySessionId(this.currentSession.id);
+      return this.getSaleByCashierId(this.currentSession.cashier_id);
+    },
+  },
+  methods: {
+    printSaleTicket(saleOrder) {
+      this.$store.dispatch('printer/printSaleBill', saleOrder);
     },
   },
 };

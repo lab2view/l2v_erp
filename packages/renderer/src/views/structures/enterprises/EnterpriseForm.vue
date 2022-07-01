@@ -64,6 +64,28 @@
             </div>
           </div>
         </div>
+        <div class="mb-3">
+          <div class="row align-items-center">
+            <div class="col-md">
+              <BaseInput
+                v-model="enterpriseForm.trade_register"
+                :errors="errors.trade_register"
+                :label="$t('common.attributes.trade_register')"
+                placeholder="E.g. RC/..."
+                type="text"
+              />
+            </div>
+            <div class="col-md">
+              <BaseInput
+                v-model="enterpriseForm.matriculation"
+                :errors="errors.matriculation"
+                :label="$t('common.attributes.matriculation')"
+                placeholder="E.g. NIU..."
+                type="text"
+              />
+            </div>
+          </div>
+        </div>
         <BaseTextArea
           v-model="enterpriseForm.description"
           :errors="errors.description"
@@ -144,6 +166,8 @@ export default {
         domain: null,
         database: null,
         website: null,
+        trade_register: null,
+        matriculation: null,
       },
     };
   },

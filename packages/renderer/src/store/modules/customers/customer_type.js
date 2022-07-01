@@ -1,6 +1,6 @@
 import customerTypeService from '../../../services/customers/CustomerTypeService';
 import { notify } from '/@/helpers/notify';
-import i18n from '../../../i18n';
+import i18n from '/@/i18n';
 
 const state = {
   customerTypes: null,

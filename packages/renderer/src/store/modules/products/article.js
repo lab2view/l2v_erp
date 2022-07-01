@@ -25,8 +25,8 @@ const getters = {
         let result = true;
         if (getters.article?.id) result = a.id !== getters.article.id;
         if (product_type_id)
-          result = a.product.product_type_id.toString() === product_type_id;
-        if (product_id) result = a.product_id.toString() === product_id;
+          result = a.product.product_type_id === product_type_id;
+        if (product_id) result = a.product_id === product_id;
         if (keyword)
           result = RegExp(`${keyword.toString().toLowerCase()}*`).test(
             a.name.toString().toLowerCase()

@@ -11,8 +11,8 @@ const state = {
 const getters = {
   sales: (state) => state.sales,
   getSaleById: (state) => (id) => state.sales.find((s) => s.id === id) ?? null,
-  getSaleBySessionId: (state) => (id) =>
-    state.sales.find((s) => s.cashier_session_id === id),
+  getSaleByCashierId: (state) => (id) =>
+    state.sales.filter((s) => s.cashier_session.cashier_id === id),
 };
 
 // privileges
@@ -22,6 +22,7 @@ const actions = {
       return getters.sales;
     }
     return saleService.getSalesList(page, field).then(({ data }) => {
+      console.log(data);
       commit('SET_SALES', data);
       return data;
     });

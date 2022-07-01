@@ -1,6 +1,7 @@
 import AuthService from '../../services/AuthService';
 import { roleAdminCode, roleCashierCode } from '/@/helpers/codes.js';
 import userService from '/@/services/iam/IamUserService';
+import { removeStorage } from '/@/helpers/utils.js';
 
 const state = {
   currentUser: null,
@@ -51,6 +52,7 @@ const actions = {
   },
 
   logout({ commit }) {
+    removeStorage();
     commit('SET_CURRENT_USER', null);
   },
 };

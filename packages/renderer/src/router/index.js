@@ -16,6 +16,7 @@ import stockEntryGuard from '/@/guards/stockEntryGuard';
 import stockExitGuard from '/@/guards/stockExitGuard.js';
 import cashierSessionGuard from '/@/guards/cashierSessionGuard.js';
 import redirectCashierSessionGuard from '/@/guards/redirectCashierSessionGuard.js';
+import userGuard from '/@/guards/userGuard.js';
 
 const routes = [
   {
@@ -108,6 +109,7 @@ router.beforeEach(async (to, from, next) => {
   if (to.meta.redirectAuth) redirectAuthGuard(to, from, next);
   if (to.meta.requireUnlock) unlockGuard(to, from, next);
   if (to.meta.requireProduct) productGuard(to, from, next);
+  if (to.meta.requireUser) userGuard(to, from, next);
   if (to.meta.requireArticleGroup) productArticleGroupGuard(to, from, next);
   if (to.meta.requireCustomerGroup) customerGroupGuard(to, from, next);
   if (to.meta.requireDiscount) discountGuard(to, from, next);

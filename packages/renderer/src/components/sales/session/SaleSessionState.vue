@@ -220,6 +220,7 @@ export default {
     ...mapGetters('payment_method', ['paymentMethods']),
     ...mapGetters('sale_type', ['saleTypes']),
     ...mapGetters('customer', ['getCustomerForSelect2']),
+    ...mapGetters('printer', ['printAfterSale']),
     isCashPaymentMethod() {
       const paymentMethod = this.paymentMethods.find(
         (pm) => pm.id === this.paymentMethodId
@@ -308,9 +309,9 @@ export default {
       this.$store
         .dispatch('cashier_session/processToCurrentSaleRequest')
         .then((data) => {
-          console.log(data);
-          //todo add printer code on data
           this.$store.commit('cashier_session/RESET_CURRENT_SALE_REQUEST');
+          if (this.printAfterSale)
+            this.$store.dispatch('printer/printSaleBill', data);
         })
         .catch((error) => (this.errors = error.response?.data?.errors))
         .finally(() => (this.loading = false));
