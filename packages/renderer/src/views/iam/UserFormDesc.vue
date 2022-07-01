@@ -32,6 +32,16 @@
               :errors="errors.country_id"
             />
           </div>
+          <div class="form-group col-md">
+            <BaseSelect
+              v-model.number="userForm.enterprise_id"
+              :label="$t('common.attributes.structure')"
+              :options="enterprises"
+              key-label="name"
+              key-value="id"
+              :errors="errors.enterprise_id"
+            />
+          </div>
         </div>
         <div class="row align-items-center mb-3">
           <div class="form-group col-md">
@@ -196,6 +206,7 @@ export default {
       formLoading: false,
       userForm: {
         id: null,
+        enterprise_id: null,
         role_id: null,
         country_id: null,
         localization_id: null,
@@ -212,6 +223,7 @@ export default {
     ...mapGetters('localization', ['localizations']),
     ...mapGetters('country', ['activeCountries']),
     ...mapGetters('role', ['roles', 'actions']),
+    ...mapGetters('enterprise', ['enterprises']),
     formTitle() {
       return this.user && this.user.id
         ? this.$t('iam.user.formUpdateTitle')
