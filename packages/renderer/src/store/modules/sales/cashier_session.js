@@ -95,6 +95,8 @@ const actions = {
       cashier_session_id: getters.currentSession.id,
       cashier_id: getters.currentSession.cashier_id,
       cashout: getters.getCurrentSaleCashOutAmount,
+      cashin:
+        getters.currentSaleRequest.cashin ?? getters.getCurrentSaleTotalAmount,
       stock_exit_lines: [
         ...getters.currentSaleRequest.stock_exit_lines.map((sel) => {
           let obj = { ...sel };

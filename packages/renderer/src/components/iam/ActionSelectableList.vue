@@ -41,7 +41,7 @@
                 <div class="job-filter">
                   <div class="mb-3">
                     <BaseSelect
-                      v-model="actionFilter.module_id"
+                      v-model.number="actionFilter.module_id"
                       :label="$t('common.fields.modules')"
                       :options="selectableModules"
                       key-label="name"
@@ -131,11 +131,13 @@ import ActionSelectableColumn from '/@/components/iam/ActionSelectableColumn.vue
 export default {
   components: { ActionSelectableColumn, BaseButton, BaseSelect },
   beforeRouteEnter(routeTo, routeFrom, next) {
-    store.dispatch('role/getActionsList', {
-      page: 1,
-      field: {},
-    }).catch((error) => console.log(error))
-    .finally(() => next());
+    store
+      .dispatch('role/getActionsList', {
+        page: 1,
+        field: {},
+      })
+      .catch((error) => console.log(error))
+      .finally(() => next());
   },
   props: {
     usedActions: {
@@ -166,7 +168,7 @@ export default {
     selectableActions() {
       return this.searchActionsByCriteria(this.actionFilter).filter(
         (a) =>
-          this.usedActions.find((ua) => ua.action_id.toString() === a.id.toString()) === undefined
+          this.usedActions.find((ua) => ua.action_id === a.id) === undefined
       );
     },
     isSelected() {
@@ -196,19 +198,7 @@ export default {
       },
     },
   },
-  watch: {
-    selectableActions() {
-      // this.selected = [];
-    },
-    selected: {
-      handler(newValue, oldValue) {
-        console.log('newValue')
-        console.log(newValue)
-        console.log('oldValue')
-        console.log(oldValue)
-      }
-    }
-  },
+
   methods: {
     submitSelectedForm() {
       if (this.selected.length > 0) {
@@ -222,11 +212,10 @@ export default {
     },
     selectAction(action, adding = true) {
       if (adding) {
-        let items = this.selected
+        let items = this.selected;
         items.push({ id: action.id });
         this.selected = items;
-      }
-      else this.selected = this.selected.filter((s) => s.id !== action.id);
+      } else this.selected = this.selected.filter((s) => s.id !== action.id);
     },
   },
 };

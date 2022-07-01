@@ -65,6 +65,7 @@ export default {
   },
   created() {
     this.initEchoSync(moduleCode.products, 'product');
+    this.$store.dispatch('sale/getSalesList', { page: 1, field: {} });
     this.$store.dispatch('printer/initPrint').then(() => {
       this.$store.dispatch('printer/getInstalledPrinters');
     });

@@ -221,6 +221,8 @@ export default {
     customer_id: 'Client',
     total_article: 'TOTAL ARTICLES',
     change_price: 'RESTE',
+    trade_register: 'Registre de commerce',
+    matriculation: "Numero d'immatriculation",
   },
 
   gender: {
