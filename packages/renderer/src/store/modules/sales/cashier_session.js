@@ -140,7 +140,7 @@ const mutations = {
       if (window?.ipcRenderer)
         window?.ipcRenderer?.send('reload', 'User open cashier session');
       else location.reload();
-    }, 500);
+    }, 2000);
   },
   ADD_CASHIER_SESSION(state, cashier_session) {
     state.cashier_sessions.push(cashier_session);
