@@ -7,7 +7,7 @@
 // }
 
 import { actionCode } from '/@/helpers/codes.js';
-import { sumBy, truncate } from 'lodash';
+import { sumBy } from 'lodash';
 // import i18n from '/@/i18n';
 import localStore from '/@/store/helpers/localStore.js';
 
