@@ -21,14 +21,13 @@
               </BaseFieldGroup>
             </div>
           </div>
-          <div class="row">
+          <div class="row align-items-end">
             <div class="col">
               <BaseCheckboxGroup
                 v-model="paymentMethodId"
                 :options="paymentMethods"
                 key-value="id"
                 key-label="label"
-                :label="`${$t('common.fields.payment_method')} ?`"
                 label-class="font-primary"
               />
             </div>

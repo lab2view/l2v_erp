@@ -52,7 +52,6 @@
                 :errors="errors.phone"
                 :label="$t('common.attributes.phone')"
                 placeholder="699.."
-                required
                 type="number"
               >
                 <template v-if="callingCode" #prefix>
