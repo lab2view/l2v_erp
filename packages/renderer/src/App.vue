@@ -13,7 +13,6 @@ import { defineComponent } from 'vue';
 import Loader from '/@/components/Loader.vue';
 
 export default defineComponent({
-  name: 'App',
   components: {
     Loader,
   },

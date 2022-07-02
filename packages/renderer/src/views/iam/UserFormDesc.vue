@@ -274,7 +274,7 @@ export default {
               })
             )
             .catch((error) => {
-              this.errors = error.response.data.errors;
+              this.errors = error.response?.data?.errors;
               console.log(error);
             })
             .finally(() => this.setLoading());
@@ -294,7 +294,7 @@ export default {
             });
           })
           .catch((error) => {
-            this.errors = error.response.data.errors;
+            this.errors = error.response?.data?.errors;
             console.log(error);
             this.setLoading();
           });

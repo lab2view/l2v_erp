@@ -11,13 +11,11 @@ const state = {
 // getters
 const getters = {
   discountCodes: (state) =>
-    state.discountCodes
-      ? JSON.parse(state.discountCodes)
-      : [],
+    state.discountCodes ? JSON.parse(state.discountCodes) : [],
+  getDiscountCodeByDiscountId: (state, getters) => (id) =>
+    getters.discountCodes.filter((dc) => dc.discount_id === id),
   discountCode: (state) =>
-    state.discountCode
-      ? JSON.parse(state.discountCode)
-      : null,
+    state.discountCode ? JSON.parse(state.discountCode) : null,
 };
 
 // privileges
@@ -35,25 +33,23 @@ const actions = {
   },
 
   generateCodes({ commit }, fields) {
-    return discountCodeService
-      .generateCode(fields)
-      .then(({ data }) => {
-        commit('ADD_DISCOUNT_CODES', data);
-        notify(
-          i18n.global.t('sales.discountCode.store'),
-          'Ok',
-          'theme',
-          'fa fa-check'
-        );
-        return data;
-      });
+    return discountCodeService.generateCode(fields).then(({ data }) => {
+      commit('ADD_DISCOUNT_CODES', data);
+      notify(
+        i18n.global.t('sales.discountCode.store'),
+        'Ok',
+        'theme',
+        'fa fa-check'
+      );
+      return data;
+    });
   },
 
-  deleteDiscountCodes({ commit }, discountCodeIds) {
+  deleteDiscountCodes({ commit }, discountCodeId) {
     return discountCodeService
-      .deleteDiscountCodes(discountCodeIds)
+      .removeDiscountCode(discountCodeId)
       .then(({ data }) => {
-        commit('DELETE_DISCOUNT_CODES', discountCodeIds);
+        commit('DELETE_DISCOUNT_CODE', discountCodeId);
         return data;
       });
   },
@@ -66,17 +62,11 @@ const mutations = {
   },
   ADD_DISCOUNT_CODES(state, discount_codes) {
     let discountCodes = JSON.parse(state.discountCodes);
-    const discountCodesLength = discount_codes?.length ?? 0;
-    for (let i = 0; i < discountCodesLength; i++) {
-      discountCodes.push(discount_codes[i]);
-    }
-    state.discountCodes = JSON.stringify(discountCodes);
+    state.discountCodes = JSON.stringify([...discountCodes, ...discount_codes]);
   },
-  DELETE_DISCOUNT_CODES(state, discountCodeIds) {
+  DELETE_DISCOUNT_CODE(state, discountCodeId) {
     state.discountCodes = JSON.stringify(
-      JSON.parse(state.discountCodes).filter(
-        (p) => ! discountCodeIds.includes(p.id)
-      )
+      JSON.parse(state.discountCodes).filter((d) => d.id !== discountCodeId)
     );
   },
 };

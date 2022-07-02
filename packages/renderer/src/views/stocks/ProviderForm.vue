@@ -154,7 +154,7 @@ export default {
           .dispatch('provider/updateStockProvider', this.providerForm)
           .then(() => this.$router.back())
           .catch((error) => {
-            this.errors = error.response.data.errors;
+            this.errors = error.response?.data?.errors;
             console.log(error);
           })
           .finally(() => this.setLoading());
@@ -163,7 +163,7 @@ export default {
           .dispatch('provider/addStockProvider', this.providerForm)
           .then(() => this.$router.back())
           .catch((error) => {
-            this.errors = error.response.data.errors;
+            this.errors = error.response?.data?.errors;
             console.log(error);
           })
           .finally(() => this.setLoading());

@@ -13,7 +13,7 @@
           <div class="row align-items-center">
             <div class="col-md">
               <BaseSelect
-                v-model="stockEntryForm.stock_type_id"
+                v-model.number="stockEntryForm.stock_type_id"
                 :label="$t('common.attributes.stock_entry_type_id')"
                 :options="stockTypes"
                 key-label="label"
@@ -43,24 +43,28 @@
                 </button>
               </BaseInputGroup>
             </div>
+            <div v-if="isRoleAdmin" class="col-md">
+              <BaseSelect
+                v-model.number="stockEntryForm.enterprise_id"
+                :label="$t('common.attributes.structure')"
+                :options="enterprises"
+                key-label="name"
+                key-value="id"
+                :errors="errors?.enterprise_id"
+                :disabled="isUpdating"
+              />
+            </div>
           </div>
         </div>
         <div class="mb-3">
           <div class="row align-items-center">
-            <div class="col-md-8">
+            <div class="col-md">
               <BaseTextArea
                 v-model="stockEntryForm.description"
                 :label="$t('common.attributes.description')"
                 rows="4"
                 placeholder="Description..."
                 :errors="errors?.description"
-              />
-            </div>
-            <div class="col-md-4">
-              <BaseSwitchInput
-                v-model="stockEntryForm.availability"
-                :label="$t('common.attributes.availability')"
-                :errors="errors?.availability"
               />
             </div>
           </div>
@@ -89,28 +93,31 @@
 <script>
 import store from '/@/store';
 import { mapGetters } from 'vuex';
-import { stockFor } from '/@/helpers/codes.js';
+import { stockFor } from '/@/helpers/codes';
 import BaseButton from '/@/components/common/BaseButton.vue';
 import BaseSelect from '/@/components/common/BaseSelect.vue';
 import BaseInputGroup from '/@/components/common/BaseInputGroup.vue';
 import BaseTextArea from '/@/components/common/BaseTextArea.vue';
-import BaseSwitchInput from '/@/components/common/BaseSwitchInput.vue';
-import { random } from 'lodash/number.js';
+import { random } from 'lodash/number';
 
 export default {
   components: {
-    BaseSwitchInput,
     BaseTextArea,
     BaseInputGroup,
     BaseSelect,
     BaseButton,
   },
   beforeRouteEnter(routeTo, routeFrom, next) {
-    store
-      .dispatch('stock_type/getStockTypesList', {
+    Promise.all([
+      store.dispatch('stock_type/getStockTypesList', {
         page: 1,
         field: {},
-      })
+      }),
+      store.dispatch('enterprise/getEnterprisesList', {
+        page: 1,
+        field: {},
+      }),
+    ])
       .then(() => {
         next();
       })
@@ -126,17 +133,19 @@ export default {
       is_edited: false,
       stockEntryForm: {
         id: null,
+        enterprise_id: null,
         stock_type_id: null,
         reference: null,
         description: null,
         forecast_date: null,
-        availability: true,
       },
     };
   },
   computed: {
     ...mapGetters('stock_type', ['getListByTypeFor']),
     ...mapGetters('stock_entry', ['stockEntry']),
+    ...mapGetters('enterprise', ['enterprises']),
+    ...mapGetters('auth', ['isRoleAdmin']),
     stockTypes() {
       return this.getListByTypeFor(stockFor.entry);
     },

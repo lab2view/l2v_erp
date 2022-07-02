@@ -2,8 +2,8 @@
   <BaseFormModal :submit-form="submitSaleTypeForm" :title="title">
     <div class="form-group mb-3">
       <label class="form-label fw-bold" for="label">{{
-          $t('common.attributes.label')
-        }}</label>
+        $t('common.attributes.label')
+      }}</label>
       <input
         id="label"
         v-model="saleTypeForm.label"
@@ -30,7 +30,7 @@
 
 <script>
 import BaseFormModal from '/@/components/common/BaseFormModal.vue';
-import {mapGetters} from 'vuex';
+import { mapGetters } from 'vuex';
 
 export default {
   components: { BaseFormModal },
@@ -53,16 +53,12 @@ export default {
     },
   },
   created() {
-    if (this.saleType && this.saleType.id)
-      this.saleTypeForm = this.saleType;
+    if (this.saleType && this.saleType.id) this.saleTypeForm = this.saleType;
   },
   beforeUnmount() {
     this.setLoading();
     if (this.saleType && this.saleType.id)
-      this.$store.commit(
-        'sale_type/SET_CURRENT_SALE_TYPE',
-        null
-      );
+      this.$store.commit('sale_type/SET_CURRENT_SALE_TYPE', null);
   },
   methods: {
     setLoading(value = false) {
@@ -79,25 +75,20 @@ export default {
 
       this.setLoading(true);
       if (this.saleType && this.saleType.id) {
-        this.$store.dispatch(
-          'sale_type/updateSaleType',
-          this.saleTypeForm,
-        )
+        this.$store
+          .dispatch('sale_type/updateSaleType', this.saleTypeForm)
           .then(() => this.$router.back())
           .catch((error) => {
-            this.errors = error.response.data.errors;
+            this.errors = error.response?.data?.errors;
             console.log(error);
           })
           .finally(() => this.setLoading());
       } else {
         this.$store
-          .dispatch(
-            'sale_type/addSaleType',
-            this.saleTypeForm,
-          )
+          .dispatch('sale_type/addSaleType', this.saleTypeForm)
           .then(() => this.$router.back())
           .catch((error) => {
-            this.errors = error.response.data.errors;
+            this.errors = error.response?.data?.errors;
             console.log(error);
           })
           .finally(() => this.setLoading());

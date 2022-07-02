@@ -35,7 +35,7 @@ const getters = {
   canEditStockEntry: (state, getters) => {
     return getters.stockEntryIsConfirm
       ? false
-      : getters.stockEntry.stock_exit_id === null;
+      : getters.stockEntry?.stock_exit_id === null;
   },
   currentStockEntryStateDate: (state, getters) =>
     getters.stockEntry?.current_state?.updated_at,
@@ -106,8 +106,9 @@ const actions = {
           commit('UPDATE_STOCK_ENTRY', {
             ...getters.stockEntry,
             not_deletable: true,
+            availability: true,
           });
-          getters.stockEntry?.provisions.forEach((sp) =>
+          getters.stockEntry?.stock_provisions.forEach((sp) =>
             commit('article/UPDATE_ARTICLE_STOCK', sp.article, {
               root: true,
             })

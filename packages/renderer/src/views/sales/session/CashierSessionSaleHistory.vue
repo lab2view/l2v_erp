@@ -87,7 +87,7 @@ export default {
       },
     },
     sales() {
-      return this.getSaleByCashierId(this.currentSession.cashier_id);
+      return this.getSaleByCashierId(this.currentSession?.cashier_id);
     },
   },
   methods: {

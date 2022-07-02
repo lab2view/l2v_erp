@@ -34,8 +34,10 @@ const getters = {
     getters.customers.map((c) => {
       return {
         id: c.id,
-        label: `${c.reference} / ${c.phone} ${c.name ? ' - ' + c.name : ''}
-        ${c.email ? ' - ' + c.email : ''}`,
+        label: `${c.reference} / ${c.phone} ${
+          c.first_name ? ' - ' + c.first_name : ''
+        }
+        ${c.name ? ' - ' + c.name : ''}`,
       };
     }),
 };

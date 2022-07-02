@@ -30,7 +30,7 @@
 
 <script>
 import BaseFormModal from '/@/components/common/BaseFormModal.vue';
-import {mapGetters} from 'vuex';
+import { mapGetters } from 'vuex';
 
 export default {
   components: { BaseFormModal },
@@ -60,10 +60,7 @@ export default {
   beforeUnmount() {
     this.setLoading();
     if (this.cashierGroup && this.cashierGroup.id)
-      this.$store.commit(
-        'cashier_group/SET_CURRENT_CASHIER_GROUP',
-        null
-      );
+      this.$store.commit('cashier_group/SET_CURRENT_CASHIER_GROUP', null);
   },
   methods: {
     setLoading(value = false) {
@@ -87,25 +84,20 @@ export default {
 
       this.setLoading(true);
       if (this.cashierGroup && this.cashierGroup.id) {
-        this.$store.dispatch(
-          'cashier_group/updateCashierGroup',
-          this.cashierGroupForm,
-        )
+        this.$store
+          .dispatch('cashier_group/updateCashierGroup', this.cashierGroupForm)
           .then(() => this.$router.back())
           .catch((error) => {
-            this.errors = error.response.data.errors;
+            this.errors = error.response?.data?.errors;
             console.log(error);
           })
           .finally(() => this.setLoading());
       } else {
         this.$store
-          .dispatch(
-            'cashier_group/addCashierGroup',
-            this.cashierGroupForm,
-          )
+          .dispatch('cashier_group/addCashierGroup', this.cashierGroupForm)
           .then(() => this.$router.back())
           .catch((error) => {
-            this.errors = error.response.data.errors;
+            this.errors = error.response?.data?.errors;
             console.log(error);
           })
           .finally(() => this.setLoading());

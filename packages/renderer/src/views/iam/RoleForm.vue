@@ -74,8 +74,7 @@ export default {
     },
   },
   created() {
-    if (this.role && this.role.id)
-      this.roleForm = this.role;
+    if (this.role && this.role.id) this.roleForm = this.role;
   },
   beforeUnmount() {
     this.setLoading();
@@ -101,7 +100,7 @@ export default {
           .dispatch('role/updateRole', this.roleForm)
           .then(() => this.$router.back())
           .catch((error) => {
-            this.errors = error.response.data.errors;
+            this.errors = error.response?.data?.errors;
             console.log(error);
           })
           .finally(() => this.setLoading());
@@ -110,7 +109,7 @@ export default {
           .dispatch('role/addRole', this.roleForm)
           .then(() => this.$router.back())
           .catch((error) => {
-            this.errors = error.response.data.errors;
+            this.errors = error.response?.data?.errors;
             console.log(error);
           })
           .finally(() => this.setLoading());
