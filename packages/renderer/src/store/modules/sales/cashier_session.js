@@ -38,6 +38,8 @@ const getters = {
   saleRequests: (state) => state.saleRequests,
   getCurrentSaleArticleCount: (state, getters) =>
     getters.stock_exit_lines?.length,
+  getCurrentSaleCustomerId: (state, getters) =>
+    getters.currentSaleRequest?.customer_id,
   getCurrentSaleSupAmount: (state, getters) => {
     return sumBy(getters.stock_exit_lines, 'sup_price');
   },

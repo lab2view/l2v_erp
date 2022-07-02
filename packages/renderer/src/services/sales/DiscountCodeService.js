@@ -9,8 +9,8 @@ export default {
     return axios.post('/discounts/codes/generate', fields);
   },
 
-  deleteDiscountCodes(discount_code_ids) {
-    return axios.post(`/discounts/codes/delete/`, {discount_code_ids});
+  removeDiscountCode(id) {
+    return axios.delete(`/discounts/codes/delete/${id}`);
   },
 
   getDiscountCodeUsagesList(page, field) {

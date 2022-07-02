@@ -48,17 +48,18 @@ import store from '/@/store';
 export default {
   components: { BaseFormModal, BaseSelect },
   beforeRouteEnter(routeTo, routeFrom, next) {
-    store.dispatch('country/getCountriesList', {
-      page: 1,
-      field: {},
-    })
-    .then(() => {
-      next();
-    })
-    .catch((error) => {
-      console.log(error);
-      next();
-    });
+    store
+      .dispatch('country/getCountriesList', {
+        page: 1,
+        field: {},
+      })
+      .then(() => {
+        next();
+      })
+      .catch((error) => {
+        console.log(error);
+        next();
+      });
   },
   data() {
     return {
@@ -106,10 +107,13 @@ export default {
       this.setLoading(true);
       if (this.paymentMethod && this.paymentMethod.id) {
         this.$store
-          .dispatch('payment_method/updatePaymentMethod', this.paymentMethodForm)
+          .dispatch(
+            'payment_method/updatePaymentMethod',
+            this.paymentMethodForm
+          )
           .then(() => this.$router.back())
           .catch((error) => {
-            this.errors = error.response.data.errors;
+            this.errors = error.response?.data?.errors;
             console.log(error);
           })
           .finally(() => this.setLoading());
@@ -118,7 +122,7 @@ export default {
           .dispatch('payment_method/addPaymentMethod', this.paymentMethodForm)
           .then(() => this.$router.back())
           .catch((error) => {
-            this.errors = error.response.data.errors;
+            this.errors = error.response?.data?.errors;
             console.log(error);
           })
           .finally(() => this.setLoading());

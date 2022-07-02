@@ -169,7 +169,7 @@ export default {
           .dispatch('cashier/updateCashier', this.cashierForm)
           .then(() => this.$router.back())
           .catch((error) => {
-            this.errors = error.response.data.errors;
+            this.errors = error.response?.data?.errors;
             console.log(error);
           })
           .finally(() => this.setLoading());
@@ -178,7 +178,7 @@ export default {
           .dispatch('cashier/addCashier', this.cashierForm)
           .then(() => this.$router.back())
           .catch((error) => {
-            this.errors = error.response.data.errors;
+            this.errors = error.response?.data?.errors;
             console.log(error);
           })
           .finally(() => this.setLoading());

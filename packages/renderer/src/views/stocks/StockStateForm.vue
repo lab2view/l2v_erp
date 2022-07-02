@@ -126,7 +126,7 @@ export default {
           .dispatch('stock_state/updateStockState', this.stockStateForm)
           .then(() => this.$router.back())
           .catch((error) => {
-            this.errors = error.response.data.errors;
+            this.errors = error.response?.data?.errors;
             console.log(error);
           })
           .finally(() => this.setLoading());
@@ -135,7 +135,7 @@ export default {
           .dispatch('stock_state/addStockState', this.stockStateForm)
           .then(() => this.$router.back())
           .catch((error) => {
-            this.errors = error.response.data.errors;
+            this.errors = error.response?.data?.errors;
             console.log(error);
           })
           .finally(() => this.setLoading());

@@ -130,7 +130,7 @@ export default {
           .dispatch('cash_register/updateCashRegister', this.cashRegisterForm)
           .then(() => this.$router.back())
           .catch((error) => {
-            this.errors = error.response.data.errors;
+            this.errors = error.response?.data?.errors;
             console.log(error);
           })
           .finally(() => this.setLoading());
@@ -139,7 +139,7 @@ export default {
           .dispatch('cash_register/addCashRegister', this.cashRegisterForm)
           .then(() => this.$router.back())
           .catch((error) => {
-            this.errors = error.response.data.errors;
+            this.errors = error.response?.data?.errors;
             console.log(error);
           })
           .finally(() => this.setLoading());

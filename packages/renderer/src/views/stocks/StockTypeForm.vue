@@ -122,7 +122,7 @@ export default {
           .dispatch('stock_type/updateStockType', this.stockTypeForm)
           .then(() => this.$router.back())
           .catch((error) => {
-            this.errors = error.response.data.errors;
+            this.errors = error.response?.data?.errors;
             console.log(error);
           })
           .finally(() => this.setLoading());
@@ -131,7 +131,7 @@ export default {
           .dispatch('stock_type/addStockType', this.stockTypeForm)
           .then(() => this.$router.back())
           .catch((error) => {
-            this.errors = error.response.data.errors;
+            this.errors = error.response?.data?.errors;
             console.log(error);
           })
           .finally(() => this.setLoading());

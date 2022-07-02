@@ -208,6 +208,7 @@ export default {
   },
   computed: {
     ...mapGetters('cashier_session', [
+      'getCurrentSaleCustomerId',
       'getCurrentSaleSupAmount',
       'getCurrentSaleArticleCount',
       'getCurrentSaleTotalAmount',
@@ -259,18 +260,18 @@ export default {
     },
     customer: {
       get() {
-        const customer = this.getCustomerForSelect2.find(
-          (c) =>
-            c.id ===
-            this.$store.state.cashier_session.currentSaleRequest?.customer_id
-        );
-        return customer ?? null;
+        return this.getCurrentSaleCustomerId
+          ? this.getCustomerForSelect2.find(
+              (c) => c.id === this.getCurrentSaleCustomerId
+            )
+          : null;
       },
       set(value) {
-        this.$store.commit('cashier_session/SET_CURRENT_SALE_REQUEST_FIELD', {
-          value: value?.id,
-          field: 'customer_id',
-        });
+        if (value?.id)
+          this.$store.commit('cashier_session/SET_CURRENT_SALE_REQUEST_FIELD', {
+            value: value.id,
+            field: 'customer_id',
+          });
       },
     },
     cash_in_amount: {
@@ -283,17 +284,6 @@ export default {
           field: 'cashin',
         });
       },
-    },
-  },
-  watch: {
-    getCustomerForSelect2(value) {
-      const customer = last(value);
-      if (customer) {
-        this.$store.commit('cashier_session/SET_CURRENT_SALE_REQUEST_FIELD', {
-          value: customer.id,
-          field: 'customer_id',
-        });
-      }
     },
   },
   created() {

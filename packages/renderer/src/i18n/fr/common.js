@@ -71,6 +71,7 @@ export default {
   printer_config: "Configuration de l'imprimante",
   print_after_sale: 'Vendre & Imprimer',
   action_not_allow: "L'action n'est pas autorise",
+  back_to_list: 'Retourner a la liste',
 
   fields: {
     modules: 'Modules',
@@ -223,6 +224,9 @@ export default {
     change_price: 'RESTE',
     trade_register: 'Registre de commerce',
     matriculation: "Numero d'immatriculation",
+    code_usage: "Nombre d'utilisation max",
+    code_count: 'Quantite a generer',
+    code_length: 'Taille du code',
   },
 
   gender: {
@@ -238,5 +242,6 @@ export default {
     provider: 'Provenance',
     total_price: 'Prix total',
     status: 'Statut',
+    usage: 'Utilisation',
   },
 };

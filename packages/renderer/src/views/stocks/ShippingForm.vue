@@ -53,8 +53,7 @@ export default {
     },
   },
   created() {
-    if (this.shipping && this.shipping.id)
-      this.shippingForm = this.shipping;
+    if (this.shipping && this.shipping.id) this.shippingForm = this.shipping;
   },
   beforeUnmount() {
     this.setLoading();
@@ -80,7 +79,7 @@ export default {
           .dispatch('shipping/updateShipping', this.shippingForm)
           .then(() => this.$router.back())
           .catch((error) => {
-            this.errors = error.response.data.errors;
+            this.errors = error.response?.data?.errors;
             console.log(error);
           })
           .finally(() => this.setLoading());
@@ -89,7 +88,7 @@ export default {
           .dispatch('shipping/addShipping', this.shippingForm)
           .then(() => this.$router.back())
           .catch((error) => {
-            this.errors = error.response.data.errors;
+            this.errors = error.response?.data?.errors;
             console.log(error);
           })
           .finally(() => this.setLoading());
