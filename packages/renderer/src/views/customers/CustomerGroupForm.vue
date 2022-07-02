@@ -99,11 +99,11 @@ export default {
         this.$store
           .dispatch(
             'customer_group/updateCustomerGroup',
-            this.customerGroupForm,
+            this.customerGroupForm
           )
           .then(() => this.$router.back())
           .catch((error) => {
-            this.errors = error.response.data.errors;
+            this.errors = error.response?.data?.errors;
             console.log(error);
           })
           .finally(() => this.setLoading());
@@ -112,7 +112,7 @@ export default {
           .dispatch('customer_group/addCustomerGroup', this.customerGroupForm)
           .then(() => this.$router.back())
           .catch((error) => {
-            this.errors = error.response.data.errors;
+            this.errors = error.response?.data?.errors;
             console.log(error);
           })
           .finally(() => this.setLoading());

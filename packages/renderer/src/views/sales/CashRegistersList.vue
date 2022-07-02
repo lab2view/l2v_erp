@@ -23,11 +23,15 @@
         <BaseDatatable :tfoot="false" :total="cashRegisters.length">
           <template #headers>
             <th>#</th>
+            <th>{{ $t('common.attributes.structure') }}</th>
             <th>{{ $t('common.attributes.label') }}</th>
             <th>{{ $t('common.actions') }}</th>
           </template>
           <tr v-for="cashRegister in cashRegisters" :key="cashRegister.id">
             <td>{{ cashRegister.id }}</td>
+            <td>
+              {{ cashRegister?.enterprise?.name || $t('common.parent') }}
+            </td>
             <td>{{ cashRegister.label }}</td>
             <td>
               <button

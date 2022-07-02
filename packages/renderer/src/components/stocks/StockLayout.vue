@@ -44,6 +44,10 @@ export default {
   },
   created() {
     this.initEchoSync(moduleCode.stocks, 'stock_entry');
+    this.$store.dispatch('getLastHash', moduleCode.stocks).then((data) => {
+      store.commit('stock_entry/SET_STOCKS_HASH', data.hash);
+      return data;
+    });
   },
 };
 </script>

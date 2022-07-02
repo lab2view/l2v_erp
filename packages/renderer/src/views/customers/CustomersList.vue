@@ -38,7 +38,7 @@
             <td>{{ customer.customer_type.label }}</td>
             <td>{{ customer.country.name }}</td>
             <td>{{ customer.localization?.address }}</td>
-            <td>{{ customer?.name }}</td>
+            <td>{{ `${customer?.first_name} ${customer?.name}` }}</td>
             <td>{{ customer.phone }}</td>
             <td>{{ customer.email }}</td>
             <td>

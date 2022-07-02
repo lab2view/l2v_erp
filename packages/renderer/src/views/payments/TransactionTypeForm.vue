@@ -79,19 +79,25 @@ export default {
       this.setLoading(true);
       if (this.transactionType && this.transactionType.id) {
         this.$store
-          .dispatch('transaction_type/updateTransactionType', this.transactionTypeForm)
+          .dispatch(
+            'transaction_type/updateTransactionType',
+            this.transactionTypeForm
+          )
           .then(() => this.$router.back())
           .catch((error) => {
-            this.errors = error.response.data.errors;
+            this.errors = error.response?.data?.errors;
             console.log(error);
           })
           .finally(() => this.setLoading());
       } else {
         this.$store
-          .dispatch('transaction_type/addTransactionType', this.transactionTypeForm)
+          .dispatch(
+            'transaction_type/addTransactionType',
+            this.transactionTypeForm
+          )
           .then(() => this.$router.back())
           .catch((error) => {
-            this.errors = error.response.data.errors;
+            this.errors = error.response?.data?.errors;
             console.log(error);
           })
           .finally(() => this.setLoading());

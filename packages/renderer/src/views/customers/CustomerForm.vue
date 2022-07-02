@@ -29,7 +29,7 @@
                 <BaseFieldGroup
                   :label="$t('common.attributes.customerType')"
                   required
-                  :errors="errors.customer_type_id"
+                  :errors="errors?.customer_type_id"
                   @btn-click="
                     $router.push({ name: 'config.customers.type.form' })
                   "
@@ -46,7 +46,7 @@
               <div class="col-md">
                 <BaseSelect
                   v-model="customerForm.country_id"
-                  :errors="errors.country_id"
+                  :errors="errors?.country_id"
                   :label="$t('common.attributes.country')"
                   :options="countries"
                   key-label="name"
@@ -59,26 +59,21 @@
           <div class="mb-3">
             <div class="row align-items-center">
               <div class="col-md">
-                <BaseFieldGroup
-                  :label="$t('common.attributes.localization')"
-                  :errors="errors.localization_id"
-                  @btn-click="$router.push({ name: 'localization.form' })"
-                >
-                  <BaseSelect
-                    v-model="customerForm.localization_id"
-                    :options="localizations"
-                    key-label="address"
-                    key-value="id"
-                    required
-                  />
-                </BaseFieldGroup>
+                <BaseInput
+                  v-model="customerForm.name"
+                  :errors="errors?.name"
+                  :label="$t('common.attributes.last_name')"
+                  placeholder="John"
+                  required
+                  type="text"
+                />
               </div>
               <div class="col-md">
                 <BaseInput
-                  v-model="customerForm.reference"
-                  :errors="errors.reference"
-                  :label="$t('common.attributes.reference')"
-                  placeholder="Ref"
+                  v-model="customerForm.first_name"
+                  :errors="errors?.first_name"
+                  :label="$t('common.attributes.first_name')"
+                  placeholder="Doe"
                   required
                   type="text"
                 />
@@ -90,7 +85,7 @@
               <div class="col-md">
                 <BaseInput
                   v-model="customerForm.phone"
-                  :errors="errors.phone"
+                  :errors="errors?.phone"
                   :label="$t('common.attributes.phone')"
                   placeholder="699"
                   required
@@ -100,7 +95,7 @@
               <div class="col-md">
                 <BaseInput
                   v-model="customerForm.email"
-                  :errors="errors.email"
+                  :errors="errors?.email"
                   :label="$t('common.attributes.email')"
                   placeholder="customer@gmail.com"
                   type="email"
@@ -111,12 +106,25 @@
           <div class="mb-3">
             <div class="row align-items-center">
               <div class="col-md">
+                <BaseFieldGroup
+                  :label="$t('common.attributes.localization')"
+                  :errors="errors?.localization_id"
+                  @btn-click="$router.push({ name: 'localization.form' })"
+                >
+                  <BaseSelect
+                    v-model="customerForm.localization_id"
+                    :options="localizations"
+                    key-label="address"
+                    key-value="id"
+                  />
+                </BaseFieldGroup>
+              </div>
+              <div class="col-md">
                 <BaseInput
-                  v-model="customerForm.name"
-                  :errors="errors.name"
-                  :label="$t('common.attributes.name')"
-                  placeholder="John Doe"
-                  required
+                  v-model="customerForm.reference"
+                  :errors="errors?.reference"
+                  :label="$t('common.attributes.reference')"
+                  placeholder="Ref"
                   type="text"
                 />
               </div>
@@ -190,11 +198,9 @@ export default {
       customerForm: {
         id: null,
         customer_type_id: null,
-        customer_type: null,
         localization_id: null,
-        localization: null,
         country_id: null,
-        country: null,
+        first_name: null,
         name: null,
         phone: null,
         email: null,
@@ -243,7 +249,7 @@ export default {
           .dispatch('customer/updateCustomer', this.customerForm)
           .then(() => this.$router.back())
           .catch((error) => {
-            this.errors = error.response.data.errors;
+            this.errors = error.response?.data?.errors;
             console.log(error);
           })
           .finally(() => this.setLoading());
@@ -252,7 +258,7 @@ export default {
           .dispatch('customer/addCustomer', this.customerForm)
           .then(() => this.$router.back())
           .catch((error) => {
-            this.errors = error.response.data.errors;
+            this.errors = error.response?.data?.errors;
             console.log(error);
           })
           .finally(() => this.setLoading());

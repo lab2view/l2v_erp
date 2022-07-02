@@ -25,7 +25,7 @@ const getters = {
       (d) =>
         d.discount_codes.find(
           (dc) =>
-            dc.code.toString().toLowerCase() === code.toString().toLowerCase()
+            dc.code.toString().toUpperCase() === code.toString().toUpperCase()
         ) !== undefined
     ),
 };
