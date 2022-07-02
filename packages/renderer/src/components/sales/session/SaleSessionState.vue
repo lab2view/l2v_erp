@@ -107,6 +107,7 @@
                         type="number"
                         :placeholder="$t('common.attributes.amount')"
                         :min="getCurrentSaleTotalAmount"
+                        step="any"
                         class="font-primary f-w-600 form-control f-40"
                       >
                         <span class="input-group-text font-primary pt-1 pb-1">
@@ -190,7 +191,6 @@ import BaseCheckboxGroup from '/@/components/common/BaseCheckboxGroup.vue';
 import BaseSelect from '/@/components/common/BaseSelect.vue';
 import { cashPaymentMethodCode } from '/@/helpers/codes.js';
 import BaseFieldGroup from '/@/components/common/BaseFieldGroup.vue';
-import { last } from 'lodash';
 import store from '/@/store/index.js';
 export default {
   components: {

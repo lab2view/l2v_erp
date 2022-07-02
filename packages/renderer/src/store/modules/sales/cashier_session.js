@@ -59,7 +59,7 @@ const getters = {
       const cashOut =
         parseFloat(getters.currentSaleRequest.cashin) -
         parseFloat(getters.getCurrentSaleTotalAmount);
-      return cashOut > 0 ? cashOut : 0;
+      return cashOut > 0 ? cashOut.toFixed(2) : 0;
     } else return 0;
   },
 };
