@@ -108,8 +108,8 @@ export default {
   },
 
   attributes: {
-    first_name: 'Noms',
-    last_name: 'Prenoms',
+    first_name: 'Prenom',
+    last_name: 'Nom',
     password: 'Mot de passe',
     password_confirmation: 'Confirmation de Mot de passe',
     role: 'Role',
