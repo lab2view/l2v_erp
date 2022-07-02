@@ -61,9 +61,11 @@ const actions = {
 const mutations = {
   SET_CURRENT_USER(state, user) {
     state.currentUser = user ? JSON.stringify(user) : null;
-    if (window?.ipcRenderer)
-      window?.ipcRenderer?.send('reload', 'User connexion');
-    else location.reload();
+    setTimeout(() => {
+      if (window?.ipcRenderer)
+        window?.ipcRenderer?.send('reload', 'User connexion');
+      else location.reload();
+    }, 2000);
   },
   UPDATE_CURRENT_USER(state, user) {
     user = {
