@@ -55,16 +55,24 @@ export function getPrinterRawText({
   }
   cmds += `-------`.toUpperCase();
   cmds += newLine;
+  if (enterprise.matriculation) {
+    cmds += `NIU: ${enterprise.matriculation}`.toUpperCase();
+    cmds += newLine;
+  }
+  if (enterprise.trade_register) {
+    cmds += `RCCM: ${enterprise.trade_register}`.toUpperCase();
+    cmds += newLine;
+  }
   cmds += `TEL: ${enterprise.phone || ''}`.toUpperCase();
   cmds += newLine;
   cmds += `Ref: ${reference}`.toUpperCase();
   cmds += newLine;
   cmds += `Caisse: ${cashier_session.cash_register.label}`.toUpperCase();
   cmds += newLine;
-  cmds += `Caissier:  ${truncate(cashier_session.cashier.code, {
-    length: 15,
-  })}`.toUpperCase();
-  cmds += newLine + newLine;
+  // cmds += `Caissier:  ${truncate(cashier_session.cashier.code, {
+  //   length: 15,
+  // })}`.toUpperCase();
+  // cmds += newLine + newLine;
   cmds += esc + '!' + '\x24'; //Emphasized + Double-height + Double-width mode selected (ESC ! (8 + 16 + 32)) 56 dec => 38 hex
   cmds += 'SELL TICKET'; //text to print
   cmds += newLine + newLine;
