@@ -13,36 +13,35 @@ import { defineComponent } from 'vue';
 import Loader from '/@/components/Loader.vue';
 
 export default defineComponent({
-  name: 'App',
   components: {
     Loader,
   },
 
-  mounted() {
-    setTimeout(() => {
-      (async () => {
-        return Promise.all([
-          await this.$loadScript(`./src/assets/js/jquery-3.5.1.min.js`),
-          await this.$loadScript(
-            `./src/assets/js/icons/feather-icon/feather.min.js`
-          ),
-          await this.$loadScript(
-            `./src/assets/js/icons/feather-icon/feather-icon.js`
-          ),
-          await this.$loadScript(
-            `./src/assets/js/notify/bootstrap-notify.min.js`
-          ),
-          await this.$loadScript(`./src/assets/js/bootstrap/popper.min.js`),
-          await this.$loadScript(`./src/assets/js/bootstrap/bootstrap.min.js`),
-          await this.$loadScript(`./src/assets/js/clipboard/clipboard.min.js`),
-          await this.$loadScript(`./src/assets/js/prism/prism.min.js`),
-          await this.$loadScript(
-            `./src/assets/js/datatable/datatables/jquery.dataTables.min.js`
-          ),
-        ]);
-      })();
-    }, 1000);
-  },
+  // mounted() {
+  //   setTimeout(() => {
+  //     (async () => {
+  //       return Promise.all([
+  //         await this.$loadScript(`./src/assets/js/jquery-3.5.1.min.js`),
+  //         await this.$loadScript(
+  //           `./src/assets/js/icons/feather-icon/feather.min.js`
+  //         ),
+  //         await this.$loadScript(
+  //           `./src/assets/js/icons/feather-icon/feather-icon.js`
+  //         ),
+  //         await this.$loadScript(
+  //           `./src/assets/js/notify/bootstrap-notify.min.js`
+  //         ),
+  //         await this.$loadScript(`./src/assets/js/bootstrap/popper.min.js`),
+  //         await this.$loadScript(`./src/assets/js/bootstrap/bootstrap.min.js`),
+  //         await this.$loadScript(`./src/assets/js/clipboard/clipboard.min.js`),
+  //         await this.$loadScript(`./src/assets/js/prism/prism.min.js`),
+  //         await this.$loadScript(
+  //           `./src/assets/js/datatable/datatables/jquery.dataTables.min.js`
+  //         ),
+  //       ]);
+  //     })();
+  //   }, 1000);
+  // },
 });
 </script>
 
