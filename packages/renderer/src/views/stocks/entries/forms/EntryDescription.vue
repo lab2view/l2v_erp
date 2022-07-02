@@ -56,13 +56,6 @@
                 :errors="errors?.description"
               />
             </div>
-            <div class="col-md-4">
-              <BaseSwitchInput
-                v-model="stockEntryForm.availability"
-                :label="$t('common.attributes.availability')"
-                :errors="errors?.availability"
-              />
-            </div>
           </div>
         </div>
       </div>
@@ -130,7 +123,6 @@ export default {
         reference: null,
         description: null,
         forecast_date: null,
-        availability: true,
       },
     };
   },
