@@ -23,10 +23,10 @@
           <div class="mb-3">
             <BaseButton
               type="button"
-              icon="fa fa-eye"
+              icon="fa fa-check"
               :disabled="!canSearchDiscount"
               class="btn btn-outline-success btn-sm m-r-5 float-end"
-              :text="$t('common.show')"
+              :text="$t('common.apply')"
               @click.prevent="searchDiscount"
             />
           </div>
@@ -105,9 +105,9 @@
       />
       <BaseButton
         type="button"
-        icon="fa fa-check"
+        icon="fa fa-save"
         class="btn btn-primary"
-        :text="$t('common.apply')"
+        :text="$t('common.save')"
         @click.prevent="applyDiscount"
       />
     </template>
@@ -222,7 +222,8 @@ export default {
     cancelAction() {
       if (this.discount) {
         this.discount = null;
-      } else this.$router.back();
+      }
+      this.$router.back();
     },
     applyDiscount() {
       if (this.discount) {

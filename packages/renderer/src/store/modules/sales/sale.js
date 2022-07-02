@@ -22,7 +22,6 @@ const actions = {
       return getters.sales;
     }
     return saleService.getSalesList(page, field).then(({ data }) => {
-      console.log(data);
       commit('SET_SALES', data);
       return data;
     });

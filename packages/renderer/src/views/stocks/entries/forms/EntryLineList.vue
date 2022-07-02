@@ -222,14 +222,19 @@ export default {
       }
     },
     confirmStockEntrySate() {
-      if (confirm(this.$t('messages.confirmFinishStock', { label: '' }))) {
-        const state = this.getStockStateByCode(stockStateCode.success);
-        if (state !== undefined) {
-          this.loading = true;
-          this.$store
-            .dispatch('stock_entry/changeStockEntryState', state.id)
-            .finally(() => (this.loading = false));
+      if (!this.stockEntryIsCommand) {
+        if (confirm(this.$t('messages.confirmFinishStock', { label: '' }))) {
+          const state = this.getStockStateByCode(stockStateCode.success);
+          if (state !== undefined) {
+            this.loading = true;
+            this.$store
+              .dispatch('stock_entry/changeStockEntryState', state.id)
+              .finally(() => (this.loading = false));
+          }
         }
+      } else {
+        //todo redirection to shipping form
+        alert("la reception de livraison n'est pas encore disposible");
       }
     },
   },

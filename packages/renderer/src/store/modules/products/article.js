@@ -207,7 +207,6 @@ const mutations = {
     const index = articles.findIndex((a) => a.id === article.id);
     if (index !== -1) {
       articles.splice(index, 1, { ...articles[index], stock: article.stock });
-      console.log(article);
       state.articles = JSON.stringify(articles);
     }
   },

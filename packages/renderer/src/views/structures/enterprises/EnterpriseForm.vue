@@ -52,7 +52,6 @@
                 :errors="errors.phone"
                 :label="$t('common.attributes.phone')"
                 placeholder="699.."
-                required
                 type="number"
               >
                 <template v-if="callingCode" #prefix>
@@ -232,7 +231,7 @@ export default {
               })
             )
             .catch((error) => {
-              this.errors = error.response.data.errors;
+              this.errors = error.response?.data?.errors;
               console.log(error);
             })
             .finally(() => this.setLoading());
@@ -253,7 +252,7 @@ export default {
           })
           .catch((error) => {
             console.log(error);
-            this.errors = error.response.data.errors;
+            this.errors = error.response?.data?.errors;
             console.log(error);
           })
           .finally(() => this.setLoading());

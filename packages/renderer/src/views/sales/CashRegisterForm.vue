@@ -1,6 +1,16 @@
 <template>
   <BaseFormModal :submit-form="submitCashRegisterForm" :title="title">
     <div class="form-group mb-3">
+      <BaseSelect
+        v-model="cashRegisterForm.enterprise_id"
+        :errors="errors.enterprise_id"
+        :label="$t('common.attributes.enterprise')"
+        :options="enterprises"
+        key-label="name"
+        key-value="id"
+      />
+    </div>
+    <div class="form-group mb-3">
       <label class="form-label fw-bold" for="label">{{
         $t('common.attributes.label')
       }}</label>
@@ -46,14 +56,31 @@
 <script>
 import BaseFormModal from '/@/components/common/BaseFormModal.vue';
 import { mapGetters } from 'vuex';
+import store from '/@/store/index.js';
+import BaseSelect from '/@/components/common/BaseSelect.vue';
 
 export default {
-  components: { BaseFormModal },
+  components: { BaseSelect, BaseFormModal },
+  beforeRouteEnter(routeTo, routeFrom, next) {
+    store
+      .dispatch('enterprise/getEnterprisesList', {
+        page: 1,
+        field: {},
+      })
+      .then(() => {
+        next();
+      })
+      .catch((error) => {
+        console.log(error);
+        next();
+      });
+  },
   data() {
     return {
       formLoading: false,
       errors: [],
       cashRegisterForm: {
+        enterprise_id: null,
         label: null,
         code: null,
         description: null,
@@ -63,6 +90,7 @@ export default {
   },
   computed: {
     ...mapGetters('cash_register', ['cashRegister']),
+    ...mapGetters('enterprise', ['enterprises']),
     title() {
       return this.cashRegister && this.cashRegister.id
         ? this.$t('sales.cashRegister.formUpdateTitle')
@@ -102,7 +130,7 @@ export default {
           .dispatch('cash_register/updateCashRegister', this.cashRegisterForm)
           .then(() => this.$router.back())
           .catch((error) => {
-            this.errors = error.response.data.errors;
+            this.errors = error.response?.data?.errors;
             console.log(error);
           })
           .finally(() => this.setLoading());
@@ -111,7 +139,7 @@ export default {
           .dispatch('cash_register/addCashRegister', this.cashRegisterForm)
           .then(() => this.$router.back())
           .catch((error) => {
-            this.errors = error.response.data.errors;
+            this.errors = error.response?.data?.errors;
             console.log(error);
           })
           .finally(() => this.setLoading());

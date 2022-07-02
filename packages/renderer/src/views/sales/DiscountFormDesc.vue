@@ -4,7 +4,7 @@
       <div class="card-header pb-0">
         <h5>{{ formTitle }}</h5>
         <span
-        >Using the <a href="#">card</a> component, you can extend the default
+          >Using the <a href="#">card</a> component, you can extend the default
           collapse behavior to create an accordion.</span
         >
       </div>
@@ -22,8 +22,8 @@
         </div>
         <div class="form-group mb-3">
           <label class="form-label fw-bold" for="label">{{
-              $t('common.attributes.label')
-            }}</label>
+            $t('common.attributes.label')
+          }}</label>
           <input
             id="label"
             v-model="discountForm.label"
@@ -42,14 +42,15 @@
         </div>
         <div class="form-group mb-3">
           <label class="form-label fw-bold" for="value">{{
-              $t('common.attributes.value')
-            }}</label>
+            $t('common.attributes.value')
+          }}</label>
           <input
             id="value"
             v-model="discountForm.value"
             class="form-control"
             placeholder="1"
             type="number"
+            step=".01"
             required
           />
           <div
@@ -64,8 +65,8 @@
           <div class="row align-items-center">
             <div class="form-group col-md">
               <label class="form-label fw-bold" for="is_percent">{{
-                  $t('common.attributes.is_percent')
-                }}</label>
+                $t('common.attributes.is_percent')
+              }}</label>
               <input
                 id="is_percent"
                 v-model="discountForm.is_percent"
@@ -81,8 +82,8 @@
             </div>
             <div class="form-group col-md">
               <label class="form-label fw-bold" for="only_bill">{{
-                  $t('common.attributes.only_bill')
-                }}</label>
+                $t('common.attributes.only_bill')
+              }}</label>
               <input
                 id="only_bill"
                 v-model="discountForm.only_bill"
@@ -118,15 +119,19 @@
         </div>
         <div class="mb-3">
           <label class="form-label fw-bold" for="description">{{
-              $t('common.attributes.description')
-            }}</label>
+            $t('common.attributes.description')
+          }}</label>
           <textarea
             id="description"
             v-model="discountForm.description"
             class="form-control"
             placeholder="..."
           ></textarea>
-          <div v-if="errors.description" class="invalid-feedback" style="display: inline">
+          <div
+            v-if="errors.description"
+            class="invalid-feedback"
+            style="display: inline"
+          >
             {{ errors.description[0] }}
           </div>
         </div>
@@ -232,10 +237,8 @@ export default {
       this.setLoading(true);
       if (this.discount && this.discount.id) {
         if (this.is_edited) {
-          this.$store.dispatch(
-            'discount/updateDiscount',
-            this.discountForm,
-          )
+          this.$store
+            .dispatch('discount/updateDiscount', this.discountForm)
             .then((discount) =>
               this.$router.push({
                 name: 'sales.discount.form.articles',
@@ -243,7 +246,7 @@ export default {
               })
             )
             .catch((error) => {
-              this.errors = error.response.data.errors;
+              this.errors = error.response?.data?.errors;
               console.log(error);
             })
             .finally(() => this.setLoading());
@@ -254,19 +257,16 @@ export default {
           });
       } else {
         this.$store
-          .dispatch(
-            'discount/addDiscount',
-            this.discountForm,
-          )
+          .dispatch('discount/addDiscount', this.discountForm)
           .then((discount) => {
             this.setLoading();
             this.$router.push({
               name: 'sales.discount.form.articles',
-              params: {id: discount.id},
+              params: { id: discount.id },
             });
           })
           .catch((error) => {
-            this.errors = error.response.data.errors;
+            this.errors = error.response?.data?.errors;
             console.log(error);
             this.setLoading();
           });

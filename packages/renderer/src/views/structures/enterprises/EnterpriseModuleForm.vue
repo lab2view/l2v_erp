@@ -72,10 +72,7 @@ export default {
   },
   beforeUnmount() {
     if (this.productFamily)
-      this.$store.commit(
-        'product_family/SET_CURRENT_PRODUCT_FAMILY',
-        null
-      );
+      this.$store.commit('product_family/SET_CURRENT_PRODUCT_FAMILY', null);
   },
   methods: {
     submitProductFamilyForm() {
@@ -87,18 +84,15 @@ export default {
           )
           .then(() => this.$router.back())
           .catch((error) => {
-            this.errors = error.response.data.errors;
+            this.errors = error.response?.data?.errors;
             console.log(error);
           });
       else
         this.$store
-          .dispatch(
-            'product_family/addProductFamily',
-            this.productFamilyForm
-          )
+          .dispatch('product_family/addProductFamily', this.productFamilyForm)
           .then(() => this.$router.back())
           .catch((error) => {
-            this.errors = error.response.data.errors;
+            this.errors = error.response?.data?.errors;
             console.log(error);
           });
     },

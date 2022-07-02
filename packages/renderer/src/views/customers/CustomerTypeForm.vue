@@ -101,7 +101,7 @@ export default {
           .dispatch('customer_type/updateCustomerType', this.customerTypeForm)
           .then(() => this.$router.back())
           .catch((error) => {
-            this.errors = error.response.data.errors;
+            this.errors = error.response?.data?.errors;
             console.log(error);
           })
           .finally(() => this.setLoading());
@@ -110,7 +110,7 @@ export default {
           .dispatch('customer_type/addCustomerType', this.customerTypeForm)
           .then(() => this.$router.back())
           .catch((error) => {
-            this.errors = error.response.data.errors;
+            this.errors = error.response?.data?.errors;
             console.log(error);
           })
           .finally(() => this.setLoading());

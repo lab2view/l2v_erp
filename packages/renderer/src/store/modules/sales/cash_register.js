@@ -75,8 +75,6 @@ const actions = {
   },
 
   updateStatusCashRegister({ commit }, cashRegisterField) {
-    console.log('cash_register sales');
-    console.log(cashRegisterField);
     return cashRegisterService
       .updateStatusCashRegister(cashRegisterField, cashRegisterField.id)
       .then(({ data }) => {
