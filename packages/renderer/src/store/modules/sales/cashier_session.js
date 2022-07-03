@@ -9,6 +9,7 @@ const state = {
   saleRequests: [],
   price_type_id: null,
   currentSaleRequest: {
+    enterprise_id: null,
     sale_type_id: null,
     discount_code: null,
     discount: null,
@@ -94,6 +95,7 @@ const actions = {
   processToCurrentSaleRequest({ commit, getters }) {
     const payload = {
       ...getters.currentSaleRequest,
+      enterprise_id: getters.currentSession.cash_register.enterprise_id,
       cashier_session_id: getters.currentSession.id,
       cashier_id: getters.currentSession.cashier_id,
       cashout: getters.getCurrentSaleCashOutAmount,

@@ -47,7 +47,7 @@ import 'vue-select/dist/vue-select.css';
 import { mapGetters } from 'vuex';
 import BarcodeScanMixin from '/@/mixins/BarcodeScanMixin.js';
 import BaseSelect from '/@/components/common/BaseSelect.vue';
-import { priceTypeCode } from '/@/helpers/codes.js';
+import { priceTypeCode, saleTypeCode } from '/@/helpers/codes.js';
 
 export default {
   components: { BaseSelect, BaseFieldGroup, VSelect },
@@ -60,6 +60,7 @@ export default {
   computed: {
     ...mapGetters('article', ['sell_articles']),
     ...mapGetters('price_type', ['salePriceTypes']),
+    ...mapGetters('sale_type', ['saleTypes']),
     searchArticleField: {
       get() {
         return null;
@@ -76,6 +77,12 @@ export default {
         (st) => st.code === priceTypeCode.sell
       );
       return priceType !== undefined ? priceType.id : null;
+    },
+    saleDefaultTypeId() {
+      const saleType = this.saleTypes.find(
+        (st) => st.code === saleTypeCode.detail
+      );
+      return saleType !== undefined ? saleType.id : null;
     },
     salePriceTypeField: {
       get() {
@@ -116,7 +123,7 @@ export default {
     );
     this.$store.commit('cashier_session/SET_CURRENT_SALE_REQUEST_FIELD', {
       field: 'sale_type_id',
-      value: this.saleDefaultPriceTypeId,
+      value: this.saleDefaultTypeId,
     });
   },
 
