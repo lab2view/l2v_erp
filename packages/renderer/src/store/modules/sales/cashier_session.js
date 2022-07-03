@@ -106,6 +106,7 @@ const actions = {
           delete obj.image;
           delete obj.stock;
           delete obj.barcode;
+          delete obj.prices;
           return obj;
         }),
       ],
@@ -140,7 +141,7 @@ const mutations = {
       if (window?.ipcRenderer)
         window?.ipcRenderer?.send('reload', 'User open cashier session');
       else location.reload();
-    }, 2000);
+    }, 5000);
   },
   ADD_CASHIER_SESSION(state, cashier_session) {
     state.cashier_sessions.push(cashier_session);
@@ -182,6 +183,14 @@ const mutations = {
   },
   SET_PRICE_TYPE_ID(state, value) {
     state.price_type_id = value;
+  },
+  UPDATE_CURRENT_SALE_REQUEST_ARTICLE(state, articleLine) {
+    const index = state.currentSaleRequest.stock_exit_lines.findIndex(
+      (sel) => sel.article_id === articleLine.article_id
+    );
+    if (index >= 0) {
+      state.currentSaleRequest.stock_exit_lines.splice(index, 1, articleLine);
+    }
   },
   SET_CURRENT_SALE_REQUEST_ARTICLE_LINES(state, articleLines) {
     state.currentSaleRequest.stock_exit_lines = articleLines;

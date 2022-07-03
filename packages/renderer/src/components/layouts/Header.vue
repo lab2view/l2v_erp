@@ -133,7 +133,11 @@
               type="button"
               @click.prevent="logout"
             >
-              <a href="#"> <i data-feather="log-out"></i> {{ logoutText }} </a>
+              <a href="#">
+                <i data-feather="log-out"></i>
+                {{ logoutText }}
+                <i v-if="loading" class="fa m-l-5 fa-spin fa-spinner" />
+              </a>
             </button>
           </li>
         </ul>
@@ -155,6 +159,7 @@ export default defineComponent({
   data() {
     return {
       dark_mode: false,
+      loading: false,
     };
   },
   computed: {
@@ -178,6 +183,7 @@ export default defineComponent({
     },
     logout() {
       if (confirm('Do you realy want to logout?')) {
+        this.loading = true;
         if (this.$route.meta.requireCashierSession)
           this.$store.dispatch('cashier_session/closeSession');
         else this.$store.dispatch('auth/logout');

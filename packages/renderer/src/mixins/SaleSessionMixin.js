@@ -20,11 +20,13 @@ export default {
     },
     cashierName() {
       return (
-        this.currentSession.cashier.name ?? this.currentSession.cashier.code
+        this.currentSession?.cashier?.name ??
+        this.currentSession?.cashier?.code ??
+        ''
       );
     },
     cashRegisterName() {
-      return this.currentSession.cash_register.label;
+      return this.currentSession?.cash_register?.label ?? '';
     },
   },
 };

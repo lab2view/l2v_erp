@@ -94,7 +94,7 @@ export default {
         return {
           label: `${article.name}`,
           article_id: article.id,
-          price_id: this.salePriceTypeField,
+          price_id: price !== undefined ? price.id : null,
           discount_id: null,
           quantity: 1,
           sup_price: price !== undefined ? price.value : null,
@@ -103,6 +103,7 @@ export default {
           barcode: article.product.code,
           image: article.product.image_url,
           stock: article.stock,
+          prices: article.prices,
         };
       });
     },
@@ -113,10 +114,10 @@ export default {
       'cashier_session/SET_PRICE_TYPE_ID',
       this.saleDefaultPriceTypeId
     );
-    // this.$store.commit('cashier_session/SET_CURRENT_SALE_REQUEST_FIELD', {
-    //   field: 'sale_type_id',
-    //   value: this.saleDefaultPriceTypeId,
-    // });
+    this.$store.commit('cashier_session/SET_CURRENT_SALE_REQUEST_FIELD', {
+      field: 'sale_type_id',
+      value: this.saleDefaultPriceTypeId,
+    });
   },
 
   methods: {

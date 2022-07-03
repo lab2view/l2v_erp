@@ -72,6 +72,7 @@ export default {
   print_after_sale: 'Vendre & Imprimer',
   action_not_allow: "L'action n'est pas autorise",
   back_to_list: 'Retourner a la liste',
+  update_price: 'Changer le prix',
 
   fields: {
     modules: 'Modules',

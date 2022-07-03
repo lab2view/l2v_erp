@@ -65,7 +65,7 @@ const mutations = {
       if (window?.ipcRenderer)
         window?.ipcRenderer?.send('reload', 'User connexion');
       else location.reload();
-    }, 2000);
+    }, 5000);
   },
   UPDATE_CURRENT_USER(state, user) {
     user = {
