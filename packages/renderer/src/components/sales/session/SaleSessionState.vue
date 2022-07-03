@@ -303,6 +303,11 @@ export default {
           this.$store.commit('cashier_session/RESET_CURRENT_SALE_REQUEST');
           if (this.printAfterSale)
             this.$store.dispatch('printer/printSaleBill', data);
+          else
+            this.$router.push({
+              name: 'sales.session.cashier.sale.detail',
+              params: { ...this.$route.params, sale_id: data.id },
+            });
         })
         .catch((error) => (this.errors = error.response?.data?.errors))
         .finally(() => (this.loading = false));

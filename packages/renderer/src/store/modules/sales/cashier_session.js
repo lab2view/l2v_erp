@@ -115,7 +115,7 @@ const actions = {
     };
     return SaleService.addSale(payload)
       .then(({ data }) => {
-        commit('sale/ADD_SALE', data, { root: true });
+        commit('sale/ADD_CASHIER_SALE', data, { root: true });
         return data;
       })
       .catch((err) => {

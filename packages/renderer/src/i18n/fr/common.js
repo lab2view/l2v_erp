@@ -74,6 +74,12 @@ export default {
   back_to_list: 'Retourner a la liste',
   update_price: 'Changer le prix',
 
+  sale: {
+    list: 'Liste des ventes',
+    detail: 'Details de la vente',
+    print: 'Imprimer le ticket',
+  },
+
   fields: {
     modules: 'Modules',
     module: 'Module',
