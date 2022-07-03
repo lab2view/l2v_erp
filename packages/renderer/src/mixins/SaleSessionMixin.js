@@ -18,5 +18,13 @@ export default {
     sliderMenuClass() {
       return this.isCashierSessionRoute ? 'close_icon' : '';
     },
+    cashierName() {
+      return (
+        this.currentSession.cashier.name ?? this.currentSession.cashier.code
+      );
+    },
+    cashRegisterName() {
+      return this.currentSession.cash_register.label;
+    },
   },
 };

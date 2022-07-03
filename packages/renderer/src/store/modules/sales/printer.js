@@ -48,7 +48,7 @@ const actions = {
         saleOrder.enterprise ?? rootGetters['workspace/currentWorkspace'],
     });
     //Send print job to printer!
-    cpj.sendToClient().then((r) => console.log(r));
+    // cpj.sendToClient().then((r) => console.log(r));
   },
 };
 
