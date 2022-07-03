@@ -1,13 +1,13 @@
 <template>
   <BaseModal :title="'APPLIQUER UNE REDUCTION'" modal-size="lg">
     <div class="card-body pt-0">
-      <div class="row align-items-end">
+      <div class="row align-items-center">
         <div v-if="canShowDiscountForm" class="col-md-4">
-          <div v-if="customerDiscounts.length" class="mb-3">
+          <div v-if="selectableDiscounts.length" class="mb-3">
             <BaseSelect
               v-model.number="client_discount_id"
               :label="$t('common.select_discount')"
-              :options="customerDiscounts"
+              :options="selectableDiscounts"
               key-label="label"
               key-value="id"
             />
@@ -81,13 +81,13 @@
                 <div>
                   <p>Reduction</p>
                   <h4 class="font-info">
-                    {{ `${totalDiscountAmount} ${currency}` }}
+                    {{ `${totalDiscountAmount.toFixed(2)} ${currency}` }}
                   </h4>
                 </div>
                 <div>
                   <p>Nouveau prix</p>
                   <h4 class="font-primary">
-                    {{ `${amountAfterDiscount} ${currency}` }}
+                    {{ `${amountAfterDiscount.toFixed(2)} ${currency}` }}
                   </h4>
                 </div>
               </div>
@@ -121,8 +121,23 @@ import BaseSelect from '/@/components/common/BaseSelect.vue';
 import BaseInput from '/@/components/common/BaseInput.vue';
 import { mapGetters } from 'vuex';
 import { sumBy } from 'lodash';
+import store from '/@/store/index.js';
 export default {
   components: { BaseInput, BaseSelect, BaseButton, BaseModal },
+  beforeRouteEnter(routeTo, routeFrom, next) {
+    store
+      .dispatch('discount/getDiscountsList', {
+        page: 1,
+        field: {},
+      })
+      .then(() => {
+        next();
+      })
+      .catch((error) => {
+        console.log(error);
+        next();
+      });
+  },
   data() {
     return {
       client_discount_id: null,
@@ -132,7 +147,7 @@ export default {
   },
   computed: {
     ...mapGetters('discount', [
-      'getDiscountByCustomerId',
+      'getSaleDiscountSelectable',
       'getDiscountByCode',
       'discounts',
     ]),
@@ -142,10 +157,10 @@ export default {
       'getCurrentSaleTotalAmount',
     ]),
     ...mapGetters('workspace', ['currency']),
-    customerDiscounts() {
-      return this.currentSaleRequest.customer_id
-        ? this.getDiscountByCustomerId(this.currentSaleRequest.customer_id)
-        : [];
+    selectableDiscounts() {
+      return this.getSaleDiscountSelectable(
+        this.currentSaleRequest.customer_id
+      );
     },
     canSearchDiscount() {
       return !!this.client_discount_id || !!this.discountCode;
@@ -210,7 +225,7 @@ export default {
     searchDiscount() {
       if (this.client_discount_id) {
         this.discount =
-          this.customerDiscounts.find(
+          this.selectableDiscounts.find(
             (cd) => cd.id === this.client_discount_id
           ) ?? null;
       }

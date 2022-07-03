@@ -1,6 +1,7 @@
 import cashierService from '../../../services/sales/CashierService';
 import { sumBy } from 'lodash';
 import SaleService from '/@/services/sales/SaleService.js';
+import { getStockExitLineArticleStock } from '/@/helpers/utils.js';
 
 const state = {
   cashier_sessions: null,
@@ -9,6 +10,7 @@ const state = {
   saleRequests: [],
   price_type_id: null,
   currentSaleRequest: {
+    enterprise_id: null,
     sale_type_id: null,
     discount_code: null,
     discount: null,
@@ -94,6 +96,7 @@ const actions = {
   processToCurrentSaleRequest({ commit, getters }) {
     const payload = {
       ...getters.currentSaleRequest,
+      enterprise_id: getters.currentSession.cash_register.enterprise_id,
       cashier_session_id: getters.currentSession.id,
       cashier_id: getters.currentSession.cashier_id,
       cashout: getters.getCurrentSaleCashOutAmount,
@@ -106,13 +109,14 @@ const actions = {
           delete obj.image;
           delete obj.stock;
           delete obj.barcode;
+          delete obj.prices;
           return obj;
         }),
       ],
     };
     return SaleService.addSale(payload)
       .then(({ data }) => {
-        commit('sale/ADD_SALE', data, { root: true });
+        commit('sale/ADD_CASHIER_SALE', data, { root: true });
         return data;
       })
       .catch((err) => {
@@ -140,7 +144,7 @@ const mutations = {
       if (window?.ipcRenderer)
         window?.ipcRenderer?.send('reload', 'User open cashier session');
       else location.reload();
-    }, 2000);
+    }, 5000);
   },
   ADD_CASHIER_SESSION(state, cashier_session) {
     state.cashier_sessions.push(cashier_session);
@@ -174,6 +178,7 @@ const mutations = {
     state.currentSaleRequest.stock_exit_lines = [];
     state.currentSaleRequest.cashin = null;
     state.currentSaleRequest.customer_id = null;
+    state.currentSaleRequest.sale_type_id = null;
     state.currentSaleRequest.discount = null;
     state.currentSaleRequest.discount_id = null;
   },
@@ -182,6 +187,14 @@ const mutations = {
   },
   SET_PRICE_TYPE_ID(state, value) {
     state.price_type_id = value;
+  },
+  UPDATE_CURRENT_SALE_REQUEST_ARTICLE(state, articleLine) {
+    const index = state.currentSaleRequest.stock_exit_lines.findIndex(
+      (sel) => sel.article_id === articleLine.article_id
+    );
+    if (index >= 0) {
+      state.currentSaleRequest.stock_exit_lines.splice(index, 1, articleLine);
+    }
   },
   SET_CURRENT_SALE_REQUEST_ARTICLE_LINES(state, articleLines) {
     state.currentSaleRequest.stock_exit_lines = articleLines;
@@ -201,8 +214,10 @@ const mutations = {
     );
     if (alIndex !== -1) {
       let al = { ...state.currentSaleRequest.stock_exit_lines[alIndex] };
-      al.quantity++;
-      al.sup_price = al.quantity * al.price;
+      if (getStockExitLineArticleStock(al) > 0) {
+        al.quantity++;
+        al.sup_price = al.quantity * al.price;
+      }
       state.currentSaleRequest.stock_exit_lines.splice(alIndex, 1, al);
     } else state.currentSaleRequest.stock_exit_lines.push(articleLine);
   },

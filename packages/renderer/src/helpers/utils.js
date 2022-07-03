@@ -30,6 +30,16 @@ export function removeStorage() {
   return localStore.dropInstance();
 }
 
+export function getStockExitLineArticleStock(article) {
+  const totalEntry =
+    parseInt(article.stock.total_entry) +
+    parseInt(article.stock.total_entry_composition);
+  const totalExit =
+    parseInt(article.stock.total_exit) +
+    parseInt(article.stock.total_exit_composition);
+  return totalEntry - totalExit;
+}
+
 export function getPrinterRawText({
   enterprise,
   discount,
@@ -79,10 +89,12 @@ export function getPrinterRawText({
   // cmds += newLine + newLine;
   // cmds += esc + '!' + '\x00'; //Character font A selected (ESC ! 0)
 
-  stock_exit_lines.forEach((stockExitLine, idx) => {
-    cmds += `${idx + 1}) ${stockExitLine.article.name.toUpperCase()}  x${
+  stock_exit_lines.forEach((stockExitLine) => {
+    cmds += `${stockExitLine.article.product.code.slice(
+      -4
+    )} ${stockExitLine.article.name.toUpperCase()} x${
       stockExitLine.quantity
-    } ${new Intl.NumberFormat('fr-Fr').format(stockExitLine.sup_price)}`; //text to print
+    } ${getFormattedAmount(stockExitLine.sup_price)}`; //text to print
     cmds += newLine;
   });
 
@@ -90,35 +102,33 @@ export function getPrinterRawText({
   let total = sumBy(stock_exit_lines, 'sup_price');
   if (discount) {
     total -= discount;
-    cmds += `REDUCTION    ${new Intl.NumberFormat('fr-Fr').format(discount)} ${
+    cmds += `REDUCTION    ${getFormattedAmount(discount)} ${
       enterprise.currency
     }`;
     cmds += newLine;
   }
-  cmds += `TOTAL        ${new Intl.NumberFormat('fr-Fr').format(total)} ${
+  cmds += `TOTAL        ${getFormattedAmount(total)} ${enterprise.currency}`;
+  let paymentMethod = '';
+  cashier_session_collections.forEach(
+    (csc) => (paymentMethod += csc.payment_method.label + ' ')
+  );
+  cmds += newLine;
+  cmds += `${paymentMethod.toUpperCase()}    ${new Intl.NumberFormat(
+    'fr-Fr'
+  ).format(sumBy(cashier_session_collections, 'cashin') || 0)} ${
     enterprise.currency
   }`;
   cmds += newLine;
-  cmds += `REGLEMENT    ${new Intl.NumberFormat('fr-Fr').format(
-    sumBy(cashier_session_collections, 'cashin') || 0
-  )} ${enterprise.currency}`;
-  cmds += newLine;
-  cmds += `RENDUE       ${new Intl.NumberFormat('fr-Fr').format(
+  cmds += `RENDUE       ${getFormattedAmount(
     sumBy(cashier_session_collections, 'cashout') || 0
   )} ${enterprise.currency}`;
-  cmds += newLine;
-  let paymentMethod = '';
-  cashier_session_collections.forEach(
-    (csc) => (paymentMethod += ' ' + csc.payment_method.label)
-  );
-  cmds += `PAIEMENT    ${paymentMethod || ''}`;
 
   cmds += esc + '!' + '\x00'; //Character font A selected (ESC ! 0)
   cmds += newLine + newLine;
   const date = new Date(created_at);
-  cmds += `${date.toLocaleDateString()} ${date.toLocaleTimeString()} Caisse: ${cashier_session.cash_register.label
-    .toString()
-    .toUpperCase()}`;
+  cmds += `${date.toLocaleDateString()} ${date.toLocaleTimeString()} ${
+    cashier_session.cashier.name
+  }, ${cashier_session.cash_register.label.toString().toUpperCase()}`;
   cmds += newLine;
   cmds += `-------------------------`.toUpperCase();
   cmds += newLine;
@@ -131,4 +141,8 @@ export function getPrinterRawText({
   console.log(cmds);
 
   return cmds;
+}
+
+export function getFormattedAmount(amount, lang = 'fr-Fr') {
+  return new Intl.NumberFormat(lang).format(amount);
 }

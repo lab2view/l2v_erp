@@ -47,7 +47,8 @@ import 'vue-select/dist/vue-select.css';
 import { mapGetters } from 'vuex';
 import BarcodeScanMixin from '/@/mixins/BarcodeScanMixin.js';
 import BaseSelect from '/@/components/common/BaseSelect.vue';
-import { priceTypeCode } from '/@/helpers/codes.js';
+import { priceTypeCode, saleTypeCode } from '/@/helpers/codes.js';
+import { getStockExitLineArticleStock } from '/@/helpers/utils.js';
 
 export default {
   components: { BaseSelect, BaseFieldGroup, VSelect },
@@ -60,6 +61,7 @@ export default {
   computed: {
     ...mapGetters('article', ['sell_articles']),
     ...mapGetters('price_type', ['salePriceTypes']),
+    ...mapGetters('sale_type', ['saleTypes']),
     searchArticleField: {
       get() {
         return null;
@@ -76,6 +78,12 @@ export default {
         (st) => st.code === priceTypeCode.sell
       );
       return priceType !== undefined ? priceType.id : null;
+    },
+    saleDefaultTypeId() {
+      const saleType = this.saleTypes.find(
+        (st) => st.code === saleTypeCode.detail
+      );
+      return saleType !== undefined ? saleType.id : null;
     },
     salePriceTypeField: {
       get() {
@@ -94,15 +102,16 @@ export default {
         return {
           label: `${article.name}`,
           article_id: article.id,
-          price_id: this.salePriceTypeField,
+          price_id: price !== undefined ? price.id : null,
           discount_id: null,
-          quantity: 1,
+          quantity: getStockExitLineArticleStock(article) > 0 ? 1 : 0,
           sup_price: price !== undefined ? price.value : null,
           price: price !== undefined ? price.value : null,
           vat: null,
           barcode: article.product.code,
           image: article.product.image_url,
           stock: article.stock,
+          prices: article.prices,
         };
       });
     },
@@ -115,7 +124,7 @@ export default {
     );
     // this.$store.commit('cashier_session/SET_CURRENT_SALE_REQUEST_FIELD', {
     //   field: 'sale_type_id',
-    //   value: this.saleDefaultPriceTypeId,
+    //   value: this.saleDefaultTypeId,
     // });
   },
 

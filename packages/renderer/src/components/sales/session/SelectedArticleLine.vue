@@ -18,9 +18,26 @@
         </div>
       </div>
     </td>
-    <td class="font-primary" style="width: 190px">
-      {{ `${article.price} ${currency}` }}
-      <span class="font-secondary m-l-5 fa fa-edit" />
+    <td class="font-primary" style="width: 200px">
+      <BaseSelect
+        v-if="showFormPriceType"
+        v-model.number="salePriceTypeField"
+        label-class="col-form-label font-primary pt-0"
+        class="form-select digits font-primary"
+        :options="articleSalePriceTypes"
+        key-label="label"
+        key-value="id"
+      />
+      <span v-else>
+        {{ `${article.price} ${currency}` }}
+      </span>
+      <a
+        v-if="articleSalePriceTypes.length > 1 && !showFormPriceType"
+        href="#"
+        :title="$t('common.update_price')"
+        class="font-secondary m-l-5 f-16 fa fa-edit"
+        @click.prevent="showFormPriceType = true"
+      />
     </td>
     <td>
       <div style="width: 140px">
@@ -70,11 +87,58 @@ import { getDefaultProductImage } from '/@/helpers/utils.js';
 import ArticleMixin from '/@/mixins/ArticleMixin.js';
 import { mapGetters } from 'vuex';
 import BaseButton from '/@/components/common/BaseButton.vue';
+import BaseSelect from '/@/components/common/BaseSelect.vue';
+import { priceTypeCode } from '/@/helpers/codes.js';
+
 export default {
-  components: { BaseButton, BaseInputGroup },
+  components: { BaseSelect, BaseButton, BaseInputGroup },
   mixins: [ArticleMixin],
+  data() {
+    return {
+      showFormPriceType: false,
+    };
+  },
   computed: {
     ...mapGetters('workspace', ['currency']),
+    articleSalePriceTypes() {
+      return this.article.prices
+        .map((p) => {
+          return {
+            label: p.price_type.label,
+            id: p.price_type.id,
+            code: p.price_type.code,
+          };
+        })
+        .filter((pt) => pt.code !== priceTypeCode.buy);
+    },
+    price() {
+      return (
+        this.article.prices.find((p) => p.id === this.article.price_id) ?? null
+      );
+    },
+    salePriceTypeField: {
+      get() {
+        return this.price.price_type_id;
+      },
+      set(value) {
+        const price = this.article.prices.find(
+          (p) => p.price_type_id === value
+        );
+        if (price !== undefined && price.id !== this.article.price_id) {
+          this.$store.commit(
+            'cashier_session/UPDATE_CURRENT_SALE_REQUEST_ARTICLE',
+            {
+              ...this.article,
+              price_id: price.id,
+              price: price.value,
+              sup_price:
+                parseFloat(this.article.quantity) * parseFloat(price.value),
+            }
+          );
+        }
+        this.showFormPriceType = false;
+      },
+    },
     articleDefaultImage() {
       return getDefaultProductImage;
     },

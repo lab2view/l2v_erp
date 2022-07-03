@@ -26,6 +26,17 @@ export const saleRoutes = [
         component: () => import('/@/views/customers/CustomerQuickForm.vue'),
       },
       {
+        path: 'cashier-sales/:sale_id',
+        name: 'sales.session.cashier.sale.detail',
+        component: () => import('/@/views/sales/session/SaleDetails.vue'),
+        beforeEnter: (to) => {
+          return store
+            .dispatch('sale/getCashierSale', parseInt(to.params.sale_id))
+            .then(() => 1)
+            .catch(() => -1);
+        },
+      },
+      {
         path: 'pending-requests',
         name: 'sales.session.request',
         component: () =>
