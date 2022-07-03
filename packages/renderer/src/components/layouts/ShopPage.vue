@@ -62,7 +62,7 @@ export default defineComponent({
       (async () => {
         await this.$loadScript(`./src/assets/js/sidebar-menu.js`);
       })();
-    }, 1000);
+    }, 3000);
   },
 });
 </script>
