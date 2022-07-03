@@ -25,6 +25,7 @@
             <div class="col">
               <BaseCheckboxGroup
                 v-model="paymentMethodId"
+                required
                 :options="paymentMethods"
                 key-value="id"
                 key-label="label"
@@ -35,8 +36,9 @@
               <BaseSelect
                 v-model.number="saleTypeId"
                 label-class="font-primary"
-                :label="`${$t('common.fields.sale_type')} ?`"
+                :placeholder="$t('common.fields.sale_type')"
                 :options="saleTypes"
+                required
                 key-value="id"
                 key-label="label"
               />
@@ -301,6 +303,11 @@ export default {
           this.$store.commit('cashier_session/RESET_CURRENT_SALE_REQUEST');
           if (this.printAfterSale)
             this.$store.dispatch('printer/printSaleBill', data);
+          else
+            this.$router.push({
+              name: 'sales.session.cashier.sale.detail',
+              params: { ...this.$route.params, sale_id: data.id },
+            });
         })
         .catch((error) => (this.errors = error.response?.data?.errors))
         .finally(() => (this.loading = false));

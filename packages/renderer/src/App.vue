@@ -40,7 +40,7 @@ export default defineComponent({
           // ),
         ]);
       })();
-    }, 2500);
+    }, 3000);
   },
 });
 </script>
@@ -57,6 +57,7 @@ export default defineComponent({
 @import './assets/css/style.css';
 @import './assets/css/responsive.css';
 @import './assets/css/color-1.css';
+/*@import './assets/css/prism.css';*/
 
 .absolute-top {
   z-index: 10000;

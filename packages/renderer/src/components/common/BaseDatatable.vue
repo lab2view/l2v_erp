@@ -62,14 +62,12 @@ export default {
     },
   },
   mounted() {
-    // Promise.all([
-    //   this.$loadScript(`./src/assets/js/jquery-3.5.1.min.js`),
-    //   this.$loadScript(
-    //     `./src/assets/js/datatable/datatables/jquery.dataTables.min.js`
-    //   ),
-    // ]).then(() => {
-    //   if (!this.isEmpty) this.initDatatable();
-    // });
+    Promise.all([
+      this.$loadScript(`./src/assets/js/jquery-3.5.1.min.js`),
+      this.$loadScript(
+        `./src/assets/js/datatable/datatables/jquery.dataTables.min.js`
+      ),
+    ]);
     setTimeout(() => this.initDatatable(), 100);
   },
   methods: {

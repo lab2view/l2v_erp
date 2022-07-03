@@ -29,7 +29,7 @@ const actions = {
         .then(({ data }) => {
           commit('SET_PRODUCTS', data.data);
           if (data.next_page_url) {
-            return dispatch('getArticlesList', {
+            return dispatch('getProductsList', {
               page: page + 1,
               field: { ...field, next: true },
             });

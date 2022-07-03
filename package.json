@@ -1,6 +1,6 @@
 {
   "name": "erp-app",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "author": {
     "name": "Lab2view",
     "email": "contact@lab2view.com",
@@ -58,6 +58,7 @@
     "axios": "^0.24.0",
     "babel-eslint": "^10.1.0",
     "electron-updater": "4.6.5",
+    "jquery": "^3.5.1",
     "jsprintmanager": "^5.0.0",
     "laravel-echo": "^1.11.4",
     "localforage": "^1.10.0",

@@ -2,6 +2,7 @@ import articleService from '../../../services/articles/ArticleService';
 import { notify } from '/@/helpers/notify.js';
 import i18n from '../../../i18n';
 import { unitPackageCode } from '/@/helpers/codes.js';
+import { getStockExitLineArticleStock } from '/@/helpers/utils.js';
 
 const state = {
   articles: null,
@@ -12,7 +13,16 @@ const state = {
 const getters = {
   articles: (state) => (state.articles ? JSON.parse(state.articles) : []),
   sell_articles: (state, getters) =>
-    getters.articles.filter((a) => a.package.code === unitPackageCode),
+    getters.articles
+      .filter((a) => a.package.code === unitPackageCode)
+      .map((a) => {
+        return {
+          ...a,
+          name: `(${(getStockExitLineArticleStock(a) / 6).toFixed(2)}) ${
+            a.product.code
+          } / ${a.product.reference} - ${a.name}`,
+        };
+      }),
   article: (state) => (state.article ? JSON.parse(state.article) : null),
   getArticleByProductId: (state, getters) => (product_id) =>
     getters.articles.filter((a) => a.product_id === product_id),
