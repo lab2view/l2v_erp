@@ -33,7 +33,7 @@ export function removeStorage() {
 export function getPrinterRawText({
   enterprise,
   discount,
-  reference,
+  code,
   created_at,
   cashier_session,
   stock_exit_lines,
@@ -55,33 +55,34 @@ export function getPrinterRawText({
   }
   cmds += `-------`.toUpperCase();
   cmds += newLine;
-  if (enterprise.matriculation) {
+  if (enterprise.matriculation || enterprise.trade_register) {
     cmds += `NIU: ${enterprise.matriculation}`.toUpperCase();
-    cmds += newLine;
   }
   if (enterprise.trade_register) {
-    cmds += `RCCM: ${enterprise.trade_register}`.toUpperCase();
-    cmds += newLine;
+    cmds += `  RCCM: ${enterprise.trade_register}`.toUpperCase();
   }
-  cmds += `TEL: ${enterprise.phone || ''}`.toUpperCase();
   cmds += newLine;
-  cmds += `Ref: ${reference}`.toUpperCase();
   cmds += newLine;
-  cmds += `Caisse: ${cashier_session.cash_register.label}`.toUpperCase();
-  cmds += newLine;
+  // cmds += `TEL: ${enterprise.phone || ''}`.toUpperCase();
+  // cmds += newLine;
+  // cmds += `Ref: ${reference}`.toUpperCase();
+  // cmds += newLine;
+  // cmds += `Caisse: ${cashier_session.cash_register.label}`.toUpperCase();
+  // cmds += newLine;
   // cmds += `Caissier:  ${truncate(cashier_session.cashier.code, {
   //   length: 15,
   // })}`.toUpperCase();
   // cmds += newLine + newLine;
-  cmds += esc + '!' + '\x24'; //Emphasized + Double-height + Double-width mode selected (ESC ! (8 + 16 + 32)) 56 dec => 38 hex
-  cmds += 'SELL TICKET'; //text to print
-  cmds += newLine + newLine;
-  cmds += esc + '!' + '\x00'; //Character font A selected (ESC ! 0)
+
+  // cmds += esc + '!' + '\x24'; //Emphasized + Double-height + Double-width mode selected (ESC ! (8 + 16 + 32)) 56 dec => 38 hex
+  // cmds += 'SELL TICKET'; //text to print
+  // cmds += newLine + newLine;
+  // cmds += esc + '!' + '\x00'; //Character font A selected (ESC ! 0)
 
   stock_exit_lines.forEach((stockExitLine, idx) => {
     cmds += `${idx + 1}) ${stockExitLine.article.name.toUpperCase()}  x${
       stockExitLine.quantity
-    } ${stockExitLine.sup_price}`; //text to print
+    } ${new Intl.NumberFormat('fr-Fr').format(stockExitLine.sup_price)}`; //text to print
     cmds += newLine;
   });
 
@@ -89,18 +90,22 @@ export function getPrinterRawText({
   let total = sumBy(stock_exit_lines, 'sup_price');
   if (discount) {
     total -= discount;
-    cmds += `REDUCTION    ${discount} ${enterprise.currency}`;
+    cmds += `REDUCTION    ${new Intl.NumberFormat('fr-Fr').format(discount)} ${
+      enterprise.currency
+    }`;
     cmds += newLine;
   }
-  cmds += `TOTAL        ${total} ${enterprise.currency}`;
-  cmds += newLine;
-  cmds += `REGLEMENT    ${sumBy(cashier_session_collections, 'cashin') || 0} ${
+  cmds += `TOTAL        ${new Intl.NumberFormat('fr-Fr').format(total)} ${
     enterprise.currency
   }`;
   cmds += newLine;
-  cmds += `RENDUE       ${sumBy(cashier_session_collections, 'cashout') || 0} ${
-    enterprise.currency
-  }`;
+  cmds += `REGLEMENT    ${new Intl.NumberFormat('fr-Fr').format(
+    sumBy(cashier_session_collections, 'cashin') || 0
+  )} ${enterprise.currency}`;
+  cmds += newLine;
+  cmds += `RENDUE       ${new Intl.NumberFormat('fr-Fr').format(
+    sumBy(cashier_session_collections, 'cashout') || 0
+  )} ${enterprise.currency}`;
   cmds += newLine;
   let paymentMethod = '';
   cashier_session_collections.forEach(
@@ -111,15 +116,19 @@ export function getPrinterRawText({
   cmds += esc + '!' + '\x00'; //Character font A selected (ESC ! 0)
   cmds += newLine + newLine;
   const date = new Date(created_at);
-  cmds += `${date.toLocaleDateString()} ${date.toLocaleTimeString()}`;
+  cmds += `${date.toLocaleDateString()} ${date.toLocaleTimeString()} Caisse: ${cashier_session.cash_register.label
+    .toString()
+    .toUpperCase()}`;
   cmds += newLine;
   cmds += `-------------------------`.toUpperCase();
   cmds += newLine;
-  cmds += `Merci de votre visite, A bientot `.toUpperCase();
+  cmds += `Merci de votre visite, Ref: ${code}`.toUpperCase();
 
   cmds += newLine + newLine;
   cmds += `___________________________`.toUpperCase();
   cmds += newLine + newLine;
+
+  console.log(cmds);
 
   return cmds;
 }

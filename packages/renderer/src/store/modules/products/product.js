@@ -20,14 +20,22 @@ const getters = {
 
 // privileges
 const actions = {
-  getProductsList({ commit, getters }, { page, field }) {
-    if (getters.products.length > 0) {
+  getProductsList({ commit, getters, dispatch }, { page, field }) {
+    if (getters.products.length > 0 && !field.next) {
       return getters.products;
     } else
-      return productService.getList(page, field).then(({ data }) => {
-        commit('SET_PRODUCTS', data);
-        return data;
-      });
+      return productService
+        .getList(page, { ...field, paginate: 50 })
+        .then(({ data }) => {
+          commit('SET_PRODUCTS', data.data);
+          if (data.next_page_url) {
+            return dispatch('getArticlesList', {
+              page: page + 1,
+              field: { ...field, next: true },
+            });
+          }
+          return data;
+        });
   },
 
   getProduct({ getters, commit }, id) {
@@ -160,7 +168,8 @@ const mutations = {
   },
 
   SET_PRODUCTS(state, products) {
-    state.products = JSON.stringify(products);
+    let oldProducts = state.products ? JSON.parse(state.products) : [];
+    state.products = JSON.stringify([...oldProducts, ...products]);
   },
   SET_CURRENT_PRODUCT(state, product) {
     if (state.product !== product)
