@@ -25,6 +25,7 @@
             <div class="col">
               <BaseCheckboxGroup
                 v-model="paymentMethodId"
+                required
                 :options="paymentMethods"
                 key-value="id"
                 key-label="label"
@@ -35,8 +36,9 @@
               <BaseSelect
                 v-model.number="saleTypeId"
                 label-class="font-primary"
-                :label="`${$t('common.fields.sale_type')} ?`"
+                :placeholder="$t('common.fields.sale_type')"
                 :options="saleTypes"
+                required
                 key-value="id"
                 key-label="label"
               />

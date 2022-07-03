@@ -177,6 +177,7 @@ const mutations = {
     state.currentSaleRequest.stock_exit_lines = [];
     state.currentSaleRequest.cashin = null;
     state.currentSaleRequest.customer_id = null;
+    state.currentSaleRequest.sale_type_id = null;
     state.currentSaleRequest.discount = null;
     state.currentSaleRequest.discount_id = null;
   },

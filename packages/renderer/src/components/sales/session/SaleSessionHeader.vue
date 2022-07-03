@@ -121,10 +121,10 @@ export default {
       'cashier_session/SET_PRICE_TYPE_ID',
       this.saleDefaultPriceTypeId
     );
-    this.$store.commit('cashier_session/SET_CURRENT_SALE_REQUEST_FIELD', {
-      field: 'sale_type_id',
-      value: this.saleDefaultTypeId,
-    });
+    // this.$store.commit('cashier_session/SET_CURRENT_SALE_REQUEST_FIELD', {
+    //   field: 'sale_type_id',
+    //   value: this.saleDefaultTypeId,
+    // });
   },
 
   methods: {

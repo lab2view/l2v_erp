@@ -166,7 +166,7 @@ export default defineComponent({
     ...mapGetters('workspace', ['currentWorkspace']),
     ...mapGetters('auth', ['currentUser']),
     enterpriseName() {
-      return this.currentUser.enterprise?.name ?? this.currentWorkspace.name;
+      return this.currentUser?.enterprise?.name ?? this.currentWorkspace.name;
     },
     logoutText() {
       return this.isSaleSession ? 'Fermer la session' : 'Deconnexion';
