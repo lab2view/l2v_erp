@@ -3,20 +3,27 @@
     <div class="main-header-right row m-0">
       <div class="main-header-left">
         <div class="logo-wrapper">
-          <a href="/"
+          <a href="/" class="text-dark f-16 f-w-500"
             ><img
               alt=""
-              class="img-fluid"
-              src="../../assets/images/logo/logo.png"
-          /></a>
+              width="30"
+              height="90"
+              class="img-fluid m-r-5"
+              src="../../assets/images/logo/logo.jpg"
+            />{{ enterpriseName.toString().toUpperCase() }}
+          </a>
         </div>
         <div class="dark-logo-wrapper">
-          <a href="/"
+          <a href="/" class="text-light f-16 f-w-500"
             ><img
               alt=""
+              width="30"
+              height="90"
               class="img-fluid"
-              src="../../assets/images/logo/dark-logo.png"
-          /></a>
+              src="../../assets/images/logo/dark-logo.jpg"
+            />
+            {{ enterpriseName.toString().toUpperCase() }}
+          </a>
         </div>
         <div class="toggle-sidebar">
           <i
@@ -152,6 +159,10 @@ export default defineComponent({
   },
   computed: {
     ...mapGetters('workspace', ['currentWorkspace']),
+    ...mapGetters('auth', ['currentUser']),
+    enterpriseName() {
+      return this.currentUser.enterprise?.name ?? this.currentWorkspace.name;
+    },
     logoutText() {
       return this.isSaleSession ? 'Fermer la session' : 'Deconnexion';
     },
