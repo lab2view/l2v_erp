@@ -25,6 +25,9 @@
             <th>#</th>
             <th>{{ $t('common.attributes.cashier_group') }}</th>
             <th>{{ $t('common.attributes.structure') }}</th>
+            <th class="text-center">
+              {{ $t('common.attributes.first_name') }}
+            </th>
             <th>{{ $t('common.attributes.start_at') }}</th>
             <th>{{ $t('common.attributes.ended_at') }}</th>
             <th>{{ $t('common.actions') }}</th>
@@ -32,9 +35,10 @@
           <tr v-for="cashier in cashiers" :key="cashier.id">
             <td>{{ cashier.id }}</td>
             <td>{{ cashier.cashier_group.label }}</td>
-            <td>{{ cashier.enterprise }}</td>
-            <td>{{ cashier.start_at }}</td>
-            <td>{{ cashier.ended_at }}</td>
+            <td>{{ cashier.enterprise?.name ?? 'Principale' }}</td>
+            <td class="text-center">{{ cashier.name ?? '-' }}</td>
+            <td>{{ date(cashier.start_at) }}</td>
+            <td>{{ cashier.ended_at ? date(cashier.ended_at) : '-' }}</td>
             <td>
               <button
                 class="btn btn-secondary btn-xs"
@@ -74,9 +78,11 @@ import BaseContainer from '/@/components/common/BaseContainer.vue';
 import BaseDatatable from '/@/components/common/BaseDatatable.vue';
 import store from '/@/store';
 import { mapGetters } from 'vuex';
+import filterMixin from '/@/mixins/FilterMixin.js';
 
 export default {
   components: { BaseContainer, BaseDatatable },
+  mixins: [filterMixin],
   beforeRouteEnter(routeTo, routeFrom, next) {
     store
       .dispatch('cashier/getCashiersList', {

@@ -24,33 +24,61 @@
   </div>
   <div class="main-navbar">
     <div id="mainnav">
-      <ul class="nav-menu custom-scrollbar">
+      <div class="sidebar-main-title m-l-20">
+        <div>
+          <h6>{{ $t('common.sale.list') }}</h6>
+        </div>
+      </div>
+      <ul
+        class="nav-menu custom-scrollbar align-items-end"
+        style="height: 360px"
+      >
         <li class="back-btn">
           <div class="mobile-back text-end">
             <span>Back</span
             ><i class="fa fa-angle-right ps-2" aria-hidden="true"></i>
           </div>
         </li>
-        <li class="sidebar-main-title">
-          <div>
-            <h6>Liste des ventes</h6>
-          </div>
-        </li>
         <li
-          v-for="(sale, index) in sales"
+          v-for="sale in cashier_sales"
           :key="`sale-history-${sale.id}`"
-          class="dropdown"
+          class="f-w-400 shadow-sm"
         >
-          <a
-            href="#"
+          <router-link
+            :to="{
+              name: 'sales.session.cashier.sale.detail',
+              params: { ...$route.params, sale_id: sale.id },
+            }"
             class="nav-link menu-title link-nav"
-            @click.prevent="printSaleTicket(sale)"
           >
-            <i class="m-r-10 font-secondary f-20">{{ `#${index + 1}` }}</i>
-            <span>{{ sale.reference }}</span>
-          </a>
+            <i class="m-r-10 font-secondary f-16">
+              {{ `# ${sale.code}` }}
+            </i>
+            <p>
+              <i class="fa fa-calendar m-r-5" />
+              {{
+                `${new Date(sale.created_at).toLocaleDateString()} ${new Date(
+                  sale.created_at
+                ).toLocaleTimeString()}`
+              }}
+            </p>
+          </router-link>
         </li>
       </ul>
+      <div class="m-3">
+        <BaseInputGroup
+          v-model="keyword"
+          :placeholder="$t('common.attributes.search')"
+        >
+          <BaseButton
+            class="btn btn-iconsolid btn-primary"
+            :loading="loading"
+            @click.prevent="handleSearchSaleAction"
+          >
+            <i v-if="!loading" class="fa fa-search" />
+          </BaseButton>
+        </BaseInputGroup>
+      </div>
     </div>
   </div>
 </template>
@@ -59,12 +87,20 @@
 import { mapGetters } from 'vuex';
 import BaseSelect from '/@/components/common/BaseSelect.vue';
 import BaseSwitchInput from '/@/components/common/BaseSwitchInput.vue';
+import BaseInputGroup from '/@/components/common/BaseInputGroup.vue';
+import BaseButton from '/@/components/common/BaseButton.vue';
 
 export default {
-  components: { BaseSwitchInput, BaseSelect },
+  components: { BaseButton, BaseInputGroup, BaseSwitchInput, BaseSelect },
+  data() {
+    return {
+      keyword: null,
+      loading: false,
+    };
+  },
   computed: {
     ...mapGetters('cashier_session', ['currentSession']),
-    ...mapGetters('sale', ['getSaleByCashierId']),
+    ...mapGetters('sale', ['cashier_sales']),
     ...mapGetters('printer', [
       'getPrinters',
       'getDefaultPrinter',
@@ -86,13 +122,17 @@ export default {
         this.$store.commit('printer/SET_PRINT_AFTER_SALE', value);
       },
     },
-    sales() {
-      return this.getSaleByCashierId(this.currentSession?.cashier_id);
-    },
   },
   methods: {
-    printSaleTicket(saleOrder) {
-      this.$store.dispatch('printer/printSaleBill', saleOrder);
+    handleSearchSaleAction() {
+      this.loading = true;
+      this.$store
+        .dispatch('sale/getCashierSaleList', {
+          cashier_id: this.currentSession.cashier_id,
+          keyword: this.keyword,
+          search: true,
+        })
+        .finally(() => (this.loading = false));
     },
   },
 };

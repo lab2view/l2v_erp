@@ -144,7 +144,6 @@ export default {
           };
         }),
       ];
-      this.show_select_form = false;
       return Promise.resolve();
     },
     updateStockEntryLineField(stockEntryLine, index) {
