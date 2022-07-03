@@ -70,7 +70,7 @@ export default defineComponent({
         //   `./src/assets/js/theme-customizer/customizer.js`
         // );
       })();
-    }, 1000);
+    }, 3000);
   },
 
   methods: {
