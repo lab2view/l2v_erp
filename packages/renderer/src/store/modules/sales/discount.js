@@ -14,12 +14,15 @@ const getters = {
   discount: (state) => (state.discount ? JSON.parse(state.discount) : null),
   haveDiscount: (state, getters) => !!getters.discount,
   getSalesHash: (state) => state.hash ?? null,
-  getDiscountByCustomerId: (state, getters) => (customer_id) =>
-    getters.discounts.filter(
-      (d) =>
-        d.discount_customers.find((dc) => dc.customer_id === customer_id) !==
-        undefined
-    ),
+  getSaleDiscountSelectable: (state, getters) => (customer_id) =>
+    getters.discounts.filter((d) => {
+      if (d.id <= 9) return true;
+      else
+        return (
+          d.discount_customers.find((dc) => dc.customer_id === customer_id) !==
+          undefined
+        );
+    }),
   getDiscountByCode: (state, getters) => (code) =>
     getters.discounts.find(
       (d) =>

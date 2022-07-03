@@ -48,6 +48,7 @@ import { mapGetters } from 'vuex';
 import BarcodeScanMixin from '/@/mixins/BarcodeScanMixin.js';
 import BaseSelect from '/@/components/common/BaseSelect.vue';
 import { priceTypeCode, saleTypeCode } from '/@/helpers/codes.js';
+import { getStockExitLineArticleStock } from '/@/helpers/utils.js';
 
 export default {
   components: { BaseSelect, BaseFieldGroup, VSelect },
@@ -103,7 +104,7 @@ export default {
           article_id: article.id,
           price_id: price !== undefined ? price.id : null,
           discount_id: null,
-          quantity: 1,
+          quantity: getStockExitLineArticleStock(article) > 0 ? 1 : 0,
           sup_price: price !== undefined ? price.value : null,
           price: price !== undefined ? price.value : null,
           vat: null,

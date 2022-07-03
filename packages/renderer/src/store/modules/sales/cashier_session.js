@@ -1,6 +1,7 @@
 import cashierService from '../../../services/sales/CashierService';
 import { sumBy } from 'lodash';
 import SaleService from '/@/services/sales/SaleService.js';
+import { getStockExitLineArticleStock } from '/@/helpers/utils.js';
 
 const state = {
   cashier_sessions: null,
@@ -213,8 +214,10 @@ const mutations = {
     );
     if (alIndex !== -1) {
       let al = { ...state.currentSaleRequest.stock_exit_lines[alIndex] };
-      al.quantity++;
-      al.sup_price = al.quantity * al.price;
+      if (getStockExitLineArticleStock(al) > 0) {
+        al.quantity++;
+        al.sup_price = al.quantity * al.price;
+      }
       state.currentSaleRequest.stock_exit_lines.splice(alIndex, 1, al);
     } else state.currentSaleRequest.stock_exit_lines.push(articleLine);
   },

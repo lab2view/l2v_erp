@@ -30,6 +30,16 @@ export function removeStorage() {
   return localStore.dropInstance();
 }
 
+export function getStockExitLineArticleStock(article) {
+  const totalEntry =
+    parseInt(article.stock.total_entry) +
+    parseInt(article.stock.total_entry_composition);
+  const totalExit =
+    parseInt(article.stock.total_exit) +
+    parseInt(article.stock.total_exit_composition);
+  return totalEntry - totalExit;
+}
+
 export function getPrinterRawText({
   enterprise,
   discount,
@@ -116,9 +126,9 @@ export function getPrinterRawText({
   cmds += esc + '!' + '\x00'; //Character font A selected (ESC ! 0)
   cmds += newLine + newLine;
   const date = new Date(created_at);
-  cmds += `${date.toLocaleDateString()} ${date.toLocaleTimeString()} Caisse: ${cashier_session.cash_register.label
-    .toString()
-    .toUpperCase()}`;
+  cmds += `${date.toLocaleDateString()} ${date.toLocaleTimeString()} ${
+    cashier_session.cashier.name
+  }, ${cashier_session.cash_register.label.toString().toUpperCase()}`;
   cmds += newLine;
   cmds += `-------------------------`.toUpperCase();
   cmds += newLine;
