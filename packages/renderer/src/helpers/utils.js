@@ -143,11 +143,11 @@ export function getPrinterRawText({
   cmds += `___________________________`.toUpperCase();
   cmds += newLine + newLine;
 
-  console.log(cmds);
+  // console.log(cmds);
 
   return cmds;
 }
 
-export function getFormattedAmount(amount, lang = 'fr-Fr') {
-  return new Intl.NumberFormat(lang).format(amount);
+export function getFormattedAmount(amount) {
+  return amount.toLocaleString();
 }
