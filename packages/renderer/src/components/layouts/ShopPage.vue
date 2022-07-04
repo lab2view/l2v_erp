@@ -60,6 +60,7 @@ export default defineComponent({
   created() {
     setTimeout(() => {
       (async () => {
+        await this.$loadScript(`./src/assets/js/jquery-3.5.1.min.js`);
         await this.$loadScript(`./src/assets/js/sidebar-menu.js`);
       })();
     }, 500);
