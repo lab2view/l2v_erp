@@ -57,10 +57,30 @@ export default createStore({
     landlordDomain: import.meta.env.VITE_DOMAIN ?? 'kitbussiness.com',
     uploaded: null,
     initiateApp: true,
+    globalProgress: {
+      label: null,
+      min: 0,
+      max: 100,
+      value: 0,
+    },
   },
   actions: {
     setGlobalLoading({ commit }, loading) {
       commit('SET_GLOBAL_LOADING', loading);
+    },
+    setGlobalProgress({ state, commit }, progress) {
+      if (progress) {
+        if (state.globalProgress.label) {
+          if (state.globalProgress.label === progress.label)
+            commit('START_GLOBAL_PROGRESS', progress);
+        } else commit('START_GLOBAL_PROGRESS', progress);
+      } else
+        commit('START_GLOBAL_PROGRESS', {
+          label: null,
+          min: 0,
+          max: 100,
+          value: 0,
+        });
     },
     setInitiateApp({ commit }, value) {
       commit('SET_INITIATE_APP', value);
@@ -115,6 +135,13 @@ export default createStore({
     },
   },
   mutations: {
+    START_GLOBAL_PROGRESS(state, globalProgress) {
+      state.globalProgress = globalProgress;
+    },
+    UPDATE_GLOBAL_PROGRESS(state, { value, label }) {
+      if (label) state.globalProgress.label = label;
+      state.globalProgress.value = value;
+    },
     SET_GLOBAL_LOADING(state, loading) {
       state.globalLoading = loading;
     },
