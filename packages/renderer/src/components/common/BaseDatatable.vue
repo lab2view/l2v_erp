@@ -67,8 +67,7 @@ export default {
       this.$loadScript(
         `./src/assets/js/datatable/datatables/jquery.dataTables.min.js`
       ),
-    ]);
-    setTimeout(() => this.initDatatable(), 100);
+    ]).finally(() => this.initDatatable());
   },
   methods: {
     initDatatable() {

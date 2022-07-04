@@ -100,14 +100,19 @@ export function getPrinterRawText({
 
   cmds += newLine;
   let total = sumBy(stock_exit_lines, 'sup_price');
+  cmds += `TOTAL        ${getFormattedAmount(total)} ${enterprise.currency}`;
   if (discount) {
     total -= discount;
+    cmds += newLine;
     cmds += `REDUCTION    ${getFormattedAmount(discount)} ${
       enterprise.currency
     }`;
     cmds += newLine;
+    cmds += `NET A PAYER        ${getFormattedAmount(total)} ${
+      enterprise.currency
+    }`;
+    cmds += newLine;
   }
-  cmds += `TOTAL        ${getFormattedAmount(total)} ${enterprise.currency}`;
   let paymentMethod = '';
   cashier_session_collections.forEach(
     (csc) => (paymentMethod += csc.payment_method.label + ' ')
@@ -138,11 +143,11 @@ export function getPrinterRawText({
   cmds += `___________________________`.toUpperCase();
   cmds += newLine + newLine;
 
-  console.log(cmds);
+  // console.log(cmds);
 
   return cmds;
 }
 
-export function getFormattedAmount(amount, lang = 'fr-Fr') {
-  return new Intl.NumberFormat(lang).format(amount);
+export function getFormattedAmount(amount) {
+  return amount.toLocaleString();
 }

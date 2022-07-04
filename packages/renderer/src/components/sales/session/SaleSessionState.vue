@@ -105,6 +105,7 @@
                       <BaseInputGroup
                         v-model.number="cash_in_amount"
                         :disabled="!isCashPaymentMethod"
+                        :required="isCashPaymentMethod"
                         type="number"
                         :placeholder="$t('common.attributes.amount')"
                         :min="getCurrentSaleTotalAmount"
