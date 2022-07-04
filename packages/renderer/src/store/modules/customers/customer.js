@@ -51,12 +51,24 @@ const actions = {
         .getCustomersList(page, { ...field, paginate: 50 })
         .then(({ data }) => {
           commit('SET_CUSTOMERS', data);
+          dispatch(
+            'setGlobalProgress',
+            {
+              label: 'customers',
+              min: 0,
+              max: data.last_page,
+              value: data.current_page,
+            },
+            { root: true }
+          );
+
           if (data.next_page_url) {
             return dispatch('getCustomersList', {
               page: page + 1,
               field: { ...field, next: true },
             });
-          }
+          } else dispatch('setGlobalProgress', null, { root: true });
+
           return data;
         });
   },
