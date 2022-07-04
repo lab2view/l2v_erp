@@ -18,7 +18,6 @@ export default defineComponent({
   },
 
   mounted() {
-    this.$store.dispatch('setGlobalLoading', true);
     setTimeout(() => {
       (async () => {
         return Promise.all([
@@ -39,9 +38,7 @@ export default defineComponent({
         ]).finally(() => {
           this.$loadScript(
             `./src/assets/js/icons/feather-icon/feather-icon.js`
-          ).finally(() => {
-            this.$store.dispatch('setGlobalLoading', false);
-          });
+          );
         });
       })();
     }, 1000);
