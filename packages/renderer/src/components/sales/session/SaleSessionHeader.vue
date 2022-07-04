@@ -1,7 +1,16 @@
 <template>
   <div class="card-header mb-0 pb-0">
     <div class="row align-items-center">
-      <div class="col">
+      <div class="col-auto p-r-1 m-r-0">
+        <BaseButton
+          type="button"
+          class="btn btn-iconsolid"
+          @click.prevent="refreshArticleList"
+        >
+          <i class="fa fa-refresh f-w-300" />
+        </BaseButton>
+      </div>
+      <div class="col p-l-0 m-l-0">
         <BaseFieldGroup>
           <VSelect
             v-model="searchArticleField"
@@ -48,9 +57,10 @@ import BarcodeScanMixin from '/@/mixins/BarcodeScanMixin.js';
 import BaseSelect from '/@/components/common/BaseSelect.vue';
 import { priceTypeCode, saleTypeCode } from '/@/helpers/codes.js';
 import { getStockExitLineArticleStock } from '/@/helpers/utils.js';
+import BaseButton from '/@/components/common/BaseButton.vue';
 
 export default {
-  components: { BaseSelect, BaseFieldGroup, VSelect },
+  components: { BaseButton, BaseSelect, BaseFieldGroup, VSelect },
   mixins: [BarcodeScanMixin],
   data() {
     return {
@@ -142,6 +152,17 @@ export default {
     },
     resetBarcode() {
       this.onBarcodeScanned(this.$barcodeScanner.getPreviousCode());
+    },
+    refreshArticleList() {
+      if (confirm("Voulez-vous rafraichir la liste d'articles ?")) {
+        this.$store.dispatch('setGlobalLoading', true);
+        this.$store
+          .dispatch('article/getArticlesList', {
+            page: 1,
+            field: { next: true },
+          })
+          .then(() => this.$store.dispatch('setGlobalLoading', false));
+      }
     },
   },
 };

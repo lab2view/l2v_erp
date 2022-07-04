@@ -56,7 +56,7 @@ const actions = {
       return articleService
         .getList(page, { ...field, paginate: 50 })
         .then(({ data }) => {
-          commit('SET_ARTICLES', data.data);
+          commit('SET_ARTICLES', data);
           if (data.next_page_url) {
             return dispatch('getArticlesList', {
               page: page + 1,
@@ -203,9 +203,12 @@ const actions = {
 
 // mutations
 const mutations = {
-  SET_ARTICLES(state, articles) {
-    let oldArticles = state.articles ? JSON.parse(state.articles) : [];
-    state.articles = JSON.stringify([...oldArticles, ...articles]);
+  SET_ARTICLES(state, { current_page, data }) {
+    if (current_page === 1) state.articles = JSON.stringify(data);
+    else {
+      let oldArticles = state.articles ? JSON.parse(state.articles) : [];
+      state.articles = JSON.stringify([...oldArticles, ...data]);
+    }
   },
   SET_CURRENT_ARTICLE(state, article) {
     state.article = article === null ? null : JSON.stringify(article);

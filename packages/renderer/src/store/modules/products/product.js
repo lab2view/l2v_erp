@@ -27,7 +27,7 @@ const actions = {
       return productService
         .getList(page, { ...field, paginate: 50 })
         .then(({ data }) => {
-          commit('SET_PRODUCTS', data.data);
+          commit('SET_PRODUCTS', data);
           if (data.next_page_url) {
             return dispatch('getProductsList', {
               page: page + 1,
@@ -167,9 +167,12 @@ const mutations = {
     state.hash = hash;
   },
 
-  SET_PRODUCTS(state, products) {
-    let oldProducts = state.products ? JSON.parse(state.products) : [];
-    state.products = JSON.stringify([...oldProducts, ...products]);
+  SET_PRODUCTS(state, { current_page, data }) {
+    if (current_page === 1) state.products = JSON.stringify(data);
+    else {
+      let oldProducts = state.products ? JSON.parse(state.products) : [];
+      state.products = JSON.stringify([...oldProducts, ...data]);
+    }
   },
   SET_CURRENT_PRODUCT(state, product) {
     if (state.product !== product)
