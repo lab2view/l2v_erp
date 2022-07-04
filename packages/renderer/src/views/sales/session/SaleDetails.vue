@@ -4,36 +4,36 @@
     modal-size="lg"
   >
     <div class="card-body pt-0">
-      <h6>
+      <span>
         REFERENCE <i class="float-end">{{ cashierSale.reference }}</i>
-      </h6>
-      <hr />
-      <h6>
+      </span>
+      <hr class="m-1" />
+      <span>
         TYPE DE VENTE
         <span class="float-end"> {{ `${cashierSale.sale_type.label}` }}</span>
-      </h6>
-      <hr />
-      <h6>
+      </span>
+      <hr class="m-1" />
+      <span>
         MODE DE PAIEMENT
         <span class="float-end">
           {{ `${paymentCollection.payment_method.label}` }}</span
         >
-      </h6>
-      <hr />
-      <h6>
+      </span>
+      <hr class="m-1" />
+      <span>
         ENCAISSEMENT
         <span class="float-end">
           {{ `${paymentCollection.cashin} ${currency}` }}</span
         >
-      </h6>
-      <hr />
-      <h6>
+      </span>
+      <hr class="m-1" />
+      <span>
         REMBOUSEMENT
         <span class="float-end">
           {{ `${paymentCollection.cashout} ${currency}` }}</span
         >
-      </h6>
-      <hr />
+      </span>
+      <hr class="m-1" />
       <ul class="list-group">
         <li
           v-for="stockExitLine in cashierSale.stock_exit_lines"
@@ -46,29 +46,30 @@
           }}</span>
         </li>
       </ul>
-      <br />
-      <h6 v-if="cashierSale.discount">
+      <span>
+        {{ cashierSale.discount ? 'SOUS TOTAL' : 'TOTAL' }}
+        <span class="float-end"> {{ `${getTotalAmount} ${currency}` }}</span>
+      </span>
+      <hr class="m-1" />
+      <span v-if="cashierSale.discount">
         REDUCTION
         <span class="float-end">
-          {{ `${cashierSale.discount} ${currency}` }}</span
+          {{ `-${cashierSale.discount} ${currency}` }}</span
         >
-      </h6>
-      <h6>
-        {{ cashierSale.discount ? 'Sous Total' : 'TOTAL' }}
-        <span class="float-end"> {{ `${getTotalAmount} ${currency}` }}</span>
-      </h6>
-      <h6 v-if="cashierSale.discount">
+      </span>
+      <hr class="m-1" />
+      <span v-if="cashierSale.discount">
         TOTAL
         <span class="float-end"> {{ `${getSaleAmount} ${currency}` }}</span>
-      </h6>
-      <h6 v-if="cashierSale.customer">
+      </span>
+      <span v-if="cashierSale.customer">
         CLIENT
         <span class="float-end">
           {{
             `${cashierSale.customer.first_name} ${cashierSale.customer.name}`
           }}</span
         >
-      </h6>
+      </span>
     </div>
     <template #footer>
       <BaseButton
@@ -99,7 +100,7 @@ export default {
     ...mapGetters('sale', ['cashierSale']),
     ...mapGetters('workspace', ['currency']),
     getTotalAmount() {
-      return sumBy(this.cashierSale.stock_exit_lines, 'price');
+      return sumBy(this.cashierSale.stock_exit_lines, 'sup_price');
     },
     getSaleAmount() {
       return this.getTotalAmount - this.cashierSale.discount;

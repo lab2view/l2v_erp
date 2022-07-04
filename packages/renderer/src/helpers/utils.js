@@ -108,7 +108,7 @@ export function getPrinterRawText({
       enterprise.currency
     }`;
     cmds += newLine;
-    cmds += `NET A PAYER        ${getFormattedAmount(total)} ${
+    cmds += `TOTAL PAYE        ${getFormattedAmount(total)} ${
       enterprise.currency
     }`;
     cmds += newLine;
