@@ -3,6 +3,7 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 0.1.2
 
 Changes
@@ -17,4 +18,7 @@ Changes
 >>>>>>> develop
 =======
 0.1.6
+>>>>>>> develop
+=======
+0.1.7
 >>>>>>> develop
