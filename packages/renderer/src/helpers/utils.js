@@ -118,11 +118,9 @@ export function getPrinterRawText({
     (csc) => (paymentMethod += csc.payment_method.label + ' ')
   );
   cmds += newLine;
-  cmds += `${paymentMethod.toUpperCase()}    ${new Intl.NumberFormat(
-    'fr-Fr'
-  ).format(sumBy(cashier_session_collections, 'cashin') || 0)} ${
-    enterprise.currency
-  }`;
+  cmds += `${paymentMethod.toUpperCase()}    ${getFormattedAmount(
+    sumBy(cashier_session_collections, 'cashin') || 0
+  )} ${enterprise.currency}`;
   cmds += newLine;
   cmds += `RENDUE       ${getFormattedAmount(
     sumBy(cashier_session_collections, 'cashout') || 0
@@ -149,5 +147,5 @@ export function getPrinterRawText({
 }
 
 export function getFormattedAmount(amount) {
-  return amount.toLocaleString();
+  return amount.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
 }
