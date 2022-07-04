@@ -216,8 +216,8 @@ const mutations = {
       let al = { ...state.currentSaleRequest.stock_exit_lines[alIndex] };
       if (getStockExitLineArticleStock(al) > 0) {
         al.quantity++;
-        al.sup_price = al.quantity * al.price;
       }
+      al.sup_price = al.quantity * al.price;
       state.currentSaleRequest.stock_exit_lines.splice(alIndex, 1, al);
     } else state.currentSaleRequest.stock_exit_lines.push(articleLine);
   },

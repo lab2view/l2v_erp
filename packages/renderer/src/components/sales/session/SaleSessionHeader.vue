@@ -27,7 +27,6 @@
         <div class="mb-3">
           <BaseSelect
             v-model.number="salePriceTypeField"
-            label="Type de prix ?"
             label-class="col-form-label font-primary pt-0"
             class="form-select digits font-primary"
             :options="salePriceTypes"
@@ -99,13 +98,14 @@ export default {
         const price = article.prices.find(
           (p) => p.price_type_id === this.salePriceTypeField
         );
+        const haveStock = getStockExitLineArticleStock(article) > 0;
         return {
           label: `${article.name}`,
           article_id: article.id,
           price_id: price !== undefined ? price.id : null,
           discount_id: null,
-          quantity: getStockExitLineArticleStock(article) > 0 ? 1 : 0,
-          sup_price: price !== undefined ? price.value : null,
+          quantity: haveStock ? 1 : 0,
+          sup_price: price !== undefined ? (haveStock ? price.value : 0) : null,
           price: price !== undefined ? price.value : null,
           vat: null,
           barcode: article.product.code,
