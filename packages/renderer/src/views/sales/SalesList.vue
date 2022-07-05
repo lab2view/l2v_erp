@@ -8,7 +8,10 @@
           </div>
         </div>
       </div>
-      <div class="card-body">SalesList</div>
+      <div class="card-body">
+        <SaleTable :sales="sales" />
+      </div>
+      <router-view />
 
       <router-view />
     </div>
@@ -17,9 +20,23 @@
 
 <script>
 import BaseContainer from '/@/components/common/BaseContainer.vue';
+import store from '/@/store/index.js';
+import { mapGetters } from 'vuex';
+import SaleTable from '/@/components/sales/SaleTable.vue';
 
 export default {
-  components: { BaseContainer },
+  components: { SaleTable, BaseContainer },
+  beforeRouteEnter(routeTo, routeFrom, next) {
+    store
+      .dispatch('sale/getSalesList', {
+        page: 1,
+        field: {},
+      })
+      .finally(() => next());
+  },
+  computed: {
+    ...mapGetters('sale', ['sales']),
+  },
 };
 </script>
 
