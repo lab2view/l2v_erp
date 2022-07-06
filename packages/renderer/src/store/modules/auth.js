@@ -1,6 +1,7 @@
 import AuthService from '../../services/AuthService';
 import { roleAdminCode, roleCashierCode } from '/@/helpers/codes.js';
 import userService from '/@/services/iam/IamUserService';
+import { removeStorage } from '/@/helpers/utils.js';
 
 const state = {
   currentUser: null,
@@ -51,6 +52,7 @@ const actions = {
   },
 
   logout({ commit }) {
+    removeStorage();
     commit('SET_CURRENT_USER', null);
   },
 };
@@ -59,9 +61,11 @@ const actions = {
 const mutations = {
   SET_CURRENT_USER(state, user) {
     state.currentUser = user ? JSON.stringify(user) : null;
-    if (window?.ipcRenderer)
-      window?.ipcRenderer?.send('reload', 'User connexion');
-    else location.reload();
+    setTimeout(() => {
+      if (window?.ipcRenderer)
+        window?.ipcRenderer?.send('reload', 'User connexion');
+      else location.reload();
+    }, 3000);
   },
   UPDATE_CURRENT_USER(state, user) {
     user = {

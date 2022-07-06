@@ -1,13 +1,16 @@
 import cashierService from '../../../services/sales/CashierService';
 import { sumBy } from 'lodash';
+import SaleService from '/@/services/sales/SaleService.js';
+import { getStockExitLineArticleStock } from '/@/helpers/utils.js';
 
 const state = {
   cashier_sessions: null,
   current_session: null,
   localSales: null,
-  saleRequests: null,
+  saleRequests: [],
   price_type_id: null,
   currentSaleRequest: {
+    enterprise_id: null,
     sale_type_id: null,
     discount_code: null,
     discount: null,
@@ -34,26 +37,31 @@ const getters = {
   currentSaleRequest: (state) => state.currentSaleRequest,
   stock_exit_lines: (state) => state.currentSaleRequest.stock_exit_lines,
   isCurrentSaleHaveArticle: (state, getters) => getters.stock_exit_lines.length,
+  saleRequests: (state) => state.saleRequests,
   getCurrentSaleArticleCount: (state, getters) =>
     getters.stock_exit_lines?.length,
+  getCurrentSaleCustomerId: (state, getters) =>
+    getters.currentSaleRequest?.customer_id,
   getCurrentSaleSupAmount: (state, getters) => {
     return sumBy(getters.stock_exit_lines, 'sup_price');
   },
-  getCurrentSaleDiscountAmount: () => {
-    return 0;
+  getCurrentSaleDiscountAmount: (state, getters) => {
+    return getters.currentSaleRequest.discount ?? 0;
   },
   getCurrentSaleTaxAmount: () => {
     return 0;
   },
   getCurrentSaleTotalAmount: (state, getters) => {
-    return getters.getCurrentSaleSupAmount;
+    return (
+      getters.getCurrentSaleSupAmount - getters.currentSaleRequest.discount
+    );
   },
   getCurrentSaleCashOutAmount: (state, getters) => {
     if (getters.currentSaleRequest.cashin) {
       const cashOut =
         parseFloat(getters.currentSaleRequest.cashin) -
         parseFloat(getters.getCurrentSaleTotalAmount);
-      return cashOut > 0 ? cashOut : 0;
+      return cashOut > 0 ? cashOut.toFixed(2) : 0;
     } else return 0;
   },
 };
@@ -85,13 +93,46 @@ const actions = {
       });
   },
 
-  processToCurrentSaleRequest({ getters }) {
-    console.log({
+  processToCurrentSaleRequest({ commit, getters }) {
+    const payload = {
       ...getters.currentSaleRequest,
+      enterprise_id: getters.currentSession.cash_register.enterprise_id,
       cashier_session_id: getters.currentSession.id,
       cashier_id: getters.currentSession.cashier_id,
       cashout: getters.getCurrentSaleCashOutAmount,
+      cashin:
+        getters.currentSaleRequest.cashin ?? getters.getCurrentSaleTotalAmount,
+      stock_exit_lines: [
+        ...getters.currentSaleRequest.stock_exit_lines.map((sel) => {
+          let obj = { ...sel };
+          delete obj.label;
+          delete obj.image;
+          delete obj.stock;
+          delete obj.barcode;
+          delete obj.prices;
+          return obj;
+        }),
+      ],
+    };
+    return SaleService.addSale(payload)
+      .then(({ data }) => {
+        commit('sale/ADD_CASHIER_SALE', data, { root: true });
+        return data;
+      })
+      .catch((err) => {
+        if (err.response) return Promise.reject(err.response.data);
+        else return Promise.reject(err);
+      });
+  },
+
+  saveCurrentSaleInBackground({ getters, commit }) {
+    commit('ADD_SALE_REQUESTS', {
+      ...getters.currentSaleRequest,
+      background_at: new Date(),
+      amount: getters.getCurrentSaleTotalAmount,
     });
+    commit('RESET_CURRENT_SALE_REQUEST_FIELDS');
+    return true;
   },
 };
 
@@ -103,7 +144,7 @@ const mutations = {
       if (window?.ipcRenderer)
         window?.ipcRenderer?.send('reload', 'User open cashier session');
       else location.reload();
-    }, 500);
+    }, 3000);
   },
   ADD_CASHIER_SESSION(state, cashier_session) {
     state.cashier_sessions.push(cashier_session);
@@ -122,23 +163,60 @@ const mutations = {
     );
   },
 
+  ADD_SALE_REQUESTS(state, saleRequest) {
+    state.saleRequests.push(saleRequest);
+  },
+  REMOVE_SALE_REQUEST(state, index) {
+    state.saleRequests = state.saleRequests.filter((sr, ind) => ind !== index);
+  },
+  RESTORE_CURRENT_SALE_REQUEST(state, saleRequest) {
+    delete saleRequest.amount;
+    delete saleRequest.background_at;
+    state.currentSaleRequest = saleRequest;
+  },
+  RESET_CURRENT_SALE_REQUEST(state) {
+    state.currentSaleRequest.stock_exit_lines = [];
+    state.currentSaleRequest.cashin = null;
+    state.currentSaleRequest.customer_id = null;
+    state.currentSaleRequest.sale_type_id = null;
+    state.currentSaleRequest.discount = null;
+    state.currentSaleRequest.discount_id = null;
+  },
   SET_CURRENT_SALE_REQUEST_FIELD(state, { field, value }) {
     state.currentSaleRequest[field] = value;
   },
   SET_PRICE_TYPE_ID(state, value) {
     state.price_type_id = value;
   },
+  UPDATE_CURRENT_SALE_REQUEST_ARTICLE(state, articleLine) {
+    const index = state.currentSaleRequest.stock_exit_lines.findIndex(
+      (sel) => sel.article_id === articleLine.article_id
+    );
+    if (index >= 0) {
+      state.currentSaleRequest.stock_exit_lines.splice(index, 1, articleLine);
+    }
+  },
   SET_CURRENT_SALE_REQUEST_ARTICLE_LINES(state, articleLines) {
     state.currentSaleRequest.stock_exit_lines = articleLines;
   },
-
+  RESET_CURRENT_SALE_REQUEST_FIELDS(state) {
+    state.currentSaleRequest.stock_exit_lines = [];
+    state.currentSaleRequest.customer_id = null;
+    state.currentSaleRequest.cashin = null;
+    state.currentSaleRequest.cashout = null;
+    state.currentSaleRequest.discount_id = null;
+    state.currentSaleRequest.discount = null;
+    state.currentSaleRequest.discount_code = null;
+  },
   ADD_ARTICLE_TO_CURRENT_SALE_REQUEST(state, articleLine) {
     let alIndex = state.currentSaleRequest.stock_exit_lines.findIndex(
       (al) => al.article_id === articleLine.article_id
     );
     if (alIndex !== -1) {
       let al = { ...state.currentSaleRequest.stock_exit_lines[alIndex] };
-      al.quantity++;
+      if (getStockExitLineArticleStock(al) > 0) {
+        al.quantity++;
+      }
       al.sup_price = al.quantity * al.price;
       state.currentSaleRequest.stock_exit_lines.splice(alIndex, 1, al);
     } else state.currentSaleRequest.stock_exit_lines.push(articleLine);

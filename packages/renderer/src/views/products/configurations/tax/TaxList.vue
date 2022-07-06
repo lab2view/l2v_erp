@@ -19,7 +19,7 @@
       </div>
     </div>
     <div class="card-body">
-      <BaseDatatable :tfoot="false">
+      <BaseDatatable :tfoot="false" :total="taxes.length">
         <template #headers>
           <th>#</th>
           <th>{{ $t('common.attributes.label') }}</th>

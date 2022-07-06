@@ -8,7 +8,7 @@
               <BaseFieldGroup
                 @btn-click="
                   $router.push({
-                    name: 'product.form.setting.tax.form.tax',
+                    name: 'sales.session.customer.form',
                   })
                 "
               >
@@ -21,14 +21,14 @@
               </BaseFieldGroup>
             </div>
           </div>
-          <div class="row">
+          <div class="row align-items-end">
             <div class="col">
               <BaseCheckboxGroup
                 v-model="paymentMethodId"
+                required
                 :options="paymentMethods"
                 key-value="id"
                 key-label="label"
-                :label="`${$t('common.fields.payment_method')} ?`"
                 label-class="font-primary"
               />
             </div>
@@ -36,8 +36,9 @@
               <BaseSelect
                 v-model.number="saleTypeId"
                 label-class="font-primary"
-                :label="`${$t('common.fields.sale_type')} ?`"
+                :placeholder="$t('common.fields.sale_type')"
                 :options="saleTypes"
+                required
                 key-value="id"
                 key-label="label"
               />
@@ -75,7 +76,7 @@
                   <tr>
                     <td class="font-primary" style="width: 20%">
                       <h6 class="mb-0">
-                        {{ $t('common.attributes.reduction') }} :
+                        {{ $t('common.attributes.discount') }} :
                       </h6>
                     </td>
                     <td class="font-primary" style="width: 30%">
@@ -104,9 +105,11 @@
                       <BaseInputGroup
                         v-model.number="cash_in_amount"
                         :disabled="!isCashPaymentMethod"
+                        :required="isCashPaymentMethod"
                         type="number"
                         :placeholder="$t('common.attributes.amount')"
                         :min="getCurrentSaleTotalAmount"
+                        step="any"
                         class="font-primary f-w-600 form-control f-40"
                       >
                         <span class="input-group-text font-primary pt-1 pb-1">
@@ -145,11 +148,18 @@
         <div class="col-auto">
           <div class="row">
             <BaseButton
-              :disabled="!isCurrentSaleHaveArticle"
               type="button"
-              :text="$t('common.send_current_sale_in_background')"
+              :text="
+                isCurrentSaleHaveArticle
+                  ? $t('common.send_current_sale_in_background')
+                  : $t('common.show_background_sale')
+              "
               class="btn btn-outline-primary btn-block mb-3"
-              :class="{ 'font-primary': !isCurrentSaleHaveArticle }"
+              @click.prevent="
+                isCurrentSaleHaveArticle
+                  ? saveCurrentSaleInBackground()
+                  : $router.push({ name: 'sales.session.request' })
+              "
             />
           </div>
           <div class="row">
@@ -159,12 +169,14 @@
               :text="$t('common.make_an_discount')"
               class="btn btn-outline-primary btn-block mb-3"
               :class="{ 'font-primary': !isCurrentSaleHaveArticle }"
+              @click.prevent="$router.push({ name: 'sales.session.discount' })"
             />
           </div>
           <div class="row">
             <BaseButton
               :text="$t('common.process_sale').toUpperCase()"
               class="btn btn-primary-light btn-lg"
+              :loading="loading"
             />
           </div>
         </div>
@@ -181,6 +193,7 @@ import BaseCheckboxGroup from '/@/components/common/BaseCheckboxGroup.vue';
 import BaseSelect from '/@/components/common/BaseSelect.vue';
 import { cashPaymentMethodCode } from '/@/helpers/codes.js';
 import BaseFieldGroup from '/@/components/common/BaseFieldGroup.vue';
+import store from '/@/store/index.js';
 export default {
   components: {
     BaseFieldGroup,
@@ -197,6 +210,7 @@ export default {
   },
   computed: {
     ...mapGetters('cashier_session', [
+      'getCurrentSaleCustomerId',
       'getCurrentSaleSupAmount',
       'getCurrentSaleArticleCount',
       'getCurrentSaleTotalAmount',
@@ -209,6 +223,7 @@ export default {
     ...mapGetters('payment_method', ['paymentMethods']),
     ...mapGetters('sale_type', ['saleTypes']),
     ...mapGetters('customer', ['getCustomerForSelect2']),
+    ...mapGetters('printer', ['printAfterSale']),
     isCashPaymentMethod() {
       const paymentMethod = this.paymentMethods.find(
         (pm) => pm.id === this.paymentMethodId
@@ -247,18 +262,18 @@ export default {
     },
     customer: {
       get() {
-        const customer = this.getCustomerForSelect2.find(
-          (c) =>
-            c.id ===
-            this.$store.state.cashier_session.currentSaleRequest?.customer_id
-        );
-        return customer ?? null;
+        return this.getCurrentSaleCustomerId
+          ? this.getCustomerForSelect2.find(
+              (c) => c.id === this.getCurrentSaleCustomerId
+            )
+          : null;
       },
       set(value) {
-        this.$store.commit('cashier_session/SET_CURRENT_SALE_REQUEST_FIELD', {
-          value: value?.id,
-          field: 'customer_id',
-        });
+        if (value?.id)
+          this.$store.commit('cashier_session/SET_CURRENT_SALE_REQUEST_FIELD', {
+            value: value.id,
+            field: 'customer_id',
+          });
       },
     },
     cash_in_amount: {
@@ -273,13 +288,36 @@ export default {
       },
     },
   },
+  created() {
+    store.dispatch('customer/getCustomersList', {
+      page: 1,
+      field: {},
+    });
+  },
   methods: {
     handleSaleProcessButton() {
       this.loading = true;
       this.errors = [];
-
       this.$store
         .dispatch('cashier_session/processToCurrentSaleRequest')
+        .then((data) => {
+          this.$store.commit('cashier_session/RESET_CURRENT_SALE_REQUEST');
+          if (this.printAfterSale)
+            this.$store.dispatch('printer/printSaleBill', data);
+          else
+            this.$router.push({
+              name: 'sales.session.cashier.sale.detail',
+              params: { ...this.$route.params, sale_id: data.id },
+            });
+        })
+        .catch((error) => (this.errors = error.response?.data?.errors))
+        .finally(() => (this.loading = false));
+    },
+    saveCurrentSaleInBackground() {
+      this.loading = true;
+      this.errors = [];
+      this.$store
+        .dispatch('cashier_session/saveCurrentSaleInBackground')
         .catch((error) => (this.errors = error.response?.data?.errors))
         .finally(() => (this.loading = false));
     },

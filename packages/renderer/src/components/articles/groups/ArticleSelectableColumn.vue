@@ -10,8 +10,11 @@
         :for="`selected-${article.id}`"
         class="mt-0 pt-0"
         style="padding-left: 60px"
-        >{{ `${article.name}` }}</label
       >
+        {{
+          `${article.product?.code} / ${article.product?.reference} ${article.name}`
+        }}
+      </label>
     </div>
   </td>
 </template>

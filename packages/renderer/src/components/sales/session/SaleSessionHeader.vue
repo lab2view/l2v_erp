@@ -1,7 +1,16 @@
 <template>
   <div class="card-header mb-0 pb-0">
     <div class="row align-items-center">
-      <div class="col">
+      <div class="col-auto p-r-1 m-r-0">
+        <BaseButton
+          type="button"
+          class="btn btn-iconsolid"
+          @click.prevent="refreshArticleList"
+        >
+          <i class="fa fa-refresh f-w-300" />
+        </BaseButton>
+      </div>
+      <div class="col p-l-0 m-l-0">
         <BaseFieldGroup>
           <VSelect
             v-model="searchArticleField"
@@ -27,7 +36,6 @@
         <div class="mb-3">
           <BaseSelect
             v-model.number="salePriceTypeField"
-            label="Type de prix ?"
             label-class="col-form-label font-primary pt-0"
             class="form-select digits font-primary"
             :options="salePriceTypes"
@@ -47,10 +55,12 @@ import 'vue-select/dist/vue-select.css';
 import { mapGetters } from 'vuex';
 import BarcodeScanMixin from '/@/mixins/BarcodeScanMixin.js';
 import BaseSelect from '/@/components/common/BaseSelect.vue';
-import { priceTypeCode } from '/@/helpers/codes.js';
+import { priceTypeCode, saleTypeCode } from '/@/helpers/codes.js';
+import { getStockExitLineArticleStock } from '/@/helpers/utils.js';
+import BaseButton from '/@/components/common/BaseButton.vue';
 
 export default {
-  components: { BaseSelect, BaseFieldGroup, VSelect },
+  components: { BaseButton, BaseSelect, BaseFieldGroup, VSelect },
   mixins: [BarcodeScanMixin],
   data() {
     return {
@@ -60,6 +70,7 @@ export default {
   computed: {
     ...mapGetters('article', ['sell_articles']),
     ...mapGetters('price_type', ['salePriceTypes']),
+    ...mapGetters('sale_type', ['saleTypes']),
     searchArticleField: {
       get() {
         return null;
@@ -77,6 +88,12 @@ export default {
       );
       return priceType !== undefined ? priceType.id : null;
     },
+    saleDefaultTypeId() {
+      const saleType = this.saleTypes.find(
+        (st) => st.code === saleTypeCode.detail
+      );
+      return saleType !== undefined ? saleType.id : null;
+    },
     salePriceTypeField: {
       get() {
         return this.$store.state.cashier_session.price_type_id;
@@ -91,18 +108,20 @@ export default {
         const price = article.prices.find(
           (p) => p.price_type_id === this.salePriceTypeField
         );
+        const haveStock = getStockExitLineArticleStock(article) > 0;
         return {
           label: `${article.name}`,
           article_id: article.id,
-          price_id: this.salePriceTypeField,
+          price_id: price !== undefined ? price.id : null,
           discount_id: null,
-          quantity: 1,
-          sup_price: price !== undefined ? price.value : null,
+          quantity: haveStock ? 1 : 0,
+          sup_price: price !== undefined ? (haveStock ? price.value : 0) : null,
           price: price !== undefined ? price.value : null,
           vat: null,
           barcode: article.product.code,
           image: article.product.image_url,
           stock: article.stock,
+          prices: article.prices,
         };
       });
     },
@@ -115,7 +134,7 @@ export default {
     );
     // this.$store.commit('cashier_session/SET_CURRENT_SALE_REQUEST_FIELD', {
     //   field: 'sale_type_id',
-    //   value: this.saleDefaultPriceTypeId,
+    //   value: this.saleDefaultTypeId,
     // });
   },
 
@@ -133,6 +152,17 @@ export default {
     },
     resetBarcode() {
       this.onBarcodeScanned(this.$barcodeScanner.getPreviousCode());
+    },
+    refreshArticleList() {
+      if (confirm("Voulez-vous rafraichir la liste d'articles ?")) {
+        this.$store.dispatch('setGlobalLoading', true);
+        this.$store
+          .dispatch('article/getArticlesList', {
+            page: 1,
+            field: { next: true },
+          })
+          .then(() => this.$store.dispatch('setGlobalLoading', false));
+      }
     },
   },
 };

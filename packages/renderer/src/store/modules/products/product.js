@@ -20,14 +20,34 @@ const getters = {
 
 // privileges
 const actions = {
-  getProductsList({ commit, getters }, { page, field }) {
-    if (getters.products.length > 0) {
+  getProductsList({ commit, getters, dispatch }, { page, field }) {
+    if (getters.products.length > 0 && !field.next) {
       return getters.products;
     } else
-      return productService.getList(page, field).then(({ data }) => {
-        commit('SET_PRODUCTS', data);
-        return data;
-      });
+      return productService
+        .getList(page, { ...field, paginate: 50 })
+        .then(({ data }) => {
+          commit('SET_PRODUCTS', data);
+          dispatch(
+            'setGlobalProgress',
+            {
+              label: 'products',
+              min: 0,
+              max: data.last_page,
+              value: data.current_page,
+            },
+            { root: true }
+          );
+
+          if (data.next_page_url) {
+            return dispatch('getProductsList', {
+              page: page + 1,
+              field: { ...field, next: true },
+            });
+          } else dispatch('setGlobalProgress', null, { root: true });
+
+          return data;
+        });
   },
 
   getProduct({ getters, commit }, id) {
@@ -159,8 +179,12 @@ const mutations = {
     state.hash = hash;
   },
 
-  SET_PRODUCTS(state, products) {
-    state.products = JSON.stringify(products);
+  SET_PRODUCTS(state, { current_page, data }) {
+    if (current_page === 1) state.products = JSON.stringify(data);
+    else {
+      let oldProducts = state.products ? JSON.parse(state.products) : [];
+      state.products = JSON.stringify([...oldProducts, ...data]);
+    }
   },
   SET_CURRENT_PRODUCT(state, product) {
     if (state.product !== product)

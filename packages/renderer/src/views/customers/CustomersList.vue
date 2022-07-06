@@ -27,6 +27,7 @@
             <th>#</th>
             <th>{{ $t('common.attributes.customerType') }}</th>
             <th>{{ $t('common.attributes.country') }}</th>
+            <th>{{ $t('common.attributes.city') }}</th>
             <th>{{ $t('common.attributes.localization') }}</th>
             <th>{{ $t('common.attributes.name') }}</th>
             <th>{{ $t('common.attributes.phone') }}</th>
@@ -37,10 +38,11 @@
             <td>{{ customer.id }}</td>
             <td>{{ customer.customer_type.label }}</td>
             <td>{{ customer.country.name }}</td>
-            <td>{{ customer.localization.address }}</td>
-            <td>{{ customer.name }}</td>
+            <td>{{ customer.localization?.city ?? '-' }}</td>
+            <td>{{ customer.localization?.address ?? '-' }}</td>
+            <td>{{ `${customer?.first_name} ${customer?.name}` }}</td>
             <td>{{ customer.phone }}</td>
-            <td>{{ customer.email }}</td>
+            <td>{{ customer.email ?? '-' }}</td>
             <td>
               <button
                 :title="$t('common.update')"

@@ -1,5 +1,5 @@
 <template>
-  <router-view :user="user"/>
+  <router-view :user="user" />
   <div class="card mb-0">
     <div class="card-header pb-0">
       <div class="row align-items-center">
@@ -36,44 +36,46 @@
       <div class="table-responsive mb-3">
         <table class="table">
           <thead>
-          <tr>
-            <th :title="$t('common.select_all')">
-              <div
-                class="checkbox"
-                :class="
-                  partialSelect
-                    ? 'checkbox-solid-success'
-                    : 'checkbox-primary'
-                "
-              >
-                <input
-                  id="checkbox-primary-1"
-                  v-model="selectAll"
-                  type="checkbox"
-                />
-                <label
-                  class="m-0 pt-0 pb-0 p-l-5"
-                  for="checkbox-primary-1"
-                  style="padding-left: 60px"
+            <tr>
+              <th :title="$t('common.select_all')">
+                <div
+                  class="checkbox"
+                  :class="
+                    partialSelect
+                      ? 'checkbox-solid-success'
+                      : 'checkbox-primary'
+                  "
                 >
-                  {{ `${$t('iam.privilege.listTitle')} ${countSelected}` }}</label
-                >
-              </div>
-            </th>
-            <th scope="col">{{ $t('common.actions') }}</th>
-          </tr>
+                  <input
+                    id="checkbox-primary-1"
+                    v-model="selectAll"
+                    type="checkbox"
+                  />
+                  <label
+                    class="m-0 pt-0 pb-0 p-l-5"
+                    for="checkbox-primary-1"
+                    style="padding-left: 60px"
+                  >
+                    {{
+                      `${$t('iam.privilege.listTitle')} ${countSelected}`
+                    }}</label
+                  >
+                </div>
+              </th>
+              <th scope="col">{{ $t('common.actions') }}</th>
+            </tr>
           </thead>
           <tbody>
-          <ActionLineSelectable
-            v-for="(userPrivilege, index) in userPrivileges"
-            :key="`usr-priv-${index}`"
-            :model="userPrivilege"
-            :selected-list="selected"
-            remove-dispatch-name="user/removeUserPrivileges"
-            @deleted="selected = []"
-            @selected="selectUserPrivilege(userPrivilege, true)"
-            @unselected="selectUserPrivilege(userPrivilege, false)"
-          />
+            <ActionLineSelectable
+              v-for="(userPrivilege, index) in userPrivileges"
+              :key="`usr-p-${index}`"
+              :model="userPrivilege"
+              :selected-list="selected"
+              remove-dispatch-name="user/removeUserPrivileges"
+              @deleted="selected = []"
+              @selected="selectUserPrivilege(userPrivilege, true)"
+              @unselected="selectUserPrivilege(userPrivilege, false)"
+            />
           </tbody>
         </table>
       </div>
@@ -90,9 +92,11 @@
           :text="$t('common.next')"
           class="btn btn-primary col-auto"
           icon="fa fa-save"
-          @click.prevent="$router.push({
-            name: 'iam.users',
-          })"
+          @click.prevent="
+            $router.push({
+              name: 'iam.users',
+            })
+          "
         />
       </div>
     </div>
@@ -115,7 +119,7 @@ export default {
   computed: {
     ...mapGetters('user', ['user']),
     fullName() {
-      return [this.user.last_name, this.user.first_name].join(' ')
+      return [this.user.last_name, this.user.first_name].join(' ');
     },
     haveUser() {
       return !!this.user;
@@ -158,9 +162,7 @@ export default {
     selectUserPrivilege(userPrivilege, adding) {
       if (adding) this.selected.push(userPrivilege.id);
       else {
-        this.selected = this.selected.filter(
-          (id) => id !== userPrivilege.id,
-        );
+        this.selected = this.selected.filter((id) => id !== userPrivilege.id);
       }
     },
     deleteSelectedUserPrivileges() {

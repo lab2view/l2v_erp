@@ -19,6 +19,35 @@ export const saleRoutes = [
       code: 'Sale.create',
       requireCashierSession: true,
     },
+    children: [
+      {
+        path: 'customers/form',
+        name: 'sales.session.customer.form',
+        component: () => import('/@/views/customers/CustomerQuickForm.vue'),
+      },
+      {
+        path: 'cashier-sales/:sale_id',
+        name: 'sales.session.cashier.sale.detail',
+        component: () => import('/@/views/sales/session/SaleDetails.vue'),
+        beforeEnter: (to) => {
+          return store
+            .dispatch('sale/getCashierSale', parseInt(to.params.sale_id))
+            .then(() => 1)
+            .catch(() => -1);
+        },
+      },
+      {
+        path: 'pending-requests',
+        name: 'sales.session.request',
+        component: () =>
+          import('/@/views/sales/session/SalePendingRequest.vue'),
+      },
+      {
+        path: 'current-request-discounts',
+        name: 'sales.session.discount',
+        component: () => import('/@/views/sales/session/SaleDiscountModal.vue'),
+      },
+    ],
   },
   {
     path: 'types',

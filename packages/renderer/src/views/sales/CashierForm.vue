@@ -3,7 +3,7 @@
     <div class="form-group mb-3">
       <BaseSelect
         v-model="cashierForm.cashier_group_id"
-        :errors="errors.cashier_group_id"
+        :errors="errors?.cashier_group_id"
         :label="$t('common.attributes.cashier_group')"
         :options="cashierGroups"
         key-label="label"
@@ -14,7 +14,7 @@
     <div class="form-group mb-3">
       <BaseSelect
         v-model="cashierForm.enterprise_id"
-        :errors="errors.enterprise_id"
+        :errors="errors?.enterprise_id"
         :label="$t('common.attributes.enterprise')"
         :options="enterprises"
         key-label="name"
@@ -24,9 +24,19 @@
     <div class="form-group mb-3">
       <BaseInput
         v-model="cashierForm.pin"
-        :errors="errors.pin"
+        :errors="errors?.pin"
         :label="$t('common.attributes.pin')"
         placeholder="1010"
+        required
+        type="text"
+      />
+    </div>
+    <div class="form-group mb-3">
+      <BaseInput
+        v-model="cashierForm.name"
+        :errors="errors?.name"
+        :label="$t('common.attributes.first_name')"
+        placeholder="Eg. Djon doe"
         required
         type="text"
       />
@@ -41,11 +51,11 @@
         type="date"
       />
       <div
-        v-if="errors.start_at && errors.start_at.length"
+        v-if="errors?.start_at && errors?.start_at.length"
         class="invalid-feedback"
         style="display: inline"
       >
-        {{ errors.start_at[0] }}
+        {{ errors?.start_at[0] }}
       </div>
     </div>
     <div class="form-group mb-3">
@@ -57,11 +67,11 @@
         type="date"
       />
       <div
-        v-if="errors.ended_at && errors.ended_at.length"
+        v-if="errors?.ended_at && errors?.ended_at.length"
         class="invalid-feedback"
         style="display: inline"
       >
-        {{ errors.ended_at[0] }}
+        {{ errors?.ended_at[0] }}
       </div>
     </div>
     <div class="form-group mb-3">
@@ -125,6 +135,7 @@ export default {
         enterprise_id: null,
         cashier_group_id: null,
         pin: null,
+        name: null,
         disabled_at: null,
         start_at: null,
         ended_at: null,
@@ -169,7 +180,7 @@ export default {
           .dispatch('cashier/updateCashier', this.cashierForm)
           .then(() => this.$router.back())
           .catch((error) => {
-            this.errors = error.response.data.errors;
+            this.errors = error.response?.data?.errors;
             console.log(error);
           })
           .finally(() => this.setLoading());
@@ -178,7 +189,7 @@ export default {
           .dispatch('cashier/addCashier', this.cashierForm)
           .then(() => this.$router.back())
           .catch((error) => {
-            this.errors = error.response.data.errors;
+            this.errors = error.response?.data?.errors;
             console.log(error);
           })
           .finally(() => this.setLoading());

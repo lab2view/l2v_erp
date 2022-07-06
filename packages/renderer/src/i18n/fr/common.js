@@ -63,6 +63,22 @@ export default {
   process_sale: 'ENCAISSER',
   make_an_discount: 'Faire une remise',
   send_current_sale_in_background: 'Mettre en attente',
+  show_background_sale: 'Rappel de vente',
+  pending_sale: 'Vente en cours | Ventes en cours',
+  apply: 'Appliquer',
+  discount_code: 'Code de reduction',
+  select_discount: 'Selectionner une reduction',
+  printer_config: "Configuration de l'imprimante",
+  print_after_sale: 'Vendre & Imprimer',
+  action_not_allow: "L'action n'est pas autorise",
+  back_to_list: 'Retourner a la liste',
+  update_price: 'Changer le prix',
+
+  sale: {
+    list: 'Liste des ventes',
+    detail: 'Details de la vente',
+    print: 'Imprimer le ticket',
+  },
 
   fields: {
     modules: 'Modules',
@@ -86,6 +102,8 @@ export default {
     payment_method: 'Méthode de paiement',
     sale_type: 'Type de vente',
     add_customer: 'Ajouter un client',
+    article: 'article | articles',
+    default_printer: 'Imprimante par default',
   },
 
   states: {
@@ -98,8 +116,8 @@ export default {
   },
 
   attributes: {
-    first_name: 'Noms',
-    last_name: 'Prenoms',
+    first_name: 'Prenom',
+    last_name: 'Nom',
     password: 'Mot de passe',
     password_confirmation: 'Confirmation de Mot de passe',
     role: 'Role',
@@ -206,11 +224,16 @@ export default {
     cash_register_id: 'Caisse',
     sub_price: 'SOUS TOTAL',
     total_price: 'PRIX TOTAL',
-    reduction: 'REMISE',
+    discount: 'REMISE',
     receive_amount: 'MONTANT RECU',
     customer_id: 'Client',
     total_article: 'TOTAL ARTICLES',
     change_price: 'RESTE',
+    trade_register: 'Registre de commerce',
+    matriculation: "Numero d'immatriculation",
+    code_usage: "Nombre d'utilisation max",
+    code_count: 'Quantite a generer',
+    code_length: 'Taille du code',
   },
 
   gender: {
@@ -226,5 +249,6 @@ export default {
     provider: 'Provenance',
     total_price: 'Prix total',
     status: 'Statut',
+    usage: 'Utilisation',
   },
 };

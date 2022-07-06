@@ -1,12 +1,12 @@
 {
   "name": "erp-app",
-  "version": "0.0.7",
+  "version": "0.2.0",
   "author": {
     "name": "Lab2view",
     "email": "contact@lab2view.com",
     "url": "https://lab2view.com"
   },
-  "description": "an ERP",
+  "description": "L2V ERP for Enterprises",
   "homepage": "https://kitbussiness.com",
   "build": {
     "appId": "com.kitbussiness",
@@ -58,6 +58,8 @@
     "axios": "^0.24.0",
     "babel-eslint": "^10.1.0",
     "electron-updater": "4.6.5",
+    "jquery": "^3.5.1",
+    "jsprintmanager": "^5.0.0",
     "laravel-echo": "^1.11.4",
     "localforage": "^1.10.0",
     "lodash": "^4.17.21",

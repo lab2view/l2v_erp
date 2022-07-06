@@ -80,10 +80,7 @@ export default {
   beforeUnmount() {
     this.setLoading();
     if (this.enterpriseType && this.enterpriseType.id)
-      this.$store.commit(
-        'enterprise_type/SET_CURRENT_ENTERPRISE_TYPE',
-        null
-      );
+      this.$store.commit('enterprise_type/SET_CURRENT_ENTERPRISE_TYPE', null);
   },
   methods: {
     setLoading(value = false) {
@@ -107,7 +104,7 @@ export default {
           )
           .then(() => this.$router.back())
           .catch((error) => {
-            this.errors = error.response.data.errors;
+            this.errors = error.response?.data?.errors;
             console.log(error);
           })
           .finally(() => this.setLoading());
@@ -119,7 +116,7 @@ export default {
           )
           .then(() => this.$router.back())
           .catch((error) => {
-            this.errors = error.response.data.errors;
+            this.errors = error.response?.data?.errors;
             console.log(error);
           })
           .finally(() => this.setLoading());

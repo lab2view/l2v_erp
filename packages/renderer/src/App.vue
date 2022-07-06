@@ -13,7 +13,6 @@ import { defineComponent } from 'vue';
 import Loader from '/@/components/Loader.vue';
 
 export default defineComponent({
-  name: 'App',
   components: {
     Loader,
   },
@@ -27,9 +26,6 @@ export default defineComponent({
             `./src/assets/js/icons/feather-icon/feather.min.js`
           ),
           await this.$loadScript(
-            `./src/assets/js/icons/feather-icon/feather-icon.js`
-          ),
-          await this.$loadScript(
             `./src/assets/js/notify/bootstrap-notify.min.js`
           ),
           await this.$loadScript(`./src/assets/js/bootstrap/popper.min.js`),
@@ -39,7 +35,11 @@ export default defineComponent({
           await this.$loadScript(
             `./src/assets/js/datatable/datatables/jquery.dataTables.min.js`
           ),
-        ]);
+        ]).finally(() => {
+          this.$loadScript(
+            `./src/assets/js/icons/feather-icon/feather-icon.js`
+          );
+        });
       })();
     }, 1000);
   },
@@ -58,6 +58,7 @@ export default defineComponent({
 @import './assets/css/style.css';
 @import './assets/css/responsive.css';
 @import './assets/css/color-1.css';
+/*@import './assets/css/prism.css';*/
 
 .absolute-top {
   z-index: 10000;
