@@ -138,7 +138,7 @@ export function getPrinterRawText({
   cmds += `Merci de votre visite, Ref: ${code}`.toUpperCase();
 
   cmds += newLine + newLine;
-  cmds += `___________________________`.toUpperCase();
+  cmds += newLine + newLine;
   cmds += newLine + newLine;
 
   // console.log(cmds);
