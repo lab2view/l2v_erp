@@ -59,7 +59,7 @@ const actions = {
             phone: enterprise.phone ?? workspace.phone,
           },
         }) +
-        ('\x1D' + '\x56' + '\x00');
+        ('\x1D' + '\x56' + '\x00'); //other cut command '\x1D' + '\x56'  + '\x30'
       //Send print job to printer!
       cpj.sendToClient().then((r) => console.log(r));
     } else alert("SELECTIONNER l'IMPRIMANTE");
