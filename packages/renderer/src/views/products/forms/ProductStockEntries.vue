@@ -18,15 +18,19 @@
       </div>
     </div>
     <div class="card-body pb-0">
-      <StockEntryTable :stock-entries="[]" />
+      <StockEntryTable :stock-entries="stock_entries" />
     </div>
   </div>
 </template>
 
 <script>
 import StockEntryTable from '/@/components/stocks/StockEntryTable.vue';
+import {mapGetters} from 'vuex';
 export default {
   components: { StockEntryTable },
+  computed:{
+    ...mapGetters('stock_entry', ['stock_entries'])
+  }
 };
 </script>
 
