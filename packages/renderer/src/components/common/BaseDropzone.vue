@@ -40,7 +40,7 @@ export default {
     const saveFiles = (files) => {
       const formData = new FormData();
       for (let x = 0; x < files.length; x++) {
-        formData.append('files[]', files[x]);
+        formData.append('images[]', files[x]);
       }
       formData.append('context', props.context);
 
