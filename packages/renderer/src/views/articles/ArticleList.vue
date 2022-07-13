@@ -33,7 +33,7 @@
               <BaseButton
                 type="button"
                 class="btn btn-iconsolid btn-primary btn-sm"
-                :title="$t('common.delete')"
+                :title="$t('common.detail')"
                 @click.prevent="
                   $router.push({
                     name: 'article.details',
