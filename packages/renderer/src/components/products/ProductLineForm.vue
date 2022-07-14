@@ -14,10 +14,11 @@
           </thead>
           <tbody>
           <ProductEntryLineFormField
-            v-for="(stockEntryLine, index) in product.articles"
-            :errors="errors"
-            :article="stockEntryLine"
+            v-for="(stockEntryLine, index) in stock_entry_line_fields"
+            :key="`stc-ent-lne-form-${index}`"
+            :stock-entry-line="stockEntryLine"
             :index="index"
+            :errors="errors"
           />
           </tbody>
         </table>
@@ -49,45 +50,28 @@
         type: Object,
         required: true,
       },
+      stock_entry_line_fields:{
+        type:Array
+      }
     },
     data() {
       return {
-        stock_entry_line_fields: [],
         show_select_form: true,
         errors: [],
         loading: false,
       };
     },
+
     computed: {
       ...mapGetters('stock_entry', ['stockEntry', 'stockEntryIsCommand']),
       ...mapGetters('article', ['article']),
 
     },
     created() {
-      if (this.stockEntry) {
-        this.stock_entry_line_fields = {
-          article_id: this.article_id,
-          provider_price: null,
-          buying_price: null,
-          provider_id: null,
-          quantity: 1,
-          stock_entry_id: this.stockEntry.id,
-        }
-      }
+
+
     },
     methods: {
-      submitEntryLinesForm() {
-        if (this.stock_entry_line_fields) {
-          this.loading = true;
-          return this.$store
-            .dispatch('stock_entry/addStockEntryLines', {
-              stock_entry_lines: this.stock_entry_line_fields,
-            })
-            .then(() => this.$router.back())
-            .catch((error) => (this.errors = error.response?.data?.errors))
-            .finally(() => (this.loading = false));
-        }
-      },
     },
   };
 </script>

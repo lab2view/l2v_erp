@@ -7,7 +7,7 @@
         type="number"
         required
         min="0"
-        :errors="errors?.[`.${index}.quantity`]"
+        :errors="errors?.[`stock_entry_lines.${index}.quantity`]"
       />
     </td>
   </tr>
@@ -23,7 +23,7 @@ import BaseInputGroup from '/@/components/common/BaseInputGroup.vue';
 export default {
   components: { BaseInputGroup, BaseButton, BaseInput, BaseSelect },
   props: {
-    article: {
+    stockEntryLine: {
       type: Object,
       required: false,
     },
@@ -35,16 +35,11 @@ export default {
       type: [Array, Object],
       default: null,
     },
+
   },
   data(){
     return{
-      stockEntryLine: {
-        article_id: null,
-        provider_price: null,
-        buying_price: null,
-        provider_id: null,
-        stock_entry_id: null
-      },
+
     }
   },
   emits: ['remove'],
@@ -52,21 +47,17 @@ export default {
     ...mapGetters('stock_entry', ['stockEntryIsCommand']),
     ...mapGetters('article', ['getArticleById']),
     ...mapGetters('provider', ['providers']),
+    article() {
+      return this.getArticleById(this.stockEntryLine.article_id);
+    },
     quantity: {
       get() {
         return this.stockEntryLine.quantity;
       },
       set(value) {
-        return this.updateFieldMethod(
-          {
-            ...this.stockEntryLine,
-            quantity: value,
-          },
-          this.index
-        );
+        return this.stockEntryLine.quantity = value
       },
-    },
-
+    }
   },
 };
 </script>
