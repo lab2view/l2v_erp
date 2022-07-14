@@ -18,18 +18,38 @@
       </div>
     </div>
     <div class="card-body pb-0">
-      <StockEntryTable :stock-entries="stock_entries" />
+      <StockEntryTable :stock-entries="stockEntries" />
     </div>
   </div>
 </template>
 
 <script>
 import StockEntryTable from '/@/components/stocks/StockEntryTable.vue';
+import store from '../../../store';
 import {mapGetters} from 'vuex';
 export default {
   components: { StockEntryTable },
+  beforeRouteEnter(routeTo, routeFrom, next) {
+    store
+      .dispatch('stock_entry/getStockEntriesList', {
+        page: 1,
+        field: {},
+      })
+      .then(() => {
+        next();
+      })
+      .catch((error) => {
+        console.log(error);
+        next();
+      });
+  },
   computed:{
-    ...mapGetters('stock_entry', ['stock_entries'])
+    ...mapGetters('product', ['product']),
+    ...mapGetters('stock_entry', ['getStockEntriesByProductId']),
+
+    stockEntries() {
+      return this.getStockEntriesByProductId(this.product.id);
+    },
   }
 };
 </script>
