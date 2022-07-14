@@ -14,8 +14,14 @@ const getters = {
   stock_entries: (state) => {
     return state.stock_entries ? JSON.parse(state.stock_entries) : [];
   },
-  getStockEntriesByProductId: (state, getters) => (product_id) =>{
-    return getters.stock_entries.filter((s) => s.product_id === product_id)},
+  getStockEntriesByProductId: (state, getters) => (product_id) => {
+    return getters.stock_entries.filter(
+      (s) =>
+        s.stock_provisions.find(
+          (sp) => sp.article.product_id === product_id
+        ) !== undefined
+    );
+  },
   stockEntry: (state) =>
     state.stockEntry ? JSON.parse(state.stockEntry) : null,
   stockEntryReference: (state, getters) => getters.stockEntry?.reference,
