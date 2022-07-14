@@ -1,74 +1,121 @@
 <template>
-  <BaseDropzone
-    v-if="imagePropertyId"
-    :context="productContext"
-    @uploaded="uploadProductImage"
-  />
-  <BaseGallery :items="images" />
+  <div>
+    <div class="field is-grouped is-grouped-multiline">
+      <p class="control">
+        <button
+          type="button"
+          class="button"
+          :disabled="images.length === 10"
+          @click="add"
+        >
+          Add
+        </button>
+      </p>
+      <p class="control">
+        <button
+          type="button"
+          class="button"
+          :disabled="images.length === 0"
+          @click="remove"
+        >
+          Remove
+        </button>
+      </p>
+    </div>
+
+    <div ref="el" v-viewer="options" class="">
+      <template v-for="{ source, thumbnail, title } in images" :key="source">
+        <img
+          class="image"
+          :src="thumbnail"
+          :data-source="source"
+          :alt="title"
+          @contextmenu="openContextMenu"
+        />
+      </template>
+    </div>
+  </div>
 </template>
 
 <script>
-import { productPropertyImageCode } from '/@/helpers/codes.js';
-import store from '/@/store/index.js';
-import { mapGetters } from 'vuex';
-import BaseDropzone from '/@/components/common/BaseDropzone.vue';
-import BaseGallery from '/@/components/common/BaseGallery.vue';
+import { defineComponent, toRefs, reactive, ref } from 'vue';
+import VueViewer, { directive } from 'v-viewer';
+import 'viewerjs/dist/viewer.css';
+VueViewer.setDefaults({
+  zIndex: 2021,
+});
 
-export default {
-  components: { BaseGallery, BaseDropzone },
-  beforeRouteEnter(routeTo, routeFrom, next) {
-    store
-      .dispatch('property/getPropertiesList', {
-        page: 1,
-        field: {},
-      })
-      .then(() => {
-        next();
-      })
-      .catch((error) => {
-        console.log(error);
-        next();
-      });
+let sourceImages = [];
+const base = Math.floor(Math.random() * 60) + 10;
+for (let i = 0; i < 10; i++) {
+  sourceImages.push({
+    source: `https://picsum.photos/id/${base + i}/1440/900`,
+    thumbnail: `https://picsum.photos/id/${base + i}/346/216`,
+    title: `Image: ${base + i}`,
+  });
+}
+export default defineComponent({
+  directives: {
+    viewer: directive({
+      debug: true,
+    }),
   },
-  computed: {
-    ...mapGetters('product', ['product', 'product_properties']),
-    ...mapGetters('property', ['properties']),
-    productContext() {
-      return `products/${this.product?.id}`;
-    },
-    imagePropertyId() {
-      const p = this.properties.find(
-        (p) => p.code === productPropertyImageCode
-      );
-      if (p !== undefined) return p.id;
-      return null;
-    },
-    images() {
-      let images = this.product_properties.filter(
-        (pp) => pp.property.code === productPropertyImageCode
-      );
-      return images.map((i) => {
-        return { url: i.value_url };
-      });
-    },
+  setup() {
+    const el = (ref < HTMLElement) | (null > null);
+    const state = reactive({
+      options: {
+        url: 'data-source',
+        inline: false,
+        button: true,
+        navbar: true,
+        title: false,
+        toolbar: true,
+        tooltip: false,
+        movable: false,
+        zoomable: true,
+        rotatable: false,
+        scalable: false,
+        transition: true,
+        fullscreen: false,
+        keyboard: false,
+      },
+      images: [...sourceImages].splice(0, 5),
+    });
+    function toggleToolbar(toolbar) {
+      state.options.toolbar = toolbar;
+    }
+    function add() {
+      state.images.push(sourceImages[state.images.length]);
+    }
+    function remove() {
+      state.images.pop();
+    }
+    function show() {
+      el.value && el.value.$viewer.show();
+    }
+    return {
+      ...toRefs(state),
+      el,
+      add,
+      remove,
+      stop,
+      show,
+      toggleToolbar,
+    };
   },
   methods: {
-    uploadProductImage(names) {
-      const properties = names.map((n) => {
-        return { value: n, property_id: this.imagePropertyId };
-      });
-      this.$store
-        .dispatch('product/addProperties', { properties })
-        .then((data) => {
-          console.log(data);
-        })
-        .catch((error) => {
-          console.log(error);
-          console.log(error?.response?.data);
-        });
+    openContextMenu() {
+      //alert('sdflsdfkjsdflkj');
     },
   },
-};
+});
 </script>
 
-<style scoped></style>
+<style scoped>
+.image {
+  width: calc(20% - 10px);
+  cursor: pointer;
+  margin: 5px;
+  display: inline-block;
+}
+</style>

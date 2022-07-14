@@ -8,6 +8,8 @@ import i18n from '/@/i18n';
 import initEchoClient from '/@/config/echo.js';
 import VueBarcodeScanner from 'vue3-barcode-scanner';
 
+import VueViewer from 'v-viewer';
+
 window._ = lodash;
 
 const app = createApp(App);
@@ -15,6 +17,8 @@ const app = createApp(App);
 app.use(router);
 app.use(store);
 app.use(i18n);
+app.use(VueViewer);
+
 let options = {
   sensitivity: 300, // default is 100
   callbackAfterTimeout: true, // default is false
