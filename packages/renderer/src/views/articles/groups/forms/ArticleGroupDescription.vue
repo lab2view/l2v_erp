@@ -107,7 +107,7 @@ export default {
             .dispatch('article_group/updateArticleGroup', this.articleGroupForm)
             .then((articleGroup) =>
               this.$router.push({
-                name: 'article.group.form.setting',
+                name: 'article.group.form.item',
                 params: { id: articleGroup.id },
               })
             )
@@ -117,7 +117,7 @@ export default {
             });
         else
           this.$router.push({
-            name: 'article.group.form.setting',
+            name: 'article.group.form.item',
             params: { id: this.articleGroup.id },
           });
       } else
@@ -125,7 +125,7 @@ export default {
           .dispatch('article_group/addArticleGroup', this.articleGroupForm)
           .then((articleGroup) =>
             this.$router.push({
-              name: 'article.group.form.setting',
+              name: 'article.group.form.item',
               params: { id: articleGroup.id },
             })
           )

@@ -28,6 +28,14 @@ export default [
         component: () => import('/@/views/articles/details/Details.vue'),
       },
       {
+        path: '',
+        name: 'article.entry.line.form',
+        component: () =>
+          import(
+            '/@/views/articles/details/EntryLineForm.vue'
+            ),
+      },
+      {
         path: 'prices',
         name: 'article.prices',
         component: () => import('/@/views/articles/details/Prices.vue'),
