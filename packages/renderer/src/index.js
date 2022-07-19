@@ -26,7 +26,6 @@ let options = {
   callbackAfterTimeout: true, // default is false
 };
 app.use(VueBarcodeScanner, options);
-
 app.config.globalProperties.$loadScript = loadScript;
 
 initEchoClient(store, loadScript)
