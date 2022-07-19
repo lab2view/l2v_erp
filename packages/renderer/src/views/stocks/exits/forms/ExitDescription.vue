@@ -70,7 +70,15 @@
                 :disabled="isUpdating"
               />
             </div>
+            <div class="dropdown">
+              <div>
+                <EnterpriseSelectableList :sourceEnterprises="enterprises" />
+              </div>
+            </div>
           </div>
+        </div>
+        <div class="card">
+          <p>Entreprises selectionnées</p>
         </div>
       </div>
       <div class="card-footer">
@@ -108,9 +116,11 @@ import BaseButton from '/@/components/common/BaseButton.vue';
 import BaseSelect from '/@/components/common/BaseSelect.vue';
 import BaseInputGroup from '/@/components/common/BaseInputGroup.vue';
 import { random } from 'lodash/number.js';
+import EnterpriseSelectableList from '/@/components/enterprise/EnterpriseSelectableList.vue';
 
 export default {
   components: {
+    EnterpriseSelectableList,
     BaseInputGroup,
     BaseSelect,
     BaseButton,
@@ -136,6 +146,7 @@ export default {
   },
   data() {
     return {
+      value: null,
       errors: [],
       loading: false,
       is_edited: false,
