@@ -172,21 +172,23 @@ export default {
       this.$store
         .dispatch('stock_entry/addStockEntry', this.stockEntryForm)
         .then((stockEntry) => {
-          return this.$store.dispatch('stock_entry/addStockEntryLines', {
-            stock_entry_lines: this.stock_entry_line_fields.map((sel) => {
-              return {
-                ...sel,
-                stock_entry_id: stockEntry.id,
-                buying_price: 0,
-              };
-            }),
-          });
+          return this.$store
+            .dispatch('stock_entry/addStockEntryLines', {
+              stock_entry_lines: this.stock_entry_line_fields.map((sel) => {
+                return {
+                  ...sel,
+                  stock_entry_id: stockEntry.id,
+                  buying_price: 0,
+                };
+              }),
+            })
+            .then(() =>
+              this.$router.push({
+                name: 'stock.entry.form.article',
+                params: { id: stockEntry.id },
+              })
+            );
         })
-        .then(() =>
-          this.$router.push({
-            name: 'product.form.stock',
-          })
-        )
         .catch((error) => {
           this.errors = error.response?.data?.errors;
           console.log(error);
