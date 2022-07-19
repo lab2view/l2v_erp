@@ -119,7 +119,7 @@ export default {
           price: price !== undefined ? price.value : null,
           vat: null,
           barcode: article.product.code,
-          image: article.product.image_url,
+          image: article.cover_thumb_url ?? article.product.image_url,
           stock: article.stock,
           prices: article.prices,
         };

@@ -80,7 +80,7 @@ export default [
             component: () =>
               import(
                 '/@/views/products/configurations/package/PackageForm.vue'
-              ),
+                ),
           },
         ],
       },
@@ -109,14 +109,20 @@ export default [
       {
         path: 'entries',
         name: 'product.form.stocks.entry',
-        props: () => ({ useCurrentProduct: true }),
+        props: () => ({useCurrentProduct: true}),
         component: () =>
           import('/@/views/products/forms/ProductStockEntries.vue'),
       },
       {
+        path: 'supply',
+        name: 'product.form.stocks.entry.supply',
+        component: () =>
+          import('/@/views/products/forms/Supply.vue'),
+      },
+      {
         path: 'exits',
         name: 'product.form.stocks.exit',
-        props: () => ({ useCurrentProduct: true }),
+        props: () => ({useCurrentProduct: true}),
         component: () =>
           import('/@/views/products/forms/ProductStockExits.vue'),
       },
