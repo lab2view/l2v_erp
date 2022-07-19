@@ -13,30 +13,30 @@
       <div class="table-responsive">
         <table class="table">
           <thead>
-          <tr>
-            <th scope="col">{{ $t('common.attributes.article_id') }}</th>
-            <th v-if="stockEntryIsCommand" scope="col">
-              {{ $t('common.attributes.provider_id') }}
-            </th>
-            <th v-if="stockEntryIsCommand" scope="col" style="width: 210px">
-              {{ $t('common.attributes.provider_price') }}
-            </th>
-            <th class="text-center" scope="col" style="width: 120px">
-              {{ $t('common.attributes.quantity') }}
-              <span class="text-danger m-l-5">*</span>
-            </th>
-            <th scope="col" style="width: 210px">
-              {{ $t('common.attributes.buying_price') }}
-              <span class="text-danger m-l-5">*</span>
-            </th>
-          </tr>
+            <tr>
+              <th scope="col">{{ $t('common.attributes.article_id') }}</th>
+              <th v-if="stockEntryIsCommand" scope="col">
+                {{ $t('common.attributes.provider_id') }}
+              </th>
+              <th v-if="stockEntryIsCommand" scope="col" style="width: 210px">
+                {{ $t('common.attributes.provider_price') }}
+              </th>
+              <th class="text-center" scope="col" style="width: 120px">
+                {{ $t('common.attributes.quantity') }}
+                <span class="text-danger m-l-5">*</span>
+              </th>
+              <th scope="col" style="width: 210px">
+                {{ $t('common.attributes.buying_price') }}
+                <span class="text-danger m-l-5">*</span>
+              </th>
+            </tr>
           </thead>
           <tbody>
-          <ArticleEntryLineFormField
-            :stock-entry-line="stock_entry_line_fields"
-            :errors="errors"
-            :article="article"
-          />
+            <ArticleEntryLineFormField
+              :stock-entry-line="stock_entry_line_fields"
+              :errors="errors"
+              :article="article"
+            />
           </tbody>
         </table>
       </div>
@@ -63,69 +63,67 @@
 </template>
 
 <script>
-  import ArticleSelectableList from '/@/components/articles/ArticleSelectableList.vue';
-  import {mapGetters} from 'vuex';
-  import BaseButton from '/@/components/common/BaseButton.vue';
-  import ArticleEntryLineFormField from '/@/components/articles/ArticleEntryLineFormField.vue';
-  import store from '/@/store/index.js';
+import { mapGetters } from 'vuex';
+import BaseButton from '/@/components/common/BaseButton.vue';
+import ArticleEntryLineFormField from '/@/components/articles/ArticleEntryLineFormField.vue';
+import store from '/@/store/index.js';
 
-  export default {
-    components: {ArticleEntryLineFormField, BaseButton, ArticleSelectableList},
-    beforeRouteEnter(routeTo, routeFrom, next) {
-      store
-        .dispatch('provider/getStockProvidersList', {
-          page: 1,
-          field: {},
-        })
-        .catch((error) => console.log(error))
-        .finally(() => next());
-    },
-    data() {
-      return {
-        stock_entry_line_fields: {
-          article_id: null,
-          provider_price: null,
-          buying_price: null,
-          provider_id: null,
-          stock_entry_id: null
-        },
-        show_select_form: false,
-        errors: [],
-        loading: false,
+export default {
+  components: { ArticleEntryLineFormField, BaseButton },
+  beforeRouteEnter(routeTo, routeFrom, next) {
+    store
+      .dispatch('provider/getStockProvidersList', {
+        page: 1,
+        field: {},
+      })
+      .catch((error) => console.log(error))
+      .finally(() => next());
+  },
+  data() {
+    return {
+      stock_entry_line_fields: {
+        article_id: null,
+        provider_price: null,
+        buying_price: null,
+        provider_id: null,
+        stock_entry_id: null,
+      },
+      show_select_form: false,
+      errors: [],
+      loading: false,
+    };
+  },
+  computed: {
+    ...mapGetters('stock_entry', ['stockEntry', 'stockEntryIsCommand']),
+    ...mapGetters('article', ['article']),
+  },
+  created() {
+    if (this.stockEntry) {
+      this.stock_entry_line_fields = {
+        article_id: this.article_id,
+        provider_price: null,
+        buying_price: null,
+        provider_id: null,
+        quantity: 1,
+        stock_entry_id: this.stockEntry.id,
       };
-    },
-    computed: {
-      ...mapGetters('stock_entry', ['stockEntry', 'stockEntryIsCommand']),
-      ...mapGetters('article', ['article']),
-
-    },
-    created() {
-      if (this.stockEntry) {
-        this.stock_entry_line_fields = {
-          article_id: this.article_id,
-          provider_price: null,
-          buying_price: null,
-          provider_id: null,
-          quantity: 1,
-          stock_entry_id: this.stockEntry.id,
-        }
+    }
+  },
+  methods: {
+    submitEntryLinesForm() {
+      if (this.stock_entry_line_fields) {
+        this.loading = true;
+        return this.$store
+          .dispatch('stock_entry/addStockEntryLines', {
+            stock_entry_lines: this.stock_entry_line_fields,
+          })
+          .then(() => this.$router.back())
+          .catch((error) => (this.errors = error.response?.data?.errors))
+          .finally(() => (this.loading = false));
       }
     },
-    methods: {
-      submitEntryLinesForm() {
-        if (this.stock_entry_line_fields) {
-          this.loading = true;
-          return this.$store
-            .dispatch('stock_entry/addStockEntryLines', {
-              stock_entry_lines: this.stock_entry_line_fields,
-            })
-            .then(() => this.$router.back())
-            .catch((error) => (this.errors = error.response?.data?.errors))
-            .finally(() => (this.loading = false));
-        }
-      },
-    },
-  };
+  },
+};
 </script>
 
 <style scoped></style>

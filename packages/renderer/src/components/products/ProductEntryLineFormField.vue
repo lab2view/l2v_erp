@@ -3,7 +3,7 @@
     <td>{{ article.name }}</td>
     <td style="width: 120px">
       <BaseInput
-        v-model="quantity"
+        v-model.number="quantity"
         type="number"
         required
         min="0"
@@ -15,34 +15,28 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import BaseSelect from '/@/components/common/BaseSelect.vue';
 import BaseInput from '/@/components/common/BaseInput.vue';
-import BaseButton from '/@/components/common/BaseButton.vue';
-import BaseInputGroup from '/@/components/common/BaseInputGroup.vue';
 
 export default {
-  components: { BaseInputGroup, BaseButton, BaseInput, BaseSelect },
+  components: { BaseInput },
   props: {
     stockEntryLine: {
       type: Object,
-      required: false,
+      required: true,
     },
     index: {
       type: [String, Number],
-      required: false,
+      required: true,
     },
     errors: {
       type: [Array, Object],
       default: null,
     },
-
   },
-  data(){
-    return{
-
-    }
+  emits: ['update:modelValue'],
+  data() {
+    return {};
   },
-  emits: ['remove'],
   computed: {
     ...mapGetters('stock_entry', ['stockEntryIsCommand']),
     ...mapGetters('article', ['getArticleById']),
@@ -54,10 +48,10 @@ export default {
       get() {
         return this.stockEntryLine.quantity;
       },
-      set(value) {
-        return this.stockEntryLine.quantity = value
+      set: function (value) {
+        return this.$emit('update:modelValue', value);
       },
-    }
+    },
   },
 };
 </script>

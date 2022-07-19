@@ -39,7 +39,7 @@
           <div class="mb-3 mt-4">
             <ProductLineForm
               :product="product"
-              :stock_entry_line_fields="stock_entry_line_fields"
+              :stock-entry-line-fields="stock_entry_line_fields"
             />
           </div>
           <div class="mb-3">
@@ -87,13 +87,11 @@ import BaseSelect from '/@/components/common/BaseSelect.vue';
 import BaseInputGroup from '/@/components/common/BaseInputGroup.vue';
 import BaseTextArea from '/@/components/common/BaseTextArea.vue';
 import { random } from 'lodash/number';
-import BaseInput from '/@/components/common/BaseInput.vue';
 import ProductLineForm from '/@/components/products/ProductLineForm.vue';
 
 export default {
   components: {
     ProductLineForm,
-    BaseInput,
     BaseTextArea,
     BaseInputGroup,
     BaseSelect,
