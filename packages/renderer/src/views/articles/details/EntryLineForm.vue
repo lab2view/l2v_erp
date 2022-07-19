@@ -32,11 +32,11 @@
             </tr>
           </thead>
           <tbody>
-            <ArticleEntryLineFormField
-              :stock-entry-line="stock_entry_line_fields"
-              :errors="errors"
-              :article="article"
-            />
+            <!--            <ArticleEntryLineFormField-->
+            <!--              :stock-entry-line="stock_entry_line_fields"-->
+            <!--              :errors="errors"-->
+            <!--              :article="article"-->
+            <!--            />-->
           </tbody>
         </table>
       </div>
@@ -65,11 +65,10 @@
 <script>
 import { mapGetters } from 'vuex';
 import BaseButton from '/@/components/common/BaseButton.vue';
-import ArticleEntryLineFormField from '/@/components/articles/ArticleEntryLineFormField.vue';
 import store from '/@/store/index.js';
 
 export default {
-  components: { ArticleEntryLineFormField, BaseButton },
+  components: { BaseButton },
   beforeRouteEnter(routeTo, routeFrom, next) {
     store
       .dispatch('provider/getStockProvidersList', {
