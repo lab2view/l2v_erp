@@ -108,7 +108,10 @@ router.beforeEach(async (to, from, next) => {
   if (to.meta.requireAuth) authGuard(to, from, next);
   if (to.meta.redirectAuth) redirectAuthGuard(to, from, next);
   if (to.meta.requireUnlock) unlockGuard(to, from, next);
-  if (to.meta.requireProduct) productGuard(to, from, next);
+  if (to.meta.requireProduct) {
+    await store.dispatch('product/getProduct', to.params.id);
+    productGuard(to, from, next);
+  }
   if (to.meta.requireUser) userGuard(to, from, next);
   if (to.meta.requireArticleGroup) productArticleGroupGuard(to, from, next);
   if (to.meta.requireCustomerGroup) customerGroupGuard(to, from, next);

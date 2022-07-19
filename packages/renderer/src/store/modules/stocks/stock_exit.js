@@ -13,6 +13,14 @@ const state = {
 const getters = {
   stock_exits: (state) =>
     state.stock_exits ? JSON.parse(state.stock_exits) : [],
+  getStockExitsByProductId: (state, getters) => (product_id) => {
+    return getters.stock_exits.filter(
+      (se) =>
+        se.stock_exit_lines.find(
+          (sel) => sel.article.product_id === product_id
+        ) !== undefined
+    );
+  },
   stockExit: (state) => (state.stockExit ? JSON.parse(state.stockExit) : null),
   haveStockExit: (state, getters) => !!getters.stockExit,
   stockExitLines: (state, getters) =>

@@ -8,7 +8,7 @@
       </div>
     </div>
     <div class="card-body">
-      <StockExitTable :stock-exits="[]" />
+      <StockExitTable :stock-exits="stockExits" />
     </div>
     <router-view />
   </div>
@@ -16,8 +16,38 @@
 
 <script>
 import StockExitTable from '/@/components/stocks/StockExitTable.vue';
+import store from '../../../store';
+import { mapGetters } from 'vuex';
 export default {
   components: { StockExitTable },
+
+  beforeRouteEnter(routeTo, routeFrom, next) {
+    store
+      .dispatch('stock_exit/getStockExitsList', {
+        page: 1,
+
+        field: {},
+      })
+
+      .then(() => {
+        next();
+      })
+
+      .catch((error) => {
+        console.log(error);
+
+        next();
+      });
+  },
+
+  computed: {
+    ...mapGetters('product', ['product']),
+    ...mapGetters('stock_exit', ['getStockExitsByProductId']),
+
+    stockExits() {
+      return this.getStockExitsByProductId(this.product.id);
+    },
+  },
 };
 </script>
 
