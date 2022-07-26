@@ -28,4 +28,28 @@ export default {
   forceDelete(id) {
     return axios.delete(`/properties/delete/${id}`);
   },
+
+  getPropertyTypes() {
+    return axios.post(`/properties/types/list`);
+  },
+
+  updatePropertyType(propertyType, id) {
+    return axios.put(`/properties/${id}`, propertyType);
+  },
+
+  addPropertyValues(propertyValues, property_id) {
+    return axios.post(`/properties/${property_id}/values/add`, propertyValues);
+  },
+  updatePropertyValue(propertyValue) {
+    return axios.put(
+      `/properties/values/${propertyValue.id}/update`,
+      propertyValue
+    );
+  },
+  removePropertyValues(propertyValueIds, property_id) {
+    return axios.post(
+      `/properties/${property_id}/values/remove`,
+      propertyValueIds
+    );
+  },
 };
