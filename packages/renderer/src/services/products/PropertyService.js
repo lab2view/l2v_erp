@@ -32,7 +32,6 @@ export default {
   getPropertyTypes() {
     return axios.post(`/properties/types/list`);
   },
-
   updatePropertyType(propertyType, id) {
     return axios.put(`/properties/${id}`, propertyType);
   },
