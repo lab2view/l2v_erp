@@ -73,6 +73,7 @@ export default {
   action_not_allow: "L'action n'est pas autorise",
   back_to_list: 'Retourner a la liste',
   update_price: 'Changer le prix',
+  deleted: 'Supprime',
 
   sale: {
     list: 'Liste des ventes',
@@ -234,6 +235,8 @@ export default {
     code_usage: "Nombre d'utilisation max",
     code_count: 'Quantite a generer',
     code_length: 'Taille du code',
+    property_type: 'Type de champs',
+    property_values: 'Liste des valeurs possibles',
   },
 
   gender: {

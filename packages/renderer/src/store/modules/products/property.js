@@ -15,6 +15,8 @@ const getters = {
   properties: (state) => state.properties,
   property: (state) => state.property,
   propertyTypes: (state) => state.property_types,
+  getPropertyTypeById: (state, getters) => (id) =>
+    getters.propertyTypes.find((pt) => pt.id === id) ?? null,
 };
 
 // privileges
@@ -30,7 +32,9 @@ const actions = {
   },
 
   getProperty({ getters, commit }, id) {
-    const property = getters.properties.find((p) => p.id.toString() === id);
+    const property = getters.properties.find(
+      (p) => p.id.toString() === id.toString()
+    );
     if (property !== undefined) {
       commit('SET_CURRENT_PROPERTY', property);
       return property;
@@ -153,9 +157,7 @@ const mutations = {
     }
   },
   DELETE_PROPERTY(state, propertyId) {
-    state.state.properties = state.properties.filter(
-      (p) => p.id !== propertyId
-    );
+    state.properties = state.properties.filter((p) => p.id !== propertyId);
   },
 
   SET_PROPERTY_TYPES(state, property_types) {
