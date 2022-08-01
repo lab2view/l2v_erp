@@ -11,7 +11,10 @@
             required
             :errors="errors?.package_id"
             @btn-click="
-              $router.push({ name: 'product.form.article.form.package' })
+              $router.push({
+                name: 'product.form.article.form.package',
+                params: { ...$route.params },
+              })
             "
           >
             <BaseSelect
