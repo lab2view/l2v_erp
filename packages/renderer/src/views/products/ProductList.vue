@@ -64,20 +64,18 @@
               </span>
             </td>
             <td>
-              <button
+              <router-link
+                :to="{
+                  name: 'product.form.desc',
+                  params: { id: product.id },
+                }"
                 class="btn btn-secondary btn-xs"
                 type="button"
                 data-original-title="btn btn-secondary btn-xs"
                 :title="$t('common.update')"
-                @click.prevent="
-                  $router.push({
-                    name: 'product.form.desc',
-                    params: { id: product.id },
-                  })
-                "
               >
                 {{ $t('common.update') }}
-              </button>
+              </router-link>
               <button
                 v-if="!product.not_deletable"
                 class="btn btn-danger btn-xs m-l-5"

@@ -3,12 +3,13 @@
     <td class="bd-t-none u-s-tb">
       <div class="media">
         <img
-          class="img-20 me-4 rounded-circle"
-          :src="article.image ?? articleDefaultImage"
+          v-if="article.image && article.image !== ''"
+          class="img-30 rounded-circle"
+          :src="article.image"
           :alt="article.article_id"
           :title="article.label"
         />
-        <div class="media-body">
+        <div class="media-body m-l-10">
           <div class="font-primary f-w-500 f-12">
             {{ article.label }}
             <span :class="`f-10 text-${is_stock ? 'success' : 'danger'}`">
