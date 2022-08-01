@@ -5,6 +5,7 @@
         <BaseButton
           class="btn btn-primary btn-iconsolid"
           :icon="`fa fa-${currentIndex !== null ? 'check' : 'plus'}`"
+          :disabled="!propertyValueField.value"
           @click="
             currentIndex !== null ? updatePropertyValue() : addPropertyValue()
           "
