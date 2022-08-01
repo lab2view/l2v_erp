@@ -1,98 +1,73 @@
 <template>
+  <div class="row justify-content-center mt-2">
+    <div class="col-md-10">
+      <router-view :product="product" />
+    </div>
+  </div>
   <div class="card mb-0">
-    <form class="theme-form" @submit.prevent="submitPropertyForm">
-      <div class="card-header pb-0">
-        <h5>{{ $t('products.property.formCreateTitle') }}</h5>
-      </div>
-      <div class="card-body">
-        <div class="mb-3">
-          <div class="row align-items-center">
-            <div class="col-md">
-              <BaseSelect
-                v-model="propertyForm.product_family_id"
-                :label="$t('common.attributes.product_family')"
-                :options="productFamilies"
-                key-label="label"
-                key-value="id"
-                required
-                :errors="errors?.product_family_id"
-              />
-            </div>
-            <div class="col-md">
-              <BaseSelect
-                v-model="propertyForm.product_type_id"
-                :label="$t('common.attributes.product_type')"
-                :options="productTypes"
-                key-label="label"
-                key-value="id"
-                required
-                :errors="errors?.product_type_id"
-              />
-            </div>
-          </div>
+    <div class="card-header pb-0">
+      <div class="row align-items-center">
+        <div class="col-sm">
+          <h5>
+            {{ `${$t('products.tax.listTitle')} - ${product.reference}` }}
+          </h5>
         </div>
-        <div class="mb-3">
-          <div class="row align-items-center">
-            <div class="col-md">
-              <BaseSelect
-                v-model="propertyForm.type"
-                :label="$t('common.attributes.type')"
-                :options="propertyTypes"
-                key-label="label"
-                key-value="code"
-                required
-                :errors="errors?.type"
-              />
-            </div>
-            <div class="col-md">
-              <div class="row align-items-center">
-                <div class="col-md">
-                  <BaseInput
-                    v-model="propertyForm.label"
-                    :label="$t('common.attributes.label')"
-                    placeholder="E.g. collections"
-                    :errors="errors?.label"
-                    required
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
+        <div
+          v-if="$route.name === 'product.form.setting.tax'"
+          class="col-sm-auto align-items-end"
+        >
+          <router-link
+            :to="{
+              name: 'product.form.setting.tax.form',
+              params: {
+                ...$route.params,
+              },
+            }"
+            class="btn btn-primary"
+            type="button"
+          >
+            <i class="fa fa-plus m-r-5" />
+            {{ $t('common.add') }}
+          </router-link>
         </div>
       </div>
-      <div class="card-footer">
-        <div class="row justify-content-end">
-          <BaseButton
-            class="btn btn-primary col-auto"
-            :text="$t('common.save')"
-            icon="fa fa-save"
-          />
-        </div>
+    </div>
+    <div class="card-body">
+      <div class="user-status table-responsive">
+        <table class="table table-bordernone">
+          <thead>
+            <tr>
+              <th scope="col">{{ $t('common.attributes.tax_id') }}</th>
+              <th scope="col">{{ $t('common.attributes.value') }}</th>
+              <th scope="col" class="text-center">
+                {{ $t('common.actions') }}
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <ProductTaxLine
+              v-for="(tax, index) in product_taxes"
+              :key="index"
+              :product-tax="tax"
+            />
+          </tbody>
+        </table>
       </div>
-    </form>
+    </div>
   </div>
 </template>
 
 <script>
 import { mapGetters } from 'vuex';
 import store from '../../../store';
-import BaseSelect from '../../../components/common/BaseSelect.vue';
-import BaseInput from '../../../components/common/BaseInput.vue';
-import BaseButton from '../../../components/common/BaseButton.vue';
 
 export default {
-  components: { BaseButton, BaseInput, BaseSelect },
   beforeRouteEnter(routeTo, routeFrom, next) {
-    Promise.all([
-      store.dispatch('product_family/getProductFamiliesList', {
+    store
+      .dispatch('property/getPropertiesList', {
         page: 1,
         field: {},
-      }),
-      store.dispatch('product_type/getProductTypesList', {
-        page: 1,
-        field: {},
-      }),
-    ])
+      })
       .then(() => {
         next();
       })
