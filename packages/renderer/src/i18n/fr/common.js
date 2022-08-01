@@ -27,6 +27,7 @@ export default {
   restore: 'Restaurer',
   forceDelete: 'Supprimer definitivement',
   show: 'Consulter',
+  detail: 'Afficher',
   actions: 'Actions',
   choose: 'Choisir',
   cancel: 'Annuler',

@@ -6,7 +6,7 @@
           class="btn btn-primary btn-iconsolid"
           :icon="`fa fa-${currentIndex !== null ? 'check' : 'plus'}`"
           :disabled="!propertyValueField.value"
-          @click="
+          @click.prevent="
             currentIndex !== null ? updatePropertyValue() : addPropertyValue()
           "
         />
@@ -121,7 +121,9 @@ export default {
 
     updatePropertyValue() {
       if (this.propertyValueField.value) {
-        //console
+        this.$store
+          .dispatch('property/updatePropertyValue', this.propertyValueField)
+          .then(() => this.closePropertyValueForm());
       }
     },
 

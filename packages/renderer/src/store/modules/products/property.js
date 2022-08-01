@@ -1,7 +1,6 @@
 import propertyService from '../../../services/products/PropertyService';
 import { notify } from '/@/helpers/notify.js';
 import i18n from '../../../i18n';
-import productService from '/@/services/products/ProductService.js';
 
 const state = {
   properties: [],
@@ -117,12 +116,6 @@ const actions = {
       .updatePropertyValue(propertyValue)
       .then(({ data }) => {
         commit('UPDATE_PROPERTY_VALUE', data);
-        notify(
-          i18n.global.t('property.value.update'),
-          'Ok',
-          'theme',
-          'fa fa-check'
-        );
       });
   },
   removePropertyValues({ getters, commit }, propertyValueIds) {
