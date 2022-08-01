@@ -178,9 +178,7 @@ export default [
           if (to.params.id) {
             return store
               .dispatch('property/getProperty', to.params.id)
-              .then(() => {
-                return { name: to.name };
-              })
+              .then(() => 1)
               .catch(() => -1);
           }
         },

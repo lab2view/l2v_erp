@@ -46,17 +46,20 @@ const actions = {
       const workspace = rootGetters['workspace/currentWorkspace'];
       let enterprise =
         saleOrder.enterprise ?? rootGetters['workspace/currentWorkspace'];
-      cpj.printerCommands = getPrinterRawText({
-        ...saleOrder,
-        enterprise: {
-          ...enterprise,
-          currency: enterprise.currency ?? workspace.currency,
-          slogan: enterprise.slogan ?? workspace.slogan,
-          matriculation: enterprise.matriculation ?? workspace.matriculation,
-          trade_register: enterprise.trade_register ?? workspace.trade_register,
-          phone: enterprise.phone ?? workspace.phone,
-        },
-      });
+      cpj.printerCommands =
+        getPrinterRawText({
+          ...saleOrder,
+          enterprise: {
+            ...enterprise,
+            currency: enterprise.currency ?? workspace.currency,
+            slogan: enterprise.slogan ?? workspace.slogan,
+            matriculation: enterprise.matriculation ?? workspace.matriculation,
+            trade_register:
+              enterprise.trade_register ?? workspace.trade_register,
+            phone: enterprise.phone ?? workspace.phone,
+          },
+        }) +
+        ('\x1D' + '\x56' + '\x00'); //other cut command '\x1D' + '\x56'  + '\x30'
       //Send print job to printer!
       cpj.sendToClient().then((r) => console.log(r));
     } else alert("SELECTIONNER l'IMPRIMANTE");

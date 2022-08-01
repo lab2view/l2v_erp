@@ -2,8 +2,8 @@
   <BaseModal :title="'APPLIQUER UNE REDUCTION'" modal-size="lg">
     <div class="card-body pt-0">
       <div class="row align-items-center">
-        <div v-if="canShowDiscountForm" class="col-md-4">
-          <div v-if="selectableDiscounts.length" class="mb-3">
+        <div v-if="CanShowDiscountForm" class="col-md-4">
+          <div v-if="SelectableDiscounts.length" class="mb-3">
             <BaseSelect
               v-model.number="client_discount_id"
               :label="$t('common.select_discount')"
