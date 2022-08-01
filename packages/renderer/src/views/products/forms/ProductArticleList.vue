@@ -15,7 +15,10 @@
           class="col-sm-auto align-items-end"
         >
           <router-link
-            :to="{ name: 'product.form.article.form' }"
+            :to="{
+              name: 'product.form.article.form',
+              params: { ...$route.params },
+            }"
             class="btn btn-primary"
             type="button"
           >

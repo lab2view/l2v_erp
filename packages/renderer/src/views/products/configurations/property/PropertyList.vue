@@ -37,7 +37,7 @@
             {{ property.product_type?.label ?? '--' }}
           </td>
           <td>{{ property.label }}</td>
-          <td>{{ property.type }}</td>
+          <td>{{ property.property_type?.label }}</td>
           <td>
             <button
               class="btn btn-secondary btn-xs"
