@@ -7,7 +7,10 @@
         </div>
         <div class="col-sm-auto align-items-end">
           <router-link
-            :to="{ name: 'product.form.stocks.entry.supply' }"
+            :to="{
+              name: 'product.form.stocks.entry.supply',
+              params: { ...$route.params },
+            }"
             class="btn btn-primary"
             type="button"
           >
@@ -26,7 +29,7 @@
 <script>
 import StockEntryTable from '/@/components/stocks/StockEntryTable.vue';
 import store from '../../../store';
-import {mapGetters} from 'vuex';
+import { mapGetters } from 'vuex';
 export default {
   components: { StockEntryTable },
   beforeRouteEnter(routeTo, routeFrom, next) {
@@ -43,14 +46,14 @@ export default {
         next();
       });
   },
-  computed:{
+  computed: {
     ...mapGetters('product', ['product']),
     ...mapGetters('stock_entry', ['getStockEntriesByProductId']),
 
     stockEntries() {
       return this.getStockEntriesByProductId(this.product.id);
     },
-  }
+  },
 };
 </script>
 

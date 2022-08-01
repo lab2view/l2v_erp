@@ -52,9 +52,17 @@ const Tax = new VuexPersistence({
 
 const Property = new VuexPersistence({
   key: 'property',
+  restoreState: (key, storage) => {
+    return storage.getItem(key).then((data) => JSON.parse(data));
+  },
+  saveState: (key, state, storage) => {
+    return storage.setItem(key, JSON.stringify(state));
+  },
   storage: localStore,
   asyncStorage: true,
-  reducer: (state) => ({ property: state.property }),
+  reducer: (state) => ({
+    property: state.property,
+  }),
 });
 
 const Product = new VuexPersistence({
