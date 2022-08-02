@@ -2,11 +2,17 @@
   <div class="card mb-0">
     <form class="theme-form" @submit.prevent="submitStockEntryForm">
       <div class="card-header pb-0">
-        <h5>{{ formTitle }}</h5>
-        <span
-          >Using the <a href="#">card</a> component, you can extend the default
-          collapse behavior to create an accordion.</span
-        >
+        <div class="row">
+          <div class="col-md">
+            <h5>{{ formTitle }}</h5>
+          </div>
+          <div class="col-auto">
+            <BaseSwitchInput
+              v-model="is_multi_enterprise"
+              :label="$t('common.fields.multi_enterprise')"
+            />
+          </div>
+        </div>
       </div>
       <div class="card-body">
         <div class="mb-3">
@@ -23,7 +29,7 @@
                 :disabled="isUpdating"
               />
             </div>
-            <div class="col-md">
+            <div v-if="!is_multi_enterprise" class="col-md">
               <BaseInputGroup
                 v-model="stockExitForm.reference"
                 :label="$t('common.attributes.reference')"
@@ -43,6 +49,24 @@
                 </button>
               </BaseInputGroup>
             </div>
+            <div v-else class="col-md">
+              <div v-if="receiverEnterprises.length">
+                <p>
+                  <span
+                    v-for="(receiveEnt, ind) in receiverEnterprises"
+                    :key="`ent-${ind}`"
+                    class="badge badge-primary"
+                    @contextmenu.prevent="removeReceiveEnterprise(receiveEnt)"
+                  >
+                    {{ receiveEnt.name }}
+                  </span>
+                </p>
+                <i class="text-warning"
+                  >Clic droit pour supprimer une structure</i
+                >
+              </div>
+              <p v-else>{{ $t('common.fields.select_structures') }}</p>
+            </div>
           </div>
         </div>
         <div class="mb-3">
@@ -60,14 +84,19 @@
             </div>
             <div class="col-md">
               <BaseSelect
-                v-model="stockExitForm.enterprise_receiver_id"
+                v-model.number="stockExitForm.enterprise_receiver_id"
                 :label="$t('common.fields.enterprise_to')"
-                :options="targetEnterprises"
+                :options="
+                  is_multi_enterprise
+                    ? uniqueTargetEnterprises
+                    : targetEnterprises
+                "
                 key-label="name"
                 key-value="id"
                 :errors="errors?.enterprise_receiver_id"
-                required
+                :required="!is_multi_enterprise"
                 :disabled="isUpdating"
+                @input="selectReceiverEnterprise"
               />
             </div>
           </div>
@@ -108,9 +137,11 @@ import BaseButton from '/@/components/common/BaseButton.vue';
 import BaseSelect from '/@/components/common/BaseSelect.vue';
 import BaseInputGroup from '/@/components/common/BaseInputGroup.vue';
 import { random } from 'lodash/number.js';
+import BaseSwitchInput from '/@/components/common/BaseSwitchInput.vue';
 
 export default {
   components: {
+    BaseSwitchInput,
     BaseInputGroup,
     BaseSelect,
     BaseButton,
@@ -139,6 +170,7 @@ export default {
       errors: [],
       loading: false,
       is_edited: false,
+      is_multi_enterprise: false,
       stockExitForm: {
         id: null,
         stock_type_id: null,
@@ -146,6 +178,7 @@ export default {
         enterprise_receiver_id: null,
         reference: null,
       },
+      receiverEnterprises: [],
     };
   },
   computed: {
@@ -169,6 +202,13 @@ export default {
     targetEnterprises() {
       return this.enterprises.filter(
         (ent) => ent.id.toString() !== this.stockExitForm.enterprise_id
+      );
+    },
+    uniqueTargetEnterprises() {
+      return this.targetEnterprises.filter(
+        (tent) =>
+          this.receiverEnterprises.find((ent) => ent.id === tent.id) ===
+          undefined
       );
     },
     formTitle() {
@@ -215,19 +255,37 @@ export default {
             name: 'stocks.exit.form.article',
             params: { id: this.stockExit.id },
           });
-      } else
-        this.$store
-          .dispatch('stock_exit/addStockExit', this.stockExitForm)
-          .then((stockExit) =>
-            this.$router.push({
-              name: 'stocks.exit.form.article',
-              params: { id: stockExit.id },
+      } else {
+        if (!this.is_multi_enterprise)
+          this.$store
+            .dispatch('stock_exit/addStockExit', this.stockExitForm)
+            .then((stockExit) =>
+              this.$router.push({
+                name: 'stocks.exit.form.article',
+                params: { id: stockExit.id },
+              })
+            )
+            .catch((error) => {
+              this.errors = error.response?.data?.errors;
+              console.log(error);
+            });
+        else {
+          this.generateReference();
+          this.$store
+            .dispatch('stock_exit/addStockExitToMultipleStructures', {
+              stockExitField: this.stockExitForm,
+              receiverEnterprises: this.receiverEnterprises,
             })
-          )
-          .catch((error) => {
-            this.errors = error.response?.data?.errors;
-            console.log(error);
-          });
+            .then(() =>
+              this.$router.push({
+                name: 'stocks.exit.form.multiple',
+              })
+            )
+            .catch((error) => {
+              console.log(error);
+            });
+        }
+      }
     },
     generateReference() {
       //todo complete generating ref algorithm for exit stock
@@ -235,6 +293,21 @@ export default {
         1000,
         1000000
       )}`;
+    },
+    removeReceiveEnterprise(receiveEnt) {
+      this.receiverEnterprises = this.receiverEnterprises.filter(
+        (ent) => ent.id !== receiveEnt.id
+      );
+    },
+    selectReceiverEnterprise(event) {
+      if (this.is_multi_enterprise) {
+        const ent = this.targetEnterprises.find(
+          (t) => t.id.toString() === event.target.value
+        );
+        if (ent !== undefined) {
+          this.receiverEnterprises.push(ent);
+        }
+      }
     },
   },
 };
