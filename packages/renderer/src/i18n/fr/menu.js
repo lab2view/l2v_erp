@@ -217,6 +217,7 @@ export default {
     form: {
       description: 'Description de la sortie',
       line: 'Liste des articles',
+      multiple: 'Articles Multi-structures',
     },
   },
   stocktype: {

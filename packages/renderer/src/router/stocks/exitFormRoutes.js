@@ -11,12 +11,24 @@ export default [
     },
   },
   {
+    path: 'multiple',
+    name: 'stocks.exit.form.multiple',
+    component: () =>
+      import('/@/views/stocks/exits/forms/ExitMultipleStructure.vue'),
+    meta: {
+      code: 'StockExit.form.multiple',
+      icon: 'fa fa-hashtag',
+      requireMultipleStockExit: true,
+    },
+  },
+  {
     path: 'articles',
     name: 'stocks.exit.form.article',
     component: () => import('/@/views/stocks/exits/forms/ExitLineList.vue'),
     meta: {
       code: 'StockExit.form.line',
       icon: 'fa fa-list',
+      requireStockExit: true,
     },
     beforeEnter: (to) => {
       return store

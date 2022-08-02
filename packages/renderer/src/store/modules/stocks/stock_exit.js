@@ -7,12 +7,17 @@ const state = {
   stock_exits: null,
   hash: null,
   stockExit: null,
+  multiple_stock_exits: null,
 };
 
 // getters
 const getters = {
   stock_exits: (state) =>
     state.stock_exits ? JSON.parse(state.stock_exits) : [],
+  getMultipleStockExits: (state) =>
+    state.multiple_stock_exits ? JSON.parse(state.multiple_stock_exits) : [],
+  haveMultipleStockExit: (state, getters) =>
+    getters.getMultipleStockExits.length > 0,
   getStockExitsByProductId: (state, getters) => (product_id) => {
     return getters.stock_exits.filter(
       (se) =>
@@ -68,6 +73,24 @@ const actions = {
       commit('ADD_STOCK_EXIT', data);
       commit('SET_CURRENT_STOCK_EXIT', data);
       return data;
+    });
+  },
+
+  async addStockExitToMultipleStructures(
+    { commit },
+    { stockExitField, receiverEnterprises }
+  ) {
+    return receiverEnterprises.forEach((receiver) => {
+      stockExitService
+        .add({
+          ...stockExitField,
+          enterprise_receiver_id: receiver.id,
+          reference: `${stockExitField.reference}-${receiver.id}`,
+        })
+        .then(({ data }) => {
+          commit('ADD_STOCK_EXIT', data);
+          commit('ADD_MULTIPLE_STOCK_EXIT', data);
+        });
     });
   },
 
@@ -226,6 +249,12 @@ const mutations = {
       state.stockExit = JSON.stringify(stockExit);
       state.stock_exits = JSON.stringify(stock_exits);
     }
+  },
+
+  ADD_MULTIPLE_STOCK_EXIT(state, stockExit) {
+    let multiple_stock_exits = JSON.parse(state.multiple_stock_exits);
+    multiple_stock_exits.push(stockExit);
+    state.multiple_stock_exits = JSON.stringify(multiple_stock_exits);
   },
 };
 
