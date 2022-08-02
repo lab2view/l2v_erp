@@ -108,6 +108,7 @@ export default {
     default_printer: 'Imprimante par default',
     multi_enterprise: 'Vers plusieurs structures',
     select_structures: 'Selectionner les structures',
+    multi_quantity: 'Quantites par structures',
   },
 
   states: {

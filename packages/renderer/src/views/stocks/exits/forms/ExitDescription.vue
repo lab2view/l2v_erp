@@ -94,7 +94,7 @@
                 key-label="name"
                 key-value="id"
                 :errors="errors?.enterprise_receiver_id"
-                required
+                :required="!is_multi_enterprise"
                 :disabled="isUpdating"
                 @input="selectReceiverEnterprise"
               />

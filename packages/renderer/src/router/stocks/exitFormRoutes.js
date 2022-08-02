@@ -20,6 +20,14 @@ export default [
       icon: 'fa fa-hashtag',
       requireMultipleStockExit: true,
     },
+    children: [
+      {
+        path: 'form',
+        name: 'stocks.exit.form.multiple.form',
+        component: () =>
+          import('/@/views/stocks/exits/forms/ExitLinesForm.vue'),
+      },
+    ],
   },
   {
     path: 'articles',
@@ -33,9 +41,7 @@ export default [
     beforeEnter: (to) => {
       return store
         .dispatch('stock_exit/getStockExit', to.params.id)
-        .then(() => {
-          return 1;
-        })
+        .then(() => 1)
         .catch(() => -1);
     },
     children: [
