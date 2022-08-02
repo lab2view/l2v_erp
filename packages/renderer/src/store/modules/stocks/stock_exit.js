@@ -7,12 +7,17 @@ const state = {
   stock_exits: null,
   hash: null,
   stockExit: null,
+  multiple_stock_exits: null,
 };
 
 // getters
 const getters = {
   stock_exits: (state) =>
     state.stock_exits ? JSON.parse(state.stock_exits) : [],
+  getMultipleStockExits: (state) =>
+    state.multiple_stock_exits ? JSON.parse(state.multiple_stock_exits) : [],
+  haveMultipleStockExit: (state, getters) =>
+    getters.getMultipleStockExits.length > 0,
   getStockExitsByProductId: (state, getters) => (product_id) => {
     return getters.stock_exits.filter(
       (se) =>
@@ -69,6 +74,26 @@ const actions = {
       commit('SET_CURRENT_STOCK_EXIT', data);
       return data;
     });
+  },
+
+  async addStockExitToMultipleStructures(
+    { commit },
+    { stockExitField, receiverEnterprises }
+  ) {
+    return Promise.all(
+      receiverEnterprises.map(async (receiver) => {
+        await stockExitService
+          .add({
+            ...stockExitField,
+            enterprise_receiver_id: receiver.id,
+            reference: `${stockExitField.reference}-${receiver.id}`,
+          })
+          .then(({ data }) => {
+            commit('ADD_STOCK_EXIT', data);
+            commit('ADD_MULTIPLE_STOCK_EXIT', data);
+          });
+      })
+    );
   },
 
   updateStockExit({ commit }, stockExitField) {
@@ -139,7 +164,7 @@ const mutations = {
     state.stock_exits = JSON.stringify(stock_exits);
   },
   SET_CURRENT_STOCK_EXIT(state, stockExit) {
-    state.stockExit = JSON.stringify(stockExit);
+    state.stockExit = stockExit ? JSON.stringify(stockExit) : null;
   },
   ADD_STOCK_EXIT(state, stockExit) {
     let stock_exits = JSON.parse(state.stock_exits);
@@ -163,8 +188,8 @@ const mutations = {
   },
 
   ADD_STOCK_EXIT_LINES(state, stock_exit_lines) {
-    let stock_exits = JSON.parse(state.stock_exits);
-    let stockExit = JSON.parse(state.stockExit);
+    let stock_exits = state.stock_exits ? JSON.parse(state.stock_exits) : [];
+    let stockExit = state.stockExit ? JSON.parse(state.stockExit) : null;
     let index = stock_exits.findIndex((se) => se.id === stockExit.id);
     if (index !== -1) {
       stockExit.stock_exit_lines = [
@@ -177,8 +202,8 @@ const mutations = {
     }
   },
   UPDATE_STOCK_EXIT_LINE(state, stockExitLine) {
-    let stock_exits = JSON.parse(state.stock_exits);
-    let stockExit = JSON.parse(state.stockExit);
+    let stock_exits = state.stock_exits ? JSON.parse(state.stock_exits) : [];
+    let stockExit = state.stockExit ? JSON.parse(state.stockExit) : null;
     let index = stock_exits.findIndex((se) => se.id === stockExit.id);
     if (index !== -1) {
       let art = stockExit.stock_exit_lines.findIndex(
@@ -193,8 +218,8 @@ const mutations = {
     }
   },
   REMOVE_STOCK_EXIT_LINES(state, stock_exit_lines_ids) {
-    let stock_exits = JSON.parse(state.stock_exits);
-    let stockExit = JSON.parse(state.stockExit);
+    let stock_exits = state.stock_exits ? JSON.parse(state.stock_exits) : [];
+    let stockExit = state.stockExit ? JSON.parse(state.stockExit) : null;
     let index = stock_exits.findIndex((se) => se.id === stockExit.id);
     if (index !== -1) {
       stockExit.stock_exit_lines = stockExit.stock_exit_lines.filter((cp) => {
@@ -207,8 +232,8 @@ const mutations = {
   },
 
   ADD_STOCK_EXIT_STATE(state, stockState) {
-    let stock_exits = JSON.parse(state.stock_exits);
-    let stockExit = JSON.parse(state.stockExit);
+    let stock_exits = state.stock_exits ? JSON.parse(state.stock_exits) : [];
+    let stockExit = state.stockExit ? JSON.parse(state.stockExit) : null;
     let index = stock_exits.findIndex((se) => se.id === stockExit.id);
     if (index !== -1) {
       let oldActInd = stockExit.stock_exit_states.findIndex(
@@ -226,6 +251,18 @@ const mutations = {
       state.stockExit = JSON.stringify(stockExit);
       state.stock_exits = JSON.stringify(stock_exits);
     }
+  },
+
+  ADD_MULTIPLE_STOCK_EXIT(state, stockExit) {
+    let multiple_stock_exits = state.multiple_stock_exits
+      ? JSON.parse(state.multiple_stock_exits)
+      : [];
+    multiple_stock_exits.push(stockExit);
+    state.multiple_stock_exits = JSON.stringify(multiple_stock_exits);
+  },
+
+  RESET_MULTIPLE_STOCK_EXIT(state) {
+    state.multiple_stock_exits = null;
   },
 };
 
