@@ -80,18 +80,20 @@ const actions = {
     { commit },
     { stockExitField, receiverEnterprises }
   ) {
-    return receiverEnterprises.forEach((receiver) => {
-      stockExitService
-        .add({
-          ...stockExitField,
-          enterprise_receiver_id: receiver.id,
-          reference: `${stockExitField.reference}-${receiver.id}`,
-        })
-        .then(({ data }) => {
-          commit('ADD_STOCK_EXIT', data);
-          commit('ADD_MULTIPLE_STOCK_EXIT', data);
-        });
-    });
+    return Promise.all(
+      receiverEnterprises.map(async (receiver) => {
+        await stockExitService
+          .add({
+            ...stockExitField,
+            enterprise_receiver_id: receiver.id,
+            reference: `${stockExitField.reference}-${receiver.id}`,
+          })
+          .then(({ data }) => {
+            commit('ADD_STOCK_EXIT', data);
+            commit('ADD_MULTIPLE_STOCK_EXIT', data);
+          });
+      })
+    );
   },
 
   updateStockExit({ commit }, stockExitField) {
@@ -162,7 +164,7 @@ const mutations = {
     state.stock_exits = JSON.stringify(stock_exits);
   },
   SET_CURRENT_STOCK_EXIT(state, stockExit) {
-    state.stockExit = JSON.stringify(stockExit);
+    state.stockExit = stockExit ? JSON.stringify(stockExit) : null;
   },
   ADD_STOCK_EXIT(state, stockExit) {
     let stock_exits = JSON.parse(state.stock_exits);

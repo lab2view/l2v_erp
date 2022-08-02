@@ -112,6 +112,7 @@ export default {
   },
   beforeUnmount() {
     this.$store.commit('stock_exit/RESET_MULTIPLE_STOCK_EXIT');
+    this.$store.commit('stock_exit/SET_CURRENT_STOCK_EXIT', null);
   },
   methods: {
     addStockExitLineFields(selected) {
@@ -142,24 +143,25 @@ export default {
     submitExitLinesForm() {
       if (this.stock_exit_line_fields.length) {
         this.loading = true;
-        this.getMultipleStockExits.forEach(async (stockExit) => {
-          this.$store.commit('stock_exit/SET_CURRENT_STOCK_EXIT', stockExit);
-          await this.$store
-            .dispatch('stock_exit/addStockExitLines', {
-              stock_exit_lines: this.stock_exit_line_fields.map((slf) => {
-                return {
-                  stock_exit_id: stockExit.id,
-                  article_id: slf.article_id,
-                  quantity: slf.quantities[stockExit.id],
-                };
-              }),
-            })
-            .catch(
-              (error) =>
-                (this.errors[stockExit.id] = error.response?.data?.errors)
-            );
-        });
-        this.loading = false;
+        Promise.all(
+          this.getMultipleStockExits.map(async (stockExit) => {
+            this.$store.commit('stock_exit/SET_CURRENT_STOCK_EXIT', stockExit);
+            await this.$store
+              .dispatch('stock_exit/addStockExitLines', {
+                stock_exit_lines: this.stock_exit_line_fields.map((slf) => {
+                  return {
+                    stock_exit_id: stockExit.id,
+                    article_id: slf.article_id,
+                    quantity: slf.quantities[stockExit.id],
+                  };
+                }),
+              })
+              .catch(
+                (error) =>
+                  (this.errors[stockExit.id] = error.response?.data?.errors)
+              );
+          })
+        ).finally(() => this.$router.push({ name: 'stocks.exits' }));
       }
     },
   },
