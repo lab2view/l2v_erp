@@ -104,9 +104,9 @@ const actions = {
     });
   },
 
-  addProperties({ getters, commit }, properties) {
+  addProperties({ getters, commit }, productProperties) {
     return productService
-      .addProperties(properties, getters.product.id)
+      .addProperties({ properties: productProperties }, getters.product.id)
       .then(({ data }) => {
         commit('ADD_PROPERTIES', data.product_properties);
         return data;
