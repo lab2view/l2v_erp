@@ -72,7 +72,7 @@
             </div>
             <div class="dropdown">
               <div>
-                <EnterpriseSelectableList :sourceEnterprises="enterprises" />
+                <EnterpriseSelectableList :source-enterprises="enterprises" />
               </div>
             </div>
           </div>
