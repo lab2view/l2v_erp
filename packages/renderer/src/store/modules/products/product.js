@@ -117,7 +117,7 @@ const actions = {
     return productService.updateProperty(productProperty).then(({ data }) => {
       commit('UPDATE_PROPERTY', data);
       notify(
-        i18n.global.t('products.tax.update'),
+        i18n.global.t('products.property.update'),
         'Ok',
         'theme',
         'fa fa-check'
