@@ -16,6 +16,8 @@ const getters = {
   product_properties: (state, getters) =>
     getters.product ? getters.product.product_properties : [],
   getProductsHash: (state) => state.hash ?? null,
+  getProductById: (state, getters) => (id) =>
+    getters.products.find((p) => p.id === id) ?? null,
 };
 
 // privileges

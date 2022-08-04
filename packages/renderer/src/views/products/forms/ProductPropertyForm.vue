@@ -18,7 +18,7 @@
             "
           >
             <BaseSelect
-              v-model="productPropertyForm.property_id"
+              v-model.number="productPropertyForm.property_id"
               :options="selectProperties"
               key-label="label"
               key-value="id"
@@ -26,16 +26,12 @@
             />
           </BaseFieldGroup>
         </div>
-        <div class="mb-3">
+        <div v-if="selectedProperty" class="mb-3">
           <div class="row align-items-end">
             <div class="col">
-              <BaseInput
+              <BasePropertyField
                 v-model="productPropertyForm.value"
-                :label="$t('common.attributes.value')"
-                rel="any"
-                placeholder="E.g. 60GB"
-                :errors="errors?.value"
-                required
+                :property="selectedProperty"
               />
             </div>
           </div>
@@ -64,17 +60,17 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import BaseInput from '/@/components/common/BaseInput.vue';
 import BaseSelect from '/@/components/common/BaseSelect.vue';
 import BaseButton from '/@/components/common/BaseButton.vue';
 import BaseFieldGroup from '/@/components/common/BaseFieldGroup.vue';
 import store from '/@/store';
+import BasePropertyField from '/@/components/common/BasePropertyField.vue';
 
 export default {
   components: {
+    BasePropertyField,
     BaseFieldGroup,
     BaseButton,
-    BaseInput,
     BaseSelect,
   },
   beforeRouteEnter(routeTo, routeFrom, next) {
@@ -109,15 +105,23 @@ export default {
     };
   },
   computed: {
-    ...mapGetters('property', ['properties']),
+    ...mapGetters('property', ['filterPropertiesByProduct']),
+    properties() {
+      return this.filterPropertiesByProduct(this.product);
+    },
     selectProperties() {
       return this.properties.filter((property) => {
         return (
           this.product.product_properties.find(
-            (p) => p.id === property.id
+            (p) => p.property.id === property.id
           ) === undefined
         );
       });
+    },
+    selectedProperty() {
+      return this.properties.find(
+        (p) => p.id === this.productPropertyForm.property_id
+      );
     },
     productProperty() {
       return this.$route.params.product_property_id
