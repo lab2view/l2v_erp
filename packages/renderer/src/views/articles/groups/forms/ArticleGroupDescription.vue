@@ -6,7 +6,7 @@
       </div>
       <div class="card-body">
         <div class="row justify-content-center align-items-center mb-3">
-          <div class="col-md">
+          <div class="col-md-5">
             <BaseInput
               v-model="articleGroupForm.label"
               :label="$t('common.attributes.label')"
@@ -16,13 +16,35 @@
               required
             />
           </div>
-          <div class="col-md">
-            <BaseInput
+          <div class="col-md-4">
+            <BaseInputGroup
               v-model="articleGroupForm.code"
               :label="$t('common.attributes.code')"
-              type="text"
               placeholder="E.g. SPROMO"
               :errors="errors?.code"
+              required
+              :disabled="isUpdating"
+            >
+              <button
+                :disabled="isUpdating"
+                type="button"
+                class="btn btn-success btn-iconsolid"
+                :title="$t('common.shuffle')"
+                @click.prevent="generateReference"
+              >
+                <i class="fa fa-random"></i>
+              </button>
+            </BaseInputGroup>
+          </div>
+          <div class="col-md">
+            <BaseSelect
+              v-model="articleGroupForm.discount_id"
+              :label="$t('common.attributes.discount')"
+              :options="discounts"
+              key-label="label"
+              key-value="id"
+              :errors="errors?.discount_id"
+              required
             />
           </div>
         </div>
@@ -57,16 +79,22 @@
 </template>
 
 <script>
-import BaseInput from '../../../../components/common/BaseInput.vue';
 import BaseButton from '../../../../components/common/BaseButton.vue';
 import BaseTextArea from '../../../../components/common/BaseTextArea.vue';
 import ArticleGroupMixin from '../../../../mixins/ArticleGroupMixin';
+import BaseInputGroup from '/@/components/common/BaseInputGroup.vue';
+import BaseSelect from '/@/components/common/BaseSelect.vue';
+import BaseInput from '/@/components/common/BaseInput.vue';
+import { random } from 'lodash/number';
+import { mapGetters } from 'vuex';
 
 export default {
   components: {
     BaseTextArea,
-    BaseButton,
     BaseInput,
+    BaseButton,
+    BaseInputGroup,
+    BaseSelect,
   },
   mixins: [ArticleGroupMixin],
   data() {
@@ -77,14 +105,19 @@ export default {
         label: null,
         code: null,
         description: null,
+        discount_id: null,
       },
     };
   },
   computed: {
+    ...mapGetters('discount', ['discounts']),
     formTitle() {
       return this.articleGroup
         ? this.$t('articles.group.formUpdateTitle')
         : this.$t('articles.group.formCreateTitle');
+    },
+    isUpdating() {
+      return !!this.articleGroup;
     },
   },
   watch: {
@@ -100,6 +133,13 @@ export default {
       this.articleGroupForm = Object.assign({}, this.articleGroup);
   },
   methods: {
+    generateReference() {
+      //todo complete generating ref algorithm for exit stock
+      this.articleGroupForm.code = `STE-EXIT-${new Date().getDay()}-${random(
+        1000,
+        1000000
+      )}`;
+    },
     submitArticleGroupForm() {
       if (this.haveArticleGroup) {
         if (this.is_edited)

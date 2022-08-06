@@ -99,7 +99,15 @@
                 @input="selectReceiverEnterprise"
               />
             </div>
+            <div class="dropdown">
+              <div>
+                <EnterpriseSelectableList :source-enterprises="enterprises" />
+              </div>
+            </div>
           </div>
+        </div>
+        <div class="card">
+          <p>Entreprises selectionnées</p>
         </div>
       </div>
       <div class="card-footer">
@@ -138,10 +146,12 @@ import BaseSelect from '/@/components/common/BaseSelect.vue';
 import BaseInputGroup from '/@/components/common/BaseInputGroup.vue';
 import { random } from 'lodash/number.js';
 import BaseSwitchInput from '/@/components/common/BaseSwitchInput.vue';
+import EnterpriseSelectableList from '/@/components/enterprise/EnterpriseSelectableList.vue';
 
 export default {
   components: {
     BaseSwitchInput,
+    EnterpriseSelectableList,
     BaseInputGroup,
     BaseSelect,
     BaseButton,
@@ -167,6 +177,7 @@ export default {
   },
   data() {
     return {
+      value: null,
       errors: [],
       loading: false,
       is_edited: false,
