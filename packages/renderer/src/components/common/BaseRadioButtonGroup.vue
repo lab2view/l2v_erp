@@ -1,9 +1,9 @@
 <template>
   <div class="form-check-inline">
     <label
-      :for="`inline-${option[keyValue]}`"
       v-for="(option, index) in options"
       :key="index"
+      :for="`inline-${option[keyValue]}`"
       class="form-check-label m-l-5"
     >
       <input
@@ -11,6 +11,7 @@
         type="radio"
         name="radio-input"
         class="form-check-input"
+        :checked="modelValue"
         :value="option[keyValue]"
         @change="$emit('update:modelValue', option[keyValue])"
       />
