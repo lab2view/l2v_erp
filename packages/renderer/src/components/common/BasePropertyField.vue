@@ -34,6 +34,16 @@
       key-value="value"
       required
     />
+    <BaseRadioButtonGroup
+      v-else-if="isRadioField"
+      v-model="propertyModelValue"
+      :errors="errors?.[property.code]"
+      :label="property.label"
+      :options="property.property_values"
+      key-label="value"
+      key-value="value"
+      required
+    />
   </div>
 </template>
 
@@ -43,8 +53,15 @@ import { propertyTypeCode } from '/@/helpers/codes.js';
 import BaseSelect from '/@/components/common/BaseSelect.vue';
 import BaseSwitchInput from '/@/components/common/BaseSwitchInput.vue';
 import BaseCheckboxGroup from '/@/components/common/BaseCheckboxGroup.vue';
+import BaseRadioButtonGroup from '/@/components/common/BaseRadioButtonGroup.vue';
 export default {
-  components: { BaseCheckboxGroup, BaseSwitchInput, BaseSelect, BaseInput },
+  components: {
+    BaseRadioButtonGroup,
+    BaseCheckboxGroup,
+    BaseSwitchInput,
+    BaseSelect,
+    BaseInput,
+  },
   props: {
     property: {
       type: Object,
@@ -91,6 +108,12 @@ export default {
       return (
         this.property.property_type.is_list &&
         this.property.property_type.code === propertyTypeCode.checkbox
+      );
+    },
+    isRadioField() {
+      return (
+        this.property.property_type.is_list &&
+        this.property.property_type.code === propertyTypeCode.radio
       );
     },
   },
