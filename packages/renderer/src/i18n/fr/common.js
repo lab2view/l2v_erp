@@ -213,6 +213,7 @@ export default {
     latitude: 'Latitude',
     search: 'Rechercher...',
     tax_id: 'Taxe',
+    property_id: 'Propriete',
     value: 'Valeur',
     start_at: 'Debute le',
     end_at: "S'acheve le",

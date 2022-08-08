@@ -16,6 +16,12 @@ const getters = {
   propertyTypes: (state) => state.property_types,
   getPropertyTypeById: (state, getters) => (id) =>
     getters.propertyTypes.find((pt) => pt.id === id) ?? null,
+  filterPropertiesByProduct: (state, getters) => (product) =>
+    getters.properties.filter((p) =>
+      p.product_id
+        ? p.product_id === product.id
+        : p.product_type_id === product.product_type_id
+    ),
 };
 
 // privileges
