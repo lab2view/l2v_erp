@@ -10,7 +10,7 @@
             key-label="label"
             key-value="id"
             required
-            :errors="errors.discount_type_id"
+            :errors="errors?.discount_type_id"
           />
         </div>
         <div class="form-group mb-3">
@@ -249,11 +249,11 @@ export default {
         this.$store
           .dispatch('discount/addDiscount', this.discountForm)
           .then((discount) => {
-            this.setLoading();
             this.$store.dispatch('article_group/updateArticleGroup', {
               ...this.articleGroup,
               discount_id: discount.id,
             });
+            this.setLoading();
             this.$router.push({
               name: 'article.groups',
             });

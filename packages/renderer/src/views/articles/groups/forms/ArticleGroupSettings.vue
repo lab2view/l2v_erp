@@ -18,7 +18,7 @@
                 class="list-group-item list-group-item-action"
               >
                 <span class="fa fa-ticket m-r-10" />
-                {{ $t('sales.discount.formCreateTitle') }}
+                {{ $t('sales.discount.formAddDiscountTitle') }}
               </router-link>
             </div>
           </div>
