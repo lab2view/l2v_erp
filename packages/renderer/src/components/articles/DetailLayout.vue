@@ -6,7 +6,7 @@
     <div class="card">
       <div class="card-header">
         <h5 class="pull-left">
-          {{ `${$t('articles.detail.title')} : #${article.id}` }}
+          {{ `#${article.name}` }}
         </h5>
       </div>
       <div class="card-body p-0">
