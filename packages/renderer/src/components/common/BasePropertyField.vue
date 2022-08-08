@@ -24,6 +24,16 @@
       :errors="errors?.[property.code]"
       :label="property.label"
     />
+    <BaseCheckboxGroup
+      v-else-if="isCheckboxField"
+      v-model="propertyModelValue"
+      :errors="errors?.[property.code]"
+      :label="property.label"
+      :options="property.property_values"
+      key-label="value"
+      key-value="value"
+      required
+    />
   </div>
 </template>
 
@@ -32,9 +42,9 @@ import BaseInput from '/@/components/common/BaseInput.vue';
 import { propertyTypeCode } from '/@/helpers/codes.js';
 import BaseSelect from '/@/components/common/BaseSelect.vue';
 import BaseSwitchInput from '/@/components/common/BaseSwitchInput.vue';
-
+import BaseCheckboxGroup from '/@/components/common/BaseCheckboxGroup.vue';
 export default {
-  components: { BaseSwitchInput, BaseSelect, BaseInput },
+  components: { BaseCheckboxGroup, BaseSwitchInput, BaseSelect, BaseInput },
   props: {
     property: {
       type: Object,
@@ -75,6 +85,12 @@ export default {
       return (
         this.property.property_type.is_list &&
         this.property.property_type.code === propertyTypeCode.switcher
+      );
+    },
+    isCheckboxField() {
+      return (
+        this.property.property_type.is_list &&
+        this.property.property_type.code === propertyTypeCode.checkbox
       );
     },
   },
