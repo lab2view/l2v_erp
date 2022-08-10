@@ -18,29 +18,41 @@
                   <span class="input-group-text"
                     ><i class="icon-email"></i
                   ></span>
-                  <input
+                  <BaseInput
                     v-model="loginInput.email"
-                    class="form-control"
-                    type="email"
-                    required
+                    type="text"
                     placeholder="Test@test.test"
+                    :errors="errors?.email"
+                    required
                   />
                 </div>
               </div>
               <div class="form-group">
                 <label>Password</label>
                 <div class="input-group">
-                  <span class="input-group-text"
-                    ><i class="icon-lock"></i
+                  <span  v-if="showPassword" class="input-group-text"
+                    ><i class="icon-unlock"></i
                   ></span>
-                  <input
+                  <span   v-else class="input-group-text"
+                  ><i class="icon-lock"></i
+                  ></span>
+                  <BaseInput
+                    v-if="showPassword"
                     v-model="loginInput.password"
-                    class="form-control"
-                    type="password"
-                    required
+                    type="text"
                     placeholder="*********"
+                    :errors="errors?.password"
+                    required
                   />
-                  <div class="show-hide"><span class="show"> </span></div>
+                  <BaseInput
+                    v-else
+                    v-model="loginInput.password"
+                    type="password"
+                    placeholder="*********"
+                    :errors="errors?.password"
+                    required
+                  />
+                  <div class="show-hide" @click="toggleShow"><span class=""> {{messageLabel}}</span></div>
                 </div>
               </div>
               <div class="form-group">
@@ -90,11 +102,13 @@
 
 <script>
 import BaseButton from '/@/components/common/BaseButton.vue';
+import BaseInput from '/@/components/common/BaseInput.vue';
 export default {
-  components: { BaseButton },
+  components: { BaseButton,BaseInput },
   data() {
     return {
       loading: false,
+      showPassword: false,
       loginInput: {
         email: null,
         password: null,
@@ -102,7 +116,16 @@ export default {
       },
     };
   },
+  computed: {
+    messageLabel() {
+      return (this.showPassword) ? "Hide" : "Show";
+    }
+  },
   methods: {
+    toggleShow() {
+      this.showPassword = !this.showPassword;
+
+    },
     submitLoginForm() {
       this.loading = true;
       this.$store.dispatch('auth/login', this.loginInput).catch((error) => {
