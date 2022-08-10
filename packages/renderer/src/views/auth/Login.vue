@@ -30,11 +30,8 @@
               <div class="form-group">
                 <label>Password</label>
                 <div class="input-group">
-                  <span  v-if="showPassword" class="input-group-text"
-                    ><i class="icon-unlock"></i
-                  ></span>
-                  <span   v-else class="input-group-text"
-                  ><i class="icon-lock"></i
+                  <span   class="input-group-text"
+                    ><i :class="[showPassword ? 'icon-unlock' : 'icon-lock']"></i
                   ></span>
                   <BaseInput
                     v-if="showPassword"
