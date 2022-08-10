@@ -52,7 +52,7 @@
                     :errors="errors?.password"
                     required
                   />
-                  <div class="show-hide" @click="toggleShow"><span class=""> {{messageLabel}}</span></div>
+                  <div class="show-hide" @click="toggleShow"><span class=""> {{showPasswordLabel}}</span></div>
                 </div>
               </div>
               <div class="form-group">
@@ -117,7 +117,7 @@ export default {
     };
   },
   computed: {
-    messageLabel() {
+    showPasswordLabel() {
       return (this.showPassword) ? "Hide" : "Show";
     }
   },
