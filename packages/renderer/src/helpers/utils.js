@@ -138,7 +138,7 @@ export function getPrinterRawText({
   cmds += `Merci de votre visite, Ref: ${code}`.toUpperCase();
 
   cmds += newLine + newLine;
-  cmds += `___________________________`.toUpperCase();
+  cmds += newLine + newLine;
   cmds += newLine + newLine;
 
   // console.log(cmds);
@@ -148,4 +148,8 @@ export function getPrinterRawText({
 
 export function getFormattedAmount(amount) {
   return amount.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
+}
+
+export function getSaleAmount({ stock_exit_lines, discount }) {
+  return (sumBy(stock_exit_lines, 'sup_price') - discount).toLocaleString();
 }

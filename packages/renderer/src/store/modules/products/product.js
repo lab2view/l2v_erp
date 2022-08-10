@@ -16,6 +16,8 @@ const getters = {
   product_properties: (state, getters) =>
     getters.product ? getters.product.product_properties : [],
   getProductsHash: (state) => state.hash ?? null,
+  getProductById: (state, getters) => (id) =>
+    getters.products.find((p) => p.id === id) ?? null,
 };
 
 // privileges
@@ -104,9 +106,9 @@ const actions = {
     });
   },
 
-  addProperties({ getters, commit }, properties) {
+  addProperties({ getters, commit }, productProperties) {
     return productService
-      .addProperties(properties, getters.product.id)
+      .addProperties({ properties: productProperties }, getters.product.id)
       .then(({ data }) => {
         commit('ADD_PROPERTIES', data.product_properties);
         return data;
@@ -117,7 +119,7 @@ const actions = {
     return productService.updateProperty(productProperty).then(({ data }) => {
       commit('UPDATE_PROPERTY', data);
       notify(
-        i18n.global.t('products.tax.update'),
+        i18n.global.t('products.property.update'),
         'Ok',
         'theme',
         'fa fa-check'

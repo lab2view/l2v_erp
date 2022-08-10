@@ -33,14 +33,34 @@ const actions = {
           return data;
         });
   },
-  getSalesList({ commit, getters }, { page, field }) {
-    if (getters.sales.length > 0) {
+  getSalesList({ commit, getters, dispatch }, { page, field }) {
+    if (getters.sales.length > 0 && !field.next) {
       return getters.sales;
     }
-    return saleService.getSalesList(page, field).then(({ data }) => {
-      commit('SET_SALES', data);
-      return data;
-    });
+    return saleService
+      .getSalesList(page, { ...field, paginate: 50 })
+      .then(({ data }) => {
+        commit('SET_SALES', data);
+        dispatch(
+          'setGlobalProgress',
+          {
+            label: 'sales',
+            min: 0,
+            max: data.last_page,
+            value: data.current_page,
+          },
+          { root: true }
+        );
+
+        if (data.next_page_url) {
+          return dispatch('getSalesList', {
+            page: page + 1,
+            field: { ...field, next: true },
+          });
+        } else dispatch('setGlobalProgress', null, { root: true });
+
+        return data;
+      });
   },
 
   getSale({ commit, getters }, id) {
@@ -85,8 +105,8 @@ const actions = {
 
 // mutations
 const mutations = {
-  SET_SALES(state, sales) {
-    state.sales = sales;
+  SET_SALES(state, { current_page, data }) {
+    state.sales = current_page === 1 ? data : [...state.sales, ...data];
   },
   SET_CASHIER_SALES(state, cashier_sales) {
     state.cashier_sales = cashier_sales;

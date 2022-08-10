@@ -1,6 +1,5 @@
 import { createStore } from 'vuex';
 import modulePlugins from './helpers/ModuleLocalForage';
-import FileService from '../services/FileService';
 import auth from './modules/auth';
 import workspace from './modules/workspace';
 import product_package from './modules/products/package';
@@ -84,12 +83,6 @@ export default createStore({
     },
     setInitiateApp({ commit }, value) {
       commit('SET_INITIATE_APP', value);
-    },
-    upload({ commit }, formData) {
-      return FileService.upload(formData).then(({ data }) => {
-        commit('SET_FRESH_UPLOADED', data);
-        return data;
-      });
     },
 
     getLastHash(context, module) {

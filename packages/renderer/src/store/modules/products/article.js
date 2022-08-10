@@ -3,6 +3,7 @@ import { notify } from '/@/helpers/notify.js';
 import i18n from '../../../i18n';
 import { unitPackageCode } from '/@/helpers/codes.js';
 import { getStockExitLineArticleStock } from '/@/helpers/utils.js';
+import fileService from '/@/services/FileService.js';
 
 const state = {
   articles: null,
@@ -211,6 +212,30 @@ const actions = {
     return articleService.makeDecomposition(article.id).then(({ data }) => {
       commit('MAKE_DECOMPOSITION', data.lot);
     });
+  },
+
+  addImages({ commit }, { article_id, formData }) {
+    return fileService
+      .addArticleImages(article_id, formData)
+      .then(({ data }) => {
+        commit('UPDATE_ARTICLE', data);
+      });
+  },
+  setArticleMediaAsCover({ commit }, { article_id, media_id }) {
+    return fileService
+      .setArticleImageAsCover(article_id, media_id)
+      .then(({ data }) => {
+        commit('UPDATE_ARTICLE', data);
+      });
+  },
+  deleteImages({ commit }, { article_id, mediaIds }) {
+    return fileService
+      .removeArticleImages(article_id, {
+        media_ids: [...mediaIds],
+      })
+      .then(({ data }) => {
+        commit('UPDATE_ARTICLE', data);
+      });
   },
 };
 

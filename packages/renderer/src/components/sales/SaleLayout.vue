@@ -22,6 +22,7 @@ export default {
     } else {
       const field = { page: 1, field: {} };
       return Promise.all([
+        store.dispatch('sale/getSalesList', field),
         store.dispatch('sale_type/getSaleTypesList', field),
         store.dispatch('cash_register/getCashRegistersList', field),
         store.dispatch('cashier_group/getCashierGroupsList', field),

@@ -1,48 +1,37 @@
 <template>
   <div class="card rounded shadow-sm">
     <div class="card-header p-3">
-      <h5>{{ $t('products.tax.formCreateTitle') }}</h5>
+      <h5>{{ $t('products.property.formCreateTitle') }}</h5>
     </div>
-    <form class="theme-form" @submit.prevent="submitProductTaxForm">
+    <form class="theme-form" @submit.prevent="submitProductPropertyForm">
       <div class="card-body pb-0 pt-2">
-        <div v-if="!productTax" class="mb-3">
+        <div v-if="!productProperty" class="mb-3">
           <BaseFieldGroup
-            :label="$t('common.attributes.tax_id')"
+            :label="$t('common.attributes.property_id')"
             required
-            :errors="errors?.tax_id"
+            :errors="errors?.property_id"
             @btn-click="
               $router.push({
-                name: 'product.form.setting.tax.form.tax',
+                name: 'product.form.setting.property.form.property',
                 params: { ...$route.params },
               })
             "
           >
             <BaseSelect
-              v-model="productTaxForm.tax_id"
-              :options="selectTaxes"
+              v-model.number="productPropertyForm.property_id"
+              :options="selectProperties"
               key-label="label"
               key-value="id"
               required
             />
           </BaseFieldGroup>
         </div>
-        <div class="mb-3">
+        <div v-if="selectedProperty" class="mb-3">
           <div class="row align-items-end">
             <div class="col">
-              <BaseInput
-                v-model="productTaxForm.value"
-                :label="$t('common.attributes.value')"
-                rel="any"
-                placeholder="E.g. 19.25"
-                :errors="errors?.value"
-                required
-              />
-            </div>
-            <div class="col">
-              <BaseSwitchInput
-                v-model="productTaxForm.is_percent"
-                :label="$t('common.attributes.is_percent')"
-                :errors="errors?.is_percent"
+              <BasePropertyField
+                v-model="productPropertyForm.value"
+                :property="selectedProperty"
               />
             </div>
           </div>
@@ -71,24 +60,22 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import BaseInput from '/@/components/common/BaseInput.vue';
 import BaseSelect from '/@/components/common/BaseSelect.vue';
 import BaseButton from '/@/components/common/BaseButton.vue';
 import BaseFieldGroup from '/@/components/common/BaseFieldGroup.vue';
 import store from '/@/store';
-import BaseSwitchInput from '/@/components/common/BaseSwitchInput.vue';
+import BasePropertyField from '/@/components/common/BasePropertyField.vue';
 
 export default {
   components: {
-    BaseSwitchInput,
+    BasePropertyField,
     BaseFieldGroup,
     BaseButton,
-    BaseInput,
     BaseSelect,
   },
   beforeRouteEnter(routeTo, routeFrom, next) {
     store
-      .dispatch('tax/getTaxesList', {
+      .dispatch('property/getPropertiesList', {
         page: 1,
         field: {},
       })
@@ -110,46 +97,56 @@ export default {
     return {
       errors: [],
       loading: false,
-      productTaxForm: {
+      productPropertyForm: {
         id: null,
-        tax_id: null,
+        property_id: null,
         value: null,
-        is_percent: true,
       },
     };
   },
   computed: {
-    ...mapGetters('tax', ['taxes']),
-    selectTaxes() {
-      return this.taxes.filter((tax) => {
+    ...mapGetters('property', ['filterPropertiesByProduct']),
+    properties() {
+      return this.filterPropertiesByProduct(this.product);
+    },
+    selectProperties() {
+      return this.properties.filter((property) => {
         return (
-          this.product.product_taxes.find((t) => t.id === tax.id) === undefined
+          this.product.product_properties.find(
+            (p) => p.property.id === property.id
+          ) === undefined
         );
       });
     },
-    productTax() {
-      return this.$route.params.product_tax_id
-        ? this.product.product_taxes.find(
-            (pt) => pt.id.toString() === this.$route.params.product_tax_id
+    selectedProperty() {
+      return this.properties.find(
+        (p) => p.id === this.productPropertyForm.property_id
+      );
+    },
+    productProperty() {
+      return this.$route.params.product_property_id
+        ? this.product.product_properties.find(
+            (pp) => pp.id.toString() === this.$route.params.product_property_id
           )
         : null;
     },
   },
   created() {
-    if (this.productTax) this.productTaxForm = { ...this.productTax };
+    if (this.productProperty)
+      this.productPropertyForm = { ...this.productProperty };
   },
   methods: {
-    submitProductTaxForm() {
+    submitProductPropertyForm() {
       this.loading = true;
-      if (this.productTaxForm.id)
+      if (this.productPropertyForm.id)
         this.$store
-          .dispatch('product/updateTax', this.productTaxForm)
+          .dispatch('product/updateProperty', this.productPropertyForm)
           .then(() => this.$router.back())
           .catch((error) => (this.errors = error.response?.data?.errors))
           .finally(() => (this.loading = false));
       else
         this.$store
-          .dispatch('product/addTaxes', [this.productTaxForm])
+          .dispatch('product/addProperties', [this.productPropertyForm])
           .then(() => this.$router.back())
           .catch((error) => (this.errors = error.response?.data?.errors))
           .finally(() => (this.loading = false));

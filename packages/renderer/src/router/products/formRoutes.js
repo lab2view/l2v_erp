@@ -55,6 +55,24 @@ export default [
         name: 'product.form.setting.property',
         component: () =>
           import('/@/views/products/forms/ProductProperties.vue'),
+        children: [
+          {
+            path: ':product_property_id?/form',
+            name: 'product.form.setting.property.form',
+            component: () =>
+              import('/@/views/products/forms/ProductPropertyForm.vue'),
+            children: [
+              {
+                path: 'add-property',
+                name: 'product.form.setting.property.form.property',
+                component: () =>
+                  import(
+                    '/@/views/products/configurations/property/PropertyForm.vue'
+                  ),
+              },
+            ],
+          },
+        ],
       },
     ],
   },
@@ -112,6 +130,11 @@ export default [
         props: () => ({ useCurrentProduct: true }),
         component: () =>
           import('/@/views/products/forms/ProductStockEntries.vue'),
+      },
+      {
+        path: 'supply',
+        name: 'product.form.stocks.entry.supply',
+        component: () => import('/@/views/products/forms/Supply.vue'),
       },
       {
         path: 'exits',

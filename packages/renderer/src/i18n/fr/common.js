@@ -27,6 +27,7 @@ export default {
   restore: 'Restaurer',
   forceDelete: 'Supprimer definitivement',
   show: 'Consulter',
+  detail: 'Afficher',
   actions: 'Actions',
   choose: 'Choisir',
   cancel: 'Annuler',
@@ -73,6 +74,7 @@ export default {
   action_not_allow: "L'action n'est pas autorise",
   back_to_list: 'Retourner a la liste',
   update_price: 'Changer le prix',
+  deleted: 'Supprime',
 
   sale: {
     list: 'Liste des ventes',
@@ -208,6 +210,7 @@ export default {
     latitude: 'Latitude',
     search: 'Rechercher...',
     tax_id: 'Taxe',
+    property_id: 'Propriete',
     value: 'Valeur',
     start_at: 'Debute le',
     end_at: "S'acheve le",
@@ -234,6 +237,8 @@ export default {
     code_usage: "Nombre d'utilisation max",
     code_count: 'Quantite a generer',
     code_length: 'Taille du code',
+    property_type: 'Type de champs',
+    property_values: 'Liste des valeurs possibles',
   },
 
   gender: {
