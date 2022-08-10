@@ -39,7 +39,6 @@ export default {
       this.$router.push({
         name: 'article.group.form.setting.discount',
         params: this.$route.params,
-        query: this.$route.query,
       });
   },
 };
