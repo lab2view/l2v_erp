@@ -215,7 +215,7 @@ export default {
             .then((discount) =>
               this.$router.push({
                 name: 'article.groups',
-                params: {},
+                discount_id: discount.id,
               })
             )
             .catch((error) => {
