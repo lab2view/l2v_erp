@@ -50,11 +50,11 @@
 
 <script>
 import BaseInput from '/@/components/common/BaseInput.vue';
-import { propertyTypeCode } from '/@/helpers/codes.js';
 import BaseSelect from '/@/components/common/BaseSelect.vue';
 import BaseSwitchInput from '/@/components/common/BaseSwitchInput.vue';
 import BaseCheckbox from '/@/components/common/BaseCheckbox.vue';
 import BaseRadioButtonGroup from '/@/components/common/BaseRadioButtonGroup.vue';
+import PropertyMixin from '/@/mixins/PropertyMixin.js';
 
 export default {
   components: {
@@ -64,11 +64,8 @@ export default {
     BaseSelect,
     BaseInput,
   },
+  mixins: [PropertyMixin],
   props: {
-    property: {
-      type: Object,
-      required: true,
-    },
     modelValue: {
       type: [String, Number, Object, Array, Boolean],
       default: '',
@@ -108,36 +105,6 @@ export default {
             : value
         );
       },
-    },
-    isInputField() {
-      return (
-        !this.property.property_type.is_list &&
-        this.property.property_type.code !== propertyTypeCode.switcher
-      );
-    },
-    isSelectField() {
-      return (
-        this.property.property_type.is_list &&
-        this.property.property_type.code === propertyTypeCode.select
-      );
-    },
-    isSwitcherField() {
-      return (
-        !this.property.property_type.is_list &&
-        this.property.property_type.code === propertyTypeCode.switcher
-      );
-    },
-    isCheckboxField() {
-      return (
-        this.property.property_type.is_list &&
-        this.property.property_type.code === propertyTypeCode.checkbox
-      );
-    },
-    isRadioField() {
-      return (
-        this.property.property_type.is_list &&
-        this.property.property_type.code === propertyTypeCode.radio
-      );
     },
   },
 };
