@@ -30,8 +30,10 @@
               <div class="form-group">
                 <label>Password</label>
                 <div class="input-group">
-                  <span   class="input-group-text"
-                    ><i :class="[showPassword ? 'icon-unlock' : 'icon-lock']"></i
+                  <span class="input-group-text"
+                    ><i
+                      :class="[showPassword ? 'icon-unlock' : 'icon-lock']"
+                    ></i
                   ></span>
                   <BaseInput
                     v-if="showPassword"
@@ -49,7 +51,9 @@
                     :errors="errors?.password"
                     required
                   />
-                  <div class="show-hide" @click="toggleShow"><span class=""> {{showPasswordLabel}}</span></div>
+                  <div class="show-hide" @click="toggleShow">
+                    <span class=""> {{ showPasswordLabel }}</span>
+                  </div>
                 </div>
               </div>
               <div class="form-group">
@@ -101,11 +105,12 @@
 import BaseButton from '/@/components/common/BaseButton.vue';
 import BaseInput from '/@/components/common/BaseInput.vue';
 export default {
-  components: { BaseButton,BaseInput },
+  components: { BaseButton, BaseInput },
   data() {
     return {
       loading: false,
       showPassword: false,
+      errors: [],
       loginInput: {
         email: null,
         password: null,
@@ -115,17 +120,17 @@ export default {
   },
   computed: {
     showPasswordLabel() {
-      return (this.showPassword) ? "Hide" : "Show";
-    }
+      return this.showPassword ? 'Hide' : 'Show';
+    },
   },
   methods: {
     toggleShow() {
       this.showPassword = !this.showPassword;
-
     },
     submitLoginForm() {
       this.loading = true;
       this.$store.dispatch('auth/login', this.loginInput).catch((error) => {
+        this.errors = error.response?.data?.errors;
         console.log(error);
         this.loading = false;
       });
