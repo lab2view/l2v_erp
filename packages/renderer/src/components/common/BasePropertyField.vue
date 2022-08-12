@@ -24,7 +24,6 @@
       :errors="errors?.[property.code]"
       :label="property.label"
     />
-
     <BaseCheckbox
       v-else-if="isCheckboxField"
       v-model="propertyModelValue"
@@ -41,6 +40,7 @@
       :errors="errors?.[property.code]"
       :label="property.label"
       :options="property.property_values"
+      :name="property.code"
       key-label="value"
       key-value="value"
       required
@@ -70,7 +70,7 @@ export default {
       required: true,
     },
     modelValue: {
-      type: [String, Number, Object, Array],
+      type: [String, Number, Object, Array, Boolean],
       default: '',
     },
     errors: {
@@ -78,14 +78,35 @@ export default {
       default: null,
     },
   },
-  emits: ['update:modelValue'],
+  emits: ['update:modelValue', 'change-multiple'],
   computed: {
     propertyModelValue: {
       get() {
-        return this.modelValue;
+        return this.isCheckboxField
+          ? this.modelValue
+            ? JSON.parse(this.modelValue)
+            : []
+          : this.isSwitcherField
+          ? this.modelValue === '1'
+          : this.modelValue;
       },
       set(value) {
-        this.$emit('update:modelValue', value);
+        const haveValue = value.length !== 0;
+        if (this.isCheckboxField) {
+          this.$emit('change-multiple', haveValue);
+        }
+        this.$emit(
+          'update:modelValue',
+          this.isCheckboxField
+            ? haveValue
+              ? JSON.stringify(value)
+              : null
+            : this.isSwitcherField
+            ? value
+              ? '1'
+              : '0'
+            : value
+        );
       },
     },
     isInputField() {
@@ -102,7 +123,7 @@ export default {
     },
     isSwitcherField() {
       return (
-        this.property.property_type.is_list &&
+        !this.property.property_type.is_list &&
         this.property.property_type.code === propertyTypeCode.switcher
       );
     },

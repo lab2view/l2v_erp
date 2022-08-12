@@ -32,6 +32,7 @@
               <BasePropertyField
                 v-model="productPropertyForm.value"
                 :property="selectedProperty"
+                @change-multiple="setProductPropertyFormMultipleField"
               />
             </div>
           </div>
@@ -101,6 +102,7 @@ export default {
         id: null,
         property_id: null,
         value: null,
+        is_multiple: false,
       },
     };
   },
@@ -150,6 +152,9 @@ export default {
           .then(() => this.$router.back())
           .catch((error) => (this.errors = error.response?.data?.errors))
           .finally(() => (this.loading = false));
+    },
+    setProductPropertyFormMultipleField(value) {
+      this.productPropertyForm.is_multiple = value;
     },
   },
 };

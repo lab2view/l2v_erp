@@ -1,35 +1,34 @@
 <template>
-  <div class="form-check" v-for="(option, index) in options" :key="index">
-    <input
-      class="form-check-input"
-      type="checkbox"
-      :checked="modelValue.includes(option[keyValue])"
-      :id="`inline-${option[keyValue]}`"
-      @change="handleChange($event, option[keyValue])"
-    />
-    <label class="form-check-label" :for="`inline-${option[keyValue]}`">
-      {{ option[keyLabel] }}
-    </label>
-  </div>
-
-  <div v-if="errors" class="invalid-feedback" style="display: inline">
-    {{ errors[0] }}
+  <div class="form-group m-t-15 m-checkbox-inline mb-0">
+    <div
+      v-for="(option, index) in options"
+      :key="index"
+      class="checkbox checkbox-dark"
+    >
+      <input
+        :id="`inline-${index}`"
+        type="checkbox"
+        :value="option[keyValue]"
+        :checked="inModelValues(option[keyValue])"
+        @change="handleChange"
+      />
+      <label :for="`inline-${index}`">
+        {{ option[keyLabel] }}
+      </label>
+    </div>
+    <div v-if="errors" class="invalid-feedback" style="display: inline">
+      {{ errors[0] }}
+    </div>
   </div>
 </template>
 
 <script>
 export default {
-  data() {
-    return {
-      checkedOptions: [],
-    };
-  },
   props: {
     options: {
-      type: Array,
+      type: [Array, Object],
       required: true,
     },
-
     keyValue: {
       type: String,
       default: null,
@@ -39,7 +38,7 @@ export default {
       default: null,
     },
     modelValue: {
-      type: [Number, String, Array],
+      type: [Object, Array],
       default: null,
     },
     required: {
@@ -52,21 +51,21 @@ export default {
     },
   },
   emits: ['update:modelValue'],
-  mounted() {
-    this.checkedOptions = JSON.parse(this.modelValue);
-  },
   methods: {
-    handleChange($event, value) {
-      const isChecked = $event.target.checked;
-      if (isChecked) {
-        this.checkedOptions.push(value);
-      } else {
-        this.checkedOptions = this.checkedOptions.filter(
-          (checkOption) => checkOption !== value
+    handleChange(event) {
+      if (event.target.checked)
+        this.$emit('update:modelValue', [
+          ...this.modelValue,
+          event.target.value,
+        ]);
+      else
+        this.$emit(
+          'update:modelValue',
+          this.modelValue.filter((v) => v !== event.target.value)
         );
-      }
-      this.checkedOptions = [...new Set(this.checkedOptions)];
-      this.$emit('update:modelValue', this.checkedOptions);
+    },
+    inModelValues(value) {
+      return this.modelValue ? this.modelValue.includes(value) : false;
     },
   },
 };

@@ -1,35 +1,30 @@
 <template>
-  <div class="form-check-inline">
-    <label
+  <div class="form-group m-t-15 m-checkbox-inline mb-0 custom-radio-ml">
+    <div
       v-for="(option, index) in options"
       :key="index"
-      :for="`inline-${option[keyValue]}`"
-      class="form-check-label m-l-5"
+      class="radio radio-primary"
     >
       <input
-        :id="`inline-${option[keyValue]}`"
+        :id="`inline-${index}`"
         type="radio"
-        name="radio-input"
-        class="form-check-input"
-        :checked="modelValue.includes(option[keyValue])"
-        @change="handleChange($event, option[keyValue])"
+        :name="name"
+        :value="option[keyValue]"
+        :checked="option[keyValue] === modelValue"
+        @change="handleChange"
       />
-      {{ option[keyLabel] }}
-    </label>
-  </div>
-
-  <div v-if="errors" class="invalid-feedback" style="display: inline">
-    {{ errors[0] }}
+      <label :for="`inline-${index}`">
+        {{ option[keyLabel] }}
+      </label>
+    </div>
+    <div v-if="errors" class="invalid-feedback" style="display: inline">
+      {{ errors[0] }}
+    </div>
   </div>
 </template>
 
 <script>
 export default {
-  data() {
-    return {
-      checkedOption: '',
-    };
-  },
   props: {
     label: {
       type: String,
@@ -63,18 +58,15 @@ export default {
       type: [Array, Object],
       default: null,
     },
+    name: {
+      type: String,
+      required: true,
+    },
   },
   emits: ['update:modelValue'],
-  mounted() {
-    this.checkedOption = this.modelValue;
-  },
   methods: {
-    handleChange($event, value) {
-      const isChecked = $event.target.checked;
-      if (isChecked) {
-        this.checkedOption = value;
-      }
-      this.$emit('update:modelValue', this.checkedOption);
+    handleChange(event) {
+      this.$emit('update:modelValue', event.target.value);
     },
   },
 };
