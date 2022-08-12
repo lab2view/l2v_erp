@@ -75,6 +75,10 @@ export default {
   back_to_list: 'Retourner a la liste',
   update_price: 'Changer le prix',
   deleted: 'Supprime',
+  auth: 'Connectez-vous ',
+  login_to_workspace: 'Connectez-vous sur votre espace de travail',
+  change_workspace: "Changer l'espace de travail ?",
+  clic_here: 'Cliquez ici',
 
   sale: {
     list: 'Liste des ventes',
@@ -106,6 +110,7 @@ export default {
     add_customer: 'Ajouter un client',
     article: 'article | articles',
     default_printer: 'Imprimante par default',
+    forget_password: 'Mot de passe oublie? ',
   },
 
   states: {
@@ -239,6 +244,8 @@ export default {
     code_length: 'Taille du code',
     property_type: 'Type de champs',
     property_values: 'Liste des valeurs possibles',
+    email_address: 'Adresse e-mail',
+    remember_me: 'Garder ma session active',
   },
 
   gender: {

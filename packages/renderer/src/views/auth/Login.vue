@@ -9,38 +9,51 @@
               class="theme-form login-form"
               @submit.prevent="submitLoginForm()"
             >
-              <h4>Login</h4>
-              <h6>Welcome back! Log in to your account.</h6>
+              <h4>{{ $t('common.auth') }}</h4>
+              <h6>{{ $t('common.login_to_workspace') }}</h6>
 
               <div class="form-group">
-                <label>Email Address</label>
+                <label>{{ $t('common.attributes.email_address') }}</label>
                 <div class="input-group">
                   <span class="input-group-text"
                     ><i class="icon-email"></i
                   ></span>
-                  <input
+                  <BaseInput
                     v-model="loginInput.email"
-                    class="form-control"
-                    type="email"
-                    required
+                    type="text"
                     placeholder="Test@test.test"
+                    :errors="errors?.email"
+                    required
                   />
                 </div>
               </div>
               <div class="form-group">
-                <label>Password</label>
+                <label>{{ $t('common.attributes.password') }}</label>
                 <div class="input-group">
                   <span class="input-group-text"
-                    ><i class="icon-lock"></i
+                    ><i
+                      :class="[showPassword ? 'icon-unlock' : 'icon-lock']"
+                    ></i
                   ></span>
-                  <input
+                  <BaseInput
+                    v-if="showPassword"
                     v-model="loginInput.password"
-                    class="form-control"
-                    type="password"
-                    required
+                    type="text"
                     placeholder="*********"
+                    :errors="errors?.password"
+                    required
                   />
-                  <div class="show-hide"><span class="show"> </span></div>
+                  <BaseInput
+                    v-else
+                    v-model="loginInput.password"
+                    type="password"
+                    placeholder="*********"
+                    :errors="errors?.password"
+                    required
+                  />
+                  <div class="show-hide" @click="toggleShow">
+                    <span class=""> {{ showPasswordLabel }}</span>
+                  </div>
                 </div>
               </div>
               <div class="form-group">
@@ -50,13 +63,15 @@
                     v-model="loginInput.remember"
                     type="checkbox"
                   />
-                  <label for="check-remember">Remember password</label>
+                  <label for="check-remember">
+                    {{ $t('common.attributes.remember_me') }}
+                  </label>
                 </div>
                 <a
                   class="link"
                   href="#"
                   @click.prevent="$router.push({ name: 'forgetPassword' })"
-                  >Forgot password?</a
+                  >{{ $t('common.fields.forget_password') }}</a
                 >
               </div>
               <div class="form-group">
@@ -70,13 +85,15 @@
                 <h5>.</h5>
               </div>
               <p>
-                Changer l'espace de travail ?<a
+                {{ $t('common.change_workspace') }}
+                <a
                   class="ms-2"
                   href="#"
                   @click.prevent="
                     $store.dispatch('workspace/forgetCurrentWorkspace')
                   "
-                  >Cliquez ici</a
+                >
+                  {{ $t('common.clic_here') }}</a
                 >
               </p>
             </form>
@@ -90,11 +107,14 @@
 
 <script>
 import BaseButton from '/@/components/common/BaseButton.vue';
+import BaseInput from '/@/components/common/BaseInput.vue';
 export default {
-  components: { BaseButton },
+  components: { BaseButton, BaseInput },
   data() {
     return {
       loading: false,
+      showPassword: false,
+      errors: [],
       loginInput: {
         email: null,
         password: null,
@@ -102,10 +122,19 @@ export default {
       },
     };
   },
+  computed: {
+    showPasswordLabel() {
+      return this.showPassword ? 'Hide' : 'Show';
+    },
+  },
   methods: {
+    toggleShow() {
+      this.showPassword = !this.showPassword;
+    },
     submitLoginForm() {
       this.loading = true;
       this.$store.dispatch('auth/login', this.loginInput).catch((error) => {
+        this.errors = error.response?.data?.errors;
         console.log(error);
         this.loading = false;
       });

@@ -41,14 +41,9 @@ const actions = {
   },
 
   login({ commit }, credential) {
-    return AuthService.login(credential)
-      .then(({ data }) => {
-        commit('SET_CURRENT_USER', data);
-      })
-      .catch((err) => {
-        if (err.response) return Promise.reject(err.response.data);
-        else return Promise.reject(err);
-      });
+    return AuthService.login(credential).then(({ data }) => {
+      commit('SET_CURRENT_USER', data);
+    });
   },
 
   logout({ commit }) {
