@@ -38,7 +38,9 @@
           <thead>
             <tr>
               <th scope="col">{{ $t('common.attributes.property_id') }}</th>
-              <th scope="col">{{ $t('common.attributes.value') }}</th>
+              <th scope="col">
+                {{ $t('common.attributes.value') }}
+              </th>
               <th scope="col" class="text-center">
                 {{ $t('common.actions') }}
               </th>
