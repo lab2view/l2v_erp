@@ -13,6 +13,9 @@ const getters = {
   currentUser: (state) => {
     return JSON.parse(state.currentUser)?.user;
   },
+  unlock: (state) => {
+    return JSON.parse(state.unlock);
+  },
   token: (state) => {
     return JSON.parse(state.currentUser)?.token;
   },
@@ -51,6 +54,10 @@ const actions = {
       });
   },
 
+  disableUnlock({ commit }) {
+    removeStorage();
+    commit('UPDATE_UNLOCK', null);
+  },
   logout({ commit }) {
     removeStorage();
     commit('SET_CURRENT_USER', null);
@@ -73,6 +80,9 @@ const mutations = {
       ...user,
     };
     state.currentUser = user ? JSON.stringify(user) : null;
+  },
+  UPDATE_UNLOCK(state) {
+    state.unlock = !state.unlock;
   },
 };
 
