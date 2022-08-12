@@ -78,7 +78,7 @@ export default {
   auth: 'Connectez-vous ',
   login_to_workspace: 'Connectez-vous sur votre espace de travail',
   change_workspace: "Changer l'espace de travail ?",
-  clic_here: 'Cliquez ici',
+  click_here: 'Cliquez ici',
 
   sale: {
     list: 'Liste des ventes',
@@ -245,7 +245,7 @@ export default {
     property_type: 'Type de champs',
     property_values: 'Liste des valeurs possibles',
     email_address: 'Adresse e-mail',
-    remember_me: 'Garder ma session active',
+    remember_password: 'Se souvenir du mot de passe',
   },
 
   gender: {
