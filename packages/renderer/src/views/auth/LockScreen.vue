@@ -9,17 +9,17 @@
               <form class="theme-form login-form">
                 <h4>unlock</h4>
                 <div class="form-group">
-                  <label class="col-form-label">Enter your Password</label>
+                  <label>Password</label>
                   <div class="input-group">
                     <span class="input-group-text"
-                      ><i class="icon-email"></i
+                      ><i class="icon-lock"></i
                     ></span>
-                    <input
-                      class="form-control"
+                    <BaseInput
+                      v-model="loginInput.password"
                       type="password"
-                      name="login[password]"
-                      required=""
-                      placeholder="*********"
+                      placeholder="**********"
+                      :errors="errors?.password"
+                      required
                     />
                     <div class="show-hide"><span class="show"> </span></div>
                   </div>
@@ -60,7 +60,24 @@
 </template>
 
 <script>
-export default {};
+import BaseInput from '/@/components/common/BaseInput.vue';
+export default {
+  components: {
+    BaseInput,
+  },
+  data() {
+    return {
+      loading: false,
+      loginInput: {
+        password: null,
+        remember: false,
+      },
+    };
+  },
+  mounted() {
+    this.getCookie();
+  },
+};
 </script>
 
 <style scoped></style>
