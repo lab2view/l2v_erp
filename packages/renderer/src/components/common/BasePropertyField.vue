@@ -24,7 +24,8 @@
       :errors="errors?.[property.code]"
       :label="property.label"
     />
-    <BaseCheckboxGroup
+
+    <BaseCheckbox
       v-else-if="isCheckboxField"
       v-model="propertyModelValue"
       :errors="errors?.[property.code]"
@@ -52,12 +53,13 @@ import BaseInput from '/@/components/common/BaseInput.vue';
 import { propertyTypeCode } from '/@/helpers/codes.js';
 import BaseSelect from '/@/components/common/BaseSelect.vue';
 import BaseSwitchInput from '/@/components/common/BaseSwitchInput.vue';
-import BaseCheckboxGroup from '/@/components/common/BaseCheckboxGroup.vue';
+import BaseCheckbox from '/@/components/common/BaseCheckbox.vue';
 import BaseRadioButtonGroup from '/@/components/common/BaseRadioButtonGroup.vue';
+
 export default {
   components: {
     BaseRadioButtonGroup,
-    BaseCheckboxGroup,
+    BaseCheckbox,
     BaseSwitchInput,
     BaseSelect,
     BaseInput,
