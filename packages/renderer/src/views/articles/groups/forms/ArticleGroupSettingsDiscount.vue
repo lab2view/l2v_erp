@@ -14,45 +14,31 @@
           />
         </div>
         <div class="form-group mb-3">
-          <label class="form-label fw-bold" for="label">{{
-            $t('common.attributes.label')
-          }}</label>
-          <input
-            id="label"
-            v-model="discountForm.label"
-            class="form-control"
-            placeholder="..."
-            required
+          <BaseInput
+            v-model.number="discountForm.label"
+            :label="$t('common.attributes.label')"
             type="text"
+            placeholder="..."
+            :errors="errors?.label"
+            required
           />
           <div
             v-if="errors.label && errors.label.length"
             class="invalid-feedback"
             style="display: inline"
           >
-            {{ errors.label[0] }}
+            {{ errors?.label }}
           </div>
         </div>
         <div class="form-group mb-3">
-          <label class="form-label fw-bold" for="value">{{
-            $t('common.attributes.value')
-          }}</label>
-          <input
-            id="value"
-            v-model="discountForm.value"
-            class="form-control"
+          <BaseInput
+            v-model.number="discountForm.value"
+            :label="$t('common.attributes.value')"
+            type="text"
             placeholder="1"
-            type="number"
-            step=".01"
+            :errors="errors?.value"
             required
           />
-          <div
-            v-if="errors.value && errors.value.length"
-            class="invalid-feedback"
-            style="display: inline"
-          >
-            {{ errors.value[0] }}
-          </div>
         </div>
         <div class="mb-3">
           <div class="row align-items-center">
@@ -111,22 +97,14 @@
           />
         </div>
         <div class="mb-3">
-          <label class="form-label fw-bold" for="description">{{
-            $t('common.attributes.description')
-          }}</label>
-          <textarea
-            id="description"
+          <BaseTextArea
             v-model="discountForm.description"
-            class="form-control"
-            placeholder="..."
-          ></textarea>
-          <div
-            v-if="errors.description"
-            class="invalid-feedback"
-            style="display: inline"
-          >
-            {{ errors.description[0] }}
-          </div>
+            rows="4"
+            :label="$t('common.attributes.description')"
+            placeholder="E.g. Desc. Super PROMO"
+            :errors="errors?.description"
+            required
+          />
         </div>
       </div>
       <div class="card-footer">
@@ -151,12 +129,14 @@
 <script>
 import BaseButton from '/@/components/common/BaseButton.vue';
 import BaseSelect from '/@/components/common/BaseSelect.vue';
+import BaseInput from '/@/components/common/BaseInput.vue';
+import BaseTextArea from '../../../../components/common/BaseTextArea.vue';
 import BaseDatetime from '/@/components/common/BaseDatetime.vue';
 import { mapGetters } from 'vuex';
 import store from '/@/store';
 
 export default {
-  components: { BaseButton, BaseDatetime, BaseSelect },
+  components: { BaseButton, BaseDatetime, BaseSelect, BaseTextArea, BaseInput },
   beforeRouteEnter(routeTo, routeFrom, next) {
     store
       .dispatch('discount_type/getDiscountTypesList', {
@@ -227,7 +207,6 @@ export default {
       if (this.formLoading) {
         return;
       }
-
       this.setLoading(true);
       if (this.discount && this.discount.id) {
         if (this.is_edited) {
@@ -236,7 +215,7 @@ export default {
             .then((discount) =>
               this.$router.push({
                 name: 'article.groups',
-                params: { id: discount.id },
+                discount_id: discount.id,
               })
             )
             .catch((error) => {
@@ -249,18 +228,18 @@ export default {
         this.$store
           .dispatch('discount/addDiscount', this.discountForm)
           .then((discount) => {
+            this.setLoading();
             this.$store.dispatch('article_group/updateArticleGroup', {
               ...this.articleGroup,
               discount_id: discount.id,
             });
-            this.setLoading();
+
             this.$router.push({
               name: 'article.groups',
             });
           })
           .catch((error) => {
-            this.errors = error.response?.data?.errors;
-            console.log(error);
+            this.errors = error.response?.data?.error;
             this.setLoading();
           });
       }
