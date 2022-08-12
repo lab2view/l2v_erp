@@ -24,7 +24,7 @@
       :errors="errors?.[property.code]"
       :label="property.label"
     />
-    <BaseCheckboxGroup
+    <BaseCheckbox
       v-else-if="isCheckboxField"
       v-model="propertyModelValue"
       :errors="errors?.[property.code]"
@@ -40,6 +40,7 @@
       :errors="errors?.[property.code]"
       :label="property.label"
       :options="property.property_values"
+      :name="property.code"
       key-label="value"
       key-value="value"
       required
@@ -49,26 +50,24 @@
 
 <script>
 import BaseInput from '/@/components/common/BaseInput.vue';
-import { propertyTypeCode } from '/@/helpers/codes.js';
 import BaseSelect from '/@/components/common/BaseSelect.vue';
 import BaseSwitchInput from '/@/components/common/BaseSwitchInput.vue';
-import BaseCheckboxGroup from '/@/components/common/BaseCheckboxGroup.vue';
+import BaseCheckbox from '/@/components/common/BaseCheckbox.vue';
 import BaseRadioButtonGroup from '/@/components/common/BaseRadioButtonGroup.vue';
+import PropertyMixin from '/@/mixins/PropertyMixin.js';
+
 export default {
   components: {
     BaseRadioButtonGroup,
-    BaseCheckboxGroup,
+    BaseCheckbox,
     BaseSwitchInput,
     BaseSelect,
     BaseInput,
   },
+  mixins: [PropertyMixin],
   props: {
-    property: {
-      type: Object,
-      required: true,
-    },
     modelValue: {
-      type: [String, Number, Object, Array],
+      type: [String, Number, Object, Array, Boolean],
       default: '',
     },
     errors: {
@@ -76,45 +75,36 @@ export default {
       default: null,
     },
   },
-  emits: ['update:modelValue'],
+  emits: ['update:modelValue', 'change-multiple'],
   computed: {
     propertyModelValue: {
       get() {
-        return this.modelValue;
+        return this.isCheckboxField
+          ? this.modelValue
+            ? JSON.parse(this.modelValue)
+            : []
+          : this.isSwitcherField
+          ? this.modelValue === '1'
+          : this.modelValue;
       },
       set(value) {
-        this.$emit('update:modelValue', value);
+        const haveValue = value.length !== 0;
+        if (this.isCheckboxField) {
+          this.$emit('change-multiple', haveValue);
+        }
+        this.$emit(
+          'update:modelValue',
+          this.isCheckboxField
+            ? haveValue
+              ? JSON.stringify(value)
+              : null
+            : this.isSwitcherField
+            ? value
+              ? '1'
+              : '0'
+            : value
+        );
       },
-    },
-    isInputField() {
-      return (
-        !this.property.property_type.is_list &&
-        this.property.property_type.code !== propertyTypeCode.switcher
-      );
-    },
-    isSelectField() {
-      return (
-        this.property.property_type.is_list &&
-        this.property.property_type.code === propertyTypeCode.select
-      );
-    },
-    isSwitcherField() {
-      return (
-        this.property.property_type.is_list &&
-        this.property.property_type.code === propertyTypeCode.switcher
-      );
-    },
-    isCheckboxField() {
-      return (
-        this.property.property_type.is_list &&
-        this.property.property_type.code === propertyTypeCode.checkbox
-      );
-    },
-    isRadioField() {
-      return (
-        this.property.property_type.is_list &&
-        this.property.property_type.code === propertyTypeCode.radio
-      );
     },
   },
 };
