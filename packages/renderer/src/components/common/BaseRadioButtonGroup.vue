@@ -11,9 +11,8 @@
         type="radio"
         name="radio-input"
         class="form-check-input"
-        :checked="modelValue"
-        :value="option[keyValue]"
-        @change="$emit('update:modelValue', option[keyValue])"
+        :checked="modelValue.includes(option[keyValue])"
+        @change="handleChange($event, option[keyValue])"
       />
       {{ option[keyLabel] }}
     </label>
@@ -26,6 +25,11 @@
 
 <script>
 export default {
+  data() {
+    return {
+      checkedOption: '',
+    };
+  },
   props: {
     label: {
       type: String,
@@ -61,5 +65,17 @@ export default {
     },
   },
   emits: ['update:modelValue'],
+  mounted() {
+    this.checkedOption = this.modelValue;
+  },
+  methods: {
+    handleChange($event, value) {
+      const isChecked = $event.target.checked;
+      if (isChecked) {
+        this.checkedOption = value;
+      }
+      this.$emit('update:modelValue', this.checkedOption);
+    },
+  },
 };
 </script>
