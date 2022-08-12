@@ -9,11 +9,11 @@
               class="theme-form login-form"
               @submit.prevent="submitLoginForm()"
             >
-              <h4>Login</h4>
-              <h6>Welcome back! Log in to your account.</h6>
+              <h4>{{ $t('common.auth') }}</h4>
+              <h6>{{ $t('common.login_to_workspace') }}</h6>
 
               <div class="form-group">
-                <label>Email Address</label>
+                <label>{{ $t('common.attributes.email_address') }}</label>
                 <div class="input-group">
                   <span class="input-group-text"
                     ><i class="icon-email"></i
@@ -28,7 +28,7 @@
                 </div>
               </div>
               <div class="form-group">
-                <label>Password</label>
+                <label>{{ $t('common.attributes.password') }}</label>
                 <div class="input-group">
                   <span class="input-group-text"
                     ><i
@@ -63,13 +63,15 @@
                     v-model="loginInput.remember"
                     type="checkbox"
                   />
-                  <label for="check-remember">Remember password</label>
+                  <label for="check-remember">
+                    {{ $t('common.attributes.remember_me') }}
+                  </label>
                 </div>
                 <a
                   class="link"
                   href="#"
                   @click.prevent="$router.push({ name: 'forgetPassword' })"
-                  >Forgot password?</a
+                  >{{ $t('common.fields.forget_password') }}</a
                 >
               </div>
               <div class="form-group">
@@ -83,13 +85,15 @@
                 <h5>.</h5>
               </div>
               <p>
-                Changer l'espace de travail ?<a
+                {{ $t('common.change_workspace') }}
+                <a
                   class="ms-2"
                   href="#"
                   @click.prevent="
                     $store.dispatch('workspace/forgetCurrentWorkspace')
                   "
-                  >Cliquez ici</a
+                >
+                  {{ $t('common.clic_here') }}</a
                 >
               </p>
             </form>
