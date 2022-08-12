@@ -1,7 +1,12 @@
 <template>
   <tr>
     <td>{{ productProperty.property.label }}</td>
-    <td>{{ productProperty.value }}</td>
+    <td>
+      <PropertyLineValue
+        :value="productProperty.value"
+        :property="productProperty.property"
+      />
+    </td>
     <td class="text-center">
       <BaseButton
         type="button"
@@ -34,9 +39,10 @@
 
 <script>
 import BaseButton from '../common/BaseButton.vue';
+import PropertyLineValue from '/@/components/products/PropertyLineValue.vue';
 
 export default {
-  components: { BaseButton },
+  components: { PropertyLineValue, BaseButton },
   props: {
     productProperty: {
       type: Object,

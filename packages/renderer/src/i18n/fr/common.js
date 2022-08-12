@@ -75,6 +75,10 @@ export default {
   back_to_list: 'Retourner a la liste',
   update_price: 'Changer le prix',
   deleted: 'Supprime',
+  auth: 'Connectez-vous ',
+  login_to_workspace: 'Connectez-vous sur votre espace de travail',
+  change_workspace: "Changer l'espace de travail ?",
+  click_here: 'Cliquez ici',
 
   sale: {
     list: 'Liste des ventes',
@@ -109,6 +113,7 @@ export default {
     multi_enterprise: 'Vers plusieurs structures',
     select_structures: 'Selectionner les structures',
     multi_quantity: 'Quantites par structures',
+    forget_password: 'Mot de passe oublie? ',
   },
 
   states: {
@@ -242,6 +247,8 @@ export default {
     code_length: 'Taille du code',
     property_type: 'Type de champs',
     property_values: 'Liste des valeurs possibles',
+    email_address: 'Adresse e-mail',
+    remember_password: 'Se souvenir du mot de passe',
   },
 
   gender: {

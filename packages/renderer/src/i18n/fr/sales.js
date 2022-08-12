@@ -50,6 +50,7 @@ export default {
     customers: 'Gerer les clients de la reduction',
     listTitle: 'Liste des rabais',
     formCreateTitle: 'Ajouter un rabais',
+    formAddDiscountTitle: 'Effectuer une reductions ',
     formUpdateTitle: 'Modifier un rabais',
     store: "L'enregistrement du rabais a ete effectue avec succes",
     update: 'La modification du rabais a ete effectuee avec succes',

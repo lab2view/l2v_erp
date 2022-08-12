@@ -1,16 +1,15 @@
 <template>
-  <div class="form-group m-t-15 m-checkbox-inline mb-0 custom-radio-ml">
+  <div class="form-group m-t-15 m-checkbox-inline mb-0">
     <div
       v-for="(option, index) in options"
       :key="index"
-      class="radio radio-primary"
+      class="checkbox checkbox-dark"
     >
       <input
         :id="`inline-${index}`"
-        type="radio"
-        :name="name"
+        type="checkbox"
         :value="option[keyValue]"
-        :checked="option[keyValue] === modelValue"
+        :checked="inModelValues(option[keyValue])"
         @change="handleChange"
       />
       <label :for="`inline-${index}`">
@@ -26,28 +25,20 @@
 <script>
 export default {
   props: {
-    label: {
-      type: String,
-      default: '',
-    },
-    labelClass: {
-      type: String,
-      default: 'form-label fw-bold',
-    },
-    modelValue: {
-      type: [Number, String],
-      default: null,
-    },
     options: {
-      type: Array,
+      type: [Array, Object],
       required: true,
+    },
+    keyValue: {
+      type: String,
+      default: null,
     },
     keyLabel: {
       type: String,
       default: null,
     },
-    keyValue: {
-      type: String,
+    modelValue: {
+      type: [Object, Array],
       default: null,
     },
     required: {
@@ -58,15 +49,23 @@ export default {
       type: [Array, Object],
       default: null,
     },
-    name: {
-      type: String,
-      required: true,
-    },
   },
   emits: ['update:modelValue'],
   methods: {
     handleChange(event) {
-      this.$emit('update:modelValue', event.target.value);
+      if (event.target.checked)
+        this.$emit('update:modelValue', [
+          ...this.modelValue,
+          event.target.value,
+        ]);
+      else
+        this.$emit(
+          'update:modelValue',
+          this.modelValue.filter((v) => v !== event.target.value)
+        );
+    },
+    inModelValues(value) {
+      return this.modelValue ? this.modelValue.includes(value) : false;
     },
   },
 };
