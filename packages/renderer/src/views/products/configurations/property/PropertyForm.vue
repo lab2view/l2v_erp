@@ -6,7 +6,7 @@
   >
     <div class="row">
       <div class="col-md">
-        <div class="mb-3">
+        <div v-if="!product" class="mb-3">
           <BaseSelect
             v-model.number="propertyForm.product_family_id"
             :label="$t('common.attributes.product_family')"
@@ -17,7 +17,7 @@
             :errors="errors?.product_family_id"
           />
         </div>
-        <div class="mb-3">
+        <div v-if="!product" class="mb-3">
           <BaseSelect
             v-model.number="propertyForm.product_type_id"
             :label="$t('common.attributes.product_type')"
@@ -98,6 +98,7 @@ export default {
       propertyForm: {
         id: null,
         property_type_id: null,
+        product_id: null,
         product_family_id: null,
         product_type_id: null,
         label: null,
@@ -112,6 +113,7 @@ export default {
       'propertyTypes',
       'getPropertyTypeById',
     ]),
+    ...mapGetters('product', ['getProductById']),
     ...mapGetters('product_family', ['productFamilies']),
     ...mapGetters('product_type', ['productTypes']),
 
@@ -130,11 +132,25 @@ export default {
         ? this.$t('products.property.formUpdateTitle')
         : this.$t('products.property.formCreateTitle');
     },
+
+    product() {
+      return this.$route.params?.id &&
+        this.$route.name === 'product.form.setting.property.form.property'
+        ? this.getProductById(parseInt(this.$route.params.id))
+        : null;
+    },
   },
   created() {
     if (this.property) {
       this.propertyForm = { ...this.property };
       this.propertyValues = this.property.property_values;
+    } else {
+      if (this.product) {
+        this.propertyForm.product_id = this.product.id;
+        this.propertyForm.product_type_id = this.product.product_type_id;
+        this.propertyForm.product_family_id =
+          this.product.product_type.product_family_id;
+      }
     }
   },
   beforeUnmount() {
