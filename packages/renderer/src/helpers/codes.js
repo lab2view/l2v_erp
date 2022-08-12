@@ -53,4 +53,5 @@ export const propertyTypeCode = {
   switcher: 'switcher',
   radio: 'radio',
   checkbox: 'checkbox',
+  color: 'color',
 };
