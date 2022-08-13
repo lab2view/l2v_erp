@@ -48,6 +48,7 @@ export default {
   configurations: 'Configurations',
   return_to_list: 'Retourner a la liste',
   login: 'Connexion',
+  unlock: 'Unlock',
   logout: 'Deconnexion',
   no_action: "Pas d'action",
   makeComposition: "Composer l'article",

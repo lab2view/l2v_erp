@@ -13,11 +13,11 @@ const getters = {
   currentUser: (state) => {
     return JSON.parse(state.currentUser)?.user;
   },
-  unlock: (state) => {
-    return JSON.parse(state.unlock);
-  },
   token: (state) => {
     return JSON.parse(state.currentUser)?.token;
+  },
+  unlock: (state) => {
+    return state.unlock;
   },
   currentUserEmail: (state, getters) => getters.currentUser?.email,
   currentUserRole: (state, getters) => getters.currentUser?.role?.label,
@@ -53,10 +53,8 @@ const actions = {
         else return Promise.reject(err);
       });
   },
-
   disableUnlock({ commit }) {
-    removeStorage();
-    commit('UPDATE_UNLOCK', null);
+    commit('UPDATE_UNLOCK_SCREEN');
   },
   logout({ commit }) {
     removeStorage();
@@ -74,15 +72,15 @@ const mutations = {
       else location.reload();
     }, 3000);
   },
+  UPDATE_UNLOCK_SCREEN(state) {
+    state.unlock = !state.unlock;
+  },
   UPDATE_CURRENT_USER(state, user) {
     user = {
       ...JSON.parse(state.currentUser),
       ...user,
     };
     state.currentUser = user ? JSON.stringify(user) : null;
-  },
-  UPDATE_UNLOCK(state) {
-    state.unlock = !state.unlock;
   },
 };
 

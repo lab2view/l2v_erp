@@ -1,6 +1,10 @@
 <template>
   <!--Loader starts-->
-  <LockScreen v-if="unlock" />
+  <!--  <LockScreen-->
+  <!--    :rememb="remember"-->
+  <!--    v-if="unlock && currentUser"-->
+  <!--    :disableUnlock="disableUnlock"-->
+  <!--  />-->
   <Loader />
   <!-- Loader ends-->
   <!-- page-wrapper Start-->
@@ -23,7 +27,7 @@ export default defineComponent({
     return {
       events: ['click', 'mousemove', 'mousedown', 'scroll', 'keypress', 'load'],
       logoutTimer: null,
-      warningTimer: null,
+      remember: false,
     };
   },
   mounted() {
@@ -56,18 +60,20 @@ export default defineComponent({
       })();
     }, 1000);
   },
+
   computed: {
     ...mapGetters('auth', ['unlock']),
+    ...mapGetters('auth', ['currentUser']),
   },
   methods: {
     resetTimer() {
-      clearTimeout(this.warningTimer);
+      clearTimeout(this.logoutTimer);
     },
-    warningMessage() {
+    disableUnlock() {
       this.$store.dispatch('auth/disableUnlock');
     },
     seTimer() {
-      this.warningTimer = setTimeout(this.warningMessage, 300 * 1000);
+      this.logoutTimer = setTimeout(this.disableUnlock, 5 * 1000);
     },
   },
 });
