@@ -3,6 +3,12 @@ export default {
   movement: 'Mouvement de stocks',
   stockentry: 'Entree de stocks',
   stockexit: 'Sortie de stocks',
+  fields: {
+    total_entry: 'Entre de stock',
+    total_exit: 'Sorti de stock',
+    total_stock: 'Total En stock',
+    structure_stocks: 'Mouvement de stock dans les autres structures',
+  },
   form: {
     entry: {
       updateTitle: "Modification de l'approvisionnement",

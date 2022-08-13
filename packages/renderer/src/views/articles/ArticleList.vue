@@ -45,6 +45,7 @@
               >
                 Consulter
               </BaseButton>
+              <ArticlePriceState :article="article" />
               <BaseButton
                 v-if="!article.not_deletable"
                 type="button"
@@ -53,20 +54,6 @@
                 @click.prevent="deleteArticle(article)"
               >
                 <i class="fa fa-trash-o" />
-              </BaseButton>
-              <BaseButton
-                v-if="!getArticleIsSalePrice(article).length > 0"
-                type="button"
-                class="btn btn-iconsolid btn-warning btn-sm m-l-5"
-                :title="$t('common.configure')"
-                @click.prevent="
-                  $router.push({
-                    name: 'article.prices',
-                    params: { id: article.id },
-                  })
-                "
-              >
-                <i class="fa fa-exclamation-triangle" />
               </BaseButton>
             </td>
           </tr>
@@ -85,10 +72,16 @@ import { mapGetters } from 'vuex';
 import BaseContainer from '../../components/common/BaseContainer.vue';
 import BaseButton from '../../components/common/BaseButton.vue';
 import ArticleStockIn from '/@/components/articles/ArticleStockIn.vue';
-import { priceTypeCode } from '/@/helpers/codes';
+import ArticlePriceState from '/@/components/articles/ArticlePriceState.vue';
 
 export default {
-  components: { ArticleStockIn, BaseButton, BaseContainer, BaseDatatable },
+  components: {
+    ArticlePriceState,
+    ArticleStockIn,
+    BaseButton,
+    BaseContainer,
+    BaseDatatable,
+  },
   beforeRouteEnter(routeTo, routeFrom, next) {
     store
       .dispatch('article/getArticlesList', {
@@ -111,18 +104,6 @@ export default {
     this.$store.commit('article/SET_CURRENT_ARTICLE', null);
   },
   methods: {
-    getArticleIsSalePrice(article) {
-      const result = article.prices
-        .map((p) => {
-          return {
-            label: p.price_type.label,
-            id: p.price_type.id,
-            code: p.price_type.code,
-          };
-        })
-        .filter((pt) => pt.code === priceTypeCode.sell);
-      return result;
-    },
     deleteArticle(article) {
       if (confirm(this.$t('messages.confirmDelete', { label: article.name })))
         this.$store.dispatch('article/deleteArticle', article.id);
