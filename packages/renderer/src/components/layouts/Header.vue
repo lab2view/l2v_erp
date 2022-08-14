@@ -43,7 +43,7 @@
               <div class="search-bg">
                 <i class="fa fa-search"></i>
                 <BaseInput
-                  v-model="keyword"
+                  v-model="articleSearchField.keyword"
                   type="text"
                   placeholder="Chercher ici ..."
                   @keydown.enter="searchArticles"
@@ -201,7 +201,10 @@ export default defineComponent({
         else this.$store.dispatch('auth/logout');
       }
     },
-    searchArticles() {},
+    searchArticles() {
+      //todo complete global search request
+      console.log(this.articleSearchField);
+    },
   },
 });
 </script>
