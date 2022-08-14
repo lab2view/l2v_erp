@@ -29,7 +29,7 @@ export default {
   computed: {
     haveSalePrice() {
       return (
-        this.article.prices.find(
+        this.article?.prices?.find(
           (p) => p.price_type.code === priceTypeCode.sell
         ) !== undefined
       );

@@ -64,18 +64,17 @@
               </span>
             </td>
             <td>
-              <router-link
-                :to="{
-                  name: 'product.form.desc',
-                  params: { id: product.id },
-                }"
+              <BaseButton
                 class="btn btn-secondary btn-xs"
                 type="button"
-                data-original-title="btn btn-secondary btn-xs"
-                :title="$t('common.update')"
-              >
-                {{ $t('common.update') }}
-              </router-link>
+                :text="$t('common.update')"
+                @click.prevent="
+                  $router.push({
+                    name: 'product.form.desc',
+                    params: { id: product.id },
+                  })
+                "
+              />
               <button
                 v-if="!product.not_deletable"
                 class="btn btn-danger btn-xs m-l-5"
@@ -101,9 +100,10 @@ import BaseDatatable from '/@/components/common/BaseDatatable.vue';
 import store from '../../store';
 import { mapGetters } from 'vuex';
 import BaseContainer from '../../components/common/BaseContainer.vue';
+import BaseButton from '/@/components/common/BaseButton.vue';
 
 export default {
-  components: { BaseContainer, BaseDatatable },
+  components: { BaseButton, BaseContainer, BaseDatatable },
   beforeRouteEnter(routeTo, routeFrom, next) {
     store
       .dispatch('product/getProductsList', {
