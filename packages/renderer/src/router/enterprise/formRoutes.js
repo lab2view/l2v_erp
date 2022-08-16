@@ -1,3 +1,6 @@
+import store from "/@/store";
+import {userformRoutes} from "/@/router/enterprise/userformRoutes";
+
 export const formRoutes = [
   {
     path: 'description',
@@ -26,9 +29,27 @@ export const formRoutes = [
     component: () =>
       import('/@/views/structures/enterprises/EnterpriseIAM.vue'),
     meta: {
-      code: 'Enterprise.form.iam',
+      code: 'enterprise.form.iam',
       icon: 'fa fa-users',
       requireEnterprise: true,
     },
+    children:[
+      {
+        path: ':id?/forms',
+        name: 'enterprise.form.iam.user',
+        component: () => import('/@/components/enterprise/EnterpriseUserFormLayout.vue'),
+        children: userformRoutes,
+        beforeEnter: (to) => {
+          if (to.params.id) {
+            return store.dispatch('user/getUser', to.params.id)
+              .then(() => {
+                return 1;
+              })
+              .catch(() => -1);
+          }
+        },
+      },
+    ]
+
   },
 ];

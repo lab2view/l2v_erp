@@ -116,6 +116,10 @@ export default {
       desc: 'Description de la structure',
       setting: 'Parametres de la structure',
       iam: 'Parametres utilisateurs de la structure',
+      user:{
+        desc: "Description de l'utilisateur",
+        privileges: "Privileges de l'utilisateur",
+      }
     },
   },
   enterprisetype: {

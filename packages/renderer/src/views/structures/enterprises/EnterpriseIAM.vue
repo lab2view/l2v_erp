@@ -1,36 +1,4 @@
 <template>
-<!--  <div class="card mb-0">-->
-<!--    <form class="theme-form" @submit.prevent="submitEnterpriseIAMForm">-->
-<!--      <div class="card-header pb-0">-->
-<!--        <h5>{{ $t('enterprise.enterprise.iamTitle') }}</h5>-->
-<!--        <span>-->
-<!--          Using the <a href="#">card</a> component, you can extend the default-->
-<!--          collapse behavior to create an accordion.-->
-<!--        </span>-->
-<!--      </div>-->
-<!--      <div class="card-body">-->
-<!--        <p>Just wait for IAM module</p>-->
-<!--      </div>-->
-<!--      <div class="card-footer">-->
-<!--        <div class="row justify-content-end">-->
-<!--          <BaseButton-->
-<!--            :text="$t('common.cancel')"-->
-<!--            class="btn btn-secondary col-auto m-r-5"-->
-<!--            type="button"-->
-<!--            @click.prevent="$router.push({ name: 'enterprise.form.setting' })"-->
-<!--          />-->
-
-<!--        </div>-->
-<!--      </div>-->
-<!--    </form>-->
-<!--  </div>-->
-<!--  <div class="card-header pb-0">-->
-<!--    <h5>{{ $t('enterprise.enterprise.iamTitle') }}</h5>-->
-<!--    <span>-->
-<!--          Using the <a href="#">card</a> component, you can extend the default-->
-<!--          collapse behavior to create an accordion.-->
-<!--        </span>-->
-<!--  </div>-->
   <BaseContainer :module="$t('menu.modules.iam')" :title="$t('iam.title')">
     <div class="card">
       <div class="card-header pb-2 border-bottom border-bottom-">
@@ -40,7 +8,7 @@
           </div>
           <div class="col-sm-auto align-items-end">
             <router-link
-              :to="{ name: 'iam.user.form.desc' }"
+              :to="{ name: 'enterprise.form.user.des'}"
               class="btn btn-primary"
               type="button"
             >
@@ -77,7 +45,7 @@
                 type="button"
                 @click.prevent="
                   $router.push({
-                    name: 'iam.user.form.desc',
+                    name: 'enterprise.form.user.des',
                     params: { id: user.id },
                   })
                 "
@@ -94,7 +62,6 @@
         </BaseDatatable>
         <br />
       </div>
-
       <router-view />
     </div>
   </BaseContainer>
