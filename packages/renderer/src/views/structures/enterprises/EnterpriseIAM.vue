@@ -54,8 +54,8 @@
                 :title="$t('common.delete')"
                 class="btn btn-danger btn-xs m-l-5"
                 type="button"
-                @click.prevent="deleteUser(user)"
                 icon="fa fa-trash-o"
+                @click.prevent="deleteUser(user)"
               />
             </td>
           </tr>
@@ -83,10 +83,6 @@ export default {
     };
   },
 
-  created() {
-    if (this.user) this.$store.commit('user/SET_CURRENT_USER', null);
-  },
-
   computed: {
     ...mapGetters('enterprise', ['enterprise']),
     ...mapGetters('user', ['users', 'user']),
@@ -95,6 +91,10 @@ export default {
       return `enterprises/${this.enterprise.id}`;
     },
   },
+  created() {
+    if (this.user) this.$store.commit('user/SET_CURRENT_USER', null);
+  },
+
   mounted() {
     // if (this.enterprise) {}
   },

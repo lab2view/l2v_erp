@@ -121,7 +121,6 @@ export default {
   computed: {
     ...mapGetters('user', ['user']),
     fullName() {
-      if(this.user)
       return [this.user.last_name, this.user.first_name].join(' ');
     },
     haveUser() {
