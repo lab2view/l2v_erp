@@ -262,5 +262,6 @@ export default {
     total_price: 'Prix total',
     status: 'Statut',
     usage: 'Utilisation',
+    search_result: 'Resultat de la recherche ',
   },
 };
