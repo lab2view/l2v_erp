@@ -48,6 +48,7 @@ export default {
   configurations: 'Configurations',
   return_to_list: 'Retourner a la liste',
   login: 'Connexion',
+  unlock: 'Déverrouiller',
   logout: 'Deconnexion',
   no_action: "Pas d'action",
   makeComposition: "Composer l'article",
@@ -79,6 +80,7 @@ export default {
   login_to_workspace: 'Connectez-vous sur votre espace de travail',
   change_workspace: "Changer l'espace de travail ?",
   click_here: 'Cliquez ici',
+  unlock_error: 'Mot de passe incorrect',
 
   sale: {
     list: 'Liste des ventes',
@@ -246,6 +248,9 @@ export default {
     property_values: 'Liste des valeurs possibles',
     email_address: 'Adresse e-mail',
     remember_password: 'Se souvenir du mot de passe',
+    unlock_screen: 'Déverrouiller',
+    have_account: 'Vous avez déja un compte?',
+    sign_in: 'Se connecter',
   },
 
   gender: {
