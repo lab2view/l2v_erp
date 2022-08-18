@@ -1,10 +1,7 @@
 <template>
   <!--Loader starts-->
-  <!--  <LockScreen-->
-  <!--    :rememb="remember"-->
-  <!--    v-if="unlock && currentUser"-->
-  <!--    :disableUnlock="disableUnlock"-->
-  <!--  />-->
+  <!--
+  />-->
   <Loader />
   <!-- Loader ends-->
   <!-- page-wrapper Start-->
@@ -16,25 +13,11 @@
 // import Echo from 'laravel-echo';
 import { defineComponent } from 'vue';
 import Loader from '/@/components/Loader.vue';
-import LockScreen from '/@/views/auth/LockScreen.vue';
-import { mapGetters, mapState } from 'vuex';
 export default defineComponent({
   components: {
     Loader,
-    LockScreen,
-  },
-  data() {
-    return {
-      events: ['click', 'mousemove', 'mousedown', 'scroll', 'keypress', 'load'],
-      logoutTimer: null,
-      remember: false,
-    };
   },
   mounted() {
-    this.events.forEach(function (event) {
-      window.addEventListener(event, this.resetTimer);
-    }, this);
-    this.seTimer();
     setTimeout(() => {
       (async () => {
         return Promise.all([
@@ -59,22 +42,6 @@ export default defineComponent({
         });
       })();
     }, 1000);
-  },
-
-  computed: {
-    ...mapGetters('auth', ['unlock']),
-    ...mapGetters('auth', ['currentUser']),
-  },
-  methods: {
-    resetTimer() {
-      clearTimeout(this.logoutTimer);
-    },
-    disableUnlock() {
-      this.$store.dispatch('auth/disableUnlock');
-    },
-    seTimer() {
-      this.logoutTimer = setTimeout(this.disableUnlock, 5 * 1000);
-    },
   },
 });
 </script>

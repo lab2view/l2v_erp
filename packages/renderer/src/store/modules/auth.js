@@ -48,8 +48,11 @@ const actions = {
       commit('SET_CURRENT_USER', data);
     });
   },
-  disableUnlock({ commit }) {
-    commit('UPDATE_UNLOCK_SCREEN');
+  checkPassword({ commit }, passwordField) {
+    return AuthService.checkPassword(passwordField).then(({ data }) => {
+      commit('SET_UNLOCK_SCREEN', data.unlock);
+      return data;
+    });
   },
   logout({ commit }) {
     removeStorage();
@@ -67,15 +70,15 @@ const mutations = {
       else location.reload();
     }, 3000);
   },
-  UPDATE_UNLOCK_SCREEN(state) {
-    state.unlock = !state.unlock;
-  },
   UPDATE_CURRENT_USER(state, user) {
     user = {
       ...JSON.parse(state.currentUser),
       ...user,
     };
     state.currentUser = user ? JSON.stringify(user) : null;
+  },
+  SET_UNLOCK_SCREEN(state, unlock) {
+    state.unlock = unlock;
   },
 };
 
