@@ -16,6 +16,9 @@ const getters = {
   token: (state) => {
     return JSON.parse(state.currentUser)?.token;
   },
+  unlock: (state) => {
+    return state.unlock;
+  },
   currentUserEmail: (state, getters) => getters.currentUser?.email,
   currentUserRole: (state, getters) => getters.currentUser?.role?.label,
   isRoleAdmin: (state, getters) =>
@@ -45,10 +48,15 @@ const actions = {
       commit('SET_CURRENT_USER', data);
     });
   },
-
+  checkPassword({ commit }, passwordField) {
+    return AuthService.checkPassword(passwordField).then(({ data }) => {
+      commit('SET_UNLOCK_SCREEN', data.unlock);
+      return data;
+    });
+  },
   logout({ commit }) {
-    removeStorage();
     commit('SET_CURRENT_USER', null);
+    return removeStorage();
   },
 };
 
@@ -68,6 +76,9 @@ const mutations = {
       ...user,
     };
     state.currentUser = user ? JSON.stringify(user) : null;
+  },
+  SET_UNLOCK_SCREEN(state, unlock) {
+    state.unlock = unlock;
   },
 };
 
