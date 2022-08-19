@@ -15,26 +15,28 @@
             aria-labelledby="all-link"
           >
             <div class="row">
-              <div class="col-md-auto">
-                <p class="pb-4">About 6,000 results (0.60 seconds)</p>
+              <div v-if="metaArticle" class="col-12">
+                <p class="pb-4">
+                  {{ $t('common.result_count', { count: metaArticle.total }) }}
+                </p>
               </div>
-              <ArticleSearchResultLine
-                v-for="article in articles"
-                :key="`search-${article.id}`"
-                :article="article"
-              />
+              <div class="vertical-scroll scroll-demo m-0">
+                <ArticleSearchResultLine
+                  v-for="article in articles"
+                  :key="`search-${article.id}`"
+                  :article="article"
+                />
+              </div>
             </div>
           </div>
         </div>
       </div>
     </div>
     <template #footer>
-      <BaseButton
-        type="button"
-        icon="fa fa-arrow-left"
-        class="btn btn-secondary btn-sm m-r-5"
-        :text="$t('common.close')"
-        @click.prevent="$router.back()"
+      <BasePaginate
+        v-if="metaArticle"
+        :links="metaArticle.links"
+        @change="searchArticles"
       />
     </template>
   </BaseModal>
@@ -42,17 +44,17 @@
 
 <script>
 import BaseModal from '/@/components/common/BaseModal.vue';
-import BaseButton from '/@/components/common/BaseButton.vue';
 import ArticleSearchResultLine from '/@/components/sales/session/ArticleSearchResultLine.vue';
+import BasePaginate from '/@/components/common/BasePaginate.vue';
 
 export default {
-  components: { ArticleSearchResultLine, BaseButton, BaseModal },
+  components: { BasePaginate, ArticleSearchResultLine, BaseModal },
   data() {
     return {
       metaArticle: null,
       loading: true,
       searchField: {
-        paginate: 5,
+        paginate: 10,
         keyword: null,
       },
     };
@@ -64,12 +66,17 @@ export default {
     },
   },
 
+  beforeCreate() {
+    this.$store.dispatch('setGlobalLoading', true);
+  },
+
   created() {
     if (this.$route.query.keyword) this.searchArticles(1);
   },
 
   methods: {
     searchArticles(page) {
+      this.$store.dispatch('setGlobalLoading', true);
       return this.$store
         .dispatch('article/searchArticles', {
           page,
@@ -77,6 +84,7 @@ export default {
         })
         .then(({ data }) => {
           this.metaArticle = data;
+          this.$store.dispatch('setGlobalLoading', false);
         })
         .finally(() => (this.loading = false));
     },

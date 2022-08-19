@@ -81,6 +81,8 @@ export default {
   change_workspace: "Changer l'espace de travail ?",
   click_here: 'Cliquez ici',
   unlock_error: 'Mot de passe incorrect',
+  reserve: 'Reserver',
+  result_count: 'Environ {count} résultat(s) ',
 
   sale: {
     list: 'Liste des ventes',
