@@ -79,6 +79,9 @@ export default {
   login_to_workspace: 'Connectez-vous sur votre espace de travail',
   change_workspace: "Changer l'espace de travail ?",
   click_here: 'Cliquez ici',
+  unlock_error: 'Mot de passe incorrect',
+  reserve: 'Reserver',
+  result_count: 'Environ {count} résultat(s) ',
 
   sale: {
     list: 'Liste des ventes',
@@ -262,5 +265,6 @@ export default {
     total_price: 'Prix total',
     status: 'Statut',
     usage: 'Utilisation',
+    search_result: 'Resultat de la recherche ',
   },
 };

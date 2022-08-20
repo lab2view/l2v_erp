@@ -55,8 +55,8 @@ const actions = {
     });
   },
   logout({ commit }) {
-    removeStorage();
     commit('SET_CURRENT_USER', null);
+    return removeStorage();
   },
 };
 

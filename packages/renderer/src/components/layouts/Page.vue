@@ -103,7 +103,7 @@ export default defineComponent({
     seTimer() {
       this.logoutTimer = setTimeout(() => {
         if (this.unlock) this.$store.commit('auth/SET_UNLOCK_SCREEN', false);
-      }, 15 * 60 * 1000);
+      }, 15 * 10 * 1000);
     },
   },
 });

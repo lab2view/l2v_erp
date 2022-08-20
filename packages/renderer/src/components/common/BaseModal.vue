@@ -16,6 +16,7 @@
         <div class="modal-header">
           <h5 class="modal-title">{{ title }}</h5>
           <button
+            v-if="withCloseAction"
             class="btn-close"
             type="button"
             data-bs-dismiss="modal"
@@ -41,6 +42,7 @@ export default {
   props: {
     title: { type: String, required: true },
     modalSize: { type: String, default: null },
+    withCloseAction: { type: Boolean, default: true },
   },
   computed: {
     sizeClass() {

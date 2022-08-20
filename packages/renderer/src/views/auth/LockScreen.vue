@@ -1,7 +1,10 @@
 <template>
   <!-- page-wrapper Start-->
-  <BaseModal title="Déverrouiller" modal-size="l">
-    <form class="theme-form login-form" @submit.prevent="submitLockForm">
+  <BaseModal title="Déverrouiller" :with-close-action="false">
+    <form
+      class="theme-form p-0 m-0 login-form"
+      @submit.prevent="submitLockForm"
+    >
       <div class="form-group">
         <label>{{ $t('common.attributes.password') }}</label>
         <div class="input-group">
@@ -22,6 +25,7 @@
             type="password"
             placeholder="*********"
             required
+            @keydown.enter="submitLockForm"
           />
           <div class="show-hide" @click="toggleShow">
             <span class=""> {{ showPasswordLabel }}</span>
