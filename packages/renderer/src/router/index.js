@@ -6,7 +6,6 @@ import store from '/@/store';
 import landlordGuard from '../guards/landlordGuard';
 import workspaceGuard from '../guards/workspaceGuard';
 import authGuard from '../guards/authGuard';
-import unlockGuard from '../guards/unlockGuard';
 import redirectAuthGuard from '../guards/redirectAuthGuard';
 import productGuard from '../guards/productGuard';
 import productArticleGroupGuard from '/@/guards/productArticleGroupGuard';
@@ -33,15 +32,6 @@ const routes = [
     meta: {
       requireWorkspace: true,
       redirectAuth: true,
-    },
-  },
-  {
-    path: '/lock-screen',
-    name: 'lockScreen',
-    component: () => import('/@/views/auth/LockScreen.vue'),
-    meta: {
-      requireWorkspace: true,
-      requireAuth: true,
     },
   },
   {
@@ -106,7 +96,6 @@ router.beforeEach(async (to, from, next) => {
   if (to.meta.requireWorkspace) workspaceGuard(to, from, next);
   if (to.meta.requireAuth) authGuard(to, from, next);
   if (to.meta.redirectAuth) redirectAuthGuard(to, from, next);
-  if (to.meta.requireUnlock) unlockGuard(to, from, next);
   if (to.meta.requireProduct) {
     await store.dispatch('product/getProduct', to.params.id);
     productGuard(to, from, next);
