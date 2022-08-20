@@ -13,7 +13,7 @@
           :tabindex="index"
           @click.prevent="handleNewPage(link)"
         >
-          <span v-html="link.label" />
+          <span v-text="link.label" />
         </a>
       </li>
     </ul>
