@@ -8,7 +8,6 @@ import fileService from '/@/services/FileService.js';
 const state = {
   articles: null,
   article: null,
-  search_results: null,
 };
 
 // getters
@@ -82,9 +81,13 @@ const actions = {
         })
         .catch((error) => {
           commit('SET_ARTICLES', []);
-          Promise.reject(error);
+          return Promise.reject(error);
         });
     }
+  },
+
+  searchArticles(context, { page, field }) {
+    return articleService.getList(page, field);
   },
 
   getArticle({ getters, commit }, id) {
@@ -248,6 +251,9 @@ const mutations = {
       let oldArticles = state.articles ? JSON.parse(state.articles) : [];
       state.articles = JSON.stringify([...oldArticles, ...data]);
     }
+  },
+  SET_SEARCH_ARTICLES(state, { data }) {
+    state.search_results = data?.length ? JSON.stringify(data) : null;
   },
   SET_CURRENT_ARTICLE(state, article) {
     state.article = article === null ? null : JSON.stringify(article);

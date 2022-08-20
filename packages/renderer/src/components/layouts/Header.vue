@@ -43,7 +43,7 @@
               <div class="search-bg">
                 <i class="fa fa-search"></i>
                 <BaseInput
-                  v-model="articleSearchField.keyword"
+                  v-model="searchKeyword"
                   type="text"
                   placeholder="Chercher ici ..."
                   @keydown.enter="searchArticles"
@@ -167,11 +167,7 @@ export default defineComponent({
     return {
       dark_mode: false,
       loading: false,
-      articleSearchField: {
-        paginate: 10,
-        keyword: null,
-        page: 1,
-      },
+      searchKeyword: null,
     };
   },
   computed: {
@@ -202,8 +198,13 @@ export default defineComponent({
       }
     },
     searchArticles() {
-      //todo complete global search request
-      console.log(this.articleSearchField);
+      if (this.$route.meta.requireCashierSession) {
+        if (this.searchKeyword)
+          this.$router.push({
+            name: 'sales.session.finder',
+            query: { keyword: this.searchKeyword },
+          });
+      }
     },
   },
 });
