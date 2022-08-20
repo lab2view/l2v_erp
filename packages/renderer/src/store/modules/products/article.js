@@ -8,6 +8,7 @@ import fileService from '/@/services/FileService.js';
 const state = {
   articles: null,
   article: null,
+  search_results: null,
 };
 
 // getters

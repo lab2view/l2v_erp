@@ -2,12 +2,14 @@
   <div class="card-body">
     <div class="row align-items-center">
       <div class="col-md-4">
-        <div class="card-body pb-2 avatar-showcase">
+        <div class="card-body p-0 avatar-showcase">
           <div class="avatars">
             <div class="avatar">
               <img
                 class="img-bi rounded-circle"
                 :src="article.cover_thumb_url"
+                width="200"
+                height="200"
                 alt="Couverture"
                 title="Image de couverture"
               />

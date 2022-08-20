@@ -1,6 +1,7 @@
 import store from '../../store';
 import exitFormRoutes from '/@/router/stocks/exitFormRoutes.js';
 import entryFormRoutes from '/@/router/stocks/entryFormRoutes.js';
+import shippingFormRoutes from "/@/router/stocks/shippingFormRoutes";
 
 export const stockRoutes = [
   {
@@ -106,28 +107,26 @@ export const stockRoutes = [
   {
     path: 'shippings',
     name: 'shippings',
-    component: () => import('/@/views/stocks/ShippingsList.vue'),
+    component: () => import('/@/views/stocks/shipping/ShippingsList.vue'),
     meta: {
       code: 'Shipping.viewAny',
       feather: 'filter',
     },
-    children: [
-      {
-        path: 'form/:id?',
-        name: 'shipping.form',
-        component: () => import('/@/views/stocks/ShippingForm.vue'),
-        beforeEnter: (to) => {
-          if (to.params.id) {
-            return store
-              .dispatch('shipping/getShipping', to.params.id)
-              .then(() => {
-                return 1;
-              })
-              .catch(() => -1);
-          }
-        },
-      },
-    ],
+  },
+  {
+    path: 'shippings/:id?/forms',
+    component: () => import('/@/components/stocks/ShippingFormLayout.vue'),
+    children: shippingFormRoutes,
+    beforeEnter: (to) => {
+      if (to.params.id) {
+        return store
+          .dispatch('shipping/getShipping', to.params.id)
+          .then(() => {
+            return 1;
+          })
+          .catch(() => -1);
+      }
+    },
   },
   {
     path: 'types',

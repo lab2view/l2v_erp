@@ -116,6 +116,10 @@ export default {
       desc: 'Description de la structure',
       setting: 'Parametres de la structure',
       iam: 'Parametres utilisateurs de la structure',
+      user:{
+        desc: "Description de l'utilisateur",
+        privileges: "Privileges de l'utilisateur",
+      }
     },
   },
   enterprisetype: {
@@ -233,6 +237,10 @@ export default {
   },
   shipping: {
     viewany: 'Livraisons',
+    form: {
+      description: 'Description de la livraison',
+      line:'liste des produits'
+    },
   },
   movement: {
     entry: "Mouvements d'entree",

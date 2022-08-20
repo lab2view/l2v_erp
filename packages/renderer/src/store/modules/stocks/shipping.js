@@ -1,6 +1,7 @@
 import shippingService from '../../../services/stocks/ShippingService';
 import { notify } from '/@/helpers/notify';
 import i18n from '/@/i18n';
+import {stockStateCode} from "/@/helpers/codes";
 
 const state = {
   shippings: null,
@@ -10,10 +11,22 @@ const state = {
 
 // getters
 const getters = {
+  haveShipping: (state, getters) => !!getters.shipping,
   shippings: (state) => {
     return state.shippings ? JSON.parse(state.shippings) : [];
   },
   shipping: (state) => (state.shipping ? JSON.parse(state.shipping) : null),
+  shippingIsConfirm: (state, getters) => {
+    return (
+      getters.shipping?.shipping?.shipping.code ===
+      stockStateCode.success ||
+      getters.shipping?.shipping?.shipping.code ===
+      stockStateCode.delivered
+    );
+  },
+  currentShippingStateDate: (state, getters) =>
+    getters.shipping?.current_state?.updated_at,
+  manage_price: () => false,
 };
 
 const actions = {
