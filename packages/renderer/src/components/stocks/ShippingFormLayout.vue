@@ -13,7 +13,7 @@
 import BaseContainer from '/@/components/common/BaseContainer.vue';
 import BaseWizardStep from '/@/components/common/BaseWizardStep.vue';
 import { mapGetters } from 'vuex';
-import shippingFormRoutes from "../../router/stocks/shippingFormRoutes.js";
+import shippingFormRoutes from '../../router/stocks/shippingFormRoutes.js';
 
 export default {
   components: { BaseWizardStep, BaseContainer },
@@ -27,7 +27,7 @@ export default {
           code: pfr.meta.code,
           icon: pfr.meta.icon,
           title: pfr.meta.title ?? null,
-          disabled: pfr.meta.requireStockExit ? !this.haveStockExit : false,
+          disabled: pfr.meta.requireShipping ? !this.haveShipping : false,
           class: `${this.haveShipping ? 'activated' : ''} ${
             RegExp(`^${pfr.name}*`).test(this.$route.name) ? 'active' : ''
           }`,
