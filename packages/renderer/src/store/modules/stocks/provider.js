@@ -15,6 +15,8 @@ const getters = {
     state.providers ? JSON.parse(state.providers) : [],
   provider: (state) =>
     state.provider ? JSON.parse(state.provider) : null,
+  getProviderById: (state, getters) => (id) =>
+    getters.providers.find((p) => p.id === id),
 };
 
 // privileges

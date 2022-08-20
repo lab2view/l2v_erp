@@ -174,6 +174,7 @@ export default {
     payment_method: 'Methode de paiement',
     transaction_type: 'Type de transaction',
     date: 'Date',
+    delivery_date: 'Date de livraison',
     fee: 'Frais',
     amount: 'Montant',
     product_family: 'Famille de produit',
@@ -246,6 +247,8 @@ export default {
     property_values: 'Liste des valeurs possibles',
     email_address: 'Adresse e-mail',
     remember_password: 'Se souvenir du mot de passe',
+    quantity_requested: 'Quantité demandée',
+    quantity_received: 'Quantité reçue',
   },
 
   gender: {
