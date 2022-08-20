@@ -36,12 +36,17 @@
       <div class="left-menu-header col">
         <ul>
           <li>
-            <form class="form-inline search-form">
+            <form
+              class="form-inline search-form"
+              @submit.prevent="searchArticles"
+            >
               <div class="search-bg">
                 <i class="fa fa-search"></i>
-                <input
-                  class="form-control-plaintext"
-                  placeholder="Search here....."
+                <BaseInput
+                  v-model="searchKeyword"
+                  type="text"
+                  placeholder="Chercher ici ..."
+                  @keydown.enter="searchArticles"
                 />
               </div>
             </form>
@@ -153,13 +158,16 @@
 import { defineComponent } from 'vue';
 import { mapGetters } from 'vuex';
 import SaleSessionMixin from '/@/mixins/SaleSessionMixin';
+import BaseInput from '/@/components/common/BaseInput.vue';
 
 export default defineComponent({
+  components: { BaseInput },
   mixins: [SaleSessionMixin],
   data() {
     return {
       dark_mode: false,
       loading: false,
+      searchKeyword: null,
     };
   },
   computed: {
@@ -187,6 +195,15 @@ export default defineComponent({
         if (this.$route.meta.requireCashierSession)
           this.$store.dispatch('cashier_session/closeSession');
         else this.$store.dispatch('auth/logout');
+      }
+    },
+    searchArticles() {
+      if (this.$route.meta.requireCashierSession) {
+        if (this.searchKeyword)
+          this.$router.push({
+            name: 'sales.session.finder',
+            query: { keyword: this.searchKeyword },
+          });
       }
     },
   },

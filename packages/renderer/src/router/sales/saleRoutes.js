@@ -47,6 +47,12 @@ export const saleRoutes = [
         name: 'sales.session.discount',
         component: () => import('/@/views/sales/session/SaleDiscountModal.vue'),
       },
+      {
+        path: 'search-articles',
+        name: 'sales.session.finder',
+        component: () =>
+          import('/@/views/sales/session/SaleModalSearchResults.vue'),
+      },
     ],
   },
   {

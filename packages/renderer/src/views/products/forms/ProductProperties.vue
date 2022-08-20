@@ -9,16 +9,16 @@
       <div class="row align-items-center">
         <div class="col-sm">
           <h5>
-            {{ `${$t('products.tax.listTitle')} - ${product.reference}` }}
+            {{ `${$t('products.property.listTitle')} - ${product.reference}` }}
           </h5>
         </div>
         <div
-          v-if="$route.name === 'product.form.setting.tax'"
+          v-if="$route.name === 'product.form.setting.property'"
           class="col-sm-auto align-items-end"
         >
           <router-link
             :to="{
-              name: 'product.form.setting.tax.form',
+              name: 'product.form.setting.property.form',
               params: {
                 ...$route.params,
               },
@@ -37,18 +37,20 @@
         <table class="table table-bordernone">
           <thead>
             <tr>
-              <th scope="col">{{ $t('common.attributes.tax_id') }}</th>
-              <th scope="col">{{ $t('common.attributes.value') }}</th>
+              <th scope="col">{{ $t('common.attributes.property_id') }}</th>
+              <th scope="col">
+                {{ $t('common.attributes.value') }}
+              </th>
               <th scope="col" class="text-center">
                 {{ $t('common.actions') }}
               </th>
             </tr>
           </thead>
           <tbody>
-            <ProductTaxLine
-              v-for="(tax, index) in product_taxes"
+            <ProductPropertyLine
+              v-for="(property, index) in product_properties"
               :key="index"
-              :product-tax="tax"
+              :product-property="property"
             />
           </tbody>
         </table>
@@ -59,9 +61,11 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import store from '../../../store';
+import store from '/@/store';
+import ProductPropertyLine from '/@/components/products/ProductPropertyLine.vue';
 
 export default {
+  components: { ProductPropertyLine },
   beforeRouteEnter(routeTo, routeFrom, next) {
     store
       .dispatch('property/getPropertiesList', {
@@ -76,65 +80,10 @@ export default {
         next();
       });
   },
-  data() {
-    return {
-      errors: [],
-      propertyForm: {
-        id: null,
-        product_type_id: null,
-        product_family_id: null,
-        label: null,
-        code: null,
-      },
-    };
-  },
   computed: {
-    ...mapGetters('property', ['property']),
-    ...mapGetters('product_family', ['productFamilies']),
-    ...mapGetters('product_type', ['productTypes']),
-
-    title() {
-      return this.property
-        ? this.$t('products.property.formUpdateTitle')
-        : this.$t('products.property.formCreateTitle');
-    },
-    propertyTypes() {
-      return [
-        { code: 'text', label: this.$t('common.fields.text') },
-        { code: 'number', label: this.$t('common.fields.number') },
-        { code: 'date', label: this.$t('common.fields.date') },
-        { code: 'time', label: this.$t('common.fields.time') },
-        { code: 'datetime', label: this.$t('common.fields.datetime') },
-        { code: 'url', label: this.$t('common.fields.url') },
-        { code: 'radio', label: this.$t('common.fields.radio') },
-      ];
-    },
-  },
-  created() {
-    if (this.property) this.propertyForm = this.property;
-  },
-  beforeUnmount() {
-    if (this.property)
-      this.$store.commit('property/SET_CURRENT_PROPERTY', null);
-  },
-  methods: {
-    submitPropertyForm() {
-      if (this.property)
-        this.$store
-          .dispatch('property/updateProperty', this.propertyForm)
-          .then(() => this.$router.back())
-          .catch((error) => {
-            this.errors = error.response?.data?.errors;
-            console.log(error);
-          });
-      else
-        this.$store
-          .dispatch('property/addProperty', this.propertyForm)
-          .then(() => this.$router.back())
-          .catch((error) => {
-            this.errors = error.response?.data?.errors;
-            console.log(error);
-          });
+    ...mapGetters('product', ['product']),
+    product_properties() {
+      return this.product.product_properties ?? [];
     },
   },
 };

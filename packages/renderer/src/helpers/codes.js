@@ -47,3 +47,11 @@ export const priceTypeCode = {
   buy: 'BUY_PRICE',
   sell: 'SELL_PRICE',
 };
+
+export const propertyTypeCode = {
+  select: 'select',
+  switcher: 'switcher',
+  radio: 'radio',
+  checkbox: 'checkbox',
+  color: 'color',
+};

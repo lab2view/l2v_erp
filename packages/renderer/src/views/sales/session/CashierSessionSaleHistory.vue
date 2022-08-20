@@ -69,6 +69,7 @@
         <BaseInputGroup
           v-model="keyword"
           :placeholder="$t('common.attributes.search')"
+          @keydown.enter="handleSearchSaleAction"
         >
           <BaseButton
             class="btn btn-iconsolid btn-primary"

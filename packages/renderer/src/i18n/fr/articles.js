@@ -1,6 +1,7 @@
 export default {
   title: 'Gestion des articles',
   listTitle: 'Liste des articles',
+  configTitle: "Configuration du groupe d'article",
   selection: 'Selectionner les articles a utiliser',
   detail: {
     title: 'Details article',
