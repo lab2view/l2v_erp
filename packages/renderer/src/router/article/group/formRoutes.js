@@ -38,5 +38,15 @@ export default [
       icon: 'fa fa-cogs',
       requireArticleGroup: true,
     },
+    children: [
+      {
+        path: 'discount',
+        name: 'article.group.form.setting.discount',
+        component: () =>
+          import(
+            '/@/views/articles/groups/forms/ArticleGroupSettingsDiscount.vue'
+          ),
+      },
+    ],
   },
 ];

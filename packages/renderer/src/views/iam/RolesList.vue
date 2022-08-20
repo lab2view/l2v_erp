@@ -35,6 +35,7 @@
             <td>{{ truncate(role.description) }}</td>
             <td>
               <button
+                v-if="!role.not_deletable"
                 :title="$t('common.update')"
                 class="btn btn-secondary btn-xs"
                 data-original-title="btn btn-secondary btn-xs"
@@ -63,6 +64,7 @@
                 {{ $t('common.update') }}
               </button>
               <button
+                v-if="!role.not_deletable"
                 :title="$t('common.delete')"
                 class="btn btn-danger btn-xs m-l-5"
                 data-original-title="btn btn-danger btn-xs"

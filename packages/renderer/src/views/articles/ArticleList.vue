@@ -25,7 +25,9 @@
             <td>{{ article.id }}</td>
             <td>{{ article.product.name }}</td>
             <td>{{ article.name }}</td>
-            <td class="text-center"><ArticleStockIn :article="article" /></td>
+            <td class="text-center">
+              <ArticleStockIn :article="article" />
+            </td>
             <td>
               {{ `${article.product.code} / ${article.product.reference}` }}
             </td>
@@ -43,6 +45,7 @@
               >
                 Consulter
               </BaseButton>
+              <ArticlePriceState :article="article" />
               <BaseButton
                 v-if="!article.not_deletable"
                 type="button"
@@ -69,9 +72,16 @@ import { mapGetters } from 'vuex';
 import BaseContainer from '../../components/common/BaseContainer.vue';
 import BaseButton from '../../components/common/BaseButton.vue';
 import ArticleStockIn from '/@/components/articles/ArticleStockIn.vue';
+import ArticlePriceState from '/@/components/articles/ArticlePriceState.vue';
 
 export default {
-  components: { ArticleStockIn, BaseButton, BaseContainer, BaseDatatable },
+  components: {
+    ArticlePriceState,
+    ArticleStockIn,
+    BaseButton,
+    BaseContainer,
+    BaseDatatable,
+  },
   beforeRouteEnter(routeTo, routeFrom, next) {
     store
       .dispatch('article/getArticlesList', {
@@ -86,13 +96,13 @@ export default {
         next();
       });
   },
+
   computed: {
     ...mapGetters('article', ['articles']),
   },
   created() {
     this.$store.commit('article/SET_CURRENT_ARTICLE', null);
   },
-
   methods: {
     deleteArticle(article) {
       if (confirm(this.$t('messages.confirmDelete', { label: article.name })))

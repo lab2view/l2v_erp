@@ -154,7 +154,11 @@ export default {
     },
     closeArticleSelectable() {
       if (this.stock_exit_line_fields.length > 0) this.show_select_form = false;
-      else this.$router.push({ name: 'stocks.exit.form.article' });
+      else
+        this.$router.push({
+          name: 'stocks.exit.form.article',
+          params: this.$route.params,
+        });
     },
   },
 };

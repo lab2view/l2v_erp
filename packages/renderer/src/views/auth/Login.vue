@@ -9,38 +9,51 @@
               class="theme-form login-form"
               @submit.prevent="submitLoginForm()"
             >
-              <h4>Login</h4>
-              <h6>Welcome back! Log in to your account.</h6>
+              <h4>{{ $t('common.auth') }}</h4>
+              <h6>{{ $t('common.login_to_workspace') }}</h6>
 
               <div class="form-group">
-                <label>Email Address</label>
+                <label>{{ $t('common.attributes.email_address') }}</label>
                 <div class="input-group">
                   <span class="input-group-text"
                     ><i class="icon-email"></i
                   ></span>
-                  <input
+                  <BaseInput
                     v-model="loginInput.email"
-                    class="form-control"
-                    type="email"
-                    required
+                    type="text"
                     placeholder="Test@test.test"
+                    :errors="errors?.email"
+                    required
                   />
                 </div>
               </div>
               <div class="form-group">
-                <label>Password</label>
+                <label>{{ $t('common.attributes.password') }}</label>
                 <div class="input-group">
                   <span class="input-group-text"
-                    ><i class="icon-lock"></i
+                    ><i
+                      :class="[showPassword ? 'icon-unlock' : 'icon-lock']"
+                    ></i
                   ></span>
-                  <input
+                  <BaseInput
+                    v-if="showPassword"
                     v-model="loginInput.password"
-                    class="form-control"
-                    type="password"
-                    required
+                    type="text"
                     placeholder="*********"
+                    :errors="errors?.password"
+                    required
                   />
-                  <div class="show-hide"><span class="show"> </span></div>
+                  <BaseInput
+                    v-else
+                    v-model="loginInput.password"
+                    type="password"
+                    placeholder="*********"
+                    :errors="errors?.password"
+                    required
+                  />
+                  <div class="show-hide" @click="toggleShow">
+                    <span class=""> {{ showPasswordLabel }}</span>
+                  </div>
                 </div>
               </div>
               <div class="form-group">
@@ -50,13 +63,15 @@
                     v-model="loginInput.remember"
                     type="checkbox"
                   />
-                  <label for="check-remember">Remember password</label>
+                  <label for="check-remember">
+                    {{ $t('common.attributes.remember_password') }}
+                  </label>
                 </div>
                 <a
                   class="link"
                   href="#"
                   @click.prevent="$router.push({ name: 'forgetPassword' })"
-                  >Forgot password?</a
+                  >{{ $t('common.fields.forget_password') }}</a
                 >
               </div>
               <div class="form-group">
@@ -70,13 +85,15 @@
                 <h5>.</h5>
               </div>
               <p>
-                Changer l'espace de travail ?<a
+                {{ $t('common.change_workspace') }}
+                <a
                   class="ms-2"
                   href="#"
                   @click.prevent="
                     $store.dispatch('workspace/forgetCurrentWorkspace')
                   "
-                  >Cliquez ici</a
+                >
+                  {{ $t('common.click_here') }}</a
                 >
               </p>
             </form>
@@ -90,11 +107,14 @@
 
 <script>
 import BaseButton from '/@/components/common/BaseButton.vue';
+import BaseInput from '/@/components/common/BaseInput.vue';
 export default {
-  components: { BaseButton },
+  components: { BaseButton, BaseInput },
   data() {
     return {
       loading: false,
+      showPassword: false,
+      errors: [],
       loginInput: {
         email: null,
         password: null,
@@ -102,13 +122,79 @@ export default {
       },
     };
   },
+  computed: {
+    showPasswordLabel() {
+      return this.showPassword ? 'Hide' : 'Show';
+    },
+  },
+  mounted() {
+    this.getCookie();
+  },
   methods: {
+    toggleShow() {
+      this.showPassword = !this.showPassword;
+    },
     submitLoginForm() {
       this.loading = true;
+      if (this.loginInput.remember) {
+        //Enter account email, password, and save days, 3 parameters
+        this.setCookie(
+          this.loginInput.email,
+          this.loginInput.password,
+          this.loginInput.remember,
+          30
+        );
+      } else {
+        //Clear cookies
+        this.clearCookie();
+      }
       this.$store.dispatch('auth/login', this.loginInput).catch((error) => {
+        this.errors = error.response?.data?.errors;
         console.log(error);
         this.loading = false;
       });
+    },
+    setCookie: function (user_email, user_pass, is_remember, expire_date) {
+      let date = new Date();
+      date.setTime(date.getTime() + 24 * 60 * 60 * 1000 * expire_date); //here is 3 days
+      //splicing cookies
+      window.document.cookie =
+        'user_email' +
+        '=' +
+        user_email +
+        ';path=/;expires=' +
+        date.toUTCString();
+      window.document.cookie =
+        'user_pass' + '=' + user_pass + ';path=/;expires=' + date.toUTCString();
+      window.document.cookie =
+        'is_remember' +
+        '=' +
+        is_remember +
+        ';path=/;expires=' +
+        date.toUTCString();
+    },
+    //Clear cookies
+    clearCookie() {
+      this.setCookie('', '', -1); // modify both values to be empty, and the number of days is negative 1 day
+    },
+    getCookie() {
+      if (document.cookie.length > 0) {
+        //Use semicolon (;) as the separator cookie string
+        let arr = document.cookie.split(';');
+        //loop through the separated string array
+        for (let i = 0; i < arr.length; i++) {
+          //Then divide the string by the equal sign (=)
+          let arr2 = arr[i].split('=');
+          //Determine and find the corresponding value, replace(/\s*/g, "") means to remove the spaces in the string
+          if (arr2[0].replace(/\s*/g, '') === 'user_email') {
+            this.loginInput.email = arr2[1];
+          } else if (arr2[0].replace(/\s*/g, '') === 'user_pass') {
+            this.loginInput.password = arr2[1];
+          } else if (arr2[0].replace(/\s*/g, '') === 'is_remember') {
+            this.loginInput.remember = arr2[1];
+          }
+        }
+      }
     },
   },
 };

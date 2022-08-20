@@ -1,5 +1,7 @@
 <template>
   <!--Loader starts-->
+  <!--
+  />-->
   <Loader />
   <!-- Loader ends-->
   <!-- page-wrapper Start-->
@@ -11,12 +13,10 @@
 // import Echo from 'laravel-echo';
 import { defineComponent } from 'vue';
 import Loader from '/@/components/Loader.vue';
-
 export default defineComponent({
   components: {
     Loader,
   },
-
   mounted() {
     setTimeout(() => {
       (async () => {

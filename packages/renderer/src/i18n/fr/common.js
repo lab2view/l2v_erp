@@ -48,6 +48,7 @@ export default {
   configurations: 'Configurations',
   return_to_list: 'Retourner a la liste',
   login: 'Connexion',
+  unlock: 'Déverrouiller',
   logout: 'Deconnexion',
   no_action: "Pas d'action",
   makeComposition: "Composer l'article",
@@ -75,6 +76,13 @@ export default {
   back_to_list: 'Retourner a la liste',
   update_price: 'Changer le prix',
   deleted: 'Supprime',
+  auth: 'Connectez-vous ',
+  login_to_workspace: 'Connectez-vous sur votre espace de travail',
+  change_workspace: "Changer l'espace de travail ?",
+  click_here: 'Cliquez ici',
+  unlock_error: 'Mot de passe incorrect',
+  reserve: 'Reserver',
+  result_count: 'Environ {count} résultat(s) ',
 
   sale: {
     list: 'Liste des ventes',
@@ -106,6 +114,10 @@ export default {
     add_customer: 'Ajouter un client',
     article: 'article | articles',
     default_printer: 'Imprimante par default',
+    multi_enterprise: 'Vers plusieurs structures',
+    select_structures: 'Selectionner les structures',
+    multi_quantity: 'Quantites par structures',
+    forget_password: 'Mot de passe oublie? ',
   },
 
   states: {
@@ -210,6 +222,7 @@ export default {
     latitude: 'Latitude',
     search: 'Rechercher...',
     tax_id: 'Taxe',
+    property_id: 'Propriete',
     value: 'Valeur',
     start_at: 'Debute le',
     end_at: "S'acheve le",
@@ -238,6 +251,11 @@ export default {
     code_length: 'Taille du code',
     property_type: 'Type de champs',
     property_values: 'Liste des valeurs possibles',
+    email_address: 'Adresse e-mail',
+    remember_password: 'Se souvenir du mot de passe',
+    unlock_screen: 'Déverrouiller',
+    have_account: 'Vous avez déja un compte?',
+    sign_in: 'Se connecter',
   },
 
   gender: {
@@ -254,5 +272,6 @@ export default {
     total_price: 'Prix total',
     status: 'Statut',
     usage: 'Utilisation',
+    search_result: 'Resultat de la recherche ',
   },
 };

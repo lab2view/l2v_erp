@@ -37,7 +37,7 @@ export default {
   },
   computed: {
     price() {
-      const price = this.article.prices.find(
+      const price = this.article?.prices?.find(
         (p) => p.price_type_id === this.priceType.id
       );
       if (price !== undefined) return price;
