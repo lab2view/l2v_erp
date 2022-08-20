@@ -11,13 +11,13 @@
         <div class="col">
           <h5>{{ $t('stocks.exitLine.articleSelect') }}</h5>
         </div>
-        <div class="col-auto">
+        <div v-if="stock_exit_line_fields.length" class="col-auto">
           <BaseButton
             type="button"
             class="btn btn-outline-secondary"
             icon="fa fa-times"
             :text="$t('common.close')"
-            @click.prevent="closeArticleSelectable"
+            @click.prevent="show_select_form = false"
           />
         </div>
       </div>
@@ -48,12 +48,8 @@
           <thead>
             <tr>
               <th scope="col">{{ $t('common.attributes.article_id') }}</th>
-              <th v-if="manage_price" scope="col" style="width: 210px">
-                {{ $t('common.attributes.buying_price') }}
-                <span class="text-danger m-l-5">*</span>
-              </th>
-              <th class="text-center" scope="col" style="width: 120px">
-                {{ $t('common.attributes.quantity') }}
+              <th scope="col">
+                {{ `${$t('common.fields.multi_quantity')}` }}
                 <span class="text-danger m-l-5">*</span>
               </th>
               <th scope="col">{{ $t('common.actions') }}</th>
@@ -65,6 +61,7 @@
               :key="`stc-ext-lne-form-${index}`"
               :stock-exit-line="stockExitLine"
               :index="index"
+              is-multiple
               :update-field-method="updateStockExitLineField"
               :errors="errors"
               @remove="removeStockExitLineField"
@@ -96,9 +93,9 @@
 
 <script>
 import ArticleSelectableList from '/@/components/articles/ArticleSelectableList.vue';
-import { mapGetters } from 'vuex';
 import BaseButton from '/@/components/common/BaseButton.vue';
 import ExitLineFormField from '/@/components/stocks/ExitLineFormField.vue';
+import { mapGetters } from 'vuex';
 
 export default {
   components: { ExitLineFormField, BaseButton, ArticleSelectableList },
@@ -106,12 +103,16 @@ export default {
     return {
       stock_exit_line_fields: [],
       show_select_form: true,
-      errors: [],
+      errors: {},
       loading: false,
     };
   },
   computed: {
-    ...mapGetters('stock_exit', ['stockExit', 'manage_price']),
+    ...mapGetters('stock_exit', ['getMultipleStockExits']),
+  },
+  beforeUnmount() {
+    this.$store.commit('stock_exit/RESET_MULTIPLE_STOCK_EXIT');
+    this.$store.commit('stock_exit/SET_CURRENT_STOCK_EXIT', null);
   },
   methods: {
     addStockExitLineFields(selected) {
@@ -119,10 +120,9 @@ export default {
         ...this.stock_exit_line_fields,
         ...selected.map((art) => {
           return {
-            stock_exit_id: this.stockExit.id,
+            stock_exit_id: null,
             article_id: art.id,
-            quantity: 1,
-            price: null,
+            quantities: [],
           };
         }),
       ];
@@ -143,22 +143,26 @@ export default {
     submitExitLinesForm() {
       if (this.stock_exit_line_fields.length) {
         this.loading = true;
-        return this.$store
-          .dispatch('stock_exit/addStockExitLines', {
-            stock_exit_lines: this.stock_exit_line_fields,
+        Promise.all(
+          this.getMultipleStockExits.map(async (stockExit) => {
+            this.$store.commit('stock_exit/SET_CURRENT_STOCK_EXIT', stockExit);
+            await this.$store
+              .dispatch('stock_exit/addStockExitLines', {
+                stock_exit_lines: this.stock_exit_line_fields.map((slf) => {
+                  return {
+                    stock_exit_id: stockExit.id,
+                    article_id: slf.article_id,
+                    quantity: slf.quantities[stockExit.id],
+                  };
+                }),
+              })
+              .catch(
+                (error) =>
+                  (this.errors[stockExit.id] = error.response?.data?.errors)
+              );
           })
-          .then(() => this.$router.back())
-          .catch((error) => (this.errors = error.response?.data?.errors))
-          .finally(() => (this.loading = false));
+        ).finally(() => this.$router.push({ name: 'stocks.exits' }));
       }
-    },
-    closeArticleSelectable() {
-      if (this.stock_exit_line_fields.length > 0) this.show_select_form = false;
-      else
-        this.$router.push({
-          name: 'stocks.exit.form.article',
-          params: this.$route.params,
-        });
     },
   },
 };

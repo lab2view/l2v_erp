@@ -12,7 +12,6 @@ import productArticleGroupGuard from '/@/guards/productArticleGroupGuard';
 import customerGroupGuard from '/@/guards/customerGroupGuard';
 import discountGuard from '/@/guards/discountGuard';
 import stockEntryGuard from '/@/guards/stockEntryGuard';
-import stockExitGuard from '/@/guards/stockExitGuard.js';
 import cashierSessionGuard from '/@/guards/cashierSessionGuard.js';
 import redirectCashierSessionGuard from '/@/guards/redirectCashierSessionGuard.js';
 import userGuard from '/@/guards/userGuard.js';
@@ -106,7 +105,6 @@ router.beforeEach(async (to, from, next) => {
   if (to.meta.requireCustomerGroup) customerGroupGuard(to, from, next);
   if (to.meta.requireDiscount) discountGuard(to, from, next);
   if (to.meta.requireStockEntry) stockEntryGuard(to, from, next);
-  if (to.meta.requireStockExit) stockExitGuard(to, from, next);
   if (to.meta.requireCashierSession) cashierSessionGuard(to, from, next);
   if (to.meta.redirectCashierSession)
     redirectCashierSessionGuard(to, from, next);

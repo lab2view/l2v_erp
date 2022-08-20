@@ -18,7 +18,7 @@ import { mapGetters } from 'vuex';
 export default {
   components: { BaseWizardStep, BaseContainer },
   computed: {
-    ...mapGetters('stock_exit', ['haveStockExit']),
+    ...mapGetters('stock_exit', ['haveStockExit', 'haveMultipleStockExit']),
     items() {
       let results = Object.assign([], exitFormRoutes);
       return results.map((pfr) => {
@@ -27,7 +27,11 @@ export default {
           code: pfr.meta.code,
           icon: pfr.meta.icon,
           title: pfr.meta.title ?? null,
-          disabled: pfr.meta.requireStockExit ? !this.haveStockExit : false,
+          disabled: pfr.meta.requireMultipleStockExit
+            ? !this.haveMultipleStockExit
+            : pfr.meta.requireStockExit
+            ? !this.haveStockExit
+            : false,
           class: `${this.haveStockExit ? 'activated' : ''} ${
             RegExp(`^${pfr.name}*`).test(this.$route.name) ? 'active' : ''
           }`,

@@ -114,6 +114,9 @@ export default {
     add_customer: 'Ajouter un client',
     article: 'article | articles',
     default_printer: 'Imprimante par default',
+    multi_enterprise: 'Vers plusieurs structures',
+    select_structures: 'Selectionner les structures',
+    multi_quantity: 'Quantites par structures',
     forget_password: 'Mot de passe oublie? ',
   },
 
