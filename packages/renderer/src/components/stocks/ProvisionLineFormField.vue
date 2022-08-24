@@ -1,23 +1,39 @@
 <template>
   <tr>
-    <td>{{ provisionLine.article.name }}</td>
     <td>
-      {{ provisionLine.provider_name }}
+      {{ provider.name }}
     </td>
-    <td>
+    <td style="width: 240px">{{ article.name }}</td>
+    <td class="text-center">
       {{ provisionLine.requested_quantity }}
     </td>
-    <td style="width: 120px">
-      <BaseInput v-model.number="quantity" type="number" required min="0" />
+    <td style="width: 140px">
+      <BaseUpdateNumberForm
+        v-if="provisionLine.id"
+        :quantity="quantity"
+        :store-action="updateQuantityValue"
+        :max="provisionLine.remain_qty"
+      />
+      <BaseInput
+        v-else
+        v-model.number="quantity"
+        placeholder="Qty"
+        type="number"
+        :errors="errors?.quantity"
+        :max="provisionLine.remain_qty"
+      />
     </td>
   </tr>
 </template>
 
 <script>
 import BaseInput from '/@/components/common/BaseInput.vue';
+import BaseUpdateNumberForm from '/@/components/common/BaseUpdateNumberForm.vue';
+import { mapGetters } from 'vuex';
+import { notify } from '/@/helpers/notify';
 
 export default {
-  components: { BaseInput },
+  components: { BaseUpdateNumberForm, BaseInput },
   props: {
     provisionLine: {
       type: Object,
@@ -38,6 +54,16 @@ export default {
   },
 
   computed: {
+    ...mapGetters('article', ['getArticleById']),
+    ...mapGetters('provider', ['getProviderById']),
+    article() {
+      return this.getArticleById(this.provisionLine.article_id);
+    },
+    provider() {
+      return this.getProviderById(
+        this.provisionLine.stock_entry_line.provider_id
+      );
+    },
     quantity: {
       get() {
         return this.provisionLine.quantity;
@@ -51,6 +77,19 @@ export default {
           this.index
         );
       },
+    },
+  },
+  methods: {
+    updateQuantityValue(quantity) {
+      if (this.provisionLine.id && this.provisionLine.remain_qty >= quantity)
+        return this.$store.dispatch('stock_entry/updateProvision', {
+          ...this.provisionLine,
+          quantity: quantity,
+        });
+      else {
+        notify(this.$t('common.errors.quantity_error'), 'Error', 'danger');
+        return Promise.resolve();
+      }
     },
   },
 };

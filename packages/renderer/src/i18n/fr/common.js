@@ -249,6 +249,9 @@ export default {
     property_values: 'Liste des valeurs possibles',
     email_address: 'Adresse e-mail',
     remember_password: 'Se souvenir du mot de passe',
+    quantity_requested: 'Qté B.C',
+    quantity_received: 'Qté Livrée',
+    delivery_date: 'Date de livraison',
   },
 
   gender: {
@@ -266,5 +269,9 @@ export default {
     status: 'Statut',
     usage: 'Utilisation',
     search_result: 'Resultat de la recherche ',
+  },
+
+  errors: {
+    quantity_error: 'Veuillez saisir une quantité valide',
   },
 };

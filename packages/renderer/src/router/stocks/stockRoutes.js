@@ -1,7 +1,7 @@
 import store from '../../store';
 import exitFormRoutes from '/@/router/stocks/exitFormRoutes.js';
 import entryFormRoutes from '/@/router/stocks/entryFormRoutes.js';
-import shippingFormRoutes from "/@/router/stocks/shippingFormRoutes";
+import shippingFormRoutes from '/@/router/stocks/shippingFormRoutes';
 
 export const stockRoutes = [
   {
@@ -121,9 +121,7 @@ export const stockRoutes = [
       if (to.params.id) {
         return store
           .dispatch('shipping/getShipping', to.params.id)
-          .then(() => {
-            return 1;
-          })
+          .then(() => 1)
           .catch(() => -1);
       }
     },

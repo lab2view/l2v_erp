@@ -14,7 +14,7 @@
             <div class="col-md">
               <div class="form-group mb-3">
                 <BaseSelect
-                  v-model.number="entry_id"
+                  v-model.number="shippingForm.stock_entry_id"
                   :label="$t('common.attributes.stock_entry_type_id')"
                   :options="commands"
                   key-label="reference"
@@ -32,6 +32,7 @@
                   :label="$t('common.attributes.delivery_date')"
                   placeholder="..."
                   type="date"
+                  :disabled="isUpdating"
                 />
               </div>
             </div>
@@ -110,7 +111,6 @@ export default {
       errors: [],
       loading: false,
       is_edited: false,
-      entry_id: null,
       shippingForm: {
         id: null,
         enterprise_id: null,
@@ -149,29 +149,26 @@ export default {
     submitShippingForm() {
       if (this.isUpdating) {
         this.$router.push({
-          name: 'shipping.form.article.form',
+          name: 'shipping.form.article',
           params: { id: this.shipping.id },
         });
+      } else {
+        this.loading = true;
+        this.errors = [];
+        this.$store
+          .dispatch('shipping/addShipping', this.shippingForm)
+          .then((shipping) => {
+            this.$router.push({
+              name: 'shipping.form.article',
+              params: { id: shipping.id },
+            });
+          })
+          .catch((error) => {
+            this.errors = error.response?.data?.errors;
+            console.log(error);
+          })
+          .finally(() => (this.loading = false));
       }
-      this.loading = true;
-      this.errors = [];
-      this.$store
-        .dispatch('shipping/addShipping', {
-          ...this.shippingForm,
-          user_id: parseInt(this.currentUser.id),
-        })
-        .then((shipping) => {
-          this.$router.push({
-            name: 'shipping.form.article.form',
-            params: { id: shipping.id },
-            query: { stock_entry_id: this.entry_id },
-          });
-        })
-        .catch((error) => {
-          this.errors = error.response?.data?.errors;
-          console.log(error);
-        })
-        .finally(() => this.setLoading());
     },
     generateReference() {
       //todo complete generating ref algorithm
