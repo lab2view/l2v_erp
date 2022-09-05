@@ -128,6 +128,7 @@ const actions = {
           'theme',
           'fa fa-check'
         );
+        return data;
       });
   },
 
@@ -136,6 +137,7 @@ const actions = {
       .addStockEntryLines(getters.stockEntry.id, stockEntryLines)
       .then(({ data }) => {
         commit('ADD_STOCK_ENTRY_LINES', data.stock_entry_lines);
+        return data;
       });
   },
   updateStockEntryLine({ commit }, stockEntryLine) {
@@ -149,6 +151,7 @@ const actions = {
           'theme',
           'fa fa-check'
         );
+        return data;
       });
   },
   removeStockEntryLines({ getters, commit }, stockEntryLineIds) {
@@ -158,14 +161,16 @@ const actions = {
       })
       .then(() => {
         commit('REMOVE_STOCK_ENTRY_LINES', stockEntryLineIds);
+        return true;
       });
   },
 
-  addProvisions({ commit, getters }, provisions) {
+  addProvisions({ commit }, { stock_provisions, stock_entry_id }) {
     return stockEntryService
-      .addProvisions(getters.stockEntry.id, provisions)
+      .addProvisions(stock_entry_id, { stock_provisions: stock_provisions })
       .then(({ data }) => {
         commit('ADD_PROVISIONS', data.provisions);
+        return data;
       });
   },
   updateProvision({ commit }, provision) {
@@ -177,6 +182,7 @@ const actions = {
         'theme',
         'fa fa-check'
       );
+      return data;
     });
   },
   removeProvisions({ getters, commit }, provisionIds) {
@@ -189,6 +195,7 @@ const actions = {
       )
       .then(() => {
         commit('REMOVE_PROVISIONS', provisionIds);
+        return true;
       });
   },
 };
@@ -278,7 +285,9 @@ const mutations = {
     let stockEntry = JSON.parse(state.stockEntry);
     let index = stock_entries.findIndex((se) => se.id === stockEntry.id);
     if (index !== -1) {
-      stockEntry.provisions = [...stockEntry.provisions, ...provisions];
+      stockEntry.provisions = stockEntry.provisions
+        ? [...stockEntry.provisions, ...provisions]
+        : provisions;
       stock_entries.splice(index, 1, stockEntry);
       state.stockEntry = JSON.stringify(stockEntry);
       state.stock_entries = JSON.stringify(stock_entries);

@@ -6,6 +6,7 @@
     style="width: 40px"
     :disabled="!is_form"
     :errors="errors[fieldName]"
+    v-bind="$attrs"
   >
     <template v-if="prefix" #prefix>
       <button
