@@ -48,7 +48,6 @@ export default {
   configurations: 'Configurations',
   return_to_list: 'Retourner a la liste',
   login: 'Connexion',
-  unlock: 'Déverrouiller',
   logout: 'Deconnexion',
   no_action: "Pas d'action",
   makeComposition: "Composer l'article",
@@ -83,6 +82,7 @@ export default {
   unlock_error: 'Mot de passe incorrect',
   reserve: 'Reserver',
   result_count: 'Environ {count} résultat(s) ',
+  not_specify: 'Non specifie',
 
   sale: {
     list: 'Liste des ventes',
@@ -195,7 +195,7 @@ export default {
     article_id: 'Articles',
     stock_entry_id: 'Mouvements',
     provider_id: 'Fournisseur',
-    stock_entry_type_id: "Type d'approvisionnement",
+    stock_entry_type_id: 'Bon de commande',
     stock_exit_type_id: 'Type de sortie',
     website: 'Site web',
     slogan: 'Slogan',
@@ -253,9 +253,9 @@ export default {
     property_values: 'Liste des valeurs possibles',
     email_address: 'Adresse e-mail',
     remember_password: 'Se souvenir du mot de passe',
-    unlock_screen: 'Déverrouiller',
-    have_account: 'Vous avez déja un compte?',
-    sign_in: 'Se connecter',
+    quantity_requested: 'Qté B.C',
+    quantity_received: 'Qté Livrée',
+    delivery_date: 'Date de livraison',
   },
 
   gender: {
@@ -273,5 +273,9 @@ export default {
     status: 'Statut',
     usage: 'Utilisation',
     search_result: 'Resultat de la recherche ',
+  },
+
+  errors: {
+    quantity_error: 'Veuillez saisir une quantité valide',
   },
 };
