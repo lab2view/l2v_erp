@@ -75,10 +75,10 @@ export default defineComponent({
     },
   },
   created() {
-    this.events.forEach(function (event) {
-      window.addEventListener(event, this.resetTimer);
-    }, this);
-    this.seTimer();
+    this.events.forEach((event) =>
+      window.addEventListener(event, this.resetTimer)
+    );
+    if (!this.showLockScreen) this.seTimer();
   },
   mounted() {
     setTimeout(() => {
@@ -97,8 +97,10 @@ export default defineComponent({
       this.$store.dispatch('workspace/setCurrentWorkspace', workspace);
     },
     resetTimer() {
-      clearTimeout(this.logoutTimer);
-      this.seTimer();
+      if (!this.showLockScreen) {
+        clearTimeout(this.logoutTimer);
+        this.seTimer();
+      }
     },
     seTimer() {
       this.logoutTimer = setTimeout(() => {

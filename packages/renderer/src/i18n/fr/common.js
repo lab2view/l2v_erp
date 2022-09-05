@@ -83,6 +83,7 @@ export default {
   reserve: 'Reserver',
   result_count: 'Environ {count} résultat(s) ',
   not_specify: 'Non specifie',
+  unlock: 'Deverouiller',
 
   sale: {
     list: 'Liste des ventes',

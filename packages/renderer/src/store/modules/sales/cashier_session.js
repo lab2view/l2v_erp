@@ -2,6 +2,7 @@ import cashierService from '../../../services/sales/CashierService';
 import { sumBy } from 'lodash';
 import SaleService from '/@/services/sales/SaleService.js';
 import { getStockExitLineArticleStock } from '/@/helpers/utils.js';
+import AuthService from '/@/services/AuthService.js';
 
 const state = {
   cashier_sessions: null,
@@ -133,6 +134,15 @@ const actions = {
     });
     commit('RESET_CURRENT_SALE_REQUEST_FIELDS');
     return true;
+  },
+
+  unlockCurrentSession({ commit, getters }, { password }) {
+    return cashierService
+      .unlockSession(getters.currentSession.id, { pin: password })
+      .then(({ data }) => {
+        commit('auth/SET_UNLOCK_SCREEN', data.unlock, { root: true });
+        return data;
+      });
   },
 };
 
