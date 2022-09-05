@@ -1,7 +1,7 @@
 <template>
   <tr>
     <td>
-      {{ provider.name }}
+      {{ provider?.name || $t('common.not_specify') }}
     </td>
     <td style="width: 240px">{{ article.name }}</td>
     <td class="text-center">
@@ -61,7 +61,7 @@ export default {
     },
     provider() {
       return this.getProviderById(
-        this.provisionLine.stock_entry_line.provider_id
+        this.provisionLine.stock_entry_line?.provider_id
       );
     },
     quantity: {

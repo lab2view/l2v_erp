@@ -82,6 +82,7 @@ export default {
   unlock_error: 'Mot de passe incorrect',
   reserve: 'Reserver',
   result_count: 'Environ {count} résultat(s) ',
+  not_specify: 'Non specifie',
 
   sale: {
     list: 'Liste des ventes',

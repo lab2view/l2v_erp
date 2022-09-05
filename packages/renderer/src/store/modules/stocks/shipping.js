@@ -93,7 +93,7 @@ const actions = {
 // mutations
 const mutations = {
   SET_SHIPPINGS(state, shippings) {
-    state.shippings = shippings.length ? JSON.stringify(shippings) : [];
+    state.shippings = shippings.length ? JSON.stringify(shippings) : null;
   },
   SET_CURRENT_SHIPPING(state, shipping) {
     state.shipping = shipping === null ? null : JSON.stringify(shipping);

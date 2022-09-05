@@ -72,6 +72,7 @@ import BaseButton from '/@/components/common/BaseButton.vue';
 import ProvisionLineFormField from '/@/components/stocks/ProvisionLineFormField.vue';
 
 export default {
+  name: 'ProvisionLinesForm',
   components: { ProvisionLineFormField, BaseButton },
   data() {
     return {
@@ -109,7 +110,7 @@ export default {
             quantity: null,
             requested_quantity: sel.quantity,
             remain_qty: sel.remain_qty,
-            provider_name: sel.provider.name,
+            provider_name: sel.provider?.name,
             stock_entry_line_id: sel.id,
           };
         })
@@ -122,13 +123,16 @@ export default {
 
     submitProvisionsForm() {
       if (this.shipping.stock_provisions?.length) {
-        console.log('no');
         this.$router.push({
           name: 'shippings',
         });
       } else {
         if (this.provisionsForm) {
           this.loading = true;
+          this.$store.commit(
+            'stock_entry/SET_CURRENT_STOCK_ENTRY',
+            this.shipping.stock_entry
+          );
           this.$store
             .dispatch('stock_entry/addProvisions', {
               stock_entry_id: this.shipping.stock_entry_id,
@@ -140,6 +144,7 @@ export default {
               this.$router.push({
                 name: 'shippings',
               });
+              this.$store.commit('stock_entry/SET_CURRENT_STOCK_ENTRY', null);
             })
             .catch((error) => {
               this.errors = error.response?.data?.errors;

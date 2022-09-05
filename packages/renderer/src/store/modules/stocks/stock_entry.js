@@ -285,7 +285,9 @@ const mutations = {
     let stockEntry = JSON.parse(state.stockEntry);
     let index = stock_entries.findIndex((se) => se.id === stockEntry.id);
     if (index !== -1) {
-      stockEntry.provisions = [...stockEntry.provisions, ...provisions];
+      stockEntry.provisions = stockEntry.provisions
+        ? [...stockEntry.provisions, ...provisions]
+        : provisions;
       stock_entries.splice(index, 1, stockEntry);
       state.stockEntry = JSON.stringify(stockEntry);
       state.stock_entries = JSON.stringify(stock_entries);
