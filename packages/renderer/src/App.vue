@@ -35,11 +35,7 @@ export default defineComponent({
           await this.$loadScript(
             `./src/assets/js/datatable/datatables/jquery.dataTables.min.js`
           ),
-        ]).finally(() => {
-          this.$loadScript(
-            `./src/assets/js/icons/feather-icon/feather-icon.js`
-          );
-        });
+        ]);
       })();
     }, 1000);
   },

@@ -183,6 +183,9 @@ export default defineComponent({
       return this.dark_mode ? 'fa fa-lightbulb-o' : 'fa fa-moon-o';
     },
   },
+  mounted() {
+    setTimeout(() => window.feather?.replace(), 1000);
+  },
   methods: {
     setDarkMode() {
       if (this.dark_mode) $('body').removeAttr('class', 'dark-only');

@@ -2,7 +2,6 @@ import cashierService from '../../../services/sales/CashierService';
 import { sumBy } from 'lodash';
 import SaleService from '/@/services/sales/SaleService.js';
 import { getStockExitLineArticleStock } from '/@/helpers/utils.js';
-import AuthService from '/@/services/AuthService.js';
 
 const state = {
   cashier_sessions: null,

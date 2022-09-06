@@ -42,11 +42,10 @@
 <script>
 import BaseButton from '/@/components/common/BaseButton.vue';
 import BaseInput from '/@/components/common/BaseInput.vue';
-import BaseModal from '/@/components/common/BaseModal.vue';
 import BaseFormModal from '/@/components/common/BaseFormModal.vue';
 
 export default {
-  components: { BaseFormModal, BaseModal, BaseButton, BaseInput },
+  components: { BaseFormModal, BaseButton, BaseInput },
   props: {},
   data() {
     return {

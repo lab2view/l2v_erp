@@ -127,6 +127,9 @@ export default defineComponent({
       ];
     },
   },
+  mounted() {
+    setTimeout(() => window.feather?.replace(), 1000);
+  },
 });
 </script>
 
