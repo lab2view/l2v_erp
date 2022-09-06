@@ -35,8 +35,10 @@
         </router-link>
       </div>
       <a href="#">
-        <h6 class="mt-3 f-14 f-w-600">{{ currentUserEmail }}</h6></a
-      >
+        <h6 class="mt-3 f-14 f-w-600">
+          {{ truncate(currentUserEmail, 25) }}
+        </h6>
+      </a>
       <p class="mb-0 font-roboto">{{ currentUserRole }}</p>
     </div>
     <nav v-if="!isCashierSessionRoute">
@@ -85,10 +87,11 @@ import {
 import { mapGetters } from 'vuex';
 import SaleSessionMixin from '/@/mixins/SaleSessionMixin';
 import CashierSessionSaleHistory from '/@/views/sales/session/CashierSessionSaleHistory.vue';
+import FilterMixin from '/@/mixins/FilterMixin';
 
 export default defineComponent({
   components: { CashierSessionSaleHistory, MenuModule },
-  mixins: [SaleSessionMixin],
+  mixins: [SaleSessionMixin, FilterMixin],
   computed: {
     ...mapGetters('auth', ['currentUserEmail', 'currentUserRole']),
     modules() {
@@ -123,6 +126,9 @@ export default defineComponent({
         },
       ];
     },
+  },
+  mounted() {
+    setTimeout(() => window.feather?.replace(), 1000);
   },
 });
 </script>

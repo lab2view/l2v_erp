@@ -238,6 +238,10 @@ export default {
   },
   shipping: {
     viewany: 'Livraisons',
+    form: {
+      description: 'Description de la livraison',
+      line:'liste des produits'
+    },
   },
   movement: {
     entry: "Mouvements d'entree",

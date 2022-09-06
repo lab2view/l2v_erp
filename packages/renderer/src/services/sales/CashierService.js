@@ -39,4 +39,11 @@ export default {
   closeSession(cashier_session_id) {
     return axios.delete(`/cashiers/sessions/${cashier_session_id}/close`);
   },
+
+  unlockSession(cashier_session_id, payload) {
+    return axios.post(
+      `/cashiers/sessions/${cashier_session_id}/unlock`,
+      payload
+    );
+  },
 };

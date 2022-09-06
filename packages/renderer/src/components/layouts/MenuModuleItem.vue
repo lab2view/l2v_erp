@@ -66,6 +66,9 @@ export default {
       return this.isCurrentRoute ? 'display: block;' : 'display: none;';
     },
   },
+  mounted() {
+    setTimeout(() => window.feather?.replace(), 500);
+  },
 };
 </script>
 

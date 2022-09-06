@@ -54,6 +54,18 @@ export default {
     updateStock: 'Le statut a ete mis a jour',
     state_date: 'Statut mis a jour le',
   },
+  shipping: {
+    provisionForm: 'Finalisation de la livraison',
+    list: 'Liste des livraisons',
+    add: 'Ajouter une livraison',
+    listTitle: '',
+    updateStock: '',
+    state_date: '',
+    form:{
+      updateTitle: "Modification de la livraiosn",
+      createTitle: "Creation de la livraison",
+    }
+  },
   stockExit: {
     listTitle: 'Liste des sorties de stocks',
     add: 'Effectuer une sortie de stock',
