@@ -269,11 +269,10 @@ export default {
           : null;
       },
       set(value) {
-        if (value?.id)
-          this.$store.commit('cashier_session/SET_CURRENT_SALE_REQUEST_FIELD', {
-            value: value.id,
-            field: 'customer_id',
-          });
+        this.$store.commit('cashier_session/SET_CURRENT_SALE_REQUEST_FIELD', {
+          value: value?.id,
+          field: 'customer_id',
+        });
       },
     },
     cash_in_amount: {

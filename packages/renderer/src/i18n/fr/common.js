@@ -83,6 +83,7 @@ export default {
   reserve: 'Reserver',
   result_count: 'Environ {count} résultat(s) ',
   not_specify: 'Non specifie',
+  unlock: 'Deverouiller',
 
   sale: {
     list: 'Liste des ventes',
@@ -114,6 +115,9 @@ export default {
     add_customer: 'Ajouter un client',
     article: 'article | articles',
     default_printer: 'Imprimante par default',
+    multi_enterprise: 'Vers plusieurs structures',
+    select_structures: 'Selectionner les structures',
+    multi_quantity: 'Quantites par structures',
     forget_password: 'Mot de passe oublie? ',
   },
 

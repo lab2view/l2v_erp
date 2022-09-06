@@ -134,6 +134,15 @@ const actions = {
     commit('RESET_CURRENT_SALE_REQUEST_FIELDS');
     return true;
   },
+
+  unlockCurrentSession({ commit, getters }, { password }) {
+    return cashierService
+      .unlockSession(getters.currentSession.id, { pin: password })
+      .then(({ data }) => {
+        commit('auth/SET_UNLOCK_SCREEN', data.unlock, { root: true });
+        return data;
+      });
+  },
 };
 
 // mutations

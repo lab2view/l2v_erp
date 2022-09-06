@@ -17,6 +17,7 @@
           <h5 class="modal-title">{{ title }}</h5>
           <slot name="close">
             <button
+              v-if="withCloseAction"
               class="btn-close"
               type="button"
               data-bs-dismiss="modal"
@@ -48,6 +49,7 @@ export default {
       required: true,
     },
     modalSize: { type: String, default: null },
+    withCloseAction: { type: Boolean, default: true },
   },
   computed: {
     sizeClass() {

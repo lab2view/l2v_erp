@@ -1,6 +1,6 @@
 <template>
   <tr>
-    <td>{{ article.name }}</td>
+    <td class="align-middle f-w-600 f-16">{{ article.name }}</td>
     <td v-if="manage_price" style="width: 210px">
       <BaseInputGroup
         v-model="price"
@@ -16,8 +16,32 @@
         </template>
       </BaseInputGroup>
     </td>
-    <td style="width: 120px">
+    <td :style="isMultiple ? '' : 'width: 120px'">
+      <div v-if="isMultiple">
+        <div
+          v-for="stockExit in getMultipleStockExits"
+          :key="`stock-multi-${stockExit.id}`"
+          class="mb-2 row"
+        >
+          <div class="col-sm-3">
+            <BaseInput
+              v-model="quantities[stockExit.id]"
+              type="number"
+              required
+              placeholder="Qte"
+              min="0"
+              :errors="
+                errors?.[`${stockExit.id}.stock_exit_lines.${index}.quantity`]
+              "
+            />
+          </div>
+          <label class="col-sm-auto col-form-label text-end">{{
+            stockExit.enterprise_receiver.name
+          }}</label>
+        </div>
+      </div>
       <BaseInput
+        v-else
         v-model="quantity"
         type="number"
         required
@@ -25,7 +49,7 @@
         :errors="errors?.[`stock_exit_lines.${index}.quantity`]"
       />
     </td>
-    <td>
+    <td class="align-middle">
       <BaseButton
         type="button"
         class="btn btn-iconsolid btn-danger btn-sm"
@@ -63,10 +87,19 @@ export default {
       type: [Array, Object],
       default: null,
     },
+    isMultiple: {
+      type: Boolean,
+      default: false,
+    },
   },
   emits: ['remove'],
+  data() {
+    return {
+      quantities: {},
+    };
+  },
   computed: {
-    ...mapGetters('stock_exit', ['manage_price']),
+    ...mapGetters('stock_exit', ['manage_price', 'getMultipleStockExits']),
     ...mapGetters('article', ['getArticleById']),
     article() {
       return this.getArticleById(this.stockExitLine.article_id);
@@ -94,6 +127,20 @@ export default {
           {
             ...this.stockExitLine,
             price: value,
+          },
+          this.index
+        );
+      },
+    },
+  },
+  watch: {
+    quantities: {
+      deep: true,
+      handler(value) {
+        this.updateFieldMethod(
+          {
+            ...this.stockExitLine,
+            quantities: value,
           },
           this.index
         );
