@@ -48,10 +48,10 @@ export default {
     );
   },
 
-  addProvisions(stockEntryId, provisions) {
+  addProvisions(stockEntryId, stockProvisions) {
     return axios.post(
       `/stocks/entries/${stockEntryId}/provisions/add`,
-      provisions
+      stockProvisions
     );
   },
   updateProvision(provision) {

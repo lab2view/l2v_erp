@@ -29,7 +29,7 @@ export default defineComponent({
     },
   },
   mounted() {
-    window.feather?.replace();
+    setTimeout(() => window.feather?.replace(), 500);
   },
 });
 </script>
