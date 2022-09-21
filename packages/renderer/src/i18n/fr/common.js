@@ -22,6 +22,7 @@ export default {
   delete: 'Supprimer',
   delete_all: 'Tout Supprimer',
   send: 'Envoyer',
+  resend: 'Renvoyer',
   save: 'Enregistrer',
   find: 'Rechercher',
   update: 'Modifier',
