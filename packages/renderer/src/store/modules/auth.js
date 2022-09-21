@@ -1,7 +1,7 @@
 import AuthService from '../../services/AuthService';
-import { roleAdminCode, roleCashierCode } from '/@/helpers/codes.js';
+import {roleAdminCode, roleCashierCode} from '/@/helpers/codes.js';
 import userService from '/@/services/iam/IamUserService';
-import { removeStorage } from '/@/helpers/utils.js';
+import {removeStorage} from '/@/helpers/utils.js';
 
 const state = {
   currentUser: null,
@@ -31,10 +31,10 @@ const getters = {
 
 // privileges
 const actions = {
-  updateAuthUser({ commit }, userFields) {
+  updateAuthUser({commit}, userFields) {
     return userService
       .updateUser(userFields, userFields.id)
-      .then(({ data }) => {
+      .then(({data}) => {
         commit('UPDATE_CURRENT_USER', data);
         return data;
       })
@@ -44,25 +44,26 @@ const actions = {
       });
   },
 
-  login({ commit }, credential) {
-    return AuthService.login(credential).then(({ data }) => {
+  login({commit}, credential) {
+    return AuthService.login(credential).then(({data}) => {
       commit('SET_CURRENT_USER', data);
     });
   },
 
-  sendResetPasswordCode({commit}, phone){
+  sendResetPasswordCode({commit}, phone) {
     return AuthService.sendResetPasswordCode({phone}).then(({data}) => {
       commit('SET_RESET_PASSWORD_RESPONSE', data)
       return data
     })
-  }
-  checkPassword({ commit }, passwordField) {
-    return AuthService.checkPassword(passwordField).then(({ data }) => {
+  },
+
+  checkPassword({commit}, passwordField) {
+    return AuthService.checkPassword(passwordField).then(({data}) => {
       commit('SET_UNLOCK_SCREEN', data.unlock);
       return data;
     });
   },
-  logout({ commit }) {
+  logout({commit}) {
     commit('SET_CURRENT_USER', null);
     return removeStorage();
   },
