@@ -21,6 +21,7 @@ export default {
   close: 'Fermer',
   delete: 'Supprimer',
   delete_all: 'Tout Supprimer',
+  send: 'Envoyer',
   save: 'Enregistrer',
   find: 'Rechercher',
   update: 'Modifier',
