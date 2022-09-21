@@ -7,6 +7,7 @@ const state = {
   currentUser: null,
   unlock: true,
   resetPasswordResponse: null,
+  resetPasswordToken: null,
 };
 
 // getters
