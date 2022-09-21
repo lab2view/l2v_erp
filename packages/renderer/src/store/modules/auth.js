@@ -21,6 +21,9 @@ const getters = {
   unlock: (state) => {
     return state.unlock;
   },
+  phone: (state) => {
+    return JSON.parse(state.resetPasswordResponse)?.phone;
+  },
   currentUserEmail: (state, getters) => getters.currentUser?.email,
   currentUserRole: (state, getters) => getters.currentUser?.role?.label,
   isRoleAdmin: (state, getters) =>
