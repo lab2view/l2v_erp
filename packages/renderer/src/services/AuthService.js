@@ -20,4 +20,8 @@ export default {
   verifyOtpCode(inputField) {
     return axios.post('/auth/verify/otp', inputField);
   },
+
+  resetPassword(inputField) {
+    return axios.post('/auth/password/reset', inputField);
+  },
 };
