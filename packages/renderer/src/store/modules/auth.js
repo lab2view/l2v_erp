@@ -6,6 +6,7 @@ import { removeStorage } from '/@/helpers/utils.js';
 const state = {
   currentUser: null,
   unlock: true,
+  resetPasswordResponse: null,
 };
 
 // getters
