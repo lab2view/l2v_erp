@@ -71,6 +71,13 @@ const actions = {
     });
   },
 
+  resetPassword({commit}, inputField) {
+    return AuthService.resetPassword(inputField).then(({data}) => {
+      commit('UPDATE_CURRENT_USER', data);
+      return data;
+    });
+  },
+
   checkPassword({commit}, passwordField) {
     return AuthService.checkPassword(passwordField).then(({data}) => {
       commit('SET_UNLOCK_SCREEN', data.unlock);
