@@ -101,6 +101,9 @@ const mutations = {
       ? JSON.stringify(passwordResponse)
       : null;
   },
+  SET_CURRENT_OTP(state, {token}) {
+    state.resetPasswordToken = token;
+  },
 };
 
 export default {
