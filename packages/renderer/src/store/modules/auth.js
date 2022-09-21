@@ -57,6 +57,13 @@ const actions = {
     })
   },
 
+  verifyOtpCode({commit}, inputField) {
+    return AuthService.verifyOtpCode(inputField).then(({data}) => {
+      commit('SET_CURRENT_OTP', data);
+      return data;
+    });
+  },
+
   checkPassword({commit}, passwordField) {
     return AuthService.checkPassword(passwordField).then(({data}) => {
       commit('SET_UNLOCK_SCREEN', data.unlock);
