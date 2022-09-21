@@ -87,6 +87,11 @@ const mutations = {
   SET_UNLOCK_SCREEN(state, unlock) {
     state.unlock = unlock;
   },
+  SET_RESET_PASSWORD_RESPONSE(state, passwordResponse) {
+    state.resetPasswordResponse = passwordResponse
+      ? JSON.stringify(passwordResponse)
+      : null;
+  },
 };
 
 export default {
