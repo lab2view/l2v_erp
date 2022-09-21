@@ -48,6 +48,13 @@ const actions = {
       commit('SET_CURRENT_USER', data);
     });
   },
+
+  sendResetPasswordCode({commit}, phone){
+    return AuthService.sendResetPasswordCode({phone}).then(({data}) => {
+      commit('SET_RESET_PASSWORD_RESPONSE', data)
+      return data
+    })
+  }
   checkPassword({ commit }, passwordField) {
     return AuthService.checkPassword(passwordField).then(({ data }) => {
       commit('SET_UNLOCK_SCREEN', data.unlock);
