@@ -38,7 +38,7 @@
                       <a
                         class="btn-link text-danger"
                         href="javascript:void(0)"
-                        @click="submitFormInput"
+                        @click.prevent="submitFormInput"
                       >
                         Resend
                       </a>
@@ -55,7 +55,7 @@
                           type="text"
                           placeholder="000000"
                           maxlength="6"
-                          @click="submitOtp"
+                          @click.prevent="submitOtp"
                         />
                       </div>
                     </div>
@@ -109,7 +109,7 @@
                     </div>
                   </div>
                   <div class="form-group">
-                    <button class="btn btn-primary btn-block" @click="resetPassword">
+                    <button class="btn btn-primary btn-block" @click.prevent="resetPassword">
                       Done
                     </button>
                   </div>
