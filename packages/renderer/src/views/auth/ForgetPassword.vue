@@ -109,7 +109,7 @@
                     </div>
                   </div>
                   <div class="form-group">
-                    <button class="btn btn-primary btn-block" type="submit">
+                    <button class="btn btn-primary btn-block" @click="resetPassword">
                       Done
                     </button>
                   </div>
