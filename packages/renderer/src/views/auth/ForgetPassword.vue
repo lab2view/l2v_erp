@@ -32,7 +32,7 @@
                     />
                   </div>
 
-                  <div v-if="showOtpField" class="form-group">
+                  <div v-if="requestId" class="form-group">
                     <span class="reset-password-link">
                       If don't receive OTP ?
                       <a
@@ -45,13 +45,13 @@
                     </span>
                   </div>
 
-                  <div v-if="showOtpField" class="form-group">
+                  <div v-if="requestId" class="form-group">
                     <label>Enter OTP</label>
                     <div class="row">
                       <div class="col-8 col-sm-9">
                         <BaseInput
                           v-model="inputField.otp_code"
-                          class="form-control text-center opt-text"
+                          class="form-control opt-text"
                           type="text"
                           placeholder="000000"
                           maxlength="6"
@@ -70,7 +70,7 @@
                 </form>
 
                 <form
-                  v-if="showPasswordField"
+                  v-if="resetPasswordToken"
                   class="theme-form login-form"
                   @submit.prevent="resetPassword"
                 >
@@ -109,7 +109,7 @@
                     </div>
                   </div>
                   <div class="form-group">
-                    <button class="btn btn-primary btn-block" @click.prevent="resetPassword">
+                    <button class="btn btn-primary btn-block" type="submit">
                       Done
                     </button>
                   </div>
@@ -154,21 +154,6 @@ export default {
     };
   },
   computed: {
-    showOtpField() {
-      if (this.requestId) {
-        return true;
-      } else {
-        return false;
-      }
-    },
-
-    showPasswordField() {
-      if (this.resetPasswordToken) {
-        return true;
-      } else {
-        return false;
-      }
-    },
     ...mapGetters('auth', ['requestId']),
     ...mapState('auth', ['resetPasswordToken']),
   },
