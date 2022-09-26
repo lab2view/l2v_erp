@@ -38,6 +38,18 @@ const getters = {
 
 // privileges
 const actions = {
+  updateAuthUserPassword({commit}, userFields) {
+    return userService
+      .updateUserPassword(userFields, userFields.id)
+      .then(({data}) => {
+        commit('UPDATE_CURRENT_USER', data);
+        return data;
+      })
+      .catch((err) => {
+        if (err.response) return Promise.reject(err.response.data);
+        else return Promise.reject(err);
+      });
+  },
   updateAuthUser({commit}, userFields) {
     return userService
       .updateUser(userFields, userFields.id)
