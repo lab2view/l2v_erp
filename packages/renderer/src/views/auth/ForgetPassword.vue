@@ -9,7 +9,7 @@
               <div class="login-main">
                 <form
                   class="theme-form login-form"
-                  @submit.prevent="submitFormInput"
+                  @submit.prevent="submitPhoneInput"
                 >
                   <h4 class="mb-3">Reset Your Password</h4>
                   <div class="form-group">
@@ -156,9 +156,13 @@ export default {
   computed: {
     ...mapGetters('auth', ['requestId']),
     ...mapState('auth', ['resetPasswordToken']),
+
+    handlePhoneForm() {
+      return this.requestId
+    }
   },
   methods: {
-    submitFormInput() {
+    submitPhoneInput() {
       this.$store
         .dispatch('auth/sendResetPasswordCode', this.inputField.phone)
         .catch((error) => {
