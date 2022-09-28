@@ -10,9 +10,8 @@
                 <form
                   class="theme-form login-form"
                   @submit.prevent="
-                    haveValidOtp ? handleResetPassword : handleResetPasswordForm
+                    haveValidOtp ? handleResetPassword() : handleResetPasswordForm()
                   "
-                  v-if="!haveValidOtp"
                 >
                   <h4 class="mb-3">Reset Your Password</h4>
                   <div v-if="isOtpField" class="form-group">
@@ -27,7 +26,7 @@
                       </a>
                     </span>
                   </div>
-                  <div v-if="!isOtpField" class="form-group">
+                  <div v-if="isPhoneField" class="form-group">
                     <label>Enter Your Mobile Number</label>
                     <div class="row">
                       <div class="col-8 col-sm-9">
@@ -40,7 +39,7 @@
                       </div>
                     </div>
                   </div>
-                  <div v-else class="form-group">
+                  <div v-if="isOtpField" class="form-group">
                     <label>Enter OTP</label>
                     <div class="row">
                       <div class="col-8 col-sm-9">
@@ -53,16 +52,9 @@
                         />
                       </div>
                     </div>
-                    <div class="form-group">
-                      <BaseButton
-                        type="submit"
-                        class="btn btn-primary btn-block"
-                        :text="$t('common.verify')"
-                      />
-                    </div>
                   </div>
 
-                  <div class="form-group">
+                  <div class="form-group" v-if="!haveValidOtp">
                     <BaseButton
                       type="submit"
                       class="btn btn-primary btn-block"
@@ -78,7 +70,7 @@
                       <label>New Password</label>
                       <div class="input-group">
                         <span class="input-group-text"
-                          ><i class="icon-lock"></i
+                        ><i class="icon-lock"></i
                         ></span>
                         <BaseInput
                           v-model="inputField.password"
@@ -95,7 +87,7 @@
                       <label>Retype Password</label>
                       <div class="input-group">
                         <span class="input-group-text"
-                          ><i class="icon-lock"></i
+                        ><i class="icon-lock"></i
                         ></span>
                         <BaseInput
                           v-model="inputField.password_confirmation"
@@ -116,11 +108,11 @@
 
                   <p>
                     Already have an password?<a
-                      class="ms-2"
-                      href="#"
-                      @click.prevent="$router.push({ name: 'login' })"
-                      >Sign in</a
-                    >
+                    class="ms-2"
+                    href="#"
+                    @click.prevent="$router.push({ name: 'login' })"
+                  >Sign in</a
+                  >
                   </p>
                 </form>
               </div>
@@ -136,11 +128,11 @@
 <script>
 import BaseInput from '/@/components/common/BaseInput.vue';
 import BaseButton from '/@/components/common/BaseButton.vue';
-import { mapGetters, mapState } from 'vuex';
+import {mapGetters, mapState} from 'vuex';
 
 export default {
   name: 'ForgetPassword',
-  components: { BaseButton, BaseInput },
+  components: {BaseButton, BaseInput},
 
   data() {
     return {
@@ -161,8 +153,11 @@ export default {
       return !!this.resetPasswordToken;
     },
     isOtpField() {
-      return !!this.requestId;
+      return !this.haveValidOtp && !!this.requestId;
     },
+    isPhoneField() {
+      return !this.haveValidOtp && !this.isOtpField
+    }
   },
   methods: {
     handleResetPasswordForm() {
