@@ -164,8 +164,8 @@ import BaseContainer from '/@/components/common/BaseContainer.vue';
 import BaseFieldGroup from '/@/components/common/BaseFieldGroup.vue';
 import BaseInput from '/@/components/common/BaseInput.vue';
 import BaseSelect from '/@/components/common/BaseSelect.vue';
-import { mapGetters } from 'vuex';
-import { notify } from '/@/helpers/notify';
+import {mapGetters} from 'vuex';
+import {notify} from '/@/helpers/notify';
 import store from '/@/store';
 import SaleSessionMixin from '/@/mixins/SaleSessionMixin.js';
 
@@ -240,31 +240,52 @@ export default {
           password_confirmation: this.password_confirmation,
           old_password: this.old_password,
         };
+        store
+          .dispatch('auth/updateAuthUserPassword', data)
+          .then(() => {
+            notify(
+              this.$t('messages.update_user_password_successfully'),
+              'New Event',
+              'success'
+            );
+            this.password_confirmation = null;
+            this.password = null;
+            this.old_password = null;
+          })
+          .catch((error) => {
+            if (error.errors) {
+              this.errors = error.errors;
+            }
+          })
+          .finally(() => {
+            this.loading = false;
+          });
+      } else {
+        store
+          .dispatch('auth/updateAuthUser', data)
+          .then(() => {
+            notify(
+              this.$t('messages.update_user_successfully'),
+              'New Event',
+              'success'
+            );
+            this.password_confirmation = null;
+            this.password = null;
+            this.old_password = null;
+          })
+          .catch((error) => {
+            if (error.errors) {
+              this.errors = error.errors;
+            }
+          })
+          .finally(() => {
+            this.loading = false;
+          });
       }
-      store
-        .dispatch('auth/updateAuthUser', data)
-        .then(() => {
-          notify(
-            this.$t('messages.update_user_successfully'),
-            'New Event',
-            'success'
-          );
-          this.password_confirmation = null;
-          this.password = null;
-          this.old_password = null;
-        })
-        .catch((error) => {
-          if (error.errors) {
-            this.errors = error.errors;
-          }
-        })
-        .finally(() => {
-          this.loading = false;
-        });
     },
     addNewLocalisationAction() {
       if (!this.isSaleSession) {
-        this.$router.push({ name: 'localization.form' });
+        this.$router.push({name: 'localization.form'});
       } else notify(this.$t('common.action_not_allow'), '', 'danger');
     },
   },
