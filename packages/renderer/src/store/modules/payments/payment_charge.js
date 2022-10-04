@@ -18,7 +18,7 @@ const getters = {
 
 const actions = {
   getPaymentChargesList({ commit, getters }, { page, field }) {
-    if (getters.paymentCharges.length > 0) {
+    if (getters.paymentCharges.length > 0 && !field.next) {
       return getters.paymentCharges;
     } else
       return paymentChargeService
