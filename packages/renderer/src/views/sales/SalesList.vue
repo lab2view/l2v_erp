@@ -1,13 +1,11 @@
 <template>
   <BaseContainer :module="$t('menu.modules.sales')" :title="$t('sales.title')">
     <div class="card">
-      <div class="card-header pb-2 border-bottom border-bottom-">
-        <div class="row align-items-center">
-          <div class="col-sm">
-            <h5>{{ $t('sales.sale.listTitle') }}</h5>
-          </div>
-        </div>
-      </div>
+      <BaseTableHeader
+        :title="$t('sales.sale.listTitle')"
+        :refresh-action-field="{ page: 1, field: { next: true } }"
+        refresh-action-name="sale/getSalesList"
+      />
       <div class="card-body">
         <SaleTable :sales="sales" />
       </div>
@@ -23,9 +21,10 @@ import BaseContainer from '/@/components/common/BaseContainer.vue';
 import store from '/@/store/index.js';
 import { mapGetters } from 'vuex';
 import SaleTable from '/@/components/sales/SaleTable.vue';
+import BaseTableHeader from '/@/components/common/BaseTableHeader.vue';
 
 export default {
-  components: { SaleTable, BaseContainer },
+  components: { BaseTableHeader, SaleTable, BaseContainer },
   beforeRouteEnter(routeTo, routeFrom, next) {
     store
       .dispatch('sale/getSalesList', {

@@ -19,7 +19,7 @@ const getters = {
 // privileges
 const actions = {
   getCashRegistersList({ commit, getters }, { page, field }) {
-    if (getters.cashRegisters.length > 0) {
+    if (getters.cashRegisters.length > 0 && !field.next) {
       return getters.cashRegisters;
     }
     return cashRegisterService
