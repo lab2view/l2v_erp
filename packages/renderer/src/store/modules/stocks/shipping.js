@@ -29,7 +29,7 @@ const getters = {
 
 const actions = {
   getShippingsList({ commit, getters }, { page, field }) {
-    if (getters.shippings.length > 0) {
+    if (getters.shippings.length > 0 && !field.next) {
       return getters.shippings;
     }
     return shippingService.getShippingsList(page, field).then(({ data }) => {

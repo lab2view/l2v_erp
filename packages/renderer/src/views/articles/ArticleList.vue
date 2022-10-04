@@ -4,13 +4,11 @@
     :module="$t('menu.modules.articles')"
   >
     <div class="card">
-      <div class="card-header pb-2 border-bottom border-bottom-">
-        <div class="row align-items-center">
-          <div class="col-sm">
-            <h5>{{ $t('articles.listTitle') }}</h5>
-          </div>
-        </div>
-      </div>
+      <BaseTableHeader
+        :title="$t('articles.listTitle')"
+        :refresh-action-field="{ page: 1, field: { paginate: 50, next: true } }"
+        refresh-action-name="article/getArticlesList"
+      />
       <div class="card-body">
         <BaseDatatable :tfoot="false" :total="articles.length">
           <template #headers>
@@ -73,9 +71,12 @@ import BaseContainer from '../../components/common/BaseContainer.vue';
 import BaseButton from '../../components/common/BaseButton.vue';
 import ArticleStockIn from '/@/components/articles/ArticleStockIn.vue';
 import ArticlePriceState from '/@/components/articles/ArticlePriceState.vue';
+import BaseTableHeader from '/@/components/common/BaseTableHeader.vue';
 
 export default {
+  name: 'ArticleList',
   components: {
+    BaseTableHeader,
     ArticlePriceState,
     ArticleStockIn,
     BaseButton,

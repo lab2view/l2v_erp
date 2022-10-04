@@ -4,23 +4,13 @@
     :title="$t('stocks.title')"
   >
     <div class="card">
-      <div class="card-header pb-2 border-bottom border-bottom-">
-        <div class="row align-items-center">
-          <div class="col-sm">
-            <h5>{{ $t('stocks.stockExit.listTitle') }}</h5>
-          </div>
-          <div class="col-sm-auto align-items-end">
-            <router-link
-              :to="{ name: 'stocks.exit.form.desc' }"
-              class="btn btn-primary"
-              type="button"
-            >
-              <i class="fa fa-plus m-r-5" />
-              {{ $t('stocks.stockExit.add') }}
-            </router-link>
-          </div>
-        </div>
-      </div>
+      <BaseTableHeader
+        :title="$t('stocks.stockExit.listTitle')"
+        add-action-router-name="stocks.exit.form.desc"
+        :refresh-action-field="{ page: 1, field: { next: true } }"
+        refresh-action-name="stock_exit/getStockExitsList"
+        add-action-label="stocks.stockExit.add"
+      />
       <div class="card-body">
         <StockExitTable :stock-exits="stock_exits" />
       </div>
@@ -34,9 +24,10 @@ import BaseContainer from '/@/components/common/BaseContainer.vue';
 import StockExitTable from '/@/components/stocks/StockExitTable.vue';
 import store from '/@/store';
 import { mapGetters } from 'vuex';
+import BaseTableHeader from '/@/components/common/BaseTableHeader.vue';
 
 export default {
-  components: { StockExitTable, BaseContainer },
+  components: { BaseTableHeader, StockExitTable, BaseContainer },
   beforeRouteEnter(routeTo, routeFrom, next) {
     store
       .dispatch('stock_exit/getStockExitsList', {

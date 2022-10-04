@@ -1,24 +1,12 @@
 <template>
   <BaseContainer :module="$t('menu.modules.sales')" :title="$t('sales.title')">
     <div class="card">
-      <div class="card-header pb-2 border-bottom border-bottom-">
-        <div class="row align-items-center">
-          <div class="col-sm">
-            <h5>{{ $t('sales.cashier.listTitle') }}</h5>
-          </div>
-          <div class="col-sm-auto align-items-end">
-            <router-link
-              :to="{ name: 'sales.cashier.form' }"
-              href="#"
-              class="btn btn-primary"
-              type="button"
-            >
-              <i class="fa fa-plus m-r-5" />
-              {{ $t('common.add') }}
-            </router-link>
-          </div>
-        </div>
-      </div>
+      <BaseTableHeader
+        :title="$t('sales.cashier.listTitle')"
+        add-action-router-name="sales.cashier.form"
+        :refresh-action-field="{ page: 1, field: { next: true } }"
+        refresh-action-name="cashier/getCashiersList"
+      />
       <div class="card-body">
         <BaseDatatable :tfoot="false" :total="cashiers.length">
           <template #headers>
@@ -79,9 +67,10 @@ import BaseDatatable from '/@/components/common/BaseDatatable.vue';
 import store from '/@/store';
 import { mapGetters } from 'vuex';
 import filterMixin from '/@/mixins/FilterMixin.js';
+import BaseTableHeader from '/@/components/common/BaseTableHeader.vue';
 
 export default {
-  components: { BaseContainer, BaseDatatable },
+  components: { BaseTableHeader, BaseContainer, BaseDatatable },
   mixins: [filterMixin],
   beforeRouteEnter(routeTo, routeFrom, next) {
     store

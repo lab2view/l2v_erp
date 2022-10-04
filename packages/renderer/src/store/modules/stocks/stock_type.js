@@ -21,7 +21,7 @@ const getters = {
 
 const actions = {
   getStockTypesList({ commit, getters }, { page, field }) {
-    if (getters.stock_types.length > 0) {
+    if (getters.stock_types.length > 0 && !field.next) {
       return getters.stock_types;
     }
     return stockTypeService.getStockTypesList(page, field).then(({ data }) => {

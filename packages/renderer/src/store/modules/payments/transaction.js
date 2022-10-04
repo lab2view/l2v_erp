@@ -17,7 +17,7 @@ const getters = {
 
 const actions = {
   getTransactionsList({ commit, getters }, { page, field }) {
-    if (getters.transactions.length > 0) {
+    if (getters.transactions.length > 0 && !field.next) {
       return getters.transactions;
     } else
       return transactionService

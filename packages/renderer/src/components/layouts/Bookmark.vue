@@ -22,6 +22,7 @@
 import { defineComponent } from 'vue';
 
 export default defineComponent({
+  name: 'Bookmark',
   props: {
     items: {
       type: Array,

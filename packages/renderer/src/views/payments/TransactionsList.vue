@@ -4,13 +4,11 @@
     :title="$t('payments.title')"
   >
     <div class="card">
-      <div class="card-header pb-2 border-bottom border-bottom-">
-        <div class="row align-items-center">
-          <div class="col-sm">
-            <h5>{{ $t('payments.transaction.listTitle') }}</h5>
-          </div>
-        </div>
-      </div>
+      <BaseTableHeader
+        :title="$t('payments.transaction.listTitle')"
+        :refresh-action-field="{ page: 1, field: { next: true } }"
+        refresh-action-name="transaction/getTransactionsList"
+      />
       <div class="card-body">
         <BaseDatatable :tfoot="false" :total="transactions.length">
           <template #headers>
@@ -29,8 +27,7 @@
             <td>{{ transaction.fee }}</td>
             <td>{{ transaction.status }}</td>
             <td>{{ transaction.paid_at }}</td>
-            <td>
-            </td>
+            <td></td>
           </tr>
         </BaseDatatable>
       </div>
@@ -45,9 +42,10 @@ import BaseContainer from '/@/components/common/BaseContainer.vue';
 import BaseDatatable from '/@/components/common/BaseDatatable.vue';
 import store from '/@/store';
 import { mapGetters } from 'vuex';
+import BaseTableHeader from '/@/components/common/BaseTableHeader.vue';
 
 export default {
-  components: { BaseContainer, BaseDatatable },
+  components: { BaseTableHeader, BaseContainer, BaseDatatable },
   beforeRouteEnter(routeTo, routeFrom, next) {
     store
       .dispatch('transaction/getTransactionsList', {

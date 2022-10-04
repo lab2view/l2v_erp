@@ -19,7 +19,7 @@ const getters = {
 // privileges
 const actions = {
   getProductUnitsList({ commit, getters }, { page, field }) {
-    if (getters.productUnits.length > 0) {
+    if (getters.productUnits.length > 0 && !field.next) {
       return getters.productUnits;
     } else
       return productUnitService.getList(page, field).then(({ data }) => {
