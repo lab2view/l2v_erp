@@ -17,37 +17,37 @@ const getters = {
 };
 
 const actions = {
-  getUsersList({ commit, getters }, { page, field }) {
+  getUsersList({commit, getters}, {page, field}) {
     if (getters.users.length > 0) {
       return getters.users;
     } else
-      return userService.getUsersList(page, field).then(({ data }) => {
+      return userService.getUsersList(page, field).then(({data}) => {
         commit('SET_USERS', data);
         return data;
       });
   },
 
-  getUser({ getters, commit }, id) {
+  getUser({getters, commit}, id) {
     const user = getters.users.find((p) => p.id.toString() === id);
     if (user !== undefined) {
       commit('SET_CURRENT_USER', user);
       return user;
     } else
-      return userService.getUser(id).then(({ data }) => {
+      return userService.getUser(id).then(({data}) => {
         commit('SET_CURRENT_USER', data);
         return data;
       });
   },
 
-  addUserPrivileges({ getters, commit }, actions) {
+  addUserPrivileges({getters, commit}, actions) {
     return userService
       .addUserPrivileges(actions, getters.user.id)
-      .then(({ data }) => {
+      .then(({data}) => {
         commit('ADD_USER_PRIVILEGES', data.actions);
       });
   },
 
-  removeUserPrivileges({ getters, commit }, actions) {
+  removeUserPrivileges({getters, commit}, actions) {
     return userService
       .removeUserPrivileges(
         {
@@ -60,26 +60,35 @@ const actions = {
       });
   },
 
-  addUser({ commit }, userField) {
-    return userService.addUser(userField).then(({ data }) => {
+  addUser({commit}, userField) {
+    return userService.addUser(userField).then(({data}) => {
       commit('ADD_USER', data);
       commit('SET_CURRENT_USER', data);
       return data;
     });
   },
 
-  updateUser({ commit }, userField) {
-    return userService.updateUser(userField, userField.id).then(({ data }) => {
+  updateUser({commit}, userField) {
+    return userService.updateUser(userField, userField.id).then(({data}) => {
       commit('UPDATE_USER', data);
       return data;
     });
   },
 
-  deleteUser({ commit }, userId) {
-    return userService.deleteUser(userId).then(({ data }) => {
+  deleteUser({commit}, userId) {
+    return userService.deleteUser(userId).then(({data}) => {
       commit('DELETE_USER', userId);
       return data;
     });
+  },
+
+  updateUserPassword({commit}, userField) {
+    return userService
+      .updateUserPassword(userField, userField.id)
+      .then(({data}) => {
+        commit('UPDATE_USER', data);
+        return data;
+      });
   },
 };
 
