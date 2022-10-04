@@ -84,6 +84,7 @@ export default {
   result_count: 'Environ {count} résultat(s) ',
   not_specify: 'Non specifie',
   unlock: 'Deverouiller',
+  refresh: 'Actualiser',
 
   sale: {
     list: 'Liste des ventes',
