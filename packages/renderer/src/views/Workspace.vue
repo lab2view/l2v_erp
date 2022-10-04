@@ -109,6 +109,7 @@ import { ref } from 'vue';
 import BaseButton from '/@/components/common/BaseButton.vue';
 
 export default {
+  name: 'Workspace',
   components: { BaseButton },
   setup() {
     const store = useStore();
