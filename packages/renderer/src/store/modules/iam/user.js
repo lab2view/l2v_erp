@@ -81,6 +81,15 @@ const actions = {
       return data;
     });
   },
+
+  updateUserPassword({ commit }, userField) {
+    return userService
+      .updateUserPassword(userField, userField.id)
+      .then(({ data }) => {
+        commit('UPDATE_USER', data);
+        return data;
+      });
+  },
 };
 
 // mutations
