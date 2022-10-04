@@ -18,7 +18,7 @@ const getters = {
 
 const actions = {
   getUsersList({ commit, getters }, { page, field }) {
-    if (getters.users.length > 0) {
+    if (getters.users.length > 0 && !field.next) {
       return getters.users;
     } else
       return userService.getUsersList(page, field).then(({ data }) => {

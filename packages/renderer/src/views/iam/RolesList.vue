@@ -1,26 +1,12 @@
 <template>
-  <BaseContainer
-    :module="$t('menu.modules.iam')"
-    :title="$t('iam.title')"
-  >
+  <BaseContainer :module="$t('menu.modules.iam')" :title="$t('iam.title')">
     <div class="card">
-      <div class="card-header pb-2 border-bottom border-bottom-">
-        <div class="row align-items-center">
-          <div class="col-sm">
-            <h5>{{ $t('iam.role.listTitle') }}</h5>
-          </div>
-          <div class="col-sm-auto align-items-end">
-            <router-link
-              :to="{ name: 'iam.role.form' }"
-              class="btn btn-primary"
-              type="button"
-            >
-              <i class="fa fa-plus m-r-5" />
-              {{ $t('common.add') }}
-            </router-link>
-          </div>
-        </div>
-      </div>
+      <BaseTableHeader
+        :title="$t('iam.role.listTitle')"
+        add-action-router-name="iam.role.form"
+        :refresh-action-field="{ page: 1, field: { next: true } }"
+        refresh-action-name="role/getRolesList"
+      />
       <div class="card-body">
         <BaseDatatable :tfoot="false" :total="roles.length">
           <template #headers>
@@ -76,7 +62,7 @@
             </td>
           </tr>
         </BaseDatatable>
-        <br/>
+        <br />
       </div>
 
       <router-view />
@@ -89,9 +75,10 @@ import BaseContainer from '../../components/common/BaseContainer.vue';
 import BaseDatatable from '/@/components/common/BaseDatatable.vue';
 import store from '../../store';
 import { mapGetters } from 'vuex';
+import BaseTableHeader from '/@/components/common/BaseTableHeader.vue';
 
 export default {
-  components: { BaseContainer, BaseDatatable },
+  components: { BaseTableHeader, BaseContainer, BaseDatatable },
   beforeRouteEnter(routeTo, routeFrom, next) {
     store
       .dispatch('role/getRolesList', {
@@ -110,15 +97,14 @@ export default {
     ...mapGetters('role', ['roles', 'role']),
   },
   created() {
-    if (this.role)
-      this.$store.commit('role/SET_CURRENT_ROLE', null);
+    if (this.role) this.$store.commit('role/SET_CURRENT_ROLE', null);
   },
   methods: {
     truncate(source, size = 100) {
-      if (! source) {
+      if (!source) {
         return '';
       }
-      return source.length > size ? source.slice(0, size - 1) + "…" : source;
+      return source.length > size ? source.slice(0, size - 1) + '…' : source;
     },
     deleteRole(role) {
       if (confirm(this.$t('messages.confirmDelete', { label: role.name })))

@@ -18,7 +18,7 @@ const getters = {
 
 const actions = {
   getEnterprisesList({ commit, getters }, { page, field }) {
-    if (getters.enterprises.length > 0) {
+    if (getters.enterprises.length > 0 && !field.next) {
       return getters.enterprises;
     } else
       return enterpriseService
