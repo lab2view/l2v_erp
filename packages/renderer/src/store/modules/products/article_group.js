@@ -19,7 +19,7 @@ const getters = {
 // privileges
 const actions = {
   getArticleGroupList({ commit, getters }, { page, field }) {
-    if (getters.articleGroups.length > 0) {
+    if (getters.articleGroups.length > 0 && !field.next) {
       return getters.articleGroups;
     } else
       return articleGroupService.getList(page, field).then(({ data }) => {

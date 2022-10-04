@@ -50,6 +50,7 @@ import SaleSessionMixin from '/@/mixins/SaleSessionMixin.js';
 import LockScreen from '/@/views/auth/LockScreen.vue';
 
 export default defineComponent({
+  name: 'Page',
   components: { LockScreen, Footer, Menu, Header },
   mixins: [SaleSessionMixin],
   data() {

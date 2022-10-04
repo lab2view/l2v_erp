@@ -92,6 +92,7 @@ import BaseButton from '/@/components/common/BaseButton.vue';
 import BaseTableHeader from '/@/components/common/BaseTableHeader.vue';
 
 export default {
+  name: 'ProductList',
   components: { BaseTableHeader, BaseButton, BaseContainer, BaseDatatable },
   beforeRouteEnter(routeTo, routeFrom, next) {
     store
