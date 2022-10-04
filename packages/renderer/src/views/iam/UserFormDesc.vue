@@ -4,7 +4,7 @@
       <div class="card-header pb-0">
         <h5>{{ formTitle }}</h5>
         <span
-          >Using the <a href="#">card</a> component, you can extend the default
+        >Using the <a href="#">card</a> component, you can extend the default
           collapse behavior to create an accordion.</span
         >
       </div>
@@ -98,7 +98,7 @@
           <h6 class="form-label fw-bold">
             {{ $t('common.attributes.gender') }}
           </h6>
-          <br />
+          <br/>
           <label for="male">
             {{ $t('common.gender.male') }}
             <input
@@ -127,25 +127,67 @@
             {{ errors.gender[0] }}
           </div>
         </div>
-        <div class="form-group mb-3">
-          <BaseInput
+        <div class="col-md">
+          <BaseInputGroup
             v-model="userForm.password"
             :label="$t('common.attributes.password')"
-            placeholder="******"
-            type="password"
-            :errors="errors.password"
-            :required="!is_edited"
-          />
+            placeholder="********"
+            :errors="errors?.password"
+            required
+            :disabled="!type_password"
+          >
+            <button
+              type="button"
+              class="btn btn-info btn-iconsolid"
+              :title="
+                type_password
+                  ? $t('common.generate_password')
+                  : $t('common.type')
+              "
+              @click.prevent="type_password = !type_password"
+            >
+              <i :class="`fa fa-${type_password ? 'lock' : 'edit'}`"></i>
+            </button>
+            <button
+              type="button"
+              class="btn btn-success btn-iconsolid"
+              :title="$t('common.shuffle')"
+              @click.prevent="generatePassword"
+            >
+              <i class="fa fa-random"></i>
+            </button>
+          </BaseInputGroup>
         </div>
-        <div class="form-group mb-3">
-          <BaseInput
+        <div class="col-md">
+          <BaseInputGroup
             v-model="userForm.password_confirmation"
-            :label="$t('common.attributes.password_confirmation')"
-            placeholder="******"
-            type="password"
-            :errors="errors.password_confirmation"
-            :required="!is_edited"
-          />
+            :label="$t('common.attributes.password')"
+            placeholder="********"
+            :errors="errors?.password_confirmation"
+            required
+            :disabled="!type_password"
+          >
+            <button
+              type="button"
+              class="btn btn-info btn-iconsolid"
+              :title="
+                type_password
+                  ? $t('common.generate_password')
+                  : $t('common.type')
+              "
+              @click.prevent="type_password = !type_password"
+            >
+              <i :class="`fa fa-${type_password ? 'lock' : 'edit'}`"></i>
+            </button>
+            <button
+              type="button"
+              class="btn btn-success btn-iconsolid"
+              :title="$t('common.shuffle')"
+              @click.prevent="generatePassword"
+            >
+              <i class="fa fa-random"></i>
+            </button>
+          </BaseInputGroup>
         </div>
       </div>
       <div class="card-footer">
@@ -171,11 +213,13 @@
 import BaseButton from '/@/components/common/BaseButton.vue';
 import BaseInput from '/@/components/common/BaseInput.vue';
 import BaseSelect from '/@/components/common/BaseSelect.vue';
-import { mapGetters } from 'vuex';
+import {mapGetters} from 'vuex';
 import store from '/@/store';
+import BaseInputGroup from '/@/components/common/BaseInputGroup.vue';
+import ean from '/@/helpers/ean';
 
 export default {
-  components: { BaseInput, BaseSelect, BaseButton },
+  components: {BaseInputGroup, BaseInput, BaseSelect, BaseButton},
   beforeRouteEnter(routeTo, routeFrom, next) {
     Promise.all([
       store.dispatch('role/getRolesList', {
@@ -202,6 +246,7 @@ export default {
   data() {
     return {
       errors: [],
+      type_password: false,
       is_edited: false,
       formLoading: false,
       userForm: {
@@ -265,23 +310,42 @@ export default {
       this.setLoading(true);
       if (this.user && this.user.id) {
         if (this.is_edited) {
-          this.$store
-            .dispatch('user/updateUser', this.userForm)
-            .then((user) =>
-              this.$router.push({
-                name: 'iam.user.form.privileges',
-                params: { id: user.id },
+          if (this.userForm.password) {
+            if (
+              this.userForm.password === this.userForm.password_confirmation
+            ) {
+              this.$store
+                .dispatch('user/updateUserPassword', this.userForm)
+                .then((user) =>
+                  this.$router.push({
+                    name: 'iam.user.form.privileges',
+                    params: {id: user.id},
+                  })
+                )
+                .catch((error) => {
+                  this.errors = error.response?.data?.errors;
+                  console.log(error);
+                })
+                .finally(() => this.setLoading());
+            }
+          } else
+            this.$store
+              .dispatch('user/updateUser', this.userForm)
+              .then((user) =>
+                this.$router.push({
+                  name: 'iam.user.form.privileges',
+                  params: {id: user.id},
+                })
+              )
+              .catch((error) => {
+                this.errors = error.response?.data?.errors;
+                console.log(error);
               })
-            )
-            .catch((error) => {
-              this.errors = error.response?.data?.errors;
-              console.log(error);
-            })
-            .finally(() => this.setLoading());
+              .finally(() => this.setLoading());
         } else
           this.$router.push({
             name: 'iam.users',
-            params: { id: this.user.id },
+            params: {id: this.user.id},
           });
       } else {
         this.$store
@@ -290,7 +354,7 @@ export default {
             this.setLoading();
             this.$router.push({
               name: 'iam.user.form.privileges',
-              params: { id: user.id },
+              params: {id: user.id},
             });
           })
           .catch((error) => {
@@ -299,6 +363,10 @@ export default {
             this.setLoading();
           });
       }
+    },
+    generatePassword() {
+      this.userForm.password = ean.generatePassword();
+      this.userForm.password_confirmation = this.userForm.password;
     },
   },
 };

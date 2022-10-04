@@ -1,4 +1,4 @@
-import { random } from 'lodash';
+import {random} from 'lodash';
 
 function getCheckDigit(code) {
   let codePartials = code.split('');
@@ -45,7 +45,20 @@ function generateEan13(prefix = null) {
   return code;
 }
 
+function generatePassword() {
+  let characters =
+    '0123456789abcdefghijklmnopqrstuvwxyz!@#$%^&*()ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+  let passwordLength = 8;
+  let password = '';
+  for (let i = 0; i <= passwordLength; i++) {
+    let randomNumber = Math.floor(Math.random() * characters.length);
+    password += characters.substring(randomNumber, randomNumber + 1);
+  }
+  return password;
+}
+
 export default {
   getCheckDigit,
   generateEan13,
+  generatePassword
 };
