@@ -47,7 +47,7 @@ const getters = {
 // privileges
 const actions = {
   getStockExitsList({ commit, getters }, { page, field }) {
-    if (getters.stock_exits.length > 0) {
+    if (getters.stock_exits.length > 0 && !field.next) {
       return getters.stock_exits;
     } else
       return stockExitService.getList(page, field).then(({ data }) => {

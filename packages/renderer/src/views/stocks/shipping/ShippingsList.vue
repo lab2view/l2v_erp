@@ -1,23 +1,16 @@
 <template>
-  <BaseContainer :title="$t('stocks.title')" :module="$t('menu.modules.stocks')">
+  <BaseContainer
+    :title="$t('stocks.title')"
+    :module="$t('menu.modules.stocks')"
+  >
     <div class="card">
-      <div class="card-header pb-2 border-bottom border-bottom-">
-        <div class="row align-items-center">
-          <div class="col-sm">
-            <h6>{{ $t('stocks.shipping.list') }}</h6>
-          </div>
-          <div class="col-sm-auto align-items-end">
-            <router-link
-              :to="{ name: 'shipping.form.desc' }"
-              class="btn btn-primary"
-              type="button"
-            >
-              <i class="fa fa-shopping-cart m-r-5" />
-              {{ $t('stocks.shipping.add') }}
-            </router-link>
-          </div>
-        </div>
-      </div>
+      <BaseTableHeader
+        :title="$t('stocks.shipping.list')"
+        add-action-router-name="shipping.form.desc"
+        :refresh-action-field="{ page: 1, field: { next: true } }"
+        refresh-action-name="shipping/getShippingsList"
+        add-action-label="stocks.shipping.add"
+      />
       <div class="card-body pb-0">
         <ShippingTable :shipping-entries="shippings" />
       </div>
@@ -31,9 +24,10 @@ import BaseContainer from '/@/components/common/BaseContainer.vue';
 import ShippingTable from '/@/components/stocks/ShippingTable.vue';
 import store from '/@/store';
 import { mapGetters } from 'vuex';
+import BaseTableHeader from '/@/components/common/BaseTableHeader.vue';
 
 export default {
-  components: { BaseContainer,ShippingTable },
+  components: { BaseTableHeader, BaseContainer, ShippingTable },
   beforeRouteEnter(routeTo, routeFrom, next) {
     store
       .dispatch('shipping/getShippingsList', {
@@ -57,15 +51,8 @@ export default {
   },
   methods: {
     deleteShipping(shipping) {
-      if (
-        confirm(
-          this.$t('messages.confirmDelete', { label: shipping.label })
-        )
-      )
-        this.$store.dispatch(
-          'shipping/deleteShipping',
-          shipping.id
-        );
+      if (confirm(this.$t('messages.confirmDelete', { label: shipping.label })))
+        this.$store.dispatch('shipping/deleteShipping', shipping.id);
     },
   },
 };

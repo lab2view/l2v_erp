@@ -51,7 +51,7 @@ const getters = {
 
 const actions = {
   getStockEntriesList({ commit, getters }, { page, field }) {
-    if (getters.stock_entries.length > 0) {
+    if (getters.stock_entries.length > 0 && !field.next) {
       return getters.stock_entries;
     }
     return stockEntryService

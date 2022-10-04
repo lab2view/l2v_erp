@@ -11,13 +11,13 @@
         </a>
         <router-link
           v-if="addActionRouterName"
-          :to="{ name: this.addActionRouterName }"
+          :to="{ name: addActionRouterName }"
           href="#"
           class="btn btn-primary btn-sm m-l-30"
           type="button"
         >
           <i class="fa fa-plus m-r-5" />
-          {{ $t(this.addActionLabel) }}
+          {{ $t(addActionLabel) }}
         </router-link>
       </div>
     </div>
