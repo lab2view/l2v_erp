@@ -1,24 +1,15 @@
 <template>
-  <BaseContainer :module="$t('menu.modules.stocks')" :title="$t('stocks.title')">
+  <BaseContainer
+    :module="$t('menu.modules.stocks')"
+    :title="$t('stocks.title')"
+  >
     <div class="card">
-      <div class="card-header pb-2 border-bottom border-bottom-">
-        <div class="row align-items-center">
-          <div class="col-sm">
-            <h5>{{ $t('stocks.stockType.listTitle') }}</h5>
-          </div>
-          <div class="col-sm-auto align-items-end">
-            <router-link
-              :to="{ name: 'config.stocks.type.form' }"
-              class="btn btn-primary"
-              href="#"
-              type="button"
-            >
-              <i class="fa fa-plus m-r-5" />
-              {{ $t('common.add') }}
-            </router-link>
-          </div>
-        </div>
-      </div>
+      <BaseTableHeader
+        :title="$t('stocks.stockType.listTitle')"
+        add-action-router-name="config.stocks.type.form"
+        :refresh-action-field="{ page: 1, field: { next: true } }"
+        refresh-action-name="stock_type/getStockTypesList"
+      />
       <div class="card-body">
         <BaseDatatable :tfoot="false" :total="stock_types.length">
           <template #headers>
@@ -45,11 +36,11 @@
                   data-original-title="btn btn-secondary btn-xs"
                   type="button"
                   @click.prevent="
-                  $router.push({
-                    name: 'config.stocks.type.form',
-                    params: { id: stockType.id },
-                  })
-                "
+                    $router.push({
+                      name: 'config.stocks.type.form',
+                      params: { id: stockType.id },
+                    })
+                  "
                 >
                   {{ $t('common.update') }}
                 </button>
@@ -78,9 +69,10 @@ import BaseContainer from '/@/components/common/BaseContainer.vue';
 import BaseDatatable from '/@/components/common/BaseDatatable.vue';
 import store from '/@/store';
 import { mapGetters } from 'vuex';
+import BaseTableHeader from '/@/components/common/BaseTableHeader.vue';
 
 export default {
-  components: { BaseContainer, BaseDatatable },
+  components: { BaseTableHeader, BaseContainer, BaseDatatable },
   beforeRouteEnter(routeTo, routeFrom, next) {
     store
       .dispatch('stock_type/getStockTypesList', {
