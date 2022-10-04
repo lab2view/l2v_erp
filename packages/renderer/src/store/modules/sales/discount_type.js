@@ -11,19 +11,15 @@ const state = {
 // getters
 const getters = {
   discountTypes: (state) =>
-    state.discountTypes
-      ? JSON.parse(state.discountTypes)
-      : [],
+    state.discountTypes ? JSON.parse(state.discountTypes) : [],
   discountType: (state) =>
-    state.discountType
-      ? JSON.parse(state.discountType)
-      : null,
+    state.discountType ? JSON.parse(state.discountType) : null,
 };
 
 // privileges
 const actions = {
   getDiscountTypesList({ commit, getters }, { page, field }) {
-    if (getters.discountTypes.length > 0) {
+    if (getters.discountTypes.length > 0 && !field.next) {
       return getters.discountTypes;
     }
     return discountTypeService
@@ -42,12 +38,10 @@ const actions = {
       commit('SET_CURRENT_DISCOUNT_TYPE', discountType);
       return discountType;
     }
-    return discountTypeService
-      .getDiscountType(id)
-      .then(({ data }) => {
-        commit('SET_CURRENT_DISCOUNT_TYPE', data);
-        return data;
-      });
+    return discountTypeService.getDiscountType(id).then(({ data }) => {
+      commit('SET_CURRENT_DISCOUNT_TYPE', data);
+      return data;
+    });
   },
 
   addDiscountType({ commit }, discountTypeField) {
@@ -67,10 +61,7 @@ const actions = {
 
   updateDiscountType({ commit }, discountTypeField) {
     return discountTypeService
-      .updateDiscountType(
-        discountTypeField,
-        discountTypeField.id
-      )
+      .updateDiscountType(discountTypeField, discountTypeField.id)
       .then(({ data }) => {
         commit('UPDATE_DISCOUNT_TYPE', data);
         notify(
@@ -108,9 +99,7 @@ const mutations = {
   },
   UPDATE_DISCOUNT_TYPE(state, discountType) {
     let discountTypes = JSON.parse(state.discountTypes);
-    const index = discountTypes.findIndex(
-      (p) => p.id === discountType.id
-    );
+    const index = discountTypes.findIndex((p) => p.id === discountType.id);
     if (index !== -1) {
       discountTypes.splice(index, 1, discountType);
       state.discountTypes = JSON.stringify(discountTypes);
@@ -118,9 +107,7 @@ const mutations = {
   },
   DELETE_DISCOUNT_TYPE(state, discountTypeId) {
     state.discountTypes = JSON.stringify(
-      JSON.parse(state.discountTypes).filter(
-        (p) => p.id !== discountTypeId
-      )
+      JSON.parse(state.discountTypes).filter((p) => p.id !== discountTypeId)
     );
   },
 };

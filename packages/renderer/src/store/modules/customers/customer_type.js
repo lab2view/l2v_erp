@@ -18,7 +18,7 @@ const getters = {
 
 const actions = {
   getCustomerTypesList({ commit, getters }, { page, field }) {
-    if (getters.customerTypes.length > 0) {
+    if (getters.customerTypes.length > 0 && !field.next) {
       return getters.customerTypes;
     } else
       return customerTypeService
