@@ -54,7 +54,7 @@
                     </div>
                   </div>
 
-                  <div class="form-group" v-if="!haveValidOtp">
+                  <div v-if="!haveValidOtp" class="form-group">
                     <BaseButton
                       type="submit"
                       class="btn btn-primary btn-block"

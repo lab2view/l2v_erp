@@ -18,7 +18,7 @@ const getters = {
 
 const actions = {
   getInventoriesList({ commit, getters }, { page, field }) {
-    if (getters.inventories.length > 0) {
+    if (getters.inventories.length > 0 && !field.next) {
       return getters.inventories;
     }
     return inventoryService.getInventoriesList(page, field).then(({ data }) => {

@@ -27,7 +27,7 @@ const getters = {
 // privileges
 const actions = {
   getPropertiesList({ commit, getters }, { page, field }) {
-    if (getters.properties.length > 0) {
+    if (getters.properties.length > 0 && !field.next) {
       return getters.properties;
     } else
       return propertyService.getList(page, field).then(({ data }) => {
