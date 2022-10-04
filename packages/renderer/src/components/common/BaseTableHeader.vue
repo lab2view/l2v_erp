@@ -4,7 +4,7 @@
       <div class="col-sm">
         <h6>{{ title }}</h6>
       </div>
-      <div class="col-auto" v-if="canShowRefreshAction">
+      <div v-if="canShowRefreshAction" class="col-auto">
         <a href="#" class="f-w-500" @click.prevent="refreshArticles">
           <span class="fa fa-refresh m-r-5" />
           {{ $t('common.refresh') }}
