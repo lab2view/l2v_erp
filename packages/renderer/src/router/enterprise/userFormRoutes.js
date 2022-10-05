@@ -1,8 +1,9 @@
-export const userformRoutes = [
+export const userFormRoutes = [
   {
     path: '',
     name: 'enterprise.form.user.des',
-    component: () => import('/@/views/structures/enterprises/EnterpriseUserFormDesc.vue'),
+    component: () =>
+      import('/@/views/structures/enterprises/EnterpriseUserFormDesc.vue'),
     meta: {
       code: 'enterprise.form.user.desc',
       icon: 'fa fa-users',
@@ -11,7 +12,10 @@ export const userformRoutes = [
   {
     path: 'privileges',
     name: 'enterprise.form.iam.user.privileges',
-    component: () => import('/@/views/structures/enterprises/EnterpriseUserFormPrivilegesList.vue'),
+    component: () =>
+      import(
+        '/@/views/structures/enterprises/EnterpriseUserFormPrivilegesList.vue'
+      ),
     meta: {
       code: 'enterprise.form.user.privileges',
       icon: 'fa fa-info',
@@ -22,7 +26,9 @@ export const userformRoutes = [
         path: 'form',
         name: 'enterprise.form.iam.user.privileges.form',
         component: () =>
-          import('/@/views/structures/enterprises/EnterpriseUserFormPrivileges.vue'),
+          import(
+            '/@/views/structures/enterprises/EnterpriseUserFormPrivileges.vue'
+          ),
       },
     ],
   },

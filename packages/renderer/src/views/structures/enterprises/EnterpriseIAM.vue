@@ -8,7 +8,7 @@
           </div>
           <div class="col-sm-auto align-items-end">
             <router-link
-              :to="{ name: 'enterprise.form.user.des'}"
+              :to="{ name: 'enterprise.form.user.des' }"
               class="btn btn-primary"
               type="button"
             >
@@ -73,7 +73,8 @@ import BaseButton from '/@/components/common/BaseButton.vue';
 import BaseContainer from '/@/components/common/BaseContainer.vue';
 import BaseDatatable from '/@/components/common/BaseDatatable.vue';
 export default {
-  components: { BaseButton ,BaseContainer,BaseDatatable},
+  name: 'EnterpriseIAM',
+  components: { BaseButton, BaseContainer, BaseDatatable },
   beforeRouteEnter(routeTo, routeFrom, next) {
     next();
   },

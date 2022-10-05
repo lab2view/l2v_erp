@@ -11,16 +11,16 @@
 <script>
 import BaseContainer from '../../components/common/BaseContainer.vue';
 import BaseWizardStep from '../common/BaseWizardStep.vue';
-import { userformRoutes } from '/@/router/enterprise/userformRoutes';
+import { userFormRoutes } from '/@/router/enterprise/userFormRoutes.js';
 import BaseModal from '/@/components/common/BaseModal.vue';
 
 import { mapGetters } from 'vuex';
 
 export default {
+  name: 'EnterpriseUserFormLayout',
   components: { BaseWizardStep, BaseContainer, BaseModal },
   computed: {
     ...mapGetters('user', ['user']),
-
     ...mapGetters('user', ['haveUser']),
     formTitle() {
       return this.user && this.user.id
@@ -28,7 +28,7 @@ export default {
         : this.$t('iam.user.formCreateTitle');
     },
     items() {
-      let results = Object.assign([], userformRoutes);
+      let results = Object.assign([], userFormRoutes);
       return results.map((pfr) => {
         return {
           name: pfr.name,

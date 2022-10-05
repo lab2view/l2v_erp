@@ -1,5 +1,5 @@
-import store from "/@/store";
-import {userformRoutes} from "/@/router/enterprise/userformRoutes";
+import store from '/@/store';
+import { userFormRoutes } from '/@/router/enterprise/userFormRoutes.js';
 
 export const formRoutes = [
   {
@@ -33,15 +33,17 @@ export const formRoutes = [
       icon: 'fa fa-users',
       requireEnterprise: true,
     },
-    children:[
+    children: [
       {
-        path: ':id?/forms',
+        path: ':user?/forms',
         name: 'enterprise.form.iam.user',
-        component: () => import('/@/components/enterprise/EnterpriseUserFormLayout.vue'),
-        children: userformRoutes,
+        component: () =>
+          import('/@/components/enterprise/EnterpriseUserFormLayout.vue'),
+        children: userFormRoutes,
         beforeEnter: (to) => {
           if (to.params.id) {
-            return store.dispatch('user/getUser', to.params.id)
+            return store
+              .dispatch('user/getUser', to.params.user)
               .then(() => {
                 return 1;
               })
@@ -49,7 +51,6 @@ export const formRoutes = [
           }
         },
       },
-    ]
-
+    ],
   },
 ];
