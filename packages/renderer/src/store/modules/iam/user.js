@@ -82,9 +82,9 @@ const actions = {
     });
   },
 
-  updateUserPassword({commit}, userField) {
+  setUserPassword({commit}, userField) {
     return userService
-      .updateUserPassword(userField, userField.id)
+      .setUserPassword(userField, userField.id)
       .then(({data}) => {
         commit('UPDATE_USER', data);
         return data;
