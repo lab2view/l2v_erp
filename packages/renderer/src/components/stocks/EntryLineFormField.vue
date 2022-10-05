@@ -1,6 +1,10 @@
 <template>
   <tr>
-    <td>{{ article.name }}</td>
+    <td>
+      {{
+        `${article.product?.code} / ${article.product?.reference} ${article.name}`
+      }}
+    </td>
     <td v-if="stockEntryIsCommand">
       <BaseSelect
         v-model="provider_id"

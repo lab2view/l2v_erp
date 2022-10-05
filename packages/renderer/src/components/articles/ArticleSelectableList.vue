@@ -152,6 +152,7 @@ import store from '/@/store';
 import ArticleSelectableColumn from '/@/components/articles/groups/ArticleSelectableColumn.vue';
 
 export default {
+  name: 'ArticleSelectableList',
   components: { ArticleSelectableColumn, BaseButton, BaseSelect },
   beforeRouteEnter(routeTo, routeFrom, next) {
     Promise.all([

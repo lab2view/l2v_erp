@@ -90,6 +90,7 @@ import CashierSessionSaleHistory from '/@/views/sales/session/CashierSessionSale
 import FilterMixin from '/@/mixins/FilterMixin';
 
 export default defineComponent({
+  name: 'Menu',
   components: { CashierSessionSaleHistory, MenuModule },
   mixins: [SaleSessionMixin, FilterMixin],
   computed: {

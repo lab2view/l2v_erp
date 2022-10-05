@@ -47,6 +47,7 @@ import Footer from '/@/components/layouts/Footer.vue';
 import { mapGetters } from 'vuex';
 
 export default defineComponent({
+  name: 'ShopPage',
   components: { Footer, Header },
   computed: {
     ...mapGetters('workspace', ['workspaces', 'currentWorkspace']),
