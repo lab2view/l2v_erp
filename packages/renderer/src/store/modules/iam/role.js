@@ -14,23 +14,21 @@ const getters = {
     getters.actions.find((a) => a.id === id),
   searchActionsByCriteria:
     (state, getters) =>
-      // ({ module_id, action_id, keyword }) =>
-      ({ module_id, keyword }) =>
-        getters.actions.filter((c) => {
-          let result = true;
-          if (module_id)
-            result = c.module_id.toString() === module_id.toString();
-          // if (action_id)
-          //   result = c.action_id.toString() === action_id.toString();
-          if (keyword && result)
-            result = RegExp(`${keyword.toString().toLowerCase()}*`).test(
-              `${c.label.toString().toLowerCase()} ${c.code
-                .toString()
-                .toLowerCase()}`
-            );
-          return result;
-        })
-  ,
+    // ({ module_id, action_id, keyword }) =>
+    ({ module_id, keyword }) =>
+      getters.actions.filter((c) => {
+        let result = true;
+        if (module_id) result = c.module_id.toString() === module_id.toString();
+        // if (action_id)
+        //   result = c.action_id.toString() === action_id.toString();
+        if (keyword && result)
+          result = RegExp(`${keyword.toString().toLowerCase()}*`).test(
+            `${c.label.toString().toLowerCase()} ${c.code
+              .toString()
+              .toLowerCase()}`
+          );
+        return result;
+      }),
   roles: (state) => (state.roles ? JSON.parse(state.roles) : []),
   role: (state) => (state.role ? JSON.parse(state.role) : null),
   getRoleById: (state, getters) => (id) =>
@@ -41,7 +39,7 @@ const getters = {
 
 const actions = {
   getRolesList({ commit, getters }, { page, field }) {
-    if (getters.roles.length > 0) {
+    if (getters.roles.length > 0 && !field.next) {
       return getters.roles;
     } else
       return roleService.getRolesList(page, field).then(({ data }) => {
@@ -80,12 +78,10 @@ const actions = {
   },
 
   updateRole({ commit }, roleField) {
-    return roleService
-      .updateRole(roleField, roleField.id)
-      .then(({ data }) => {
-        commit('UPDATE_ROLE', data);
-        return data;
-      });
+    return roleService.updateRole(roleField, roleField.id).then(({ data }) => {
+      commit('UPDATE_ROLE', data);
+      return data;
+    });
   },
 
   deleteRole({ commit }, roleId) {
@@ -126,9 +122,7 @@ const mutations = {
   },
   DELETE_ROLE(state, roleId) {
     state.roles = JSON.stringify(
-      JSON.parse(state.roles).filter(
-        (role) => role.id !== roleId
-      )
+      JSON.parse(state.roles).filter((role) => role.id !== roleId)
     );
   },
 };

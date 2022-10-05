@@ -16,7 +16,7 @@ const getters = {
 
 const actions = {
   getRegionsList({ commit, getters }, { page, field }) {
-    if (getters.regions.length > 0) {
+    if (getters.regions.length > 0 && !field.next) {
       return getters.regions;
     } else
       return regionService.getRegionsList(page, field).then(({ data }) => {

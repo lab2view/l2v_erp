@@ -10,23 +10,29 @@ const state = {
 
 // getters
 const getters = {
-  enterpriseTypes: (state) => (state.enterpriseTypes ? JSON.parse(state.enterpriseTypes) : []),
-  enterpriseType: (state) => (state.enterpriseType ? JSON.parse(state.enterpriseType) : null),
+  enterpriseTypes: (state) =>
+    state.enterpriseTypes ? JSON.parse(state.enterpriseTypes) : [],
+  enterpriseType: (state) =>
+    state.enterpriseType ? JSON.parse(state.enterpriseType) : null,
 };
 
 const actions = {
   getEnterpriseTypesList({ commit, getters }, { page, field }) {
-    if (getters.enterpriseTypes.length > 0) {
+    if (getters.enterpriseTypes.length > 0 && !field.next) {
       return getters.enterpriseTypes;
     } else
-      return enterpriseTypeService.getEnterpriseTypesList(page, field).then(({ data }) => {
-        commit('SET_ENTERPRISE_TYPES', data);
-        return data;
-      });
+      return enterpriseTypeService
+        .getEnterpriseTypesList(page, field)
+        .then(({ data }) => {
+          commit('SET_ENTERPRISE_TYPES', data);
+          return data;
+        });
   },
 
   getEnterpriseType({ getters, commit }, id) {
-    const enterpriseType = getters.enterpriseTypes.find((p) => p.id.toString() === id);
+    const enterpriseType = getters.enterpriseTypes.find(
+      (p) => p.id.toString() === id
+    );
     if (enterpriseType !== undefined) {
       commit('SET_CURRENT_ENTERPRISE_TYPE', enterpriseType);
       return enterpriseType;
@@ -38,16 +44,18 @@ const actions = {
   },
 
   addEnterpriseType({ commit }, enterpriseTypeField) {
-    return enterpriseTypeService.addEnterpriseType(enterpriseTypeField).then(({ data }) => {
-      commit('ADD_ENTERPRISE_TYPE', data);
-      notify(
-        i18n.global.t('enterprise.enterpriseType.store'),
-        'Ok',
-        'theme',
-        'fa fa-check'
-      );
-      return data;
-    });
+    return enterpriseTypeService
+      .addEnterpriseType(enterpriseTypeField)
+      .then(({ data }) => {
+        commit('ADD_ENTERPRISE_TYPE', data);
+        notify(
+          i18n.global.t('enterprise.enterpriseType.store'),
+          'Ok',
+          'theme',
+          'fa fa-check'
+        );
+        return data;
+      });
   },
 
   updateEnterpriseType({ commit }, enterpriseTypeField) {
@@ -66,10 +74,12 @@ const actions = {
   },
 
   deleteEnterpriseType({ commit }, enterpriseTypeId) {
-    return enterpriseTypeService.deleteEnterpriseType(enterpriseTypeId).then(({ data }) => {
-      commit('DELETE_ENTERPRISE_TYPE', enterpriseTypeId);
-      return data;
-    });
+    return enterpriseTypeService
+      .deleteEnterpriseType(enterpriseTypeId)
+      .then(({ data }) => {
+        commit('DELETE_ENTERPRISE_TYPE', enterpriseTypeId);
+        return data;
+      });
   },
 };
 
@@ -79,7 +89,8 @@ const mutations = {
     state.enterpriseTypes = JSON.stringify(enterpriseTypes);
   },
   SET_CURRENT_ENTERPRISE_TYPE(state, enterpriseType) {
-    state.enterpriseType = enterpriseType === null ? null : JSON.stringify(enterpriseType);
+    state.enterpriseType =
+      enterpriseType === null ? null : JSON.stringify(enterpriseType);
   },
   ADD_ENTERPRISE_TYPE(state, enterpriseType) {
     let enterpriseTypes = JSON.parse(state.enterpriseTypes);

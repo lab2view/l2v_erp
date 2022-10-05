@@ -4,24 +4,12 @@
     :module="$t('enterprise.localizations')"
   >
     <div class="card">
-      <div class="card-header pb-2 border-bottom border-bottom-">
-        <div class="row align-items-center">
-          <div class="col-sm">
-            <h5>{{ $t('enterprise.localization.listTitle') }}</h5>
-          </div>
-          <div class="col-sm-auto align-items-end">
-            <router-link
-              :to="{ name: 'localization.form' }"
-              href="#"
-              class="btn btn-primary"
-              type="button"
-            >
-              <i class="fa fa-plus m-r-5" />
-              {{ $t('common.add') }}
-            </router-link>
-          </div>
-        </div>
-      </div>
+      <BaseTableHeader
+        :title="$t('enterprise.localization.listTitle')"
+        add-action-router-name="localization.form"
+        :refresh-action-field="{ page: 1, field: { next: true } }"
+        refresh-action-name="localization/getLocalizationsList"
+      />
       <div class="card-body">
         <BaseDatatable :tfoot="false" :total="localizations.length">
           <template #headers>
@@ -77,9 +65,10 @@ import BaseContainer from '/@/components/common/BaseContainer.vue';
 import BaseDatatable from '/@/components/common/BaseDatatable.vue';
 import store from '/@/store';
 import { mapGetters } from 'vuex';
+import BaseTableHeader from '/@/components/common/BaseTableHeader.vue';
 
 export default {
-  components: { BaseContainer, BaseDatatable },
+  components: { BaseTableHeader, BaseContainer, BaseDatatable },
   beforeRouteEnter(routeTo, routeFrom, next) {
     store
       .dispatch('localization/getLocalizationsList', {

@@ -18,7 +18,7 @@ const getters = {
 
 const actions = {
   getCountriesList({ commit, getters }, { page, field }) {
-    if (getters.countries.length > 0) {
+    if (getters.countries.length > 0 && !field.next) {
       return getters.countries;
     }
     return countryService.getCountriesList(page, field).then(({ data }) => {

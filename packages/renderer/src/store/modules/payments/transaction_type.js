@@ -18,7 +18,7 @@ const getters = {
 
 const actions = {
   getTransactionTypesList({ commit, getters }, { page, field }) {
-    if (getters.transactionTypes.length > 0) {
+    if (getters.transactionTypes.length > 0 && !field.next) {
       return getters.transactionTypes;
     } else
       return transactionTypeService
@@ -37,10 +37,12 @@ const actions = {
       commit('SET_CURRENT_TRANSACTION_TYPE', transactionType);
       return transactionType;
     } else
-      return transactionTypeService.getPaymentTransactionType(id).then(({ data }) => {
-        commit('SET_CURRENT_TRANSACTION_TYPE', data);
-        return data;
-      });
+      return transactionTypeService
+        .getPaymentTransactionType(id)
+        .then(({ data }) => {
+          commit('SET_CURRENT_TRANSACTION_TYPE', data);
+          return data;
+        });
   },
 
   addTransactionType({ commit }, transactionTypeField) {
@@ -60,7 +62,10 @@ const actions = {
 
   updateTransactionType({ commit }, transactionTypeField) {
     return transactionTypeService
-      .updatePaymentTransactionType(transactionTypeField, transactionTypeField.id)
+      .updatePaymentTransactionType(
+        transactionTypeField,
+        transactionTypeField.id
+      )
       .then(({ data }) => {
         notify(
           i18n.global.t('payments.transactionType.update'),
@@ -98,7 +103,9 @@ const mutations = {
   },
   UPDATE_TRANSACTION_TYPE(state, transactionType) {
     let transactionTypes = JSON.parse(state.transactionTypes);
-    const index = transactionTypes.findIndex((p) => p.id === transactionType.id);
+    const index = transactionTypes.findIndex(
+      (p) => p.id === transactionType.id
+    );
     if (index !== -1) {
       transactionTypes.splice(index, 1, transactionType);
       state.transactionTypes = JSON.stringify(transactionTypes);
@@ -106,7 +113,9 @@ const mutations = {
   },
   DELETE_TRANSACTION_TYPE(state, transactionTypeId) {
     state.transactionTypes = JSON.stringify(
-      JSON.parse(state.transactionTypes).filter((p) => p.id !== transactionTypeId)
+      JSON.parse(state.transactionTypes).filter(
+        (p) => p.id !== transactionTypeId
+      )
     );
   },
 };

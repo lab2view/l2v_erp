@@ -11,24 +11,20 @@ const state = {
 // getters
 const getters = {
   cashierGroups: (state) =>
-    state.cashierGroups
-      ? JSON.parse(state.cashierGroups)
-      : [],
+    state.cashierGroups ? JSON.parse(state.cashierGroups) : [],
   cashierGroup: (state) =>
-    state.cashierGroup
-      ? JSON.parse(state.cashierGroup)
-      : null,
+    state.cashierGroup ? JSON.parse(state.cashierGroup) : null,
 };
 
 // privileges
 const actions = {
   getCashierGroupsList({ commit, getters }, { page, field }) {
-    if (getters.cashierGroups.length > 0) {
+    if (getters.cashierGroups.length > 0 && !field.next) {
       return getters.cashierGroups;
     }
     return cashierGroupService
       .getCashierGroupsList(page, field)
-      .then(({data}) => {
+      .then(({ data }) => {
         commit('SET_CASHIER_GROUPS', data);
         return data;
       });
@@ -42,12 +38,10 @@ const actions = {
       commit('SET_CURRENT_CASHIER_GROUP', cashierGroup);
       return cashierGroup;
     }
-    return cashierGroupService
-      .getCashierGroup(id)
-      .then(({ data }) => {
-        commit('SET_CURRENT_CASHIER_GROUP', data);
-        return data;
-      });
+    return cashierGroupService.getCashierGroup(id).then(({ data }) => {
+      commit('SET_CURRENT_CASHIER_GROUP', data);
+      return data;
+    });
   },
 
   addCashierGroup({ commit }, cashierGroupField) {
@@ -67,10 +61,7 @@ const actions = {
 
   updateCashierGroup({ commit }, cashierGroupField) {
     return cashierGroupService
-      .updateCashierGroup(
-        cashierGroupField,
-        cashierGroupField.id
-      )
+      .updateCashierGroup(cashierGroupField, cashierGroupField.id)
       .then(({ data }) => {
         commit('UPDATE_CASHIER_GROUP', data);
         notify(
@@ -108,9 +99,7 @@ const mutations = {
   },
   UPDATE_CASHIER_GROUP(state, cashierGroup) {
     let cashierGroups = JSON.parse(state.cashierGroups);
-    const index = cashierGroups.findIndex(
-      (p) => p.id === cashierGroup.id
-    );
+    const index = cashierGroups.findIndex((p) => p.id === cashierGroup.id);
     if (index !== -1) {
       cashierGroups.splice(index, 1, cashierGroup);
       state.cashierGroups = JSON.stringify(cashierGroups);
@@ -118,9 +107,7 @@ const mutations = {
   },
   DELETE_CASHIER_GROUP(state, cashierGroupId) {
     state.cashierGroups = JSON.stringify(
-      JSON.parse(state.cashierGroups).filter(
-        (p) => p.id !== cashierGroupId
-      )
+      JSON.parse(state.cashierGroups).filter((p) => p.id !== cashierGroupId)
     );
   },
 };
