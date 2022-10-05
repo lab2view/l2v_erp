@@ -21,6 +21,10 @@ export default {
     return axios.post(`/users/change-password/${id}`, user);
   },
 
+  setUserPassword(user, id) {
+    return axios.post(`/users/set-password/${id}`, user);
+  },
+
   deleteUser(id) {
     return axios.delete(`/users/${id}`);
   },
