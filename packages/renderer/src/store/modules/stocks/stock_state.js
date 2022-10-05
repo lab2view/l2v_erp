@@ -19,7 +19,7 @@ const getters = {
 
 const actions = {
   getStockStatesList({ commit, getters }, { page, field }) {
-    if (getters.stock_states.length > 0) {
+    if (getters.stock_states.length > 0 && !field.next) {
       return getters.stock_states;
     }
     return stockStateService

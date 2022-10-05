@@ -50,15 +50,38 @@ const getters = {
 };
 
 const actions = {
-  getStockEntriesList({ commit, getters }, { page, field }) {
-    if (getters.stock_entries.length > 0) {
+  getStockEntriesList({ commit, getters, dispatch }, { page, field }) {
+    if (getters.stock_entries.length > 0 && !field.next) {
       return getters.stock_entries;
     }
     return stockEntryService
-      .getStockEntriesList(page, field)
+      .getStockEntriesList(page, { ...field, paginate: 20 })
       .then(({ data }) => {
         commit('SET_STOCK_ENTRIES', data);
+
+        dispatch(
+          'setGlobalProgress',
+          {
+            label: 'Entry stocks',
+            min: 0,
+            max: data.last_page,
+            value: data.current_page,
+          },
+          { root: true }
+        );
+
+        if (data.next_page_url) {
+          return dispatch('getStockEntriesList', {
+            page: page + 1,
+            field: { ...field, next: true },
+          });
+        } else dispatch('setGlobalProgress', null, { root: true });
+
         return data;
+      })
+      .catch((error) => {
+        commit('SET_STOCK_ENTRIES', []);
+        return Promise.reject(error);
       });
   },
 
@@ -205,8 +228,12 @@ const mutations = {
   SET_STOCKS_HASH(state, hash) {
     state.hash = hash;
   },
-  SET_STOCK_ENTRIES(state, stock_entries) {
-    state.stock_entries = JSON.stringify(stock_entries);
+  SET_STOCK_ENTRIES(state, { current_page, data }) {
+    if (current_page === 1) state.stock_entries = JSON.stringify(data);
+    else {
+      let oldItems = state.stock_entries ? JSON.parse(state.stock_entries) : [];
+      state.stock_entries = JSON.stringify([...oldItems, ...data]);
+    }
   },
   SET_CURRENT_STOCK_ENTRY(state, stockEntry) {
     state.stockEntry = stockEntry ? JSON.stringify(stockEntry) : null;

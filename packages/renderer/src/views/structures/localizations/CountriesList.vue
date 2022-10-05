@@ -4,36 +4,13 @@
     :title="$t('enterprise.title')"
   >
     <div class="card">
-      <div class="card-header pb-2 border-bottom border-bottom-">
-        <div class="row align-items-center">
-          <div class="col-sm">
-            <h5>{{ $t('enterprise.country.listTitle') }}</h5>
-          </div>
-          <div class="col-sm-auto align-items-end">
-            <router-link
-              :to="{ name: 'country.activate' }"
-              class="btn btn-primary"
-              href="#"
-              type="button"
-            >
-              <i class="fa fa-pencil m-r-5" />
-              {{ $t('enterprise.country.activate_country') }}
-            </router-link>
-            <!--
-                      <div class="col-sm-auto align-items-end">
-                        <router-link
-                          :to="{ name: 'country.form' }"
-                          href="#"
-                          class="btn btn-primary"
-                          type="button"
-                        >
-                          <i class="fa fa-plus m-r-5" />
-                          {{ $t('common.add') }}
-                        </router-link>
-            -->
-          </div>
-        </div>
-      </div>
+      <BaseTableHeader
+        :title="$t('enterprise.country.listTitle')"
+        add-action-router-name="country.activate"
+        add-action-label="enterprise.country.activate_country"
+        :refresh-action-field="{ page: 1, field: { next: true } }"
+        refresh-action-name="country/getCountriesList"
+      />
       <div class="card-body">
         <BaseDatatable :tfoot="false" :total="activeCountries.length">
           <template #headers>
@@ -74,9 +51,10 @@ import BaseContainer from '/@/components/common/BaseContainer.vue';
 import BaseDatatable from '/@/components/common/BaseDatatable.vue';
 import store from '/@/store';
 import { mapGetters } from 'vuex';
+import BaseTableHeader from '/@/components/common/BaseTableHeader.vue';
 
 export default {
-  components: { BaseContainer, BaseDatatable },
+  components: { BaseTableHeader, BaseContainer, BaseDatatable },
   beforeRouteEnter(routeTo, routeFrom, next) {
     store
       .dispatch('country/getCountriesList', {

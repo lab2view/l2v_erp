@@ -1,23 +1,12 @@
 <template>
   <BaseContainer :module="$t('menu.modules.iam')" :title="$t('iam.title')">
     <div class="card">
-      <div class="card-header pb-2 border-bottom border-bottom-">
-        <div class="row align-items-center">
-          <div class="col-sm">
-            <h5>{{ $t('iam.user.listTitle') }}</h5>
-          </div>
-          <div class="col-sm-auto align-items-end">
-            <router-link
-              :to="{ name: 'iam.user.form.desc' }"
-              class="btn btn-primary"
-              type="button"
-            >
-              <i class="fa fa-plus m-r-5" />
-              {{ $t('common.add') }}
-            </router-link>
-          </div>
-        </div>
-      </div>
+      <BaseTableHeader
+        :title="$t('iam.user.listTitle')"
+        add-action-router-name="iam.user.form.desc"
+        :refresh-action-field="{ page: 1, field: { next: true } }"
+        refresh-action-name="user/getUsersList"
+      />
       <div class="card-body">
         <BaseDatatable :tfoot="false" :total="users.length">
           <template #headers>
@@ -78,9 +67,10 @@ import BaseContainer from '/@/components/common/BaseContainer.vue';
 import BaseDatatable from '/@/components/common/BaseDatatable.vue';
 import store from '/@/store';
 import { mapGetters } from 'vuex';
+import BaseTableHeader from '/@/components/common/BaseTableHeader.vue';
 
 export default {
-  components: { BaseContainer, BaseDatatable },
+  components: { BaseTableHeader, BaseContainer, BaseDatatable },
   beforeRouteEnter(routeTo, routeFrom, next) {
     store
       .dispatch('user/getUsersList', {

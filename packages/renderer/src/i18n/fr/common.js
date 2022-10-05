@@ -21,6 +21,9 @@ export default {
   close: 'Fermer',
   delete: 'Supprimer',
   delete_all: 'Tout Supprimer',
+  send: 'Envoyer',
+  verify: 'Verifier',
+  resend: 'Renvoyer',
   save: 'Enregistrer',
   find: 'Rechercher',
   update: 'Modifier',
@@ -84,6 +87,7 @@ export default {
   result_count: 'Environ {count} résultat(s) ',
   not_specify: 'Non specifie',
   unlock: 'Deverouiller',
+  refresh: 'Actualiser',
 
   sale: {
     list: 'Liste des ventes',

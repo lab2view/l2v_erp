@@ -46,14 +46,39 @@ const getters = {
 
 // privileges
 const actions = {
-  getStockExitsList({ commit, getters }, { page, field }) {
-    if (getters.stock_exits.length > 0) {
+  getStockExitsList({ commit, getters, dispatch }, { page, field }) {
+    if (getters.stock_exits.length > 0 && !field.next) {
       return getters.stock_exits;
     } else
-      return stockExitService.getList(page, field).then(({ data }) => {
-        commit('SET_STOCK_EXITS', data);
-        return data;
-      });
+      return stockExitService
+        .getList(page, { ...field, paginate: 20 })
+        .then(({ data }) => {
+          commit('SET_STOCK_EXITS', data);
+
+          dispatch(
+            'setGlobalProgress',
+            {
+              label: 'Exit stocks',
+              min: 0,
+              max: data.last_page,
+              value: data.current_page,
+            },
+            { root: true }
+          );
+
+          if (data.next_page_url) {
+            return dispatch('getStockExitsList', {
+              page: page + 1,
+              field: { ...field, next: true },
+            });
+          } else dispatch('setGlobalProgress', null, { root: true });
+
+          return data;
+        })
+        .catch((error) => {
+          commit('SET_STOCK_EXITS', []);
+          return Promise.reject(error);
+        });
   },
 
   getStockExit({ getters, commit }, id) {
@@ -160,8 +185,12 @@ const actions = {
 
 // mutations
 const mutations = {
-  SET_STOCK_EXITS(state, stock_exits) {
-    state.stock_exits = JSON.stringify(stock_exits);
+  SET_STOCK_EXITS(state, { current_page, data }) {
+    if (current_page === 1) state.stock_exits = JSON.stringify(data);
+    else {
+      let oldItems = state.stock_exits ? JSON.parse(state.stock_exits) : [];
+      state.stock_exits = JSON.stringify([...oldItems, ...data]);
+    }
   },
   SET_CURRENT_STOCK_EXIT(state, stockExit) {
     state.stockExit = stockExit ? JSON.stringify(stockExit) : null;

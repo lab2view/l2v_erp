@@ -18,7 +18,7 @@ const getters = {
 // privileges
 const actions = {
   getPackageList({ commit, getters }, { page, field }) {
-    if (getters.packages.length > 0) {
+    if (getters.packages.length > 0 && !field.next) {
       return getters.packages;
     } else
       return packageService.getList(page, field).then(({ data }) => {

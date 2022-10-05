@@ -11,10 +11,8 @@ const state = {
 
 // getters
 const getters = {
-  providers: (state) =>
-    state.providers ? JSON.parse(state.providers) : [],
-  provider: (state) =>
-    state.provider ? JSON.parse(state.provider) : null,
+  providers: (state) => (state.providers ? JSON.parse(state.providers) : []),
+  provider: (state) => (state.provider ? JSON.parse(state.provider) : null),
   getProviderById: (state, getters) => (id) =>
     getters.providers.find((p) => p.id === id),
 };
@@ -22,7 +20,7 @@ const getters = {
 // privileges
 const actions = {
   getStockProvidersList({ commit, getters }, { page, field }) {
-    if (getters.providers.length > 0) {
+    if (getters.providers.length > 0 && !field.next) {
       return getters.providers;
     } else
       return providerService.getProvidersList(page, field).then(({ data }) => {
@@ -32,9 +30,7 @@ const actions = {
   },
 
   getStockProvider({ getters, commit }, id) {
-    const provider = getters.providers.find(
-      (p) => p.id.toString() === id
-    );
+    const provider = getters.providers.find((p) => p.id.toString() === id);
     if (provider !== undefined) {
       commit('SET_CURRENT_PROVIDER', provider);
       return provider;
@@ -104,9 +100,7 @@ const mutations = {
   },
   DELETE_PROVIDER(state, providerId) {
     state.providers = JSON.stringify(
-      JSON.parse(state.providers).filter(
-        (p) => p.id !== providerId
-      )
+      JSON.parse(state.providers).filter((p) => p.id !== providerId)
     );
   },
 };

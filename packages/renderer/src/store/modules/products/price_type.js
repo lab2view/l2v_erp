@@ -20,7 +20,7 @@ const getters = {
 // privileges
 const actions = {
   getPriceTypeList({ commit, getters }, { page, field }) {
-    if (getters.priceTypes.length > 0) {
+    if (getters.priceTypes.length > 0 && !field.next) {
       return getters.priceTypes;
     } else
       return priceTypeService.getList(page, field).then(({ data }) => {

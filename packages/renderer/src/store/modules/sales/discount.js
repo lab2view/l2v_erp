@@ -36,7 +36,7 @@ const getters = {
 // privileges
 const actions = {
   getDiscountsList({ commit, getters }, { page, field }) {
-    if (getters.discounts.length > 0) {
+    if (getters.discounts.length > 0 && !field.next) {
       return getters.discounts;
     }
     return discountService.getDiscountsList(page, field).then(({ data }) => {

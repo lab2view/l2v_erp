@@ -29,6 +29,7 @@ import BaseFormModal from '../../../../components/common/BaseFormModal.vue';
 import { mapGetters } from 'vuex';
 
 export default {
+  name: 'PackageForm',
   components: { BaseFormModal },
   data() {
     return {
