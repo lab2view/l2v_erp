@@ -161,7 +161,7 @@
         <div class="col-md">
           <BaseInputGroup
             v-model="userForm.password_confirmation"
-            :label="$t('common.attributes.password')"
+            :label="$t('common.attributes.password_confirmation')"
             placeholder="********"
             :errors="errors?.password_confirmation"
             required
@@ -315,7 +315,7 @@ export default {
               this.userForm.password === this.userForm.password_confirmation
             ) {
               this.$store
-                .dispatch('user/updateUserPassword', this.userForm)
+                .dispatch('user/setUserPassword', this.userForm)
                 .then((user) =>
                   this.$router.push({
                     name: 'iam.user.form.privileges',
