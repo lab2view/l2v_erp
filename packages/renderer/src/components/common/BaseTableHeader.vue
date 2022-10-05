@@ -11,7 +11,7 @@
         </a>
         <router-link
           v-if="addActionRouterName"
-          :to="{ name: addActionRouterName }"
+          :to="{ name: addActionRouterName, query }"
           href="#"
           class="btn btn-primary btn-sm m-l-30"
           type="button"
@@ -47,6 +47,10 @@ export default {
     addActionLabel: {
       type: String,
       default: 'common.add',
+    },
+    query: {
+      type: Object,
+      default: null,
     },
   },
   computed: {

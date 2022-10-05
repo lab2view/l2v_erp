@@ -1,6 +1,3 @@
-import store from '/@/store';
-import { userFormRoutes } from '/@/router/enterprise/userFormRoutes.js';
-
 export const formRoutes = [
   {
     path: 'description',
@@ -33,24 +30,5 @@ export const formRoutes = [
       icon: 'fa fa-users',
       requireEnterprise: true,
     },
-    children: [
-      {
-        path: ':user?/forms',
-        name: 'enterprise.form.iam.user',
-        component: () =>
-          import('/@/components/enterprise/EnterpriseUserFormLayout.vue'),
-        children: userFormRoutes,
-        beforeEnter: (to) => {
-          if (to.params.id) {
-            return store
-              .dispatch('user/getUser', to.params.user)
-              .then(() => {
-                return 1;
-              })
-              .catch(() => -1);
-          }
-        },
-      },
-    ],
   },
 ];

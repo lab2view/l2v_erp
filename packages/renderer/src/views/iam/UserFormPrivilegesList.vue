@@ -4,9 +4,9 @@
     <div class="card-header pb-0">
       <div class="row align-items-center">
         <div class="col-sm">
-          <h5>
+          <h6>
             {{ `${$t('iam.user.privileges')} - ${fullName}` }}
-          </h5>
+          </h6>
         </div>
         <div
           v-if="$route.name === 'iam.user.form.privileges'"
@@ -14,7 +14,7 @@
         >
           <BaseButton
             type="button"
-            class="btn btn-outline-danger m-r-5"
+            class="btn btn-sm btn-outline-danger m-r-5"
             :disabled="!isSelected"
             icon="fa fa-trash-o"
             :text="$t('common.delete_all')"
@@ -22,8 +22,12 @@
             @click.prevent="deleteSelectedUserPrivileges"
           />
           <router-link
-            :to="{ name: 'iam.user.form.privileges.form' }"
-            class="btn btn-primary"
+            :to="{
+              name: 'iam.user.form.privileges.form',
+              params: $route.params,
+              query: $route.query,
+            }"
+            class="btn btn-sm btn-primary"
             type="button"
           >
             <i class="fa fa-plus m-r-5" />
@@ -109,6 +113,7 @@ import BaseButton from '/@/components/common/BaseButton.vue';
 import { mapGetters } from 'vuex';
 
 export default {
+  name: 'UserFormPrivilegesList',
   components: { ActionLineSelectable, BaseButton },
   data() {
     return {

@@ -52,6 +52,7 @@ import BaseFormModal from '/@/components/common/BaseFormModal.vue';
 import { mapGetters } from 'vuex';
 
 export default {
+  name: 'EnterpriseTypeForm',
   components: { BaseFormModal },
   data() {
     return {

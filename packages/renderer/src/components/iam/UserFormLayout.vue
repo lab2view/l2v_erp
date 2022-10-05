@@ -1,8 +1,5 @@
 <template>
-  <BaseContainer
-    :module="$t('menu.modules.iam')"
-    :title="$t('iam.title')"
-  >
+  <BaseContainer :module="$t('menu.modules.iam')" :title="$t('iam.title')">
     <div class="card">
       <BaseWizardStep :links="items" />
     </div>
@@ -16,6 +13,7 @@ import { formRoutes } from '/@/router/iam/formRoutes';
 import { mapGetters } from 'vuex';
 
 export default {
+  name: 'UserFormLayout',
   components: { BaseWizardStep, BaseContainer },
   computed: {
     ...mapGetters('user', ['haveUser']),
