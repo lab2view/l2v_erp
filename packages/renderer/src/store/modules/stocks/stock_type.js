@@ -13,13 +13,15 @@ const getters = {
   },
   stockType: (state) => (state.stockType ? JSON.parse(state.stockType) : null),
   getListByTypeFor: (state, getters) => (typeFor) => {
-    return getters.stock_types.filter((st) => st.type_for === typeFor);
+    return getters.stock_types.filter(
+      (st) => st.type_for === typeFor || st.type_for === null
+    );
   },
 };
 
 const actions = {
   getStockTypesList({ commit, getters }, { page, field }) {
-    if (getters.stock_types.length > 0) {
+    if (getters.stock_types.length > 0 && !field.next) {
       return getters.stock_types;
     }
     return stockTypeService.getStockTypesList(page, field).then(({ data }) => {

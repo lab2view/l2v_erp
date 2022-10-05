@@ -1,5 +1,7 @@
 <template>
   <!--Loader starts-->
+  <!--
+  />-->
   <Loader />
   <!-- Loader ends-->
   <!-- page-wrapper Start-->
@@ -11,13 +13,10 @@
 // import Echo from 'laravel-echo';
 import { defineComponent } from 'vue';
 import Loader from '/@/components/Loader.vue';
-
 export default defineComponent({
-  name: 'App',
   components: {
     Loader,
   },
-
   mounted() {
     setTimeout(() => {
       (async () => {
@@ -25,9 +24,6 @@ export default defineComponent({
           await this.$loadScript(`./src/assets/js/jquery-3.5.1.min.js`),
           await this.$loadScript(
             `./src/assets/js/icons/feather-icon/feather.min.js`
-          ),
-          await this.$loadScript(
-            `./src/assets/js/icons/feather-icon/feather-icon.js`
           ),
           await this.$loadScript(
             `./src/assets/js/notify/bootstrap-notify.min.js`
@@ -58,6 +54,7 @@ export default defineComponent({
 @import './assets/css/style.css';
 @import './assets/css/responsive.css';
 @import './assets/css/color-1.css';
+/*@import './assets/css/prism.css';*/
 
 .absolute-top {
   z-index: 10000;

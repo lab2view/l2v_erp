@@ -1,6 +1,9 @@
 import articleService from '../../../services/articles/ArticleService';
 import { notify } from '/@/helpers/notify.js';
 import i18n from '../../../i18n';
+import { unitPackageCode } from '/@/helpers/codes.js';
+import { getStockExitLineArticleStock } from '/@/helpers/utils.js';
+import fileService from '/@/services/FileService.js';
 
 const state = {
   articles: null,
@@ -10,6 +13,17 @@ const state = {
 // getters
 const getters = {
   articles: (state) => (state.articles ? JSON.parse(state.articles) : []),
+  sell_articles: (state, getters) =>
+    getters.articles
+      .filter((a) => a.package.code === unitPackageCode)
+      .map((a) => {
+        return {
+          ...a,
+          name: `(${(getStockExitLineArticleStock(a) / 6).toFixed(2)}) ${
+            a.product.code
+          } / ${a.product.reference} - ${a.name}`,
+        };
+      }),
   article: (state) => (state.article ? JSON.parse(state.article) : null),
   getArticleByProductId: (state, getters) => (product_id) =>
     getters.articles.filter((a) => a.product_id === product_id),
@@ -22,31 +36,58 @@ const getters = {
         let result = true;
         if (getters.article?.id) result = a.id !== getters.article.id;
         if (product_type_id)
-          result = a.product.product_type_id.toString() === product_type_id;
-        if (product_id) result = a.product_id.toString() === product_id;
-        if (keyword)
-          result = RegExp(`${keyword.toString().toLowerCase()}*`).test(
-            a.name.toString().toLowerCase()
+          result = a.product.product_type_id === product_type_id;
+        if (product_id) result = a.product_id === product_id;
+        if (keyword) {
+          result = RegExp(`${keyword.toString().toUpperCase()}*`).test(
+            `${a.name.toString().toUpperCase()} ${a.product.reference} ${
+              a.product.code
+            }`
           );
+        }
         return result;
       }),
 };
 // privileges
 const actions = {
-  getArticlesList({ commit, getters }, { page, field }) {
-    if (getters.articles.length > 0) {
+  getArticlesList({ commit, getters, dispatch }, { page, field }) {
+    if (getters.articles.length > 0 && !field.next) {
       return getters.articles;
-    } else
+    } else {
       return articleService
-        .getList(page, field)
+        .getList(page, { ...field, paginate: 50 })
         .then(({ data }) => {
           commit('SET_ARTICLES', data);
+
+          dispatch(
+            'setGlobalProgress',
+            {
+              label: 'articles',
+              min: 0,
+              max: data.last_page,
+              value: data.current_page,
+            },
+            { root: true }
+          );
+
+          if (data.next_page_url) {
+            return dispatch('getArticlesList', {
+              page: page + 1,
+              field: { ...field, next: true },
+            });
+          } else dispatch('setGlobalProgress', null, { root: true });
+
           return data;
         })
         .catch((error) => {
           commit('SET_ARTICLES', []);
-          Promise.reject(error);
+          return Promise.reject(error);
         });
+    }
+  },
+
+  searchArticles(context, { page, field }) {
+    return articleService.getList(page, field);
   },
 
   getArticle({ getters, commit }, id) {
@@ -64,7 +105,12 @@ const actions = {
   addArticle({ commit }, articleField) {
     return articleService.add(articleField).then(({ data }) => {
       commit('ADD_ARTICLE', data);
-      notify(i18n.global.t('articles.form.store'), 'Ok', 'theme', 'fa fa-check');
+      notify(
+        i18n.global.t('articles.form.store'),
+        'Ok',
+        'theme',
+        'fa fa-check'
+      );
       return data;
     });
   },
@@ -171,23 +217,54 @@ const actions = {
       commit('MAKE_DECOMPOSITION', data.lot);
     });
   },
+
+  addImages({ commit }, { article_id, formData }) {
+    return fileService
+      .addArticleImages(article_id, formData)
+      .then(({ data }) => {
+        commit('UPDATE_ARTICLE', data);
+      });
+  },
+  setArticleMediaAsCover({ commit }, { article_id, media_id }) {
+    return fileService
+      .setArticleImageAsCover(article_id, media_id)
+      .then(({ data }) => {
+        commit('UPDATE_ARTICLE', data);
+      });
+  },
+  deleteImages({ commit }, { article_id, mediaIds }) {
+    return fileService
+      .removeArticleImages(article_id, {
+        media_ids: [...mediaIds],
+      })
+      .then(({ data }) => {
+        commit('UPDATE_ARTICLE', data);
+      });
+  },
 };
 
 // mutations
 const mutations = {
-  SET_ARTICLES(state, articles) {
-    state.articles = JSON.stringify(articles);
+  SET_ARTICLES(state, { current_page, data }) {
+    if (current_page === 1) state.articles = JSON.stringify(data);
+    else {
+      let oldArticles = state.articles ? JSON.parse(state.articles) : [];
+      state.articles = JSON.stringify([...oldArticles, ...data]);
+    }
+  },
+  SET_SEARCH_ARTICLES(state, { data }) {
+    state.search_results = data?.length ? JSON.stringify(data) : null;
   },
   SET_CURRENT_ARTICLE(state, article) {
     state.article = article === null ? null : JSON.stringify(article);
   },
   ADD_ARTICLE(state, article) {
-    let articles = JSON.parse(state.articles);
+    let articles = state.articles ? JSON.parse(state.articles) : [];
     articles.push(article);
     state.articles = JSON.stringify(articles);
   },
   UPDATE_ARTICLE(state, article) {
-    let articles = JSON.parse(state.articles);
+    let articles = state.articles ? JSON.parse(state.articles) : [];
     const index = articles.findIndex((a) => a.id === article.id);
     if (index !== -1) {
       articles.splice(index, 1, article);
@@ -195,11 +272,10 @@ const mutations = {
     }
   },
   UPDATE_ARTICLE_STOCK(state, article) {
-    let articles = JSON.parse(state.articles);
+    let articles = state.articles ? JSON.parse(state.articles) : [];
     const index = articles.findIndex((a) => a.id === article.id);
     if (index !== -1) {
       articles.splice(index, 1, { ...articles[index], stock: article.stock });
-      console.log(article);
       state.articles = JSON.stringify(articles);
     }
   },
@@ -215,7 +291,7 @@ const mutations = {
   },
 
   ADD_PRICES(state, prices) {
-    let articles = JSON.parse(state.articles);
+    let articles = state.articles ? JSON.parse(state.articles) : [];
     let article = JSON.parse(state.article);
     let index = articles.findIndex((a) => a.id === article.id);
     if (index !== -1) {
@@ -226,7 +302,7 @@ const mutations = {
     }
   },
   UPDATE_PRICE(state, price) {
-    let articles = JSON.parse(state.articles);
+    let articles = state.articles ? JSON.parse(state.articles) : [];
     let article = JSON.parse(state.article);
     let index = articles.findIndex((a) => a.id === article.id);
     if (index !== -1) {
@@ -240,7 +316,7 @@ const mutations = {
     }
   },
   REMOVE_PRICES(state, prices) {
-    let articles = JSON.parse(state.articles);
+    let articles = state.articles ? JSON.parse(state.articles) : [];
     let article = JSON.parse(state.article);
     let index = articles.findIndex((a) => a.id === article.id);
     if (index !== -1) {
@@ -254,7 +330,7 @@ const mutations = {
   },
 
   ADD_COMPOSITION_PRESETS(state, composition_presets) {
-    let articles = JSON.parse(state.articles);
+    let articles = state.articles ? JSON.parse(state.articles) : [];
     let article = JSON.parse(state.article);
     let index = articles.findIndex((a) => a.id === article.id);
     if (index !== -1) {
@@ -268,7 +344,7 @@ const mutations = {
     }
   },
   UPDATE_COMPOSITION_PRESET(state, compositionPreset) {
-    let articles = JSON.parse(state.articles);
+    let articles = state.articles ? JSON.parse(state.articles) : [];
     let article = JSON.parse(state.article);
     let index = articles.findIndex((a) => a.id === article.id);
     if (index !== -1) {
@@ -284,7 +360,7 @@ const mutations = {
     }
   },
   REMOVE_COMPOSITION_PRESETS(state, composition_presets_ids) {
-    let articles = JSON.parse(state.articles);
+    let articles = state.articles ? JSON.parse(state.articles) : [];
     let article = JSON.parse(state.article);
     let index = articles.findIndex((a) => a.id === article.id);
     if (index !== -1) {
@@ -298,7 +374,7 @@ const mutations = {
   },
 
   ADD_COMPOSITIONS(state, compositions) {
-    let articles = JSON.parse(state.articles);
+    let articles = state.articles ? JSON.parse(state.articles) : [];
     let article = JSON.parse(state.article);
     let index = articles.findIndex((a) => a.id === article.id);
     if (index !== -1) {
@@ -318,7 +394,7 @@ const mutations = {
   },
 
   MAKE_DECOMPOSITION(state, lot) {
-    let articles = JSON.parse(state.articles);
+    let articles = state.articles ? JSON.parse(state.articles) : [];
     let article = JSON.parse(state.article);
     let index = articles.findIndex((a) => a.id === article.id);
     if (index !== -1) {

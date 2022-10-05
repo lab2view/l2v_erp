@@ -17,69 +17,103 @@ const getters = {
 };
 
 const actions = {
-  getUsersList({ commit, getters }, { page, field }) {
-    if (getters.users.length > 0) {
+  getUsersList({commit, getters, dispatch}, {page, field}) {
+    if (getters.users.length > 0 && !field.next) {
       return getters.users;
     } else
-      return userService.getUsersList(page, field).then(({ data }) => {
-        commit('SET_USERS', data);
-        return data;
-      });
+      return userService
+        .getUsersList(page, field)
+        .then(({data}) => {
+          commit('SET_USERS', data);
+
+          dispatch(
+            'setGlobalProgress',
+            {
+              label: 'users',
+              min: 0,
+              max: data.last_page,
+              value: data.current_page,
+            },
+            {root: true}
+          );
+
+          if (data.next_page_url) {
+            return dispatch('getUsersList', {
+              page: page + 1,
+              field: {...field, next: true},
+            });
+          } else dispatch('setGlobalProgress', null, {root: true});
+
+          return data;
+        })
+        .catch((error) => {
+          commit('SET_USERS', []);
+          return Promise.reject(error);
+        });
   },
 
-  getUser({ getters, commit }, id) {
+  getUser({getters, commit}, id) {
     const user = getters.users.find((p) => p.id.toString() === id);
     if (user !== undefined) {
       commit('SET_CURRENT_USER', user);
       return user;
     } else
-      return userService.getUser(id).then(({ data }) => {
+      return userService.getUser(id).then(({data}) => {
         commit('SET_CURRENT_USER', data);
         return data;
       });
   },
 
-  addUserPrivileges({ getters, commit }, id) {
-    const user = getters.users.find((p) => p.id.toString() === id);
-    if (user !== undefined) {
-      commit('SET_CURRENT_USER', user);
-      return user;
-    } else
-      return userService.getUser(id).then(({ data }) => {
-        commit('SET_CURRENT_USER', data);
-        return data;
+  addUserPrivileges({getters, commit}, actions) {
+    return userService
+      .addUserPrivileges(actions, getters.user.id)
+      .then(({data}) => {
+        commit('ADD_USER_PRIVILEGES', data.actions);
       });
   },
 
-  removeUserPrivileges({ commit }, userPrivilegeField) {
-    return userService.addUserPrivilege(userPrivilegeField).then(({ data }) => {
-      commit('UPDATE_USER_PRIVILEGE', data);
-      return data;
-    });
+  removeUserPrivileges({getters, commit}, actions) {
+    return userService
+      .removeUserPrivileges(
+        {
+          actions_ids: [...actions],
+        },
+        getters.user.id
+      )
+      .then(() => {
+        commit('REMOVE_USER_PRIVILEGES', actions);
+      });
   },
 
-  addUser({ commit }, userField) {
-    return userService.addUser(userField).then(({ data }) => {
+  addUser({commit}, userField) {
+    return userService.addUser(userField).then(({data}) => {
       commit('ADD_USER', data);
       commit('SET_CURRENT_USER', data);
       return data;
     });
   },
 
-  updateUser({ commit }, userField) {
-    return userService
-      .updateUser(userField, userField.id)
-      .then(({ data }) => {
-        commit('UPDATE_USER', data);
-        return data;
-      });
+  updateUser({commit}, userField) {
+    return userService.updateUser(userField, userField.id).then(({data}) => {
+      commit('UPDATE_USER', data);
+      return data;
+    });
   },
 
-  deleteUser({ commit }, userId) {
-    return userService.deleteUser(userId).then(({ data }) => {
+  deleteUser({commit}, userId) {
+    return userService.deleteUser(userId).then(({data}) => {
       commit('DELETE_USER', userId);
       return data;
     });
+  },
+
+  setUserPassword({commit}, userField) {
+    return userService
+      .setUserPassword(userField, userField.id)
+      .then(({data}) => {
+        commit('UPDATE_USER', data);
+        return data;
+      });
   },
 };
 
@@ -88,8 +122,12 @@ const mutations = {
   SET_IAM_HASH(state, hash) {
     state.hash = hash;
   },
-  SET_USERS(state, users) {
-    state.users = JSON.stringify(users);
+  SET_USERS(state, {current_page, data}) {
+    if (current_page === 1) state.users = JSON.stringify(data);
+    else {
+      let oldArticles = state.users ? JSON.parse(state.users) : [];
+      state.users = JSON.stringify([...oldArticles, ...data]);
+    }
   },
   SET_CURRENT_USER(state, user) {
     state.user = user === null ? null : JSON.stringify(user);
@@ -108,25 +146,35 @@ const mutations = {
     state.user = JSON.stringify(user);
     state.users = JSON.stringify(users);
   },
-  UPDATE_USER_PRIVILEGE(state, userField) {
-    let users = JSON.parse(state.users);
-    const index = users.findIndex((p) => p.id === userField.user_id);
-    let user = {
-      ...users.find((p) => p.id === userField.user_id),
-      ...userField
-    };
-    if (index !== -1) {
-      users.splice(index, 1, user);
-    }
-    state.user = JSON.stringify(user);
-    state.users = JSON.stringify(users);
-  },
   DELETE_USER(state, userId) {
     state.users = JSON.stringify(
-      JSON.parse(state.users).filter(
-        (user) => user.id !== userId
-      )
+      JSON.parse(state.users).filter((user) => user.id !== userId)
     );
+  },
+
+  ADD_USER_PRIVILEGES(state, userPrivileges) {
+    let users = JSON.parse(state.users);
+    let user = JSON.parse(state.user);
+    let index = users.findIndex((u) => u.id === user.id);
+    if (index !== -1) {
+      user.privileges = [...user.privileges, ...userPrivileges];
+      users.splice(index, 1, user);
+      state.user = JSON.stringify(user);
+      state.users = JSON.stringify(users);
+    }
+  },
+  REMOVE_USER_PRIVILEGES(state, actions) {
+    let users = JSON.parse(state.users);
+    let user = JSON.parse(state.user);
+    let index = users.findIndex((u) => u.id === user.id);
+    if (index !== -1) {
+      user.privileges = user.privileges.filter((p) => {
+        return actions.find((act) => act === p.id) === undefined;
+      });
+      users.splice(index, 1, user);
+      state.user = JSON.stringify(user);
+      state.users = JSON.stringify(users);
+    }
   },
 };
 

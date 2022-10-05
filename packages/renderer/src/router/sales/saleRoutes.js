@@ -10,20 +10,48 @@ export const saleRoutes = [
       code: 'Sale.viewAny',
       feather: 'filter',
     },
+  },
+  {
+    path: 'sessions',
+    name: 'sales.session',
+    component: () => import('/@/views/sales/session/CashierSessionPage.vue'),
+    meta: {
+      code: 'Sale.create',
+      requireCashierSession: true,
+    },
     children: [
       {
-        path: 'form/:id?',
-        name: 'sales.sale.form',
-        component: () => import('/@/views/sales/SaleForm.vue'),
+        path: 'customers/form',
+        name: 'sales.session.customer.form',
+        component: () => import('/@/views/customers/CustomerQuickForm.vue'),
+      },
+      {
+        path: 'cashier-sales/:sale_id',
+        name: 'sales.session.cashier.sale.detail',
+        component: () => import('/@/views/sales/session/SaleDetails.vue'),
         beforeEnter: (to) => {
-          if (to.params.id) {
-            return store.dispatch('sale/getSale', to.params.id)
-              .then(() => {
-                return 1;
-              })
-              .catch(() => -1);
-          }
+          return store
+            .dispatch('sale/getCashierSale', parseInt(to.params.sale_id))
+            .then(() => 1)
+            .catch(() => -1);
         },
+      },
+      {
+        path: 'pending-requests',
+        name: 'sales.session.request',
+        component: () =>
+          import('/@/views/sales/session/SalePendingRequest.vue'),
+      },
+      {
+        path: 'current-request-discounts',
+        name: 'sales.session.discount',
+        component: () => import('/@/views/sales/session/SaleDiscountModal.vue'),
+      },
+      {
+        path: 'search-articles',
+        name: 'sales.session.finder',
+        component: () =>
+          import('/@/views/sales/session/SaleModalSearchResults.vue'),
       },
     ],
   },
@@ -42,7 +70,8 @@ export const saleRoutes = [
         component: () => import('/@/views/sales/SaleTypeForm.vue'),
         beforeEnter: (to) => {
           if (to.params.id) {
-            return store.dispatch('sale_type/getSaleType', to.params.id)
+            return store
+              .dispatch('sale_type/getSaleType', to.params.id)
               .then(() => {
                 return { name: to.name };
               })
@@ -67,7 +96,8 @@ export const saleRoutes = [
         component: () => import('/@/views/sales/CashierForm.vue'),
         beforeEnter: (to) => {
           if (to.params.id) {
-            return store.dispatch('cashier/getCashier', to.params.id)
+            return store
+              .dispatch('cashier/getCashier', to.params.id)
               .then(() => {
                 return 1;
               })
@@ -92,7 +122,8 @@ export const saleRoutes = [
         component: () => import('/@/views/sales/CashierGroupForm.vue'),
         beforeEnter: (to) => {
           if (to.params.id) {
-            return store.dispatch('cashier_group/getCashierGroup', to.params.id)
+            return store
+              .dispatch('cashier_group/getCashierGroup', to.params.id)
               .then(() => {
                 return 1;
               })
@@ -118,7 +149,8 @@ export const saleRoutes = [
         component: () => import('/@/views/sales/CashRegisterForm.vue'),
         beforeEnter: (to) => {
           if (to.params.id) {
-            return store.dispatch('cash_register/getCashRegister', to.params.id)
+            return store
+              .dispatch('cash_register/getCashRegister', to.params.id)
               .then(() => {
                 return 1;
               })
@@ -144,7 +176,8 @@ export const saleRoutes = [
     children: formRoutes,
     beforeEnter: (to) => {
       if (to.params.id) {
-        return store.dispatch('discount/getDiscount', to.params.id)
+        return store
+          .dispatch('discount/getDiscount', to.params.id)
           .then(() => {
             return 1;
           })
@@ -167,7 +200,8 @@ export const saleRoutes = [
         component: () => import('/@/views/sales/DiscountTypeForm.vue'),
         beforeEnter: (to) => {
           if (to.params.id) {
-            return store.dispatch('discount_type/getDiscountType', to.params.id)
+            return store
+              .dispatch('discount_type/getDiscountType', to.params.id)
               .then(() => {
                 return 1;
               })

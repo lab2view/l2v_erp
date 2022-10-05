@@ -28,4 +28,22 @@ export default {
   forceDeleteCashier(id) {
     return axios.delete(`/cashiers/delete/${id}`);
   },
+
+  openSession(payload) {
+    const endpoint = payload.cashier_id
+      ? `/cashiers/${payload.cashier_id}/sessions/open`
+      : `/cashiers/sessions/open`;
+    return axios.post(endpoint, payload);
+  },
+
+  closeSession(cashier_session_id) {
+    return axios.delete(`/cashiers/sessions/${cashier_session_id}/close`);
+  },
+
+  unlockSession(cashier_session_id, payload) {
+    return axios.post(
+      `/cashiers/sessions/${cashier_session_id}/unlock`,
+      payload
+    );
+  },
 };

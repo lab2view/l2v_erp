@@ -30,17 +30,47 @@ const getters = {
           );
         return result;
       }),
+  getCustomerForSelect2: (state, getters) =>
+    getters.customers.map((c) => {
+      return {
+        id: c.id,
+        label: `${c.reference} / ${c.phone} ${
+          c.first_name ? ' - ' + c.first_name : ''
+        }
+        ${c.name ? ' - ' + c.name : ''}`,
+      };
+    }),
 };
 
 const actions = {
-  getCustomersList({ commit, getters }, { page, field }) {
-    if (getters.customers.length > 0) {
+  getCustomersList({ commit, getters, dispatch }, { page, field }) {
+    if (getters.customers.length > 0 && !field.next) {
       return getters.customers;
     } else
-      return customerService.getCustomersList(page, field).then(({ data }) => {
-        commit('SET_CUSTOMERS', data);
-        return data;
-      });
+      return customerService
+        .getCustomersList(page, { ...field, paginate: 50 })
+        .then(({ data }) => {
+          commit('SET_CUSTOMERS', data);
+          dispatch(
+            'setGlobalProgress',
+            {
+              label: 'customers',
+              min: 0,
+              max: data.last_page,
+              value: data.current_page,
+            },
+            { root: true }
+          );
+
+          if (data.next_page_url) {
+            return dispatch('getCustomersList', {
+              page: page + 1,
+              field: { ...field, next: true },
+            });
+          } else dispatch('setGlobalProgress', null, { root: true });
+
+          return data;
+        });
   },
 
   getCustomer({ getters, commit }, id) {
@@ -84,8 +114,12 @@ const mutations = {
   SET_CUSTOMERS_HASH(state, hash) {
     state.hash = hash;
   },
-  SET_CUSTOMERS(state, customers) {
-    state.customers = JSON.stringify(customers);
+  SET_CUSTOMERS(state, { current_page, data }) {
+    if (current_page === 1) state.customers = JSON.stringify(data);
+    else {
+      let oldCustomers = state.customers ? JSON.parse(state.customers) : [];
+      state.customers = JSON.stringify([...oldCustomers, ...data]);
+    }
   },
   SET_CURRENT_CUSTOMER(state, customer) {
     state.customer = customer === null ? null : JSON.stringify(customer);

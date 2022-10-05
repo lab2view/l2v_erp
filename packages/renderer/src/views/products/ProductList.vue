@@ -4,24 +4,12 @@
     :module="$t('menu.modules.products')"
   >
     <div class="card">
-      <div class="card-header pb-2 border-bottom border-bottom-">
-        <div class="row align-items-center">
-          <div class="col-sm">
-            <h5>{{ $t('products.listTitle') }}</h5>
-          </div>
-          <div class="col-sm-auto align-items-end">
-            <router-link
-              :to="{ name: 'product.form.desc' }"
-              href="#"
-              class="btn btn-primary"
-              type="button"
-            >
-              <i class="fa fa-plus m-r-5" />
-              {{ $t('common.add') }}
-            </router-link>
-          </div>
-        </div>
-      </div>
+      <BaseTableHeader
+        :title="$t('products.listTitle')"
+        add-action-router-name="product.form.desc"
+        :refresh-action-field="{ page: 1, field: { paginate: 50, next: true } }"
+        refresh-action-name="product/getProductsList"
+      />
       <div class="card-body">
         <BaseDatatable :tfoot="false" :total="products.length">
           <template #headers>
@@ -64,20 +52,17 @@
               </span>
             </td>
             <td>
-              <button
+              <BaseButton
                 class="btn btn-secondary btn-xs"
                 type="button"
-                data-original-title="btn btn-secondary btn-xs"
-                :title="$t('common.update')"
+                :text="$t('common.update')"
                 @click.prevent="
                   $router.push({
                     name: 'product.form.desc',
                     params: { id: product.id },
                   })
                 "
-              >
-                {{ $t('common.update') }}
-              </button>
+              />
               <button
                 v-if="!product.not_deletable"
                 class="btn btn-danger btn-xs m-l-5"
@@ -103,9 +88,12 @@ import BaseDatatable from '/@/components/common/BaseDatatable.vue';
 import store from '../../store';
 import { mapGetters } from 'vuex';
 import BaseContainer from '../../components/common/BaseContainer.vue';
+import BaseButton from '/@/components/common/BaseButton.vue';
+import BaseTableHeader from '/@/components/common/BaseTableHeader.vue';
 
 export default {
-  components: { BaseContainer, BaseDatatable },
+  name: 'ProductList',
+  components: { BaseTableHeader, BaseButton, BaseContainer, BaseDatatable },
   beforeRouteEnter(routeTo, routeFrom, next) {
     store
       .dispatch('product/getProductsList', {

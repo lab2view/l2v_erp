@@ -1,23 +1,11 @@
 <template>
   <div class="card">
-    <div class="card-header pb-2 border-bottom border-bottom-">
-      <div class="row align-items-center">
-        <div class="col-sm">
-          <h5>{{ $t('products.productFamily.listTitle') }}</h5>
-        </div>
-        <div class="col-sm-auto align-items-end">
-          <router-link
-            :to="{ name: 'config.products.productFamily.form' }"
-            href="#"
-            class="btn btn-primary"
-            type="button"
-          >
-            <i class="fa fa-plus m-r-5" />
-            {{ $t('common.add') }}
-          </router-link>
-        </div>
-      </div>
-    </div>
+    <BaseTableHeader
+      :title="$t('products.productFamily.listTitle')"
+      add-action-router-name="config.products.productFamily.form"
+      :refresh-action-field="{ page: 1, field: { next: true } }"
+      refresh-action-name="product_family/getProductFamiliesList"
+    />
     <div class="card-body">
       <BaseDatatable :tfoot="false">
         <template #headers>
@@ -68,9 +56,10 @@
 import BaseDatatable from '/@/components/common/BaseDatatable.vue';
 import store from '../../../../store';
 import { mapGetters } from 'vuex';
+import BaseTableHeader from '/@/components/common/BaseTableHeader.vue';
 
 export default {
-  components: { BaseDatatable },
+  components: { BaseTableHeader, BaseDatatable },
   beforeRouteEnter(routeTo, routeFrom, next) {
     store
       .dispatch('product_family/getProductFamiliesList', {
@@ -90,8 +79,15 @@ export default {
   },
   methods: {
     deleteProductFamily(productFamily) {
-      if (confirm(this.$t('messages.confirmDelete', { label: productFamily.label })))
-        this.$store.dispatch('product_family/deleteProductFamily', productFamily.id);
+      if (
+        confirm(
+          this.$t('messages.confirmDelete', { label: productFamily.label })
+        )
+      )
+        this.$store.dispatch(
+          'product_family/deleteProductFamily',
+          productFamily.id
+        );
     },
   },
 };

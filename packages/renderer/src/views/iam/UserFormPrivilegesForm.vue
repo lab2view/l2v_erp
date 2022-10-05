@@ -18,21 +18,18 @@ export default {
   components: { ActionSelectableList },
   beforeRouteEnter(routeTo, routeFrom, next) {
     Promise.all([
-      store
-        .dispatch('user/getUsersList', {
-          page: 1,
-          field: {},
-        }),
-      store
-        .dispatch('role/getActionsList', {
-          page: 1,
-          field: {},
-        }),
-      store
-        .dispatch('module/getModulesList', {
-          page: 1,
-          field: {},
-        })
+      store.dispatch('user/getUsersList', {
+        page: 1,
+        field: {},
+      }),
+      store.dispatch('role/getActionsList', {
+        page: 1,
+        field: {},
+      }),
+      store.dispatch('module/getModulesList', {
+        page: 1,
+        field: {},
+      }),
     ])
       .then(() => {
         next();
@@ -53,9 +50,10 @@ export default {
   },
   methods: {
     submitAddActionsToUserForm(selected) {
-      console.log('selected');
-      console.log(selected);
-    }
+      return this.$store.dispatch('user/addUserPrivileges', {
+        actions: selected,
+      });
+    },
   },
 };
 </script>

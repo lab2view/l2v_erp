@@ -4,13 +4,11 @@
     :module="$t('menu.modules.articles')"
   >
     <div class="card">
-      <div class="card-header pb-2 border-bottom border-bottom-">
-        <div class="row align-items-center">
-          <div class="col-sm">
-            <h5>{{ $t('articles.listTitle') }}</h5>
-          </div>
-        </div>
-      </div>
+      <BaseTableHeader
+        :title="$t('articles.listTitle')"
+        :refresh-action-field="{ page: 1, field: { paginate: 50, next: true } }"
+        refresh-action-name="article/getArticlesList"
+      />
       <div class="card-body">
         <BaseDatatable :tfoot="false" :total="articles.length">
           <template #headers>
@@ -25,7 +23,9 @@
             <td>{{ article.id }}</td>
             <td>{{ article.product.name }}</td>
             <td>{{ article.name }}</td>
-            <td class="text-center"><ArticleStockIn :article="article" /></td>
+            <td class="text-center">
+              <ArticleStockIn :article="article" />
+            </td>
             <td>
               {{ `${article.product.code} / ${article.product.reference}` }}
             </td>
@@ -33,7 +33,7 @@
               <BaseButton
                 type="button"
                 class="btn btn-iconsolid btn-primary btn-sm"
-                :title="$t('common.delete')"
+                :title="$t('common.detail')"
                 @click.prevent="
                   $router.push({
                     name: 'article.details',
@@ -43,6 +43,7 @@
               >
                 Consulter
               </BaseButton>
+              <ArticlePriceState :article="article" />
               <BaseButton
                 v-if="!article.not_deletable"
                 type="button"
@@ -69,9 +70,19 @@ import { mapGetters } from 'vuex';
 import BaseContainer from '../../components/common/BaseContainer.vue';
 import BaseButton from '../../components/common/BaseButton.vue';
 import ArticleStockIn from '/@/components/articles/ArticleStockIn.vue';
+import ArticlePriceState from '/@/components/articles/ArticlePriceState.vue';
+import BaseTableHeader from '/@/components/common/BaseTableHeader.vue';
 
 export default {
-  components: { ArticleStockIn, BaseButton, BaseContainer, BaseDatatable },
+  name: 'ArticleList',
+  components: {
+    BaseTableHeader,
+    ArticlePriceState,
+    ArticleStockIn,
+    BaseButton,
+    BaseContainer,
+    BaseDatatable,
+  },
   beforeRouteEnter(routeTo, routeFrom, next) {
     store
       .dispatch('article/getArticlesList', {
@@ -86,13 +97,13 @@ export default {
         next();
       });
   },
+
   computed: {
     ...mapGetters('article', ['articles']),
   },
   created() {
     this.$store.commit('article/SET_CURRENT_ARTICLE', null);
   },
-
   methods: {
     deleteArticle(article) {
       if (confirm(this.$t('messages.confirmDelete', { label: article.name })))

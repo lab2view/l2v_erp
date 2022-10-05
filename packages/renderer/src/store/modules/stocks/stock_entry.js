@@ -14,6 +14,14 @@ const getters = {
   stock_entries: (state) => {
     return state.stock_entries ? JSON.parse(state.stock_entries) : [];
   },
+  getStockEntriesByProductId: (state, getters) => (product_id) => {
+    return getters.stock_entries.filter(
+      (s) =>
+        s.stock_provisions.find(
+          (sp) => sp.article.product_id === product_id
+        ) !== undefined
+    );
+  },
   stockEntry: (state) =>
     state.stockEntry ? JSON.parse(state.stockEntry) : null,
   stockEntryReference: (state, getters) => getters.stockEntry?.reference,
@@ -35,22 +43,45 @@ const getters = {
   canEditStockEntry: (state, getters) => {
     return getters.stockEntryIsConfirm
       ? false
-      : getters.stockEntry.stock_exit_id === null;
+      : getters.stockEntry?.stock_exit_id === null;
   },
   currentStockEntryStateDate: (state, getters) =>
     getters.stockEntry?.current_state?.updated_at,
 };
 
 const actions = {
-  getStockEntriesList({ commit, getters }, { page, field }) {
-    if (getters.stock_entries.length > 0) {
+  getStockEntriesList({ commit, getters, dispatch }, { page, field }) {
+    if (getters.stock_entries.length > 0 && !field.next) {
       return getters.stock_entries;
     }
     return stockEntryService
-      .getStockEntriesList(page, field)
+      .getStockEntriesList(page, { ...field, paginate: 20 })
       .then(({ data }) => {
         commit('SET_STOCK_ENTRIES', data);
+
+        dispatch(
+          'setGlobalProgress',
+          {
+            label: 'Entry stocks',
+            min: 0,
+            max: data.last_page,
+            value: data.current_page,
+          },
+          { root: true }
+        );
+
+        if (data.next_page_url) {
+          return dispatch('getStockEntriesList', {
+            page: page + 1,
+            field: { ...field, next: true },
+          });
+        } else dispatch('setGlobalProgress', null, { root: true });
+
         return data;
+      })
+      .catch((error) => {
+        commit('SET_STOCK_ENTRIES', []);
+        return Promise.reject(error);
       });
   },
 
@@ -106,8 +137,9 @@ const actions = {
           commit('UPDATE_STOCK_ENTRY', {
             ...getters.stockEntry,
             not_deletable: true,
+            availability: true,
           });
-          getters.stockEntry?.provisions.forEach((sp) =>
+          getters.stockEntry?.stock_provisions.forEach((sp) =>
             commit('article/UPDATE_ARTICLE_STOCK', sp.article, {
               root: true,
             })
@@ -119,6 +151,7 @@ const actions = {
           'theme',
           'fa fa-check'
         );
+        return data;
       });
   },
 
@@ -127,6 +160,7 @@ const actions = {
       .addStockEntryLines(getters.stockEntry.id, stockEntryLines)
       .then(({ data }) => {
         commit('ADD_STOCK_ENTRY_LINES', data.stock_entry_lines);
+        return data;
       });
   },
   updateStockEntryLine({ commit }, stockEntryLine) {
@@ -140,6 +174,7 @@ const actions = {
           'theme',
           'fa fa-check'
         );
+        return data;
       });
   },
   removeStockEntryLines({ getters, commit }, stockEntryLineIds) {
@@ -149,14 +184,16 @@ const actions = {
       })
       .then(() => {
         commit('REMOVE_STOCK_ENTRY_LINES', stockEntryLineIds);
+        return true;
       });
   },
 
-  addProvisions({ commit, getters }, provisions) {
+  addProvisions({ commit }, { stock_provisions, stock_entry_id }) {
     return stockEntryService
-      .addProvisions(getters.stockEntry.id, provisions)
+      .addProvisions(stock_entry_id, { stock_provisions: stock_provisions })
       .then(({ data }) => {
         commit('ADD_PROVISIONS', data.provisions);
+        return data;
       });
   },
   updateProvision({ commit }, provision) {
@@ -168,6 +205,7 @@ const actions = {
         'theme',
         'fa fa-check'
       );
+      return data;
     });
   },
   removeProvisions({ getters, commit }, provisionIds) {
@@ -180,6 +218,7 @@ const actions = {
       )
       .then(() => {
         commit('REMOVE_PROVISIONS', provisionIds);
+        return true;
       });
   },
 };
@@ -189,8 +228,12 @@ const mutations = {
   SET_STOCKS_HASH(state, hash) {
     state.hash = hash;
   },
-  SET_STOCK_ENTRIES(state, stock_entries) {
-    state.stock_entries = JSON.stringify(stock_entries);
+  SET_STOCK_ENTRIES(state, { current_page, data }) {
+    if (current_page === 1) state.stock_entries = JSON.stringify(data);
+    else {
+      let oldItems = state.stock_entries ? JSON.parse(state.stock_entries) : [];
+      state.stock_entries = JSON.stringify([...oldItems, ...data]);
+    }
   },
   SET_CURRENT_STOCK_ENTRY(state, stockEntry) {
     state.stockEntry = stockEntry ? JSON.stringify(stockEntry) : null;
@@ -269,7 +312,9 @@ const mutations = {
     let stockEntry = JSON.parse(state.stockEntry);
     let index = stock_entries.findIndex((se) => se.id === stockEntry.id);
     if (index !== -1) {
-      stockEntry.provisions = [...stockEntry.provisions, ...provisions];
+      stockEntry.provisions = stockEntry.provisions
+        ? [...stockEntry.provisions, ...provisions]
+        : provisions;
       stock_entries.splice(index, 1, stockEntry);
       state.stockEntry = JSON.stringify(stockEntry);
       state.stock_entries = JSON.stringify(stock_entries);

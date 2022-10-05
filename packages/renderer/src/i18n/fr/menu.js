@@ -116,6 +116,10 @@ export default {
       desc: 'Description de la structure',
       setting: 'Parametres de la structure',
       iam: 'Parametres utilisateurs de la structure',
+      user:{
+        desc: "Description de l'utilisateur",
+        privileges: "Privileges de l'utilisateur",
+      }
     },
   },
   enterprisetype: {
@@ -166,8 +170,8 @@ export default {
   article: {
     create: 'Ajouter un article',
     viewany: 'Liste des articles',
-    detail: 'Statistiques',
-    price: 'Configurer les prix',
+    detail: 'Stats',
+    price: 'Prix',
     composition: 'Compositions',
   },
   articlegroup: {
@@ -217,6 +221,7 @@ export default {
     form: {
       description: 'Description de la sortie',
       line: 'Liste des articles',
+      multiple: 'Articles Multi-structures',
     },
   },
   stocktype: {
@@ -233,6 +238,10 @@ export default {
   },
   shipping: {
     viewany: 'Livraisons',
+    form: {
+      description: 'Description de la livraison',
+      line:'liste des produits'
+    },
   },
   movement: {
     entry: "Mouvements d'entree",

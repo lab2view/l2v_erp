@@ -1,6 +1,7 @@
 import shippingService from '../../../services/stocks/ShippingService';
 import { notify } from '/@/helpers/notify';
 import i18n from '/@/i18n';
+import { stockStateCode } from '/@/helpers/codes';
 
 const state = {
   shippings: null,
@@ -10,15 +11,25 @@ const state = {
 
 // getters
 const getters = {
+  haveShipping: (state, getters) => !!getters.shipping,
   shippings: (state) => {
     return state.shippings ? JSON.parse(state.shippings) : [];
   },
   shipping: (state) => (state.shipping ? JSON.parse(state.shipping) : null),
+  shippingIsConfirm: (state, getters) => {
+    return (
+      getters.shipping?.shipping?.shipping.code === stockStateCode.success ||
+      getters.shipping?.shipping?.shipping.code === stockStateCode.delivered
+    );
+  },
+  currentShippingStateDate: (state, getters) =>
+    getters.shipping?.current_state?.updated_at,
+  manage_price: () => false,
 };
 
 const actions = {
   getShippingsList({ commit, getters }, { page, field }) {
-    if (getters.shippings.length > 0) {
+    if (getters.shippings.length > 0 && !field.next) {
       return getters.shippings;
     }
     return shippingService.getShippingsList(page, field).then(({ data }) => {
@@ -28,7 +39,9 @@ const actions = {
   },
 
   getShipping({ getters, commit }, id) {
-    const shipping = getters.shippings.find((p) => p.id.toString() === id);
+    const shipping = getters.shippings.find(
+      (p) => p.id.toString() === id.toString()
+    );
     if (shipping !== undefined) {
       commit('SET_CURRENT_SHIPPING', shipping);
       return shipping;
@@ -43,6 +56,7 @@ const actions = {
   addShipping({ commit }, shippingField) {
     return shippingService.addShipping(shippingField).then(({ data }) => {
       commit('ADD_SHIPPING', data);
+      commit('SET_CURRENT_SHIPPING', data);
       notify(
         i18n.global.t('stocks.shipping.store'),
         'Ok',
@@ -79,19 +93,15 @@ const actions = {
 // mutations
 const mutations = {
   SET_SHIPPINGS(state, shippings) {
-    state.shippings = JSON.stringify(shippings);
+    state.shippings = shippings.length ? JSON.stringify(shippings) : null;
   },
   SET_CURRENT_SHIPPING(state, shipping) {
-    state.shipping = JSON.stringify(shipping);
+    state.shipping = shipping === null ? null : JSON.stringify(shipping);
   },
   ADD_SHIPPING(state, shipping) {
-    let shippings = null;
-    if (state.shippings) {
-      shippings = JSON.parse(state.shippings);
-      shippings.push(shipping);
-    } else {
-      shippings = [shipping];
-    }
+    let shippings = state.shippings ? JSON.parse(state.shippings) : [];
+    shippings.push(shipping);
+
     state.shippings = JSON.stringify(shippings);
   },
   UPDATE_SHIPPING(state, shipping) {

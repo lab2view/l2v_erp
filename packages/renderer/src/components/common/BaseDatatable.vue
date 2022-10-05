@@ -1,6 +1,6 @@
 <template>
   <BaseEmptyModelList
-    v-if="total < 1"
+    v-if="isEmpty"
     :label="'Aucun Enregistrement'"
     :with-action="hasAction"
     @click="executeFetchAction"
@@ -28,7 +28,6 @@
 <script>
 import BaseEmptyModelList from './BaseEmptyModelList.vue';
 export default {
-  name: 'BaseDatatable',
   components: { BaseEmptyModelList },
   props: {
     tfoot: {
@@ -56,26 +55,29 @@ export default {
       return this.total === 0;
     },
   },
+  watch: {
+    total(newValue, oldValue) {
+      if (oldValue === 0 && newValue > 0)
+        setTimeout(() => this.initDatatable(), 100);
+    },
+  },
   mounted() {
-    setTimeout(() => {
-      (async () => {
-        return Promise.all([
-          await this.$loadScript(`./src/assets/js/jquery-3.5.1.min.js`),
-          await this.$loadScript(
-            `./src/assets/js/datatable/datatables/jquery.dataTables.min.js`
-          ),
-        ]);
-      })().then(() => {
-        $('#datatable-dt').DataTable({
-          info: !!this.tableInfos,
-          language: {
-            info: this.tableInfos ?? false,
-          },
-        });
-      });
-    }, 1);
+    Promise.all([
+      this.$loadScript(`./src/assets/js/jquery-3.5.1.min.js`),
+      this.$loadScript(
+        `./src/assets/js/datatable/datatables/jquery.dataTables.min.js`
+      ),
+    ]).finally(() => this.initDatatable());
   },
   methods: {
+    initDatatable() {
+      $('#datatable-dt').DataTable({
+        info: !!this.tableInfos,
+        language: {
+          info: this.tableInfos ?? false,
+        },
+      });
+    },
     executeFetchAction() {
       this.$store.dispatch('setGlobalLoading', true);
       this.fetchAction().finally(() => {

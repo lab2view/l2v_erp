@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="dropzone dropzone-primary p-2 m-3" v-bind="getRootProps()">
-      <input v-bind="getInputProps()" />
+      <input v-bind="getInputProps()" :disabled="loading" />
       <div class="dz-message needsclick">
         <i class="icon-cloud-up"></i>
         <h6>Drop files here or click to upload.</h6>
@@ -17,44 +17,27 @@
 
 <script>
 import { useDropzone } from 'vue3-dropzone';
-import { useStore } from 'vuex';
-import { ref } from 'vue';
 
 export default {
   props: {
-    context: {
-      type: String,
-      required: true,
-    },
     accept: {
       type: String,
       default: 'image/*',
     },
+    loading: {
+      type: Boolean,
+      default: false,
+    },
   },
-  emits: ['uploaded'],
+  emits: ['uploading'],
   setup(props, context) {
-    const store = useStore();
-
-    let loading = ref(false);
-
     const saveFiles = (files) => {
       const formData = new FormData();
       for (let x = 0; x < files.length; x++) {
-        formData.append('files[]', files[x]);
+        formData.append('images[]', files[x]);
       }
-      formData.append('context', props.context);
 
-      loading = true;
-      store
-        .dispatch('upload', formData)
-        .then((data) => {
-          context.emit('uploaded', data);
-          loading = false;
-        })
-        .catch((error) => {
-          console.log(error);
-          console.log(error?.response?.data);
-        });
+      context.emit('uploading', formData);
     };
 
     function onDrop(acceptFiles, rejectReasons) {
@@ -71,7 +54,6 @@ export default {
       getRootProps,
       getInputProps,
       ...rest,
-      loading,
     };
   },
 };

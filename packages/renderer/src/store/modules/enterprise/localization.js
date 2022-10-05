@@ -18,7 +18,7 @@ const getters = {
 
 const actions = {
   getLocalizationsList({ commit, getters }, { page, field }) {
-    if (getters.localizations.length > 0) {
+    if (getters.localizations.length > 0 && !field.next) {
       return getters.localizations;
     } else
       return localizationService

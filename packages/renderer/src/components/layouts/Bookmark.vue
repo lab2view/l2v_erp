@@ -22,6 +22,7 @@
 import { defineComponent } from 'vue';
 
 export default defineComponent({
+  name: 'Bookmark',
   props: {
     items: {
       type: Array,
@@ -29,7 +30,7 @@ export default defineComponent({
     },
   },
   mounted() {
-    window.feather?.replace();
+    setTimeout(() => window.feather?.replace(), 500);
   },
 });
 </script>

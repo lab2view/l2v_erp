@@ -18,7 +18,7 @@ const getters = {
 
 const actions = {
   getPaymentMethodsList({ commit, getters }, { page, field }) {
-    if (getters.paymentMethods.length > 0) {
+    if (getters.paymentMethods.length > 0 && !field.next) {
       return getters.paymentMethods;
     } else
       return paymentMethodService

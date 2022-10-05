@@ -4,24 +4,12 @@
     :title="$t('stocks.title')"
   >
     <div class="card">
-      <div class="card-header pb-2 border-bottom border-bottom-">
-        <div class="row align-items-center">
-          <div class="col-sm">
-            <h5>{{ $t('stocks.inventory.listTitle') }}</h5>
-          </div>
-          <div class="col-sm-auto align-items-end">
-            <router-link
-              :to="{ name: 'inventory.form' }"
-              class="btn btn-primary"
-              href="#"
-              type="button"
-            >
-              <i class="fa fa-plus m-r-5" />
-              {{ $t('common.add') }}
-            </router-link>
-          </div>
-        </div>
-      </div>
+      <BaseTableHeader
+        :title="$t('stocks.inventory.listTitle')"
+        add-action-router-name="inventory.form"
+        :refresh-action-field="{ page: 1, field: { next: true } }"
+        refresh-action-name="inventory/getInventoriesList"
+      />
       <div class="card-body">
         <BaseDatatable :tfoot="false" :total="inventories.length">
           <template #headers>
@@ -76,9 +64,10 @@ import BaseContainer from '/@/components/common/BaseContainer.vue';
 import BaseDatatable from '/@/components/common/BaseDatatable.vue';
 import store from '/@/store';
 import { mapGetters } from 'vuex';
+import BaseTableHeader from '/@/components/common/BaseTableHeader.vue';
 
 export default {
-  components: { BaseContainer, BaseDatatable },
+  components: { BaseTableHeader, BaseContainer, BaseDatatable },
   beforeRouteEnter(routeTo, routeFrom, next) {
     store
       .dispatch('inventory/getInventoriesList', {
@@ -108,10 +97,7 @@ export default {
           this.$t('messages.confirmDelete', { label: inventory.reference })
         )
       )
-        this.$store.dispatch(
-          'inventory/deleteInventory',
-          inventory.id
-        );
+        this.$store.dispatch('inventory/deleteInventory', inventory.id);
     },
   },
 };

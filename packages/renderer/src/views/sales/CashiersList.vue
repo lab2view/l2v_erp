@@ -1,30 +1,21 @@
 <template>
   <BaseContainer :module="$t('menu.modules.sales')" :title="$t('sales.title')">
     <div class="card">
-      <div class="card-header pb-2 border-bottom border-bottom-">
-        <div class="row align-items-center">
-          <div class="col-sm">
-            <h5>{{ $t('sales.cashier.listTitle') }}</h5>
-          </div>
-          <div class="col-sm-auto align-items-end">
-            <router-link
-              :to="{ name: 'sales.cashier.form' }"
-              href="#"
-              class="btn btn-primary"
-              type="button"
-            >
-              <i class="fa fa-plus m-r-5" />
-              {{ $t('common.add') }}
-            </router-link>
-          </div>
-        </div>
-      </div>
+      <BaseTableHeader
+        :title="$t('sales.cashier.listTitle')"
+        add-action-router-name="sales.cashier.form"
+        :refresh-action-field="{ page: 1, field: { next: true } }"
+        refresh-action-name="cashier/getCashiersList"
+      />
       <div class="card-body">
         <BaseDatatable :tfoot="false" :total="cashiers.length">
           <template #headers>
             <th>#</th>
             <th>{{ $t('common.attributes.cashier_group') }}</th>
             <th>{{ $t('common.attributes.structure') }}</th>
+            <th class="text-center">
+              {{ $t('common.attributes.first_name') }}
+            </th>
             <th>{{ $t('common.attributes.start_at') }}</th>
             <th>{{ $t('common.attributes.ended_at') }}</th>
             <th>{{ $t('common.actions') }}</th>
@@ -32,9 +23,10 @@
           <tr v-for="cashier in cashiers" :key="cashier.id">
             <td>{{ cashier.id }}</td>
             <td>{{ cashier.cashier_group.label }}</td>
-            <td>{{ cashier.enterprise }}</td>
-            <td>{{ cashier.start_at }}</td>
-            <td>{{ cashier.ended_at }}</td>
+            <td>{{ cashier.enterprise?.name ?? 'Principale' }}</td>
+            <td class="text-center">{{ cashier.name ?? '-' }}</td>
+            <td>{{ date(cashier.start_at) }}</td>
+            <td>{{ cashier.ended_at ? date(cashier.ended_at) : '-' }}</td>
             <td>
               <button
                 class="btn btn-secondary btn-xs"
@@ -74,9 +66,12 @@ import BaseContainer from '/@/components/common/BaseContainer.vue';
 import BaseDatatable from '/@/components/common/BaseDatatable.vue';
 import store from '/@/store';
 import { mapGetters } from 'vuex';
+import filterMixin from '/@/mixins/FilterMixin.js';
+import BaseTableHeader from '/@/components/common/BaseTableHeader.vue';
 
 export default {
-  components: { BaseContainer, BaseDatatable },
+  components: { BaseTableHeader, BaseContainer, BaseDatatable },
+  mixins: [filterMixin],
   beforeRouteEnter(routeTo, routeFrom, next) {
     store
       .dispatch('cashier/getCashiersList', {

@@ -9,23 +9,20 @@ export default {
     return axios.post(`/users`, user);
   },
 
-  addUserPrivileges({user, user_privileges}) {
-    return axios.post(`/users/privileges`, {
-      user_id: user.id,
-      user_privileges: user_privileges
-    });
-  },
-
-  removeUserPrivileges(user) {
-    return axios.post(`/users`, user);
-  },
-
   getUser(id) {
     return axios.get(`/users/${id}`);
   },
 
   updateUser(user, id) {
     return axios.put(`/users/${id}`, user);
+  },
+
+  updateUserPassword(user, id) {
+    return axios.post(`/users/change-password/${id}`, user);
+  },
+
+  setUserPassword(user, id) {
+    return axios.post(`/users/set-password/${id}`, user);
   },
 
   deleteUser(id) {
@@ -38,5 +35,13 @@ export default {
 
   forceDeleteUser(id) {
     return axios.delete(`/users/delete/${id}`);
+  },
+
+  addUserPrivileges(actions, user_id) {
+    return axios.post(`/users/${user_id}/privileges/add`, actions);
+  },
+
+  removeUserPrivileges(userPrivilegesIds, user_id) {
+    return axios.post(`/users/${user_id}/privileges/remove`, userPrivilegesIds);
   },
 };

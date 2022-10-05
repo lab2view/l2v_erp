@@ -18,7 +18,7 @@ const getters = {
 
 const actions = {
   getCustomerGroupsList({ commit, getters }, { page, field }) {
-    if (getters.customerGroups.length > 0) {
+    if (getters.customerGroups.length > 0 && !field.next) {
       return getters.customerGroups;
     } else
       return customerGroupService.getList(page, field).then(({ data }) => {

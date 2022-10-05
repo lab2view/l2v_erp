@@ -1,6 +1,5 @@
 import { createStore } from 'vuex';
 import modulePlugins from './helpers/ModuleLocalForage';
-import FileService from '../services/FileService';
 import auth from './modules/auth';
 import workspace from './modules/workspace';
 import product_package from './modules/products/package';
@@ -40,13 +39,16 @@ import discount_code from './modules/sales/discount_code';
 import cash_register from './modules/sales/cash_register';
 import cashier from './modules/sales/cashier';
 import cashier_group from './modules/sales/cashier_group';
-import role from './modules/iam/role.js';
-import user from './modules/iam/user.js';
+import role from './modules/iam/role';
+import user from './modules/iam/user';
 import sale_type from './modules/sales/sale_type';
-import SyncService from '/@/services/SyncService.js';
-import { getMutationPathName } from '/@/helpers/utils.js';
-import { actionCode } from '/@/helpers/codes.js';
-import scanner from '/@/store/modules/scanner.js';
+import SyncService from '/@/services/SyncService';
+import { getMutationPathName } from '/@/helpers/utils';
+import { actionCode } from '/@/helpers/codes';
+import scanner from '/@/store/modules/scanner';
+import cashier_session from '/@/store/modules/sales/cashier_session';
+import sale from '/@/store/modules/sales/sale';
+import printer from '/@/store/modules/sales/printer';
 
 export default createStore({
   state: {
@@ -54,19 +56,33 @@ export default createStore({
     landlordDomain: import.meta.env.VITE_DOMAIN ?? 'kitbussiness.com',
     uploaded: null,
     initiateApp: true,
+    globalProgress: {
+      label: null,
+      min: 0,
+      max: 100,
+      value: 0,
+    },
   },
   actions: {
     setGlobalLoading({ commit }, loading) {
       commit('SET_GLOBAL_LOADING', loading);
     },
+    setGlobalProgress({ state, commit }, progress) {
+      if (progress) {
+        if (state.globalProgress.label) {
+          if (state.globalProgress.label === progress.label)
+            commit('START_GLOBAL_PROGRESS', progress);
+        } else commit('START_GLOBAL_PROGRESS', progress);
+      } else
+        commit('START_GLOBAL_PROGRESS', {
+          label: null,
+          min: 0,
+          max: 100,
+          value: 0,
+        });
+    },
     setInitiateApp({ commit }, value) {
       commit('SET_INITIATE_APP', value);
-    },
-    upload({ commit }, formData) {
-      return FileService.upload(formData).then(({ data }) => {
-        commit('SET_FRESH_UPLOADED', data);
-        return data;
-      });
     },
 
     getLastHash(context, module) {
@@ -76,7 +92,7 @@ export default createStore({
     initModuleSynchronisation({ dispatch }, field) {
       return dispatch('fetchSynchronisationChanges', {
         page: 1,
-        field: { ...field, paginate: 2 },
+        field: { ...field, paginate: 50 },
       });
     },
 
@@ -112,6 +128,13 @@ export default createStore({
     },
   },
   mutations: {
+    START_GLOBAL_PROGRESS(state, globalProgress) {
+      state.globalProgress = globalProgress;
+    },
+    UPDATE_GLOBAL_PROGRESS(state, { value, label }) {
+      if (label) state.globalProgress.label = label;
+      state.globalProgress.value = value;
+    },
     SET_GLOBAL_LOADING(state, loading) {
       state.globalLoading = loading;
     },
@@ -169,6 +192,9 @@ export default createStore({
     role,
     user,
     scanner,
+    cashier_session,
+    sale,
+    printer,
   },
   strict: process.env.NODE_ENV !== 'production',
   plugins: [...modulePlugins],

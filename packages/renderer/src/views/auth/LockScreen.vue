@@ -1,49 +1,94 @@
 <template>
   <!-- page-wrapper Start-->
-  <section>
-    <div class="container-fluid p-0">
-      <div class="row m-0">
-        <div class="col-12 p-0">
-          <div class="login-card">
-            <div class="login-main">
-              <form class="theme-form login-form">
-                <h4>unlock </h4>
-                <div class="form-group">
-                  <label class="col-form-label">Enter your Password</label>
-                  <div class="input-group"><span class="input-group-text"><i class="icon-email"></i></span>
-                    <input
-                      class="form-control" type="password" name="login[password]" required=""
-                      placeholder="*********">
-                    <div class="show-hide"><span class="show"> </span></div>
-                  </div>
-                </div>
-                <div class="form-group">
-                  <div class="checkbox p-0">
-                    <input id="checkbox1" type="checkbox">
-                    <label class="text-muted" for="checkbox1">Remember password</label>
-                  </div>
-                </div>
-                <div class="form-group">
-                  <button class="btn btn-primary btn-block" type="submit">Unlock</button>
-                </div>
-                <p>Already have an account?<a class="ms-2" href="#" @click.prevent="$router.push({name: 'login'})">Sign
-                  in </a></p>
-              </form>
-            </div>
-          </div>
+  <BaseFormModal
+    title="Déverrouiller la session"
+    :with-close-action="false"
+    :submit-form="submitLockForm"
+  >
+    <div class="form-group">
+      <label>{{
+        isSaleSession
+          ? $t('common.fields.pin')
+          : $t('common.attributes.password')
+      }}</label>
+      <div class="input-group">
+        <span class="input-group-text"
+          ><i :class="[showPassword ? 'icon-unlock' : 'icon-lock']"></i
+        ></span>
+        <BaseInput
+          v-model="checkInput.password"
+          :type="showPassword ? 'text' : 'password'"
+          placeholder="*********"
+          :errors="errors?.password"
+          required
+        />
+        <div class="show-hide" @click="toggleShow">
+          <span class=""> {{ showPasswordLabel }}</span>
         </div>
       </div>
+      <span v-if="error" class="text-danger">{{ error }}</span>
     </div>
-  </section>
+    <template #footer>
+      <BaseButton
+        :text="$t('common.unlock')"
+        :loading="loading"
+        class="btn btn-primary btn-block"
+        type="submit"
+      />
+    </template>
+  </BaseFormModal>
   <!-- page-wrapper end-->
 </template>
-
 <script>
+import BaseButton from '/@/components/common/BaseButton.vue';
+import BaseInput from '/@/components/common/BaseInput.vue';
+import BaseFormModal from '/@/components/common/BaseFormModal.vue';
+
 export default {
-  name: "LockScreen"
-}
+  components: { BaseFormModal, BaseButton, BaseInput },
+  props: {},
+  data() {
+    return {
+      loading: false,
+      error: null,
+      errors: [],
+      showPassword: false,
+      checkInput: {
+        password: null,
+      },
+    };
+  },
+  computed: {
+    showPasswordLabel() {
+      return this.showPassword ? 'Hide' : 'Show';
+    },
+    isSaleSession() {
+      return this.$route.meta.requireCashierSession;
+    },
+  },
+  methods: {
+    toggleShow() {
+      this.showPassword = !this.showPassword;
+    },
+    submitLockForm() {
+      if (this.checkInput.password) {
+        this.loading = true;
+        this.error = null;
+        this.$store
+          .dispatch(
+            this.isSaleSession
+              ? 'cashier_session/unlockCurrentSession'
+              : 'auth/checkPassword',
+            this.checkInput
+          )
+          .then((data) => {
+            if (!data.unlock) this.error = this.$t('common.unlock_error');
+            this.loading = false;
+          });
+      }
+    },
+  },
+};
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

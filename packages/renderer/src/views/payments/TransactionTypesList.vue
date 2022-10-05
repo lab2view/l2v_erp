@@ -4,24 +4,12 @@
     :title="$t('payments.title')"
   >
     <div class="card">
-      <div class="card-header pb-2 border-bottom border-bottom-">
-        <div class="row align-items-center">
-          <div class="col-sm">
-            <h5>{{ $t('payments.transactionType.listTitle') }}</h5>
-          </div>
-          <div class="col-sm-auto align-items-end">
-            <router-link
-              :to="{ name: 'config.payments.transaction.type.form' }"
-              class="btn btn-primary"
-              href="#"
-              type="button"
-            >
-              <i class="fa fa-plus m-r-5" />
-              {{ $t('common.add') }}
-            </router-link>
-          </div>
-        </div>
-      </div>
+      <BaseTableHeader
+        :title="$t('payments.transactionType.listTitle')"
+        add-action-router-name="config.payments.transaction.type.form"
+        :refresh-action-field="{ page: 1, field: { next: true } }"
+        refresh-action-name="transaction_type/getTransactionTypesList"
+      />
       <div class="card-body">
         <BaseDatatable :tfoot="false" :total="transactionTypes.length">
           <template #headers>
@@ -29,7 +17,10 @@
             <th>{{ $t('common.attributes.label') }}</th>
             <th>{{ $t('common.actions') }}</th>
           </template>
-          <tr v-for="transactionType in transactionTypes" :key="transactionType.id">
+          <tr
+            v-for="transactionType in transactionTypes"
+            :key="transactionType.id"
+          >
             <td>{{ transactionType.id }}</td>
             <td>{{ transactionType.label }}</td>
             <td>
@@ -71,9 +62,10 @@ import BaseContainer from '/@/components/common/BaseContainer.vue';
 import BaseDatatable from '/@/components/common/BaseDatatable.vue';
 import store from '/@/store';
 import { mapGetters } from 'vuex';
+import BaseTableHeader from '/@/components/common/BaseTableHeader.vue';
 
 export default {
-  components: { BaseContainer, BaseDatatable },
+  components: { BaseTableHeader, BaseContainer, BaseDatatable },
   beforeRouteEnter(routeTo, routeFrom, next) {
     store
       .dispatch('transaction_type/getTransactionTypesList', {

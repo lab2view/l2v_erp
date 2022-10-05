@@ -11,19 +11,15 @@ const state = {
 // getters
 const getters = {
   cashRegisters: (state) =>
-    state.cashRegisters
-      ? JSON.parse(state.cashRegisters)
-      : [],
+    state.cashRegisters ? JSON.parse(state.cashRegisters) : [],
   cashRegister: (state) =>
-    state.cashRegister
-      ? JSON.parse(state.cashRegister)
-      : null,
+    state.cashRegister ? JSON.parse(state.cashRegister) : null,
 };
 
 // privileges
 const actions = {
   getCashRegistersList({ commit, getters }, { page, field }) {
-    if (getters.cashRegisters.length > 0) {
+    if (getters.cashRegisters.length > 0 && !field.next) {
       return getters.cashRegisters;
     }
     return cashRegisterService
@@ -42,12 +38,10 @@ const actions = {
       commit('SET_CURRENT_CASH_REGISTER', cashRegister);
       return cashRegister;
     }
-    return cashRegisterService
-      .getCashRegister(id)
-      .then(({ data }) => {
-        commit('SET_CURRENT_CASH_REGISTER', data);
-        return data;
-      });
+    return cashRegisterService.getCashRegister(id).then(({ data }) => {
+      commit('SET_CURRENT_CASH_REGISTER', data);
+      return data;
+    });
   },
 
   addCashRegister({ commit }, cashRegisterField) {
@@ -67,10 +61,22 @@ const actions = {
 
   updateCashRegister({ commit }, cashRegisterField) {
     return cashRegisterService
-      .updateCashRegister(
-        cashRegisterField,
-        cashRegisterField.id
-      )
+      .updateCashRegister(cashRegisterField, cashRegisterField.id)
+      .then(({ data }) => {
+        commit('UPDATE_CASH_REGISTER', data);
+        notify(
+          i18n.global.t('sales.cashRegister.update'),
+          'Ok',
+          'theme',
+          'fa fa-check'
+        );
+        return data;
+      });
+  },
+
+  updateStatusCashRegister({ commit }, cashRegisterField) {
+    return cashRegisterService
+      .updateStatusCashRegister(cashRegisterField, cashRegisterField.id)
       .then(({ data }) => {
         commit('UPDATE_CASH_REGISTER', data);
         notify(
@@ -108,9 +114,7 @@ const mutations = {
   },
   UPDATE_CASH_REGISTER(state, cashRegister) {
     let cashRegisters = JSON.parse(state.cashRegisters);
-    const index = cashRegisters.findIndex(
-      (p) => p.id === cashRegister.id
-    );
+    const index = cashRegisters.findIndex((p) => p.id === cashRegister.id);
     if (index !== -1) {
       cashRegisters.splice(index, 1, cashRegister);
       state.cashRegisters = JSON.stringify(cashRegisters);
@@ -118,9 +122,7 @@ const mutations = {
   },
   DELETE_CASH_REGISTER(state, cashRegisterId) {
     state.cashRegisters = JSON.stringify(
-      JSON.parse(state.cashRegisters).filter(
-        (p) => p.id !== cashRegisterId
-      )
+      JSON.parse(state.cashRegisters).filter((p) => p.id !== cashRegisterId)
     );
   },
 };

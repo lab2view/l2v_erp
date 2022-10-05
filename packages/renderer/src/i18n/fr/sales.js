@@ -13,28 +13,33 @@ export default {
     formCreateTitle: 'Ajouter un type de vente',
     formUpdateTitle: 'Modifier un type de vente',
     store: "L'enregistrement du type de vente a ete effectue avec succes.",
-    update: "La modification du type de vente a ete effectuee avec succes.",
+    update: 'La modification du type de vente a ete effectuee avec succes.',
   },
   cashRegister: {
+    open: 'Ouverture de caisse',
+    openLabel: 'Selectionner la caisse et entrez votre code pin',
     listTitle: 'Liste des caisses',
     formCreateTitle: 'Ajouter une caisse',
     formUpdateTitle: 'Modifier une caisse',
     store: "L'enregistrement de la caisse a ete effectue avec succes.",
-    update: "La modification de la caisse a ete effectuee avec succes.",
+    update: 'La modification de la caisse a ete effectuee avec succes.',
   },
   cashier: {
     listTitle: 'Liste des caissiers',
     formCreateTitle: 'Ajouter un(e) caissier(e)',
     formUpdateTitle: 'Modifier un(e) caissier(e)',
     store: "L'enregistrement du(d'une) caissier(e) a ete effectue avec succes.",
-    update: "La modification du(d'une) caissier(e) a ete effectuee avec succes.",
+    update:
+      "La modification du(d'une) caissier(e) a ete effectuee avec succes.",
   },
   cashierGroup: {
     listTitle: 'Liste des groupes de caissiers',
     formCreateTitle: 'Ajouter un groupe de caissiers',
     formUpdateTitle: 'Modifier un groupe de caissiers',
-    store: "L'enregistrement du groupe de caissiers a ete effectue avec succes.",
-    update: "La modification du groupe de caissiers a ete effectuee avec succes.",
+    store:
+      "L'enregistrement du groupe de caissiers a ete effectue avec succes.",
+    update:
+      'La modification du groupe de caissiers a ete effectuee avec succes.',
   },
   discount: {
     add_customers: 'Ajouter les clients a la reduction',
@@ -45,6 +50,7 @@ export default {
     customers: 'Gerer les clients de la reduction',
     listTitle: 'Liste des rabais',
     formCreateTitle: 'Ajouter un rabais',
+    formAddDiscountTitle: 'Effectuer une reductions ',
     formUpdateTitle: 'Modifier un rabais',
     store: "L'enregistrement du rabais a ete effectue avec succes",
     update: 'La modification du rabais a ete effectuee avec succes',

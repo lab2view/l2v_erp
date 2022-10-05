@@ -16,18 +16,40 @@ const getters = {
   product_properties: (state, getters) =>
     getters.product ? getters.product.product_properties : [],
   getProductsHash: (state) => state.hash ?? null,
+  getProductById: (state, getters) => (id) =>
+    getters.products.find((p) => p.id === id) ?? null,
 };
 
 // privileges
 const actions = {
-  getProductsList({ commit, getters }, { page, field }) {
-    if (getters.products.length > 0) {
+  getProductsList({ commit, getters, dispatch }, { page, field }) {
+    if (getters.products.length > 0 && !field.next) {
       return getters.products;
     } else
-      return productService.getList(page, field).then(({ data }) => {
-        commit('SET_PRODUCTS', data);
-        return data;
-      });
+      return productService
+        .getList(page, { ...field, paginate: 50 })
+        .then(({ data }) => {
+          commit('SET_PRODUCTS', data);
+          dispatch(
+            'setGlobalProgress',
+            {
+              label: 'products',
+              min: 0,
+              max: data.last_page,
+              value: data.current_page,
+            },
+            { root: true }
+          );
+
+          if (data.next_page_url) {
+            return dispatch('getProductsList', {
+              page: page + 1,
+              field: { ...field, next: true },
+            });
+          } else dispatch('setGlobalProgress', null, { root: true });
+
+          return data;
+        });
   },
 
   getProduct({ getters, commit }, id) {
@@ -47,7 +69,12 @@ const actions = {
       commit('ADD_PRODUCT', data);
       commit('article/ADD_ARTICLE', data.articles[0], { root: true });
       commit('SET_CURRENT_PRODUCT', data);
-      notify(i18n.global.t('products.form.store'), 'Ok', 'theme', 'fa fa-check');
+      notify(
+        i18n.global.t('products.form.store'),
+        'Ok',
+        'theme',
+        'fa fa-check'
+      );
       return data;
     });
   },
@@ -79,9 +106,9 @@ const actions = {
     });
   },
 
-  addProperties({ getters, commit }, properties) {
+  addProperties({ getters, commit }, productProperties) {
     return productService
-      .addProperties(properties, getters.product.id)
+      .addProperties({ properties: productProperties }, getters.product.id)
       .then(({ data }) => {
         commit('ADD_PROPERTIES', data.product_properties);
         return data;
@@ -91,7 +118,12 @@ const actions = {
   updateProperty({ commit }, productProperty) {
     return productService.updateProperty(productProperty).then(({ data }) => {
       commit('UPDATE_PROPERTY', data);
-      notify(i18n.global.t('products.tax.update'), 'Ok', 'theme', 'fa fa-check');
+      notify(
+        i18n.global.t('products.property.update'),
+        'Ok',
+        'theme',
+        'fa fa-check'
+      );
     });
   },
 
@@ -120,7 +152,12 @@ const actions = {
   updateTax({ commit }, productTax) {
     return productService.updateTax(productTax).then(({ data }) => {
       commit('UPDATE_TAX', data);
-      notify(i18n.global.t('products.tax.update'), 'Ok', 'theme', 'fa fa-check');
+      notify(
+        i18n.global.t('products.tax.update'),
+        'Ok',
+        'theme',
+        'fa fa-check'
+      );
     });
   },
 
@@ -144,8 +181,12 @@ const mutations = {
     state.hash = hash;
   },
 
-  SET_PRODUCTS(state, products) {
-    state.products = JSON.stringify(products);
+  SET_PRODUCTS(state, { current_page, data }) {
+    if (current_page === 1) state.products = JSON.stringify(data);
+    else {
+      let oldProducts = state.products ? JSON.parse(state.products) : [];
+      state.products = JSON.stringify([...oldProducts, ...data]);
+    }
   },
   SET_CURRENT_PRODUCT(state, product) {
     if (state.product !== product)

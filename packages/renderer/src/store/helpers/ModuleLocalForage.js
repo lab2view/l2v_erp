@@ -52,9 +52,17 @@ const Tax = new VuexPersistence({
 
 const Property = new VuexPersistence({
   key: 'property',
+  restoreState: (key, storage) => {
+    return storage.getItem(key).then((data) => JSON.parse(data));
+  },
+  saveState: (key, state, storage) => {
+    return storage.setItem(key, JSON.stringify(state));
+  },
   storage: localStore,
   asyncStorage: true,
-  reducer: (state) => ({ property: state.property }),
+  reducer: (state) => ({
+    property: state.property,
+  }),
 });
 
 const Product = new VuexPersistence({
@@ -288,6 +296,50 @@ const User = new VuexPersistence({
   reducer: (state) => ({ user: state.user }),
 });
 
+const CashierSession = new VuexPersistence({
+  key: 'cashier_session',
+  restoreState: (key, storage) => {
+    return storage.getItem(key).then((data) => JSON.parse(data));
+  },
+  saveState: (key, state, storage) => {
+    return storage.setItem(key, JSON.stringify(state));
+  },
+  storage: localStore,
+  asyncStorage: true,
+  reducer: (state) => ({
+    cashier_session: state.cashier_session,
+  }),
+});
+
+const Sale = new VuexPersistence({
+  key: 'sale',
+  restoreState: (key, storage) => {
+    return storage.getItem(key).then((data) => JSON.parse(data));
+  },
+  saveState: (key, state, storage) => {
+    return storage.setItem(key, JSON.stringify(state));
+  },
+  storage: localStore,
+  asyncStorage: true,
+  reducer: (state) => ({
+    sale: state.sale,
+  }),
+});
+
+const Printer = new VuexPersistence({
+  key: 'printer',
+  restoreState: (key, storage) => {
+    return storage.getItem(key).then((data) => JSON.parse(data));
+  },
+  saveState: (key, state, storage) => {
+    return storage.setItem(key, JSON.stringify(state));
+  },
+  storage: localStore,
+  asyncStorage: true,
+  reducer: (state) => ({
+    printer: state.printer,
+  }),
+});
 
 export default [
   Auth.plugin,
@@ -331,4 +383,7 @@ export default [
   SaleType.plugin,
   Role.plugin,
   User.plugin,
+  CashierSession.plugin,
+  Sale.plugin,
+  Printer.plugin,
 ];

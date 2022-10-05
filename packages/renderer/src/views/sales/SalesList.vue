@@ -1,30 +1,15 @@
 <template>
-  <BaseContainer
-    :module="$t('menu.modules.sales')"
-    :title="$t('sales.title')"
-  >
+  <BaseContainer :module="$t('menu.modules.sales')" :title="$t('sales.title')">
     <div class="card">
-      <div class="card-header pb-2 border-bottom border-bottom-">
-        <div class="row align-items-center">
-          <div class="col-sm">
-            <h5>{{ $t('sales.sale.listTitle') }}</h5>
-          </div>
-          <div class="col-sm-auto align-items-end">
-            <router-link
-              :to="{ name: 'sales.sale.form' }"
-              href="#"
-              class="btn btn-primary"
-              type="button"
-            >
-              <i class="fa fa-plus m-r-5" />
-              {{ $t('common.add') }}
-            </router-link>
-          </div>
-        </div>
-      </div>
+      <BaseTableHeader
+        :title="$t('sales.sale.listTitle')"
+        :refresh-action-field="{ page: 1, field: { next: true } }"
+        refresh-action-name="sale/getSalesList"
+      />
       <div class="card-body">
-        SalesList
+        <SaleTable :sales="sales" />
       </div>
+      <router-view />
 
       <router-view />
     </div>
@@ -33,9 +18,24 @@
 
 <script>
 import BaseContainer from '/@/components/common/BaseContainer.vue';
+import store from '/@/store/index.js';
+import { mapGetters } from 'vuex';
+import SaleTable from '/@/components/sales/SaleTable.vue';
+import BaseTableHeader from '/@/components/common/BaseTableHeader.vue';
 
 export default {
-  components: { BaseContainer },
+  components: { BaseTableHeader, SaleTable, BaseContainer },
+  beforeRouteEnter(routeTo, routeFrom, next) {
+    store
+      .dispatch('sale/getSalesList', {
+        page: 1,
+        field: {},
+      })
+      .finally(() => next());
+  },
+  computed: {
+    ...mapGetters('sale', ['sales']),
+  },
 };
 </script>
 

@@ -1,6 +1,6 @@
 import customerTypeService from '../../../services/customers/CustomerTypeService';
 import { notify } from '/@/helpers/notify';
-import i18n from '../../../i18n';
+import i18n from '/@/i18n';
 
 const state = {
   customerTypes: null,
@@ -18,7 +18,7 @@ const getters = {
 
 const actions = {
   getCustomerTypesList({ commit, getters }, { page, field }) {
-    if (getters.customerTypes.length > 0) {
+    if (getters.customerTypes.length > 0 && !field.next) {
       return getters.customerTypes;
     } else
       return customerTypeService

@@ -11,7 +11,10 @@
             required
             :errors="errors?.tax_id"
             @btn-click="
-              $router.push({ name: 'product.form.setting.tax.form.tax' })
+              $router.push({
+                name: 'product.form.setting.tax.form.tax',
+                params: { ...$route.params },
+              })
             "
           >
             <BaseSelect

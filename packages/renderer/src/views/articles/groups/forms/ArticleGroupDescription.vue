@@ -17,13 +17,24 @@
             />
           </div>
           <div class="col-md">
-            <BaseInput
+            <BaseInputGroup
               v-model="articleGroupForm.code"
               :label="$t('common.attributes.code')"
-              type="text"
               placeholder="E.g. SPROMO"
               :errors="errors?.code"
-            />
+              required
+              :disabled="isUpdating"
+            >
+              <button
+                :disabled="isUpdating"
+                type="button"
+                class="btn btn-success btn-iconsolid"
+                :title="$t('common.shuffle')"
+                @click.prevent="generateReference"
+              >
+                <i class="fa fa-random"></i>
+              </button>
+            </BaseInputGroup>
           </div>
         </div>
         <div class="mb-3">
@@ -57,16 +68,19 @@
 </template>
 
 <script>
-import BaseInput from '../../../../components/common/BaseInput.vue';
 import BaseButton from '../../../../components/common/BaseButton.vue';
 import BaseTextArea from '../../../../components/common/BaseTextArea.vue';
 import ArticleGroupMixin from '../../../../mixins/ArticleGroupMixin';
+import BaseInputGroup from '/@/components/common/BaseInputGroup.vue';
+import BaseInput from '/@/components/common/BaseInput.vue';
+import { random } from 'lodash/number';
 
 export default {
   components: {
     BaseTextArea,
-    BaseButton,
     BaseInput,
+    BaseButton,
+    BaseInputGroup,
   },
   mixins: [ArticleGroupMixin],
   data() {
@@ -86,6 +100,9 @@ export default {
         ? this.$t('articles.group.formUpdateTitle')
         : this.$t('articles.group.formCreateTitle');
     },
+    isUpdating() {
+      return !!this.articleGroup;
+    },
   },
   watch: {
     articleGroupForm: {
@@ -100,6 +117,13 @@ export default {
       this.articleGroupForm = Object.assign({}, this.articleGroup);
   },
   methods: {
+    generateReference() {
+      //todo complete generating ref algorithm for exit stock
+      this.articleGroupForm.code = `STE-EXIT-${new Date().getDay()}-${random(
+        1000,
+        1000000
+      )}`;
+    },
     submitArticleGroupForm() {
       if (this.haveArticleGroup) {
         if (this.is_edited)
@@ -107,7 +131,7 @@ export default {
             .dispatch('article_group/updateArticleGroup', this.articleGroupForm)
             .then((articleGroup) =>
               this.$router.push({
-                name: 'article.group.form.setting',
+                name: 'article.group.form.item',
                 params: { id: articleGroup.id },
               })
             )
@@ -117,7 +141,7 @@ export default {
             });
         else
           this.$router.push({
-            name: 'article.group.form.setting',
+            name: 'article.group.form.item',
             params: { id: this.articleGroup.id },
           });
       } else
@@ -125,7 +149,7 @@ export default {
           .dispatch('article_group/addArticleGroup', this.articleGroupForm)
           .then((articleGroup) =>
             this.$router.push({
-              name: 'article.group.form.setting',
+              name: 'article.group.form.item',
               params: { id: articleGroup.id },
             })
           )

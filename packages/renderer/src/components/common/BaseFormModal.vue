@@ -7,12 +7,17 @@
     aria-modal="true"
     role="dialog"
   >
-    <div class="modal-dialog modal-dialog-centered" role="document">
+    <div
+      class="modal-dialog modal-dialog-centered"
+      :class="sizeClass"
+      role="document"
+    >
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title">{{ title }}</h5>
           <slot name="close">
             <button
+              v-if="withCloseAction"
               class="btn-close"
               type="button"
               data-bs-dismiss="modal"
@@ -37,12 +42,18 @@
 
 <script>
 export default {
-  name: 'BaseFormModal',
   props: {
     title: { type: String, required: true },
     submitForm: {
       type: Function,
       required: true,
+    },
+    modalSize: { type: String, default: null },
+    withCloseAction: { type: Boolean, default: true },
+  },
+  computed: {
+    sizeClass() {
+      return this.modalSize ? `modal-${this.modalSize}` : '';
     },
   },
 };

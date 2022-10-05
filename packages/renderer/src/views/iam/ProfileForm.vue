@@ -1,8 +1,5 @@
 <template>
-  <BaseContainer
-    :module="$t('menu.modules.iam')"
-    :title="$t('iam.title')"
-  >
+  <BaseContainer :module="$t('menu.modules.iam')" :title="$t('iam.title')">
     <h1>Profile</h1>
     <div class="card">
       <form @submit.prevent="submitForm">
@@ -72,7 +69,7 @@
               <BaseFieldGroup
                 :label="$t('common.attributes.localization')"
                 :errors="errors.localization_id"
-                @btn-click="$router.push({ name: 'localization.form' })"
+                @btn-click="addNewLocalisationAction"
               >
                 <BaseSelect
                   v-model="authUser.localization_id"
@@ -141,6 +138,7 @@
             </div>
             <div class="col-md d-flex justify-content-end">
               <BaseButton
+                v-if="!isSaleSession"
                 :text="$t('common.cancel')"
                 class="btn btn-secondary col-auto m-r-5"
                 type="button"
@@ -166,11 +164,20 @@ import BaseContainer from '/@/components/common/BaseContainer.vue';
 import BaseFieldGroup from '/@/components/common/BaseFieldGroup.vue';
 import BaseInput from '/@/components/common/BaseInput.vue';
 import BaseSelect from '/@/components/common/BaseSelect.vue';
-import { mapGetters } from 'vuex';
-import { notify } from "/@/helpers/notify";
+import {mapGetters} from 'vuex';
+import {notify} from '/@/helpers/notify';
 import store from '/@/store';
+import SaleSessionMixin from '/@/mixins/SaleSessionMixin.js';
 
 export default {
+  components: {
+    BaseFieldGroup,
+    BaseButton,
+    BaseContainer,
+    BaseInput,
+    BaseSelect,
+  },
+  mixins: [SaleSessionMixin],
   beforeRouteEnter(routeTo, routeFrom, next) {
     Promise.all([
       store.dispatch('country/getCountriesList', {
@@ -185,7 +192,6 @@ export default {
       .catch((error) => console.log(error))
       .finally(() => next());
   },
-  components: { BaseFieldGroup, BaseButton, BaseContainer, BaseInput, BaseSelect },
   data() {
     return {
       loading: false,
@@ -206,56 +212,83 @@ export default {
       old_password: '',
       password: '',
       password_confirmation: '',
-    }
+    };
   },
   computed: {
     ...mapGetters('auth', ['currentUser']),
     ...mapGetters('localization', ['localizations']),
     ...mapGetters('country', ['countries']),
   },
+  beforeMount() {
+    this.authUser = this.currentUser;
+  },
   methods: {
     submitForm() {
       this.errors = [];
       this.loading = true;
-      let data = this.authUser
+      let data = this.authUser;
       if (this.password) {
         if (this.password !== this.password_confirmation) {
           this.errors = {
-            password: [this.$t('messages.errors.password_not_match')]
-          }
-          return
+            password: [this.$t('messages.errors.password_not_match')],
+          };
+          return;
         }
         data = {
           ...data,
           password: this.password,
           password_confirmation: this.password_confirmation,
-          old_password: this.old_password
-        }
+          old_password: this.old_password,
+        };
+        store
+          .dispatch('auth/updateAuthUserPassword', data)
+          .then(() => {
+            notify(
+              this.$t('messages.update_user_password_successfully'),
+              'New Event',
+              'success'
+            );
+            this.password_confirmation = null;
+            this.password = null;
+            this.old_password = null;
+          })
+          .catch((error) => {
+            if (error.errors) {
+              this.errors = error.errors;
+            }
+          })
+          .finally(() => {
+            this.loading = false;
+          });
+      } else {
+        store
+          .dispatch('auth/updateAuthUser', data)
+          .then(() => {
+            notify(
+              this.$t('messages.update_user_successfully'),
+              'New Event',
+              'success'
+            );
+            this.password_confirmation = null;
+            this.password = null;
+            this.old_password = null;
+          })
+          .catch((error) => {
+            if (error.errors) {
+              this.errors = error.errors;
+            }
+          })
+          .finally(() => {
+            this.loading = false;
+          });
       }
-      store.dispatch('auth/updateAuthUser', data)
-        .then(() => {
-          notify(
-            this.$t('messages.update_user_successfully'),
-            'New Event',
-            'success'
-          );
-          this.password_confirmation = null;
-          this.password = null;
-          this.old_password = null;
-        })
-        .catch((error) => {
-          if (error.errors) {
-            this.errors = error.errors
-          }
-        })
-        .finally(() => {
-          this.loading = false;
-        });
-    }
+    },
+    addNewLocalisationAction() {
+      if (!this.isSaleSession) {
+        this.$router.push({name: 'localization.form'});
+      } else notify(this.$t('common.action_not_allow'), '', 'danger');
+    },
   },
-  beforeMount() {
-    this.authUser = this.currentUser
-  }
 };
 </script>
 

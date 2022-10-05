@@ -17,7 +17,7 @@ const getters = {
 // privileges
 const actions = {
   getTaxesList({ commit, getters }, { page, field }) {
-    if (getters.taxes.length > 0) {
+    if (getters.taxes.length > 0 && !field.next) {
       return getters.taxes;
     } else
       return taxService.getList(page, field).then(({ data }) => {
@@ -48,7 +48,12 @@ const actions = {
 
   updateTax({ commit }, taxField) {
     return taxService.update(taxField, taxField.id).then(({ data }) => {
-      notify(i18n.global.t('products.tax.update'), 'Ok', 'theme', 'fa fa-check');
+      notify(
+        i18n.global.t('products.tax.update'),
+        'Ok',
+        'theme',
+        'fa fa-check'
+      );
       commit('UPDATE_TAX', data);
       return data;
     });

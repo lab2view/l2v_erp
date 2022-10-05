@@ -7,12 +7,25 @@ const state = {
   stock_exits: null,
   hash: null,
   stockExit: null,
+  multiple_stock_exits: null,
 };
 
 // getters
 const getters = {
   stock_exits: (state) =>
     state.stock_exits ? JSON.parse(state.stock_exits) : [],
+  getMultipleStockExits: (state) =>
+    state.multiple_stock_exits ? JSON.parse(state.multiple_stock_exits) : [],
+  haveMultipleStockExit: (state, getters) =>
+    getters.getMultipleStockExits.length > 0,
+  getStockExitsByProductId: (state, getters) => (product_id) => {
+    return getters.stock_exits.filter(
+      (se) =>
+        se.stock_exit_lines.find(
+          (sel) => sel.article.product_id === product_id
+        ) !== undefined
+    );
+  },
   stockExit: (state) => (state.stockExit ? JSON.parse(state.stockExit) : null),
   haveStockExit: (state, getters) => !!getters.stockExit,
   stockExitLines: (state, getters) =>
@@ -33,14 +46,39 @@ const getters = {
 
 // privileges
 const actions = {
-  getStockExitsList({ commit, getters }, { page, field }) {
-    if (getters.stock_exits.length > 0) {
+  getStockExitsList({ commit, getters, dispatch }, { page, field }) {
+    if (getters.stock_exits.length > 0 && !field.next) {
       return getters.stock_exits;
     } else
-      return stockExitService.getList(page, field).then(({ data }) => {
-        commit('SET_STOCK_EXITS', data);
-        return data;
-      });
+      return stockExitService
+        .getList(page, { ...field, paginate: 20 })
+        .then(({ data }) => {
+          commit('SET_STOCK_EXITS', data);
+
+          dispatch(
+            'setGlobalProgress',
+            {
+              label: 'Exit stocks',
+              min: 0,
+              max: data.last_page,
+              value: data.current_page,
+            },
+            { root: true }
+          );
+
+          if (data.next_page_url) {
+            return dispatch('getStockExitsList', {
+              page: page + 1,
+              field: { ...field, next: true },
+            });
+          } else dispatch('setGlobalProgress', null, { root: true });
+
+          return data;
+        })
+        .catch((error) => {
+          commit('SET_STOCK_EXITS', []);
+          return Promise.reject(error);
+        });
   },
 
   getStockExit({ getters, commit }, id) {
@@ -61,6 +99,26 @@ const actions = {
       commit('SET_CURRENT_STOCK_EXIT', data);
       return data;
     });
+  },
+
+  async addStockExitToMultipleStructures(
+    { commit },
+    { stockExitField, receiverEnterprises }
+  ) {
+    return Promise.all(
+      receiverEnterprises.map(async (receiver) => {
+        await stockExitService
+          .add({
+            ...stockExitField,
+            enterprise_receiver_id: receiver.id,
+            reference: `${stockExitField.reference}-${receiver.id}`,
+          })
+          .then(({ data }) => {
+            commit('ADD_STOCK_EXIT', data);
+            commit('ADD_MULTIPLE_STOCK_EXIT', data);
+          });
+      })
+    );
   },
 
   updateStockExit({ commit }, stockExitField) {
@@ -127,11 +185,15 @@ const actions = {
 
 // mutations
 const mutations = {
-  SET_STOCK_EXITS(state, stock_exits) {
-    state.stock_exits = JSON.stringify(stock_exits);
+  SET_STOCK_EXITS(state, { current_page, data }) {
+    if (current_page === 1) state.stock_exits = JSON.stringify(data);
+    else {
+      let oldItems = state.stock_exits ? JSON.parse(state.stock_exits) : [];
+      state.stock_exits = JSON.stringify([...oldItems, ...data]);
+    }
   },
   SET_CURRENT_STOCK_EXIT(state, stockExit) {
-    state.stockExit = JSON.stringify(stockExit);
+    state.stockExit = stockExit ? JSON.stringify(stockExit) : null;
   },
   ADD_STOCK_EXIT(state, stockExit) {
     let stock_exits = JSON.parse(state.stock_exits);
@@ -155,8 +217,8 @@ const mutations = {
   },
 
   ADD_STOCK_EXIT_LINES(state, stock_exit_lines) {
-    let stock_exits = JSON.parse(state.stock_exits);
-    let stockExit = JSON.parse(state.stockExit);
+    let stock_exits = state.stock_exits ? JSON.parse(state.stock_exits) : [];
+    let stockExit = state.stockExit ? JSON.parse(state.stockExit) : null;
     let index = stock_exits.findIndex((se) => se.id === stockExit.id);
     if (index !== -1) {
       stockExit.stock_exit_lines = [
@@ -169,8 +231,8 @@ const mutations = {
     }
   },
   UPDATE_STOCK_EXIT_LINE(state, stockExitLine) {
-    let stock_exits = JSON.parse(state.stock_exits);
-    let stockExit = JSON.parse(state.stockExit);
+    let stock_exits = state.stock_exits ? JSON.parse(state.stock_exits) : [];
+    let stockExit = state.stockExit ? JSON.parse(state.stockExit) : null;
     let index = stock_exits.findIndex((se) => se.id === stockExit.id);
     if (index !== -1) {
       let art = stockExit.stock_exit_lines.findIndex(
@@ -185,8 +247,8 @@ const mutations = {
     }
   },
   REMOVE_STOCK_EXIT_LINES(state, stock_exit_lines_ids) {
-    let stock_exits = JSON.parse(state.stock_exits);
-    let stockExit = JSON.parse(state.stockExit);
+    let stock_exits = state.stock_exits ? JSON.parse(state.stock_exits) : [];
+    let stockExit = state.stockExit ? JSON.parse(state.stockExit) : null;
     let index = stock_exits.findIndex((se) => se.id === stockExit.id);
     if (index !== -1) {
       stockExit.stock_exit_lines = stockExit.stock_exit_lines.filter((cp) => {
@@ -199,8 +261,8 @@ const mutations = {
   },
 
   ADD_STOCK_EXIT_STATE(state, stockState) {
-    let stock_exits = JSON.parse(state.stock_exits);
-    let stockExit = JSON.parse(state.stockExit);
+    let stock_exits = state.stock_exits ? JSON.parse(state.stock_exits) : [];
+    let stockExit = state.stockExit ? JSON.parse(state.stockExit) : null;
     let index = stock_exits.findIndex((se) => se.id === stockExit.id);
     if (index !== -1) {
       let oldActInd = stockExit.stock_exit_states.findIndex(
@@ -218,6 +280,18 @@ const mutations = {
       state.stockExit = JSON.stringify(stockExit);
       state.stock_exits = JSON.stringify(stock_exits);
     }
+  },
+
+  ADD_MULTIPLE_STOCK_EXIT(state, stockExit) {
+    let multiple_stock_exits = state.multiple_stock_exits
+      ? JSON.parse(state.multiple_stock_exits)
+      : [];
+    multiple_stock_exits.push(stockExit);
+    state.multiple_stock_exits = JSON.stringify(multiple_stock_exits);
+  },
+
+  RESET_MULTIPLE_STOCK_EXIT(state) {
+    state.multiple_stock_exits = null;
   },
 };
 

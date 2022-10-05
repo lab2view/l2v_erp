@@ -4,24 +4,12 @@
     :title="$t('payments.title')"
   >
     <div class="card">
-      <div class="card-header pb-2 border-bottom border-bottom-">
-        <div class="row align-items-center">
-          <div class="col-sm">
-            <h5>{{ $t('payments.paymentMethod.listTitle') }}</h5>
-          </div>
-          <div class="col-sm-auto align-items-end">
-            <router-link
-              :to="{ name: 'config.payments.method.form' }"
-              class="btn btn-primary"
-              href="#"
-              type="button"
-            >
-              <i class="fa fa-plus m-r-5" />
-              {{ $t('common.add') }}
-            </router-link>
-          </div>
-        </div>
-      </div>
+      <BaseTableHeader
+        :title="$t('payments.paymentMethod.listTitle')"
+        add-action-router-name="config.payments.method.form"
+        :refresh-action-field="{ page: 1, field: { next: true } }"
+        refresh-action-name="payment_method/getPaymentMethodsList"
+      />
       <div class="card-body">
         <BaseDatatable :tfoot="false" :total="paymentMethods.length">
           <template #headers>
@@ -71,9 +59,10 @@ import BaseContainer from '/@/components/common/BaseContainer.vue';
 import BaseDatatable from '/@/components/common/BaseDatatable.vue';
 import store from '/@/store';
 import { mapGetters } from 'vuex';
+import BaseTableHeader from '/@/components/common/BaseTableHeader.vue';
 
 export default {
-  components: { BaseContainer, BaseDatatable },
+  components: { BaseTableHeader, BaseContainer, BaseDatatable },
   beforeRouteEnter(routeTo, routeFrom, next) {
     store
       .dispatch('payment_method/getPaymentMethodsList', {

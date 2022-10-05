@@ -1,23 +1,33 @@
 import propertyService from '../../../services/products/PropertyService';
-import { notify } from '../../../helpers/notify';
+import { notify } from '/@/helpers/notify.js';
 import i18n from '../../../i18n';
 
 const state = {
-  properties: null,
+  properties: [],
   hash: null,
   property: null,
+  property_types: [],
 };
 
 // getters
 const getters = {
-  properties: (state) => (state.properties ? JSON.parse(state.properties) : []),
-  property: (state) => (state.property ? JSON.parse(state.property) : null),
+  properties: (state) => state.properties,
+  property: (state) => state.property,
+  propertyTypes: (state) => state.property_types,
+  getPropertyTypeById: (state, getters) => (id) =>
+    getters.propertyTypes.find((pt) => pt.id === id) ?? null,
+  filterPropertiesByProduct: (state, getters) => (product) =>
+    getters.properties.filter((p) =>
+      p.product_id
+        ? p.product_id === product.id
+        : p.product_type_id === product.product_type_id
+    ),
 };
 
 // privileges
 const actions = {
   getPropertiesList({ commit, getters }, { page, field }) {
-    if (getters.properties.length > 0) {
+    if (getters.properties.length > 0 && !field.next) {
       return getters.properties;
     } else
       return propertyService.getList(page, field).then(({ data }) => {
@@ -27,7 +37,9 @@ const actions = {
   },
 
   getProperty({ getters, commit }, id) {
-    const property = getters.properties.find((p) => p.id.toString() === id);
+    const property = getters.properties.find(
+      (p) => p.id.toString() === id.toString()
+    );
     if (property !== undefined) {
       commit('SET_CURRENT_PROPERTY', property);
       return property;
@@ -72,33 +84,125 @@ const actions = {
       return data;
     });
   },
+
+  getPropertyTypes({ commit, getters }) {
+    if (getters.propertyTypes.length > 0) {
+      return getters.propertyTypes;
+    } else
+      return propertyService.getPropertyTypes().then(({ data }) => {
+        commit('SET_PROPERTY_TYPES', data);
+        return data;
+      });
+  },
+  updatePropertyType({ commit }, propertyTypeField) {
+    return propertyService
+      .updatePropertyType(propertyTypeField, propertyTypeField.id)
+      .then(({ data }) => {
+        notify(
+          i18n.global.t('products.property.type.update'),
+          'Ok',
+          'theme',
+          'fa fa-check'
+        );
+        commit('UPDATE_PROPERTY_TYPE', data);
+        return data;
+      });
+  },
+
+  addPropertyValues({ getters, commit }, values) {
+    return propertyService
+      .addPropertyValues(values, getters.property.id)
+      .then(({ data }) => {
+        commit('ADD_PROPERTY_VALUES', data.property_values);
+        return data;
+      });
+  },
+  updatePropertyValue({ commit }, propertyValue) {
+    return propertyService
+      .updatePropertyValue(propertyValue)
+      .then(({ data }) => {
+        commit('UPDATE_PROPERTY_VALUE', data);
+      });
+  },
+  removePropertyValues({ getters, commit }, propertyValueIds) {
+    return propertyService
+      .removePropertyValues(
+        {
+          property_value_ids: [...propertyValueIds],
+        },
+        getters.property.id
+      )
+      .then(() => {
+        commit('REMOVE_PROPERTY_VALUES', propertyValueIds);
+      });
+  },
 };
 
 // mutations
 const mutations = {
   SET_PROPERTIES(state, properties) {
-    state.properties = JSON.stringify(properties);
+    state.properties = properties;
   },
   SET_CURRENT_PROPERTY(state, pack) {
-    state.property = JSON.stringify(pack);
+    state.property = pack;
   },
   ADD_PROPERTY(state, pack) {
-    let properties = JSON.parse(state.properties);
-    properties.push(pack);
-    state.properties = JSON.stringify(properties);
+    state.properties.push(pack);
   },
   UPDATE_PROPERTY(state, pack) {
-    let properties = JSON.parse(state.properties);
-    const index = properties.findIndex((p) => p.id === pack.id);
+    const index = state.properties.findIndex((p) => p.id === pack.id);
     if (index !== -1) {
-      properties.splice(index, 1, pack);
-      state.properties = JSON.stringify(properties);
+      state.properties.splice(index, 1, pack);
     }
   },
   DELETE_PROPERTY(state, propertyId) {
-    state.properties = JSON.stringify(
-      JSON.parse(state.properties).filter((p) => p.id !== propertyId)
+    state.properties = state.properties.filter((p) => p.id !== propertyId);
+  },
+
+  SET_PROPERTY_TYPES(state, property_types) {
+    state.property_types = property_types;
+  },
+  UPDATE_PROPERTY_TYPE(state, propertyType) {
+    const index = state.property_types.findIndex(
+      (pt) => pt.id === propertyType.id
     );
+    if (index !== -1) {
+      state.property_types.splice(index, 1, propertyType);
+    }
+  },
+
+  ADD_PROPERTY_VALUES(state, property_values) {
+    let index = state.properties.findIndex((p) => p.id === state.property.id);
+    if (index !== -1) {
+      state.property.property_values = [
+        ...state.property.property_values,
+        ...property_values,
+      ];
+      state.properties.splice(index, 1, state.property);
+    }
+  },
+  UPDATE_PROPERTY_VALUE(state, propertyValue) {
+    let index = state.properties.findIndex((p) => p.id === state.property.id);
+    if (index !== -1) {
+      let ind = state.property.property_values.findIndex(
+        (pv) => pv.id === propertyValue.id
+      );
+      if (ind !== -1) {
+        state.property.property_values.splice(ind, 1, propertyValue);
+        state.properties.splice(index, 1, state.property);
+      }
+    }
+  },
+  REMOVE_PROPERTY_VALUES(state, propertyValues) {
+    let index = state.properties.findIndex((p) => p.id === state.property.id);
+    if (index !== -1) {
+      state.property.property_values = state.property.property_values.filter(
+        (pp) => {
+          return propertyValues.find((pv) => pv === pp.id) === undefined;
+        }
+      );
+      state.properties.splice(index, 1, state.property);
+    }
   },
 };
 

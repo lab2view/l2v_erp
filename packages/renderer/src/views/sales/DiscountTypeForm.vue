@@ -2,8 +2,8 @@
   <BaseFormModal :submit-form="submitDiscountTypeForm" :title="title">
     <div class="form-group mb-3">
       <label class="form-label fw-bold" for="label">{{
-          $t('common.attributes.label')
-        }}</label>
+        $t('common.attributes.label')
+      }}</label>
       <input
         id="label"
         v-model="discountTypeForm.label"
@@ -22,15 +22,19 @@
     </div>
     <div class="mb-3">
       <label class="form-label fw-bold" for="description">{{
-          $t('common.attributes.description')
-        }}</label>
+        $t('common.attributes.description')
+      }}</label>
       <textarea
         id="description"
         v-model="discountTypeForm.description"
         class="form-control"
         placeholder="..."
       ></textarea>
-      <div v-if="errors.description" class="invalid-feedback" style="display: inline">
+      <div
+        v-if="errors.description"
+        class="invalid-feedback"
+        style="display: inline"
+      >
         {{ errors.description[0] }}
       </div>
     </div>
@@ -44,7 +48,7 @@
 
 <script>
 import BaseFormModal from '/@/components/common/BaseFormModal.vue';
-import {mapGetters} from 'vuex';
+import { mapGetters } from 'vuex';
 
 export default {
   components: { BaseFormModal },
@@ -73,10 +77,7 @@ export default {
   beforeUnmount() {
     this.setLoading();
     if (this.discountType && this.discountType.id)
-      this.$store.commit(
-        'discount_type/SET_CURRENT_DISCOUNT_TYPE',
-        null
-      );
+      this.$store.commit('discount_type/SET_CURRENT_DISCOUNT_TYPE', null);
   },
   methods: {
     setLoading(value = false) {
@@ -93,25 +94,20 @@ export default {
 
       this.setLoading(true);
       if (this.discountType && this.discountType.id) {
-        this.$store.dispatch(
-          'discount_type/updateDiscountType',
-          this.discountTypeForm,
-        )
+        this.$store
+          .dispatch('discount_type/updateDiscountType', this.discountTypeForm)
           .then(() => this.$router.back())
           .catch((error) => {
-            this.errors = error.response.data.errors;
+            this.errors = error.response?.data?.errors;
             console.log(error);
           })
           .finally(() => this.setLoading());
       } else {
         this.$store
-          .dispatch(
-            'discount_type/addDiscountType',
-            this.discountTypeForm,
-          )
+          .dispatch('discount_type/addDiscountType', this.discountTypeForm)
           .then(() => this.$router.back())
           .catch((error) => {
-            this.errors = error.response.data.errors;
+            this.errors = error?.response?.data?.errors;
             console.log(error);
           })
           .finally(() => this.setLoading());

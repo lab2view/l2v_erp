@@ -52,7 +52,6 @@
                 :errors="errors.phone"
                 :label="$t('common.attributes.phone')"
                 placeholder="699.."
-                required
                 type="number"
               >
                 <template v-if="callingCode" #prefix>
@@ -61,6 +60,28 @@
                   </div>
                 </template>
               </BaseInputGroup>
+            </div>
+          </div>
+        </div>
+        <div class="mb-3">
+          <div class="row align-items-center">
+            <div class="col-md">
+              <BaseInput
+                v-model="enterpriseForm.trade_register"
+                :errors="errors.trade_register"
+                :label="$t('common.attributes.trade_register')"
+                placeholder="E.g. RC/..."
+                type="text"
+              />
+            </div>
+            <div class="col-md">
+              <BaseInput
+                v-model="enterpriseForm.matriculation"
+                :errors="errors.matriculation"
+                :label="$t('common.attributes.matriculation')"
+                placeholder="E.g. NIU..."
+                type="text"
+              />
             </div>
           </div>
         </div>
@@ -144,6 +165,8 @@ export default {
         domain: null,
         database: null,
         website: null,
+        trade_register: null,
+        matriculation: null,
       },
     };
   },
@@ -208,7 +231,7 @@ export default {
               })
             )
             .catch((error) => {
-              this.errors = error.response.data.errors;
+              this.errors = error.response?.data?.errors;
               console.log(error);
             })
             .finally(() => this.setLoading());
@@ -229,7 +252,7 @@ export default {
           })
           .catch((error) => {
             console.log(error);
-            this.errors = error.response.data.errors;
+            this.errors = error.response?.data?.errors;
             console.log(error);
           })
           .finally(() => this.setLoading());

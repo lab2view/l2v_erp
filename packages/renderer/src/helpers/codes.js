@@ -2,6 +2,8 @@ export const enterpriseImageCode = 'UPLOAD_LOGO';
 export const productPropertyImageCode = 'UPLOAD_IMAGE';
 export const unitPackageCode = 'UNIT';
 export const roleAdminCode = 'ADMIN';
+export const roleCashierCode = 'CASHIER';
+export const cashPaymentMethodCode = 'PM_CASH';
 export const stockFor = { entry: 'StockEntry', exit: 'StockExit' };
 export const stockTypeCode = {
   directEntry: 'E_STOCK_DIRECT',
@@ -34,4 +36,22 @@ export const actionCode = {
   updated: 'updated',
   deleted: 'deleted',
   restored: 'restored',
+};
+
+export const saleTypeCode = {
+  bulk: 'S_TYPE_BULK',
+  detail: 'S_TYPE_DETAIL',
+};
+
+export const priceTypeCode = {
+  buy: 'BUY_PRICE',
+  sell: 'SELL_PRICE',
+};
+
+export const propertyTypeCode = {
+  select: 'select',
+  switcher: 'switcher',
+  radio: 'radio',
+  checkbox: 'checkbox',
+  color: 'color',
 };
