@@ -17,14 +17,39 @@ const getters = {
 };
 
 const actions = {
-  getUsersList({ commit, getters }, { page, field }) {
+  getUsersList({ commit, getters, dispatch }, { page, field }) {
     if (getters.users.length > 0 && !field.next) {
       return getters.users;
     } else
-      return userService.getUsersList(page, field).then(({ data }) => {
-        commit('SET_USERS', data);
-        return data;
-      });
+      return userService
+        .getUsersList(page, field)
+        .then(({ data }) => {
+          commit('SET_USERS', data);
+
+          dispatch(
+            'setGlobalProgress',
+            {
+              label: 'users',
+              min: 0,
+              max: data.last_page,
+              value: data.current_page,
+            },
+            { root: true }
+          );
+
+          if (data.next_page_url) {
+            return dispatch('getUsersList', {
+              page: page + 1,
+              field: { ...field, next: true },
+            });
+          } else dispatch('setGlobalProgress', null, { root: true });
+
+          return data;
+        })
+        .catch((error) => {
+          commit('SET_USERS', []);
+          return Promise.reject(error);
+        });
   },
 
   getUser({ getters, commit }, id) {
@@ -97,8 +122,12 @@ const mutations = {
   SET_IAM_HASH(state, hash) {
     state.hash = hash;
   },
-  SET_USERS(state, users) {
-    state.users = JSON.stringify(users);
+  SET_USERS(state, { current_page, data }) {
+    if (current_page === 1) state.users = JSON.stringify(data);
+    else {
+      let oldArticles = state.users ? JSON.parse(state.users) : [];
+      state.users = JSON.stringify([...oldArticles, ...data]);
+    }
   },
   SET_CURRENT_USER(state, user) {
     state.user = user === null ? null : JSON.stringify(user);
