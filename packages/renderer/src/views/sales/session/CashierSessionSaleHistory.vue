@@ -26,7 +26,12 @@
     <div id="mainnav">
       <div class="sidebar-main-title m-l-20">
         <div>
-          <h6>{{ $t('common.sale.list') }}</h6>
+          <h6>
+            {{ $t('common.sale.list') }}
+            <a href="#" class="m-l-50" @click.prevent="handleSearchSaleAction">
+              <i class="fa fa-refresh" :class="loading ? 'fa-pulse' : ''" />
+            </a>
+          </h6>
         </div>
       </div>
       <ul

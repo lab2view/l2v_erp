@@ -33,6 +33,7 @@ import BaseFormModal from '/@/components/common/BaseFormModal.vue';
 import { mapGetters } from 'vuex';
 
 export default {
+  name: 'InventoryForm',
   components: { BaseFormModal },
   data() {
     return {

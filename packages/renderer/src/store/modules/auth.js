@@ -1,7 +1,7 @@
 import AuthService from '../../services/AuthService';
-import {roleAdminCode, roleCashierCode} from '/@/helpers/codes.js';
+import { roleAdminCode, roleCashierCode } from '/@/helpers/codes.js';
 import userService from '/@/services/iam/IamUserService';
-import {removeStorage} from '/@/helpers/utils.js';
+import { removeStorage } from '/@/helpers/utils.js';
 
 const state = {
   currentUser: null,
@@ -34,14 +34,15 @@ const getters = {
   isCashierRole: (state, getters) =>
     getters.currentUser?.role?.code === roleCashierCode,
   currentEnterprise: (state, getters) => getters.currentUser?.enterprise,
+  currentEnterpriseId: (state, getters) => getters.currentEnterprise?.id,
 };
 
 // privileges
 const actions = {
-  updateAuthUserPassword({commit}, userFields) {
+  updateAuthUserPassword({ commit }, userFields) {
     return userService
       .updateUserPassword(userFields, userFields.id)
-      .then(({data}) => {
+      .then(({ data }) => {
         commit('UPDATE_CURRENT_USER', data);
         return data;
       })
@@ -50,10 +51,10 @@ const actions = {
         else return Promise.reject(err);
       });
   },
-  updateAuthUser({commit}, userFields) {
+  updateAuthUser({ commit }, userFields) {
     return userService
       .updateUser(userFields, userFields.id)
-      .then(({data}) => {
+      .then(({ data }) => {
         commit('UPDATE_CURRENT_USER', data);
         return data;
       })
@@ -63,42 +64,41 @@ const actions = {
       });
   },
 
-  login({commit}, credential) {
-    return AuthService.login(credential).then(({data}) => {
+  login({ commit }, credential) {
+    return AuthService.login(credential).then(({ data }) => {
       commit('SET_CURRENT_USER', data);
     });
   },
 
-  sendResetPasswordCode({commit}, phone) {
-    return AuthService.sendResetPasswordCode({phone}).then(({data}) => {
-      commit('SET_RESET_PASSWORD_RESPONSE', data)
-      return data
-    })
+  sendResetPasswordCode({ commit }, phone) {
+    return AuthService.sendResetPasswordCode({ phone }).then(({ data }) => {
+      commit('SET_RESET_PASSWORD_RESPONSE', data);
+      return data;
+    });
   },
 
-  verifyOtpCode({commit}, inputField) {
-    return AuthService.verifyOtpCode(inputField).then(({data}) => {
+  verifyOtpCode({ commit }, inputField) {
+    return AuthService.verifyOtpCode(inputField).then(({ data }) => {
       commit('SET_CURRENT_OTP', data);
       return data;
     });
   },
 
-  resetPassword({commit}, inputField) {
-    return AuthService.resetPassword(inputField).then(({data}) => {
+  resetPassword({ commit }, inputField) {
+    return AuthService.resetPassword(inputField).then(({ data }) => {
       commit('UPDATE_CURRENT_USER', data);
       return data;
     });
   },
 
-  checkPassword({commit}, passwordField) {
-    return AuthService.checkPassword(passwordField).then(({data}) => {
+  checkPassword({ commit }, passwordField) {
+    return AuthService.checkPassword(passwordField).then(({ data }) => {
       commit('SET_UNLOCK_SCREEN', data.unlock);
       return data;
     });
   },
-  logout({commit}) {
-    commit('SET_CURRENT_USER', null);
-    return removeStorage();
+  logout({ commit }) {
+    return removeStorage().then(commit('SET_CURRENT_USER', null));
   },
 };
 
@@ -127,7 +127,7 @@ const mutations = {
       ? JSON.stringify(passwordResponse)
       : null;
   },
-  SET_CURRENT_OTP(state, {token}) {
+  SET_CURRENT_OTP(state, { token }) {
     state.resetPasswordToken = token;
   },
 };

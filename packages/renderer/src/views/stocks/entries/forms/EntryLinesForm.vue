@@ -85,7 +85,13 @@
           type="button"
           class="btn btn-secondary col-auto m-r-5"
           :text="$t('common.cancel')"
-          @click.prevent="$router.push({ name: 'stocks.entry.form.article' })"
+          @click.prevent="
+            $router.push({
+              name: 'stocks.entry.form.article',
+              params: $route.params,
+              query: $route.query,
+            })
+          "
         />
         <BaseButton
           class="btn btn-primary col-auto"
@@ -108,6 +114,7 @@ import EntryLineFormField from '/@/components/stocks/EntryLineFormField.vue';
 import store from '/@/store/index.js';
 
 export default {
+  name: 'EntryLinesForm',
   components: { EntryLineFormField, BaseButton, ArticleSelectableList },
   beforeRouteEnter(routeTo, routeFrom, next) {
     store
@@ -172,7 +179,12 @@ export default {
     closeArticleSelectable() {
       if (this.stock_entry_line_fields.length > 0)
         this.show_select_form = false;
-      else this.$router.push({ name: 'stocks.entry.form.article' });
+      else
+        this.$router.push({
+          name: 'stocks.entry.form.article',
+          params: this.$route.params,
+          query: this.$route.query,
+        });
     },
   },
 };

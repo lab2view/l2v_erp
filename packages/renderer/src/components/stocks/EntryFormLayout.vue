@@ -16,6 +16,7 @@ import entryFormRoutes from '/@/router/stocks/entryFormRoutes.js';
 import { mapGetters } from 'vuex';
 
 export default {
+  name: 'EntryFormLayout',
   components: { BaseWizardStep, BaseContainer },
   computed: {
     ...mapGetters('stock_entry', ['haveStockEntry']),

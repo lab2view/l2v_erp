@@ -4,7 +4,7 @@
       <div class="card-header pb-0">
         <h5>{{ formTitle }}</h5>
         <span
-        >Using the <a href="#">card</a> component, you can extend the default
+          >Using the <a href="#">card</a> component, you can extend the default
           collapse behavior to create an accordion.</span
         >
       </div>
@@ -14,11 +14,11 @@
             <BaseSelect
               v-model.number="userForm.role_id"
               :label="$t('common.attributes.role')"
-              :options="roles"
+              :options="selectableRoles"
               key-label="label"
               key-value="id"
               required
-              :errors="errors.role_id"
+              :errors="errors?.role_id"
             />
           </div>
           <div class="form-group col-md">
@@ -29,17 +29,18 @@
               key-label="name"
               key-value="id"
               required
-              :errors="errors.country_id"
+              :errors="errors?.country_id"
             />
           </div>
-          <div class="form-group col-md">
+          <div v-if="canShowEnterpriseField" class="form-group col-md">
             <BaseSelect
               v-model.number="userForm.enterprise_id"
               :label="$t('common.attributes.structure')"
               :options="enterprises"
               key-label="name"
               key-value="id"
-              :errors="errors.enterprise_id"
+              :disabled="!!enterprise_id"
+              :errors="errors?.enterprise_id"
             />
           </div>
         </div>
@@ -49,7 +50,7 @@
               v-model="userForm.first_name"
               :label="$t('common.attributes.first_name')"
               placeholder="..."
-              :errors="errors.first_name"
+              :errors="errors?.first_name"
               required
             />
           </div>
@@ -59,7 +60,7 @@
               :label="$t('common.attributes.last_name')"
               placeholder="..."
               type="text"
-              :errors="errors.last_name"
+              :errors="errors?.last_name"
             />
           </div>
         </div>
@@ -70,7 +71,7 @@
               :label="$t('common.attributes.email')"
               type="email"
               required
-              :errors="errors.email"
+              :errors="errors?.email"
             />
           </div>
           <div class="form-group col-md">
@@ -80,7 +81,7 @@
               placeholder="1"
               type="number"
               required
-              :errors="errors.phone"
+              :errors="errors?.phone"
             />
           </div>
         </div>
@@ -88,17 +89,17 @@
           <BaseSelect
             v-model.number="userForm.localization_id"
             :label="$t('common.attributes.localization')"
-            :options="localizations"
+            :options="selectableLocalizations"
             key-label="label"
             key-value="id"
-            :errors="errors.localization_id"
+            :errors="errors?.localization_id"
           />
         </div>
         <div class="form-group mb-3">
           <h6 class="form-label fw-bold">
             {{ $t('common.attributes.gender') }}
           </h6>
-          <br/>
+          <br />
           <label for="male">
             {{ $t('common.gender.male') }}
             <input
@@ -120,7 +121,7 @@
             />
           </label>
           <div
-            v-if="errors.gender && errors.gender.length"
+            v-if="errors?.gender?.length"
             class="invalid-feedback"
             style="display: inline"
           >
@@ -161,7 +162,7 @@
         <div class="col-md">
           <BaseInputGroup
             v-model="userForm.password_confirmation"
-            :label="$t('common.attributes.password')"
+            :label="$t('common.attributes.password_confirmation')"
             placeholder="********"
             :errors="errors?.password_confirmation"
             required
@@ -196,7 +197,7 @@
             :text="$t('common.cancel')"
             class="btn btn-secondary col-auto m-r-5"
             type="button"
-            @click.prevent="$router.push({ name: 'iam.user.form.privileges' })"
+            @click.prevent="$router.back()"
           />
           <BaseButton
             :text="$t('common.save')"
@@ -213,13 +214,15 @@
 import BaseButton from '/@/components/common/BaseButton.vue';
 import BaseInput from '/@/components/common/BaseInput.vue';
 import BaseSelect from '/@/components/common/BaseSelect.vue';
-import {mapGetters} from 'vuex';
+import { mapGetters } from 'vuex';
 import store from '/@/store';
 import BaseInputGroup from '/@/components/common/BaseInputGroup.vue';
 import ean from '/@/helpers/ean';
+import { roleAdminCode } from '/@/helpers/codes.js';
 
 export default {
-  components: {BaseInputGroup, BaseInput, BaseSelect, BaseButton},
+  name: 'UserFormDesc',
+  components: { BaseInputGroup, BaseInput, BaseSelect, BaseButton },
   beforeRouteEnter(routeTo, routeFrom, next) {
     Promise.all([
       store.dispatch('role/getRolesList', {
@@ -248,7 +251,7 @@ export default {
       errors: [],
       type_password: false,
       is_edited: false,
-      formLoading: false,
+      loading: false,
       userForm: {
         id: null,
         enterprise_id: null,
@@ -265,14 +268,26 @@ export default {
   },
   computed: {
     ...mapGetters('user', ['user']),
-    ...mapGetters('localization', ['localizations']),
+    ...mapGetters('localization', ['selectableLocalizations']),
     ...mapGetters('country', ['activeCountries']),
     ...mapGetters('role', ['roles', 'actions']),
     ...mapGetters('enterprise', ['enterprises']),
+    ...mapGetters('auth', ['currentEnterpriseId']),
+    selectableRoles() {
+      return this.enterprise_id
+        ? this.roles.filter((r) => r.code !== roleAdminCode)
+        : this.roles;
+    },
     formTitle() {
       return this.user && this.user.id
         ? this.$t('iam.user.formUpdateTitle')
         : this.$t('iam.user.formCreateTitle');
+    },
+    enterprise_id() {
+      return this.$route.query.enterprise_id ?? null;
+    },
+    canShowEnterpriseField() {
+      return !this.currentEnterpriseId;
     },
   },
   watch: {
@@ -290,24 +305,14 @@ export default {
       this.userForm = this.user;
       this.is_edited = true;
     }
-  },
-  beforeUnmount() {
-    this.setLoading();
+    if (this.enterprise_id)
+      this.userForm.enterprise_id = parseInt(this.enterprise_id);
+    if (this.currentEnterpriseId)
+      this.userForm.enterprise_id = this.currentEnterpriseId;
   },
   methods: {
-    setLoading(value = false) {
-      if (value) {
-        this.errors = [];
-      }
-
-      this.formLoading = value;
-    },
     submitUserForm() {
-      if (this.formLoading) {
-        return;
-      }
-
-      this.setLoading(true);
+      this.loading = true;
       if (this.user && this.user.id) {
         if (this.is_edited) {
           if (this.userForm.password) {
@@ -315,18 +320,19 @@ export default {
               this.userForm.password === this.userForm.password_confirmation
             ) {
               this.$store
-                .dispatch('user/updateUserPassword', this.userForm)
+                .dispatch('user/setUserPassword', this.userForm)
                 .then((user) =>
                   this.$router.push({
                     name: 'iam.user.form.privileges',
-                    params: {id: user.id},
+                    params: { id: user.id },
+                    query: this.$route.query,
                   })
                 )
                 .catch((error) => {
                   this.errors = error.response?.data?.errors;
                   console.log(error);
                 })
-                .finally(() => this.setLoading());
+                .finally(() => (this.loading = false));
             }
           } else
             this.$store
@@ -334,34 +340,36 @@ export default {
               .then((user) =>
                 this.$router.push({
                   name: 'iam.user.form.privileges',
-                  params: {id: user.id},
+                  params: { id: user.id },
+                  query: this.$route.query,
                 })
               )
               .catch((error) => {
                 this.errors = error.response?.data?.errors;
                 console.log(error);
               })
-              .finally(() => this.setLoading());
+              .finally(() => (this.loading = false));
         } else
           this.$router.push({
             name: 'iam.users',
-            params: {id: this.user.id},
+            params: { id: this.user.id },
+            query: this.$route.query,
           });
       } else {
         this.$store
           .dispatch('user/addUser', this.userForm)
           .then((user) => {
-            this.setLoading();
             this.$router.push({
               name: 'iam.user.form.privileges',
-              params: {id: user.id},
+              params: { id: user.id },
+              query: this.$route.query,
             });
           })
           .catch((error) => {
             this.errors = error.response?.data?.errors;
             console.log(error);
-            this.setLoading();
-          });
+          })
+          .finally(() => (this.loading = false));
       }
     },
     generatePassword() {

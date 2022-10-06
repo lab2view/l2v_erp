@@ -83,6 +83,7 @@ import { mapGetters } from 'vuex';
 import store from '/@/store';
 
 export default {
+  name: 'ProviderForm',
   components: { BaseFormModal, BaseInputGroup, BaseSelect },
   beforeRouteEnter(routeTo, routeFrom, next) {
     Promise.all([

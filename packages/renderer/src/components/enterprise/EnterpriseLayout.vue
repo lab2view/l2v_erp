@@ -8,6 +8,7 @@ import { moduleCode } from '/@/helpers/codes';
 import ModuleSyncMixin from '/@/mixins/ModuleSyncMixin';
 
 export default {
+  name: 'EnterpriseLayout',
   mixins: [ModuleSyncMixin],
   beforeRouteEnter(routeTo, routeFrom, next) {
     const hash = store.getters['enterprise/getEnterpriseHash'];

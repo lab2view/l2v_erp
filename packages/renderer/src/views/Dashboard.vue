@@ -43,6 +43,7 @@ import { defineComponent } from 'vue';
 import BaseContainer from '/@/components/common/BaseContainer.vue';
 
 export default defineComponent({
+  name: 'Dashboard',
   components: { BaseContainer },
   computed: {
     bookmarkItems() {

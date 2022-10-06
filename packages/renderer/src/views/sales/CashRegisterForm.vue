@@ -1,6 +1,6 @@
 <template>
   <BaseFormModal :submit-form="submitCashRegisterForm" :title="title">
-    <div class="form-group mb-3">
+    <div v-if="canShowEnterpriseField" class="form-group mb-3">
       <BaseSelect
         v-model="cashRegisterForm.enterprise_id"
         :errors="errors.enterprise_id"
@@ -91,15 +91,21 @@ export default {
   computed: {
     ...mapGetters('cash_register', ['cashRegister']),
     ...mapGetters('enterprise', ['enterprises']),
+    ...mapGetters('auth', ['currentEnterpriseId']),
     title() {
       return this.cashRegister && this.cashRegister.id
         ? this.$t('sales.cashRegister.formUpdateTitle')
         : this.$t('sales.cashRegister.formCreateTitle');
     },
+    canShowEnterpriseField() {
+      return !this.currentEnterpriseId;
+    },
   },
   created() {
     if (this.cashRegister && this.cashRegister.id)
       this.cashRegisterForm = this.cashRegister;
+    if (this.currentEnterpriseId)
+      this.cashRegisterForm.enterprise_id = this.currentEnterpriseId;
   },
   beforeUnmount() {
     this.setLoading();

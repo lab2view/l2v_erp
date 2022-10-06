@@ -42,55 +42,55 @@
         </div>
       </div>
     </div>
-    <div class="card-body">
-      <div class="table-responsive">
-        <table class="table">
-          <thead>
-            <tr>
-              <th scope="col">{{ $t('common.attributes.article_id') }}</th>
-              <th v-if="manage_price" scope="col" style="width: 210px">
-                {{ $t('common.attributes.buying_price') }}
-                <span class="text-danger m-l-5">*</span>
-              </th>
-              <th class="text-center" scope="col" style="width: 120px">
-                {{ $t('common.attributes.quantity') }}
-                <span class="text-danger m-l-5">*</span>
-              </th>
-              <th scope="col">{{ $t('common.actions') }}</th>
-            </tr>
-          </thead>
-          <tbody>
-            <ExitLineFormField
-              v-for="(stockExitLine, index) in stock_exit_line_fields"
-              :key="`stc-ext-lne-form-${index}`"
-              :stock-exit-line="stockExitLine"
-              :index="index"
-              :update-field-method="updateStockExitLineField"
-              :errors="errors"
-              @remove="removeStockExitLineField"
-            />
-          </tbody>
-        </table>
+    <form @submit.prevent="submitExitLinesForm">
+      <div class="card-body">
+        <div class="table-responsive">
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">{{ $t('common.attributes.article_id') }}</th>
+                <th v-if="manage_price" scope="col" style="width: 210px">
+                  {{ $t('common.attributes.buying_price') }}
+                  <span class="text-danger m-l-5">*</span>
+                </th>
+                <th class="text-center" scope="col" style="width: 120px">
+                  {{ $t('common.attributes.quantity') }}
+                  <span class="text-danger m-l-5">*</span>
+                </th>
+                <th scope="col">{{ $t('common.actions') }}</th>
+              </tr>
+            </thead>
+            <tbody>
+              <ExitLineFormField
+                v-for="(stockExitLine, index) in stock_exit_line_fields"
+                :key="`stc-ext-lne-form-${index}`"
+                :stock-exit-line="stockExitLine"
+                :index="index"
+                :update-field-method="updateStockExitLineField"
+                :errors="errors"
+                @remove="removeStockExitLineField"
+              />
+            </tbody>
+          </table>
+        </div>
       </div>
-    </div>
-    <div class="card-footer border-top-0">
-      <div class="row justify-content-center">
-        <BaseButton
-          type="button"
-          class="btn btn-secondary col-auto m-r-5"
-          :text="$t('common.cancel')"
-          @click.prevent="$router.push({ name: 'stocks.exit.form.article' })"
-        />
-        <BaseButton
-          class="btn btn-primary col-auto"
-          type="button"
-          :text="$t('common.save')"
-          icon="fa fa-save"
-          :loading="loading"
-          @click.prevent="submitExitLinesForm"
-        />
+      <div class="card-footer border-top-0">
+        <div class="row justify-content-center">
+          <BaseButton
+            type="button"
+            class="btn btn-secondary col-auto m-r-5"
+            :text="$t('common.cancel')"
+            @click.prevent="$router.push({ name: 'stocks.exit.form.article' })"
+          />
+          <BaseButton
+            class="btn btn-primary col-auto"
+            :text="$t('common.save')"
+            icon="fa fa-save"
+            :loading="loading"
+          />
+        </div>
       </div>
-    </div>
+    </form>
   </div>
 </template>
 
@@ -101,6 +101,7 @@ import BaseButton from '/@/components/common/BaseButton.vue';
 import ExitLineFormField from '/@/components/stocks/ExitLineFormField.vue';
 
 export default {
+  name: 'ExitLinesForm',
   components: { ExitLineFormField, BaseButton, ArticleSelectableList },
   data() {
     return {
@@ -111,7 +112,25 @@ export default {
     };
   },
   computed: {
-    ...mapGetters('stock_exit', ['stockExit', 'manage_price']),
+    ...mapGetters('stock_exit', [
+      'stockExit',
+      'manage_price',
+      'stockExitLines',
+    ]),
+  },
+  created() {
+    if (this.stockExitLines.length)
+      this.stock_exit_line_fields = [
+        ...this.stockExitLines.map((art) => {
+          return {
+            id: art.id,
+            stock_exit_id: art.stock_exit_id,
+            article_id: art.article_id,
+            quantity: art.quantity,
+            price: art.price,
+          };
+        }),
+      ];
   },
   methods: {
     addStockExitLineFields(selected) {
@@ -119,9 +138,10 @@ export default {
         ...this.stock_exit_line_fields,
         ...selected.map((art) => {
           return {
+            id: null,
             stock_exit_id: this.stockExit.id,
             article_id: art.id,
-            quantity: 1,
+            quantity: 0,
             price: null,
           };
         }),
@@ -145,7 +165,9 @@ export default {
         this.loading = true;
         return this.$store
           .dispatch('stock_exit/addStockExitLines', {
-            stock_exit_lines: this.stock_exit_line_fields,
+            stock_exit_lines: this.stock_exit_line_fields.filter(
+              (sf) => sf.id === null
+            ),
           })
           .then(() => this.$router.back())
           .catch((error) => (this.errors = error.response?.data?.errors))

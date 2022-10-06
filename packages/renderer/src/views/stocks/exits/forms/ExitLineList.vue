@@ -19,7 +19,11 @@
             @click.prevent="deleteSelectedStockExitLine"
           />
           <router-link
-            :to="{ name: 'stocks.exit.form.article.form' }"
+            :to="{
+              name: 'stocks.exit.form.article.form',
+              params: $route.params,
+              query: $route.query,
+            }"
             class="btn btn-primary"
             type="button"
           >
@@ -91,6 +95,7 @@
               update-dispatch-name="stock_exit/updateStockExitLine"
               remove-dispatch-name="stock_exit/removeStockExitLines"
               :cancel-selection="stockExitIsConfirm"
+              :for-exit="true"
               @deleted="selected = []"
               @selected="selectStockExitLine(stockExitLine, true)"
               @unselected="selectStockExitLine(stockExitLine, false)"
@@ -132,6 +137,7 @@ import { mapGetters } from 'vuex';
 import { stockStateCode } from '/@/helpers/codes.js';
 
 export default {
+  name: 'ExitLineList',
   components: { ArticleLineSelectable, BaseButton },
   beforeRouteEnter(routeTo, routeFrom, next) {
     store

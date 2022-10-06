@@ -3,25 +3,27 @@
     <td class="font-primary">
       <div :class="{ 'checkbox checkbox-primary': !cancelSelection }">
         <input
-            v-if="!cancelSelection"
-            :id="`selected-${model.id}`"
-            v-model="selected"
-            type="checkbox"
+          v-if="!cancelSelection"
+          :id="`selected-${model.id}`"
+          v-model="selected"
+          type="checkbox"
         />
         <label
-            :for="`selected-${model.id}`"
-            class="mt-0 pt-0"
-            :style="{ 'padding-left: 60px': !cancelSelection }"
-        >{{ `${article.name}` }}</label
+          :for="`selected-${model.id}`"
+          class="mt-0 pt-0"
+          :style="{ 'padding-left: 60px': !cancelSelection }"
+          >{{
+            `${article.product?.code} / ${article.product?.reference} ${article.name}`
+          }}</label
         >
       </div>
     </td>
     <td v-if="updateDispatchName" class="text-center">
       <BaseUpdateNumberForm
-          v-if="!cancelSelection"
-          :quantity="model.quantity"
-          :store-action="updateQuantity"
-          :disabled="cancelSelection"
+        v-if="!cancelSelection"
+        :quantity="model.quantity"
+        :store-action="updateQuantity"
+        :max="maxQuantity"
       />
       <span v-else>{{ model.quantity }}</span>
     </td>
@@ -30,12 +32,12 @@
       <div class="row justify-content-center align-items-center">
         <div class="col-md-6 p-0">
           <BaseButton
-              v-if="!model.not_deletable"
-              type="button"
-              class="btn btn-iconsolid btn-danger btn-sm"
-              :title="$t('common.delete')"
-              :loading="loading"
-              @click.prevent="removeModel"
+            v-if="!model.not_deletable"
+            type="button"
+            class="btn btn-iconsolid btn-danger btn-sm"
+            :title="$t('common.delete')"
+            :loading="loading"
+            @click.prevent="removeModel"
           >
             <i v-if="!loading" class="fa fa-times" />
           </BaseButton>
@@ -54,22 +56,27 @@ import store from '/@/store';
 export default {
   components: { BaseUpdateNumberForm, BaseButton },
   beforeRouteEnter(routeTo, routeFrom, next) {
-    store.dispatch('article/getArticlesList', {
-      page: 1,
-      field: {},
-    })
-        .then(() => {
-          next();
-        })
-        .catch((error) => {
-          console.log(error);
-          next();
-        });
+    store
+      .dispatch('article/getArticlesList', {
+        page: 1,
+        field: {},
+      })
+      .then(() => {
+        next();
+      })
+      .catch((error) => {
+        console.log(error);
+        next();
+      });
   },
   props: {
     model: {
       type: Object,
       required: true,
+    },
+    forExit: {
+      type: Boolean,
+      default: false,
     },
     selectedList: {
       type: Array,
@@ -104,6 +111,12 @@ export default {
     isSelected() {
       return this.selectedList.find((id) => id === this.model.id) !== undefined;
     },
+    maxQuantity() {
+      return this.forExit
+        ? parseInt(this.model.article.stock.available) +
+            parseInt(this.model.quantity)
+        : null;
+    },
   },
   watch: {
     selected(value) {
@@ -117,15 +130,15 @@ export default {
   methods: {
     removeModel() {
       if (
-          confirm(this.$t('messages.confirmDelete', { label: this.model.id }))
+        confirm(this.$t('messages.confirmDelete', { label: this.model.id }))
       ) {
         this.loading = true;
         this.$store
-            .dispatch(this.removeDispatchName, [this.model.id])
-            .then(() => {
-              this.$emit('deleted');
-              this.loading = false;
-            });
+          .dispatch(this.removeDispatchName, [this.model.id])
+          .then(() => {
+            this.$emit('deleted');
+            this.loading = false;
+          });
       }
     },
 
@@ -133,6 +146,7 @@ export default {
       if (!this.cancelSelection)
         return this.$store.dispatch(this.updateDispatchName, {
           ...this.model,
+          old_quantity: this.model.quantity,
           quantity,
         });
       else Promise.resolve();

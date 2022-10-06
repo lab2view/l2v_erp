@@ -19,7 +19,11 @@
             @click.prevent="deleteSelectedStockEntryLine"
           />
           <router-link
-            :to="{ name: 'stocks.entry.form.article.form' }"
+            :to="{
+              name: 'stocks.entry.form.article.form',
+              params: $route.params,
+              query: $route.query,
+            }"
             class="btn btn-primary"
             type="button"
           >
@@ -140,6 +144,7 @@ import store from '/@/store/index.js';
 import { stockStateCode } from '/@/helpers/codes.js';
 
 export default {
+  name: 'EntryLineList',
   components: { ArticleLineSelectable, BaseButton },
   beforeRouteEnter(routeTo, routeFrom, next) {
     store

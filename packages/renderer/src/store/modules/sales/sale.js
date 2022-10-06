@@ -108,6 +108,10 @@ const mutations = {
   SET_SALES(state, { current_page, data }) {
     state.sales = current_page === 1 ? data : [...state.sales, ...data];
   },
+  ADD_SALE(state, sale) {
+    if (state.sales.find((s) => s.id === sale.id) === undefined)
+      state.sales.push(sale);
+  },
   SET_CASHIER_SALES(state, cashier_sales) {
     state.cashier_sales = cashier_sales;
   },

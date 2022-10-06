@@ -129,6 +129,7 @@ import store from '/@/store';
 import ActionSelectableColumn from '/@/components/iam/ActionSelectableColumn.vue';
 
 export default {
+  name: 'ActionSelectableList',
   components: { ActionSelectableColumn, BaseButton, BaseSelect },
   beforeRouteEnter(routeTo, routeFrom, next) {
     store

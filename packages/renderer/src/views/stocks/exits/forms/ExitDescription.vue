@@ -6,7 +6,7 @@
           <div class="col-md">
             <h5>{{ formTitle }}</h5>
           </div>
-          <div class="col-auto">
+          <div v-if="!isUpdating" class="col-auto">
             <BaseSwitchInput
               v-model="is_multi_enterprise"
               :label="$t('common.fields.multi_enterprise')"
@@ -99,15 +99,7 @@
                 @input="selectReceiverEnterprise"
               />
             </div>
-            <div class="dropdown">
-              <div>
-                <EnterpriseSelectableList :source-enterprises="enterprises" />
-              </div>
-            </div>
           </div>
-        </div>
-        <div class="card">
-          <p>Entreprises selectionnées</p>
         </div>
       </div>
       <div class="card-footer">
@@ -146,12 +138,11 @@ import BaseSelect from '/@/components/common/BaseSelect.vue';
 import BaseInputGroup from '/@/components/common/BaseInputGroup.vue';
 import { random } from 'lodash/number.js';
 import BaseSwitchInput from '/@/components/common/BaseSwitchInput.vue';
-import EnterpriseSelectableList from '/@/components/enterprise/EnterpriseSelectableList.vue';
 
 export default {
+  name: 'ExitDescription',
   components: {
     BaseSwitchInput,
-    EnterpriseSelectableList,
     BaseInputGroup,
     BaseSelect,
     BaseButton,

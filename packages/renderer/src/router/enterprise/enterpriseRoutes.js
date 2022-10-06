@@ -49,10 +49,7 @@ export const enterpriseRoutes = [
       if (to.params.id) {
         return store
           .dispatch('enterprise/getEnterprise', to.params.id)
-          .then((data) => {
-            store.commit('enterprise/SET_CURRENT_ENTERPRISE', data);
-            return { name: to.name };
-          })
+          .then(() => 1)
           .catch(() => -1);
       }
     },

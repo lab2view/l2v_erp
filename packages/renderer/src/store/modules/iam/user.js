@@ -12,6 +12,8 @@ const getters = {
   user: (state) => (state.user ? JSON.parse(state.user) : null),
   getUserById: (state, getters) => (id) =>
     getters.users.find((a) => a.id === id),
+  getUserByEnterpriseId: (state, getters) => (id) =>
+    getters.users.filter((u) => u.enterprise_id === id) ?? [],
   haveUser: (state) => !!state.user,
   getIamHash: (state) => state.hash ?? null,
 };
@@ -22,7 +24,7 @@ const actions = {
       return getters.users;
     } else
       return userService
-        .getUsersList(page, field)
+        .getUsersList(page, { ...field, paginate: 10 })
         .then(({ data }) => {
           commit('SET_USERS', data);
 
@@ -107,9 +109,9 @@ const actions = {
     });
   },
 
-  updateUserPassword({ commit }, userField) {
+  setUserPassword({ commit }, userField) {
     return userService
-      .updateUserPassword(userField, userField.id)
+      .setUserPassword(userField, userField.id)
       .then(({ data }) => {
         commit('UPDATE_USER', data);
         return data;
@@ -125,8 +127,8 @@ const mutations = {
   SET_USERS(state, { current_page, data }) {
     if (current_page === 1) state.users = JSON.stringify(data);
     else {
-      let oldArticles = state.users ? JSON.parse(state.users) : [];
-      state.users = JSON.stringify([...oldArticles, ...data]);
+      let oldItems = state.users ? JSON.parse(state.users) : [];
+      state.users = JSON.stringify([...oldItems, ...data]);
     }
   },
   SET_CURRENT_USER(state, user) {

@@ -27,6 +27,7 @@ import { mapGetters } from 'vuex';
 import BaseTableHeader from '/@/components/common/BaseTableHeader.vue';
 
 export default {
+  name: 'StockExitsList',
   components: { BaseTableHeader, StockExitTable, BaseContainer },
   beforeRouteEnter(routeTo, routeFrom, next) {
     store

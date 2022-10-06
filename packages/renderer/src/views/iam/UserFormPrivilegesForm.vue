@@ -15,6 +15,7 @@ import store from '/@/store';
 import ActionSelectableList from '/@/components/iam/ActionSelectableList.vue';
 
 export default {
+  name: 'UserFormPrivilegesForm',
   components: { ActionSelectableList },
   beforeRouteEnter(routeTo, routeFrom, next) {
     Promise.all([
@@ -41,7 +42,7 @@ export default {
   },
   computed: {
     ...mapGetters('role', ['role']),
-    ...mapGetters('user', ['users', 'user']),
+    ...mapGetters('user', ['user']),
     title() {
       return this.role && this.role.id
         ? this.$t('iam.privilege.formUpdateTitle')
