@@ -95,6 +95,11 @@ export default defineComponent({
     }, 1000);
   },
 
+  beforeUnmount() {
+    this.events.forEach((event) => window.removeEventListener(event, () => 1));
+    clearTimeout(this.logoutTimer);
+  },
+
   methods: {
     setCurrentWorkspace(workspace) {
       this.$store.dispatch('workspace/setCurrentWorkspace', workspace);
@@ -110,11 +115,6 @@ export default defineComponent({
         if (this.unlock) this.$store.commit('auth/SET_UNLOCK_SCREEN', false);
       }, 30 * 10 * 1000);
     },
-  },
-
-  beforeUnmount() {
-    this.events.forEach((event) => window.removeEventListener(event, () => 1));
-    clearTimeout(this.logoutTimer);
   },
 });
 </script>

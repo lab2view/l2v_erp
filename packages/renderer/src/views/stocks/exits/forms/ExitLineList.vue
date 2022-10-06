@@ -95,8 +95,8 @@
               update-dispatch-name="stock_exit/updateStockExitLine"
               remove-dispatch-name="stock_exit/removeStockExitLines"
               :cancel-selection="stockExitIsConfirm"
-              @deleted="selected = []"
               :for-exit="true"
+              @deleted="selected = []"
               @selected="selectStockExitLine(stockExitLine, true)"
               @unselected="selectStockExitLine(stockExitLine, false)"
             >

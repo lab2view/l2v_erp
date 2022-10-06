@@ -98,8 +98,7 @@ const actions = {
     });
   },
   logout({ commit }) {
-    commit('SET_CURRENT_USER', null);
-    return removeStorage();
+    return removeStorage().then(commit('SET_CURRENT_USER', null));
   },
 };
 

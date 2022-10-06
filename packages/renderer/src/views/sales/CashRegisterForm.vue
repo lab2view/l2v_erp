@@ -1,6 +1,6 @@
 <template>
   <BaseFormModal :submit-form="submitCashRegisterForm" :title="title">
-    <div class="form-group mb-3" v-if="canShowEnterpriseField">
+    <div v-if="canShowEnterpriseField" class="form-group mb-3">
       <BaseSelect
         v-model="cashRegisterForm.enterprise_id"
         :errors="errors.enterprise_id"

@@ -8,7 +8,7 @@
       :query="query"
     />
     <div class="card-body">
-      <BaseDatatable :tfoot="false" :total="users.length">
+      <BaseDatatable :tfoot="false" :total="users?.length">
         <template #headers>
           <th>#</th>
           <th>{{ $t('common.attributes.structure') }}</th>
@@ -44,8 +44,8 @@
             <BaseButton
               :title="$t('common.delete')"
               class="btn btn-danger btn-xs m-l-5"
-              @click.prevent="deleteUser(user)"
               type="button"
+              @click.prevent="deleteUser(user)"
             >
               <i class="fa fa-trash-o" />
             </BaseButton>
@@ -66,7 +66,7 @@ export default {
   props: {
     users: {
       type: Array,
-      default: [],
+      default: null,
     },
     query: {
       type: Object,

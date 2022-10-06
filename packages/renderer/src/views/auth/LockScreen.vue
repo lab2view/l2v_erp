@@ -20,8 +20,8 @@
           :type="showPassword ? 'text' : 'password'"
           placeholder="*********"
           :errors="errors?.password"
-          @keydown.enter="submitLockForm"
           required
+          @keydown.enter="submitLockForm"
         />
         <div class="show-hide" @click="toggleShow">
           <span class=""> {{ showPasswordLabel }}</span>

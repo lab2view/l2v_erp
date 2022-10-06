@@ -11,7 +11,7 @@
         required
       />
     </div>
-    <div class="form-group mb-3" v-if="canShowEnterpriseField">
+    <div v-if="canShowEnterpriseField" class="form-group mb-3">
       <BaseSelect
         v-model="cashierForm.enterprise_id"
         :errors="errors?.enterprise_id"

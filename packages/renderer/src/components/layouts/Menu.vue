@@ -34,12 +34,12 @@
           </span>
         </router-link>
       </div>
-      <a href="#" v-if="currentUserEmail">
+      <a v-if="currentUserEmail" href="#">
         <h6 class="mt-3 f-14 f-w-600">
           {{ truncate(currentUserEmail, 25) }}
         </h6>
       </a>
-      <p class="mb-0 font-roboto" v-if="currentUserRole">
+      <p v-if="currentUserRole" class="mb-0 font-roboto">
         {{ currentUserRole }}
       </p>
     </div>

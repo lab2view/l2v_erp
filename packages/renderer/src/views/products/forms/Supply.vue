@@ -24,7 +24,7 @@
                   </button>
                 </BaseInputGroup>
               </div>
-              <div class="col-md-6" v-if="canShowEnterpriseField">
+              <div v-if="canShowEnterpriseField" class="col-md-6">
                 <BaseSelect
                   v-model.number="stockEntryForm.enterprise_id"
                   :label="$t('common.attributes.structure')"

@@ -6,7 +6,7 @@
           <div class="col-md">
             <h5>{{ formTitle }}</h5>
           </div>
-          <div class="col-auto" v-if="!isUpdating">
+          <div v-if="!isUpdating" class="col-auto">
             <BaseSwitchInput
               v-model="is_multi_enterprise"
               :label="$t('common.fields.multi_enterprise')"

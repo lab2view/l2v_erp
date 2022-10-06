@@ -32,7 +32,7 @@
               :errors="errors?.country_id"
             />
           </div>
-          <div class="form-group col-md" v-if="canShowEnterpriseField">
+          <div v-if="canShowEnterpriseField" class="form-group col-md">
             <BaseSelect
               v-model.number="userForm.enterprise_id"
               :label="$t('common.attributes.structure')"
@@ -274,7 +274,7 @@ export default {
     ...mapGetters('enterprise', ['enterprises']),
     ...mapGetters('auth', ['currentEnterpriseId']),
     selectableRoles() {
-      return !!this.enterprise_id
+      return this.enterprise_id
         ? this.roles.filter((r) => r.code !== roleAdminCode)
         : this.roles;
     },

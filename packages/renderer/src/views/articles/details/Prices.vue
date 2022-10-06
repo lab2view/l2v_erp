@@ -20,7 +20,7 @@
       </div>
     </div>
     <div class="card-body">
-      <div class="row justify-content-end" v-if="isRoleAdmin">
+      <div v-if="isRoleAdmin" class="row justify-content-end">
         <div class="col-md-6">
           <div class="row align-items-center">
             <div class="col text-end f-w-700 border-bottom pb-1">

@@ -141,7 +141,7 @@ export const stockRoutes = [
         component: () => import('/@/views/stocks/StockTypeForm.vue'),
         beforeEnter: (to) => {
           if (to.params.id) {
-            return storeStockTypeForm
+            return store
               .dispatch('stock_type/getStockType', to.params.id)
               .then(() => {
                 return 1;

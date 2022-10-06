@@ -48,11 +48,12 @@
                 </div>
                 <p>
                   {{ $t('common.use_another_account') }}
-                  <a
-                    class="ms-2"
-                    href="#"
-                    @click.prevent="$store.dispatch('auth/logout')"
-                    >{{ $t('common.logout') }}
+                  <a class="ms-2" href="#" @click.prevent="closeSessionAuth">
+                    {{ $t('common.logout') }}
+                    <span
+                      class="fa fa-spinner fa-spin m-l-10"
+                      v-if="loadingDisconnect"
+                    />
                   </a>
                 </p>
               </form>
@@ -73,6 +74,7 @@ import BaseSelect from '/@/components/common/BaseSelect.vue';
 import BaseInput from '/@/components/common/BaseInput.vue';
 
 export default {
+  name: 'CashierSessionAuth',
   components: { BaseInput, BaseSelect, BaseButton },
   beforeRouteEnter(routeTo, routeFrom, next) {
     store
@@ -91,6 +93,7 @@ export default {
   data() {
     return {
       loading: false,
+      loadingDisconnect: false,
       cashierSessionField: {
         cash_register_id: null,
         pin: null,
@@ -110,6 +113,10 @@ export default {
           console.log(error);
           this.loading = false;
         });
+    },
+    closeSessionAuth() {
+      this.loadingDisconnect = true;
+      this.$store.dispatch('auth/logout');
     },
   },
 };
