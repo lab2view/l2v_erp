@@ -110,13 +110,19 @@ const actions = {
           delete obj.stock;
           delete obj.barcode;
           delete obj.prices;
-          return obj;
+          return {
+            ...obj,
+            enterprise_id: getters.currentSession?.cash_register?.enterprise_id,
+          };
         }),
       ],
     };
     return SaleService.addSale(payload)
       .then(({ data }) => {
         commit('sale/ADD_CASHIER_SALE', data, { root: true });
+        data?.stock_exit_lines?.forEach((sel) => {
+          commit('article/UPDATE_ARTICLE_STOCK', sel.article, { root: true });
+        });
         return data;
       })
       .catch((err) => {

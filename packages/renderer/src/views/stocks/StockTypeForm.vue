@@ -74,6 +74,7 @@ import BaseFormModal from '/@/components/common/BaseFormModal.vue';
 import { mapGetters } from 'vuex';
 
 export default {
+  name: 'StockTypeForm',
   components: { BaseFormModal },
   data() {
     return {

@@ -110,6 +110,7 @@ import store from '/@/store';
 import BaseButton from '/@/components/common/BaseButton.vue';
 
 export default {
+  name: 'EnterpriseSettings',
   components: { BaseButton },
   beforeRouteEnter(routeTo, routeFrom, next) {
     store

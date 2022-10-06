@@ -19,8 +19,8 @@ import StockExitTable from '/@/components/stocks/StockExitTable.vue';
 import store from '../../../store';
 import { mapGetters } from 'vuex';
 export default {
+  name: 'ProductStockExits',
   components: { StockExitTable },
-
   beforeRouteEnter(routeTo, routeFrom, next) {
     store
       .dispatch('stock_exit/getStockExitsList', {

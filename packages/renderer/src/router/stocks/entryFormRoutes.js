@@ -1,5 +1,3 @@
-import store from '/@/store/index.js';
-
 export default [
   {
     path: 'description',
@@ -15,14 +13,6 @@ export default [
     path: 'articles',
     name: 'stocks.entry.form.article',
     component: () => import('/@/views/stocks/entries/forms/EntryLineList.vue'),
-    beforeEnter: (to) => {
-      return store
-        .dispatch('stock_entry/getStockEntry', to.params.id)
-        .then(() => {
-          return 1;
-        })
-        .catch(() => -1);
-    },
     meta: {
       code: 'StockEntry.form.line',
       icon: 'fa fa-list',

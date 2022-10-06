@@ -115,11 +115,11 @@ export default {
     form: {
       desc: 'Description de la structure',
       setting: 'Parametres de la structure',
-      iam: 'Parametres utilisateurs de la structure',
-      user:{
+      iam: 'Utilisateurs de la structure',
+      user: {
         desc: "Description de l'utilisateur",
         privileges: "Privileges de l'utilisateur",
-      }
+      },
     },
   },
   enterprisetype: {
@@ -240,7 +240,7 @@ export default {
     viewany: 'Livraisons',
     form: {
       description: 'Description de la livraison',
-      line:'liste des produits'
+      line: 'liste des produits',
     },
   },
   movement: {

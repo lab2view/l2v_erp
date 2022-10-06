@@ -16,6 +16,7 @@ import exitFormRoutes from '/@/router/stocks/exitFormRoutes.js';
 import { mapGetters } from 'vuex';
 
 export default {
+  name: 'ExitFormLayout',
   components: { BaseWizardStep, BaseContainer },
   computed: {
     ...mapGetters('stock_exit', ['haveStockExit', 'haveMultipleStockExit']),

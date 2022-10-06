@@ -123,6 +123,7 @@ import BaseTextArea from '/@/components/common/BaseTextArea.vue';
 import BaseInputGroup from '/@/components/common/BaseInputGroup.vue';
 
 export default {
+  name: 'EnterpriseForm',
   components: {
     BaseInputGroup,
     BaseTextArea,

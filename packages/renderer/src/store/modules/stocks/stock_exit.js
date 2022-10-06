@@ -160,17 +160,21 @@ const actions = {
       });
   },
   updateStockExitLine({ commit }, stockExitLine) {
-    return stockExitService
-      .updateStockExitLine(stockExitLine)
-      .then(({ data }) => {
-        commit('UPDATE_STOCK_EXIT_LINE', data);
-        notify(
-          i18n.global.t('stocks.exitLine.update'),
-          'Ok',
-          'theme',
-          'fa fa-check'
-        );
-      });
+    const totalAvailable =
+      parseInt(stockExitLine.old_quantity) +
+      parseInt(stockExitLine.article.stock.available);
+    if (totalAvailable >= stockExitLine.quantity)
+      return stockExitService
+        .updateStockExitLine(stockExitLine)
+        .then(({ data }) => {
+          commit('UPDATE_STOCK_EXIT_LINE', data);
+          notify(
+            i18n.global.t('stocks.exitLine.update'),
+            'Ok',
+            'theme',
+            'fa fa-check'
+          );
+        });
   },
   removeStockExitLines({ getters, commit }, stockExitLineIds) {
     return stockExitService

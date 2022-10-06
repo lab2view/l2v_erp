@@ -101,6 +101,7 @@ import BaseTextArea from '/@/components/common/BaseTextArea.vue';
 import { random } from 'lodash/number';
 
 export default {
+  name: 'EntryDescription',
   components: {
     BaseTextArea,
     BaseInputGroup,

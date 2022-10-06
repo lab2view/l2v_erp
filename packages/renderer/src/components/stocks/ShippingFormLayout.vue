@@ -16,6 +16,7 @@ import { mapGetters } from 'vuex';
 import shippingFormRoutes from '../../router/stocks/shippingFormRoutes.js';
 
 export default {
+  name: 'ShippingFormLayout',
   components: { BaseWizardStep, BaseContainer },
   computed: {
     ...mapGetters('shipping', ['haveShipping']),

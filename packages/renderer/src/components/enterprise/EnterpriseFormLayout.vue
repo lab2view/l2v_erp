@@ -16,6 +16,7 @@ import { formRoutes } from '/@/router/enterprise/formRoutes';
 import { mapGetters } from 'vuex';
 
 export default {
+  name: 'EnterpriseFormLayout',
   components: { BaseWizardStep, BaseContainer },
   computed: {
     ...mapGetters('enterprise', ['haveEnterprise']),
