@@ -51,8 +51,8 @@
                   <a class="ms-2" href="#" @click.prevent="closeSessionAuth">
                     {{ $t('common.logout') }}
                     <span
-                      class="fa fa-spinner fa-spin m-l-10"
                       v-if="loadingDisconnect"
+                      class="fa fa-spinner fa-spin m-l-10"
                     />
                   </a>
                 </p>
