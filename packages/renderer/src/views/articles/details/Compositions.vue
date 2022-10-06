@@ -74,6 +74,7 @@ import FilterMixin from '/@/mixins/FilterMixin.js';
 import CompositionListLine from '/@/components/articles/CompositionListLine.vue';
 
 export default {
+  name: 'Compositions',
   components: { CompositionListLine, BaseButton },
   mixins: [ArticleMixin, FilterMixin],
   beforeRouteEnter(routeTo, routeFrom, next) {

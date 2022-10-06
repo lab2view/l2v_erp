@@ -6,7 +6,7 @@
           <div class="col-md">
             <h5>{{ formTitle }}</h5>
           </div>
-          <div class="col-auto">
+          <div class="col-auto" v-if="!isUpdating">
             <BaseSwitchInput
               v-model="is_multi_enterprise"
               :label="$t('common.fields.multi_enterprise')"
@@ -140,6 +140,7 @@ import { random } from 'lodash/number.js';
 import BaseSwitchInput from '/@/components/common/BaseSwitchInput.vue';
 
 export default {
+  name: 'ExitDescription',
   components: {
     BaseSwitchInput,
     BaseInputGroup,

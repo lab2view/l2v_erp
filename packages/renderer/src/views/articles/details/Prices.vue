@@ -20,7 +20,7 @@
       </div>
     </div>
     <div class="card-body">
-      <div class="row justify-content-end">
+      <div class="row justify-content-end" v-if="isRoleAdmin">
         <div class="col-md-6">
           <div class="row align-items-center">
             <div class="col text-end f-w-700 border-bottom pb-1">
@@ -71,6 +71,7 @@ import ArticlePriceTableLine from '/@/components/articles/ArticlePriceTableLine.
 import BaseSelect from '/@/components/common/BaseSelect.vue';
 
 export default {
+  name: 'Prices',
   components: { BaseSelect, ArticlePriceTableLine },
   mixins: [ArticleMixin],
   beforeRouteEnter(routeTo, routeFrom, next) {
@@ -100,6 +101,7 @@ export default {
   computed: {
     ...mapGetters('price_type', ['priceTypes']),
     ...mapGetters('enterprise', ['enterprises']),
+    ...mapGetters('auth', ['isRoleAdmin']),
     selectableEnterprise() {
       return [{ id: '', name: this.$t('common.parent') }, ...this.enterprises];
     },
