@@ -161,6 +161,7 @@ import SaleSessionMixin from '/@/mixins/SaleSessionMixin';
 import BaseInput from '/@/components/common/BaseInput.vue';
 
 export default defineComponent({
+  name: 'Header',
   components: { BaseInput },
   mixins: [SaleSessionMixin],
   data() {

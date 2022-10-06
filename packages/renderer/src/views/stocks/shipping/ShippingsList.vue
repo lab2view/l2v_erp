@@ -27,6 +27,7 @@ import { mapGetters } from 'vuex';
 import BaseTableHeader from '/@/components/common/BaseTableHeader.vue';
 
 export default {
+  name: 'ShippingsList',
   components: { BaseTableHeader, BaseContainer, ShippingTable },
   beforeRouteEnter(routeTo, routeFrom, next) {
     store

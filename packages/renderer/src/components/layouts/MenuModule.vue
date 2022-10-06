@@ -15,6 +15,7 @@
 import { defineComponent } from 'vue';
 import MenuModuleItem from './MenuModuleItem.vue';
 export default defineComponent({
+  mame: 'MenuModule',
   components: { MenuModuleItem },
   props: {
     module: {

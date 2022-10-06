@@ -68,6 +68,7 @@ import BaseButton from '/@/components/common/BaseButton.vue';
 import store from '/@/store/index.js';
 
 export default {
+  name: 'EntryLineForm',
   components: { BaseButton },
   beforeRouteEnter(routeTo, routeFrom, next) {
     store

@@ -75,12 +75,14 @@ export default defineComponent({
       return this.isCashierSessionRoute ? 'p-0 pt-2' : '';
     },
   },
+
   created() {
     this.events.forEach((event) =>
       window.addEventListener(event, this.resetTimer)
     );
     if (!this.showLockScreen) this.seTimer();
   },
+
   mounted() {
     setTimeout(() => {
       (async () => {
@@ -91,6 +93,11 @@ export default defineComponent({
         // );
       })();
     }, 1000);
+  },
+
+  beforeUnmount() {
+    this.events.forEach((event) => window.removeEventListener(event, () => 1));
+    clearTimeout(this.logoutTimer);
   },
 
   methods: {
@@ -106,7 +113,7 @@ export default defineComponent({
     seTimer() {
       this.logoutTimer = setTimeout(() => {
         if (this.unlock) this.$store.commit('auth/SET_UNLOCK_SCREEN', false);
-      }, 15 * 10 * 1000);
+      }, 30 * 10 * 1000);
     },
   },
 });

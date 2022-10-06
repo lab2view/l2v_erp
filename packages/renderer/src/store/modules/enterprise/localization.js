@@ -12,6 +12,13 @@ const state = {
 const getters = {
   localizations: (state) =>
     state.localizations ? JSON.parse(state.localizations) : [],
+  selectableLocalizations: (state, getters) =>
+    getters.localizations.map((l) => {
+      return {
+        id: l.id,
+        label: `${l.address ? l.address + ' - ' : ''} ${l.city}`,
+      };
+    }),
   localization: (state) =>
     state.localization ? JSON.parse(state.localization) : null,
 };

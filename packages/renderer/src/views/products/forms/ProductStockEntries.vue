@@ -31,6 +31,7 @@ import StockEntryTable from '/@/components/stocks/StockEntryTable.vue';
 import store from '../../../store';
 import { mapGetters } from 'vuex';
 export default {
+  name: 'ProductStockEntries',
   components: { StockEntryTable },
   beforeRouteEnter(routeTo, routeFrom, next) {
     store

@@ -1,6 +1,10 @@
 <template>
-  <tr>
-    <td class="align-middle f-w-600 f-16">{{ article.name }}</td>
+  <tr v-if="stockExitLine.id === null">
+    <td class="align-middle f-w-600 f-14">
+      {{
+        `${article.product?.code} / ${article.product?.reference} ${article.name}`
+      }}
+    </td>
     <td v-if="manage_price" style="width: 210px">
       <BaseInputGroup
         v-model="price"
@@ -29,7 +33,8 @@
               type="number"
               required
               placeholder="Qte"
-              min="0"
+              min="1"
+              :max="article.stock.available ?? null"
               :errors="
                 errors?.[`${stockExit.id}.stock_exit_lines.${index}.quantity`]
               "
@@ -45,7 +50,8 @@
         v-model="quantity"
         type="number"
         required
-        min="0"
+        min="1"
+        :max="article.stock.available ?? null"
         :errors="errors?.[`stock_exit_lines.${index}.quantity`]"
       />
     </td>

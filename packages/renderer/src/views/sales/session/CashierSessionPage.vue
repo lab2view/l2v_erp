@@ -2,13 +2,15 @@
   <div class="card m-0 p-0">
     <SaleSessionHeader />
 
-    <div class="card-body pb-2">
-      <div class="row align-items-center">
-        <SaleSessionSelectedArticleList />
+    <form @submit.prevent="handleSaleProcessButton">
+      <div class="card-body pb-2">
+        <div class="row align-items-center">
+          <SaleSessionSelectedArticleList />
+        </div>
       </div>
-    </div>
 
-    <SaleSessionState />
+      <SaleSessionState :loading="loading" />
+    </form>
   </div>
 
   <router-view />
@@ -23,6 +25,7 @@ import { moduleCode } from '/@/helpers/codes';
 import ModuleSyncMixin from '/@/mixins/ModuleSyncMixin';
 
 export default {
+  name: 'CashierSessionPage',
   components: {
     SaleSessionState,
     SaleSessionSelectedArticleList,
@@ -65,11 +68,38 @@ export default {
         });
     }
   },
+
+  data() {
+    return {
+      loading: false,
+      errors: [],
+    };
+  },
   created() {
     this.initEchoSync(moduleCode.products, 'product');
     this.$store.dispatch('printer/initPrint').then(() => {
       this.$store.dispatch('printer/getInstalledPrinters');
     });
+  },
+  methods: {
+    handleSaleProcessButton() {
+      this.loading = true;
+      this.errors = [];
+      this.$store
+        .dispatch('cashier_session/processToCurrentSaleRequest')
+        .then((data) => {
+          this.$store.commit('cashier_session/RESET_CURRENT_SALE_REQUEST');
+          if (this.printAfterSale)
+            this.$store.dispatch('printer/printSaleBill', data);
+          else
+            this.$router.push({
+              name: 'sales.session.cashier.sale.detail',
+              params: { ...this.$route.params, sale_id: data.id },
+            });
+        })
+        .catch((error) => (this.errors = error.response?.data?.errors))
+        .finally(() => (this.loading = false));
+    },
   },
 };
 </script>

@@ -41,6 +41,10 @@ export default {
       type: [Number, String],
       required: true,
     },
+    max: {
+      type: Number,
+      default: null,
+    },
     storeAction: {
       type: Function,
       required: true,
@@ -95,7 +99,9 @@ export default {
   },
   watch: {
     quantityField(value) {
-      this.is_edited = value !== this.quantity;
+      if (this.max)
+        this.is_edited = value !== this.quantity && value <= this.max;
+      else this.is_edited = value !== this.quantity;
     },
   },
   created() {
@@ -114,7 +120,10 @@ export default {
             })
             .catch((error) => (this.errors = error.response?.data?.errors))
             .finally(() => (this.loading = false));
-        } else this.is_form = false;
+        } else {
+          this.is_form = false;
+          this.quantityField = this.quantity;
+        }
       } else this.is_form = !this.is_form;
     },
   },

@@ -8,6 +8,7 @@ import { moduleCode } from '/@/helpers/codes';
 import ModuleSyncMixin from '/@/mixins/ModuleSyncMixin';
 
 export default {
+  name: 'CustomerLayout',
   mixins: [ModuleSyncMixin],
   beforeRouteEnter(routeTo, routeFrom, next) {
     const hash = store.getters['customer/getCustomersHash'];

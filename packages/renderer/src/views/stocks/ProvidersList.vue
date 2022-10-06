@@ -69,6 +69,7 @@ import { mapGetters } from 'vuex';
 import BaseTableHeader from '/@/components/common/BaseTableHeader.vue';
 
 export default {
+  name: 'ProvidersList',
   components: { BaseTableHeader, BaseContainer, BaseDatatable },
   beforeRouteEnter(routeTo, routeFrom, next) {
     store

@@ -1,6 +1,10 @@
 <template>
   <tr>
-    <td>{{ article.name }}</td>
+    <td>
+      {{
+        `${article.product?.code} / ${article.product?.reference} ${article.name}`
+      }}
+    </td>
     <td v-if="stockEntryIsCommand">
       <BaseSelect
         v-model="provider_id"
@@ -30,7 +34,7 @@
         v-model="quantity"
         type="number"
         required
-        min="0"
+        min="1"
         :errors="errors?.[`stock_entry_lines.${index}.quantity`]"
       />
     </td>

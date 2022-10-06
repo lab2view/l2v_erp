@@ -34,12 +34,14 @@
           </span>
         </router-link>
       </div>
-      <a href="#">
+      <a v-if="currentUserEmail" href="#">
         <h6 class="mt-3 f-14 f-w-600">
           {{ truncate(currentUserEmail, 25) }}
         </h6>
       </a>
-      <p class="mb-0 font-roboto">{{ currentUserRole }}</p>
+      <p v-if="currentUserRole" class="mb-0 font-roboto">
+        {{ currentUserRole }}
+      </p>
     </div>
     <nav v-if="!isCashierSessionRoute">
       <div class="main-navbar">
@@ -90,6 +92,7 @@ import CashierSessionSaleHistory from '/@/views/sales/session/CashierSessionSale
 import FilterMixin from '/@/mixins/FilterMixin';
 
 export default defineComponent({
+  name: 'Menu',
   components: { CashierSessionSaleHistory, MenuModule },
   mixins: [SaleSessionMixin, FilterMixin],
   computed: {

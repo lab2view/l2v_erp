@@ -200,7 +200,7 @@ export default {
     article_id: 'Articles',
     stock_entry_id: 'Mouvements',
     provider_id: 'Fournisseur',
-    stock_entry_type_id: 'Bon de commande',
+    stock_entry_type_id: "Type d'approvisionnement",
     stock_exit_type_id: 'Type de sortie',
     website: 'Site web',
     slogan: 'Slogan',
