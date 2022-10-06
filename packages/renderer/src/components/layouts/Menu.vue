@@ -34,12 +34,14 @@
           </span>
         </router-link>
       </div>
-      <a href="#">
+      <a href="#" v-if="currentUserEmail">
         <h6 class="mt-3 f-14 f-w-600">
           {{ truncate(currentUserEmail, 25) }}
         </h6>
       </a>
-      <p class="mb-0 font-roboto">{{ currentUserRole }}</p>
+      <p class="mb-0 font-roboto" v-if="currentUserRole">
+        {{ currentUserRole }}
+      </p>
     </div>
     <nav v-if="!isCashierSessionRoute">
       <div class="main-navbar">

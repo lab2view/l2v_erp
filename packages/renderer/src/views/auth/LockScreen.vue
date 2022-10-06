@@ -20,6 +20,7 @@
           :type="showPassword ? 'text' : 'password'"
           placeholder="*********"
           :errors="errors?.password"
+          @keydown.enter="submitLockForm"
           required
         />
         <div class="show-hide" @click="toggleShow">
