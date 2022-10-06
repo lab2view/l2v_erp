@@ -1,7 +1,6 @@
 import inventoryService from '../../../services/stocks/InventoryService';
 import { notify } from '/@/helpers/notify';
 import i18n from '/@/i18n';
-import stockEntryService from '/@/services/stocks/StockEntryService.js';
 
 const state = {
   inventories: [],
@@ -79,7 +78,7 @@ const actions = {
   },
 
   addInventoryLines({ commit, getters }, inventoryLines) {
-    return stockEntryService
+    return inventoryService
       .addInventoryLines(getters.inventory.id, inventoryLines)
       .then(({ data }) => {
         commit('ADD_INVENTORY_LINES', data.inventory_lines);
@@ -87,7 +86,7 @@ const actions = {
       });
   },
   updateInventoryLine({ commit }, inventoryLine) {
-    return stockEntryService
+    return inventoryService
       .updateInventoryLine(inventoryLine)
       .then(({ data }) => {
         commit('UPDATE_INVENTORY_LINE', data);

@@ -85,11 +85,9 @@
 <script>
 import store from '/@/store';
 import { mapGetters } from 'vuex';
-import { stockFor } from '/@/helpers/codes';
 import BaseButton from '/@/components/common/BaseButton.vue';
 import BaseSelect from '/@/components/common/BaseSelect.vue';
 import BaseInputGroup from '/@/components/common/BaseInputGroup.vue';
-import BaseTextArea from '/@/components/common/BaseTextArea.vue';
 import { random } from 'lodash/number';
 import BaseDatetime from '/@/components/common/BaseDatetime.vue';
 
@@ -97,7 +95,6 @@ export default {
   name: 'InventoryDescription',
   components: {
     BaseDatetime,
-    BaseTextArea,
     BaseInputGroup,
     BaseSelect,
     BaseButton,

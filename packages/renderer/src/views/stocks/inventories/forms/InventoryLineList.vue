@@ -1,11 +1,11 @@
 <template>
   <router-view v-if="!inventoryIsConfirm" />
-  <div v-if="$route.name === 'stocks.entry.form.article'" class="card mb-0">
+  <div v-if="$route.name === 'inventory.form.article'" class="card mb-0">
     <div class="card-header pb-0">
       <div class="row align-items-center">
         <div class="col-sm">
           <h5>
-            {{ `${$t('stocks.entryLine.list')} - ${inventoryReference}` }}
+            {{ `${$t('stocks.inventoryLine.list')} - ${inventoryReference}` }}
           </h5>
         </div>
         <div v-if="!inventoryIsConfirm" class="col-sm-auto align-items-end">
@@ -20,7 +20,7 @@
           />
           <router-link
             :to="{
-              name: 'stocks.entry.form.article.form',
+              name: 'inventory.form.article.form',
               params: $route.params,
               query: $route.query,
             }"
@@ -64,10 +64,10 @@
                 </div>
               </th>
               <th class="text-center" scope="col">
-                {{ $t('common.attributes.quantity') }}
+                {{ $t('common.attributes.inventory_qty') }}
               </th>
               <th class="text-center" scope="col">
-                {{ $t('common.attributes.buying_price') }}
+                {{ $t('common.headers.stock_in') }}
               </th>
               <th v-if="!inventoryIsConfirm" scope="col">
                 {{ $t('common.actions') }}
@@ -77,17 +77,18 @@
           <tbody>
             <ArticleLineSelectable
               v-for="(inventoryLine, index) in inventoryLines"
-              :key="`sck-ent-lne-${index}`"
+              :key="`inventory-lne-${index}`"
               :model="inventoryLine"
               :selected-list="selected"
-              update-dispatch-name="stock_entry/updateInventoryLine"
-              remove-dispatch-name="stock_entry/removeInventoryLines"
+              update-dispatch-name="inventory/updateInventoryLine"
+              remove-dispatch-name="inventory/removeInventoryLines"
               :cancel-selection="inventoryIsConfirm"
               @deleted="selected = []"
+              :for-inventory="true"
               @selected="selectInventoryLine(inventoryLine, true)"
               @unselected="selectInventoryLine(inventoryLine, false)"
             >
-              <td class="text-center">{{ inventoryLine.buying_price }}</td>
+              <td class="text-center">{{ inventoryLine.old_value }}</td>
             </ArticleLineSelectable>
           </tbody>
         </table>

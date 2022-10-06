@@ -261,6 +261,7 @@ export default {
     quantity_requested: 'Qté B.C',
     quantity_received: 'Qté Livrée',
     delivery_date: 'Date de livraison',
+    inventory_qty: 'Quantite disponible',
   },
 
   gender: {
