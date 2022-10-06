@@ -24,7 +24,7 @@
                   </button>
                 </BaseInputGroup>
               </div>
-              <div class="col-md-6">
+              <div class="col-md-6" v-if="canShowEnterpriseField">
                 <BaseSelect
                   v-model.number="stockEntryForm.enterprise_id"
                   :label="$t('common.attributes.structure')"
@@ -135,17 +135,22 @@ export default {
     ...mapGetters('stock_type', ['getListByTypeFor']),
     ...mapGetters('stock_entry', ['stockEntry']),
     ...mapGetters('enterprise', ['enterprises']),
-    ...mapGetters('auth', ['isRoleAdmin']),
+    ...mapGetters('auth', ['currentEnterpriseId']),
     ...mapGetters('product', ['product']),
     stockTypes() {
       return this.getListByTypeFor(stockFor.entry);
     },
-
     isUpdating() {
       return !!this.stockEntry;
     },
+    canShowEnterpriseField() {
+      return !this.currentEnterpriseId;
+    },
   },
   created() {
+    if (this.currentEnterpriseId)
+      this.stockEntryForm.enterprise_id = this.currentEnterpriseId;
+
     const directType = this.stockTypes.find(
       (st) => st.code === stockTypeCode.directEntry
     );

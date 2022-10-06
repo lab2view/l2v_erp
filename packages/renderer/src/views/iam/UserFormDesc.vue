@@ -32,7 +32,7 @@
               :errors="errors?.country_id"
             />
           </div>
-          <div class="form-group col-md">
+          <div class="form-group col-md" v-if="canShowEnterpriseField">
             <BaseSelect
               v-model.number="userForm.enterprise_id"
               :label="$t('common.attributes.structure')"
@@ -272,6 +272,7 @@ export default {
     ...mapGetters('country', ['activeCountries']),
     ...mapGetters('role', ['roles', 'actions']),
     ...mapGetters('enterprise', ['enterprises']),
+    ...mapGetters('auth', ['currentEnterpriseId']),
     selectableRoles() {
       return !!this.enterprise_id
         ? this.roles.filter((r) => r.code !== roleAdminCode)
@@ -284,6 +285,9 @@ export default {
     },
     enterprise_id() {
       return this.$route.query.enterprise_id ?? null;
+    },
+    canShowEnterpriseField() {
+      return !this.currentEnterpriseId;
     },
   },
   watch: {
@@ -303,6 +307,8 @@ export default {
     }
     if (this.enterprise_id)
       this.userForm.enterprise_id = parseInt(this.enterprise_id);
+    if (this.currentEnterpriseId)
+      this.userForm.enterprise_id = this.currentEnterpriseId;
   },
   methods: {
     submitUserForm() {

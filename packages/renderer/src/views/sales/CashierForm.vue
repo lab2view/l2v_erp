@@ -11,7 +11,7 @@
         required
       />
     </div>
-    <div class="form-group mb-3">
+    <div class="form-group mb-3" v-if="canShowEnterpriseField">
       <BaseSelect
         v-model="cashierForm.enterprise_id"
         :errors="errors?.enterprise_id"
@@ -147,14 +147,20 @@ export default {
     ...mapGetters('enterprise', ['enterprises']),
     ...mapGetters('cashier_group', ['cashierGroups']),
     ...mapGetters('cashier', ['cashier']),
+    ...mapGetters('auth', ['currentEnterpriseId']),
     title() {
       return this.cashier && this.cashier.id
         ? this.$t('sales.cashier.formUpdateTitle')
         : this.$t('sales.cashier.formCreateTitle');
     },
+    canShowEnterpriseField() {
+      return !this.currentEnterpriseId;
+    },
   },
   created() {
     if (this.cashier && this.cashier.id) this.cashierForm = this.cashier;
+    if (this.currentEnterpriseId)
+      this.cashierForm.enterprise_id = this.currentEnterpriseId;
   },
   beforeUnmount() {
     this.setLoading();
