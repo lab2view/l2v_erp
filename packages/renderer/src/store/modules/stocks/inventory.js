@@ -35,7 +35,6 @@ const actions = {
       commit('SET_CURRENT_INVENTORY', inventory);
       return inventory;
     }
-
     return inventoryService.getInventory(id).then(({ data }) => {
       commit('SET_CURRENT_INVENTORY', data);
       return data;
@@ -60,6 +59,7 @@ const actions = {
       .updateInventory(inventoryField, inventoryField.id)
       .then(({ data }) => {
         commit('UPDATE_INVENTORY', data);
+        commit('SET_CURRENT_INVENTORY', data);
         notify(
           i18n.global.t('stocks.inventory.update'),
           'Ok',

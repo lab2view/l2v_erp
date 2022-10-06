@@ -25,7 +25,7 @@
         :store-action="updateQuantity"
         :max="maxQuantity"
       />
-      <span v-else>{{ model.quantity }}</span>
+      <span v-else>{{ forInventory ? model.new_value : model.quantity }}</span>
     </td>
     <slot />
     <td v-if="removeDispatchName && !cancelSelection">

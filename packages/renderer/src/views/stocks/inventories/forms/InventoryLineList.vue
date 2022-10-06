@@ -94,15 +94,25 @@
         </table>
       </div>
     </div>
-    <div v-if="inventoryIsConfirm" class="card-footer border-top-0">
-      <div class="row justify-content-center">
+    <div class="card-footer border-top-0">
+      <div v-if="inventoryIsConfirm" class="row justify-content-center">
         <BaseButton
           class="btn btn-success col-auto"
           type="button"
-          :text="$t('common.confirm_provision')"
+          :text="$t('common.confirm_inventory')"
           icon="fa fa-check-circle"
           :loading="loading"
-          @click.prevent=""
+          @click.prevent="updateStockFromInventory"
+        />
+      </div>
+      <div v-else class="row justify-content-center">
+        <BaseButton
+          class="btn btn-success col-auto"
+          type="button"
+          :text="$t('common.validate_inventory')"
+          icon="fa fa-check-circle"
+          :loading="loading"
+          @click.prevent="validateInventory"
         />
       </div>
     </div>
@@ -128,6 +138,7 @@ export default {
       'inventoryLines',
       'inventoryReference',
       'inventoryIsConfirm',
+      'inventory',
     ]),
     partialSelect() {
       return (
@@ -182,6 +193,34 @@ export default {
             this.loading = false;
             this.selected = [];
           });
+      }
+    },
+    validateInventory() {
+      if (
+        confirm(
+          this.$t('messages.validateInventory', {
+            reference: this.inventory.reference,
+          })
+        )
+      ) {
+        this.loading = true;
+        this.$store
+          .dispatch('inventory/updateInventory', {
+            ...this.inventory,
+            validate: true,
+          })
+          .finally(() => (this.loading = false));
+      }
+    },
+    updateStockFromInventory() {
+      if (
+        confirm(
+          this.$t('messages.confirmInventory', {
+            reference: this.inventory.reference,
+          })
+        )
+      ) {
+        this.loading = true;
       }
     },
   },
