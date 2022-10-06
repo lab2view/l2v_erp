@@ -34,7 +34,7 @@
         v-model="quantity"
         type="number"
         required
-        min="0"
+        min="1"
         :errors="errors?.[`stock_entry_lines.${index}.quantity`]"
       />
     </td>
