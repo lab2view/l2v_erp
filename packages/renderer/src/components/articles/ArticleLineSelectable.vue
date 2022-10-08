@@ -21,11 +21,11 @@
     <td v-if="updateDispatchName" class="text-center">
       <BaseUpdateNumberForm
         v-if="!cancelSelection"
-        :quantity="model.quantity"
+        :quantity="forInventory ? model.new_value : model.quantity"
         :store-action="updateQuantity"
         :max="maxQuantity"
       />
-      <span v-else>{{ model.quantity }}</span>
+      <span v-else>{{ forInventory ? model.new_value : model.quantity }}</span>
     </td>
     <slot />
     <td v-if="removeDispatchName && !cancelSelection">
@@ -75,6 +75,10 @@ export default {
       required: true,
     },
     forExit: {
+      type: Boolean,
+      default: false,
+    },
+    forInventory: {
       type: Boolean,
       default: false,
     },
@@ -143,13 +147,15 @@ export default {
     },
 
     updateQuantity(quantity) {
-      if (!this.cancelSelection)
-        return this.$store.dispatch(this.updateDispatchName, {
+      if (!this.cancelSelection) {
+        let dataPayload = {
           ...this.model,
           old_quantity: this.model.quantity,
-          quantity,
-        });
-      else Promise.resolve();
+        };
+        if (this.forInventory) dataPayload.new_value = quantity;
+        else dataPayload.quantity = quantity;
+        return this.$store.dispatch(this.updateDispatchName, dataPayload);
+      } else Promise.resolve();
     },
   },
 };

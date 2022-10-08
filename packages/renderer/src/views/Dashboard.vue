@@ -1,37 +1,44 @@
 <template>
-  <BaseContainer title="Dashboard">
-    <template v-if="false" #breadcrumb>
-      <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="#">Home</a></li>
-        <li class="breadcrumb-item">Pages</li>
-        <li class="breadcrumb-item active">Sample Page</li>
-      </ol>
-    </template>
-    <!--    <template #bookmark>-->
-    <!--      <Bookmark />-->
-    <!--    </template>-->
-
+  <BaseContainer title="Tableau de bord">
     <div class="row">
-      <div class="col-sm-12">
+      <div v-if="$route.name === 'dashboard'" class="col-sm-12">
         <div class="card">
-          <div class="card-header pb-0">
-            <h5>Sample Card</h5>
-            <span
-              >lorem ipsum dolor sit amet, consectetur adipisicing elit</span
-            >
-          </div>
+          <BaseTableHeader
+            title="Stock d'articles par entreprise"
+            :refresh-action-field="{ next: true }"
+            refresh-action-name="enterprise/getEnterpriseArticleStats"
+          />
           <div class="card-body">
-            <p>
-              "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-              enim ad minim veniam, quis nostrud exercitation ullamco laboris
-              nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
-              reprehenderit in voluptate velit esse cillum dolore eu fugiat
-              nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-              sunt in culpa qui officia deserunt mollit anim id est laborum."
-            </p>
+            <div class="table-responsive">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th scope="col">
+                      {{ $t('common.headers.enterprise_id') }}
+                    </th>
+                    <th scope="col">{{ $t('common.attributes.state') }}</th>
+                    <th class="text-end" scope="col">
+                      {{ $t('common.actions') }}
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <EnterpriseArticleStatsLine
+                    v-for="(distribution, index) in distributions"
+                    :key="`ent-distribution-${index}`"
+                    :distribution="distribution"
+                  />
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
+      </div>
+      <div
+        v-if="$route.name === 'dashboard.enterprise.article.stats'"
+        class="col-sm-12"
+      >
+        <router-view />
       </div>
     </div>
   </BaseContainer>
@@ -39,13 +46,33 @@
 
 <script>
 import { defineComponent } from 'vue';
-// import Bookmark from '/@/components/layouts/Bookmark.vue';
 import BaseContainer from '/@/components/common/BaseContainer.vue';
+import store from '/@/store/index.js';
+import EnterpriseArticleStatsLine from '/@/components/dashboard/EnterpriseArticleStatsLine.vue';
+import { mapGetters } from 'vuex';
+import BaseTableHeader from '/@/components/common/BaseTableHeader.vue';
 
 export default defineComponent({
   name: 'Dashboard',
-  components: { BaseContainer },
+  components: { BaseTableHeader, EnterpriseArticleStatsLine, BaseContainer },
+  beforeRouteEnter(routeTo, routeFrom, next) {
+    Promise.all([
+      store.dispatch('article/getArticlesList', {
+        page: 1,
+        field: {},
+      }),
+      store.dispatch('enterprise/getEnterpriseArticleStats'),
+    ])
+      .then(() => {
+        next();
+      })
+      .catch((error) => {
+        console.log(error);
+        next();
+      });
+  },
   computed: {
+    ...mapGetters('enterprise', ['distributions']),
     bookmarkItems() {
       return [
         {

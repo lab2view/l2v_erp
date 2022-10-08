@@ -2,33 +2,31 @@ import store from '../../store';
 import exitFormRoutes from '/@/router/stocks/exitFormRoutes.js';
 import entryFormRoutes from '/@/router/stocks/entryFormRoutes.js';
 import shippingFormRoutes from '/@/router/stocks/shippingFormRoutes';
+import inventoryFormRoutes from '/@/router/stocks/inventoryFormRoutes';
 
 export const stockRoutes = [
   {
-    path: '',
+    path: 'inventories',
     name: 'inventories',
-    component: () => import('/@/views/stocks/InventoriesList.vue'),
+    component: () => import('/@/views/stocks/inventories/InventoriesList.vue'),
     meta: {
       code: 'Inventory.viewAny',
       feather: 'filter',
     },
-    children: [
-      {
-        path: 'form/:id?',
-        name: 'inventory.form',
-        component: () => import('/@/views/stocks/InventoryForm.vue'),
-        beforeEnter: (to) => {
-          if (to.params.id) {
-            return store
-              .dispatch('inventory/getInventory', to.params.id)
-              .then(() => {
-                return 1;
-              })
-              .catch(() => -1);
-          }
-        },
-      },
-    ],
+  },
+  {
+    path: 'inventories/:id?/forms',
+    component: () =>
+      import('/@/components/stocks/inventories/InventoryFormLayout.vue'),
+    children: inventoryFormRoutes,
+    beforeEnter: (to) => {
+      if (to.params.id) {
+        return store
+          .dispatch('inventory/getInventory', to.params.id)
+          .then(() => 1)
+          .catch(() => -1);
+      }
+    },
   },
   {
     path: 'providers',

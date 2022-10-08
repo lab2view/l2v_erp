@@ -29,15 +29,19 @@ export default {
     return axios.delete(`/inventories/delete/${id}`);
   },
 
-  addArticles(inventoryArticles) {
-    return axios.post(`/inventories/articles`, inventoryArticles);
+  addInventoryLines(inventoryId, inventoryLines) {
+    return axios.post(`/inventories/${inventoryId}/lines/add`, inventoryLines);
   },
-
-  removeArticles(inventoryArticles) {
-    return axios.post(`/inventories/articles/delete`, inventoryArticles);
+  updateInventoryLine(inventoryLine) {
+    return axios.put(
+      `/inventories/lines/${inventoryLine.id}/update`,
+      inventoryLine
+    );
   },
-
-  updateInventoryLine(id, inventoryLine) {
-    return axios.put(`/inventories/articles/${id}`, inventoryLine);
+  removeInventoryLines(inventoryId, inventoryLineIds) {
+    return axios.post(
+      `/inventories/${inventoryId}/lines/remove`,
+      inventoryLineIds
+    );
   },
 };

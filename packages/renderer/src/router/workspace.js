@@ -7,6 +7,7 @@ import { saleRoutes } from '/@/router/sales/saleRoutes';
 import { stockRoutes } from '/@/router/stocks/stockRoutes';
 import { paymentRoutes } from '/@/router/payments/paymentRoutes';
 import { iamRoutes } from '/@/router/iam/iamRoutes';
+import dashboardRoutes from '/@/router/dashboard/dashboardRoutes.js';
 
 const workspace = [
   {
@@ -17,6 +18,7 @@ const workspace = [
     path: 'dashboard',
     name: 'dashboard',
     component: () => import('/@/views/Dashboard.vue'),
+    children: dashboardRoutes,
   },
   {
     path: 'products',

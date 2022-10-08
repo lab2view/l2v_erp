@@ -14,6 +14,10 @@ export default {
       updateTitle: "Modification de l'approvisionnement",
       createTitle: "Creation de l'approvisionnement",
     },
+    inventory: {
+      updateTitle: "Modification de l'inventaire",
+      createTitle: "Creation de l'inventaire",
+    },
     exit: {
       updateTitle: 'Modification de la sortie de stock',
       createTitle: 'Creation de le sortie de stock',
@@ -47,6 +51,12 @@ export default {
     articleSelect: 'Selectionner les articles a approvisionner',
     articleForm: "Finalisation de l'approvisionnement",
   },
+  inventoryLine: {
+    list: 'Inventaires',
+    update: "L'article a ete mis a jour avec succes.",
+    articleSelect: "Selectionner les articles de l'inventaire",
+    articleForm: "Finalisation de l'inventaire",
+  },
   stockEntry: {
     list: 'Liste des approvisionnements',
     add: 'Approvisionner le stocks',
@@ -61,10 +71,10 @@ export default {
     listTitle: '',
     updateStock: '',
     state_date: '',
-    form:{
-      updateTitle: "Modification de la livraiosn",
-      createTitle: "Creation de la livraison",
-    }
+    form: {
+      updateTitle: 'Modification de la livraiosn',
+      createTitle: 'Creation de la livraison',
+    },
   },
   stockExit: {
     listTitle: 'Liste des sorties de stocks',

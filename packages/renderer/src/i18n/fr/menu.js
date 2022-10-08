@@ -232,6 +232,10 @@ export default {
   },
   inventory: {
     viewany: 'Inventaires',
+    form: {
+      description: "Description de l'inventaire",
+      line: 'liste des articles',
+    },
   },
   provider: {
     viewany: 'Fournisseurs',

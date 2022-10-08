@@ -3,17 +3,19 @@ import { notify } from '/@/helpers/notify';
 import i18n from '/@/i18n';
 
 const state = {
-  inventories: null,
+  inventories: [],
   hash: null,
   inventory: null,
 };
 
 // getters
 const getters = {
-  inventories: (state) => {
-    return state.inventories ? JSON.parse(state.inventories) : [];
-  },
-  inventory: (state) => (state.inventory ? JSON.parse(state.inventory) : null),
+  inventories: (state) => state.inventories,
+  inventory: (state) => state.inventory,
+  haveInventory: (state, getters) => !!getters.inventory,
+  inventoryLines: (state, getters) => getters.inventory?.inventory_lines ?? [],
+  inventoryReference: (state, getters) => getters.inventory?.reference,
+  inventoryIsConfirm: (state, getters) => getters.inventory?.validate ?? false,
 };
 
 const actions = {
@@ -33,7 +35,6 @@ const actions = {
       commit('SET_CURRENT_INVENTORY', inventory);
       return inventory;
     }
-
     return inventoryService.getInventory(id).then(({ data }) => {
       commit('SET_CURRENT_INVENTORY', data);
       return data;
@@ -58,6 +59,7 @@ const actions = {
       .updateInventory(inventoryField, inventoryField.id)
       .then(({ data }) => {
         commit('UPDATE_INVENTORY', data);
+        commit('SET_CURRENT_INVENTORY', data);
         notify(
           i18n.global.t('stocks.inventory.update'),
           'Ok',
@@ -74,38 +76,95 @@ const actions = {
       return data;
     });
   },
+
+  addInventoryLines({ commit, getters }, inventoryLines) {
+    return inventoryService
+      .addInventoryLines(getters.inventory.id, inventoryLines)
+      .then(({ data }) => {
+        commit('ADD_INVENTORY_LINES', data.inventory_lines);
+        return data;
+      });
+  },
+  updateInventoryLine({ commit }, inventoryLine) {
+    return inventoryService
+      .updateInventoryLine(inventoryLine)
+      .then(({ data }) => {
+        commit('UPDATE_INVENTORY_LINE', data);
+        notify(
+          i18n.global.t('stocks.inventoryLine.update'),
+          'Ok',
+          'theme',
+          'fa fa-check'
+        );
+        return data;
+      });
+  },
+  removeInventoryLines({ getters, commit }, inventoryLineIds) {
+    return inventoryService
+      .removeInventoryLines(getters.inventory.id, {
+        inventory_line_ids: [...inventoryLineIds],
+      })
+      .then(() => {
+        commit('REMOVE_INVENTORY_LINES', inventoryLineIds);
+        return true;
+      });
+  },
 };
 
 // mutations
 const mutations = {
   SET_INVENTORIES(state, inventories) {
-    state.inventories = JSON.stringify(inventories);
+    state.inventories = inventories;
   },
   SET_CURRENT_INVENTORY(state, inventory) {
-    state.inventory = JSON.stringify(inventory);
+    state.inventory = inventory;
   },
   ADD_INVENTORY(state, inventory) {
-    let inventories = null;
-    if (state.inventories) {
-      inventories = JSON.parse(state.inventories);
-      inventories.push(inventory);
-    } else {
-      inventories = [inventory];
-    }
-    state.inventories = JSON.stringify(inventories);
+    if (state.inventories.find((i) => i.id === inventory.id) === undefined)
+      state.inventories.push(inventory);
   },
   UPDATE_INVENTORY(state, inventory) {
-    let inventories = JSON.parse(state.inventories);
-    const index = inventories.findIndex((p) => p.id === inventory.id);
+    const index = state.inventories.findIndex((p) => p.id === inventory.id);
     if (index !== -1) {
-      inventories.splice(index, 1, inventory);
+      state.inventories.splice(index, 1, inventory);
     }
-    state.inventories = JSON.stringify(inventories);
   },
   DELETE_INVENTORY(state, inventoryId) {
-    state.inventories = JSON.stringify(
-      JSON.parse(state.inventories).filter((p) => p.id !== inventoryId)
-    );
+    state.inventories = state.inventories.filter((p) => p.id !== inventoryId);
+  },
+
+  ADD_INVENTORY_LINES(state, inventory_lines) {
+    let index = state.inventories.findIndex((i) => i.id === state.inventory.id);
+    if (index !== -1) {
+      state.inventory.inventory_lines = [
+        ...state.inventory.inventory_lines,
+        ...inventory_lines,
+      ];
+      state.inventories.splice(index, 1, state.inventory);
+    }
+  },
+  UPDATE_INVENTORY_LINE(state, inventoryLine) {
+    let index = state.inventories.findIndex((i) => i.id === state.inventory.id);
+    if (index !== -1) {
+      let invLineIndex = state.inventory.inventory_lines.findIndex(
+        (p) => p.id === inventoryLine.id
+      );
+      if (invLineIndex !== -1) {
+        state.inventory.inventory_lines.splice(invLineIndex, 1, inventoryLine);
+        state.inventories.splice(index, 1, state.inventory);
+      }
+    }
+  },
+  REMOVE_INVENTORY_LINES(state, inventory_lines_ids) {
+    let index = state.inventories.findIndex((i) => i.id === state.inventory.id);
+    if (index !== -1) {
+      state.inventory.inventory_lines = state.inventory.inventory_lines.filter(
+        (il) => {
+          return inventory_lines_ids.find((id) => id === il.id) === undefined;
+        }
+      );
+      state.inventories.splice(index, 1, state.inventory);
+    }
   },
 };
 
