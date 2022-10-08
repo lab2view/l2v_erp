@@ -165,9 +165,17 @@ const CustomerGroup = new VuexPersistence({
 
 const Inventory = new VuexPersistence({
   key: 'inventory',
+  restoreState: (key, storage) => {
+    return storage.getItem(key).then((data) => JSON.parse(data));
+  },
+  saveState: (key, state, storage) => {
+    return storage.setItem(key, JSON.stringify(state));
+  },
   storage: localStore,
   asyncStorage: true,
-  reducer: (state) => ({ inventory: state.inventory }),
+  reducer: (state) => ({
+    inventory: state.inventory,
+  }),
 });
 
 const Provider = new VuexPersistence({

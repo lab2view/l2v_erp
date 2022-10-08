@@ -6,7 +6,7 @@
     <div class="card">
       <BaseTableHeader
         :title="$t('stocks.inventory.listTitle')"
-        add-action-router-name="inventory.form"
+        add-action-router-name="inventory.form.desc"
         :refresh-action-field="{ page: 1, field: { next: true } }"
         refresh-action-name="inventory/getInventoriesList"
       />
@@ -32,7 +32,7 @@
                 type="button"
                 @click.prevent="
                   $router.push({
-                    name: 'inventory.form',
+                    name: 'inventory.form.desc',
                     params: { id: inventory.id },
                   })
                 "
@@ -62,7 +62,7 @@
 <script>
 import BaseContainer from '/@/components/common/BaseContainer.vue';
 import BaseDatatable from '/@/components/common/BaseDatatable.vue';
-import store from '/@/store';
+import store from '/@/store/index.js';
 import { mapGetters } from 'vuex';
 import BaseTableHeader from '/@/components/common/BaseTableHeader.vue';
 

@@ -5,6 +5,10 @@ export default {
     return axios.post(`/enterprises/list?page=${page}`, field);
   },
 
+  getEnterpriseArticleStats() {
+    return axios.get(`/enterprises/articles/stats`);
+  },
+
   addEnterprise(enterprise) {
     return axios.post(`/enterprises`, enterprise);
   },

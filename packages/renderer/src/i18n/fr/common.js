@@ -16,8 +16,10 @@ export default {
   yes: 'Oui',
   no: 'Non',
   confirm_provision: "Confirmer l'approvisionnement",
+  validate_inventory: "Valider l'inventaire",
   confirm_command: 'Confirmer le bon de commande',
   confirm_operation: "Confirmer l'operation",
+  confirm_inventory: 'Equilibrer le stock',
   close: 'Fermer',
   delete: 'Supprimer',
   delete_all: 'Tout Supprimer',
@@ -261,6 +263,7 @@ export default {
     quantity_requested: 'Qté B.C',
     quantity_received: 'Qté Livrée',
     delivery_date: 'Date de livraison',
+    inventory_qty: 'Quantite disponible',
   },
 
   gender: {
