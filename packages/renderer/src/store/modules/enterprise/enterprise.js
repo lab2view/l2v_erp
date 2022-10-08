@@ -4,12 +4,15 @@ const state = {
   enterprises: null,
   hash: null,
   enterprise: null,
+  distributions: null,
 };
 
 // getters
 const getters = {
   enterprises: (state) =>
     state.enterprises ? JSON.parse(state.enterprises) : [],
+  distributions: (state) =>
+    state.distributions ? JSON.parse(state.distributions) : [],
   enterprise: (state) =>
     state.enterprise ? JSON.parse(state.enterprise) : null,
   haveEnterprise: (state) => !!state.enterprise,
@@ -27,6 +30,16 @@ const actions = {
           commit('SET_ENTERPRISES', data);
           return data;
         });
+  },
+
+  getEnterpriseArticleStats({ commit, getters }, next) {
+    if (getters.distributions.length > 0 && !next) {
+      return getters.distributions;
+    } else
+      return enterpriseService.getEnterpriseArticleStats().then(({ data }) => {
+        commit('SET_ARTICLE_STATS', data);
+        return data;
+      });
   },
 
   getEnterprise({ getters, commit }, id) {
@@ -103,6 +116,9 @@ const mutations = {
   },
   SET_ENTERPRISES(state, enterprises) {
     state.enterprises = JSON.stringify(enterprises);
+  },
+  SET_ARTICLE_STATS(state, distributions) {
+    state.distributions = JSON.stringify(distributions);
   },
   SET_CURRENT_ENTERPRISE(state, enterprise) {
     state.enterprise = enterprise === null ? null : JSON.stringify(enterprise);

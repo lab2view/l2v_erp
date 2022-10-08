@@ -83,8 +83,8 @@
               update-dispatch-name="inventory/updateInventoryLine"
               remove-dispatch-name="inventory/removeInventoryLines"
               :cancel-selection="inventoryIsConfirm"
-              @deleted="selected = []"
               :for-inventory="true"
+              @deleted="selected = []"
               @selected="selectInventoryLine(inventoryLine, true)"
               @unselected="selectInventoryLine(inventoryLine, false)"
             >
