@@ -72,6 +72,7 @@ import BaseSelect from '/@/components/common/BaseSelect.vue';
 import BaseInput from '/@/components/common/BaseInput.vue';
 import BaseButton from '/@/components/common/BaseButton.vue';
 import BaseInputGroup from '/@/components/common/BaseInputGroup.vue';
+import { priceTypeCode } from '/@/helpers/codes.js';
 
 export default {
   components: { BaseInputGroup, BaseButton, BaseInput, BaseSelect },
@@ -100,6 +101,11 @@ export default {
     ...mapGetters('provider', ['providers']),
     article() {
       return this.getArticleById(this.stockEntryLine.article_id);
+    },
+    articlePrice() {
+      return this.article?.prices?.find(
+        (p) => p.price_type.code === priceTypeCode.buy
+      );
     },
     provider_id: {
       get() {
@@ -157,6 +163,11 @@ export default {
         );
       },
     },
+  },
+  created() {
+    if (this.articlePrice) {
+      this.buying_price = this.articlePrice.value;
+    }
   },
 };
 </script>
