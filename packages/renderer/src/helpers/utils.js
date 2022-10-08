@@ -40,6 +40,16 @@ export function getStockExitLineArticleStock(article) {
   return totalEntry - totalExit;
 }
 
+export function getDistributionCurrentStock(distribution) {
+  const totalEntry =
+    parseInt(distribution.total_entry ?? 0) +
+    parseInt(distribution.total_entry_composition ?? 0);
+  const totalExit =
+    parseInt(distribution.total_exit ?? 0) +
+    parseInt(distribution.total_exit_composition ?? 0);
+  return totalEntry - totalExit;
+}
+
 export function getPrinterRawText({
   enterprise,
   discount,

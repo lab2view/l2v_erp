@@ -48,6 +48,7 @@ import ArticleSearchResultLine from '/@/components/sales/session/ArticleSearchRe
 import BasePaginate from '/@/components/common/BasePaginate.vue';
 
 export default {
+  name: 'SaleModalSearchResults',
   components: { BasePaginate, ArticleSearchResultLine, BaseModal },
   data() {
     return {

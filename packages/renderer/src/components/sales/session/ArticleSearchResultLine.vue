@@ -2,14 +2,14 @@
   <div class="info-block">
     <div class="row">
       <div class="col-md">
-        <h6>{{ articleName }}</h6>
+        <h6 class="f-12">{{ articleName }}</h6>
         <div class="star-ratings">
           <ul class="search-info">
             <li>{{ currentEnterprise?.name || 'Principale' }}</li>
             <li>
               {{ $t('common.headers.stock_in') }}
               <div class="span badge f-14" :class="`text-${stockClassState}`">
-                {{ totalStock }}
+                {{ currentDistributionTotalStock }}
               </div>
             </li>
           </ul>
@@ -32,7 +32,7 @@
 
 <script>
 import ArticleMixin from '/@/mixins/ArticleMixin.js';
-import { getStockExitLineArticleStock } from '/@/helpers/utils.js';
+import { getDistributionCurrentStock } from '/@/helpers/utils.js';
 import ArticleDistributionLine from '/@/components/sales/session/ArticleDistributionLine.vue';
 import { mapGetters } from 'vuex';
 
@@ -42,12 +42,20 @@ export default {
   mixins: [ArticleMixin],
   computed: {
     ...mapGetters('auth', ['currentEnterprise']),
+    currentDistribution() {
+      return this.article.stats.distributions.find(
+        (d) => d.id === this.currentEnterprise.id
+      );
+    },
+    currentDistributionTotalStock() {
+      if (this.currentDistribution) {
+        return getDistributionCurrentStock(this.currentDistribution);
+      } else return 0;
+    },
     articleName() {
-      return `(${(getStockExitLineArticleStock(this.article) / 6).toFixed(
-        2
-      )}) ${this.article.product.code} / ${this.article.product.reference} - ${
-        this.article.name
-      }`;
+      return `(${(this.currentDistributionTotalStock / 6).toFixed(2)}) ${
+        this.article.product.code
+      } / ${this.article.product.reference} - ${this.article.name}`;
     },
   },
 };
