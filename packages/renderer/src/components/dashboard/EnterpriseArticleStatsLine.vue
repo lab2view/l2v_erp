@@ -22,13 +22,17 @@
 <script>
 import ArticleDistributionMixin from '/@/mixins/ArticleDistributionMixin';
 import BaseButton from '/@/components/common/BaseButton.vue';
+import { mapGetters } from 'vuex';
 
 export default {
   name: 'EnterpriseArticleStatsLine',
   components: { BaseButton },
   mixins: [ArticleDistributionMixin],
-  canShowEnterpriseArticleLineStats() {
-    return this.canShowMenuItem('Enterprise.viewAnyArticleLineStats');
+  computed: {
+    ...mapGetters('auth', ['canShowMenuItem']),
+    canShowEnterpriseArticleLineStats() {
+      return this.canShowMenuItem('Enterprise.viewAnyArticleLineStats');
+    },
   },
 };
 </script>
