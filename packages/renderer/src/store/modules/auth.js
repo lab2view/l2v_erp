@@ -28,13 +28,44 @@ const getters = {
     return JSON.parse(state.resetPasswordResponse)?.request_id;
   },
   currentUserEmail: (state, getters) => getters.currentUser?.email,
-  currentUserRole: (state, getters) => getters.currentUser?.role?.label,
+  currentUserRole: (state, getters) => getters.currentUser?.role,
+  currentUserRoleName: (state, getters) => getters.currentUserRole?.label,
   isRoleAdmin: (state, getters) =>
     getters.currentUser?.role?.code === roleAdminCode,
   isCashierRole: (state, getters) =>
     getters.currentUser?.role?.code === roleCashierCode,
   currentEnterprise: (state, getters) => getters.currentUser?.enterprise,
   currentEnterpriseId: (state, getters) => getters.currentEnterprise?.id,
+  canShowMenuModule: (state, getters) => (moduleCode) => {
+    if (getters.currentUser) {
+      if (getters.isRoleAdmin) return true;
+      return (
+        getters.currentUser.privileges.find(
+          (p) =>
+            p.module.code.toString().toLowerCase() ===
+            moduleCode.toString().toLowerCase()
+        ) !== undefined
+      );
+    } else return false;
+  },
+  canShowMenuItem: (state, getters) => (actionCode) => {
+    console.log(actionCode);
+    if (!actionCode) return true;
+    if (getters.currentUser) {
+      if (getters.isRoleAdmin) return true;
+      const canAccessModule = getters.currentUser.privileges.find(
+        (p) =>
+          p.code.toString().toLowerCase() ===
+            actionCode.toString().toLowerCase() ||
+          p.actions.find(
+            (a) =>
+              a.code.toString().toLowerCase() ===
+              actionCode.toString().toLowerCase()
+          ) !== undefined
+      );
+      return canAccessModule !== undefined;
+    } else return false;
+  },
 };
 
 // privileges

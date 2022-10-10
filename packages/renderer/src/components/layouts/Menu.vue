@@ -39,8 +39,8 @@
           {{ truncate(currentUserEmail, 25) }}
         </h6>
       </a>
-      <p v-if="currentUserRole" class="mb-0 font-roboto">
-        {{ currentUserRole }}
+      <p v-if="currentUserRoleName" class="mb-0 font-roboto">
+        {{ currentUserRoleName }}
       </p>
     </div>
     <nav v-if="!isCashierSessionRoute">
@@ -96,7 +96,7 @@ export default defineComponent({
   components: { CashierSessionSaleHistory, MenuModule },
   mixins: [SaleSessionMixin, FilterMixin],
   computed: {
-    ...mapGetters('auth', ['currentUserEmail', 'currentUserRole']),
+    ...mapGetters('auth', ['currentUserEmail', 'currentUserRoleName']),
     modules() {
       return [
         {
