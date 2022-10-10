@@ -1,5 +1,5 @@
 <template>
-  <li class="sidebar-main-title">
+  <li v-if="canShowCurrentMenuModule" class="sidebar-main-title">
     <div>
       <h6>{{ $t(`menu.modules.${module.code.toString().toLowerCase()}`) }}</h6>
     </div>
@@ -14,6 +14,7 @@
 <script>
 import { defineComponent } from 'vue';
 import MenuModuleItem from './MenuModuleItem.vue';
+import { mapGetters } from 'vuex';
 export default defineComponent({
   mame: 'MenuModule',
   components: { MenuModuleItem },
@@ -23,7 +24,12 @@ export default defineComponent({
       required: true,
     },
   },
-  computed: {},
+  computed: {
+    ...mapGetters('auth', ['canShowMenuModule']),
+    canShowCurrentMenuModule() {
+      return this.canShowMenuModule(this.module.code.toString().toUpperCase());
+    },
+  },
 });
 </script>
 

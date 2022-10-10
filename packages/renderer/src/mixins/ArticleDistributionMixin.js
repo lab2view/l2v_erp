@@ -9,14 +9,14 @@ export default {
   computed: {
     totalEntry() {
       return (
-        parseInt(this.distribution.total_entry ?? 0) +
-        parseInt(this.distribution.total_entry_composition ?? 0)
+        parseInt(this.distribution?.total_entry ?? 0) +
+        parseInt(this.distribution?.total_entry_composition ?? 0)
       );
     },
     totalExit() {
       return (
-        parseInt(this.distribution.total_exit ?? 0) +
-        parseInt(this.distribution.total_exit_composition ?? 0)
+        parseInt(this.distribution?.total_exit ?? 0) +
+        parseInt(this.distribution?.total_exit_composition ?? 0)
       );
     },
     totalStock() {

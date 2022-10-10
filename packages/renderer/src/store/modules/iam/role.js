@@ -90,6 +90,27 @@ const actions = {
       return data;
     });
   },
+
+  addRolePrivileges({ getters, commit }, privileges) {
+    return roleService
+      .addRolePrivileges(privileges, getters.user.id)
+      .then(({ data }) => {
+        commit('SET_ROLE_PRIVILEGES', data.privileges);
+      });
+  },
+
+  removeRolePrivileges({ getters, commit }, privileges) {
+    return roleService
+      .removeRolePrivileges(
+        {
+          privileges_ids: [...privileges],
+        },
+        getters.role.id
+      )
+      .then(() => {
+        commit('REMOVE_ROLE_PRIVILEGES', privileges);
+      });
+  },
 };
 
 // mutations
@@ -124,6 +145,31 @@ const mutations = {
     state.roles = JSON.stringify(
       JSON.parse(state.roles).filter((role) => role.id !== roleId)
     );
+  },
+
+  SET_ROLE_PRIVILEGES(state, { role, privileges }) {
+    let roles = JSON.parse(state.roles);
+    const index = roles.findIndex((p) => p.id === role.id);
+    if (index !== -1) {
+      roles.splice(index, 1, { ...role, privileges });
+    }
+    state.role = JSON.stringify(role);
+    state.roles = JSON.stringify(roles);
+  },
+
+  REMOVE_ROLE_PRIVILEGES(state, { role, privilegeIds }) {
+    let roles = JSON.parse(state.roles);
+    const index = roles.findIndex((p) => p.id === role.id);
+    if (index !== -1) {
+      roles.splice(index, 1, {
+        ...role,
+        privileges: role.privileges.filter(
+          (p) => privilegeIds.find((pi) => pi.id === p.id) === undefined
+        ),
+      });
+    }
+    state.role = JSON.stringify(role);
+    state.roles = JSON.stringify(roles);
   },
 };
 
