@@ -2,7 +2,7 @@
   <tr>
     <td>{{ distribution.name }}</td>
     <td>{{ totalStock }}</td>
-    <td class="text-end" v-if="canShowEnterpriseArticleLineStats">
+    <td v-if="canShowEnterpriseArticleLineStats" class="text-end">
       <BaseButton
         type="button"
         icon="fa fa-eye"

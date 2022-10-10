@@ -8,8 +8,8 @@
 import BaseContainer from '/@/components/common/BaseContainer.vue';
 
 export default {
-  components: { BaseContainer },
   name: 'RoleConfig',
+  components: { BaseContainer },
   // beforeRouteEnter(routeTo, routeFrom, next) {
   // store
   //   .dispatch('history/getHistoriesList', {

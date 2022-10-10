@@ -1,6 +1,6 @@
 <template>
   <BaseContainer title="Tableau de bord">
-    <div class="row" v-if="canShowEnterpriseArticleStats">
+    <div v-if="canShowEnterpriseArticleStats" class="row">
       <div v-if="$route.name === 'dashboard'" class="col-sm-12">
         <div class="card">
           <BaseTableHeader
@@ -18,9 +18,9 @@
                     </th>
                     <th scope="col">{{ $t('common.attributes.state') }}</th>
                     <th
+                      v-if="canShowEnterpriseArticleLineStats"
                       class="text-end"
                       scope="col"
-                      v-if="canShowEnterpriseArticleLineStats"
                     >
                       {{ $t('common.actions') }}
                     </th>

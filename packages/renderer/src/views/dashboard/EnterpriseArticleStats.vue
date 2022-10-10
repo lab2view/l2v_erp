@@ -1,5 +1,5 @@
 <template>
-  <div class="card" v-if="canShowEnterpriseArticleLineStats">
+  <div v-if="canShowEnterpriseArticleLineStats" class="card">
     <BaseTableHeader
       :title="$t('articles.listTitle')"
       :refresh-action-field="{ page: 1, field: { paginate: 50, next: true } }"
@@ -18,7 +18,7 @@
           v-for="article in articles"
           :key="`art-stat-lne-${article.id}`"
           :article="article"
-          :enterprise_id="$route.params.enterprise_id"
+          :enterprise-id="$route.params.enterprise_id"
         />
       </BaseDatatable>
     </div>
@@ -32,14 +32,12 @@ import BaseTableHeader from '/@/components/common/BaseTableHeader.vue';
 import BaseDatatable from '/@/components/common/BaseDatatable.vue';
 import store from '/@/store/index';
 import { mapGetters } from 'vuex';
-import ArticleStockDistribution from '/@/components/articles/ArticleStockDistributionIn.vue';
 import ArticleStatsLineDetails from '/@/components/dashboard/ArticleStatsLineDetails.vue';
 
 export default {
   name: 'EnterpriseArticleStats',
   components: {
     ArticleStatsLineDetails,
-    ArticleStockDistribution,
     BaseDatatable,
     BaseTableHeader,
   },

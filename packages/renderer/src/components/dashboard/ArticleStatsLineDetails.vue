@@ -30,7 +30,7 @@ export default {
   components: { ArticleStockIn, ArticleStockDistribution },
   mixins: [ArticleMixin],
   props: {
-    enterprise_id: {
+    enterpriseId: {
       type: [Number, String],
       default: null,
     },

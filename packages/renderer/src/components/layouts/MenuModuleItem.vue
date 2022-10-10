@@ -1,5 +1,5 @@
 <template>
-  <li class="dropdown" v-if="canShowModuleItem">
+  <li v-if="canShowModuleItem" class="dropdown">
     <a
       v-if="haveSubMenus"
       :class="linkClass"
