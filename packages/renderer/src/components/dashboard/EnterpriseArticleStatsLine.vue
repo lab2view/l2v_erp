@@ -2,7 +2,7 @@
   <tr>
     <td>{{ distribution.name }}</td>
     <td>{{ totalStock }}</td>
-    <td class="text-end">
+    <td v-if="canShowEnterpriseArticleLineStats" class="text-end">
       <BaseButton
         type="button"
         icon="fa fa-eye"
@@ -22,11 +22,18 @@
 <script>
 import ArticleDistributionMixin from '/@/mixins/ArticleDistributionMixin';
 import BaseButton from '/@/components/common/BaseButton.vue';
+import { mapGetters } from 'vuex';
 
 export default {
   name: 'EnterpriseArticleStatsLine',
   components: { BaseButton },
   mixins: [ArticleDistributionMixin],
+  computed: {
+    ...mapGetters('auth', ['canShowMenuItem']),
+    canShowEnterpriseArticleLineStats() {
+      return this.canShowMenuItem('Enterprise.viewAnyArticleLineStats');
+    },
+  },
 };
 </script>
 

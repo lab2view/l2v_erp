@@ -11,7 +11,7 @@ export default [
     component: () =>
       import('/@/views/products/configurations/package/PackageList.vue'),
     meta: {
-      code: 'package.viewAny',
+      code: 'Package.viewAny',
       feather: 'package',
     },
     children: [
