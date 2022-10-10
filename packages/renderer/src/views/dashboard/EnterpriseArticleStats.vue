@@ -14,17 +14,12 @@
           <th class="text-center">{{ $t('common.headers.stock_in') }}</th>
           <th>{{ $t('common.attributes.reference') }}</th>
         </template>
-        <tr v-for="article in selectedArticles" :key="article.id">
-          <td>{{ article.id }}</td>
-          <td>{{ article.product.name }}</td>
-          <td>{{ article.name }}</td>
-          <td class="text-center">
-            <ArticleStockIn :article="article" />
-          </td>
-          <td>
-            {{ `${article.product.code} / ${article.product.reference}` }}
-          </td>
-        </tr>
+        <ArticleStatsLineDetails
+          v-for="article in articles"
+          :key="`art-stat-lne-${article.id}`"
+          :article="article"
+          :enterprise_id="$route.params.enterprise_id"
+        />
       </BaseDatatable>
     </div>
 
@@ -35,16 +30,19 @@
 <script>
 import BaseTableHeader from '/@/components/common/BaseTableHeader.vue';
 import BaseDatatable from '/@/components/common/BaseDatatable.vue';
-import ArticleStockIn from '/@/components/articles/ArticleStockIn.vue';
-import store from '/@/store/index.js';
+import store from '/@/store/index';
 import { mapGetters } from 'vuex';
-import {
-  getDistributionCurrentStock,
-  getStockExitLineArticleStock,
-} from '/@/helpers/utils.js';
+import ArticleStockDistribution from '/@/components/articles/ArticleStockDistributionIn.vue';
+import ArticleStatsLineDetails from '/@/components/dashboard/ArticleStatsLineDetails.vue';
+
 export default {
   name: 'EnterpriseArticleStats',
-  components: { ArticleStockIn, BaseDatatable, BaseTableHeader },
+  components: {
+    ArticleStatsLineDetails,
+    ArticleStockDistribution,
+    BaseDatatable,
+    BaseTableHeader,
+  },
   beforeRouteEnter(routeTo, routeFrom, next) {
     store
       .dispatch('article/getArticlesList', {
@@ -61,16 +59,6 @@ export default {
   },
   computed: {
     ...mapGetters('article', ['articles']),
-    selectedArticles() {
-      return this.articles.filter((art) => {
-        const distribution = art.stats.distributions.find(
-          (d) => d.id === parseInt(this.$route.params.enterprise_id)
-        );
-        if (distribution !== undefined) {
-          return getDistributionCurrentStock(distribution) > 0;
-        } else return getStockExitLineArticleStock(art) > 0;
-      });
-    },
   },
 };
 </script>
