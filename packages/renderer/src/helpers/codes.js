@@ -38,6 +38,12 @@ export const actionCode = {
   restored: 'restored',
 };
 
+export const privilegeCode = {
+  manageDashboard: 'Dashboard.manage',
+  enterpriseArticleStat: 'Enterprise.viewAnyArticleStats',
+  enterpriseArticleLineStat: 'Enterprise.viewAnyArticleLineStats',
+};
+
 export const saleTypeCode = {
   bulk: 'S_TYPE_BULK',
   detail: 'S_TYPE_DETAIL',

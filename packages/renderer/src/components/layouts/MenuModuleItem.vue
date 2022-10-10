@@ -1,5 +1,5 @@
 <template>
-  <li class="dropdown">
+  <li v-if="canShowModuleItem" class="dropdown">
     <a
       v-if="haveSubMenus"
       :class="linkClass"
@@ -31,18 +31,22 @@
       :style="subMenuStyle"
       class="nav-submenu menu-content"
     >
-      <li v-for="(item, indexItem) in menu.items" :key="`submenu-${indexItem}`">
-        <router-link :to="{ name: item.to }"
-          >{{ $t(`menu.${item.code?.toString().toLowerCase()}`) }}
-        </router-link>
-      </li>
+      <MenuModuleSubItem
+        v-for="(item, indexItem) in menu.items"
+        :key="`submenu-${indexItem}`"
+        :menu="item"
+      />
     </ul>
   </li>
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
+import MenuModuleSubItem from '/@/components/layouts/MenuModuleSubItem.vue';
+
 export default {
   name: 'MenuModuleItem',
+  components: { MenuModuleSubItem },
   props: {
     menu: {
       type: Object,
@@ -50,6 +54,10 @@ export default {
     },
   },
   computed: {
+    ...mapGetters('auth', ['canShowMenuItem']),
+    canShowModuleItem() {
+      return this.canShowMenuItem(this.menu.code);
+    },
     isCurrentRoute() {
       return RegExp(`^${this.menu.prefix}*`).test(this.$route.name);
     },
