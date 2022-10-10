@@ -28,4 +28,12 @@ export default {
   forceDeleteRole(id) {
     return axios.delete(`/roles/delete/${id}`);
   },
+
+  addRolePrivileges(privileges, role_id) {
+    return axios.post(`/users/${role_id}/privileges/add`, privileges);
+  },
+
+  removeRolePrivileges(privilegesIds, role_id) {
+    return axios.post(`/users/${role_id}/privileges/remove`, privilegesIds);
+  },
 };
