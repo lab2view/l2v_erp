@@ -1,6 +1,6 @@
 <template>
   <BaseContainer title="Tableau de bord">
-    <div class="row">
+    <div class="row" v-if="canShowEnterpriseArticleStats">
       <div v-if="$route.name === 'dashboard'" class="col-sm-12">
         <div class="card">
           <BaseTableHeader
@@ -17,7 +17,11 @@
                       {{ $t('common.headers.enterprise_id') }}
                     </th>
                     <th scope="col">{{ $t('common.attributes.state') }}</th>
-                    <th class="text-end" scope="col">
+                    <th
+                      class="text-end"
+                      scope="col"
+                      v-if="canShowEnterpriseArticleLineStats"
+                    >
                       {{ $t('common.actions') }}
                     </th>
                   </tr>
@@ -73,6 +77,13 @@ export default defineComponent({
   },
   computed: {
     ...mapGetters('enterprise', ['distributions']),
+    ...mapGetters('auth', ['canShowMenuItem']),
+    canShowEnterpriseArticleStats() {
+      return this.canShowMenuItem('Enterprise.viewAnyArticleStats');
+    },
+    canShowEnterpriseArticleLineStats() {
+      return this.canShowMenuItem('Enterprise.viewAnyArticleLineStats');
+    },
     bookmarkItems() {
       return [
         {

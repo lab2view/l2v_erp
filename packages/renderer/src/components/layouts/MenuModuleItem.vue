@@ -1,5 +1,5 @@
 <template>
-  <li class="dropdown" v-if="canShowModule">
+  <li class="dropdown" v-if="canShowModuleItem">
     <a
       v-if="haveSubMenus"
       :class="linkClass"
@@ -55,7 +55,7 @@ export default {
   },
   computed: {
     ...mapGetters('auth', ['canShowMenuItem']),
-    canShowModule() {
+    canShowModuleItem() {
       return this.canShowMenuItem(this.menu.code);
     },
     isCurrentRoute() {

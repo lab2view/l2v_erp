@@ -2,7 +2,7 @@
   <tr>
     <td>{{ distribution.name }}</td>
     <td>{{ totalStock }}</td>
-    <td class="text-end">
+    <td class="text-end" v-if="canShowEnterpriseArticleLineStats">
       <BaseButton
         type="button"
         icon="fa fa-eye"
@@ -27,6 +27,9 @@ export default {
   name: 'EnterpriseArticleStatsLine',
   components: { BaseButton },
   mixins: [ArticleDistributionMixin],
+  canShowEnterpriseArticleLineStats() {
+    return this.canShowMenuItem('Enterprise.viewAnyArticleLineStats');
+  },
 };
 </script>
 

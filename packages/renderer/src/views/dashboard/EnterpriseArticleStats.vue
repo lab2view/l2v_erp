@@ -1,5 +1,5 @@
 <template>
-  <div class="card">
+  <div class="card" v-if="canShowEnterpriseArticleLineStats">
     <BaseTableHeader
       :title="$t('articles.listTitle')"
       :refresh-action-field="{ page: 1, field: { paginate: 50, next: true } }"
@@ -59,6 +59,10 @@ export default {
   },
   computed: {
     ...mapGetters('article', ['articles']),
+    ...mapGetters('auth', ['canShowMenuItem']),
+    canShowEnterpriseArticleLineStats() {
+      return this.canShowMenuItem('Enterprise.viewAnyArticleLineStats');
+    },
   },
 };
 </script>

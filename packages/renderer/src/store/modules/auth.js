@@ -49,7 +49,6 @@ const getters = {
     } else return false;
   },
   canShowMenuItem: (state, getters) => (actionCode) => {
-    console.log(actionCode);
     if (!actionCode) return true;
     if (getters.currentUser) {
       if (getters.isRoleAdmin) return true;
