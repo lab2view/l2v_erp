@@ -7,47 +7,65 @@
     <div class="row">
       <div class="col-md">
         <div v-if="!product" class="mb-3">
-          <BaseSelect
-            v-model.number="propertyForm.product_family_id"
+          <BaseFieldGroup
+            :with-refresh="true"
+            :with-append="false"
             :label="$t('common.attributes.product_family')"
-            :options="productFamilies"
-            :placeholder="
-              $t('common.field_for_specific', {
-                liaison: $t('common.la'),
-                element: $t('common.attributes.product_family'),
-              })
-            "
-            key-label="label"
-            key-value="id"
-            :errors="errors?.product_family_id"
-          />
+            refresh-action-name="product_family/getProductFamiliesList"
+          >
+            <BaseSelect
+              v-model.number="propertyForm.product_family_id"
+              :options="productFamilies"
+              :placeholder="
+                $t('common.field_for_specific', {
+                  liaison: $t('common.la'),
+                  element: $t('common.attributes.product_family'),
+                })
+              "
+              key-label="label"
+              key-value="id"
+              :errors="errors?.product_family_id"
+            />
+          </BaseFieldGroup>
         </div>
         <div v-if="!product" class="mb-3">
-          <BaseSelect
-            v-model.number="propertyForm.product_type_id"
+          <BaseFieldGroup
+            :with-refresh="true"
+            :with-append="false"
             :label="$t('common.attributes.product_type')"
-            :placeholder="
-              $t('common.field_for_specific', {
-                liaison: $t('common.le'),
-                element: $t('common.attributes.product_type'),
-              })
-            "
-            :options="productTypes"
-            key-label="label"
-            key-value="id"
-            :errors="errors?.product_type_id"
-          />
+            refresh-action-name="product_type/getProductTypesList"
+          >
+            <BaseSelect
+              v-model.number="propertyForm.product_type_id"
+              :placeholder="
+                $t('common.field_for_specific', {
+                  liaison: $t('common.le'),
+                  element: $t('common.attributes.product_type'),
+                })
+              "
+              :options="productTypes"
+              key-label="label"
+              key-value="id"
+              :errors="errors?.product_type_id"
+            />
+          </BaseFieldGroup>
         </div>
         <div class="mb-3">
-          <BaseSelect
-            v-model.number="propertyForm.property_type_id"
+          <BaseFieldGroup
+            :with-refresh="true"
+            :with-append="false"
             :label="$t('common.attributes.property_type')"
-            :options="propertyTypes"
-            key-label="label"
-            key-value="id"
-            required
-            :errors="errors?.property_type_id"
-          />
+            refresh-action-name="property/getPropertyTypes"
+          >
+            <BaseSelect
+              v-model.number="propertyForm.property_type_id"
+              :options="propertyTypes"
+              key-label="label"
+              key-value="id"
+              required
+              :errors="errors?.property_type_id"
+            />
+          </BaseFieldGroup>
         </div>
         <div class="mb-3">
           <BaseInput
@@ -82,10 +100,12 @@ import BaseSelect from '../../../../components/common/BaseSelect.vue';
 import BaseInput from '../../../../components/common/BaseInput.vue';
 import PropertyValueList from '/@/components/products/PropertyValueList.vue';
 import BaseButton from '/@/components/common/BaseButton.vue';
+import BaseFieldGroup from '/@/components/common/BaseFieldGroup.vue';
 
 export default {
   name: 'PropertyForm',
   components: {
+    BaseFieldGroup,
     BaseButton,
     PropertyValueList,
     BaseInput,

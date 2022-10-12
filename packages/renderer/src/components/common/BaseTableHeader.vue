@@ -4,14 +4,19 @@
       <div class="col-sm">
         <h6>{{ title }}</h6>
       </div>
-      <div v-if="canShowRefreshAction" class="col-auto">
-        <a href="#" class="f-w-500" @click.prevent="refreshDataFormActions">
+      <div class="col-auto">
+        <a
+          v-if="canShowRefreshAction"
+          href="#"
+          class="f-w-500"
+          @click.prevent="refreshDataFormActions"
+        >
           <span class="fa fa-refresh m-r-5" />
           {{ $t('common.refresh') }}
         </a>
         <router-link
           v-if="addActionRouterName"
-          :to="{ name: addActionRouterName, query }"
+          :to="{ name: addActionRouterName, params, query }"
           href="#"
           class="btn btn-primary btn-sm m-l-30"
           type="button"
@@ -47,6 +52,10 @@ export default {
     addActionLabel: {
       type: String,
       default: 'common.add',
+    },
+    params: {
+      type: Object,
+      default: null,
     },
     query: {
       type: Object,

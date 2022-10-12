@@ -13,7 +13,7 @@ const getters = {
     localStorage.getItem('currentWorkspace')
       ? JSON.parse(localStorage.getItem('currentWorkspace'))
       : null,
-  currency: (state, getters) => getters.currentWorkspace?.currency,
+  currency: (state, getters) => getters.currentWorkspace?.currency ?? 'XAF',
   databaseName: (state, getters) =>
     getters.currentWorkspace?.database ?? 'kitbusiness',
 };

@@ -10,6 +10,8 @@
             :label="$t('common.attributes.package_id')"
             required
             :errors="errors?.package_id"
+            :with-refresh="true"
+            refresh-action-name="package/getPackageList"
             @btn-click="
               $router.push({
                 name: 'product.form.article.form.package',
@@ -49,6 +51,7 @@
             class="btn btn-primary col-auto"
             :text="$t('common.save')"
             icon="fa fa-save"
+            :loading="loading"
           />
         </div>
       </div>
@@ -67,6 +70,7 @@ import BaseFieldGroup from '../../../components/common/BaseFieldGroup.vue';
 import store from '../../../store';
 
 export default {
+  name: 'ProductArticleForm',
   components: { BaseFieldGroup, BaseButton, BaseInput, BaseSelect },
   beforeRouteEnter(routeTo, routeFrom, next) {
     store
@@ -85,6 +89,7 @@ export default {
   data() {
     return {
       errors: [],
+      loading: false,
       articleForm: {
         package_id: null,
         quantity: null,
@@ -100,6 +105,7 @@ export default {
   },
   methods: {
     submitProductArticleForm() {
+      this.loading = true;
       this.$store
         .dispatch('article/addArticle', {
           ...this.articleForm,
@@ -110,6 +116,7 @@ export default {
         })
         .catch((error) => {
           this.errors = error.response?.data?.errors;
+          this.loading = false;
         });
     },
   },

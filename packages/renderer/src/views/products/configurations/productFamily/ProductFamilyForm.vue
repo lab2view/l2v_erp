@@ -13,8 +13,8 @@
     </div>
     <div class="mb-3">
       <BaseTextArea
-        :label="$t('common.attributes.description')"
         v-model="productFamilyForm.description"
+        :label="$t('common.attributes.description')"
         class="form-control"
         placeholder="Chaussures de marque"
         required

@@ -1,7 +1,7 @@
 <template>
   <div class="card rounded shadow-sm">
     <div class="card-header p-3">
-      <h5>{{ $t('products.property.formCreateTitle') }}</h5>
+      <h6>{{ $t('products.property.formCreateTitle') }}</h6>
     </div>
     <form class="theme-form" @submit.prevent="submitProductPropertyForm">
       <div class="card-body pb-0 pt-2">
@@ -10,6 +10,8 @@
             :label="$t('common.attributes.property_id')"
             required
             :errors="errors?.property_id"
+            :with-refresh="true"
+            refresh-action-name="property/getPropertiesList"
             @btn-click="
               $router.push({
                 name: 'product.form.setting.property.form.property',

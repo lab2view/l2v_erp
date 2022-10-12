@@ -87,8 +87,8 @@ const actions = {
     });
   },
 
-  getPropertyTypes({ commit, getters }) {
-    if (getters.propertyTypes.length > 0) {
+  getPropertyTypes({ commit, getters }, next) {
+    if (getters.propertyTypes.length > 0 && !next) {
       return getters.propertyTypes;
     } else
       return propertyService.getPropertyTypes().then(({ data }) => {

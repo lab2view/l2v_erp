@@ -1,20 +1,14 @@
 <template>
   <BaseFormModal :title="title" :submit-form="submitTaxForm">
     <div class="mb-3">
-      <label class="form-label fw-bold" for="label">{{
-        $t('common.attributes.label')
-      }}</label>
-      <input
-        id="label"
-        v-model="taxForm.label"
-        class="form-control"
+      <BaseInput
+        v-model="taxForm.value"
+        :label="$t('common.attributes.label')"
         type="text"
         placeholder="TVA,..."
+        :errors="errors?.label"
         required
       />
-      <div v-if="errors.label" class="invalid-feedback" style="display: inline">
-        {{ errors.label[0] }}
-      </div>
     </div>
     <template #footer>
       <BaseButton
@@ -31,9 +25,11 @@
 import BaseFormModal from '../../../../components/common/BaseFormModal.vue';
 import { mapGetters } from 'vuex';
 import BaseButton from '/@/components/common/BaseButton.vue';
+import BaseInput from '/@/components/common/BaseInput.vue';
 
 export default {
-  components: { BaseButton, BaseFormModal },
+  name: 'TaxForm',
+  components: { BaseInput, BaseButton, BaseFormModal },
   data() {
     return {
       errors: [],

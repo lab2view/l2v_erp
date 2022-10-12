@@ -29,6 +29,7 @@
 <script>
 import ArticleStockTableLine from './ArticleStockTableLine.vue';
 export default {
+  name: 'ArticleStockTable',
   components: { ArticleStockTableLine },
   props: {
     articles: {

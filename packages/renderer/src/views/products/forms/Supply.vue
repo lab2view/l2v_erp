@@ -1,102 +1,130 @@
 <template>
-  <BaseModal :title="`Approvisionnement ${product.name}`" modal-size="lg">
-    <div class="card mb-0">
-      <form class="theme-form" @submit.prevent="submitStockEntryForm">
-        <div class="card-body">
-          <div class="mb-3">
-            <div class="row align-items-center">
-              <div class="col-md-6">
-                <BaseInputGroup
-                  v-model="stockEntryForm.reference"
-                  :label="$t('common.attributes.reference')"
-                  placeholder="E.g. STOCK-AP00001..."
-                  :errors="errors?.reference"
-                  required
-                >
-                  <button
-                    :disabled="isUpdating"
-                    type="button"
-                    class="btn btn-success btn-iconsolid"
-                    :title="$t('common.shuffle')"
-                    @click.prevent="generateReference"
-                  >
-                    <i class="fa fa-random"></i>
-                  </button>
-                </BaseInputGroup>
-              </div>
-              <div v-if="canShowEnterpriseField" class="col-md-6">
-                <BaseSelect
-                  v-model.number="stockEntryForm.enterprise_id"
-                  :label="$t('common.attributes.structure')"
-                  :options="enterprises"
-                  key-label="name"
-                  key-value="id"
-                  :errors="errors?.enterprise_id"
-                />
-              </div>
-            </div>
-          </div>
-          <div class="mb-3 mt-4">
-            <ProductLineForm
-              :product="product"
-              :stock-entry-line-fields="stock_entry_line_fields"
+  <BaseFormModal
+    :title="entryStockModalName"
+    :submit-form="submitStockEntryForm"
+    modal-size="lg"
+  >
+    <div class="mb-3">
+      <div class="row">
+        <div v-if="canShowEnterpriseField" class="col-md">
+          <BaseFieldGroup
+            :label="$t('common.attributes.structure')"
+            :errors="errors?.enterprise_id"
+            :with-refresh="true"
+            :with-append="false"
+            refresh-action-name="enterprise/getEnterprisesList"
+          >
+            <BaseSelect
+              v-model.number="stockEntryForm.enterprise_id"
+              :options="enterprises"
+              key-label="name"
+              key-value="id"
             />
-          </div>
-          <div class="mb-3">
-            <div class="row align-items-center">
-              <div class="col-md">
-                <BaseTextArea
-                  v-model="stockEntryForm.description"
-                  :label="$t('common.attributes.description')"
-                  rows="4"
-                  placeholder="Description..."
-                  :errors="errors?.description"
-                />
-              </div>
-            </div>
-          </div>
+          </BaseFieldGroup>
         </div>
-        <div class="card-footer">
-          <div class="row justify-content-end">
-            <BaseButton
+        <div class="col-md">
+          <BaseInputGroup
+            v-model="stockEntryForm.reference"
+            :label="$t('common.attributes.reference')"
+            placeholder="E.g. STOCK-AP00001..."
+            :errors="errors?.reference"
+            required
+          >
+            <button
               type="button"
-              class="btn btn-secondary col-auto m-r-5"
-              :text="$t('common.cancel')"
-              @click.prevent="$router.push({ name: 'product.form.stock' })"
-            />
-            <BaseButton
-              class="btn btn-primary col-auto"
-              :text="$t('common.save')"
-              icon="fa fa-save"
-              :loading="loading"
-            />
-          </div>
+              class="btn btn-sm btn-success btn-iconsolid"
+              :title="$t('common.shuffle')"
+              @click.prevent="generateReference"
+            >
+              <i class="fa fa-random"></i>
+            </button>
+          </BaseInputGroup>
         </div>
-      </form>
+      </div>
     </div>
-  </BaseModal>
+    <div class="mb-3">
+      <BaseTextArea
+        v-model="stockEntryForm.description"
+        :label="$t('common.attributes.description')"
+        rows="2"
+        placeholder="Description..."
+        :errors="errors?.description"
+      />
+    </div>
+
+    <table class="table mb-3">
+      <thead>
+        <tr>
+          <th scope="col">{{ $t('articles.listTitle') }}</th>
+          <th class="text-center" scope="col" style="width: 120px">
+            {{ $t('common.attributes.quantity') }}
+            <span class="text-danger m-l-5">*</span>
+          </th>
+          <th scope="col" style="width: 210px">
+            {{ $t('common.attributes.buying_price') }}
+            <span class="text-danger m-l-5">*</span>
+          </th>
+          <th v-if="showRemoveAction" scope="col">
+            {{ $t('common.actions') }}
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <ProductEntryLineFormField
+          v-for="(stockEntryLine, index) in stock_entry_line_fields"
+          :key="`stc-ent-lne-form-${index}`"
+          :update-field-method="updateStockEntryLineField"
+          :stock-entry-line="stockEntryLine"
+          :index="index"
+          :errors="errors"
+          :show-remove-action="showRemoveAction"
+          @remove="removeStockEntryLineField"
+        />
+      </tbody>
+    </table>
+
+    <template #footer>
+      <div class="row justify-content-end">
+        <BaseButton
+          type="button"
+          class="btn btn-secondary col-auto m-r-5"
+          :text="$t('common.cancel')"
+          @click.prevent="$router.back()"
+        />
+        <BaseButton
+          class="btn btn-primary col-auto"
+          :text="$t('common.save')"
+          icon="fa fa-save"
+          :loading="loading"
+        />
+      </div>
+    </template>
+  </BaseFormModal>
 </template>
 
 <script>
 import store from '/@/store';
-import BaseModal from '/@/components/common/BaseModal.vue';
 import { mapGetters } from 'vuex';
-import { stockFor, stockTypeCode } from '/@/helpers/codes';
+import { stockTypeCode } from '/@/helpers/codes';
 import BaseButton from '/@/components/common/BaseButton.vue';
 import BaseSelect from '/@/components/common/BaseSelect.vue';
 import BaseInputGroup from '/@/components/common/BaseInputGroup.vue';
 import BaseTextArea from '/@/components/common/BaseTextArea.vue';
 import { random } from 'lodash/number';
-import ProductLineForm from '/@/components/products/ProductLineForm.vue';
+import BaseFormModal from '/@/components/common/BaseFormModal.vue';
+import BaseFieldGroup from '/@/components/common/BaseFieldGroup.vue';
+import ProductEntryLineFormField from '/@/components/products/ProductEntryLineFormField.vue';
 
 export default {
+  name: 'Supply',
   components: {
-    ProductLineForm,
+    ProductEntryLineFormField,
+    BaseFieldGroup,
+    BaseFormModal,
     BaseTextArea,
     BaseInputGroup,
     BaseSelect,
     BaseButton,
-    BaseModal,
   },
   beforeRouteEnter(routeTo, routeFrom, next) {
     Promise.all([
@@ -122,7 +150,6 @@ export default {
       stock_entry_line_fields: [],
       errors: [],
       loading: false,
-      is_edited: false,
       stockEntryForm: {
         enterprise_id: null,
         stock_type_id: null,
@@ -132,33 +159,32 @@ export default {
     };
   },
   computed: {
-    ...mapGetters('stock_type', ['getListByTypeFor']),
-    ...mapGetters('stock_entry', ['stockEntry']),
     ...mapGetters('enterprise', ['enterprises']),
+    ...mapGetters('stock_type', ['stock_types']),
     ...mapGetters('auth', ['currentEnterpriseId']),
     ...mapGetters('product', ['product']),
-    stockTypes() {
-      return this.getListByTypeFor(stockFor.entry);
-    },
-    isUpdating() {
-      return !!this.stockEntry;
-    },
+
     canShowEnterpriseField() {
       return !this.currentEnterpriseId;
     },
+    stockEntryType() {
+      const type = this.stock_types.find(
+        (st) => st.code === stockTypeCode.directEntry
+      );
+      return type !== undefined ? type : null;
+    },
+    entryStockModalName() {
+      return (
+        this.stockEntryType?.label ??
+        `${this.$t('common.provision')} - ${this.product.reference}`
+      );
+    },
+    showRemoveAction() {
+      return this.stock_entry_line_fields.length > 1;
+    },
   },
   created() {
-    if (this.currentEnterpriseId)
-      this.stockEntryForm.enterprise_id = this.currentEnterpriseId;
-
-    const directType = this.stockTypes.find(
-      (st) => st.code === stockTypeCode.directEntry
-    );
-    if (directType !== undefined)
-      this.stockEntryForm.stock_type_id = directType.id;
-
     this.stock_entry_line_fields = [
-      ...this.stock_entry_line_fields,
       ...this.product.articles.map((art) => {
         return {
           stock_entry_id: null,
@@ -173,38 +199,53 @@ export default {
   },
 
   methods: {
+    updateStockEntryLineField(stockEntryLine, index) {
+      this.stock_entry_line_fields.splice(index, 1, stockEntryLine);
+    },
+
     submitStockEntryForm() {
-      this.$store
-        .dispatch('stock_entry/addStockEntry', this.stockEntryForm)
-        .then((stockEntry) => {
-          return this.$store
-            .dispatch('stock_entry/addStockEntryLines', {
-              stock_entry_lines: this.stock_entry_line_fields.map((sel) => {
-                return {
-                  ...sel,
-                  stock_entry_id: stockEntry.id,
-                  buying_price: 0,
-                };
-              }),
-            })
-            .then(() =>
-              this.$router.push({
-                name: 'stock.entry.form.article',
-                params: { id: stockEntry.id },
+      if (this.stockEntryType) {
+        this.loading = true;
+        this.$store
+          .dispatch('stock_entry/addStockEntry', {
+            ...this.stockEntryForm,
+            stock_type_id: this.stockEntryType.id,
+            enterprise_id: this.currentEnterpriseId ?? null,
+          })
+          .then((stockEntry) => {
+            return this.$store
+              .dispatch('stock_entry/addStockEntryLines', {
+                stock_entry_lines: this.stock_entry_line_fields.map((sel) => {
+                  return {
+                    ...sel,
+                    stock_entry_id: stockEntry.id,
+                  };
+                }),
               })
-            );
-        })
-        .catch((error) => {
-          this.errors = error.response?.data?.errors;
-          console.log(error);
-        });
+              .then(() => this.$router.back())
+              .catch((error) => {
+                this.errors = error.response?.data?.errors;
+                this.loading = false;
+                console.log(error);
+              });
+          })
+          .catch((error) => {
+            this.errors = error.response?.data?.errors;
+            this.loading = false;
+            console.log(error);
+          });
+      }
     },
     generateReference() {
       //todo complete generating ref algorithm
-      this.stockEntryForm.reference = `STE-${new Date().getDay()}-${random(
-        1000,
-        1000000
-      )}`;
+      this.stockEntryForm.reference = `STE-APP${
+        this.product.id
+      }-${new Date().getDay()}-${random(1000, 10000)}`;
+    },
+    removeStockEntryLineField(article_id) {
+      this.stock_entry_line_fields = this.stock_entry_line_fields.filter(
+        (s) => s.article_id !== article_id
+      );
     },
   },
 };

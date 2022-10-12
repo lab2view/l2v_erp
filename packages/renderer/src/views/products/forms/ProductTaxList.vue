@@ -5,33 +5,15 @@
     </div>
   </div>
   <div class="card mb-0">
-    <div class="card-header pb-0">
-      <div class="row align-items-center">
-        <div class="col-sm">
-          <h5>
-            {{ `${$t('products.tax.listTitle')} - ${product.reference}` }}
-          </h5>
-        </div>
-        <div
-          v-if="$route.name === 'product.form.setting.tax'"
-          class="col-sm-auto align-items-end"
-        >
-          <router-link
-            :to="{
-              name: 'product.form.setting.tax.form',
-              params: {
-                ...$route.params,
-              },
-            }"
-            class="btn btn-primary"
-            type="button"
-          >
-            <i class="fa fa-plus m-r-5" />
-            {{ $t('common.add') }}
-          </router-link>
-        </div>
-      </div>
-    </div>
+    <BaseTableHeader
+      :title="`${$t('products.tax.listTitle')} - ${product.reference}`"
+      :add-action-router-name="
+        $route.name === 'product.form.setting.tax'
+          ? 'product.form.setting.tax.form'
+          : null
+      "
+      :params="$route.params"
+    />
     <div class="card-body">
       <div class="user-status table-responsive">
         <table class="table table-bordernone">
@@ -61,9 +43,11 @@
 import { mapGetters } from 'vuex';
 import store from '/@/store';
 import ProductTaxLine from '/@/components/products/ProductTaxLine.vue';
+import BaseTableHeader from '/@/components/common/BaseTableHeader.vue';
 
 export default {
-  components: { ProductTaxLine },
+  name: 'ProductTaxList',
+  components: { BaseTableHeader, ProductTaxLine },
   beforeRouteEnter(routeTo, routeFrom, next) {
     store
       .dispatch('tax/getTaxesList', {

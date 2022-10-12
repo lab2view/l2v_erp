@@ -90,6 +90,7 @@ export default {
   not_specify: 'Non specifie',
   unlock: 'Deverouiller',
   refresh: 'Actualiser',
+  provision: 'Approvisionner',
 
   la: 'la',
   le: 'le',
