@@ -74,7 +74,7 @@ export default {
     },
     refreshActionField: {
       type: Object,
-      default: { page: 1, field: { next: true } },
+      default: null,
     },
     withGlobalLoad: {
       type: Boolean,
@@ -92,7 +92,7 @@ export default {
       return this.loading ? 'fa fa-refresh fa-spin' : 'fa fa-refresh';
     },
     canProcessToRefresh() {
-      return this.refreshActionName && this.refreshActionField;
+      return this.refreshActionName;
     },
   },
 
@@ -102,7 +102,10 @@ export default {
         if (this.withGlobalLoad) this.$store.commit('SET_GLOBAL_LOADING', true);
         else this.loading = true;
         this.$store
-          .dispatch(this.refreshActionName, this.refreshActionField)
+          .dispatch(
+            this.refreshActionName,
+            this.refreshActionField ?? { page: 1, field: { next: true } }
+          )
           .finally(() =>
             this.withGlobalLoad
               ? this.$store.commit('SET_GLOBAL_LOADING', false)

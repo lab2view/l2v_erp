@@ -118,9 +118,12 @@
       </div>
     </div>
     <template #footer>
-      <button class="btn btn-primary" type="submit" :title="$t('common.save')">
-        {{ $t('common.save') }}
-      </button>
+      <BaseButton
+        class="btn btn-primary col-auto"
+        :text="$t('common.save')"
+        icon="fa fa-save"
+        :loading="loading"
+      />
     </template>
   </BaseFormModal>
 </template>
@@ -129,9 +132,10 @@
 import BaseFormModal from '../../../../components/common/BaseFormModal.vue';
 import { mapGetters } from 'vuex';
 import store from '../../../../store';
+import BaseButton from '/@/components/common/BaseButton.vue';
 
 export default {
-  components: { BaseFormModal },
+  components: { BaseButton, BaseFormModal },
   beforeRouteEnter(routeTo, routeFrom, next) {
     store
       .dispatch('product_family/getProductFamiliesList', {
@@ -148,6 +152,7 @@ export default {
   },
   data() {
     return {
+      loading: false,
       errors: [],
       productTypeForm: {
         id: null,
@@ -179,12 +184,14 @@ export default {
   },
   methods: {
     submitProductTypeForm() {
+      this.loading = true;
       if (this.productType)
         this.$store
           .dispatch('product_type/updateProductType', this.productTypeForm)
           .then(() => this.$router.back())
           .catch((error) => {
             this.errors = error.response?.data?.errors;
+            this.loading = false;
             console.log(error);
           });
       else
@@ -193,6 +200,7 @@ export default {
           .then(() => this.$router.back())
           .catch((error) => {
             this.errors = error.response?.data?.errors;
+            this.loading = false;
             console.log(error);
           });
     },

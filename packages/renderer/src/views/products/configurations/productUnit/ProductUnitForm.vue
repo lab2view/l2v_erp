@@ -33,9 +33,12 @@
       </div>
     </div>
     <template #footer>
-      <button class="btn btn-primary" type="submit" :title="$t('common.save')">
-        {{ $t('common.save') }}
-      </button>
+      <BaseButton
+        class="btn btn-primary col-auto"
+        :text="$t('common.save')"
+        icon="fa fa-save"
+        :loading="loading"
+      />
     </template>
   </BaseFormModal>
 </template>
@@ -43,12 +46,14 @@
 <script>
 import BaseFormModal from '../../../../components/common/BaseFormModal.vue';
 import { mapGetters } from 'vuex';
+import BaseButton from '/@/components/common/BaseButton.vue';
 
 export default {
-  components: { BaseFormModal },
+  components: { BaseButton, BaseFormModal },
   data() {
     return {
       errors: [],
+      loading: false,
       productUnitForm: {
         id: null,
         label: null,
@@ -73,12 +78,14 @@ export default {
   },
   methods: {
     submitProductUnitForm() {
+      this.loading = true;
       if (this.productUnit)
         this.$store
           .dispatch('product_unit/updateProductUnit', this.productUnitForm)
           .then(() => this.$router.back())
           .catch((error) => {
             this.errors = error.response?.data?.errors;
+            this.loading = false;
             console.log(error);
           });
       else
@@ -87,6 +94,7 @@ export default {
           .then(() => this.$router.back())
           .catch((error) => {
             this.errors = error.response?.data?.errors;
+            this.loading = false;
             console.log(error);
           });
     },

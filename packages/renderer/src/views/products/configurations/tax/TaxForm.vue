@@ -17,9 +17,12 @@
       </div>
     </div>
     <template #footer>
-      <button class="btn btn-primary" type="submit" :title="$t('common.save')">
-        {{ $t('common.save') }}
-      </button>
+      <BaseButton
+        class="btn btn-primary col-auto"
+        :text="$t('common.save')"
+        icon="fa fa-save"
+        :loading="loading"
+      />
     </template>
   </BaseFormModal>
 </template>
@@ -27,12 +30,14 @@
 <script>
 import BaseFormModal from '../../../../components/common/BaseFormModal.vue';
 import { mapGetters } from 'vuex';
+import BaseButton from '/@/components/common/BaseButton.vue';
 
 export default {
-  components: { BaseFormModal },
+  components: { BaseButton, BaseFormModal },
   data() {
     return {
       errors: [],
+      loading: false,
       taxForm: {
         id: null,
         label: null,
@@ -52,17 +57,18 @@ export default {
     if (this.tax) this.taxForm = this.tax;
   },
   beforeUnmount() {
-    if (this.tax)
-      this.$store.commit('tax/SET_CURRENT_TAX', null);
+    if (this.tax) this.$store.commit('tax/SET_CURRENT_TAX', null);
   },
   methods: {
     submitTaxForm() {
+      this.loading = true;
       if (this.tax)
         this.$store
           .dispatch('tax/updateTax', this.taxForm)
           .then(() => this.$router.back())
           .catch((error) => {
             this.errors = error.response?.data?.errors;
+            this.loading = false;
             console.log(error);
           });
       else
@@ -71,6 +77,7 @@ export default {
           .then(() => this.$router.back())
           .catch((error) => {
             this.errors = error.response?.data?.errors;
+            this.loading = false;
             console.log(error);
           });
     },
