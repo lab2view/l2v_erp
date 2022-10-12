@@ -245,7 +245,6 @@ export default {
         this.$store
           .dispatch('enterprise/addEnterprise', this.enterpriseForm)
           .then((enterprise) => {
-            console.log(enterprise);
             this.$router.push({
               name: 'enterprise.form.setting',
               params: { id: enterprise.id },

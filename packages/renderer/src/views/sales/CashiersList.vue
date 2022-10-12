@@ -11,22 +11,24 @@
         <BaseDatatable :tfoot="false" :total="cashiers.length">
           <template #headers>
             <th>#</th>
-            <th>{{ $t('common.attributes.cashier_group') }}</th>
+            <th>{{ $t('common.attributes.group') }}</th>
             <th>{{ $t('common.attributes.structure') }}</th>
             <th class="text-center">
-              {{ $t('common.attributes.first_name') }}
+              {{ $t('common.attributes.last_name') }}
             </th>
             <th>{{ $t('common.attributes.start_at') }}</th>
-            <th>{{ $t('common.attributes.ended_at') }}</th>
+            <th class="text-center">{{ $t('common.attributes.ended_at') }}</th>
             <th>{{ $t('common.actions') }}</th>
           </template>
           <tr v-for="cashier in cashiers" :key="cashier.id">
             <td>{{ cashier.id }}</td>
             <td>{{ cashier.cashier_group.label }}</td>
             <td>{{ cashier.enterprise?.name ?? 'Principale' }}</td>
-            <td class="text-center">{{ cashier.name ?? '-' }}</td>
+            <td class="text-center">{{ cashier.name ?? '---' }}</td>
             <td>{{ date(cashier.start_at) }}</td>
-            <td>{{ cashier.ended_at ? date(cashier.ended_at) : '-' }}</td>
+            <td class="text-center">
+              {{ cashier.ended_at ? date(cashier.ended_at) : '---' }}
+            </td>
             <td>
               <button
                 class="btn btn-secondary btn-xs"

@@ -23,6 +23,19 @@
             <td>{{ cashRegister.label }}</td>
             <td>
               <button
+                :class="`btn btn-xs m-r-5 btn-${
+                  cashRegister.disabled_at ? 'primary' : 'danger'
+                }`"
+                type="button"
+                data-original-title="btn btn-light btn-xs"
+                :title="$t('common.states.disabled')"
+                @click.prevent="updateStatusCashRegister(cashRegister)"
+              >
+                <i
+                  :class="`fa fa-${cashRegister.disabled_at ? 'check' : 'ban'}`"
+                />
+              </button>
+              <button
                 class="btn btn-secondary btn-xs"
                 type="button"
                 data-original-title="btn btn-secondary btn-xs"
@@ -44,15 +57,6 @@
                 @click.prevent="deleteCashRegister(cashRegister)"
               >
                 <i class="fa fa-trash-o" />
-              </button>
-              <button
-                class="btn btn-danger btn-xs m-l-5"
-                type="button"
-                data-original-title="btn btn-light btn-xs"
-                :title="$t('common.states.disabled')"
-                @click.prevent="updateStatusCashRegister(cashRegister)"
-              >
-                <i class="fa fa-ban" />
               </button>
             </td>
           </tr>
@@ -109,7 +113,10 @@ export default {
     },
 
     updateStatusCashRegister(cashRegister) {
-      store.dispatch('cash_register/updateStatusCashRegister', cashRegister);
+      store.dispatch('cash_register/updateCashRegister', {
+        ...cashRegister,
+        disabled_at: cashRegister.disabled_at ? null : new Date(),
+      });
     },
   },
 };

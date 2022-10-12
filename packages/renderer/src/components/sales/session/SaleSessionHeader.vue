@@ -34,14 +34,16 @@
       </div>
       <div class="col-2">
         <div class="mb-3">
-          <BaseSelect
-            v-model.number="salePriceTypeField"
-            label-class="col-form-label font-primary pt-0"
-            class="form-select digits font-primary"
-            :options="salePriceTypes"
-            key-label="label"
-            key-value="id"
-          />
+          <BaseFieldGroup :btn-icon="`fa fa-refresh fa-spin`">
+            <BaseSelect
+              v-model.number="salePriceTypeField"
+              label-class="col-form-label font-primary pt-0"
+              class="form-select digits font-primary"
+              :options="salePriceTypes"
+              key-label="label"
+              key-value="id"
+            />
+          </BaseFieldGroup>
         </div>
       </div>
     </div>
