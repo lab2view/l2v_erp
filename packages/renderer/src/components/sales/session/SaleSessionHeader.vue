@@ -37,7 +37,7 @@
           <BaseFieldGroup
             :with-refresh="true"
             :with-append="false"
-            refresh-action-name="sale_type/getSaleTypesList"
+            refresh-action-name="price_type/getPriceTypeList"
           >
             <BaseSelect
               v-model.number="salePriceTypeField"

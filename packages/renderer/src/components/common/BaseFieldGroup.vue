@@ -77,6 +77,10 @@ export default {
       type: Object,
       default: { page: 1, field: { next: true } },
     },
+    withGlobalLoad: {
+      type: Boolean,
+      default: false,
+    },
   },
   emits: ['btn-click'],
   data() {
@@ -96,10 +100,15 @@ export default {
   methods: {
     refreshDataFormActions() {
       if (this.canProcessToRefresh) {
-        this.loading = true;
+        if (this.withGlobalLoad) this.$store.commit('SET_GLOBAL_LOADING', true);
+        else this.loading = true;
         this.$store
           .dispatch(this.refreshActionName, this.refreshActionField)
-          .finally(() => (this.loading = false));
+          .finally(() =>
+            this.withGlobalLoad
+              ? this.$store.commit('SET_GLOBAL_LOADING', false)
+              : (this.loading = false)
+          );
       }
     },
   },
