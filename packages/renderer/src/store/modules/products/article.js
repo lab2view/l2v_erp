@@ -2,7 +2,10 @@ import articleService from '../../../services/articles/ArticleService';
 import { notify } from '/@/helpers/notify.js';
 import i18n from '../../../i18n';
 import { unitPackageCode } from '/@/helpers/codes.js';
-import { getStockExitLineArticleStock } from '/@/helpers/utils.js';
+import {
+  getDistributionCurrentStock,
+  getStockExitLineArticleStock,
+} from '/@/helpers/utils.js';
 import fileService from '/@/services/FileService.js';
 
 const state = {
@@ -31,7 +34,7 @@ const getters = {
     getters.articles.find((a) => a.id === id),
   searchArticleByCriteria:
     (state, getters) =>
-    ({ product_type_id, product_id, keyword }) =>
+    ({ product_type_id, product_id, keyword, haveStock, distribution_id }) =>
       getters.articles.filter((a) => {
         let result = true;
         if (getters.article?.id) result = a.id !== getters.article.id;
@@ -44,6 +47,17 @@ const getters = {
               a.product.code
             }`
           );
+        }
+        if (haveStock) {
+          if (distribution_id) {
+            const distribution = a.stats.distributions.find(
+              (d) => d.id === distribution_id
+            );
+            result =
+              distribution !== undefined
+                ? getDistributionCurrentStock(distribution) > 0
+                : a.stock.available > 0;
+          } else result = a.stock.available > 0;
         }
         return result;
       }),
