@@ -46,7 +46,6 @@ export default {
           })
           .finally(() => (this.loading = false));
       } else {
-        console.log(this.customerForm);
         this.$store
           .dispatch('customer/addCustomer', this.customerForm)
           .then(() => this.$router.back())

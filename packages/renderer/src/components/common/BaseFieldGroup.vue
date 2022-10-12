@@ -4,20 +4,19 @@
     <span v-if="required" class="text-danger m-l-5">*</span>
   </label>
   <div class="input-group">
-    <slot name="prepend">
+    <slot name="prepend"></slot>
+    <slot v-bind="$attrs"></slot>
+    <slot name="append">
       <button
         v-if="withRefresh"
         type="button"
-        class="btn btn-sm btn-iconsolid2 btn-outline-primary"
+        class="btn btn-sm btn-iconsolid2 btn-outline-secondary"
         :title="btnTitle"
         :disabled="!canProcessToRefresh"
         @click.prevent="refreshDataFormActions"
       >
         <span :class="refreshBtnIconClass"></span>
       </button>
-    </slot>
-    <slot v-bind="$attrs"></slot>
-    <slot name="append">
       <button
         v-if="withAppend"
         type="button"
