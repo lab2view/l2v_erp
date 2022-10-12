@@ -174,6 +174,7 @@ export default {
     weight: 'Quantite par unite',
     type: 'Type',
     cashier: 'Caissier',
+    cashier_group: 'Groupe de caissers',
     group: 'Groupe',
     enterprise_receiver: 'Entreprise de destination',
     receiver_structure: 'Structure cible',

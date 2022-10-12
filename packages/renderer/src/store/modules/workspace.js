@@ -14,6 +14,8 @@ const getters = {
       ? JSON.parse(localStorage.getItem('currentWorkspace'))
       : null,
   currency: (state, getters) => getters.currentWorkspace?.currency,
+  databaseName: (state, getters) =>
+    getters.currentWorkspace?.database ?? 'kitbusiness',
 };
 
 // privileges
