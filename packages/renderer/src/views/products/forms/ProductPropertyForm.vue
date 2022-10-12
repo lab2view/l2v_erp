@@ -68,6 +68,7 @@ import store from '/@/store';
 import BasePropertyField from '/@/components/common/BasePropertyField.vue';
 
 export default {
+  name: 'ProductPropertyForm',
   components: {
     BasePropertyField,
     BaseFieldGroup,
@@ -115,7 +116,7 @@ export default {
       return this.properties.filter((property) => {
         return (
           this.product.product_properties.find(
-            (p) => p.property.id === property.id
+            (p) => p.property_id === property.id
           ) === undefined
         );
       });

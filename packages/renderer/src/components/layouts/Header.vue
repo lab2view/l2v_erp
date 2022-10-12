@@ -10,7 +10,8 @@
               height="90"
               class="img-fluid m-r-5"
               src="../../assets/images/logo/logo.jpg"
-            />{{ enterpriseName.toString().toUpperCase() }}
+            />
+            {{ enterpriseName.toString().toUpperCase() }}
           </a>
         </div>
         <div class="dark-logo-wrapper">

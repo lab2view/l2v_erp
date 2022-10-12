@@ -65,6 +65,7 @@ import store from '/@/store';
 import ProductPropertyLine from '/@/components/products/ProductPropertyLine.vue';
 
 export default {
+  name: 'ProductProperties',
   components: { ProductPropertyLine },
   beforeRouteEnter(routeTo, routeFrom, next) {
     store

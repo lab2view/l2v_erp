@@ -26,7 +26,7 @@
       },
     }"
   >
-    <option v-if="!haveNullValue" disabled selected value="">
+    <option v-if="!haveNullValue" :disabled="required" selected value="">
       {{ placeholder ?? $t('common.choose') }}
     </option>
     <option

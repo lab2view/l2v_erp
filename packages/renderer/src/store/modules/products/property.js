@@ -20,7 +20,9 @@ const getters = {
     getters.properties.filter((p) =>
       p.product_id
         ? p.product_id === product.id
-        : p.product_type_id === product.product_type_id
+        : p.product_type_id
+        ? p.product_type_id === product.product_type_id
+        : true
     ),
 };
 

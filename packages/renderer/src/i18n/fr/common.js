@@ -91,6 +91,11 @@ export default {
   unlock: 'Deverouiller',
   refresh: 'Actualiser',
 
+  la: 'la',
+  le: 'le',
+
+  field_for_specific: 'Specifier {liaison} {element} ?',
+
   sale: {
     list: 'Liste des ventes',
     detail: 'Details de la vente',
