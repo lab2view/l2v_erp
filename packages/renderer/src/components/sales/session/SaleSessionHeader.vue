@@ -34,7 +34,11 @@
       </div>
       <div class="col-2">
         <div class="mb-3">
-          <BaseFieldGroup :btn-icon="`fa fa-refresh fa-spin`">
+          <BaseFieldGroup
+            :with-refresh="true"
+            :with-append="false"
+            refresh-action-name="sale_type/getSaleTypesList"
+          >
             <BaseSelect
               v-model.number="salePriceTypeField"
               label-class="col-form-label font-primary pt-0"

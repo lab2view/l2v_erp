@@ -5,7 +5,7 @@
         <h6>{{ title }}</h6>
       </div>
       <div v-if="canShowRefreshAction" class="col-auto">
-        <a href="#" class="f-w-500" @click.prevent="refreshArticles">
+        <a href="#" class="f-w-500" @click.prevent="refreshDataFormActions">
           <span class="fa fa-refresh m-r-5" />
           {{ $t('common.refresh') }}
         </a>
@@ -61,7 +61,7 @@ export default {
     },
   },
   methods: {
-    refreshArticles() {
+    refreshDataFormActions() {
       this.$store.commit('SET_GLOBAL_LOADING', true);
       this.$store
         .dispatch(this.refreshActionName, this.refreshActionField)
