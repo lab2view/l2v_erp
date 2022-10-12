@@ -282,6 +282,7 @@ export default {
     status: 'Statut',
     usage: 'Utilisation',
     search_result: 'Resultat de la recherche ',
+    not_available: 'Indisponile',
   },
 
   errors: {

@@ -43,8 +43,8 @@ export default {
     },
     haveStockIn() {
       return this.distribution
-        ? getDistributionCurrentStock(this.distribution)
-        : getStockExitLineArticleStock(this.article);
+        ? getDistributionCurrentStock(this.distribution) > 0
+        : getStockExitLineArticleStock(this.article) > 0;
     },
   },
 };
