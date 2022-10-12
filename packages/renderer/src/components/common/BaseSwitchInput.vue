@@ -24,6 +24,7 @@
 
 <script>
 export default {
+  name: 'BaseSwitchInput',
   props: {
     label: {
       type: String,

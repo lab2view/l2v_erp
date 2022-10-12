@@ -28,6 +28,7 @@
 <script>
 import BaseEmptyModelList from './BaseEmptyModelList.vue';
 export default {
+  name: 'BaseDatatable',
   components: { BaseEmptyModelList },
   props: {
     tfoot: {

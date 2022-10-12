@@ -36,6 +36,7 @@
 
 <script>
 export default {
+  name: 'BaseCheckboxGroup',
   props: {
     label: {
       type: String,

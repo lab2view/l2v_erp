@@ -1,39 +1,25 @@
 <template>
   <BaseFormModal :title="title" :submit-form="submitProductFamilyForm">
     <div class="mb-3">
-      <label class="form-label fw-bold" for="label">{{
-        $t('common.attributes.label')
-      }}</label>
-      <input
-        id="label"
+      <BaseInput
         v-model="productFamilyForm.label"
         class="form-control"
         type="text"
-        placeholder="Chaussures, Bijoux, ..."
+        :label="$t('common.attributes.label')"
+        placeholder="Pagne, Smartphone, ..."
         required
+        :errors="errors?.label"
       />
-      <div v-if="errors.label" class="invalid-feedback" style="display: inline">
-        {{ errors.label[0] }}
-      </div>
     </div>
     <div class="mb-3">
-      <label class="form-label fw-bold" for="description">{{
-        $t('common.attributes.description')
-      }}</label>
-      <textarea
-        id="description"
+      <BaseTextArea
+        :label="$t('common.attributes.description')"
         v-model="productFamilyForm.description"
         class="form-control"
         placeholder="Chaussures de marque"
         required
-      ></textarea>
-      <div
-        v-if="errors.description"
-        class="invalid-feedback"
-        style="display: inline"
-      >
-        {{ errors.description[0] }}
-      </div>
+        :errors="errors?.description"
+      />
     </div>
     <template #footer>
       <BaseButton
@@ -50,9 +36,12 @@
 import BaseFormModal from '../../../../components/common/BaseFormModal.vue';
 import { mapGetters } from 'vuex';
 import BaseButton from '/@/components/common/BaseButton.vue';
+import BaseInput from '/@/components/common/BaseInput.vue';
+import BaseTextArea from '/@/components/common/BaseTextArea.vue';
 
 export default {
-  components: { BaseButton, BaseFormModal },
+  name: 'ProductFamilyForm',
+  components: { BaseTextArea, BaseInput, BaseButton, BaseFormModal },
   data() {
     return {
       errors: [],

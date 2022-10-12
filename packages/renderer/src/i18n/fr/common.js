@@ -103,6 +103,9 @@ export default {
   },
 
   fields: {
+    required_field_start: 'Les champs marques par',
+    required_field_end:
+      'sont obligatoires; Vueillez renseigner correctement le formulaire et valider par le bouton enregister.',
     modules: 'Modules',
     module: 'Module',
     text: 'Chaine de caractere',

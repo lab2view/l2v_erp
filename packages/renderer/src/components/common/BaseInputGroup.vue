@@ -21,6 +21,7 @@
 
 <script>
 export default {
+  name: 'BaseInputGroup',
   props: {
     label: {
       type: String,

@@ -25,6 +25,7 @@
 
 <script>
 export default {
+  name: 'BaseRadioButtonGroup',
   props: {
     label: {
       type: String,

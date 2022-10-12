@@ -20,7 +20,7 @@
       <button
         v-if="withAppend"
         type="button"
-        class="btn text-primary btn-iconsolid btn-success"
+        class="btn btn-sm text-primary btn-iconsolid btn-success"
         :title="$t('common.refresh')"
         @click.prevent="$emit('btn-click')"
       >

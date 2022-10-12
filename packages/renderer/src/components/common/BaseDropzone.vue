@@ -19,6 +19,7 @@
 import { useDropzone } from 'vue3-dropzone';
 
 export default {
+  name: 'BaseDropzone',
   props: {
     accept: {
       type: String,

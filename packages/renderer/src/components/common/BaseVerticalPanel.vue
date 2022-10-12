@@ -20,6 +20,7 @@
 
 <script>
 export default {
+  name: 'BaseVerticalPanel',
   props: {
     title: {
       type: String,

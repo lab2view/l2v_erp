@@ -4,32 +4,57 @@
       <div class="card-header pb-0">
         <h5>{{ formTitle }}</h5>
         <span
-          >Using the <a href="#">card</a> component, you can extend the default
-          collapse behavior to create an accordion.</span
-        >
+          >{{ $t('common.fields.required_field_start') }}
+          <span class="text-danger">*</span>
+          {{ $t('common.fields.required_field_end') }}
+        </span>
       </div>
       <div class="card-body">
         <div class="mb-3">
           <div class="row align-items-center">
             <div class="col-md">
-              <BaseSelect
-                v-model="product_family_id"
+              <BaseFieldGroup
+                :with-refresh="true"
                 :label="$t('common.attributes.product_family')"
-                :options="productFamilies"
-                key-label="label"
-                key-value="id"
-              />
+                refresh-action-name="product_family/getProductFamiliesList"
+                @btn-click="
+                  $router.push({
+                    name: 'Product.form.description.productFamily',
+                    params: { ...$route.params },
+                  })
+                "
+              >
+                <BaseSelect
+                  v-model.number="product_family_id"
+                  :options="productFamilies"
+                  key-label="label"
+                  key-value="id"
+                />
+              </BaseFieldGroup>
             </div>
             <div class="col-md">
-              <BaseSelect
-                v-model="product_type_id"
+              <BaseFieldGroup
+                :with-refresh="true"
                 :label="$t('common.attributes.product_type')"
-                :options="product_types"
-                key-label="label"
-                key-value="id"
-                :errors="errors?.product_type_id"
                 required
-              />
+                refresh-action-name="product_type/getProductTypesList"
+                @btn-click="
+                  $router.push({
+                    name: 'Product.form.description.productType',
+                    params: { ...$route.params },
+                    query: { product_family_id },
+                  })
+                "
+              >
+                <BaseSelect
+                  v-model.number="product_type_id"
+                  :options="product_types"
+                  key-label="label"
+                  key-value="id"
+                  :errors="errors?.product_type_id"
+                  required
+                />
+              </BaseFieldGroup>
             </div>
           </div>
         </div>
@@ -48,15 +73,27 @@
             <div class="col-md">
               <div class="row align-items-center">
                 <div class="col-md">
-                  <BaseSelect
-                    v-model="productForm.product_unit_id"
+                  <BaseFieldGroup
+                    :with-refresh="true"
                     :label="$t('common.attributes.product_unit')"
-                    :options="productUnits"
-                    key-label="label"
-                    key-value="id"
-                    :errors="errors?.product_unit_id"
                     required
-                  />
+                    refresh-action-name="product_unit/getProductUnitsList"
+                    @btn-click="
+                      $router.push({
+                        name: 'Product.form.description.productUnit',
+                        params: { ...$route.params },
+                      })
+                    "
+                  >
+                    <BaseSelect
+                      v-model.number="productForm.product_unit_id"
+                      :options="productUnits"
+                      key-label="label"
+                      key-value="id"
+                      :errors="errors?.product_unit_id"
+                      required
+                    />
+                  </BaseFieldGroup>
                 </div>
                 <div class="col-md">
                   <BaseInput
@@ -208,6 +245,8 @@
         </div>
       </div>
     </form>
+
+    <router-view />
   </div>
 </template>
 
@@ -219,9 +258,18 @@ import BaseSelect from '../../../components/common/BaseSelect.vue';
 import BaseInputGroup from '../../../components/common/BaseInputGroup.vue';
 import BaseButton from '../../../components/common/BaseButton.vue';
 import ean from '/@/helpers/ean';
+import BaseFieldGroup from '/@/components/common/BaseFieldGroup.vue';
+import { first } from 'lodash';
 
 export default {
-  components: { BaseButton, BaseInputGroup, BaseSelect, BaseInput },
+  name: 'ProductPresentation',
+  components: {
+    BaseFieldGroup,
+    BaseButton,
+    BaseInputGroup,
+    BaseSelect,
+    BaseInput,
+  },
   beforeRouteEnter(routeTo, routeFrom, next) {
     Promise.all([
       store.dispatch('product_family/getProductFamiliesList', {
@@ -280,9 +328,7 @@ export default {
     product_types() {
       return this.product_family_id
         ? this.productTypes.filter(
-            (t) =>
-              t.product_family_id.toString() ===
-              this.product_family_id.toString()
+            (t) => t.product_family_id === this.product_family_id
           )
         : this.productTypes;
     },
@@ -296,6 +342,13 @@ export default {
     },
   },
   watch: {
+    product_family_id(value) {
+      if (value) {
+        if (this.product_types.length > 0)
+          this.product_type_id = first(this.product_types).id;
+        else this.product_type_id = null;
+      }
+    },
     product_type_id(value) {
       const product_type = this.product_types.find(
         (pt) => pt.id.toString() === value.toString()
@@ -310,7 +363,7 @@ export default {
           this.productForm.critical_stock = product_type.critical_stock;
         if (this.productForm.alert_stock === null)
           this.productForm.alert_stock = product_type.alert_stock;
-      }
+      } else this.productForm.product_type_id = null;
     },
     disabled_at(value) {
       this.productForm.disabled_at = value ? new Date() : null;
@@ -329,6 +382,13 @@ export default {
       this.product_type_id = this.product.product_type_id;
       this.disabled_at = this.product.disabled_at !== null;
       this.is_edited = false;
+    } else {
+      if (this.productFamilies.length)
+        this.product_family_id = first(this.productFamilies).id;
+      if (this.product_types.length)
+        this.product_type_id = first(this.product_types).id;
+      if (this.productUnits.length)
+        this.productForm.product_unit_id = first(this.productUnits).id;
     }
   },
   methods: {

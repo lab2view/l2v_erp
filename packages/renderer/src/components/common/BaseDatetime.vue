@@ -18,6 +18,7 @@
 
 <script>
 export default {
+  name: 'BaseDatetime',
   props: {
     label: {
       type: String,

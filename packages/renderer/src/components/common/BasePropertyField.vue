@@ -57,6 +57,7 @@ import BaseRadioButtonGroup from '/@/components/common/BaseRadioButtonGroup.vue'
 import PropertyMixin from '/@/mixins/PropertyMixin.js';
 
 export default {
+  name: 'BasePropertyField',
   components: {
     BaseRadioButtonGroup,
     BaseCheckbox,

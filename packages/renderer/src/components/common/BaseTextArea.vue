@@ -17,6 +17,7 @@
 
 <script>
 export default {
+  name: 'BaseTextArea',
   props: {
     label: {
       type: String,

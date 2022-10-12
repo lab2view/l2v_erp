@@ -32,6 +32,7 @@ import BaseButton from '/@/components/common/BaseButton.vue';
 import BaseTextArea from '/@/components/common/BaseTextArea.vue';
 import { mapGetters } from 'vuex';
 export default {
+  name: 'ProductDescription',
   components: { BaseTextArea, BaseButton },
   data() {
     return {
