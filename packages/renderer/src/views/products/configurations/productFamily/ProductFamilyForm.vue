@@ -70,6 +70,8 @@ export default {
   },
   methods: {
     submitProductFamilyForm() {
+      if (this.loading) return;
+
       this.loading = true;
       if (this.productFamily)
         this.$store

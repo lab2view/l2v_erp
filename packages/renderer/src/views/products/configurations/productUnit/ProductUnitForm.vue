@@ -68,6 +68,8 @@ export default {
   },
   methods: {
     submitProductUnitForm() {
+      if (this.loading) return;
+
       this.loading = true;
       if (this.productUnit)
         this.$store

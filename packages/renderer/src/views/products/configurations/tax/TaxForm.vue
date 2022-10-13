@@ -57,6 +57,8 @@ export default {
   },
   methods: {
     submitTaxForm() {
+      if (this.loading) return;
+
       this.loading = true;
       if (this.tax)
         this.$store

@@ -166,6 +166,7 @@ export default {
 
   methods: {
     generateCode() {
+      if (this.loading) return;
       this.loading = true;
       this.errors = [];
       this.$store

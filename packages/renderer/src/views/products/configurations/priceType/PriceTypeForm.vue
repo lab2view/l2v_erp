@@ -62,6 +62,8 @@ export default {
   },
   methods: {
     submitPriceTypeForm() {
+      if (this.loading) return;
+
       this.loading = true;
       if (this.priceType)
         this.$store

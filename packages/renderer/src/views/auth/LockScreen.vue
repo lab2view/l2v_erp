@@ -72,6 +72,7 @@ export default {
       this.showPassword = !this.showPassword;
     },
     submitLockForm() {
+      if (this.loading) return;
       if (this.checkInput.password) {
         this.loading = true;
         this.error = null;

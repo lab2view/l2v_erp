@@ -34,6 +34,8 @@ export default {
   },
   methods: {
     submitCustomerForm() {
+      if (this.loading) return;
+
       this.loading = true;
       this.errors = [];
       if (this.customer) {

@@ -163,6 +163,8 @@ export default {
   },
   methods: {
     submitProductTypeForm() {
+      if (this.loading) return;
+
       this.loading = true;
       if (this.productType)
         this.$store

@@ -58,6 +58,8 @@ export default {
   },
   methods: {
     submitPackageForm() {
+      if (this.loading) return;
+
       this.loading = true;
       if (this.packageModel)
         this.$store

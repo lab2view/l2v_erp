@@ -201,6 +201,8 @@ export default {
   },
   methods: {
     submitPropertyForm() {
+      if (this.loading) return;
+
       if (this.property) {
         this.loading = true;
         this.$store

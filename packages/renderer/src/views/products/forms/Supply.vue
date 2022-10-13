@@ -204,6 +204,8 @@ export default {
     },
 
     submitStockEntryForm() {
+      if (this.loading) return;
+
       if (this.stockEntryType) {
         this.loading = true;
         this.$store
