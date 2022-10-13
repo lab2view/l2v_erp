@@ -4,6 +4,9 @@ export default {
       year: 'numeric',
       month: 'short',
       day: 'numeric',
+      hour: 'numeric',
+      minute: 'numeric',
+      second: 'numeric',
     },
     long: {
       year: 'numeric',
@@ -12,6 +15,7 @@ export default {
       weekday: 'long',
       hour: 'numeric',
       minute: 'numeric',
+      second: 'numeric',
     },
   },
   en: {
@@ -19,6 +23,9 @@ export default {
       year: 'numeric',
       month: 'short',
       day: 'numeric',
+      hour: 'numeric',
+      minute: 'numeric',
+      second: 'numeric',
     },
     long: {
       year: 'numeric',
@@ -27,6 +34,7 @@ export default {
       weekday: 'long',
       hour: 'numeric',
       minute: 'numeric',
+      second: 'numeric',
     },
   },
 };

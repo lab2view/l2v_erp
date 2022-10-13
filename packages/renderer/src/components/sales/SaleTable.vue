@@ -18,11 +18,7 @@
         {{ getSaleAmountWithCurrency(sale) }}
       </td>
       <td>
-        {{
-          `${$d(sale.created_at, 'short')} ${new Date(
-            sale.created_at
-          ).toLocaleTimeString()}`
-        }}
+        {{ $d(sale.created_at, 'short') }}
       </td>
       <td>
         <button

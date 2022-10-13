@@ -84,6 +84,7 @@ const actions = {
     return cashierService
       .closeSession(cashierSessionId ?? getters.currentSession.id)
       .then(({ data }) => {
+        commit('SET_GLOBAL_LOADING', true, { root: true });
         commit('SET_CASHIER_SESSION', null);
         return data;
       })

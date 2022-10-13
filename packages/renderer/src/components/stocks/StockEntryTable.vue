@@ -25,7 +25,7 @@
           stockEntry.current_state?.stock_state.label || $t('common.not_set')
         }}
       </td>
-      <td>{{ $d(stockEntry.created_at, 'long') }}</td>
+      <td>{{ $d(stockEntry.created_at, 'short') }}</td>
       <td>
         <BaseButton
           type="button"
