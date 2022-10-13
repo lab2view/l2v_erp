@@ -18,7 +18,7 @@
       </tbody>
       <tfoot v-if="tfoot">
         <tr>
-          <slot name="headers" />
+          <slot name="footers" />
         </tr>
       </tfoot>
     </table>

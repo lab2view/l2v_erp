@@ -197,6 +197,7 @@ const mutations = {
     state.currentSaleRequest.sale_type_id = null;
     state.currentSaleRequest.discount = null;
     state.currentSaleRequest.discount_id = null;
+    state.currentSaleRequest.discount_code = null;
   },
   SET_CURRENT_SALE_REQUEST_FIELD(state, { field, value }) {
     state.currentSaleRequest[field] = value;

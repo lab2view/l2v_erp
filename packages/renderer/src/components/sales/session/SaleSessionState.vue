@@ -84,7 +84,7 @@
                 <tr>
                   <td class="font-primary" style="width: 20%">
                     <h6 class="mb-0">
-                      {{ $t('common.attributes.discount') }} :
+                      {{ $t('common.attributes.discount').toUpperCase() }} :
                     </h6>
                   </td>
                   <td class="font-primary" style="width: 30%">
