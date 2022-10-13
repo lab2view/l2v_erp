@@ -154,6 +154,8 @@ export default {
           params: { id: this.shipping.id },
         });
       } else {
+        if (this.loading) return;
+
         this.loading = true;
         this.errors = [];
         this.$store

@@ -241,6 +241,7 @@
             class="btn btn-primary col-auto"
             :text="$t('common.save')"
             icon="fa fa-save"
+            :loading="loading"
           />
         </div>
       </div>
@@ -301,6 +302,7 @@ export default {
       product_type_id: null,
       disabled_at: false,
       is_edited: true,
+      loading: false,
       productForm: {
         product_unit_id: null,
         product_type_id: null,
@@ -393,6 +395,9 @@ export default {
   },
   methods: {
     submitProductForm() {
+      if (this.loading) return;
+
+      this.loading = true;
       if (this.product) {
         if (this.is_edited)
           this.$store
@@ -406,6 +411,7 @@ export default {
             .catch((error) => {
               this.errors = error.response?.data?.errors;
               console.log(error);
+              this.loading = false;
             });
         else
           this.$router.push({
@@ -424,6 +430,7 @@ export default {
           .catch((error) => {
             this.errors = error.response?.data?.errors;
             console.log(error);
+            this.loading = false;
           });
     },
     generateBarCode() {

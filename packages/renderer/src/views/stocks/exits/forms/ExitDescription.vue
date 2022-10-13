@@ -263,6 +263,8 @@ export default {
   },
   methods: {
     submitStockEntryForm() {
+      if (this.loading) return;
+
       if (this.isUpdating) {
         if (this.is_edited)
           this.$store

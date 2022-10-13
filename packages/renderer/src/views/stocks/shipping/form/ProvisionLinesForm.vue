@@ -127,6 +127,8 @@ export default {
           name: 'shippings',
         });
       } else {
+        if (this.loading) return;
+
         if (this.provisionsForm) {
           this.loading = true;
           this.$store.commit(

@@ -105,6 +105,8 @@ export default {
   },
   methods: {
     submitProductArticleForm() {
+      if (this.loading) return;
+
       this.loading = true;
       this.$store
         .dispatch('article/addArticle', {

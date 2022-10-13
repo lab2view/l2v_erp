@@ -313,6 +313,8 @@ export default {
   },
   methods: {
     submitUserForm() {
+      if (this.loading) return;
+
       this.loading = true;
       if (this.user && this.user.id) {
         if (this.is_edited) {

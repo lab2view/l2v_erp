@@ -142,6 +142,8 @@ export default {
   },
   methods: {
     submitProductPropertyForm() {
+      if (this.loading) return;
+
       this.loading = true;
       if (this.productPropertyForm.id)
         this.$store

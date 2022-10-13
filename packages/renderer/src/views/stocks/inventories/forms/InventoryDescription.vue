@@ -161,6 +161,9 @@ export default {
   },
   methods: {
     submitInventoryForm() {
+      if (this.loading) return;
+
+      this.loading = true;
       if (this.isUpdating) {
         if (this.is_edited)
           this.$store
@@ -174,6 +177,7 @@ export default {
             .catch((error) => {
               this.errors = error.response?.data?.errors;
               console.log(error);
+              this.loading = false;
             });
         else
           this.$router.push({
@@ -192,6 +196,7 @@ export default {
           .catch((error) => {
             this.errors = error.response?.data?.errors;
             console.log(error);
+            this.loading = false;
           });
     },
     generateReference() {

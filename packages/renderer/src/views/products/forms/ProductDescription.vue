@@ -55,6 +55,8 @@ export default {
   },
   methods: {
     submitProductForm() {
+      if (this.loading) return;
+
       if (this.is_edited) {
         this.loading = true;
         this.$store

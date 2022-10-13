@@ -163,6 +163,8 @@ export default {
     },
 
     submitExitLinesForm() {
+      if (this.loading) return;
+
       if (this.stock_exit_line_fields.length) {
         this.loading = true;
         return this.$store

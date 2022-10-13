@@ -143,6 +143,8 @@ export default {
   },
   methods: {
     submitProductTaxForm() {
+      if (this.loading) return;
+
       this.loading = true;
       if (this.productTaxForm.id)
         this.$store

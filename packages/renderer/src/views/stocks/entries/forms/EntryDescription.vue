@@ -201,6 +201,8 @@ export default {
   },
   methods: {
     submitStockEntryForm() {
+      if (this.loading) return;
+
       this.loading = true;
       if (this.isUpdating) {
         if (this.is_edited)
