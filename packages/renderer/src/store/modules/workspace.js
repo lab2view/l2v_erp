@@ -1,5 +1,6 @@
 import EnterpriseService from '../../services/EnterpriseService';
 import { removeStorage } from '/@/helpers/utils.js';
+import { replace } from 'lodash';
 
 const state = {};
 
@@ -16,6 +17,19 @@ const getters = {
   currency: (state, getters) => getters.currentWorkspace?.currency ?? 'XAF',
   databaseName: (state, getters) =>
     getters.currentWorkspace?.database ?? 'kitbusiness',
+  currentDomain: (state, getters, rootState) => {
+    return getters.currentWorkspace?.domain ?? rootState.landlordDomain;
+  },
+  workspaceExternalShopLink: (state, getters, rootState) => {
+    return (
+      'https://' +
+      replace(
+        getters.currentDomain,
+        rootState.landlordDomain,
+        `shop.${rootState.landlordDomain}`
+      )
+    );
+  },
 };
 
 // privileges

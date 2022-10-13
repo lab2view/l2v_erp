@@ -91,6 +91,7 @@ export default {
   unlock: 'Deverouiller',
   refresh: 'Actualiser',
   provision: 'Approvisionner',
+  open_store: 'Ouvrir la boutique',
 
   la: 'la',
   le: 'le',

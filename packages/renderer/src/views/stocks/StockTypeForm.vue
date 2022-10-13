@@ -11,7 +11,7 @@
           required
         />
       </div>
-      <div class="mb-3" v-if="!this.$route.query.type_for">
+      <div v-if="!$route.query.type_for" class="mb-3">
         <BaseRadioButtonGroup
           v-model="stockTypeForm.type_for"
           :errors="errors?.type_for"
