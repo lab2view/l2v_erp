@@ -13,16 +13,28 @@
         <div class="mb-3">
           <div class="row align-items-center">
             <div class="col-md">
-              <BaseSelect
-                v-model.number="stockEntryForm.stock_type_id"
+              <BaseFieldGroup
+                :with-refresh="true"
+                refresh-action-name="stock_type/getStockTypesList"
                 :label="$t('common.attributes.stock_entry_type_id')"
-                :options="stockTypes"
-                key-label="label"
-                key-value="id"
                 :errors="errors?.stock_type_id"
-                required
-                :disabled="isUpdating"
-              />
+                @btn-click="
+                  $router.push({
+                    name: 'stocks.entry.form.desc.stockType',
+                    params: { ...$route.params },
+                    query: { type_for: stockTypeFor.entry },
+                  })
+                "
+              >
+                <BaseSelect
+                  v-model.number="stockEntryForm.stock_type_id"
+                  :options="stockTypes"
+                  key-label="label"
+                  key-value="id"
+                  required
+                  :disabled="isUpdating"
+                />
+              </BaseFieldGroup>
             </div>
             <div class="col-md">
               <BaseInputGroup
@@ -45,15 +57,21 @@
               </BaseInputGroup>
             </div>
             <div v-if="isRoleAdmin" class="col-md">
-              <BaseSelect
-                v-model.number="stockEntryForm.enterprise_id"
+              <BaseFieldGroup
+                :with-refresh="true"
+                :with-append="false"
+                refresh-action-name="enterprise/getEnterprisesList"
                 :label="$t('common.attributes.structure')"
-                :options="enterprises"
-                key-label="name"
-                key-value="id"
                 :errors="errors?.enterprise_id"
-                :disabled="isUpdating"
-              />
+              >
+                <BaseSelect
+                  v-model.number="stockEntryForm.enterprise_id"
+                  :options="enterprises"
+                  key-label="name"
+                  key-value="id"
+                  :disabled="isUpdating"
+                />
+              </BaseFieldGroup>
             </div>
           </div>
         </div>
@@ -88,6 +106,8 @@
         </div>
       </div>
     </form>
+
+    <router-view />
   </div>
 </template>
 
@@ -100,10 +120,12 @@ import BaseSelect from '/@/components/common/BaseSelect.vue';
 import BaseInputGroup from '/@/components/common/BaseInputGroup.vue';
 import BaseTextArea from '/@/components/common/BaseTextArea.vue';
 import { random } from 'lodash/number';
+import BaseFieldGroup from '/@/components/common/BaseFieldGroup.vue';
 
 export default {
   name: 'EntryDescription',
   components: {
+    BaseFieldGroup,
     BaseTextArea,
     BaseInputGroup,
     BaseSelect,
@@ -148,8 +170,11 @@ export default {
     ...mapGetters('stock_entry', ['stockEntry']),
     ...mapGetters('enterprise', ['enterprises']),
     ...mapGetters('auth', ['isRoleAdmin']),
+    stockTypeFor() {
+      return stockFor;
+    },
     stockTypes() {
-      return this.getListByTypeFor(stockFor.entry);
+      return this.getListByTypeFor(this.stockTypeFor.entry);
     },
     formTitle() {
       return this.stockEntry
@@ -176,6 +201,7 @@ export default {
   },
   methods: {
     submitStockEntryForm() {
+      this.loading = true;
       if (this.isUpdating) {
         if (this.is_edited)
           this.$store
@@ -188,6 +214,7 @@ export default {
             )
             .catch((error) => {
               this.errors = error.response?.data?.errors;
+              this.loading = false;
               console.log(error);
             });
         else
@@ -206,6 +233,7 @@ export default {
           )
           .catch((error) => {
             this.errors = error.response?.data?.errors;
+            this.loading = false;
             console.log(error);
           });
     },

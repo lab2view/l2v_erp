@@ -164,6 +164,7 @@ import { mapGetters } from 'vuex';
 import store from '/@/store';
 
 export default {
+  name: 'DiscountFormDesc',
   components: { BaseButton, BaseDatetime, BaseSelect },
   beforeRouteEnter(routeTo, routeFrom, next) {
     store

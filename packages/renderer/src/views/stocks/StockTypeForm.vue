@@ -1,64 +1,26 @@
 <template>
   <BaseFormModal :submit-form="submitStockTypeForm" :title="title">
-    <div class="form-group mb-3">
-      <label class="form-label fw-bold" for="label">{{
-        $t('common.attributes.label')
-      }}</label>
-      <input
-        id="label"
-        v-model="stockTypeForm.label"
-        class="form-control"
-        placeholder="..."
-        required
-        type="text"
-      />
-      <div
-        v-if="errors.label && errors.label.length"
-        class="invalid-feedback"
-        style="display: inline"
-      >
-        {{ errors.label[0] }}
+    <div class="p-l-10 p-r-5">
+      <div class="mb-3">
+        <BaseInput
+          v-model="stockTypeForm.label"
+          :label="$t('common.attributes.label')"
+          type="text"
+          placeholder="..."
+          :errors="errors?.label"
+          required
+        />
       </div>
-    </div>
-    <div class="form-group mb-3">
-      <label class="form-label fw-bold" for="label">{{
-        $t('common.attributes.stock_variety')
-      }}</label>
-      <br />
-      <br />
-
-      <input
-        id="stockEntry"
-        v-model="stockTypeForm.type_for"
-        name="type_for"
-        required
-        type="radio"
-        value="StockEntry"
-      />
-      <label class="" for="stockEntry">
-        {{ $t('common.attributes.stock_entry') }}
-      </label>
-
-      <br />
-      <input
-        id="stockExit"
-        v-model="stockTypeForm.type_for"
-        name="type_for"
-        required
-        type="radio"
-        value="StockExit"
-      />
-      <label class="" for="stockExit">
-        {{ $t('common.attributes.stock_exit') }}
-      </label>
-
-      <br />
-      <div
-        v-if="errors.type_for && errors.type_for.length"
-        class="invalid-feedback"
-        style="display: inline"
-      >
-        {{ errors.type_for[0] }}
+      <div class="mb-3" v-if="!this.$route.query.type_for">
+        <BaseRadioButtonGroup
+          v-model="stockTypeForm.type_for"
+          :errors="errors?.type_for"
+          :label="$t('common.attributes.stock_variety')"
+          :options="typeForList"
+          key-label="label"
+          key-value="value"
+          name="type_for"
+        />
       </div>
     </div>
     <template #footer>
@@ -72,10 +34,13 @@
 <script>
 import BaseFormModal from '/@/components/common/BaseFormModal.vue';
 import { mapGetters } from 'vuex';
+import BaseInput from '/@/components/common/BaseInput.vue';
+import BaseRadioButtonGroup from '/@/components/common/BaseRadioButtonGroup.vue';
+import { stockFor } from '/@/helpers/codes.js';
 
 export default {
   name: 'StockTypeForm',
-  components: { BaseFormModal },
+  components: { BaseRadioButtonGroup, BaseInput, BaseFormModal },
   data() {
     return {
       errors: [],
@@ -89,6 +54,18 @@ export default {
   },
   computed: {
     ...mapGetters('stock_type', ['stockType']),
+    typeForList() {
+      return [
+        {
+          value: stockFor.entry,
+          label: this.$t('common.attributes.stock_entry_type_id'),
+        },
+        {
+          value: stockFor.exit,
+          label: this.$t('common.attributes.stock_exit_type_id'),
+        },
+      ];
+    },
     title() {
       return this.stockType && this.stockType.id
         ? this.$t('stocks.stockType.formUpdateTitle')
@@ -98,6 +75,7 @@ export default {
   created() {
     if (this.stockType && this.stockType.id)
       this.stockTypeForm = this.stockType;
+    else this.stockTypeForm.type_for = this.$route.query.type_for ?? null;
   },
   beforeUnmount() {
     this.setLoading();

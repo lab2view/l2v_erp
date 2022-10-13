@@ -154,7 +154,7 @@ export default {
     gender: 'Sexe',
     products: 'Produits',
     disable_date: 'Desactive le',
-    stock_variety: 'Variete du stocks',
+    stock_variety: 'Specifier le type de mouvement ?',
     calling_code: "Code d'appel",
     iso: 'Iso',
     iso_3166_2: 'iso_3166_2',
