@@ -58,7 +58,7 @@
           </div>
           <div class="col-md">
             <BaseDatetime
-              placeholder="Filtrer par date"
+              placeholder="Filtrer par date ?"
               v-model="filterDate"
               :range="true"
               :maxDate="new Date()"

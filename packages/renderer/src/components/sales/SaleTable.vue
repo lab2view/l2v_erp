@@ -49,17 +49,22 @@
           type="button"
           class="btn btn-sm btn-success"
           :title="$t('common.show')"
-          @click.prevent=""
+          @click.prevent="
+            $router.push({
+              name: 'sales.sales.details',
+              params: { id: sale.id },
+            })
+          "
           :text="$t('common.show')"
-        >
-        </BaseButton>
+        />
         <BaseButton
           class="btn btn-danger btn-xs m-l-5"
           type="button"
-          icon="fa fa-times"
-          @click.prevent="cancelSale(sale)"
-          :text="$t('common.cancel')"
-        />
+          :title="$t('common.delete')"
+          @click.prevent="deleteSale(sale)"
+        >
+          <i class="fa fa-trash-o" />
+        </BaseButton>
       </td>
     </tr>
     <template #footers>
@@ -141,7 +146,7 @@ export default {
     },
   },
   methods: {
-    cancelSale(sale) {
+    deleteSale(sale) {
       if (
         confirm(this.$t('messages.confirmDelete', { label: sale.reference }))
       ) {

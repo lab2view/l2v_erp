@@ -22,8 +22,8 @@ const state = {
 // getters
 const getters = {
   sales: (state) => state.sales,
+  sale: (state) => state.sale,
   cashier_sales: (state) => state.cashier_sales,
-  getSaleById: (state) => (id) => state.sales.find((s) => s.id === id) ?? null,
   getCashierSaleById: (state) => (id) =>
     state.cashier_sales.find((s) => s.id === id) ?? null,
   getSaleByCashierId: (state) => (id) =>
@@ -76,6 +76,8 @@ const getters = {
       };
     });
   },
+  getSelectedSaleById: (state, getters) => (id) =>
+    getters.getSelectedSaleList.find((sl) => sl.id === id) ?? null,
 };
 
 // privileges
@@ -121,15 +123,15 @@ const actions = {
   },
 
   getSale({ commit, getters }, id) {
-    const sale = getters.getSaleById(id);
-    if (sale) {
+    const sale = getters.sales.find((p) => p.id.toString() === id.toString());
+    if (sale !== undefined) {
       commit('SET_CURRENT_SALE', sale);
       return sale;
-    }
-    return saleService.getSale(id).then(({ data }) => {
-      commit('SET_CURRENT_SALE', data);
-      return data;
-    });
+    } else
+      return saleService.getSale(id).then(({ data }) => {
+        commit('SET_CURRENT_SALE', data);
+        return data;
+      });
   },
 
   getCashierSale({ commit, getters }, id) {
