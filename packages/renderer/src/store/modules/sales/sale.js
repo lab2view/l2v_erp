@@ -9,6 +9,14 @@ const state = {
   sale: null,
   cashier_sales: [],
   cashier_sale: null,
+  request_field: {
+    enterprise_id: null,
+    cashier_id: null,
+    sale_type_id: null,
+    customer_id: null,
+    created_at: null,
+    keyword: null,
+  },
 };
 
 // getters
@@ -21,6 +29,7 @@ const getters = {
   getSaleByCashierId: (state) => (id) =>
     state.sales.filter((s) => s.cashier_session.cashier_id === id),
   cashierSale: (state) => state.cashier_sale,
+  requestField: (state) => state.request_field,
   getSelectedSaleList: (state, getters) => {
     return getters.sales.map((sale) => {
       const totalSupPrice = _.sumBy(sale.stock_exit_lines, 'sup_price');
@@ -180,6 +189,9 @@ const mutations = {
   },
   DELETE_SALE(state, saleId) {
     state.sales = state.sales.filter((p) => p.id !== saleId);
+  },
+  SET_REQUEST_FIELD_VALUE(state, { field, value }) {
+    state.request_field[field] = value;
   },
 };
 

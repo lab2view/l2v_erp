@@ -1,4 +1,4 @@
-<template xmlns="http://www.w3.org/1999/html">
+<template>
   <BaseDatatable :tfoot="true" :total="sales.length">
     <template #headers>
       <th>#</th>
@@ -92,6 +92,7 @@ import { mapGetters } from 'vuex';
 import { getSaleAmount } from '/@/helpers/utils.js';
 import BaseButton from '/@/components/common/BaseButton.vue';
 import _ from 'lodash';
+
 export default {
   name: 'SaleTable',
   components: { BaseButton, BaseDatatable },

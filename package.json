@@ -56,6 +56,7 @@
   },
   "dependencies": {
     "@imengyu/vue3-context-menu": "^1.0.9",
+    "@vuepic/vue-datepicker": "^3.5.2",
     "axios": "^0.24.0",
     "babel-eslint": "^10.1.0",
     "electron-updater": "4.6.5",
@@ -66,9 +67,9 @@
     "lodash": "^4.17.21",
     "register-service-worker": "^1.7.2",
     "socket.io": "^4.4.1",
+    "v-viewer": "^3.0.10",
     "vee-validate": "^4.5.7",
     "vue": "3.2.26",
-    "v-viewer": "^3.0.10",
     "vue-i18n": "^9.2.0-beta.26",
     "vue-router": "4.0.12",
     "vue-select": "^4.0.0-beta.3",

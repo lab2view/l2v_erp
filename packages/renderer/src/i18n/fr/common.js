@@ -275,6 +275,7 @@ export default {
     quantity_received: 'Qté Livrée',
     delivery_date: 'Date de livraison',
     inventory_qty: 'Quantite disponible',
+    sale_type: 'Type de vente',
   },
 
   gender: {
