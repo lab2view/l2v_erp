@@ -74,7 +74,6 @@ export default {
     initDatatable() {
       $('#datatable-dt').DataTable({
         info: !!this.tableInfos,
-        dom: 'rt<"bottom"lpf><"clear">',
         language: {
           info: this.tableInfos ?? false,
         },

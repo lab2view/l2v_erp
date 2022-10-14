@@ -8,7 +8,11 @@
         refresh-action-name="cash_register/getCashRegistersList"
       />
       <div class="card-body">
-        <BaseDatatable :tfoot="false" :total="cashRegisters.length">
+        <BaseDatatable
+          v-if="!$store.state.globalLoading"
+          :tfoot="false"
+          :total="cashRegisters.length"
+        >
           <template #headers>
             <th>#</th>
             <th>{{ $t('common.attributes.structure') }}</th>

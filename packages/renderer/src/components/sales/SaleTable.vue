@@ -1,5 +1,9 @@
 <template>
-  <BaseDatatable :tfoot="true" :total="sales.length">
+  <BaseDatatable
+    v-if="!$store.state.globalLoading"
+    :tfoot="true"
+    :total="sales.length"
+  >
     <template #headers>
       <th>#</th>
       <th v-if="isRoleAdmin">{{ $t('common.attributes.structure') }}</th>
@@ -138,8 +142,14 @@ export default {
   },
   methods: {
     cancelSale(sale) {
-      if (confirm(this.$t('messages.confirmDelete', { label: sale.reference })))
-        console.log(sale);
+      if (
+        confirm(this.$t('messages.confirmDelete', { label: sale.reference }))
+      ) {
+        this.$store.commit('SET_GLOBAL_LOADING', true);
+        this.$store
+          .dispatch('sale/deleteSale', sale.id)
+          .finally(() => this.$store.commit('SET_GLOBAL_LOADING', false));
+      }
     },
 
     getSaleAmountWithCurrency(sale) {

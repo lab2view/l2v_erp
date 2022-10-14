@@ -8,7 +8,11 @@
         refresh-action-name="cashier/getCashiersList"
       />
       <div class="card-body">
-        <BaseDatatable :tfoot="false" :total="cashiers.length">
+        <BaseDatatable
+          v-if="!$store.state.globalLoading"
+          :tfoot="false"
+          :total="cashiers.length"
+        >
           <template #headers>
             <th>#</th>
             <th>{{ $t('common.attributes.group') }}</th>

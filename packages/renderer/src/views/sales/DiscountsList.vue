@@ -8,7 +8,11 @@
         refresh-action-name="discount/getDiscountsList"
       />
       <div class="card-body">
-        <BaseDatatable :tfoot="false" :total="discounts.length">
+        <BaseDatatable
+          v-if="!$store.state.globalLoading"
+          :tfoot="false"
+          :total="discounts.length"
+        >
           <template #headers>
             <th>#</th>
             <th>{{ $t('common.attributes.discount_type') }}</th>

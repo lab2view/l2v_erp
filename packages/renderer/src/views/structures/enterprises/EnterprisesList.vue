@@ -11,7 +11,11 @@
         refresh-action-name="enterprise/getEnterprisesList"
       />
       <div class="card-body">
-        <BaseDatatable :tfoot="false" :total="enterprises.length">
+        <BaseDatatable
+          v-if="!$store.state.globalLoading"
+          :tfoot="false"
+          :total="enterprises.length"
+        >
           <template #headers>
             <th>#</th>
             <th>{{ $t('common.attributes.enterpriseType') }}</th>

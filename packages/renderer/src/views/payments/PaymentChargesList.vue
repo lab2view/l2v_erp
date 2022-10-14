@@ -10,7 +10,11 @@
         refresh-action-name="payment_charge/getPaymentChargesList"
       />
       <div class="card-body">
-        <BaseDatatable :tfoot="false" :total="paymentCharges.length">
+        <BaseDatatable
+          v-if="!$store.state.globalLoading"
+          :tfoot="false"
+          :total="paymentCharges.length"
+        >
           <template #headers>
             <th>#</th>
             <th>{{ $t('common.attributes.payment_method') }}</th>

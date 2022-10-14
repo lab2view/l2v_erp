@@ -7,7 +7,7 @@
       refresh-action-name="property/getPropertiesList"
     />
     <div class="card-body">
-      <BaseDatatable :tfoot="false">
+      <BaseDatatable v-if="!$store.state.globalLoading" :tfoot="false">
         <template #headers>
           <th>#</th>
           <th>{{ $t('common.attributes.product_family') }}</th>

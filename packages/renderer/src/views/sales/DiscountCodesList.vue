@@ -17,7 +17,11 @@
         </div>
       </div>
       <div class="mt-2">
-        <BaseDatatable :tfoot="false" :total="discount_codes.length">
+        <BaseDatatable
+          v-if="!$store.state.globalLoading"
+          :tfoot="false"
+          :total="discount_codes.length"
+        >
           <template #headers>
             <th>#</th>
             <th>{{ $t('common.code') }}</th>

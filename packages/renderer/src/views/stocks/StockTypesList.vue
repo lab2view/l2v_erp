@@ -11,7 +11,11 @@
         refresh-action-name="stock_type/getStockTypesList"
       />
       <div class="card-body">
-        <BaseDatatable :tfoot="false" :total="stock_types.length">
+        <BaseDatatable
+          v-if="!$store.state.globalLoading"
+          :tfoot="false"
+          :total="stock_types.length"
+        >
           <template #headers>
             <th>#</th>
             <th>{{ $t('common.attributes.label') }}</th>
