@@ -294,10 +294,11 @@ export default {
     usage: 'Utilisation',
     search_result: 'Resultat de la recherche ',
     not_available: 'Indisponile',
-    win_amount: 'Gain',
+    win_amount: 'Marge',
     sub_amount: 'Prix Articles',
     quantity: 'Qte',
     total: 'Total',
+    price: 'Prix',
   },
 
   errors: {

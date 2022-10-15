@@ -38,7 +38,7 @@ const getters = {
           const price = sel.article?.prices?.find(
             (p) => p.price_type.code === priceTypeCode.buy
           );
-          return { buy_price: price?.value ?? 0 };
+          return { buy_price: (price?.value ?? 0) * sel.quantity };
         }),
         'buy_price'
       );
