@@ -298,6 +298,7 @@ export default {
     sub_amount: 'Prix Articles',
     quantity: 'Qte',
     total: 'Total',
+    total_percent: 'Moyenne de la vente',
     price: 'Prix',
   },
 

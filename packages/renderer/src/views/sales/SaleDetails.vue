@@ -33,7 +33,7 @@
         <tfoot>
           <tr>
             <th class="text-uppercase">
-              {{ $t('common.headers.total') }}
+              {{ $t('common.headers.total_percent') }}
             </th>
             <th>
               <label
@@ -54,6 +54,16 @@
         </tfoot>
       </table>
     </div>
+    <template #footer>
+      <div class="row justify-content-end">
+        <BaseButton
+          type="button"
+          class="btn btn-secondary btn-sm col-auto m-r-5"
+          :text="$t('common.close')"
+          @click.prevent="$router.back()"
+        />
+      </div>
+    </template>
   </BaseModal>
 </template>
 
@@ -61,10 +71,11 @@
 import { mapGetters } from 'vuex';
 import BaseModal from '/@/components/common/BaseModal.vue';
 import SaleStockExitLine from '/@/components/sales/SaleStockExitLine.vue';
+import BaseButton from '/@/components/common/BaseButton.vue';
 
 export default {
   name: 'SaleDetails',
-  components: { SaleStockExitLine, BaseModal },
+  components: { BaseButton, SaleStockExitLine, BaseModal },
   computed: {
     ...mapGetters('workspace', ['currency']),
     ...mapGetters('sale', ['sale', 'getSelectedSaleById']),
