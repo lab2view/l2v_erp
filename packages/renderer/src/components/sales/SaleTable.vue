@@ -18,13 +18,15 @@
     </template>
     <tr v-for="sale in sales" :key="`sale-line-${sale.id}`">
       <td>{{ sale.id }}</td>
-      <td v-if="isRoleAdmin">{{ sale.enterprise.name }}</td>
+      <td v-if="isRoleAdmin">
+        {{ sale.enterprise.name ?? $t('common.parent') }}
+      </td>
       <td>{{ sale.code }}</td>
       <td>
         <label
-          class="f-w-700 m-r-5"
           v-for="(quantity, index) in sale.quantities"
           :key="`qty-${index}`"
+          class="f-w-700 m-r-5"
         >
           {{ quantity.total }}
           <i class="f-w-400">{{ quantity.unit }}</i>
@@ -49,13 +51,13 @@
           type="button"
           class="btn btn-sm btn-success"
           :title="$t('common.show')"
+          :text="$t('common.show')"
           @click.prevent="
             $router.push({
               name: 'sales.sales.details',
               params: { id: sale.id },
             })
           "
-          :text="$t('common.show')"
         />
         <BaseButton
           class="btn btn-danger btn-xs m-l-5"
@@ -73,9 +75,9 @@
       </th>
       <th colspan="2" class="text-end">
         <label
-          class="f-w-700 m-r-5"
           v-for="(saleTotalQuantity, index) in saleTotalQuantities"
           :key="`sale-total-qty-${index}`"
+          class="f-w-700 m-r-5"
         >
           {{ saleTotalQuantity.total }}
           <i class="f-w-400">{{ saleTotalQuantity.unit }}</i>

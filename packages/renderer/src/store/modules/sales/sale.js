@@ -60,7 +60,7 @@ const getters = {
         id: sale.id,
         enterprise: {
           id: sale.enterprise_id,
-          name: sale.enterprise?.name ?? $t('common.parent'),
+          name: sale.enterprise?.name ?? null,
         },
         reference: sale.reference,
         code: sale.code,

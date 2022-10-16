@@ -221,6 +221,12 @@ export default {
         )
       ) {
         this.loading = true;
+        this.$store
+          .dispatch(
+            'inventory/processToInventoryStockBalancing',
+            this.inventory
+          )
+          .finally(() => (this.loading = false));
       }
     },
   },

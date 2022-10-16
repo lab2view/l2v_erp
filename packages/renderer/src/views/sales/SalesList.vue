@@ -18,8 +18,8 @@
               refresh-action-name="enterprise/getEnterprisesList"
             >
               <BaseSelect
-                :options="enterprises"
                 v-model.number="enterpriseId"
+                :options="enterprises"
                 key-label="name"
                 key-value="id"
                 :placeholder="`${$t('common.attributes.structure')} ?`"
@@ -33,8 +33,8 @@
               refresh-action-name="cashier/getCashiersList"
             >
               <BaseSelect
-                :options="cashiers"
                 v-model.number="cashierId"
+                :options="cashiers"
                 key-label="name"
                 key-value="id"
                 :placeholder="`${$t('common.attributes.cashier')} ?`"
@@ -48,8 +48,8 @@
               refresh-action-name="sale_type/getSaleTypesList"
             >
               <BaseSelect
-                :options="saleTypes"
                 v-model.number="saleTypeId"
+                :options="saleTypes"
                 key-label="label"
                 key-value="id"
                 :placeholder="`${$t('common.attributes.sale_type')} ?`"
@@ -58,10 +58,10 @@
           </div>
           <div class="col-md">
             <BaseDatetime
-              placeholder="Filtrer par date ?"
               v-model="filterDate"
+              placeholder="Filtrer par date ?"
               :range="true"
-              :maxDate="new Date()"
+              :max-date="new Date()"
             />
           </div>
         </div>

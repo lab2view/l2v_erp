@@ -37,9 +37,9 @@
             </th>
             <th>
               <label
-                class="f-w-700 m-r-5"
                 v-for="(quantity, index) in selectableSale.quantities"
                 :key="`qty-line-${index}`"
+                class="f-w-700 m-r-5"
               >
                 {{ quantity.total }}
                 <i class="f-w-400">{{ quantity.unit }}</i>

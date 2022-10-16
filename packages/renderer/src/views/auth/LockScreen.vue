@@ -21,6 +21,7 @@
           placeholder="*********"
           :errors="errors?.password"
           required
+          autofocus
           @keydown.enter="submitLockForm"
         />
         <div class="show-hide" @click="toggleShow">

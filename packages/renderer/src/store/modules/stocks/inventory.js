@@ -99,6 +99,7 @@ const actions = {
         return data;
       });
   },
+
   removeInventoryLines({ getters, commit }, inventoryLineIds) {
     return inventoryService
       .removeInventoryLines(getters.inventory.id, {
@@ -107,6 +108,16 @@ const actions = {
       .then(() => {
         commit('REMOVE_INVENTORY_LINES', inventoryLineIds);
         return true;
+      });
+  },
+
+  processToInventoryStockBalancing({ commit }, inventory) {
+    return inventoryService
+      .processToInventoryStockBalancing(inventory.id)
+      .then(({ data }) => {
+        console.log(data);
+        commit('SET_CURRENT_INVENTORY', data);
+        return data;
       });
   },
 };

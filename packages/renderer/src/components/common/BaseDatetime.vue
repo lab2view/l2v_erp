@@ -5,10 +5,9 @@
   </label>
   <Datepicker
     v-bind="$attrs"
-    :modelValue="modelValue"
-    @update:modelValue="$emit('update:modelValue', $event)"
-    :autoApply="autoApply"
-    :enableTimePicker="enableTimePicker"
+    v-model="value"
+    :auto-apply="autoApply"
+    :enable-time-picker="enableTimePicker"
   />
   <div v-if="errors" class="invalid-feedback" style="display: inline">
     {{ errors[0] }}
@@ -57,5 +56,15 @@ export default {
     },
   },
   emits: ['update:modelValue'],
+  computed: {
+    value: {
+      get() {
+        return this.modelValue;
+      },
+      set(value) {
+        this.$emit('update:modelValue', value);
+      },
+    },
+  },
 };
 </script>
