@@ -38,13 +38,13 @@ export default {
   computed: {
     distribution() {
       return this.article.stats.distributions.find(
-        (d) => d.id === parseInt(this.enterprise_id)
+        (d) => d.id === parseInt(this.enterpriseId)
       );
     },
     haveStockIn() {
       return this.distribution
-        ? getDistributionCurrentStock(this.distribution)
-        : getStockExitLineArticleStock(this.article);
+        ? getDistributionCurrentStock(this.distribution) > 0
+        : getStockExitLineArticleStock(this.article) > 0;
     },
   },
 };

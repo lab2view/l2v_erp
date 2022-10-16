@@ -10,6 +10,16 @@ export const saleRoutes = [
       code: 'Sale.viewAny',
       feather: 'filter',
     },
+    children: [
+      {
+        path: ':id/details',
+        name: 'sales.sales.details',
+        component: () => import('/@/views/sales/SaleDetails.vue'),
+        meta: {
+          requireSale: true,
+        },
+      },
+    ],
   },
   {
     path: 'sessions',

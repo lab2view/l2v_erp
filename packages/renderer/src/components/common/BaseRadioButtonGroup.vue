@@ -1,4 +1,8 @@
 <template>
+  <label v-if="label" :class="labelClass">
+    {{ label }}
+    <span v-if="required" class="text-danger m-l-5">*</span>
+  </label>
   <div class="form-group m-t-15 m-checkbox-inline mb-0 custom-radio-ml">
     <div
       v-for="(option, index) in options"
@@ -25,6 +29,7 @@
 
 <script>
 export default {
+  name: 'BaseRadioButtonGroup',
   props: {
     label: {
       type: String,

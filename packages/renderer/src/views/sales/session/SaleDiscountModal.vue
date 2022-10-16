@@ -123,6 +123,7 @@ import { mapGetters } from 'vuex';
 import { sumBy } from 'lodash';
 import store from '/@/store/index.js';
 export default {
+  name: 'SaleDiscountModel',
   components: { BaseInput, BaseSelect, BaseButton, BaseModal },
   beforeRouteEnter(routeTo, routeFrom, next) {
     store
@@ -194,11 +195,12 @@ export default {
       return sumBy(this.discountArticles, 'discount_price');
     },
     discountBillAmount() {
-      return this.discount?.only_bill
-        ? (parseFloat(this.discount.value) *
-            parseFloat(this.getCurrentSaleTotalAmount)) /
-            100
-        : 0;
+      if (this.discount?.only_bill) {
+        const DiscountValue = parseFloat(this.discount.value);
+        return this.discount.is_percent
+          ? (DiscountValue * parseFloat(this.getCurrentSaleTotalAmount)) / 100
+          : DiscountValue;
+      } else return 0;
     },
     totalDiscountAmount() {
       return this.discountArticleAmount + this.discountBillAmount;
@@ -237,6 +239,7 @@ export default {
     cancelAction() {
       if (this.discount) {
         this.discount = null;
+        this.cancelDiscount();
       }
       this.$router.back();
     },
@@ -274,6 +277,27 @@ export default {
         }
         this.$router.back();
       }
+    },
+
+    cancelDiscount() {
+      this.$store.commit('cashier_session/SET_CURRENT_SALE_REQUEST_FIELD', {
+        value: null,
+        field: 'discount_id',
+      });
+      this.$store.commit('cashier_session/SET_CURRENT_SALE_REQUEST_FIELD', {
+        value: null,
+        field: 'discount',
+      });
+      this.$store.commit('cashier_session/SET_CURRENT_SALE_REQUEST_FIELD', {
+        value: null,
+        field: 'discount_code',
+      });
+      this.$store.commit(
+        'cashier_session/SET_CURRENT_SALE_REQUEST_ARTICLE_LINES',
+        this.stock_exit_lines.map((sel) => {
+          return { ...sel, discount_id: null };
+        })
+      );
     },
   },
 };

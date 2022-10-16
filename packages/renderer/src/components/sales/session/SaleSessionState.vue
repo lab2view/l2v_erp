@@ -5,6 +5,9 @@
         <div class="row justify-content-center mb-2">
           <div class="col-md-5">
             <BaseFieldGroup
+              :with-refresh="true"
+              refresh-action-name="customer/getCustomersList"
+              :with-global-load="true"
               @btn-click="
                 $router.push({
                   name: 'sales.session.customer.form',
@@ -32,15 +35,21 @@
             />
           </div>
           <div class="col-3 align-items-start">
-            <BaseSelect
-              v-model.number="saleTypeId"
-              label-class="font-primary"
-              :placeholder="$t('common.fields.sale_type')"
-              :options="saleTypes"
-              required
-              key-value="id"
-              key-label="label"
-            />
+            <BaseFieldGroup
+              :with-refresh="true"
+              :with-append="false"
+              refresh-action-name="sale_type/getSaleTypesList"
+            >
+              <BaseSelect
+                v-model.number="saleTypeId"
+                label-class="font-primary"
+                :placeholder="$t('common.fields.sale_type')"
+                :options="saleTypes"
+                required
+                key-value="id"
+                key-label="label"
+              />
+            </BaseFieldGroup>
           </div>
         </div>
         <div class="row">
@@ -75,7 +84,7 @@
                 <tr>
                   <td class="font-primary" style="width: 20%">
                     <h6 class="mb-0">
-                      {{ $t('common.attributes.discount') }} :
+                      {{ $t('common.attributes.discount').toUpperCase() }} :
                     </h6>
                   </td>
                   <td class="font-primary" style="width: 30%">

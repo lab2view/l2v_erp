@@ -1,8 +1,12 @@
 <template>
-  <BaseDatatable :tfoot="false" :total="shippingEntries.length">
+  <BaseDatatable
+    v-if="!$store.state.globalLoading"
+    :tfoot="false"
+    :total="shippingEntries.length"
+  >
     <template #headers>
       <th>#</th>
-<!--      <th>{{ $t('common.attributes.stock_entry') }}</th>-->
+      <!--      <th>{{ $t('common.attributes.stock_entry') }}</th>-->
       <th>{{ $t('common.attributes.reference') }}</th>
       <th>{{ $t('common.attributes.status') }}</th>
       <th>{{ $t('common.attributes.delivery_date') }}</th>
@@ -14,7 +18,7 @@
       <td>{{ shippingEntry.reference }}</td>
       <td>
         {{
-        shippingEntry.current_state?.stock_state.label || $t('common.not_set')
+          shippingEntry.current_state?.stock_state.label || $t('common.not_set')
         }}
       </td>
       <td>{{ $d(shippingEntry.delivery_date, 'short') }}</td>
@@ -24,7 +28,9 @@
           :class="`btn btn-iconsolid btn-${
             shippingEntry.not_deletable ? 'success' : 'secondary'
           } btn-sm`"
-          :title="$t(`common.${shippingEntry.not_deletable ? 'show' : 'update'}`)"
+          :title="
+            $t(`common.${shippingEntry.not_deletable ? 'show' : 'update'}`)
+          "
           @click.prevent="
             $router.push({
               name: `shipping.form.${
@@ -52,27 +58,27 @@
 </template>
 
 <script>
-  import BaseDatatable from '/@/components/common/BaseDatatable.vue';
-  import BaseButton from '/@/components/common/BaseButton.vue';
-  export default {
-    name: 'ShippingEntryTable',
-    components: { BaseButton, BaseDatatable },
-    props: {
-      shippingEntries: {
-        type: Array,
-        required: true,
-      },
+import BaseDatatable from '/@/components/common/BaseDatatable.vue';
+import BaseButton from '/@/components/common/BaseButton.vue';
+export default {
+  name: 'ShippingEntryTable',
+  components: { BaseButton, BaseDatatable },
+  props: {
+    shippingEntries: {
+      type: Array,
+      required: true,
     },
-    methods: {
-      deleteShipping(shippingEntry) {
-        if (
-          confirm(this.$t('messages.confirmDelete', { label: shippingEntry.id }))
-        ) {
-          this.$store.dispatch('shipping/deleteShipping', shippingEntry.id);
-        }
-      },
+  },
+  methods: {
+    deleteShipping(shippingEntry) {
+      if (
+        confirm(this.$t('messages.confirmDelete', { label: shippingEntry.id }))
+      ) {
+        this.$store.dispatch('shipping/deleteShipping', shippingEntry.id);
+      }
     },
-  };
+  },
+};
 </script>
 
 <style scoped></style>

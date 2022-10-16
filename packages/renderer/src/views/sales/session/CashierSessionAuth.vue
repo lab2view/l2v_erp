@@ -106,6 +106,8 @@ export default {
   },
   methods: {
     submitCashierSessionForm() {
+      if (this.loading) return;
+
       this.loading = true;
       this.$store
         .dispatch('cashier_session/openSession', this.cashierSessionField)

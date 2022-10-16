@@ -1,7 +1,7 @@
 <template>
   <div class="card rounded shadow-sm">
     <div class="card-header p-3">
-      <h5>{{ $t('products.property.formCreateTitle') }}</h5>
+      <h6>{{ $t('products.property.formCreateTitle') }}</h6>
     </div>
     <form class="theme-form" @submit.prevent="submitProductPropertyForm">
       <div class="card-body pb-0 pt-2">
@@ -10,6 +10,8 @@
             :label="$t('common.attributes.property_id')"
             required
             :errors="errors?.property_id"
+            :with-refresh="true"
+            refresh-action-name="property/getPropertiesList"
             @btn-click="
               $router.push({
                 name: 'product.form.setting.property.form.property',
@@ -68,6 +70,7 @@ import store from '/@/store';
 import BasePropertyField from '/@/components/common/BasePropertyField.vue';
 
 export default {
+  name: 'ProductPropertyForm',
   components: {
     BasePropertyField,
     BaseFieldGroup,
@@ -115,7 +118,7 @@ export default {
       return this.properties.filter((property) => {
         return (
           this.product.product_properties.find(
-            (p) => p.property.id === property.id
+            (p) => p.property_id === property.id
           ) === undefined
         );
       });
@@ -139,6 +142,8 @@ export default {
   },
   methods: {
     submitProductPropertyForm() {
+      if (this.loading) return;
+
       this.loading = true;
       if (this.productPropertyForm.id)
         this.$store

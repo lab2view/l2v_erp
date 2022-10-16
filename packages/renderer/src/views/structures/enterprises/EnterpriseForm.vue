@@ -4,9 +4,10 @@
       <div class="card-header pb-0">
         <h5>{{ formTitle }}</h5>
         <span
-          >Using the <a href="#">card</a> component, you can extend the default
-          collapse behavior to create an accordion.</span
-        >
+          >{{ $t('common.fields.required_field_start') }}
+          <span class="text-danger">*</span>
+          {{ $t('common.fields.required_field_end') }}
+        </span>
       </div>
       <div class="card-body">
         <div class="mb-3">
@@ -245,7 +246,6 @@ export default {
         this.$store
           .dispatch('enterprise/addEnterprise', this.enterpriseForm)
           .then((enterprise) => {
-            console.log(enterprise);
             this.$router.push({
               name: 'enterprise.form.setting',
               params: { id: enterprise.id },

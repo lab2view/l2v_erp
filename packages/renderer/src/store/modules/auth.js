@@ -128,7 +128,12 @@ const actions = {
     });
   },
   logout({ commit }) {
-    return removeStorage().finally(commit('SET_CURRENT_USER', null));
+    return AuthService.logout().finally(() => {
+      return removeStorage().finally(() => {
+        commit('SET_GLOBAL_LOADING', true, { root: true });
+        commit('SET_CURRENT_USER', null);
+      });
+    });
   },
 };
 

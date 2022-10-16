@@ -1,14 +1,43 @@
 <template>
   <tr>
-    <td>{{ article.name }}</td>
+    <td>
+      {{
+        `${article.product?.code} / ${article.product?.reference} ${article.name}`
+      }}
+    </td>
     <td style="width: 120px">
       <BaseInput
         v-model.number="quantity"
         type="number"
         required
-        min="0"
+        min="1"
         :errors="errors?.[`stock_entry_lines.${index}.quantity`]"
       />
+    </td>
+    <td style="width: 210px">
+      <BaseInputGroup
+        v-model="buying_price"
+        type="number"
+        rel="any"
+        required
+        :errors="errors?.[`stock_entry_lines.${index}.buying_price`]"
+        min="0"
+        :placeholder="$t('common.attributes.amount')"
+      >
+        <template #prefix>
+          <span class="input-group-text pt-1 pb-1">{{ currency }}</span>
+        </template>
+      </BaseInputGroup>
+    </td>
+    <td v-if="showRemoveAction">
+      <BaseButton
+        type="button"
+        class="btn btn-iconsolid btn-danger btn-sm"
+        :title="$t('common.delete')"
+        @click.prevent="$emit('remove', stockEntryLine.article_id)"
+      >
+        <i class="fa fa-times" />
+      </BaseButton>
     </td>
   </tr>
 </template>
@@ -16,12 +45,20 @@
 <script>
 import { mapGetters } from 'vuex';
 import BaseInput from '/@/components/common/BaseInput.vue';
+import { priceTypeCode } from '/@/helpers/codes.js';
+import BaseInputGroup from '/@/components/common/BaseInputGroup.vue';
+import BaseButton from '/@/components/common/BaseButton.vue';
 
 export default {
-  components: { BaseInput },
+  name: 'ProductEntryLineFormField',
+  components: { BaseButton, BaseInputGroup, BaseInput },
   props: {
     stockEntryLine: {
       type: Object,
+      required: true,
+    },
+    updateFieldMethod: {
+      type: Function,
       required: true,
     },
     index: {
@@ -32,15 +69,15 @@ export default {
       type: [Array, Object],
       default: null,
     },
+    showRemoveAction: {
+      type: Boolean,
+      default: false,
+    },
   },
-  emits: ['update:modelValue'],
-  data() {
-    return {};
-  },
+  emits: ['remove'],
   computed: {
-    ...mapGetters('stock_entry', ['stockEntryIsCommand']),
+    ...mapGetters('workspace', ['currency']),
     ...mapGetters('article', ['getArticleById']),
-    ...mapGetters('provider', ['providers']),
     article() {
       return this.getArticleById(this.stockEntryLine.article_id);
     },
@@ -48,10 +85,40 @@ export default {
       get() {
         return this.stockEntryLine.quantity;
       },
-      set: function (value) {
-        return this.$emit('update:modelValue', value);
+      set(value) {
+        return this.updateFieldMethod(
+          {
+            ...this.stockEntryLine,
+            quantity: value,
+          },
+          this.index
+        );
       },
     },
+    buying_price: {
+      get() {
+        return this.stockEntryLine.buying_price;
+      },
+      set(value) {
+        return this.updateFieldMethod(
+          {
+            ...this.stockEntryLine,
+            buying_price: value,
+          },
+          this.index
+        );
+      },
+    },
+    articlePrice() {
+      return this.article?.prices?.find(
+        (p) => p.price_type.code === priceTypeCode.buy
+      );
+    },
+  },
+  created() {
+    if (this.articlePrice) {
+      this.buying_price = this.articlePrice.value;
+    }
   },
 };
 </script>

@@ -5,6 +5,8 @@
     :submit-store-action="addStockExitLineFields"
     :can-cancel="false"
     confirm-btn-label="common.add_to_list"
+    :for-exit="true"
+    :distribution-id="stockExit?.enterprise_id"
   >
     <div class="card-header p-3">
       <div class="row align-items-center">
@@ -161,6 +163,8 @@ export default {
     },
 
     submitExitLinesForm() {
+      if (this.loading) return;
+
       if (this.stock_exit_line_fields.length) {
         this.loading = true;
         return this.$store

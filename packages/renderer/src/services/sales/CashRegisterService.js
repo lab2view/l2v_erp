@@ -13,15 +13,8 @@ export default {
     return axios.get(`/cash-registers/${id}`);
   },
 
-  updateCashRegister(cashRegister, id) {
-    return axios.put(`/cash-registers/${id}`, cashRegister);
-  },
-
-  updateStatusCashRegister(cashRegister, id) {
-    if (cashRegister.disabled_at === null) {
-      cashRegister.disabled_at = new Date();
-      return axios.put(`/cash-registers/${id}`, cashRegister);
-    }
+  updateCashRegister(cashRegister) {
+    return axios.put(`/cash-registers/${cashRegister.id}`, cashRegister);
   },
 
   deleteCashRegister(id) {

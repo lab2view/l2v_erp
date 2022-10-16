@@ -16,7 +16,7 @@ const getters = {
   getSalesHash: (state) => state.hash ?? null,
   getSaleDiscountSelectable: (state, getters) => (customer_id) =>
     getters.discounts.filter((d) => {
-      if (d.id <= 9) return true;
+      if (d.discount_type_id === 1) return true;
       else
         return (
           d.discount_customers.find((dc) => dc.customer_id === customer_id) !==

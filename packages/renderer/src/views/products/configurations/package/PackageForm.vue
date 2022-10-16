@@ -1,25 +1,22 @@
 <template>
   <BaseFormModal :title="title" :submit-form="submitPackageForm">
     <div class="mb-3">
-      <label class="form-label fw-bold" for="label">{{
-        $t('common.attributes.label')
-      }}</label>
-      <input
-        id="label"
+      <BaseInput
         v-model="packageForm.label"
-        class="form-control"
+        :label="$t('common.attributes.label')"
         type="text"
         placeholder="Palette, Carton, ..."
+        :errors="errors?.label"
         required
       />
-      <div v-if="errors.label" class="invalid-feedback" style="display: inline">
-        {{ errors.label[0] }}
-      </div>
     </div>
     <template #footer>
-      <button class="btn btn-primary" type="submit" :title="$t('common.save')">
-        {{ $t('common.save') }}
-      </button>
+      <BaseButton
+        class="btn btn-primary col-auto"
+        :text="$t('common.save')"
+        icon="fa fa-save"
+        :loading="loading"
+      />
     </template>
   </BaseFormModal>
 </template>
@@ -27,13 +24,16 @@
 <script>
 import BaseFormModal from '../../../../components/common/BaseFormModal.vue';
 import { mapGetters } from 'vuex';
+import BaseButton from '/@/components/common/BaseButton.vue';
+import BaseInput from '/@/components/common/BaseInput.vue';
 
 export default {
   name: 'PackageForm',
-  components: { BaseFormModal },
+  components: { BaseInput, BaseButton, BaseFormModal },
   data() {
     return {
       errors: [],
+      loading: false,
       packageForm: {
         id: null,
         label: null,
@@ -58,12 +58,16 @@ export default {
   },
   methods: {
     submitPackageForm() {
+      if (this.loading) return;
+
+      this.loading = true;
       if (this.packageModel)
         this.$store
           .dispatch('package/updatePackage', this.packageForm)
           .then(() => this.$router.back())
           .catch((error) => {
             this.errors = error.response?.data?.errors;
+            this.loading = false;
             console.log(error);
           });
       else
@@ -72,6 +76,7 @@ export default {
           .then(() => this.$router.back())
           .catch((error) => {
             this.errors = error.response?.data?.errors;
+            this.loading = false;
             console.log(error);
           });
     },

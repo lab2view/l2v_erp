@@ -49,7 +49,7 @@
         :placeholder="$t('common.attributes.amount')"
       >
         <template #prefix>
-          <span class="input-group-text pt-1 pb-1">XAF</span>
+          <span class="input-group-text pt-1 pb-1">{{ currency }}</span>
         </template>
       </BaseInputGroup>
     </td>
@@ -96,6 +96,7 @@ export default {
   },
   emits: ['remove'],
   computed: {
+    ...mapGetters('workspace', ['currency']),
     ...mapGetters('stock_entry', ['stockEntryIsCommand']),
     ...mapGetters('article', ['getArticleById']),
     ...mapGetters('provider', ['providers']),

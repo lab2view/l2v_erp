@@ -1,7 +1,7 @@
 <template>
   <tr>
     <td>{{ article.package.label }}</td>
-    <td>
+    <td class="text-center">
       <BaseUpdateNumberForm
         v-if="!article.not_deletable"
         :quantity="article.quantity"
@@ -47,6 +47,7 @@
 import BaseButton from '../common/BaseButton.vue';
 import BaseUpdateNumberForm from '/@/components/common/BaseUpdateNumberForm.vue';
 export default {
+  name: 'ProductArticleLine',
   components: { BaseUpdateNumberForm, BaseButton },
   props: {
     article: {

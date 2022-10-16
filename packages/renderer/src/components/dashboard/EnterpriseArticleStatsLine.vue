@@ -16,6 +16,7 @@
         "
       />
     </td>
+    <td v-else class="text-end">{{ $t('common.headers.not_available') }}</td>
   </tr>
 </template>
 
@@ -31,7 +32,10 @@ export default {
   computed: {
     ...mapGetters('auth', ['canShowMenuItem']),
     canShowEnterpriseArticleLineStats() {
-      return this.canShowMenuItem('Enterprise.viewAnyArticleLineStats');
+      return (
+        this.canShowMenuItem('Enterprise.viewAnyArticleLineStats') &&
+        this.totalStock > 0
+      );
     },
   },
 };

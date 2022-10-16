@@ -4,8 +4,9 @@
       <div class="card-header pb-0">
         <h5>{{ formTitle }}</h5>
         <span
-          >Using the <a href="#">card</a> component, you can extend the default
-          collapse behavior to create an accordion.</span
+          >{{ $t('common.fields.required_field_start') }}
+          <span class="text-danger">*</span>
+          {{ $t('common.fields.required_field_end') }}</span
         >
       </div>
       <div class="card-body">
@@ -163,6 +164,7 @@ import { mapGetters } from 'vuex';
 import store from '/@/store';
 
 export default {
+  name: 'DiscountFormDesc',
   components: { BaseButton, BaseDatetime, BaseSelect },
   beforeRouteEnter(routeTo, routeFrom, next) {
     store

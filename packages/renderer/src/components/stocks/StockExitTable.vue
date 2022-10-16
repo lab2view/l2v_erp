@@ -1,5 +1,9 @@
 <template>
-  <BaseDatatable :tfoot="false" :total="stockExits.length">
+  <BaseDatatable
+    v-if="!$store.state.globalLoading"
+    :tfoot="false"
+    :total="stockExits.length"
+  >
     <template #headers>
       <th>#</th>
       <th>{{ $t('common.attributes.stock_type') }}</th>

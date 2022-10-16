@@ -26,7 +26,7 @@
       },
     }"
   >
-    <option v-if="!haveNullValue" disabled selected value="">
+    <option v-if="!haveNullValue" :disabled="required" selected value="">
       {{ placeholder ?? $t('common.choose') }}
     </option>
     <option
@@ -47,6 +47,7 @@ import VSelect from 'vue-select';
 import 'vue-select/dist/vue-select.css';
 
 export default {
+  name: 'BaseSelect',
   components: { VSelect },
   props: {
     label: {

@@ -7,7 +7,7 @@
       refresh-action-name="product_type/getProductTypesList"
     />
     <div class="card-body">
-      <BaseDatatable :tfoot="false">
+      <BaseDatatable v-if="!$store.state.globalLoading" :tfoot="false">
         <template #headers>
           <th>#</th>
           <th>{{ $t('common.attributes.product_family') }}</th>

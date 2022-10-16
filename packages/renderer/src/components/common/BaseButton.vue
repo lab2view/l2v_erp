@@ -1,5 +1,5 @@
 <template>
-  <button v-bind="$attrs">
+  <button v-bind="$attrs" :disabled="loading">
     <i v-if="icon" :class="`${icon} ${iconClass}`" />
     <slot>
       {{ text }}

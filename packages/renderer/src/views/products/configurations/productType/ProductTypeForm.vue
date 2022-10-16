@@ -1,126 +1,93 @@
 <template>
   <BaseFormModal :title="title" :submit-form="submitProductTypeForm">
     <div class="mb-3">
-      <label class="form-label fw-bold" for="product_family_id">{{
-        $t('common.attributes.product_family')
-      }}</label>
-      <select
-        id="product_family_id"
-        v-model="productTypeForm.product_family_id"
-        class="form-control"
+      <BaseFieldGroup
+        :with-refresh="true"
+        :label="$t('common.attributes.product_family')"
+        refresh-action-name="product_family/getProductFamiliesList"
+        :with-append="false"
         required
+        :errors="errors?.product_family_id"
       >
-        <option :value="null" disabled>{{ $t('common.choose') }}</option>
-        <option
-          v-for="productFamily in productFamilies"
-          :key="productFamily.id"
-          :value="productFamily.id"
-        >
-          {{ productFamily.label }}
-        </option>
-      </select>
-      <div
-        v-if="errors.product_family_id"
-        class="invalid-feedback"
-        style="display: inline"
-      >
-        {{ errors.product_family_id[0] }}
-      </div>
+        <BaseSelect
+          v-model.number="productTypeForm.product_family_id"
+          :options="productFamilies"
+          key-label="label"
+          required
+          key-value="id"
+        />
+      </BaseFieldGroup>
     </div>
     <div class="mb-3">
-      <label class="form-label fw-bold" for="label">{{
-        $t('common.attributes.label')
-      }}</label>
-      <input
-        id="label"
+      <BaseInput
         v-model="productTypeForm.label"
-        class="form-control"
+        :label="$t('common.attributes.label')"
         type="text"
-        placeholder="Pagne, Bijoux, ..."
+        placeholder="Pagne, Smartphone, ..."
+        :errors="errors?.label"
         required
       />
-      <div v-if="errors.label" class="invalid-feedback" style="display: inline">
-        {{ errors.label[0] }}
-      </div>
     </div>
     <div class="mb-3">
-      <label class="form-label fw-bold" for="description">{{
-        $t('common.attributes.description')
-      }}</label>
-      <textarea
-        id="description"
+      <BaseTextArea
         v-model="productTypeForm.description"
-        class="form-control"
-        placeholder="Chaussures de marque"
+        :label="$t('common.attributes.description')"
+        type="text"
+        placeholder="Description... "
+        :errors="errors?.description"
         required
-      ></textarea>
-      <div
-        v-if="errors.description"
-        class="invalid-feedback"
-        style="display: inline"
-      >
-        {{ errors.description[0] }}
-      </div>
+      />
     </div>
     <div class="mb-3">
-      <label class="form-label fw-bold" for="min_stock">{{
+      <label class="form-label fw-bold">{{
         $t('common.attributes.stock_config')
       }}</label>
       <div class="row">
         <div class="col-3">
-          <label class="form-label fw-bold" for="min_stock">{{
-            $t('common.attributes.min')
-          }}</label>
-          <input
-            id="min_stock"
+          <BaseInput
             v-model="productTypeForm.min_stock"
-            class="form-control"
-            type="text"
+            :label="$t('common.attributes.min')"
+            type="number"
             placeholder="5"
+            :errors="errors?.min_stock"
           />
         </div>
         <div class="col-3">
-          <label class="form-label fw-bold" for="max_stock">{{
-            $t('common.attributes.max')
-          }}</label>
-          <input
-            id="max_stock"
+          <BaseInput
             v-model="productTypeForm.max_stock"
-            class="form-control"
-            type="text"
-            placeholder="10"
+            :label="$t('common.attributes.max')"
+            type="number"
+            placeholder="100"
+            :errors="errors?.max_stock"
           />
         </div>
         <div class="col-3">
-          <label class="form-label fw-bold" for="critical_stock">{{
-            $t('common.attributes.critical')
-          }}</label>
-          <input
-            id="critical_stock"
+          <BaseInput
             v-model="productTypeForm.critical_stock"
-            class="form-control"
-            type="text"
+            :label="$t('common.attributes.critical')"
+            type="number"
             placeholder="1"
+            :errors="errors?.critical_stock"
           />
         </div>
         <div class="col-3">
-          <label class="form-label fw-bold" for="alert_stock">{{
-            $t('common.attributes.alert')
-          }}</label>
-          <input
-            id="alert_stock"
+          <BaseInput
             v-model="productTypeForm.alert_stock"
-            class="form-control"
-            type="text"
+            :label="$t('common.attributes.alert')"
+            type="number"
             placeholder="3"
+            :errors="errors?.alert_stock"
           />
         </div>
       </div>
     </div>
     <template #footer>
-      <button class="btn btn-primary" type="submit" :title="$t('common.save')">
-        {{ $t('common.save') }}
-      </button>
+      <BaseButton
+        class="btn btn-primary col-auto"
+        :text="$t('common.save')"
+        icon="fa fa-save"
+        :loading="loading"
+      />
     </template>
   </BaseFormModal>
 </template>
@@ -129,9 +96,22 @@
 import BaseFormModal from '../../../../components/common/BaseFormModal.vue';
 import { mapGetters } from 'vuex';
 import store from '../../../../store';
+import BaseButton from '/@/components/common/BaseButton.vue';
+import BaseFieldGroup from '/@/components/common/BaseFieldGroup.vue';
+import BaseSelect from '/@/components/common/BaseSelect.vue';
+import BaseInput from '/@/components/common/BaseInput.vue';
+import BaseTextArea from '/@/components/common/BaseTextArea.vue';
 
 export default {
-  components: { BaseFormModal },
+  name: 'ProductTypeForm',
+  components: {
+    BaseTextArea,
+    BaseInput,
+    BaseSelect,
+    BaseFieldGroup,
+    BaseButton,
+    BaseFormModal,
+  },
   beforeRouteEnter(routeTo, routeFrom, next) {
     store
       .dispatch('product_family/getProductFamiliesList', {
@@ -148,6 +128,7 @@ export default {
   },
   data() {
     return {
+      loading: false,
       errors: [],
       productTypeForm: {
         id: null,
@@ -155,9 +136,9 @@ export default {
         label: null,
         code: null,
         min_stock: 5,
-        max_stock: 10,
+        max_stock: 100,
         critical_stock: 1,
-        alert_stock: 4,
+        alert_stock: 3,
       },
     };
   },
@@ -172,6 +153,9 @@ export default {
   },
   created() {
     if (this.productType) this.productTypeForm = this.productType;
+    else
+      this.productTypeForm.product_family_id =
+        this.$route.query.product_family_id ?? null;
   },
   beforeUnmount() {
     if (this.productType)
@@ -179,12 +163,16 @@ export default {
   },
   methods: {
     submitProductTypeForm() {
+      if (this.loading) return;
+
+      this.loading = true;
       if (this.productType)
         this.$store
           .dispatch('product_type/updateProductType', this.productTypeForm)
           .then(() => this.$router.back())
           .catch((error) => {
             this.errors = error.response?.data?.errors;
+            this.loading = false;
             console.log(error);
           });
       else
@@ -193,6 +181,7 @@ export default {
           .then(() => this.$router.back())
           .catch((error) => {
             this.errors = error.response?.data?.errors;
+            this.loading = false;
             console.log(error);
           });
     },

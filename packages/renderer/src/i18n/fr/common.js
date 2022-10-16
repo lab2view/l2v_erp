@@ -90,6 +90,13 @@ export default {
   not_specify: 'Non specifie',
   unlock: 'Deverouiller',
   refresh: 'Actualiser',
+  provision: 'Approvisionner',
+  open_store: 'Ouvrir la boutique',
+
+  la: 'la',
+  le: 'le',
+
+  field_for_specific: 'Specifier {liaison} {element} ?',
 
   sale: {
     list: 'Liste des ventes',
@@ -98,6 +105,9 @@ export default {
   },
 
   fields: {
+    required_field_start: 'Les champs marques par',
+    required_field_end:
+      'sont obligatoires; Vueillez renseigner correctement le formulaire et valider par le bouton enregister.',
     modules: 'Modules',
     module: 'Module',
     text: 'Chaine de caractere',
@@ -145,7 +155,7 @@ export default {
     gender: 'Sexe',
     products: 'Produits',
     disable_date: 'Desactive le',
-    stock_variety: 'Variete du stocks',
+    stock_variety: 'Specifier le type de mouvement ?',
     calling_code: "Code d'appel",
     iso: 'Iso',
     iso_3166_2: 'iso_3166_2',
@@ -174,7 +184,8 @@ export default {
     weight: 'Quantite par unite',
     type: 'Type',
     cashier: 'Caissier',
-    cashier_group: 'Groupe de caissiers',
+    cashier_group: 'Groupe de caissers',
+    group: 'Groupe',
     enterprise_receiver: 'Entreprise de destination',
     receiver_structure: 'Structure cible',
     structure: 'Structure',
@@ -246,7 +257,7 @@ export default {
     cash_register_id: 'Caisse',
     sub_price: 'SOUS TOTAL',
     total_price: 'PRIX TOTAL',
-    discount: 'REMISE',
+    discount: 'Remise',
     receive_amount: 'MONTANT RECU',
     customer_id: 'Client',
     total_article: 'TOTAL ARTICLES',
@@ -264,6 +275,7 @@ export default {
     quantity_received: 'Qté Livrée',
     delivery_date: 'Date de livraison',
     inventory_qty: 'Quantite disponible',
+    sale_type: 'Type de vente',
   },
 
   gender: {
@@ -277,10 +289,17 @@ export default {
     stock_in: 'En Stock',
     enterprise_id: 'Structures',
     provider: 'Provenance',
-    total_price: 'Prix total',
+    total_price: 'Prix de vente',
     status: 'Statut',
     usage: 'Utilisation',
     search_result: 'Resultat de la recherche ',
+    not_available: 'Indisponile',
+    win_amount: 'Marge',
+    sub_amount: 'Prix Articles',
+    quantity: 'Qte',
+    total: 'Total',
+    total_percent: 'Moyenne de la vente',
+    price: 'Prix',
   },
 
   errors: {

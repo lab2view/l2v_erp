@@ -13,6 +13,10 @@ export default {
     return axios.get(`/inventories/${id}`);
   },
 
+  processToInventoryStockBalancing(id) {
+    return axios.get(`/inventories/${id}/process-to-balancing`);
+  },
+
   updateInventory(inventory, id) {
     return axios.put(`/inventories/${id}`, inventory);
   },

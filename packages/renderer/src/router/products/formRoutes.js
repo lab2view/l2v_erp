@@ -7,6 +7,32 @@ export default [
       code: 'Product.form.description',
       icon: 'fa fa-info',
     },
+    children: [
+      {
+        path: 'add-product-family',
+        name: 'Product.form.description.productFamily',
+        component: () =>
+          import(
+            '/@/views/products/configurations/productFamily/ProductFamilyForm.vue'
+          ),
+      },
+      {
+        path: 'add-product-type',
+        name: 'Product.form.description.productType',
+        component: () =>
+          import(
+            '/@/views/products/configurations/productType/ProductTypeForm.vue'
+          ),
+      },
+      {
+        path: 'add-product-unit',
+        name: 'Product.form.description.productUnit',
+        component: () =>
+          import(
+            '/@/views/products/configurations/productUnit/ProductUnitForm.vue'
+          ),
+      },
+    ],
   },
   {
     path: 'settings',

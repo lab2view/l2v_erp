@@ -18,7 +18,7 @@
       </tbody>
       <tfoot v-if="tfoot">
         <tr>
-          <slot name="headers" />
+          <slot name="footers" />
         </tr>
       </tfoot>
     </table>
@@ -28,6 +28,7 @@
 <script>
 import BaseEmptyModelList from './BaseEmptyModelList.vue';
 export default {
+  name: 'BaseDatatable',
   components: { BaseEmptyModelList },
   props: {
     tfoot: {

@@ -7,7 +7,11 @@
       refresh-action-name="tax/getTaxesList"
     />
     <div class="card-body">
-      <BaseDatatable :tfoot="false" :total="taxes.length">
+      <BaseDatatable
+        v-if="!$store.state.globalLoading"
+        :tfoot="false"
+        :total="taxes.length"
+      >
         <template #headers>
           <th>#</th>
           <th>{{ $t('common.attributes.label') }}</th>

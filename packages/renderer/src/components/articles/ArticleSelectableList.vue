@@ -193,6 +193,14 @@ export default {
       type: String,
       default: 'common.save',
     },
+    forExit: {
+      type: Boolean,
+      default: false,
+    },
+    distributionId: {
+      type: [String, Number],
+      default: null,
+    },
   },
   data() {
     return {
@@ -225,7 +233,11 @@ export default {
       return [{ name: this.$t('common.all'), id: '' }, ...this.products];
     },
     selectableArticles() {
-      return this.searchArticleByCriteria(this.articleFilter).filter(
+      return this.searchArticleByCriteria({
+        ...this.articleFilter,
+        distribution_id: this.distributionId,
+        haveStock: this.forExit,
+      }).filter(
         (art) =>
           this.usedArticles.find((ua) => ua.article_id === art.id) === undefined
       );
@@ -264,6 +276,8 @@ export default {
   },
   methods: {
     submitSelectedForm() {
+      if (this.loading) return;
+
       if (this.selected.length > 0) {
         this.loading = true;
         this.submitStoreAction(this.selected)
