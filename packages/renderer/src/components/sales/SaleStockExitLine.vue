@@ -6,7 +6,7 @@
     <td>{{ articleDiscount }}</td>
     <td>{{ totalAmount }}</td>
     <td>{{ totalMarge }}</td>
-    <td>{{ margePercent }}</td>
+    <td>{{ margePercent.toFixed(2) }}</td>
   </tr>
 </template>
 
@@ -47,7 +47,7 @@ export default {
       );
     },
     margePercent() {
-      return (this.totalMarge * 100) / this.buyPrice;
+      return (this.totalMarge * 100) / this.totalAmount;
     },
   },
 };

@@ -88,9 +88,8 @@
       <th>{{ `${saleTotalSaleAmount} ${currency}` }}</th>
       <th colspan="3">
         {{ `${saleTotalWinAmount} ${currency}` }}
-        <i class="f-w-400 m-r-5">Marge moyenne</i>
         <label :class="`font-${saleTotalWinAmount > 0 ? 'primary' : 'danger'}`">
-          {{ `${saleTotalWinAmountPercent} %` }}
+          ({{ `${saleTotalWinAmountPercent} %` }})
         </label>
       </th>
     </template>
@@ -128,8 +127,16 @@ export default {
     saleTotalWinAmount() {
       return _.sumBy(this.sales, 'sale_win_amount').toFixed(2);
     },
+    saleTotalAmountAfterDiscount() {
+      return this.saleTotalSupAmount - this.saleTotalDiscount;
+    },
     saleTotalWinAmountPercent() {
-      return _.sumBy(this.sales, 'sale_win_amount_percent').toFixed(2);
+      return this.saleTotalAmountAfterDiscount > 0
+        ? (
+            (this.saleTotalWinAmount * 100) /
+            this.saleTotalAmountAfterDiscount
+          ).toFixed(2)
+        : 100;
     },
     saleTotalQuantities() {
       let quantities = [];

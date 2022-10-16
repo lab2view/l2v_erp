@@ -28,6 +28,7 @@
               class="btn btn-outline-success btn-sm m-r-5 float-end"
               :text="$t('common.apply')"
               @click.prevent="searchDiscount"
+              :loading="loading"
             />
           </div>
         </div>
@@ -70,6 +71,9 @@
             </table>
           </div>
           <div class="card browser-widget pb-0 mb-0">
+            <div class="alert alert-secondary p-2" v-if="haveCurrentDiscount">
+              {{ $t('common.sale.discount_note') }}
+            </div>
             <div class="media card-body">
               <div class="media-body align-self-center">
                 <div>
@@ -122,6 +126,7 @@ import BaseInput from '/@/components/common/BaseInput.vue';
 import { mapGetters } from 'vuex';
 import { sumBy } from 'lodash';
 import store from '/@/store/index.js';
+import { notify } from '/@/helpers/notify.js';
 export default {
   name: 'SaleDiscountModel',
   components: { BaseInput, BaseSelect, BaseButton, BaseModal },
@@ -141,6 +146,7 @@ export default {
   },
   data() {
     return {
+      loading: false,
       client_discount_id: null,
       discountCode: null,
       discount: null,
@@ -164,7 +170,11 @@ export default {
       );
     },
     canSearchDiscount() {
-      return !!this.client_discount_id || !!this.discountCode;
+      return (
+        !!this.client_discount_id ||
+        !!this.discountCode ||
+        !this.haveCurrentDiscount
+      );
     },
     discountArticles() {
       if (this.discount) {
@@ -215,6 +225,11 @@ export default {
           : this.discountArticles.length === 0
         : true;
     },
+    haveCurrentDiscount() {
+      return (
+        this.currentSaleRequest.discount || this.currentSaleRequest.discount_id
+      );
+    },
   },
   created() {
     if (this.currentSaleRequest.discount_id)
@@ -232,8 +247,16 @@ export default {
           ) ?? null;
       }
       if (!this.discount && this.discountCode) {
-        this.discount = this.getDiscountByCode(this.discountCode) ?? null;
-        if (this.discount == null) this.discountCode = null;
+        this.loading = true;
+        this.$store
+          .dispatch('discount_code/getDiscountCodeByCode', this.discountCode)
+          .then((discountCode) => {
+            if (discountCode.is_active)
+              this.discount = this.getDiscountByCode(this.discountCode) ?? null;
+            else notify('Code de reduction invalid', 'Erreur', 'danger');
+            if (this.discount == null) this.discountCode = null;
+          })
+          .finally(() => (this.loading = false));
       }
     },
     cancelAction() {

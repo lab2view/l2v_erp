@@ -5,6 +5,10 @@ export default {
     return axios.post(`/discounts/codes/list?page=${page}`, field);
   },
 
+  getDiscountCodeByCode(code) {
+    return axios.get(`/discounts/codes/${code}/by-codes`);
+  },
+
   generateCode(fields) {
     return axios.post('/discounts/codes/generate', fields);
   },
