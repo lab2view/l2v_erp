@@ -10,7 +10,9 @@
                 <form
                   class="theme-form login-form"
                   @submit.prevent="
-                    haveValidOtp ? handleResetPassword() : handleResetPasswordForm()
+                    haveValidOtp
+                      ? handleResetPassword()
+                      : handleResetPasswordForm()
                   "
                 >
                   <h4 class="mb-3">Reset Your Password</h4>
@@ -70,7 +72,7 @@
                       <label>New Password</label>
                       <div class="input-group">
                         <span class="input-group-text"
-                        ><i class="icon-lock"></i
+                          ><i class="icon-lock"></i
                         ></span>
                         <BaseInput
                           v-model="inputField.password"
@@ -87,7 +89,7 @@
                       <label>Retype Password</label>
                       <div class="input-group">
                         <span class="input-group-text"
-                        ><i class="icon-lock"></i
+                          ><i class="icon-lock"></i
                         ></span>
                         <BaseInput
                           v-model="inputField.password_confirmation"
@@ -108,11 +110,11 @@
 
                   <p>
                     Already have an password?<a
-                    class="ms-2"
-                    href="#"
-                    @click.prevent="$router.push({ name: 'login' })"
-                  >Sign in</a
-                  >
+                      class="ms-2"
+                      href="#"
+                      @click.prevent="$router.push({ name: 'login' })"
+                      >Sign in</a
+                    >
                   </p>
                 </form>
               </div>
@@ -128,11 +130,11 @@
 <script>
 import BaseInput from '/@/components/common/BaseInput.vue';
 import BaseButton from '/@/components/common/BaseButton.vue';
-import {mapGetters, mapState} from 'vuex';
+import { mapGetters, mapState } from 'vuex';
 
 export default {
   name: 'ForgetPassword',
-  components: {BaseButton, BaseInput},
+  components: { BaseButton, BaseInput },
 
   data() {
     return {
@@ -156,11 +158,14 @@ export default {
       return !this.haveValidOtp && !!this.requestId;
     },
     isPhoneField() {
-      return !this.haveValidOtp && !this.isOtpField
-    }
+      return !this.haveValidOtp && !this.isOtpField;
+    },
   },
   methods: {
     handleResetPasswordForm() {
+      if (this.loading) return;
+
+      this.loading = true;
       if (!this.isOtpField) {
         return this.$store
           .dispatch('auth/sendResetPasswordCode', '' + this.inputField.phone)
@@ -184,6 +189,9 @@ export default {
     },
 
     handleResetPassword() {
+      if (this.loading) return;
+
+      this.loading = true;
       this.$store
         .dispatch('auth/resetPassword', {
           password: this.inputField.password,

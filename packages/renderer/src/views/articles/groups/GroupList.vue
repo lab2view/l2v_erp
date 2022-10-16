@@ -11,7 +11,11 @@
         refresh-action-name="article_group/getArticleGroupList"
       />
       <div class="card-body">
-        <BaseDatatable :tfoot="false" :total="articleGroups.length">
+        <BaseDatatable
+          v-if="!$store.state.globalLoading"
+          :tfoot="false"
+          :total="articleGroups.length"
+        >
           <template #headers>
             <th>#</th>
             <th>{{ $t('common.attributes.label') }}</th>

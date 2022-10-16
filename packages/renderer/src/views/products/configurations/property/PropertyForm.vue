@@ -7,37 +7,65 @@
     <div class="row">
       <div class="col-md">
         <div v-if="!product" class="mb-3">
-          <BaseSelect
-            v-model.number="propertyForm.product_family_id"
+          <BaseFieldGroup
+            :with-refresh="true"
+            :with-append="false"
             :label="$t('common.attributes.product_family')"
-            :options="productFamilies"
-            key-label="label"
-            key-value="id"
-            required
-            :errors="errors?.product_family_id"
-          />
+            refresh-action-name="product_family/getProductFamiliesList"
+          >
+            <BaseSelect
+              v-model.number="propertyForm.product_family_id"
+              :options="productFamilies"
+              :placeholder="
+                $t('common.field_for_specific', {
+                  liaison: $t('common.la'),
+                  element: $t('common.attributes.product_family'),
+                })
+              "
+              key-label="label"
+              key-value="id"
+              :errors="errors?.product_family_id"
+            />
+          </BaseFieldGroup>
         </div>
         <div v-if="!product" class="mb-3">
-          <BaseSelect
-            v-model.number="propertyForm.product_type_id"
+          <BaseFieldGroup
+            :with-refresh="true"
+            :with-append="false"
             :label="$t('common.attributes.product_type')"
-            :options="productTypes"
-            key-label="label"
-            key-value="id"
-            required
-            :errors="errors?.product_type_id"
-          />
+            refresh-action-name="product_type/getProductTypesList"
+          >
+            <BaseSelect
+              v-model.number="propertyForm.product_type_id"
+              :placeholder="
+                $t('common.field_for_specific', {
+                  liaison: $t('common.le'),
+                  element: $t('common.attributes.product_type'),
+                })
+              "
+              :options="productTypes"
+              key-label="label"
+              key-value="id"
+              :errors="errors?.product_type_id"
+            />
+          </BaseFieldGroup>
         </div>
         <div class="mb-3">
-          <BaseSelect
-            v-model.number="propertyForm.property_type_id"
+          <BaseFieldGroup
+            :with-refresh="true"
+            :with-append="false"
             :label="$t('common.attributes.property_type')"
-            :options="propertyTypes"
-            key-label="label"
-            key-value="id"
-            required
-            :errors="errors?.property_type_id"
-          />
+            refresh-action-name="property/getPropertyTypes"
+          >
+            <BaseSelect
+              v-model.number="propertyForm.property_type_id"
+              :options="propertyTypes"
+              key-label="label"
+              key-value="id"
+              required
+              :errors="errors?.property_type_id"
+            />
+          </BaseFieldGroup>
         </div>
         <div class="mb-3">
           <BaseInput
@@ -54,9 +82,12 @@
       </div>
     </div>
     <template #footer>
-      <button class="btn btn-primary" type="submit" :title="$t('common.save')">
-        {{ $t('common.save') }}
-      </button>
+      <BaseButton
+        class="btn btn-primary col-auto"
+        :text="$t('common.save')"
+        icon="fa fa-save"
+        :loading="loading"
+      />
     </template>
   </BaseFormModal>
 </template>
@@ -68,9 +99,19 @@ import store from '../../../../store';
 import BaseSelect from '../../../../components/common/BaseSelect.vue';
 import BaseInput from '../../../../components/common/BaseInput.vue';
 import PropertyValueList from '/@/components/products/PropertyValueList.vue';
+import BaseButton from '/@/components/common/BaseButton.vue';
+import BaseFieldGroup from '/@/components/common/BaseFieldGroup.vue';
 
 export default {
-  components: { PropertyValueList, BaseInput, BaseSelect, BaseFormModal },
+  name: 'PropertyForm',
+  components: {
+    BaseFieldGroup,
+    BaseButton,
+    PropertyValueList,
+    BaseInput,
+    BaseSelect,
+    BaseFormModal,
+  },
   beforeRouteEnter(routeTo, routeFrom, next) {
     Promise.all([
       store.dispatch('product_family/getProductFamiliesList', {
@@ -95,6 +136,7 @@ export default {
     return {
       errors: [],
       error: null,
+      loading: false,
       propertyForm: {
         id: null,
         property_type_id: null,
@@ -159,7 +201,10 @@ export default {
   },
   methods: {
     submitPropertyForm() {
-      if (this.property)
+      if (this.loading) return;
+
+      if (this.property) {
+        this.loading = true;
         this.$store
           .dispatch('property/updateProperty', this.propertyForm)
           .then((property) => {
@@ -204,16 +249,18 @@ export default {
                   });
               }
             }
+            this.$router.back();
           })
           .catch((error) => {
             this.errors = error.response?.data?.errors;
             console.log(error);
           });
-      else {
+      } else {
         let canProcess = this.propertyType?.is_list
           ? this.propertyValues.length
           : true;
-        if (canProcess)
+        if (canProcess) {
+          this.loading = true;
           this.$store
             .dispatch('property/addProperty', this.propertyForm)
             .then((property) => {
@@ -233,7 +280,7 @@ export default {
               this.errors = error.response?.data?.errors;
               console.log(error);
             });
-        else this.error = 'Veuillez entrez les elemeents de la liste';
+        } else this.error = 'Veuillez entrez les elemeents de la liste';
       }
     },
   },

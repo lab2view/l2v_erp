@@ -23,6 +23,7 @@ VueViewer.setDefaults({
 });
 
 export default defineComponent({
+  name: 'BaseGallery',
   directives: {
     viewer: directive({
       debug: true,

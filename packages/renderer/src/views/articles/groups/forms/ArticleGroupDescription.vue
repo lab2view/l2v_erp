@@ -60,6 +60,7 @@
             class="btn btn-primary col-auto"
             :text="$t('common.save')"
             icon="fa fa-save"
+            :loading="loading"
           />
         </div>
       </div>
@@ -86,6 +87,7 @@ export default {
   data() {
     return {
       errors: [],
+      loading: false,
       is_edited: false,
       articleGroupForm: {
         label: null,
@@ -125,6 +127,9 @@ export default {
       )}`;
     },
     submitArticleGroupForm() {
+      if (this.loading) return;
+
+      this.loading = true;
       if (this.haveArticleGroup) {
         if (this.is_edited)
           this.$store
@@ -137,6 +142,7 @@ export default {
             )
             .catch((error) => {
               this.errors = error.response?.data?.errors;
+              this.loading = false;
               console.log(error);
             });
         else
@@ -155,6 +161,7 @@ export default {
           )
           .catch((error) => {
             this.errors = error.response?.data?.errors;
+            this.loading = false;
             console.log(error);
           });
     },

@@ -43,7 +43,7 @@
             {{ composition.lot }}
           </div>
           <div class="ribbon ribbon-info ribbon-right">
-            {{ date(composition.created_at) }}
+            {{ $d(composition.created_at, 'short') }}
           </div>
           <CompositionListLine
             v-for="item in composition.items"

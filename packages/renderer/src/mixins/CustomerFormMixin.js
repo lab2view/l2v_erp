@@ -34,6 +34,8 @@ export default {
   },
   methods: {
     submitCustomerForm() {
+      if (this.loading) return;
+
       this.loading = true;
       this.errors = [];
       if (this.customer) {
@@ -46,7 +48,6 @@ export default {
           })
           .finally(() => (this.loading = false));
       } else {
-        console.log(this.customerForm);
         this.$store
           .dispatch('customer/addCustomer', this.customerForm)
           .then(() => this.$router.back())

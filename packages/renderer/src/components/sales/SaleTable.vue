@@ -1,40 +1,99 @@
 <template>
-  <BaseDatatable :tfoot="false" :total="sales.length">
+  <BaseDatatable
+    v-if="!$store.state.globalLoading"
+    :tfoot="true"
+    :total="sales.length"
+  >
     <template #headers>
       <th>#</th>
       <th v-if="isRoleAdmin">{{ $t('common.attributes.structure') }}</th>
       <th>{{ $t('common.attributes.reference') }}</th>
-      <th>{{ $t('common.attributes.amount') }}</th>
+      <th>{{ $t('common.headers.quantity') }}</th>
+      <th>{{ $t('common.headers.sub_amount') }}</th>
+      <th>{{ $t('common.attributes.discount') }}</th>
+      <th>{{ $t('common.headers.total_price') }}</th>
+      <th>{{ $t('common.headers.win_amount') }}</th>
       <th>{{ $t('common.attributes.date') }}</th>
       <th>{{ $t('common.actions') }}</th>
     </template>
-    <tr v-for="(sale, index) in sales" :key="sale.id">
-      <td>{{ index + 1 }}</td>
+    <tr v-for="sale in sales" :key="`sale-line-${sale.id}`">
+      <td>{{ sale.id }}</td>
       <td v-if="isRoleAdmin">
-        {{ sale.enterprise?.name ?? $t('common.parent') }}
+        {{ sale.enterprise.name ?? $t('common.parent') }}
       </td>
       <td>{{ sale.code }}</td>
       <td>
-        {{ getSaleAmountWithCurrency(sale) }}
-      </td>
-      <td>
-        {{
-          `${$d(sale.created_at, 'short')} ${new Date(
-            sale.created_at
-          ).toLocaleTimeString()}`
-        }}
-      </td>
-      <td>
-        <button
-          class="btn btn-danger btn-xs m-l-5"
-          data-original-title="btn btn-danger btn-xs"
-          type="button"
-          @click.prevent="cancelSale(sale)"
+        <label
+          v-for="(quantity, index) in sale.quantities"
+          :key="`qty-${index}`"
+          class="f-w-700 m-r-5"
         >
-          <i class="fa fa-times" /> Annuler
-        </button>
+          {{ quantity.total }}
+          <i class="f-w-400">{{ quantity.unit }}</i>
+        </label>
+      </td>
+      <td>{{ `${sale.sup_amount}` }}</td>
+      <td>{{ sale.discount }}</td>
+      <td>{{ sale.sale_amount }}</td>
+      <td class="">
+        {{ `${sale.sale_win_amount}` }}
+        <i
+          :class="`f-w-400 font-${
+            sale.sale_win_amount > 0 ? 'primary' : 'danger'
+          }`"
+        >
+          {{ `(${sale.sale_win_amount_percent}%)` }}
+        </i>
+      </td>
+      <td>{{ $d(sale.created_at, 'short') }}</td>
+      <td>
+        <BaseButton
+          type="button"
+          class="btn btn-sm btn-success"
+          :title="$t('common.show')"
+          :text="$t('common.show')"
+          @click.prevent="
+            $router.push({
+              name: 'sales.sales.details',
+              params: { id: sale.id },
+            })
+          "
+        />
+        <BaseButton
+          class="btn btn-danger btn-xs m-l-5"
+          type="button"
+          :title="$t('common.delete')"
+          @click.prevent="deleteSale(sale)"
+        >
+          <i class="fa fa-trash-o" />
+        </BaseButton>
       </td>
     </tr>
+    <template #footers>
+      <th colspan="2" class="text-center">
+        {{ $t('common.headers.total').toUpperCase() }}
+      </th>
+      <th colspan="2" class="text-end">
+        <label
+          v-for="(saleTotalQuantity, index) in saleTotalQuantities"
+          :key="`sale-total-qty-${index}`"
+          class="f-w-700 m-r-5"
+        >
+          {{ saleTotalQuantity.total }}
+          <i class="f-w-400">{{ saleTotalQuantity.unit }}</i>
+        </label>
+      </th>
+      <th>{{ `${saleTotalSupAmount} ${currency}` }}</th>
+      <th>{{ `${saleTotalDiscount} ${currency}` }}</th>
+      <th>{{ `${saleTotalSaleAmount} ${currency}` }}</th>
+      <th colspan="3">
+        {{ `${saleTotalWinAmount} ${currency}` }}
+        <i class="f-w-400 m-r-5">Marge moyenne</i>
+        <label :class="`font-${saleTotalWinAmount > 0 ? 'primary' : 'danger'}`">
+          {{ `${saleTotalWinAmountPercent} %` }}
+        </label>
+      </th>
+    </template>
   </BaseDatatable>
 </template>
 
@@ -42,8 +101,12 @@
 import BaseDatatable from '/@/components/common/BaseDatatable.vue';
 import { mapGetters } from 'vuex';
 import { getSaleAmount } from '/@/helpers/utils.js';
+import BaseButton from '/@/components/common/BaseButton.vue';
+import _ from 'lodash';
+
 export default {
-  components: { BaseDatatable },
+  name: 'SaleTable',
+  components: { BaseButton, BaseDatatable },
   props: {
     sales: {
       type: Array,
@@ -53,11 +116,47 @@ export default {
   computed: {
     ...mapGetters('auth', ['isRoleAdmin']),
     ...mapGetters('workspace', ['currency']),
+    saleTotalSupAmount() {
+      return _.sumBy(this.sales, 'sup_amount');
+    },
+    saleTotalDiscount() {
+      return _.sumBy(this.sales, 'discount');
+    },
+    saleTotalSaleAmount() {
+      return _.sumBy(this.sales, 'sale_amount');
+    },
+    saleTotalWinAmount() {
+      return _.sumBy(this.sales, 'sale_win_amount').toFixed(2);
+    },
+    saleTotalWinAmountPercent() {
+      return _.sumBy(this.sales, 'sale_win_amount_percent').toFixed(2);
+    },
+    saleTotalQuantities() {
+      let quantities = [];
+      this.sales.forEach(
+        (sale) => (quantities = [...quantities, ...sale.quantities])
+      );
+      return _(quantities)
+        .groupBy('unit')
+        .map((objs, key) => {
+          return {
+            unit: key,
+            total: _.sumBy(objs, 'total'),
+          };
+        })
+        .value();
+    },
   },
   methods: {
-    cancelSale(sale) {
-      if (confirm(this.$t('messages.confirmDelete', { label: sale.reference })))
-        console.log(sale);
+    deleteSale(sale) {
+      if (
+        confirm(this.$t('messages.confirmDelete', { label: sale.reference }))
+      ) {
+        this.$store.commit('SET_GLOBAL_LOADING', true);
+        this.$store
+          .dispatch('sale/deleteSale', sale.id)
+          .finally(() => this.$store.commit('SET_GLOBAL_LOADING', false));
+      }
     },
 
     getSaleAmountWithCurrency(sale) {

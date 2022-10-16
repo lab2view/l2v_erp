@@ -7,7 +7,7 @@
       refresh-action-name="property/getPropertiesList"
     />
     <div class="card-body">
-      <BaseDatatable :tfoot="false">
+      <BaseDatatable v-if="!$store.state.globalLoading" :tfoot="false">
         <template #headers>
           <th>#</th>
           <th>{{ $t('common.attributes.product_family') }}</th>
@@ -67,6 +67,7 @@ import { mapGetters } from 'vuex';
 import BaseTableHeader from '/@/components/common/BaseTableHeader.vue';
 
 export default {
+  name: 'PropertyList',
   components: { BaseTableHeader, BaseDatatable },
   beforeRouteEnter(routeTo, routeFrom, next) {
     store

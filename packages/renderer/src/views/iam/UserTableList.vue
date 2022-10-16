@@ -8,7 +8,11 @@
       :query="query"
     />
     <div class="card-body">
-      <BaseDatatable :tfoot="false" :total="users?.length">
+      <BaseDatatable
+        v-if="!$store.state.globalLoading"
+        :tfoot="false"
+        :total="users?.length"
+      >
         <template #headers>
           <th>#</th>
           <th>{{ $t('common.attributes.structure') }}</th>

@@ -11,7 +11,11 @@
         refresh-action-name="localization/getLocalizationsList"
       />
       <div class="card-body">
-        <BaseDatatable :tfoot="false" :total="localizations.length">
+        <BaseDatatable
+          v-if="!$store.state.globalLoading"
+          :tfoot="false"
+          :total="localizations.length"
+        >
           <template #headers>
             <th>#</th>
             <th>{{ $t('common.attributes.country') }}</th>

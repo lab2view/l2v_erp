@@ -6,25 +6,39 @@
     <div class="mb-3">
       <div class="row align-items-center">
         <div class="col-md">
-          <BaseSelect
-            v-model.number="customerForm.customer_type_id"
+          <BaseFieldGroup
+            :with-refresh="true"
+            :with-append="false"
             :label="$t('common.attributes.customerType')"
-            :options="customerTypes"
-            key-label="label"
-            key-value="id"
             required
-          />
+            refresh-action-name="customer_type/getCustomerTypesList"
+          >
+            <BaseSelect
+              v-model.number="customerForm.customer_type_id"
+              :options="customerTypes"
+              key-label="label"
+              key-value="id"
+              required
+            />
+          </BaseFieldGroup>
         </div>
         <div class="col-md">
-          <BaseSelect
-            v-model="customerForm.country_id"
-            :errors="errors.country_id"
+          <BaseFieldGroup
+            :with-refresh="true"
+            :with-append="false"
             :label="$t('common.attributes.country')"
-            :options="countries"
-            key-label="name"
-            key-value="id"
             required
-          />
+            refresh-action-name="country/getCountriesList"
+          >
+            <BaseSelect
+              v-model="customerForm.country_id"
+              :errors="errors.country_id"
+              :options="countries"
+              key-label="name"
+              key-value="id"
+              required
+            />
+          </BaseFieldGroup>
         </div>
       </div>
     </div>
@@ -78,10 +92,32 @@ import BaseFormModal from '/@/components/common/BaseFormModal.vue';
 import CustomerFormMixin from '/@/mixins/CustomerFormMixin';
 import BaseInput from '/@/components/common/BaseInput.vue';
 import BaseSelect from '/@/components/common/BaseSelect.vue';
+import BaseFieldGroup from '/@/components/common/BaseFieldGroup.vue';
+import store from '/@/store/index.js';
 
 export default {
-  components: { BaseSelect, BaseInput, BaseFormModal },
+  name: 'CustomerQuickForm',
+  components: { BaseFieldGroup, BaseSelect, BaseInput, BaseFormModal },
   mixins: [CustomerFormMixin],
+  beforeRouteEnter(routeTo, routeFrom, next) {
+    Promise.all([
+      store.dispatch('customer_type/getCustomerTypesList', {
+        page: 1,
+        field: {},
+      }),
+      store.dispatch('country/getCountriesList', {
+        page: 1,
+        field: {},
+      }),
+    ])
+      .then(() => {
+        next();
+      })
+      .catch((error) => {
+        console.log(error);
+        next();
+      });
+  },
 };
 </script>
 

@@ -11,7 +11,11 @@
         refresh-action-name="provider/getStockProvidersList"
       />
       <div class="card-body">
-        <BaseDatatable :tfoot="false" :total="providers.length">
+        <BaseDatatable
+          v-if="!$store.state.globalLoading"
+          :tfoot="false"
+          :total="providers.length"
+        >
           <template #headers>
             <th>#</th>
             <th>{{ $t('common.attributes.country') }}</th>

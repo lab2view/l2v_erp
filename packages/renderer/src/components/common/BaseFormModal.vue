@@ -42,6 +42,7 @@
 
 <script>
 export default {
+  name: 'BaseFormModal',
   props: {
     title: { type: String, required: true },
     submitForm: {

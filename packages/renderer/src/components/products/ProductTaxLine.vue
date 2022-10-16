@@ -1,7 +1,10 @@
 <template>
   <tr>
     <td>{{ productTax.tax.label }}</td>
-    <td>{{ productTax.value }}</td>
+    <td>
+      {{ productTax.value }}
+      <span v-if="productTax.is_percent">%</span>
+    </td>
     <td class="text-center">
       <BaseButton
         type="button"

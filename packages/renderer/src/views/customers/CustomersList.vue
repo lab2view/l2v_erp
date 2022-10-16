@@ -11,7 +11,11 @@
         refresh-action-name="customer/getCustomersList"
       />
       <div class="card-body">
-        <BaseDatatable :tfoot="false" :total="customers.length">
+        <BaseDatatable
+          v-if="!$store.state.globalLoading"
+          :tfoot="false"
+          :total="customers.length"
+        >
           <template #headers>
             <th>#</th>
             <th>{{ $t('common.attributes.customerType') }}</th>

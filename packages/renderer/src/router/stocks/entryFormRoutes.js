@@ -8,6 +8,13 @@ export default [
       code: 'StockEntry.form.description',
       icon: 'fa fa-info',
     },
+    children: [
+      {
+        path: 'add-stock-types',
+        name: 'stocks.entry.form.desc.stockType',
+        component: () => import('/@/views/stocks/StockTypeForm.vue'),
+      },
+    ],
   },
   {
     path: 'articles',

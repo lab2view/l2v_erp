@@ -18,16 +18,28 @@
         <div class="mb-3">
           <div class="row align-items-center">
             <div class="col-md">
-              <BaseSelect
-                v-model="stockExitForm.stock_type_id"
+              <BaseFieldGroup
+                :with-refresh="true"
+                refresh-action-name="stock_type/getStockTypesList"
                 :label="$t('common.attributes.stock_exit_type_id')"
-                :options="stockTypes"
-                key-label="label"
-                key-value="id"
                 :errors="errors?.stock_type_id"
-                required
-                :disabled="isUpdating"
-              />
+                @btn-click="
+                  $router.push({
+                    name: 'stocks.exit.form.desc.stockType',
+                    params: { ...$route.params },
+                    query: { type_for: stockTypeFor.exit },
+                  })
+                "
+              >
+                <BaseSelect
+                  v-model="stockExitForm.stock_type_id"
+                  :options="stockTypes"
+                  key-label="label"
+                  key-value="id"
+                  required
+                  :disabled="isUpdating"
+                />
+              </BaseFieldGroup>
             </div>
             <div v-if="!is_multi_enterprise" class="col-md">
               <BaseInputGroup
@@ -83,21 +95,27 @@
               />
             </div>
             <div class="col-md">
-              <BaseSelect
-                v-model.number="stockExitForm.enterprise_receiver_id"
+              <BaseFieldGroup
+                :with-refresh="true"
+                :with-append="false"
+                refresh-action-name="enterprise/getEnterprisesList"
                 :label="$t('common.fields.enterprise_to')"
-                :options="
-                  is_multi_enterprise
-                    ? uniqueTargetEnterprises
-                    : targetEnterprises
-                "
-                key-label="name"
-                key-value="id"
                 :errors="errors?.enterprise_receiver_id"
-                :required="!is_multi_enterprise"
-                :disabled="isUpdating"
-                @input="selectReceiverEnterprise"
-              />
+              >
+                <BaseSelect
+                  v-model.number="stockExitForm.enterprise_receiver_id"
+                  :options="
+                    is_multi_enterprise
+                      ? uniqueTargetEnterprises
+                      : targetEnterprises
+                  "
+                  key-label="name"
+                  key-value="id"
+                  :required="!is_multi_enterprise"
+                  :disabled="isUpdating"
+                  @input="selectReceiverEnterprise"
+                />
+              </BaseFieldGroup>
             </div>
           </div>
         </div>
@@ -126,6 +144,8 @@
         </div>
       </div>
     </form>
+
+    <router-view />
   </div>
 </template>
 
@@ -138,10 +158,12 @@ import BaseSelect from '/@/components/common/BaseSelect.vue';
 import BaseInputGroup from '/@/components/common/BaseInputGroup.vue';
 import { random } from 'lodash/number.js';
 import BaseSwitchInput from '/@/components/common/BaseSwitchInput.vue';
+import BaseFieldGroup from '/@/components/common/BaseFieldGroup.vue';
 
 export default {
   name: 'ExitDescription',
   components: {
+    BaseFieldGroup,
     BaseSwitchInput,
     BaseInputGroup,
     BaseSelect,
@@ -187,8 +209,11 @@ export default {
     ...mapGetters('stock_type', ['getListByTypeFor']),
     ...mapGetters('stock_exit', ['stockExit', 'stockExitIsConfirm']),
     ...mapGetters('enterprise', ['enterprises']),
+    stockTypeFor() {
+      return stockFor;
+    },
     stockTypes() {
-      return this.getListByTypeFor(stockFor.exit).filter(
+      return this.getListByTypeFor(this.stockTypeFor.exit).filter(
         (t) => t.code !== stockTypeCode.sale
       );
     },
@@ -238,6 +263,8 @@ export default {
   },
   methods: {
     submitStockEntryForm() {
+      if (this.loading) return;
+
       if (this.isUpdating) {
         if (this.is_edited)
           this.$store

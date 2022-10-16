@@ -20,7 +20,9 @@ const getters = {
     getters.properties.filter((p) =>
       p.product_id
         ? p.product_id === product.id
-        : p.product_type_id === product.product_type_id
+        : p.product_type_id
+        ? p.product_type_id === product.product_type_id
+        : true
     ),
 };
 
@@ -85,8 +87,8 @@ const actions = {
     });
   },
 
-  getPropertyTypes({ commit, getters }) {
-    if (getters.propertyTypes.length > 0) {
+  getPropertyTypes({ commit, getters }, next) {
+    if (getters.propertyTypes.length > 0 && !next) {
       return getters.propertyTypes;
     } else
       return propertyService.getPropertyTypes().then(({ data }) => {

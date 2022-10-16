@@ -11,7 +11,11 @@
         refresh-action-name="transaction_type/getTransactionTypesList"
       />
       <div class="card-body">
-        <BaseDatatable :tfoot="false" :total="transactionTypes.length">
+        <BaseDatatable
+          v-if="!$store.state.globalLoading"
+          :tfoot="false"
+          :total="transactionTypes.length"
+        >
           <template #headers>
             <th>#</th>
             <th>{{ $t('common.attributes.label') }}</th>

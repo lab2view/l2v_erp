@@ -55,7 +55,7 @@ const actions = {
   },
 
   getUser({ getters, commit }, id) {
-    const user = getters.users.find((p) => p.id.toString() === id);
+    const user = getters.users.find((p) => p.id.toString() === id.toString());
     if (user !== undefined) {
       commit('SET_CURRENT_USER', user);
       return user;

@@ -11,7 +11,11 @@
         refresh-action-name="customer_group/getCustomerGroupsList"
       />
       <div class="card-body">
-        <BaseDatatable :tfoot="false" :total="customerGroups.length">
+        <BaseDatatable
+          v-if="!$store.state.globalLoading"
+          :tfoot="false"
+          :total="customerGroups.length"
+        >
           <template #headers>
             <th>#</th>
             <th>{{ $t('common.attributes.label') }}</th>

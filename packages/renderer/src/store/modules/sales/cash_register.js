@@ -61,22 +61,7 @@ const actions = {
 
   updateCashRegister({ commit }, cashRegisterField) {
     return cashRegisterService
-      .updateCashRegister(cashRegisterField, cashRegisterField.id)
-      .then(({ data }) => {
-        commit('UPDATE_CASH_REGISTER', data);
-        notify(
-          i18n.global.t('sales.cashRegister.update'),
-          'Ok',
-          'theme',
-          'fa fa-check'
-        );
-        return data;
-      });
-  },
-
-  updateStatusCashRegister({ commit }, cashRegisterField) {
-    return cashRegisterService
-      .updateStatusCashRegister(cashRegisterField, cashRegisterField.id)
+      .updateCashRegister(cashRegisterField)
       .then(({ data }) => {
         commit('UPDATE_CASH_REGISTER', data);
         notify(

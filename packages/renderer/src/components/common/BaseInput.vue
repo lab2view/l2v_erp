@@ -17,6 +17,7 @@
 
 <script>
 export default {
+  name: 'BaseInput',
   props: {
     label: {
       type: String,

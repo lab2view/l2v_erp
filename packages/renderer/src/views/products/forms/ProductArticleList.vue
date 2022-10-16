@@ -5,36 +5,24 @@
     </div>
   </div>
   <div class="card mb-0">
-    <div class="card-header pb-0">
-      <div class="row align-items-center">
-        <div class="col-sm">
-          <h5>{{ `${$t('articles.listTitle')} - ${product.reference}` }}</h5>
-        </div>
-        <div
-          v-if="$route.name === 'product.form.article'"
-          class="col-sm-auto align-items-end"
-        >
-          <router-link
-            :to="{
-              name: 'product.form.article.form',
-              params: { ...$route.params },
-            }"
-            class="btn btn-primary"
-            type="button"
-          >
-            <i class="fa fa-plus m-r-5" />
-            {{ $t('common.add') }}
-          </router-link>
-        </div>
-      </div>
-    </div>
+    <BaseTableHeader
+      :title="`${$t('articles.listTitle')} - ${product.reference}`"
+      :add-action-router-name="
+        $route.name === 'product.form.article'
+          ? 'product.form.article.form'
+          : null
+      "
+      :params="$route.params"
+    />
     <div class="card-body">
       <div class="user-status table-responsive">
         <table class="table table-bordernone">
           <thead>
             <tr>
               <th scope="col">{{ $t('common.attributes.package_id') }}</th>
-              <th scope="col">{{ $t('common.attributes.quantity') }}</th>
+              <th scope="col" class="text-center">
+                {{ $t('common.attributes.quantity') }}
+              </th>
               <th scope="col">{{ $t('common.attributes.description') }}</th>
               <th scope="col">{{ $t('common.actions') }}</th>
             </tr>
@@ -56,9 +44,11 @@
 import { mapGetters } from 'vuex';
 import store from '../../../store';
 import ProductArticleLine from '../../../components/products/ProductArticleLine.vue';
+import BaseTableHeader from '/@/components/common/BaseTableHeader.vue';
 
 export default {
-  components: { ProductArticleLine },
+  name: 'ProductArticleList',
+  components: { BaseTableHeader, ProductArticleLine },
   beforeRouteEnter(routeTo, routeFrom, next) {
     store
       .dispatch('article/getArticlesList', {
