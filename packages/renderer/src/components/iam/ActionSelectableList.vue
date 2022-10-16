@@ -202,6 +202,8 @@ export default {
 
   methods: {
     submitSelectedForm() {
+      if (this.loading) return;
+
       if (this.selected.length > 0) {
         this.loading = true;
         this.submitStoreAction(this.selected)

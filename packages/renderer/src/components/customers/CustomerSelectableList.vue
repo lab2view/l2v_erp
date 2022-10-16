@@ -85,7 +85,10 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <tr v-for="customer in selectableCustomers" :key="customer.id">
+                    <tr
+                      v-for="customer in selectableCustomers"
+                      :key="customer.id"
+                    >
                       <CustomerSelectableColumn
                         :customer="customer"
                         :selected-list="selected"
@@ -181,7 +184,8 @@ export default {
     },
     partialSelect() {
       return (
-        this.isSelected && this.selected.length < this.selectableCustomers.length
+        this.isSelected &&
+        this.selected.length < this.selectableCustomers.length
       );
     },
     selectedAllCustomers() {
@@ -210,13 +214,15 @@ export default {
   },
   methods: {
     submitSelectedForm() {
+      if (this.loading) return;
+
       if (this.selected.length > 0) {
         this.loading = true;
         this.submitStoreAction(this.selected)
-          .then(() => {
+          .catch((err) => console.log(err))
+          .finally(() => {
             this.loading = false;
-          })
-          .catch((err) => console.log(err));
+          });
       }
     },
     selectCustomer(customer, adding) {

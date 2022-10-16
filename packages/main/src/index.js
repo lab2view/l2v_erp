@@ -1,4 +1,4 @@
-import { app, BrowserWindow, ipcMain } from 'electron';
+import { app, BrowserWindow, ipcMain, shell } from 'electron';
 import { join } from 'path';
 import { URL } from 'url';
 import './security-restrictions';
@@ -103,10 +103,11 @@ app
 
 ipcMain.on('reload', (event) => {
   mainWindow.reload();
-  console.log(event);
-  console.log('Reloading renderer process');
-  // This command is to send a signal to the vue app after reload the page.
   event.sender.send('reloading', 'reload Done');
+});
+
+ipcMain.on('open-navigator', (event, { external_link }) => {
+  shell.openExternal(external_link);
 });
 
 // Auto-updates

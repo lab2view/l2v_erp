@@ -7,7 +7,11 @@
       refresh-action-name="package/getPackageList"
     />
     <div class="card-body">
-      <BaseDatatable :tfoot="false" :total="packages.length">
+      <BaseDatatable
+        v-if="!$store.state.globalLoading"
+        :tfoot="false"
+        :total="packages.length"
+      >
         <template #headers>
           <th>#</th>
           <th>{{ $t('common.attributes.label') }}</th>

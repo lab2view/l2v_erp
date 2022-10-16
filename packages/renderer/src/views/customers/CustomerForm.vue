@@ -161,6 +161,7 @@ import BaseSelect from '/@/components/common/BaseSelect.vue';
 import BaseButton from '/@/components/common/BaseButton.vue';
 
 export default {
+  name: 'CustomerForm',
   components: {
     BaseContainer,
     BaseFieldGroup,

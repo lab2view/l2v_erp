@@ -10,7 +10,8 @@
               height="90"
               class="img-fluid m-r-5"
               src="../../assets/images/logo/logo.jpg"
-            />{{ enterpriseName.toString().toUpperCase() }}
+            />
+            {{ enterpriseName.toString().toUpperCase() }}
           </a>
         </div>
         <div class="dark-logo-wrapper">
@@ -34,8 +35,8 @@
         </div>
       </div>
       <div class="left-menu-header col">
-        <ul>
-          <li>
+        <ul class="row">
+          <li class="col">
             <form
               class="form-inline search-form"
               @submit.prevent="searchArticles"
@@ -54,6 +55,12 @@
               ><i class="fa fa-search"></i
             ></span>
           </li>
+          <li v-if="isSaleSession" class="col-auto d-none d-sm-block">
+            <a href="#" class="f-w-500" @click.prevent="openWebStore">
+              <i class="fa fa-external-link m-r-5" />
+              {{ $t('common.open_store') }}
+            </a>
+          </li>
         </ul>
       </div>
       <div class="nav-right col pull-right right-menu p-0">
@@ -67,65 +74,6 @@
               }}</span>
             </i>
           </li>
-          <!--          <li class="onhover-dropdown">-->
-          <!--            <div class="notification-box">-->
-          <!--              <i data-feather="bell"></i><span class="dot-animated"></span>-->
-          <!--            </div>-->
-          <!--            <ul class="notification-dropdown onhover-show-div">-->
-          <!--              <li>-->
-          <!--                <p class="f-w-700 mb-0">-->
-          <!--                  You have 3 Notifications<span-->
-          <!--                    class="pull-right badge badge-primary badge-pill"-->
-          <!--                    >4</span-->
-          <!--                  >-->
-          <!--                </p>-->
-          <!--              </li>-->
-          <!--              <li class="noti-primary">-->
-          <!--                <div class="media">-->
-          <!--                  <span class="notification-bg bg-light-primary"-->
-          <!--                    ><i data-feather="activity"> </i-->
-          <!--                  ></span>-->
-          <!--                  <div class="media-body">-->
-          <!--                    <p>Delivery processing</p>-->
-          <!--                    <span>10 minutes ago</span>-->
-          <!--                  </div>-->
-          <!--                </div>-->
-          <!--              </li>-->
-          <!--              <li class="noti-secondary">-->
-          <!--                <div class="media">-->
-          <!--                  <span class="notification-bg bg-light-secondary"-->
-          <!--                    ><i data-feather="check-circle"> </i-->
-          <!--                  ></span>-->
-          <!--                  <div class="media-body">-->
-          <!--                    <p>Order Complete</p>-->
-          <!--                    <span>1 hour ago</span>-->
-          <!--                  </div>-->
-          <!--                </div>-->
-          <!--              </li>-->
-          <!--              <li class="noti-success">-->
-          <!--                <div class="media">-->
-          <!--                  <span class="notification-bg bg-light-success"-->
-          <!--                    ><i data-feather="file-text"> </i-->
-          <!--                  ></span>-->
-          <!--                  <div class="media-body">-->
-          <!--                    <p>Tickets Generated</p>-->
-          <!--                    <span>3 hour ago</span>-->
-          <!--                  </div>-->
-          <!--                </div>-->
-          <!--              </li>-->
-          <!--              <li class="noti-danger">-->
-          <!--                <div class="media">-->
-          <!--                  <span class="notification-bg bg-light-danger"-->
-          <!--                    ><i data-feather="user-check"> </i-->
-          <!--                  ></span>-->
-          <!--                  <div class="media-body">-->
-          <!--                    <p>Delivery Complete</p>-->
-          <!--                    <span>6 hour ago</span>-->
-          <!--                  </div>-->
-          <!--                </div>-->
-          <!--              </li>-->
-          <!--            </ul>-->
-          <!--          </li>-->
           <li @click.prevent="setDarkMode">
             <div class="mode">
               <i :class="headerModeIconClass"></i>
@@ -172,7 +120,10 @@ export default defineComponent({
     };
   },
   computed: {
-    ...mapGetters('workspace', ['currentWorkspace']),
+    ...mapGetters('workspace', [
+      'currentWorkspace',
+      'workspaceExternalShopLink',
+    ]),
     ...mapGetters('auth', ['currentUser']),
     enterpriseName() {
       return this.currentUser?.enterprise?.name ?? this.currentWorkspace.name;
@@ -209,6 +160,11 @@ export default defineComponent({
             query: { keyword: this.searchKeyword },
           });
       }
+    },
+    openWebStore() {
+      window.ipcRenderer.send('open-navigator', {
+        external_link: this.workspaceExternalShopLink,
+      });
     },
   },
 });

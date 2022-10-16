@@ -84,6 +84,7 @@ const actions = {
     return cashierService
       .closeSession(cashierSessionId ?? getters.currentSession.id)
       .then(({ data }) => {
+        commit('SET_GLOBAL_LOADING', true, { root: true });
         commit('SET_CASHIER_SESSION', null);
         return data;
       })
@@ -196,6 +197,7 @@ const mutations = {
     state.currentSaleRequest.sale_type_id = null;
     state.currentSaleRequest.discount = null;
     state.currentSaleRequest.discount_id = null;
+    state.currentSaleRequest.discount_code = null;
   },
   SET_CURRENT_SALE_REQUEST_FIELD(state, { field, value }) {
     state.currentSaleRequest[field] = value;

@@ -24,6 +24,7 @@
 
 <script>
 export default {
+  name: 'BaseCheckbox',
   props: {
     options: {
       type: [Array, Object],

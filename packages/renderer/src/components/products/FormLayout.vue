@@ -16,6 +16,7 @@ import formRoutes from '../../router/products/formRoutes';
 import { mapGetters } from 'vuex';
 
 export default {
+  name: 'FormLayout',
   components: { BaseWizardStep, BaseContainer },
   computed: {
     ...mapGetters('product', ['haveProduct']),

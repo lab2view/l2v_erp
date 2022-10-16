@@ -8,9 +8,20 @@
     <slot v-bind="$attrs"></slot>
     <slot name="append">
       <button
+        v-if="withRefresh"
         type="button"
-        class="btn btn-iconsolid btn-success"
+        class="btn btn-sm btn-iconsolid2 btn-outline-secondary"
         :title="btnTitle"
+        :disabled="!canProcessToRefresh"
+        @click.prevent="refreshDataFormActions"
+      >
+        <span :class="refreshBtnIconClass"></span>
+      </button>
+      <button
+        v-if="withAppend"
+        type="button"
+        class="btn btn-sm text-primary btn-iconsolid btn-success"
+        :title="$t('common.refresh')"
         @click.prevent="$emit('btn-click')"
       >
         <i :class="btnIcon"></i>
@@ -24,6 +35,7 @@
 
 <script>
 export default {
+  name: 'BaseFieldGroup',
   props: {
     label: {
       type: String,
@@ -49,7 +61,67 @@ export default {
       type: String,
       default: null,
     },
+    withRefresh: {
+      type: Boolean,
+      default: false,
+    },
+    withAppend: {
+      type: Boolean,
+      default: true,
+    },
+    refreshActionName: {
+      type: String,
+      default: null,
+    },
+    refreshActionField: {
+      type: Object,
+      default: null,
+    },
+    withGlobalLoad: {
+      type: Boolean,
+      default: false,
+    },
   },
   emits: ['btn-click'],
+  data() {
+    return {
+      loading: false,
+    };
+  },
+  computed: {
+    refreshBtnIconClass() {
+      return this.loading ? 'fa fa-refresh fa-spin' : 'fa fa-refresh';
+    },
+    canProcessToRefresh() {
+      return this.refreshActionName;
+    },
+  },
+
+  methods: {
+    refreshDataFormActions() {
+      if (this.canProcessToRefresh) {
+        if (this.withGlobalLoad) this.$store.commit('SET_GLOBAL_LOADING', true);
+        else this.loading = true;
+        this.$store
+          .dispatch(
+            this.refreshActionName,
+            this.refreshActionField ?? { page: 1, field: { next: true } }
+          )
+          .finally(() =>
+            this.withGlobalLoad
+              ? this.$store.commit('SET_GLOBAL_LOADING', false)
+              : (this.loading = false)
+          );
+      }
+    },
+  },
 };
 </script>
+
+<style scoped>
+.btn-iconsolid2 {
+  border-radius: 5px;
+  border-color: #e6edef;
+  padding: 8px 12px;
+}
+</style>

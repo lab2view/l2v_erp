@@ -139,7 +139,7 @@ export default {
       );
     },
     selectedAllUserPrivileges() {
-      if (this.userPrivileges.length)
+      if (this.userPrivileges?.length)
         return this.selected.length === this.userPrivileges.length;
       else return false;
     },

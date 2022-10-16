@@ -3,13 +3,11 @@
     {{ label }}
     <span v-if="required" class="text-danger m-l-5">*</span>
   </label>
-  <input
+  <Datepicker
     v-bind="$attrs"
-    :type="type"
-    :value="modelValue"
-    :required="required"
-    class="form-control digits"
-    @input="$emit('update:modelValue', $event.target.value)"
+    v-model="value"
+    :auto-apply="autoApply"
+    :enable-time-picker="enableTimePicker"
   />
   <div v-if="errors" class="invalid-feedback" style="display: inline">
     {{ errors[0] }}
@@ -17,7 +15,12 @@
 </template>
 
 <script>
+import Datepicker from '@vuepic/vue-datepicker';
+import '@vuepic/vue-datepicker/dist/main.css';
+
 export default {
+  name: 'BaseDatetime',
+  components: { Datepicker },
   props: {
     label: {
       type: String,
@@ -39,11 +42,29 @@ export default {
       type: [Boolean],
       default: false,
     },
+    autoApply: {
+      type: [Boolean],
+      default: true,
+    },
+    enableTimePicker: {
+      type: [Boolean],
+      default: false,
+    },
     errors: {
       type: [Array, Object],
       default: null,
     },
   },
   emits: ['update:modelValue'],
+  computed: {
+    value: {
+      get() {
+        return this.modelValue;
+      },
+      set(value) {
+        this.$emit('update:modelValue', value);
+      },
+    },
+  },
 };
 </script>

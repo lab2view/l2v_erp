@@ -135,6 +135,8 @@ export default {
       this.showPassword = !this.showPassword;
     },
     submitLoginForm() {
+      if (this.loading) return;
+
       this.loading = true;
       if (this.loginInput.remember) {
         //Enter account email, password, and save days, 3 parameters

@@ -125,6 +125,8 @@ export default {
     const { value: domain, errorMessage: domainError } = useField('domain');
 
     const handleFindWorkspace = handleSubmit((values) => {
+      if (loading.value) return;
+
       loading.value = true;
       store
         .dispatch(

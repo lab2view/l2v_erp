@@ -21,6 +21,7 @@
           placeholder="*********"
           :errors="errors?.password"
           required
+          autofocus
           @keydown.enter="submitLockForm"
         />
         <div class="show-hide" @click="toggleShow">
@@ -72,6 +73,7 @@ export default {
       this.showPassword = !this.showPassword;
     },
     submitLockForm() {
+      if (this.loading) return;
       if (this.checkInput.password) {
         this.loading = true;
         this.error = null;

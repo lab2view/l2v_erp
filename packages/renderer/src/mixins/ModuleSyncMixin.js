@@ -5,13 +5,16 @@ import { notify } from '/@/helpers/notify.js';
 
 export default {
   computed: {
+    ...mapGetters('workspace', ['databaseName']),
     ...mapGetters('auth', ['currentUser']),
   },
   methods: {
     initEchoSync(module, nutation) {
       if (this.$echo !== undefined) {
         this.$echo
-          .private(`synchronisation.${module.toLowerCase()}`)
+          .private(
+            `${this.databaseName.toLowerCase()}.synchronisation.${module.toLowerCase()}`
+          )
           .listen('.module.synchronisation', (change) => {
             if (change.user_id === this.currentUser.id) {
               this.$store.commit(

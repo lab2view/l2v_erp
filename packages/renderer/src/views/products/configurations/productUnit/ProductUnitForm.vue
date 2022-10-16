@@ -1,41 +1,32 @@
 <template>
   <BaseFormModal :title="title" :submit-form="submitProductUnitForm">
     <div class="mb-3">
-      <label class="form-label fw-bold" for="label">{{
-        $t('common.attributes.label')
-      }}</label>
-      <input
-        id="label"
+      <BaseInput
         v-model="productUnitForm.label"
-        class="form-control"
+        :label="$t('common.attributes.label')"
         type="text"
         placeholder="Litre, Kilo..."
+        :errors="errors?.label"
         required
       />
-      <div v-if="errors.label" class="invalid-feedback" style="display: inline">
-        {{ errors.label[0] }}
-      </div>
     </div>
     <div class="mb-3">
-      <label class="form-label fw-bold" for="code">{{
-        $t('common.attributes.code')
-      }}</label>
-      <input
-        id="code"
+      <BaseInput
         v-model="productUnitForm.code"
-        class="form-control"
+        :label="$t('common.attributes.code')"
         type="text"
         placeholder="Kg, L..."
+        :errors="errors?.code"
         required
       />
-      <div v-if="errors.code" class="invalid-feedback" style="display: inline">
-        {{ errors.code[0] }}
-      </div>
     </div>
     <template #footer>
-      <button class="btn btn-primary" type="submit" :title="$t('common.save')">
-        {{ $t('common.save') }}
-      </button>
+      <BaseButton
+        class="btn btn-primary col-auto"
+        :text="$t('common.save')"
+        icon="fa fa-save"
+        :loading="loading"
+      />
     </template>
   </BaseFormModal>
 </template>
@@ -43,12 +34,16 @@
 <script>
 import BaseFormModal from '../../../../components/common/BaseFormModal.vue';
 import { mapGetters } from 'vuex';
+import BaseButton from '/@/components/common/BaseButton.vue';
+import BaseInput from '/@/components/common/BaseInput.vue';
 
 export default {
-  components: { BaseFormModal },
+  name: 'ProductUnitForm',
+  components: { BaseInput, BaseButton, BaseFormModal },
   data() {
     return {
       errors: [],
+      loading: false,
       productUnitForm: {
         id: null,
         label: null,
@@ -73,12 +68,16 @@ export default {
   },
   methods: {
     submitProductUnitForm() {
+      if (this.loading) return;
+
+      this.loading = true;
       if (this.productUnit)
         this.$store
           .dispatch('product_unit/updateProductUnit', this.productUnitForm)
           .then(() => this.$router.back())
           .catch((error) => {
             this.errors = error.response?.data?.errors;
+            this.loading = false;
             console.log(error);
           });
       else
@@ -87,6 +86,7 @@ export default {
           .then(() => this.$router.back())
           .catch((error) => {
             this.errors = error.response?.data?.errors;
+            this.loading = false;
             console.log(error);
           });
     },

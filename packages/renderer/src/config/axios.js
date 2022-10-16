@@ -11,10 +11,8 @@ axios.defaults.crossDomain = true;
 // Add a request interceptor
 axios.interceptors.request.use(
   function (config) {
-    const workspace = store.getters['workspace/currentWorkspace'];
-    const currentDomain = workspace?.domain ?? store.state.landlordDomain;
     const protocol = import.meta.env.VITE_PROTOCOL ?? 'https';
-    config.baseURL = `${protocol}://${currentDomain}/api/`;
+    config.baseURL = `${protocol}://${store.getters['workspace/currentDomain']}/api/`;
 
     const token = store.getters['auth/token'] ?? null;
     if (token) config.headers.common['Authorization'] = `Bearer ${token}`;

@@ -1,5 +1,9 @@
 <template>
-  <BaseDatatable :tfoot="false" :total="stockEntries.length">
+  <BaseDatatable
+    v-if="!$store.state.globalLoading"
+    :tfoot="false"
+    :total="stockEntries.length"
+  >
     <template #headers>
       <th>#</th>
       <th>{{ $t('common.headers.enterprise_id') }}</th>
@@ -25,7 +29,7 @@
           stockEntry.current_state?.stock_state.label || $t('common.not_set')
         }}
       </td>
-      <td>{{ $d(stockEntry.created_at, 'long') }}</td>
+      <td>{{ $d(stockEntry.created_at, 'short') }}</td>
       <td>
         <BaseButton
           type="button"

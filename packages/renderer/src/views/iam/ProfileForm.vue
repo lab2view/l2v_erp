@@ -164,8 +164,8 @@ import BaseContainer from '/@/components/common/BaseContainer.vue';
 import BaseFieldGroup from '/@/components/common/BaseFieldGroup.vue';
 import BaseInput from '/@/components/common/BaseInput.vue';
 import BaseSelect from '/@/components/common/BaseSelect.vue';
-import {mapGetters} from 'vuex';
-import {notify} from '/@/helpers/notify';
+import { mapGetters } from 'vuex';
+import { notify } from '/@/helpers/notify';
 import store from '/@/store';
 import SaleSessionMixin from '/@/mixins/SaleSessionMixin.js';
 
@@ -224,6 +224,8 @@ export default {
   },
   methods: {
     submitForm() {
+      if (this.loading) return;
+
       this.errors = [];
       this.loading = true;
       let data = this.authUser;
@@ -285,7 +287,7 @@ export default {
     },
     addNewLocalisationAction() {
       if (!this.isSaleSession) {
-        this.$router.push({name: 'localization.form'});
+        this.$router.push({ name: 'localization.form' });
       } else notify(this.$t('common.action_not_allow'), '', 'danger');
     },
   },

@@ -17,7 +17,11 @@
         </div>
       </div>
       <div class="mt-2">
-        <BaseDatatable :tfoot="false" :total="discount_codes.length">
+        <BaseDatatable
+          v-if="!$store.state.globalLoading"
+          :tfoot="false"
+          :total="discount_codes.length"
+        >
           <template #headers>
             <th>#</th>
             <th>{{ $t('common.code') }}</th>
@@ -96,9 +100,12 @@
       />
     </div>
     <template #footer>
-      <button class="btn btn-primary" type="submit" :title="$t('common.save')">
-        {{ $t('common.save') }}
-      </button>
+      <BaseButton
+        class="btn btn-primary col-auto"
+        :text="$t('common.save')"
+        icon="fa fa-save"
+        :loading="loading"
+      />
     </template>
     <template #close>
       <button
@@ -163,6 +170,7 @@ export default {
 
   methods: {
     generateCode() {
+      if (this.loading) return;
       this.loading = true;
       this.errors = [];
       this.$store

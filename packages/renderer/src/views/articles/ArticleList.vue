@@ -10,7 +10,11 @@
         refresh-action-name="article/getArticlesList"
       />
       <div class="card-body">
-        <BaseDatatable :tfoot="false" :total="articles.length">
+        <BaseDatatable
+          v-if="!$store.state.globalLoading"
+          :tfoot="false"
+          :total="articles.length"
+        >
           <template #headers>
             <th>#</th>
             <th>{{ $t('common.attributes.product_id') }}</th>

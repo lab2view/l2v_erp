@@ -61,11 +61,7 @@
             </i>
             <p>
               <i class="fa fa-calendar m-r-5" />
-              {{
-                `${new Date(sale.created_at).toLocaleDateString()} ${new Date(
-                  sale.created_at
-                ).toLocaleTimeString()}`
-              }}
+              {{ $d(sale.created_at, 'short') }}
             </p>
           </router-link>
         </li>

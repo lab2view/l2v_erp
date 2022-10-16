@@ -1,24 +1,83 @@
 import saleService from '/@/services/sales/SaleService';
 import { notify } from '/@/helpers/notify';
 import i18n from '/@/i18n';
+import _ from 'lodash';
+import { priceTypeCode } from '/@/helpers/codes';
 
 const state = {
   sales: [],
   sale: null,
   cashier_sales: [],
   cashier_sale: null,
+  request_field: {
+    enterprise_id: null,
+    cashier_id: null,
+    sale_type_id: null,
+    customer_id: null,
+    created_at: null,
+    keyword: null,
+  },
 };
 
 // getters
 const getters = {
   sales: (state) => state.sales,
+  sale: (state) => state.sale,
   cashier_sales: (state) => state.cashier_sales,
-  getSaleById: (state) => (id) => state.sales.find((s) => s.id === id) ?? null,
   getCashierSaleById: (state) => (id) =>
     state.cashier_sales.find((s) => s.id === id) ?? null,
   getSaleByCashierId: (state) => (id) =>
     state.sales.filter((s) => s.cashier_session.cashier_id === id),
   cashierSale: (state) => state.cashier_sale,
+  requestField: (state) => state.request_field,
+  getSelectedSaleList: (state, getters) => {
+    return getters.sales.map((sale) => {
+      const totalSupPrice = _.sumBy(sale.stock_exit_lines, 'sup_price');
+      const totalArticleBuyPrice = _.sumBy(
+        sale.stock_exit_lines.map((sel) => {
+          const price = sel.article?.prices?.find(
+            (p) => p.price_type.code === priceTypeCode.buy
+          );
+          return { buy_price: (price?.value ?? 0) * sel.quantity };
+        }),
+        'buy_price'
+      );
+      const sale_amount =
+        totalSupPrice - (sale.discount ? parseFloat(sale.discount) : 0);
+      const sale_win_amount = (sale_amount - totalArticleBuyPrice).toFixed(2);
+
+      const quantities = _(sale.stock_exit_lines)
+        .groupBy((sel) => sel.article.product.product_unit.label)
+        .map((objs, key) => {
+          return {
+            unit: key,
+            total: _.sumBy(objs, 'quantity'),
+          };
+        })
+        .value();
+
+      return {
+        id: sale.id,
+        enterprise: {
+          id: sale.enterprise_id,
+          name: sale.enterprise?.name ?? null,
+        },
+        reference: sale.reference,
+        code: sale.code,
+        sup_amount: totalSupPrice,
+        discount: sale.discount ?? 0,
+        sale_amount,
+        created_at: sale.created_at,
+        sale_win_amount: parseFloat(sale_win_amount),
+        sale_win_amount_percent: parseFloat(
+          ((sale_win_amount * 100) / totalArticleBuyPrice).toFixed(2)
+        ),
+        quantities,
+      };
+    });
+  },
+  getSelectedSaleById: (state, getters) => (id) =>
+    getters.getSelectedSaleList.find((sl) => sl.id === id) ?? null,
 };
 
 // privileges
@@ -64,15 +123,15 @@ const actions = {
   },
 
   getSale({ commit, getters }, id) {
-    const sale = getters.getSaleById(id);
-    if (sale) {
+    const sale = getters.sales.find((p) => p.id.toString() === id.toString());
+    if (sale !== undefined) {
       commit('SET_CURRENT_SALE', sale);
       return sale;
-    }
-    return saleService.getSale(id).then(({ data }) => {
-      commit('SET_CURRENT_SALE', data);
-      return data;
-    });
+    } else
+      return saleService.getSale(id).then(({ data }) => {
+        commit('SET_CURRENT_SALE', data);
+        return data;
+      });
   },
 
   getCashierSale({ commit, getters }, id) {
@@ -132,6 +191,9 @@ const mutations = {
   },
   DELETE_SALE(state, saleId) {
     state.sales = state.sales.filter((p) => p.id !== saleId);
+  },
+  SET_REQUEST_FIELD_VALUE(state, { field, value }) {
+    state.request_field[field] = value;
   },
 };
 

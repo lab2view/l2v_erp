@@ -65,6 +65,7 @@
 import { mapGetters } from 'vuex';
 
 export default {
+  name: 'ProductSettings',
   computed: {
     ...mapGetters('product', ['product']),
   },

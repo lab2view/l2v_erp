@@ -11,7 +11,11 @@
         refresh-action-name="inventory/getInventoriesList"
       />
       <div class="card-body">
-        <BaseDatatable :tfoot="false" :total="inventories.length">
+        <BaseDatatable
+          v-if="!$store.state.globalLoading"
+          :tfoot="false"
+          :total="inventories.length"
+        >
           <template #headers>
             <th>#</th>
             <th>{{ $t('common.attributes.reference') }}</th>

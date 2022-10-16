@@ -8,7 +8,11 @@
         refresh-action-name="role/getRolesList"
       />
       <div class="card-body">
-        <BaseDatatable :tfoot="false" :total="roles.length">
+        <BaseDatatable
+          v-if="!$store.state.globalLoading"
+          :tfoot="false"
+          :total="roles.length"
+        >
           <template #headers>
             <th>#</th>
             <th>{{ $t('common.attributes.label') }}</th>

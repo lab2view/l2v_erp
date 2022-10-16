@@ -1,7 +1,7 @@
 <template>
   <div class="card rounded shadow-sm">
     <div class="card-header p-3">
-      <h5>{{ $t('products.tax.formCreateTitle') }}</h5>
+      <h6>{{ $t('products.tax.formCreateTitle') }}</h6>
     </div>
     <form class="theme-form" @submit.prevent="submitProductTaxForm">
       <div class="card-body pb-0 pt-2">
@@ -10,6 +10,8 @@
             :label="$t('common.attributes.tax_id')"
             required
             :errors="errors?.tax_id"
+            :with-refresh="true"
+            refresh-action-name="tax/getTaxesList"
             @btn-click="
               $router.push({
                 name: 'product.form.setting.tax.form.tax',
@@ -79,6 +81,7 @@ import store from '/@/store';
 import BaseSwitchInput from '/@/components/common/BaseSwitchInput.vue';
 
 export default {
+  name: 'ProductTaxForm',
   components: {
     BaseSwitchInput,
     BaseFieldGroup,
@@ -140,6 +143,8 @@ export default {
   },
   methods: {
     submitProductTaxForm() {
+      if (this.loading) return;
+
       this.loading = true;
       if (this.productTaxForm.id)
         this.$store

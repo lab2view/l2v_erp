@@ -1,25 +1,22 @@
 <template>
   <BaseFormModal :title="title" :submit-form="submitTaxForm">
     <div class="mb-3">
-      <label class="form-label fw-bold" for="label">{{
-        $t('common.attributes.label')
-      }}</label>
-      <input
-        id="label"
-        v-model="taxForm.label"
-        class="form-control"
+      <BaseInput
+        v-model="taxForm.value"
+        :label="$t('common.attributes.label')"
         type="text"
         placeholder="TVA,..."
+        :errors="errors?.label"
         required
       />
-      <div v-if="errors.label" class="invalid-feedback" style="display: inline">
-        {{ errors.label[0] }}
-      </div>
     </div>
     <template #footer>
-      <button class="btn btn-primary" type="submit" :title="$t('common.save')">
-        {{ $t('common.save') }}
-      </button>
+      <BaseButton
+        class="btn btn-primary col-auto"
+        :text="$t('common.save')"
+        icon="fa fa-save"
+        :loading="loading"
+      />
     </template>
   </BaseFormModal>
 </template>
@@ -27,12 +24,16 @@
 <script>
 import BaseFormModal from '../../../../components/common/BaseFormModal.vue';
 import { mapGetters } from 'vuex';
+import BaseButton from '/@/components/common/BaseButton.vue';
+import BaseInput from '/@/components/common/BaseInput.vue';
 
 export default {
-  components: { BaseFormModal },
+  name: 'TaxForm',
+  components: { BaseInput, BaseButton, BaseFormModal },
   data() {
     return {
       errors: [],
+      loading: false,
       taxForm: {
         id: null,
         label: null,
@@ -52,17 +53,20 @@ export default {
     if (this.tax) this.taxForm = this.tax;
   },
   beforeUnmount() {
-    if (this.tax)
-      this.$store.commit('tax/SET_CURRENT_TAX', null);
+    if (this.tax) this.$store.commit('tax/SET_CURRENT_TAX', null);
   },
   methods: {
     submitTaxForm() {
+      if (this.loading) return;
+
+      this.loading = true;
       if (this.tax)
         this.$store
           .dispatch('tax/updateTax', this.taxForm)
           .then(() => this.$router.back())
           .catch((error) => {
             this.errors = error.response?.data?.errors;
+            this.loading = false;
             console.log(error);
           });
       else
@@ -71,6 +75,7 @@ export default {
           .then(() => this.$router.back())
           .catch((error) => {
             this.errors = error.response?.data?.errors;
+            this.loading = false;
             console.log(error);
           });
     },
