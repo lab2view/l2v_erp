@@ -27,8 +27,8 @@
               :disabled="!canSearchDiscount"
               class="btn btn-outline-success btn-sm m-r-5 float-end"
               :text="$t('common.apply')"
-              @click.prevent="searchDiscount"
               :loading="loading"
+              @click.prevent="searchDiscount"
             />
           </div>
         </div>
@@ -71,7 +71,7 @@
             </table>
           </div>
           <div class="card browser-widget pb-0 mb-0">
-            <div class="alert alert-secondary p-2" v-if="haveCurrentDiscount">
+            <div v-if="haveCurrentDiscount" class="alert alert-secondary p-2">
               {{ $t('common.sale.discount_note') }}
             </div>
             <div class="media card-body">
