@@ -62,6 +62,7 @@
         TOTAL
         <span class="float-end"> {{ `${getSaleAmount} ${currency}` }}</span>
       </span>
+      <hr class="m-1" />
       <span v-if="cashierSale.customer">
         CLIENT
         <span class="float-end">
@@ -95,6 +96,7 @@ import BaseButton from '/@/components/common/BaseButton.vue';
 import { mapGetters } from 'vuex';
 import { sumBy } from 'lodash';
 export default {
+  name: 'SaleSessionDetails',
   components: { BaseButton, BaseModal },
   computed: {
     ...mapGetters('sale', ['cashierSale']),

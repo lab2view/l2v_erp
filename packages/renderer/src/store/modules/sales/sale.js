@@ -56,6 +56,8 @@ const getters = {
         })
         .value();
 
+      const saleDiscount = sale.discount ?? 0;
+      const saleTotalAmountAfterDiscount = totalSupPrice - saleDiscount;
       return {
         id: sale.id,
         enterprise: {
@@ -65,13 +67,19 @@ const getters = {
         reference: sale.reference,
         code: sale.code,
         sup_amount: totalSupPrice,
-        discount: sale.discount ?? 0,
+        discount: saleDiscount,
         sale_amount,
         created_at: sale.created_at,
         sale_win_amount: parseFloat(sale_win_amount),
-        sale_win_amount_percent: parseFloat(
-          ((sale_win_amount * 100) / totalArticleBuyPrice).toFixed(2)
-        ),
+        sale_win_amount_percent:
+          saleTotalAmountAfterDiscount > 0
+            ? parseFloat(
+                (
+                  (sale_win_amount * 100) /
+                  saleTotalAmountAfterDiscount
+                ).toFixed(2)
+              )
+            : -100,
         quantities,
       };
     });

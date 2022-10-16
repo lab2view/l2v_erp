@@ -44,6 +44,7 @@ const actions = {
   addInventory({ commit }, inventoryField) {
     return inventoryService.addInventory(inventoryField).then(({ data }) => {
       commit('ADD_INVENTORY', data);
+      commit('SET_CURRENT_INVENTORY', data);
       notify(
         i18n.global.t('stocks.inventory.store'),
         'Ok',
