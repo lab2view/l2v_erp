@@ -32,6 +32,12 @@ const actions = {
       });
   },
 
+  getDiscountCodeByCode(context, code) {
+    return discountCodeService.getDiscountCodeByCode(code).then(({ data }) => {
+      return data;
+    });
+  },
+
   generateCodes({ commit }, fields) {
     return discountCodeService.generateCode(fields).then(({ data }) => {
       commit('ADD_DISCOUNT_CODES', data);

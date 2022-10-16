@@ -102,6 +102,7 @@ export default {
     list: 'Liste des ventes',
     detail: 'Details de la vente',
     print: 'Imprimer le ticket',
+    discount_note: 'Une reduction deja appliquee ! Annuler pour changer',
   },
 
   fields: {
