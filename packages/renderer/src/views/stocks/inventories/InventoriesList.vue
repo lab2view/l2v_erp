@@ -18,6 +18,7 @@
         >
           <template #headers>
             <th>#</th>
+            <th>{{ $t('common.attributes.structure') }}</th>
             <th>{{ $t('common.attributes.reference') }}</th>
             <th>{{ $t('common.attributes.validate') }}</th>
             <th>{{ $t('common.attributes.inventory_date') }}</th>
@@ -25,11 +26,12 @@
           </template>
           <tr v-for="inventory in inventories" :key="inventory.id">
             <td>{{ inventory.id }}</td>
+            <td>{{ inventory.enterprise?.name || 'Principal' }}</td>
             <td>{{ inventory.reference }}</td>
             <td>
               {{ inventory.validate ? $t('common.yes') : $t('common.no') }}
             </td>
-            <td>{{ inventory.inventory_date }}</td>
+            <td>{{ $d(inventory.inventory_date, 'short') }}</td>
             <td>
               <BaseButton
                 :title="$t(`common.${inventory.validate ? 'show' : 'update'}`)"

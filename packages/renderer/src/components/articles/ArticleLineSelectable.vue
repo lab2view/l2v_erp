@@ -24,6 +24,7 @@
         :quantity="forInventory ? model.new_value : model.quantity"
         :store-action="updateQuantity"
         :max="maxQuantity"
+        :min="minQuantity"
       />
       <span v-else>{{ forInventory ? model.new_value : model.quantity }}</span>
     </td>
@@ -97,6 +98,10 @@ export default {
     cancelSelection: {
       type: Boolean,
       default: false,
+    },
+    minQuantity: {
+      type: Number,
+      default: null,
     },
   },
   emits: ['selected', 'unselected', 'deleted'],

@@ -40,6 +40,7 @@
                 placeholder="..."
                 required
                 :disabled="isUpdating"
+                :max-date="new Date()"
                 type="date"
               />
               <div
