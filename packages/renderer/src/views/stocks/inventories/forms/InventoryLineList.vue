@@ -94,7 +94,7 @@
         </table>
       </div>
     </div>
-    <div class="card-footer border-top-0">
+    <div class="card-footer border-top-0" v-if="!inventory.stock_balancing">
       <div v-if="inventoryIsConfirm" class="row justify-content-center">
         <BaseButton
           class="btn btn-success col-auto"

@@ -192,7 +192,7 @@ export default {
     structure: 'Structure',
     enterprise: 'Entreprise',
     product: 'Produit',
-    validate: 'Validite',
+    validate: 'Valide',
     availability: 'Disponibilite',
     enterprise_sender: "Entreprise d'envoi",
     inventory_date: "Date d'inventaire",

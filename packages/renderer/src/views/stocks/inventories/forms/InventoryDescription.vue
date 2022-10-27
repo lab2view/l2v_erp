@@ -39,6 +39,7 @@
                 label-class="form-label fw-bold"
                 placeholder="..."
                 required
+                :disabled="isUpdating"
                 type="date"
               />
               <div
