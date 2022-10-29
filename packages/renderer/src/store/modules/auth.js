@@ -140,12 +140,25 @@ const actions = {
 // mutations
 const mutations = {
   SET_CURRENT_USER(state, user) {
-    state.currentUser = user ? JSON.stringify(user) : null;
-    setTimeout(() => {
-      if (window?.ipcRenderer)
-        window?.ipcRenderer?.send('reload', 'User connexion');
-      else location.reload();
-    }, 3000);
+    if (user) {
+      state.currentUser = JSON.stringify(user);
+      setTimeout(() => {
+        if (window?.ipcRenderer)
+          window?.ipcRenderer?.send('reload', 'User connexion');
+        else location.reload();
+      }, 3000);
+    } else {
+      state.currentUser = null;
+      setTimeout(() => {
+        removeStorage()
+          .then(() => {
+            if (window?.ipcRenderer)
+              window?.ipcRenderer?.send('reload', 'Changing workspace');
+            else location.reload();
+          })
+          .catch((err) => console.log(err));
+      }, 3000);
+    }
   },
   UPDATE_CURRENT_USER(state, user) {
     user = {

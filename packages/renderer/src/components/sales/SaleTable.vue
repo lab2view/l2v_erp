@@ -3,7 +3,7 @@
     v-if="!$store.state.globalLoading"
     :tfoot="true"
     :total="sales.length"
-    :scroll-y="isCashierSession ? '530px' : null"
+    :scroll-y="isCashierSession ? '530px' : false"
   >
     <template #headers>
       <th>#</th>

@@ -48,8 +48,8 @@ export default {
       default: 10,
     },
     scrollY: {
-      type: String,
-      default: null,
+      type: [String, Boolean],
+      default: false,
     },
     fetchAction: {
       type: Function,
@@ -80,14 +80,15 @@ export default {
   },
   methods: {
     initDatatable() {
-      $('#datatable-dt').DataTable({
+      let dataTableOption = {
         pageLength: this.pageLength,
-        scrollY: this.scrollY,
         info: !!this.tableInfos,
         language: {
           info: this.tableInfos ?? false,
         },
-      });
+      };
+      if (this.scrollY) dataTableOption.scrollY = this.scrollY;
+      $('#datatable-dt').DataTable(dataTableOption);
     },
     executeFetchAction() {
       this.$store.dispatch('setGlobalLoading', true);
