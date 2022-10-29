@@ -1,8 +1,6 @@
 import saleService from '/@/services/sales/SaleService';
 import { notify } from '/@/helpers/notify';
 import i18n from '/@/i18n';
-import _ from 'lodash';
-import { priceTypeCode } from '/@/helpers/codes';
 import { transformSaleForTable } from '/@/helpers/utils.js';
 
 const state = {
@@ -34,9 +32,6 @@ const getters = {
   getSelectedSaleList: (state, getters) => {
     return getters.sales.map((sale) => transformSaleForTable(sale));
   },
-  getSelecteCashierSaleList: (state, getters) => {
-    return getters.cashier_sales.map((sale) => transformSaleForTable(sale));
-  },
   getSelectedSaleById: (state, getters) => (id) =>
     getters.getSelectedSaleList.find((sl) => sl.id === id) ?? null,
 };
@@ -47,7 +42,7 @@ const actions = {
     if (getters.cashier_sales.length && !search) return getters.cashier_sales;
     else
       return saleService
-        .getSalesList(1, { keyword, cashier_id })
+        .getSalesList(1, { keyword, cashier_id, limit: 5 })
         .then(({ data }) => {
           commit('SET_CASHIER_SALES', data);
           return data;

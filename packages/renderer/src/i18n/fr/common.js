@@ -44,6 +44,7 @@ export default {
   deactivate: 'Desactiver',
   activate: 'Activer',
   filter: 'Filtrer',
+  filter_list: 'Filtrer la liste',
   all: 'Tout',
   deleted_selection: 'la selection ',
   actif: 'Actif',
