@@ -1,15 +1,6 @@
-// export function getVerifyEmailRoute() {
-//   return `${location.protocol}//${location.host}/email/verify/{token}`;
-// }
-//
-// export function getPasswordResetRoute() {
-//   return `${location.protocol}//${location.host}/password/reset/{token}?email={email}`;
-// }
-
-import { actionCode } from '/@/helpers/codes.js';
-import { sumBy } from 'lodash';
-// import i18n from '/@/i18n';
-import localStore from '/@/store/helpers/localStore.js';
+import { actionCode, priceTypeCode } from '/@/helpers/codes';
+import _, { sumBy } from 'lodash';
+import localStore from '/@/store/helpers/localStore';
 
 export function getMutationPathName({ mutation, action }) {
   switch (action) {
@@ -166,4 +157,54 @@ export function getSaleTotalAmount(stock_exit_lines) {
 
 export function getSaleAmount({ stock_exit_lines, discount }) {
   return (sumBy(stock_exit_lines, 'sup_price') - discount).toLocaleString();
+}
+
+export function transformSaleForTable(sale) {
+  const totalSupPrice = _.sumBy(sale.stock_exit_lines, 'sup_price');
+  const totalArticleBuyPrice = _.sumBy(
+    sale.stock_exit_lines.map((sel) => {
+      const price = sel.article?.prices?.find(
+        (p) => p.price_type.code === priceTypeCode.buy
+      );
+      return { buy_price: (price?.value ?? 0) * sel.quantity };
+    }),
+    'buy_price'
+  );
+  const sale_amount =
+    totalSupPrice - (sale.discount ? parseFloat(sale.discount) : 0);
+  const sale_win_amount = (sale_amount - totalArticleBuyPrice).toFixed(2);
+
+  const quantities = _(sale.stock_exit_lines)
+    .groupBy((sel) => sel.article.product.product_unit.label)
+    .map((objs, key) => {
+      return {
+        unit: key,
+        total: _.sumBy(objs, 'quantity'),
+      };
+    })
+    .value();
+
+  const saleDiscount = sale.discount ?? 0;
+  const saleTotalAmountAfterDiscount = totalSupPrice - saleDiscount;
+  return {
+    id: sale.id,
+    enterprise: {
+      id: sale.enterprise_id,
+      name: sale.enterprise?.name ?? null,
+    },
+    reference: sale.reference,
+    code: sale.code,
+    sup_amount: totalSupPrice,
+    discount: saleDiscount,
+    sale_amount,
+    created_at: sale.created_at,
+    sale_win_amount: parseFloat(sale_win_amount),
+    sale_win_amount_percent:
+      saleTotalAmountAfterDiscount > 0
+        ? parseFloat(
+            ((sale_win_amount * 100) / saleTotalAmountAfterDiscount).toFixed(2)
+          )
+        : -100,
+    quantities,
+  };
 }

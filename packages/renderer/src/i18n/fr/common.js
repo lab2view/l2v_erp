@@ -200,6 +200,7 @@ export default {
     payment_method: 'Methode de paiement',
     transaction_type: 'Type de transaction',
     date: 'Date',
+    time: 'Heure',
     fee: 'Frais',
     amount: 'Montant',
     product_family: 'Famille de produit',

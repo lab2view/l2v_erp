@@ -43,6 +43,14 @@ export default {
       type: Number,
       default: null,
     },
+    pageLength: {
+      type: Number,
+      default: 10,
+    },
+    scrollY: {
+      type: String,
+      default: null,
+    },
     fetchAction: {
       type: Function,
       default: () => Promise.resolve(),
@@ -73,6 +81,8 @@ export default {
   methods: {
     initDatatable() {
       $('#datatable-dt').DataTable({
+        pageLength: this.pageLength,
+        scrollY: this.scrollY,
         info: !!this.tableInfos,
         language: {
           info: this.tableInfos ?? false,

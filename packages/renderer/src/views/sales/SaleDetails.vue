@@ -1,6 +1,10 @@
 <template>
-  <BaseModal modal-size="lg" :title="`Details de la vente - ${sale.code}`">
-    <div class="table-responsive">
+  <BaseModal
+    modal-size="lg"
+    modal-body-class="p-0"
+    :title="`Details de la vente - ${sale.code}`"
+  >
+    <div class="search-page table-responsive m-0">
       <table class="table table-hover display">
         <thead>
           <tr>
@@ -17,10 +21,10 @@
             <th class="text-capitalize">
               {{ $t('common.headers.total') }}
             </th>
-            <th class="text-capitalize">
+            <th class="text-capitalize" v-if="!isCashierSession">
               {{ $t('common.headers.win_amount') }}
             </th>
-            <th>%</th>
+            <th v-if="!isCashierSession">%</th>
           </tr>
         </thead>
         <tbody>
@@ -28,6 +32,7 @@
             v-for="stockExitLine in sale.stock_exit_lines"
             :key="`sale-exit-lne-${stockExitLine.id}`"
             :stock-exit-line="stockExitLine"
+            :is-cashier-session="isCashierSession"
           />
         </tbody>
         <tfoot>
@@ -45,11 +50,17 @@
                 <i class="f-w-400">{{ quantity.unit }}</i>
               </label>
             </th>
-            <th>{{ `${selectableSale.sup_amount} ${currency}` }}</th>
-            <th>{{ `${selectableSale.discount} ${currency}` }}</th>
-            <th>{{ `${selectableSale.sale_amount} ${currency}` }}</th>
-            <th>{{ `${selectableSale.sale_win_amount} ${currency}` }}</th>
-            <th>{{ `${selectableSale.sale_win_amount_percent} %` }}</th>
+            <th>{{ `${selectableSale.sup_amount.toFixed(2)} ${currency}` }}</th>
+            <th>{{ `${selectableSale.discount.toFixed(2)} ${currency}` }}</th>
+            <th>
+              {{ `${selectableSale.sale_amount.toFixed(2)} ${currency}` }}
+            </th>
+            <th v-if="!isCashierSession">
+              {{ `${selectableSale.sale_win_amount} ${currency}` }}
+            </th>
+            <th v-if="!isCashierSession">
+              {{ `${selectableSale.sale_win_amount_percent} %` }}
+            </th>
           </tr>
         </tfoot>
       </table>
@@ -81,6 +92,9 @@ export default {
     ...mapGetters('sale', ['sale', 'getSelectedSaleById']),
     selectableSale() {
       return this.getSelectedSaleById(this.sale.id);
+    },
+    isCashierSession() {
+      return this.$route.name === 'sales.session.reports.details';
     },
   },
 };
