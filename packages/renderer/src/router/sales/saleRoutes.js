@@ -63,6 +63,22 @@ export const saleRoutes = [
         component: () =>
           import('/@/views/sales/session/SaleModalSearchResults.vue'),
       },
+      {
+        path: 'cashier-session-reports',
+        name: 'sales.session.reports',
+        component: () =>
+          import('/@/views/sales/session/CashierSessionReports.vue'),
+        children: [
+          {
+            path: ':id/details',
+            name: 'sales.session.reports.details',
+            component: () => import('/@/views/sales/SaleDetails.vue'),
+            meta: {
+              requireSale: true,
+            },
+          },
+        ],
+      },
     ],
   },
   {

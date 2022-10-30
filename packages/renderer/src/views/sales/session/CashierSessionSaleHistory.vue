@@ -28,7 +28,12 @@
         <div>
           <h6>
             {{ $t('common.sale.list') }}
-            <a href="#" class="m-l-50" @click.prevent="handleSearchSaleAction">
+            <a
+              href="#"
+              class="m-l-50"
+              :title="$t('common.refresh')"
+              @click.prevent="handleSearchSaleAction"
+            >
               <i class="fa fa-refresh" :class="loading ? 'fa-pulse' : ''" />
             </a>
           </h6>

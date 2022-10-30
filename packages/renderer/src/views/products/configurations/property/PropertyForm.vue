@@ -215,7 +215,7 @@ export default {
               const productValueIds = deleting.map((d) => d.id);
               Promise.all([
                 this.$store.dispatch('property/addPropertyValues', {
-                  values: this.propertyValues,
+                  values: adding,
                 }),
                 this.$store.dispatch(
                   'property/removePropertyValues',
@@ -231,7 +231,7 @@ export default {
               if (adding.length)
                 this.$store
                   .dispatch('property/addPropertyValues', {
-                    values: this.propertyValues,
+                    values: adding,
                   })
                   .then(() => this.$router.back())
                   .catch((error) => {
@@ -249,7 +249,6 @@ export default {
                   });
               }
             }
-            this.$router.back();
           })
           .catch((error) => {
             this.errors = error.response?.data?.errors;

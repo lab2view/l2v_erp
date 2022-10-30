@@ -5,8 +5,8 @@
     <td>{{ stockExitLine.sup_price }}</td>
     <td>{{ articleDiscount }}</td>
     <td>{{ totalAmount }}</td>
-    <td>{{ totalMarge }}</td>
-    <td>{{ margePercent.toFixed(2) }}</td>
+    <td v-if="!isCashierSession">{{ totalMarge }}</td>
+    <td v-if="!isCashierSession">{{ margePercent.toFixed(2) }}</td>
   </tr>
 </template>
 
@@ -19,6 +19,10 @@ export default {
     stockExitLine: {
       type: Object,
       required: true,
+    },
+    isCashierSession: {
+      type: Boolean,
+      default: false,
     },
   },
   computed: {

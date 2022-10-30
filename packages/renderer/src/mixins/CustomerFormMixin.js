@@ -13,6 +13,7 @@ export default {
         localization: null,
         country_id: null,
         country: null,
+        first_name: null,
         name: null,
         phone: null,
         email: null,

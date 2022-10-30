@@ -45,6 +45,10 @@ export default {
       type: Number,
       default: null,
     },
+    min: {
+      type: Number,
+      default: 0,
+    },
     storeAction: {
       type: Function,
       required: true,
@@ -94,7 +98,9 @@ export default {
           }`;
     },
     disabledBtn() {
-      return this.quantityField ? parseInt(this.quantityField) <= 0 : true;
+      return this.quantityField !== null
+        ? parseInt(this.quantityField) < this.min
+        : true;
     },
   },
   watch: {

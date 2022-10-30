@@ -136,7 +136,7 @@ export default createStore({
       state.globalProgress.value = value;
     },
     SET_GLOBAL_LOADING(state, loading) {
-      state.globalLoading = loading;
+      if (state.globalLoading !== loading) state.globalLoading = loading;
     },
     SET_LANDLORD_DOMAIN(state, domain) {
       state.landlordDomain = domain;
