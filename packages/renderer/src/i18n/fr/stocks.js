@@ -102,4 +102,9 @@ export default {
     store: "L'enregistrement de l'inventaire a ete effectue avec succes.",
     update: "La modification de l'inventaire a ete effectuee avec succes.",
   },
+  crossing: {
+    listTitle: 'Rapports du croisement des stocks',
+    reportTitle:
+      'Rapports du croisement des stocks du {date} a {time} de << {source} >> vers << {target} >> avec le niveau de stock "{level}"',
+  },
 };

@@ -4,6 +4,7 @@ import i18n from '../../../i18n';
 import { unitPackageCode } from '/@/helpers/codes.js';
 import {
   getDistributionCurrentStock,
+  getStockByEnterpriseId,
   getStockExitLineArticleStock,
 } from '/@/helpers/utils.js';
 import fileService from '/@/services/FileService.js';
@@ -98,6 +99,34 @@ const actions = {
           return Promise.reject(error);
         });
     }
+  },
+
+  getArticleByStockCrossing(
+    { getters },
+    { source_enterprise_id, target_enterprise_id, quantity }
+  ) {
+    return Promise.all(
+      getters.articles
+        .filter((article) => {
+          const sourceStock = getStockByEnterpriseId(
+            source_enterprise_id,
+            article
+          );
+          const targetStock = getStockByEnterpriseId(
+            target_enterprise_id,
+            article
+          );
+          return sourceStock >= parseInt(quantity) && targetStock === 0;
+        })
+        .map((art) => {
+          return {
+            articleName: `${art.product?.code} / ${art.product?.reference} ${art.name}`,
+            sourceStock: getStockByEnterpriseId(source_enterprise_id, art),
+            targetStock: getStockByEnterpriseId(target_enterprise_id, art),
+            unitName: art.product.product_unit.label,
+          };
+        })
+    );
   },
 
   searchArticles(context, { page, field }) {

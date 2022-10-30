@@ -88,6 +88,15 @@ export const stockRoutes = [
     },
   },
   {
+    path: 'crossings',
+    name: 'stocks.crossings',
+    component: () => import('/@/views/stocks/crossings/StockCrossings.vue'),
+    meta: {
+      code: 'StockCrossing.viewAny',
+      feather: 'eye',
+    },
+  },
+  {
     path: 'exits/:id?/forms',
     component: () => import('/@/components/stocks/ExitFormLayout.vue'),
     children: exitFormRoutes,

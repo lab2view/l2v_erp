@@ -41,6 +41,15 @@ export function getDistributionCurrentStock(distribution) {
   return totalEntry - totalExit;
 }
 
+export function getStockByEnterpriseId(enterprise_id, article) {
+  const distribution = article.stats.distributions.find(
+    (d) => d.id === parseInt(enterprise_id)
+  );
+  return distribution !== undefined
+    ? getDistributionCurrentStock(distribution)
+    : article.stock.available;
+}
+
 export function getPrinterRawText({
   enterprise,
   discount,
