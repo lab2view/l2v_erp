@@ -98,7 +98,6 @@
 
 <script>
 import BaseContainer from '/@/components/common/BaseContainer.vue';
-import StockExitTable from '/@/components/stocks/StockExitTable.vue';
 import store from '/@/store';
 import { mapGetters } from 'vuex';
 import BaseTableHeader from '/@/components/common/BaseTableHeader.vue';
@@ -118,7 +117,6 @@ export default {
     BaseSelect,
     BaseButton,
     BaseTableHeader,
-    StockExitTable,
     BaseContainer,
   },
   beforeRouteEnter(routeTo, routeFrom, next) {

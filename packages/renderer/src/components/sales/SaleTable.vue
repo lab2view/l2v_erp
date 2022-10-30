@@ -102,7 +102,7 @@
       <th :colspan="isCashierSession ? 2 : 0">
         {{ `${saleTotalSaleAmount} ${currency}` }}
       </th>
-      <th colspan="3" v-if="!isCashierSession">
+      <th v-if="!isCashierSession" colspan="3">
         {{ `${saleTotalWinAmount} ${currency}` }}
         <label :class="`font-${saleTotalWinAmount > 0 ? 'primary' : 'danger'}`">
           ({{ `${saleTotalWinAmountPercent} %` }})

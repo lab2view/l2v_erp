@@ -57,7 +57,7 @@ export default {
     },
     buttons: {
       type: Array,
-      default: [],
+      default: null,
     },
   },
   computed: {
@@ -92,7 +92,7 @@ export default {
           info: this.tableInfos ?? false,
         },
       };
-      if (this.buttons.length) {
+      if (this.buttons?.length) {
         dataTableOption.dom = 'Blfrtip';
         dataTableOption.buttons = this.buttons;
       }

@@ -27,7 +27,7 @@
         <div class="modal-body" :class="modalBodyClass">
           <slot></slot>
         </div>
-        <div class="modal-footer" v-if="showFooter">
+        <div v-if="showFooter" class="modal-footer">
           <slot name="footer"></slot>
         </div>
       </div>

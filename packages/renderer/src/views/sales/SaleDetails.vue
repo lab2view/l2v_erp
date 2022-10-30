@@ -21,7 +21,7 @@
             <th class="text-capitalize">
               {{ $t('common.headers.total') }}
             </th>
-            <th class="text-capitalize" v-if="!isCashierSession">
+            <th v-if="!isCashierSession" class="text-capitalize">
               {{ $t('common.headers.win_amount') }}
             </th>
             <th v-if="!isCashierSession">%</th>

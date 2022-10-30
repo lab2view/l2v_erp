@@ -42,7 +42,7 @@
         />
       </div>
     </div>
-    <div class="card-body p-0 mb-2" v-if="getSelectedSaleList.length">
+    <div v-if="getSelectedSaleList.length" class="card-body p-0 mb-2">
       <SaleTable :sales="getSelectedSaleList" :is-cashier-session="true" />
     </div>
     <div v-else class="card-body">
@@ -55,8 +55,6 @@
 
 <script>
 import BaseModal from '/@/components/common/BaseModal.vue';
-import ArticleSearchResultLine from '/@/components/sales/session/ArticleSearchResultLine.vue';
-import BasePaginate from '/@/components/common/BasePaginate.vue';
 import store from '/@/store/index';
 import { mapGetters } from 'vuex';
 import SaleSessionMixin from '/@/mixins/SaleSessionMixin';
@@ -74,8 +72,6 @@ export default {
     BaseSelect,
     BaseFieldGroup,
     SaleTable,
-    BasePaginate,
-    ArticleSearchResultLine,
     BaseModal,
   },
   mixins: [SaleSessionMixin],

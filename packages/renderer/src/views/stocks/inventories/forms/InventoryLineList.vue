@@ -84,10 +84,10 @@
               remove-dispatch-name="inventory/removeInventoryLines"
               :cancel-selection="inventoryIsConfirm"
               :for-inventory="true"
+              :min-quantity="0"
               @deleted="selected = []"
               @selected="selectInventoryLine(inventoryLine, true)"
               @unselected="selectInventoryLine(inventoryLine, false)"
-              :min-quantity="0"
             >
               <td class="text-center">{{ inventoryLine.old_value }}</td>
             </ArticleLineSelectable>
@@ -95,7 +95,7 @@
         </table>
       </div>
     </div>
-    <div class="card-footer border-top-0" v-if="!inventory.stock_balancing">
+    <div v-if="!inventory.stock_balancing" class="card-footer border-top-0">
       <div class="row justify-content-center">
         <BaseButton
           v-if="inventoryIsConfirm"
