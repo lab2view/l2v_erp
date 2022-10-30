@@ -103,7 +103,7 @@ const actions = {
 
   getArticleByStockCrossing(
     { getters },
-    { source_enterprise_id, target_enterprise_id, quantity }
+    { source_enterprise_id, target_enterprise_id, quantity, is_existing }
   ) {
     return Promise.all(
       getters.articles
@@ -116,7 +116,10 @@ const actions = {
             target_enterprise_id,
             article
           );
-          return sourceStock >= parseInt(quantity) && targetStock === 0;
+          return (
+            sourceStock >= parseInt(quantity) &&
+            (is_existing ? targetStock === 0 : targetStock < quantity)
+          );
         })
         .map((art) => {
           return {

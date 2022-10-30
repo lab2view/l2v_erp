@@ -106,5 +106,7 @@ export default {
     listTitle: 'Rapports du croisement des stocks',
     reportTitle:
       'Rapports du croisement des stocks du {date} a {time} de << {source} >> vers << {target} >> avec le niveau de stock "{level}"',
+    existing: 'Stock existant',
+    diff: 'Stock au niveau',
   },
 };

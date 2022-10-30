@@ -126,6 +126,7 @@ export default {
     country_filter: 'Par pays',
     customer_type_filter: 'Par type de client',
     enterprise_from: 'Structure source',
+    crossing_type: 'Type de verification',
     stock_level: 'Niveau de stock',
     enterprise_to: 'Structure cible',
     select_enterprise_for_custom_price: 'Editer le prix pour une entreprise ?',

@@ -34,7 +34,7 @@
                     key-value="id"
                   />
                 </div>
-                <div class="col-md">
+                <div class="col-md m-r-5">
                   <BaseInput
                     v-model.number="crossingField.quantity"
                     :label="$t('common.fields.stock_level')"
@@ -43,6 +43,29 @@
                     min="1"
                     required
                   />
+                </div>
+                <div class="col-md m-l-5">
+                  <BaseFieldGroup
+                    :with-refresh="false"
+                    :with-append="false"
+                    :label="$t('common.fields.crossing_type')"
+                  >
+                    <BaseSwitchInput
+                      v-model="crossingField.is_existing"
+                      :label-class="`form-label fw-bold ${
+                        crossingField.is_existing
+                          ? 'font-success'
+                          : 'font-secondary'
+                      }`"
+                      :label="
+                        $t(
+                          `stocks.crossing.${
+                            crossingField.is_existing ? 'existing' : 'diff'
+                          }`
+                        )
+                      "
+                    />
+                  </BaseFieldGroup>
                 </div>
               </div>
             </div>
@@ -107,10 +130,12 @@ import BaseFieldGroup from '/@/components/common/BaseFieldGroup.vue';
 import BaseInput from '/@/components/common/BaseInput.vue';
 import BaseDatatable from '/@/components/common/BaseDatatable.vue';
 import { datatableBtnCode } from '/@/helpers/codes.js';
+import BaseSwitchInput from '/@/components/common/BaseSwitchInput.vue';
 
 export default {
   name: 'StockCrossings',
   components: {
+    BaseSwitchInput,
     BaseDatatable,
     BaseInput,
     BaseFieldGroup,
@@ -140,6 +165,7 @@ export default {
         source_enterprise_id: null,
         target_enterprise_id: null,
         quantity: null,
+        is_existing: true,
       },
       articlesCrossings: [],
     };
