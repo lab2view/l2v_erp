@@ -84,6 +84,7 @@
               remove-dispatch-name="inventory/removeInventoryLines"
               :cancel-selection="inventoryIsConfirm"
               :for-inventory="true"
+              :min-quantity="0"
               @deleted="selected = []"
               @selected="selectInventoryLine(inventoryLine, true)"
               @unselected="selectInventoryLine(inventoryLine, false)"
@@ -94,9 +95,10 @@
         </table>
       </div>
     </div>
-    <div class="card-footer border-top-0">
-      <div v-if="inventoryIsConfirm" class="row justify-content-center">
+    <div v-if="!inventory.stock_balancing" class="card-footer border-top-0">
+      <div class="row justify-content-center">
         <BaseButton
+          v-if="inventoryIsConfirm"
           class="btn btn-success col-auto"
           type="button"
           :text="$t('common.confirm_inventory')"
@@ -104,9 +106,8 @@
           :loading="loading"
           @click.prevent="updateStockFromInventory"
         />
-      </div>
-      <div v-else class="row justify-content-center">
         <BaseButton
+          v-else-if="inventory.inventory_lines.length"
           class="btn btn-success col-auto"
           type="button"
           :text="$t('common.validate_inventory')"

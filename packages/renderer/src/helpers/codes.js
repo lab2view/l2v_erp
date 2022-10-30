@@ -61,3 +61,9 @@ export const propertyTypeCode = {
   checkbox: 'checkbox',
   color: 'color',
 };
+
+export const datatableBtnCode = {
+  csv: 'csvHtml5',
+  excel: 'excelHtml5',
+  pdf: 'pdfHtml5',
+};

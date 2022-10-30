@@ -1,6 +1,11 @@
 export default {
   title: 'Gestion des ventes',
   manage: 'Gestion des ventes',
+  session: {
+    report: 'Rapport de vente',
+    close_title: 'Rapport de "{cashRegister}" du {date}',
+    no_sale: 'Aucune vente enregistree pour le moment !',
+  },
   sale: {
     listTitle: 'Liste des ventes',
     formCreateTitle: 'Ajouter une vente',

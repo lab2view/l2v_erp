@@ -24,10 +24,10 @@
             @click.prevent="$router.back()"
           ></button>
         </div>
-        <div class="modal-body">
+        <div class="modal-body" :class="modalBodyClass">
           <slot></slot>
         </div>
-        <div class="modal-footer">
+        <div v-if="showFooter" class="modal-footer">
           <slot name="footer"></slot>
         </div>
       </div>
@@ -43,6 +43,8 @@ export default {
     title: { type: String, required: true },
     modalSize: { type: String, default: null },
     withCloseAction: { type: Boolean, default: true },
+    modalBodyClass: { type: String, default: null },
+    showFooter: { type: Boolean, default: true },
   },
   computed: {
     sizeClass() {

@@ -43,7 +43,7 @@
         {{ currentUserRoleName }}
       </p>
     </div>
-    <nav v-if="!isCashierSessionRoute">
+    <nav v-if="!isSaleSession">
       <div class="main-navbar">
         <div id="mainnav">
           <ul class="nav-menu custom-scrollbar">

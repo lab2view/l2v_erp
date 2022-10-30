@@ -65,21 +65,40 @@
       </div>
       <div class="nav-right col pull-right right-menu p-0">
         <ul class="nav-menus">
-          <li v-if="isSaleSession" class="">
+          <li
+            v-if="isSaleSession"
+            :title="`${cashierName} - ${cashRegisterName}`"
+            class="m-0"
+          >
             <i>
               <i class="fa fa-user-circle f-16 m-r-5" />
-              {{ cashierName }} /
-              <span class="f-w-500 f-16">{{
-                cashRegisterName.toString().toUpperCase()
-              }}</span>
+              {{ truncate(cashierName, 5) }} /
+              <span class="f-w-500 f-16">
+                {{ truncate(cashRegisterName.toString().toUpperCase(), 10) }}
+              </span>
             </i>
+          </li>
+          <li
+            v-if="isSaleSession"
+            :title="$t('sales.session.report')"
+            class="font-primary m-0 border border-primary"
+            @click.prevent="
+              $router.push({
+                name: 'sales.session.reports',
+                params: $route.params,
+                query: $route.query,
+              })
+            "
+          >
+            <div class="mode">
+              <i class="fa fa-table"></i>
+            </div>
           </li>
           <li @click.prevent="setDarkMode">
             <div class="mode">
               <i :class="headerModeIconClass"></i>
             </div>
           </li>
-
           <li class="onhover-dropdown p-0">
             <button
               class="btn btn-primary-light"
@@ -107,11 +126,12 @@ import { defineComponent } from 'vue';
 import { mapGetters } from 'vuex';
 import SaleSessionMixin from '/@/mixins/SaleSessionMixin';
 import BaseInput from '/@/components/common/BaseInput.vue';
+import FilterMixin from '/@/mixins/FilterMixin.js';
 
 export default defineComponent({
   name: 'Header',
   components: { BaseInput },
-  mixins: [SaleSessionMixin],
+  mixins: [SaleSessionMixin, FilterMixin],
   data() {
     return {
       dark_mode: false,

@@ -18,6 +18,7 @@
         >
           <template #headers>
             <th>#</th>
+            <th>{{ $t('common.attributes.structure') }}</th>
             <th>{{ $t('common.attributes.reference') }}</th>
             <th>{{ $t('common.attributes.validate') }}</th>
             <th>{{ $t('common.attributes.inventory_date') }}</th>
@@ -25,25 +26,31 @@
           </template>
           <tr v-for="inventory in inventories" :key="inventory.id">
             <td>{{ inventory.id }}</td>
+            <td>{{ inventory.enterprise?.name || 'Principal' }}</td>
             <td>{{ inventory.reference }}</td>
-            <td>{{ inventory.validate }}</td>
-            <td>{{ inventory.inventory_date }}</td>
             <td>
-              <button
-                :title="$t('common.update')"
-                class="btn btn-secondary btn-xs"
-                data-original-title="btn btn-secondary btn-xs"
+              {{ inventory.validate ? $t('common.yes') : $t('common.no') }}
+            </td>
+            <td>{{ $d(inventory.inventory_date, 'short') }}</td>
+            <td>
+              <BaseButton
+                :title="$t(`common.${inventory.validate ? 'show' : 'update'}`)"
+                :text="$t(`common.${inventory.validate ? 'show' : 'update'}`)"
+                :class="`btn btn-xs btn-${
+                  inventory.validate ? 'primary' : 'secondary'
+                }`"
                 type="button"
                 @click.prevent="
                   $router.push({
-                    name: 'inventory.form.desc',
+                    name: `inventory.form.${
+                      inventory.validate ? 'article' : 'desc'
+                    }`,
                     params: { id: inventory.id },
                   })
                 "
-              >
-                {{ $t('common.update') }}
-              </button>
-              <button
+              />
+              <BaseButton
+                v-if="!inventory.stock_balancing"
                 :title="$t('common.delete')"
                 class="btn btn-danger btn-xs m-l-5"
                 data-original-title="btn btn-danger btn-xs"
@@ -51,7 +58,7 @@
                 @click.prevent="deleteInventory(inventory)"
               >
                 <i class="fa fa-trash-o" />
-              </button>
+              </BaseButton>
             </td>
           </tr>
         </BaseDatatable>
@@ -69,9 +76,11 @@ import BaseDatatable from '/@/components/common/BaseDatatable.vue';
 import store from '/@/store/index.js';
 import { mapGetters } from 'vuex';
 import BaseTableHeader from '/@/components/common/BaseTableHeader.vue';
+import BaseButton from '/@/components/common/BaseButton.vue';
 
 export default {
-  components: { BaseTableHeader, BaseContainer, BaseDatatable },
+  name: 'InventoriesList',
+  components: { BaseButton, BaseTableHeader, BaseContainer, BaseDatatable },
   beforeRouteEnter(routeTo, routeFrom, next) {
     store
       .dispatch('inventory/getInventoriesList', {

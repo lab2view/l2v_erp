@@ -8,6 +8,16 @@ export default {
       minute: 'numeric',
       second: 'numeric',
     },
+    date: {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric',
+    },
+    time: {
+      hour: 'numeric',
+      minute: 'numeric',
+      second: 'numeric',
+    },
     long: {
       year: 'numeric',
       month: 'long',

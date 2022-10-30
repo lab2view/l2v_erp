@@ -72,7 +72,17 @@
             v-model="customerForm.name"
             :errors="errors.name"
             :label="$t('common.attributes.name')"
-            placeholder="John Doe"
+            placeholder="John"
+            required
+            type="text"
+          />
+        </div>
+        <div class="col-md">
+          <BaseInput
+            v-model="customerForm.first_name"
+            :errors="errors.first_name"
+            :label="$t('common.attributes.first_name')"
+            placeholder="Doe"
             required
             type="text"
           />
@@ -80,9 +90,13 @@
       </div>
     </div>
     <template #footer>
-      <button :title="$t('common.save')" class="btn btn-primary" type="submit">
-        {{ $t('common.save') }}
-      </button>
+      <BaseButton
+        :title="$t('common.save')"
+        class="btn btn-primary"
+        type="submit"
+        :text="$t('common.save')"
+        :loading="loading"
+      />
     </template>
   </BaseFormModal>
 </template>
@@ -94,10 +108,17 @@ import BaseInput from '/@/components/common/BaseInput.vue';
 import BaseSelect from '/@/components/common/BaseSelect.vue';
 import BaseFieldGroup from '/@/components/common/BaseFieldGroup.vue';
 import store from '/@/store/index.js';
+import BaseButton from '/@/components/common/BaseButton.vue';
 
 export default {
   name: 'CustomerQuickForm',
-  components: { BaseFieldGroup, BaseSelect, BaseInput, BaseFormModal },
+  components: {
+    BaseButton,
+    BaseFieldGroup,
+    BaseSelect,
+    BaseInput,
+    BaseFormModal,
+  },
   mixins: [CustomerFormMixin],
   beforeRouteEnter(routeTo, routeFrom, next) {
     Promise.all([

@@ -39,6 +39,8 @@
                 label-class="form-label fw-bold"
                 placeholder="..."
                 required
+                :disabled="isUpdating"
+                :max-date="new Date()"
                 type="date"
               />
               <div

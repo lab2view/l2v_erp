@@ -224,6 +224,9 @@ export default {
       multiple: 'Articles Multi-structures',
     },
   },
+  stockcrossing: {
+    viewany: 'Croisement de Stock',
+  },
   stocktype: {
     viewany: 'Types de Stock',
   },

@@ -3,6 +3,7 @@
     v-if="!$store.state.globalLoading"
     :tfoot="true"
     :total="sales.length"
+    :scroll-y="isCashierSession ? '530px' : false"
   >
     <template #headers>
       <th>#</th>
@@ -12,16 +13,29 @@
       <th>{{ $t('common.headers.sub_amount') }}</th>
       <th>{{ $t('common.attributes.discount') }}</th>
       <th>{{ $t('common.headers.total_price') }}</th>
-      <th>{{ $t('common.headers.win_amount') }}</th>
-      <th>{{ $t('common.attributes.date') }}</th>
-      <th>{{ $t('common.actions') }}</th>
+      <th v-if="!isCashierSession">{{ $t('common.headers.win_amount') }}</th>
+      <th>
+        {{ $t(`common.attributes.${isCashierSession ? 'time' : 'date'}`) }}
+      </th>
+      <th v-if="!isCashierSession">{{ $t('common.actions') }}</th>
     </template>
     <tr v-for="sale in sales" :key="`sale-line-${sale.id}`">
       <td>{{ sale.id }}</td>
       <td v-if="isRoleAdmin">
         {{ sale.enterprise.name ?? $t('common.parent') }}
       </td>
-      <td>{{ sale.code }}</td>
+      <td>
+        <router-link
+          v-if="isCashierSession"
+          :to="{
+            name: 'sales.session.reports.details',
+            params: { id: sale.id },
+          }"
+        >
+          {{ sale.code }}
+        </router-link>
+        <span v-else>{{ sale.code }}</span>
+      </td>
       <td>
         <label
           v-for="(quantity, index) in sale.quantities"
@@ -35,7 +49,7 @@
       <td>{{ `${sale.sup_amount}` }}</td>
       <td>{{ sale.discount }}</td>
       <td>{{ sale.sale_amount }}</td>
-      <td class="">
+      <td v-if="!isCashierSession">
         {{ `${sale.sale_win_amount}` }}
         <i
           :class="`f-w-400 font-${
@@ -45,8 +59,8 @@
           {{ `(${sale.sale_win_amount_percent}%)` }}
         </i>
       </td>
-      <td>{{ $d(sale.created_at, 'short') }}</td>
-      <td>
+      <td>{{ $d(sale.created_at, isCashierSession ? 'time' : 'short') }}</td>
+      <td v-if="!isCashierSession">
         <BaseButton
           type="button"
           class="btn btn-sm btn-success"
@@ -70,7 +84,7 @@
       </td>
     </tr>
     <template #footers>
-      <th colspan="2" class="text-center">
+      <th :colspan="isCashierSession ? 0 : 2" class="text-center">
         {{ $t('common.headers.total').toUpperCase() }}
       </th>
       <th colspan="2" class="text-end">
@@ -85,8 +99,10 @@
       </th>
       <th>{{ `${saleTotalSupAmount} ${currency}` }}</th>
       <th>{{ `${saleTotalDiscount} ${currency}` }}</th>
-      <th>{{ `${saleTotalSaleAmount} ${currency}` }}</th>
-      <th colspan="3">
+      <th :colspan="isCashierSession ? 2 : 0">
+        {{ `${saleTotalSaleAmount} ${currency}` }}
+      </th>
+      <th v-if="!isCashierSession" colspan="3">
         {{ `${saleTotalWinAmount} ${currency}` }}
         <label :class="`font-${saleTotalWinAmount > 0 ? 'primary' : 'danger'}`">
           ({{ `${saleTotalWinAmountPercent} %` }})
@@ -111,18 +127,22 @@ export default {
       type: Array,
       required: true,
     },
+    isCashierSession: {
+      type: Boolean,
+      default: false,
+    },
   },
   computed: {
     ...mapGetters('auth', ['isRoleAdmin']),
     ...mapGetters('workspace', ['currency']),
     saleTotalSupAmount() {
-      return _.sumBy(this.sales, 'sup_amount');
+      return _.sumBy(this.sales, 'sup_amount').toFixed(2);
     },
     saleTotalDiscount() {
-      return _.sumBy(this.sales, 'discount');
+      return _.sumBy(this.sales, 'discount').toFixed(2);
     },
     saleTotalSaleAmount() {
-      return _.sumBy(this.sales, 'sale_amount');
+      return _.sumBy(this.sales, 'sale_amount').toFixed(2);
     },
     saleTotalWinAmount() {
       return _.sumBy(this.sales, 'sale_win_amount').toFixed(2);

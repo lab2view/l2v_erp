@@ -1,8 +1,7 @@
 import saleService from '/@/services/sales/SaleService';
 import { notify } from '/@/helpers/notify';
 import i18n from '/@/i18n';
-import _ from 'lodash';
-import { priceTypeCode } from '/@/helpers/codes';
+import { transformSaleForTable } from '/@/helpers/utils.js';
 
 const state = {
   sales: [],
@@ -31,58 +30,7 @@ const getters = {
   cashierSale: (state) => state.cashier_sale,
   requestField: (state) => state.request_field,
   getSelectedSaleList: (state, getters) => {
-    return getters.sales.map((sale) => {
-      const totalSupPrice = _.sumBy(sale.stock_exit_lines, 'sup_price');
-      const totalArticleBuyPrice = _.sumBy(
-        sale.stock_exit_lines.map((sel) => {
-          const price = sel.article?.prices?.find(
-            (p) => p.price_type.code === priceTypeCode.buy
-          );
-          return { buy_price: (price?.value ?? 0) * sel.quantity };
-        }),
-        'buy_price'
-      );
-      const sale_amount =
-        totalSupPrice - (sale.discount ? parseFloat(sale.discount) : 0);
-      const sale_win_amount = (sale_amount - totalArticleBuyPrice).toFixed(2);
-
-      const quantities = _(sale.stock_exit_lines)
-        .groupBy((sel) => sel.article.product.product_unit.label)
-        .map((objs, key) => {
-          return {
-            unit: key,
-            total: _.sumBy(objs, 'quantity'),
-          };
-        })
-        .value();
-
-      const saleDiscount = sale.discount ?? 0;
-      const saleTotalAmountAfterDiscount = totalSupPrice - saleDiscount;
-      return {
-        id: sale.id,
-        enterprise: {
-          id: sale.enterprise_id,
-          name: sale.enterprise?.name ?? null,
-        },
-        reference: sale.reference,
-        code: sale.code,
-        sup_amount: totalSupPrice,
-        discount: saleDiscount,
-        sale_amount,
-        created_at: sale.created_at,
-        sale_win_amount: parseFloat(sale_win_amount),
-        sale_win_amount_percent:
-          saleTotalAmountAfterDiscount > 0
-            ? parseFloat(
-                (
-                  (sale_win_amount * 100) /
-                  saleTotalAmountAfterDiscount
-                ).toFixed(2)
-              )
-            : -100,
-        quantities,
-      };
-    });
+    return getters.sales.map((sale) => transformSaleForTable(sale));
   },
   getSelectedSaleById: (state, getters) => (id) =>
     getters.getSelectedSaleList.find((sl) => sl.id === id) ?? null,
