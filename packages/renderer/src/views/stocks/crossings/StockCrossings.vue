@@ -39,6 +39,7 @@
                     v-model.number="crossingField.quantity"
                     :label="$t('common.fields.stock_level')"
                     placeholder="Quantity"
+                    type="number"
                     min="1"
                     required
                   />
@@ -151,13 +152,13 @@ export default {
       return [
         { id: '', name: this.$t('common.parent') },
         ...this.enterprises.filter(
-          (ent) => ent.id.toString() !== this.crossingField.target_enterprise_id
+          (ent) => ent.id !== this.crossingField.target_enterprise_id
         ),
       ];
     },
     targetEnterprises() {
       return this.enterprises.filter(
-        (ent) => ent.id.toString() !== this.crossingField.source_enterprise_id
+        (ent) => ent.id !== this.crossingField.source_enterprise_id
       );
     },
     sourceEntName() {
