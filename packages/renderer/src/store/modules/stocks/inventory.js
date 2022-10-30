@@ -116,7 +116,6 @@ const actions = {
     return inventoryService
       .processToInventoryStockBalancing(inventory.id)
       .then(({ data }) => {
-        console.log(data);
         commit('SET_CURRENT_INVENTORY', data);
         return data;
       });

@@ -5,9 +5,7 @@
         `${article.product?.code} / ${article.product?.reference} ${article.name}`
       }}
     </td>
-    <td class="text-center">
-      {{ article.stock.available }}
-    </td>
+    <td class="text-center">{{ availableStock }}</td>
     <td style="width: 120px">
       <BaseInput
         v-model.number="new_value"
@@ -35,6 +33,7 @@
 import { mapGetters } from 'vuex';
 import BaseInput from '/@/components/common/BaseInput.vue';
 import BaseButton from '/@/components/common/BaseButton.vue';
+import { getDistributionCurrentStock } from '/@/helpers/utils.js';
 
 export default {
   components: { BaseButton, BaseInput },
@@ -76,12 +75,21 @@ export default {
         );
       },
     },
+    availableStock() {
+      if (this.inventoryLine.enterprise_id) {
+        const distribution = this.article.stats.distributions.find(
+          (d) => d.id === this.inventoryLine.enterprise_id
+        );
+        if (distribution) return getDistributionCurrentStock(distribution);
+      }
+      return this.article.stock.available;
+    },
   },
   created() {
     this.updateFieldMethod(
       {
         ...this.inventoryLine,
-        old_value: this.article.stock.available,
+        old_value: this.availableStock,
       },
       this.index
     );

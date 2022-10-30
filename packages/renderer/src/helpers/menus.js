@@ -160,6 +160,10 @@ export const stockMenus = [
         code: 'StockExit.viewAny',
         to: 'stocks.exits',
       },
+      {
+        code: 'StockCrossing.viewAny',
+        to: 'stocks.crossings',
+      },
     ],
   },
   {

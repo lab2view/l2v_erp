@@ -137,6 +137,7 @@ export default {
           return {
             id: null,
             inventory_id: this.inventory.id,
+            enterprise_id: this.inventory.enterprise_id ?? null,
             article_id: art.id,
             old_value: art.stock?.available ?? null,
             new_value: null,

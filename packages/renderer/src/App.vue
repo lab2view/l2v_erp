@@ -35,6 +35,21 @@ export default defineComponent({
           await this.$loadScript(
             `./src/assets/js/datatable/datatables/jquery.dataTables.min.js`
           ),
+          await this.$loadScript(
+            `./src/assets/js/datatable/datatable-extension/dataTables.buttons.min.js`
+          ),
+          await this.$loadScript(
+            `./src/assets/js/datatable/datatable-extension/jszip.min.js`
+          ),
+          await this.$loadScript(
+            `./src/assets/js/datatable/datatable-extension/pdfmake.min.js`
+          ),
+          await this.$loadScript(
+            `./src/assets/js/datatable/datatable-extension/vfs_fonts.js`
+          ),
+          this.$loadScript(
+            `./src/assets/js/datatable/datatable-extension/buttons.html5.min.js`
+          ),
         ]);
       })();
     }, 1000);
@@ -44,6 +59,7 @@ export default defineComponent({
 
 <style>
 @import './assets/css/datatables.css';
+@import './assets/css/datatable-extension.css';
 @import './assets/css/fontawesome.css';
 @import './assets/css/icofont.css';
 @import './assets/css/themify.css';

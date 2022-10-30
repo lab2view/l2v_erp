@@ -49,6 +49,7 @@ export default {
       const field = { page: 1, field: {} };
       return Promise.all([
         store.dispatch('article/getArticlesList', field),
+        store.dispatch('customer/getCustomersList', field),
         store.dispatch('tax/getTaxesList', field),
         store.dispatch('sale/getCashierSaleList', { cashier_id }),
         store.dispatch('price_type/getPriceTypeList', field),

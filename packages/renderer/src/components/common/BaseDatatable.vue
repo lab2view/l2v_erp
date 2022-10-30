@@ -6,8 +6,8 @@
     @click="executeFetchAction"
   />
 
-  <div v-else class="table-responsive product-table">
-    <table id="datatable-dt" class="display">
+  <div v-else class="product-table">
+    <table id="datatable-dt" class="display" style="width: 100%">
       <thead>
         <tr>
           <slot name="headers" />
@@ -43,9 +43,21 @@ export default {
       type: Number,
       default: null,
     },
+    pageLength: {
+      type: Number,
+      default: 10,
+    },
+    scrollY: {
+      type: [String, Boolean],
+      default: false,
+    },
     fetchAction: {
       type: Function,
       default: () => Promise.resolve(),
+    },
+    buttons: {
+      type: Array,
+      default: null,
     },
   },
   computed: {
@@ -72,12 +84,20 @@ export default {
   },
   methods: {
     initDatatable() {
-      $('#datatable-dt').DataTable({
+      let dataTableOption = {
+        pageLength: this.pageLength,
+        responsive: true,
         info: !!this.tableInfos,
         language: {
           info: this.tableInfos ?? false,
         },
-      });
+      };
+      if (this.buttons?.length) {
+        dataTableOption.dom = 'Blfrtip';
+        dataTableOption.buttons = this.buttons;
+      }
+      if (this.scrollY) dataTableOption.scrollY = this.scrollY;
+      $('#datatable-dt').DataTable(dataTableOption);
     },
     executeFetchAction() {
       this.$store.dispatch('setGlobalLoading', true);
