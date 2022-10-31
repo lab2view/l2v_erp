@@ -12,6 +12,7 @@ const state = {
     enterprise_id: null,
     cashier_id: null,
     sale_type_id: null,
+    payment_method_id: null,
     customer_id: null,
     created_at: null,
     keyword: null,
