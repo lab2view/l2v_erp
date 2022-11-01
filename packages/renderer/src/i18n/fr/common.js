@@ -310,6 +310,9 @@ export default {
     family_stock: 'Stock par familles',
     type_stock: 'Stock par types',
     available_stock_per_enterprise: 'Stock total disponible par entreprise',
+    pay_per_method: 'Paye par {name}',
+    cashin: 'Encaisse',
+    cashout: 'Decaisse',
   },
 
   errors: {
