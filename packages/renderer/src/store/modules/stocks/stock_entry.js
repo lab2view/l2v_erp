@@ -7,6 +7,14 @@ const state = {
   stock_entries: null,
   hash: null,
   stockEntry: null,
+  request_field: {
+    enterprise_id: null,
+    stock_type_id: null,
+    enterprise_sender_id: null,
+    stock_state_id: null,
+    created_at: null,
+    keyword: null,
+  },
 };
 
 // getters
@@ -22,6 +30,7 @@ const getters = {
         ) !== undefined
     );
   },
+  requestField: (state) => state.request_field,
   stockEntry: (state) =>
     state.stockEntry ? JSON.parse(state.stockEntry) : null,
   stockEntryReference: (state, getters) => getters.stockEntry?.reference,
@@ -361,6 +370,10 @@ const mutations = {
       state.stockEntry = JSON.stringify(stockEntry);
       state.stock_entries = JSON.stringify(stock_entries);
     }
+  },
+
+  SET_REQUEST_FIELD_VALUE(state, { field, value }) {
+    state.request_field[field] = value;
   },
 };
 

@@ -168,6 +168,7 @@ export default {
     iso_3166_3: 'iso_3166_3',
     phone_length: 'Nombre de chiffres du numero',
     stock_type: 'Type de stocks',
+    stock_state: 'Statut de stocks',
     none: 'Aucun',
     all: 'Tous',
     code: 'Code',

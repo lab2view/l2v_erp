@@ -15,6 +15,11 @@ const getters = {
     state.stockState ? JSON.parse(state.stockState) : null,
   getStockStateByCode: (state, getters) => (code) =>
     getters.stock_states.find((ss) => ss.code === code),
+  getListByStateFor: (state, getters) => (stateFor) => {
+    return getters.stock_states.filter(
+      (st) => st.state_for === stateFor || st.state_for === null
+    );
+  },
 };
 
 const actions = {
