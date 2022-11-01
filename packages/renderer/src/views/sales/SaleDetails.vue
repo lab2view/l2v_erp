@@ -36,9 +36,9 @@
                 </li>
               </ul>
               <ul
-                class="sub-total mt-2"
-                v-for="(collection, index) in cashierCollections"
+                v-for="collection in cashierCollections"
                 :key="collection.id"
+                class="sub-total mt-2"
               >
                 <li class="text-end">
                   {{

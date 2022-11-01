@@ -58,8 +58,8 @@
           </ul>
           <div class="tab-content">
             <div
-              class="tab-pane fade active show"
               id="top-available-articles"
+              class="tab-pane fade active show"
               role="tabpanel"
             >
               <BaseDatatable
@@ -88,7 +88,7 @@
                 </template>
               </BaseDatatable>
             </div>
-            <div class="tab-pane fade" id="top-stat-per-family" role="tabpanel">
+            <div id="top-stat-per-family" class="tab-pane fade" role="tabpanel">
               <div class="user-status table-responsive">
                 <table class="table table-bordernone">
                   <thead>
@@ -125,7 +125,7 @@
                 </table>
               </div>
             </div>
-            <div class="tab-pane fade" id="top-stat-per-type" role="tabpanel">
+            <div id="top-stat-per-type" class="tab-pane fade" role="tabpanel">
               <div class="user-status table-responsive">
                 <table class="table table-bordernone">
                   <thead>
@@ -170,7 +170,6 @@
 </template>
 
 <script>
-import BaseTableHeader from '/@/components/common/BaseTableHeader.vue';
 import BaseDatatable from '/@/components/common/BaseDatatable.vue';
 import store from '/@/store/index';
 import { mapGetters } from 'vuex';
@@ -185,7 +184,6 @@ export default {
     BaseProgressBar,
     ArticleStatsLineDetails,
     BaseDatatable,
-    BaseTableHeader,
   },
   beforeRouteEnter(routeTo, routeFrom, next) {
     store

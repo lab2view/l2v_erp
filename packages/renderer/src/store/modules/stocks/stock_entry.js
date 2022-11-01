@@ -272,7 +272,9 @@ const mutations = {
     }
   },
   UPDATE_STOCK_ENTRY_LINE(state, stockEntryLine) {
-    let index = state.stock_entries.findIndex((se) => se.id === stockEntry.id);
+    let index = state.stock_entries.findIndex(
+      (se) => se.id === state.stock_entry.id
+    );
     if (index !== -1) {
       let art = state.stock_entry.stock_entry_lines.findIndex(
         (p) => p.id === stockEntryLine.id

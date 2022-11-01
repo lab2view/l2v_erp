@@ -1,5 +1,5 @@
 <template>
-  <div class="text-end" v-if="showPercent">
+  <div v-if="showPercent" class="text-end">
     {{ `${progress} %` }}
   </div>
   <div class="progress" :style="styleProp">
