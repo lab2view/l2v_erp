@@ -243,7 +243,7 @@ const mutations = {
     state.stock_entry = stockEntry;
   },
   ADD_STOCK_ENTRY(state, stockEntry) {
-    state.stock_entries.push(stockEntry);
+    state.stock_entries.unshift(stockEntry);
   },
   UPDATE_STOCK_ENTRY(state, stockEntry) {
     const index = state.stock_entries.findIndex(
