@@ -1,5 +1,9 @@
 <template>
-  <form @submit.prevent="submitProvisionsForm">
+  <form
+    @submit.prevent="
+      canConfirmShipping ? submitConfirmShipping() : submitProvisionsForm()
+    "
+  >
     <div class="card mb-0">
       <div class="card-header pb-0">
         <div class="row align-items-center">
@@ -19,7 +23,7 @@
                   {{ $t('common.attributes.provider_id') }}
                   <span class="text-danger m-l-5">*</span>
                 </th>
-                <th scope="col" style="width: 240px">
+                <th scope="col">
                   {{ $t('common.attributes.article_id') }}
                 </th>
                 <th class="text-center" scope="col">
@@ -38,6 +42,7 @@
                 :key="`stc-ext-lne-form-${index}`"
                 :provision-line="provisionLine"
                 :update-field-method="updateProvisionLineField"
+                :can-field-quantity="!isConfirmShipping"
                 :index="index"
                 :errors="errors"
               />
@@ -54,6 +59,15 @@
             @click.prevent="$router.push({ name: 'shippings' })"
           />
           <BaseButton
+            v-if="canConfirmShipping"
+            class="btn btn-primary col-auto"
+            type="submit"
+            :text="$t('common.confirm_shipping')"
+            icon="fa fa-check-circle"
+            :loading="loading"
+          />
+          <BaseButton
+            v-else-if="!isConfirmShipping"
             class="btn btn-primary col-auto"
             type="submit"
             :text="$t('common.save')"
@@ -70,6 +84,8 @@
 import { mapGetters } from 'vuex';
 import BaseButton from '/@/components/common/BaseButton.vue';
 import ProvisionLineFormField from '/@/components/stocks/ProvisionLineFormField.vue';
+import { stockStateCode } from '/@/helpers/codes.js';
+import { notify } from '/@/helpers/notify.js';
 
 export default {
   name: 'ProvisionLinesForm',
@@ -84,11 +100,20 @@ export default {
 
   computed: {
     ...mapGetters('shipping', ['shipping']),
+    ...mapGetters('stock_state', ['getStockStateByCode']),
     isValidForm() {
       return (
         this.provisionsForm.find((p) => {
           return p.quantity > 0;
         }) !== undefined
+      );
+    },
+    isConfirmShipping() {
+      return this.shipping?.is_confirm ?? false;
+    },
+    canConfirmShipping() {
+      return (
+        this.shipping?.stock_provisions?.length > 0 && !this.isConfirmShipping
       );
     },
   },
@@ -108,7 +133,7 @@ export default {
             article: sel.article,
             shipping_id: this.shipping.id,
             quantity: null,
-            requested_quantity: sel.quantity,
+            requested_quantity: sel.remain_qty,
             remain_qty: sel.remain_qty,
             provider_name: sel.provider?.name,
             stock_entry_line_id: sel.id,
@@ -142,7 +167,18 @@ export default {
                 (p) => p.quantity > 0
               ),
             })
-            .then(() => {
+            .then((provisions) => {
+              if (this.shipping) {
+                this.$store.commit('shipping/UPDATE_SHIPPING', {
+                  ...this.shipping,
+                  stock_provisions: provisions,
+                });
+                this.$store.commit('shipping/SET_CURRENT_SHIPPING', {
+                  ...this.shipping,
+                  stock_provisions: provisions,
+                });
+                this.loading = false;
+              }
               this.$router.push({
                 name: 'shippings',
               });
@@ -155,6 +191,35 @@ export default {
             .finally(() => (this.loading = false));
         }
       }
+    },
+    submitConfirmShipping() {
+      this.$store.commit(
+        'stock_entry/SET_CURRENT_STOCK_ENTRY',
+        this.shipping.stock_entry
+      );
+
+      let stateCode = stockStateCode.partial_delivered;
+      if (
+        this.shipping.stock_entry.stock_entry_lines.find(
+          (sel) => sel.remain_qty > 0
+        ) === undefined
+      )
+        stateCode = stockStateCode.delivered;
+
+      const stockState = this.getStockStateByCode(stateCode);
+      if (stockState !== undefined) {
+        this.loading = true;
+        this.$store
+          .dispatch('shipping/updateShipping', {
+            ...this.shipping,
+            is_confirm: true,
+          })
+          .then(() => {
+            this.$store
+              .dispatch('stock_entry/changeStockEntryState', stockState.id)
+              .finally(() => (this.loading = false));
+          });
+      } else notify('Status introuvable', 'Error', 'danger');
     },
   },
 };

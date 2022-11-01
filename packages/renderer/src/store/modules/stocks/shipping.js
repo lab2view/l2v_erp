@@ -72,6 +72,7 @@ const actions = {
       .updateShipping(shippingField, shippingField.id)
       .then(({ data }) => {
         commit('UPDATE_SHIPPING', data);
+        commit('SET_CURRENT_SHIPPING', data);
         notify(
           i18n.global.t('stocks.shipping.update'),
           'Ok',

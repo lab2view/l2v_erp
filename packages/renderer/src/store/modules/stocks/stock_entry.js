@@ -131,8 +131,9 @@ const actions = {
       .then(({ data }) => {
         commit('ADD_STOCK_ENTRY_STATE', data);
         if (
-          state.code === stockStateCode.success ||
-          state.code === stockStateCode.delivered
+          data.code === stockStateCode.success ||
+          data.code === stockStateCode.delivered ||
+          data.code === stockStateCode.partial_delivered
         ) {
           commit('UPDATE_STOCK_ENTRY', {
             ...getters.stockEntry,
@@ -355,16 +356,6 @@ const mutations = {
     let stockEntry = JSON.parse(state.stockEntry);
     let index = stock_entries.findIndex((se) => se.id === stockEntry.id);
     if (index !== -1) {
-      let oldActInd = stockEntry.stock_entry_states.findIndex(
-        (st) => st.is_active
-      );
-      if (oldActInd !== -1) {
-        stockEntry.stock_entry_states.splice(oldActInd, 1, {
-          ...stockEntry.stock_entry_states[oldActInd],
-          is_active: false,
-        });
-      }
-      stockEntry.stock_entry_states.push(stockState);
       stockEntry.current_state = stockState;
       stock_entries.splice(index, 1, stockEntry);
       state.stockEntry = JSON.stringify(stockEntry);

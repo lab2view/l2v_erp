@@ -94,6 +94,7 @@ export default {
   provision: 'Approvisionner',
   open_store: 'Ouvrir la boutique',
   make_crossing: 'Effectuer le croisement',
+  confirm_shipping: 'Confirmer la livraison',
 
   la: 'la',
   le: 'le',
