@@ -208,6 +208,12 @@ const StockType = new VuexPersistence({
 
 const StockEntry = new VuexPersistence({
   key: 'stock_entry',
+  restoreState: (key, storage) => {
+    return storage.getItem(key).then((data) => JSON.parse(data));
+  },
+  saveState: (key, state, storage) => {
+    return storage.setItem(key, JSON.stringify(state));
+  },
   storage: localStore,
   asyncStorage: true,
   reducer: (state) => ({ stock_entry: state.stock_entry }),

@@ -1,10 +1,10 @@
 <template>
-  <BaseContainer title="Tableau de bord">
+  <BaseContainer :title="dashboardTitle">
     <div v-if="canShowEnterpriseArticleStats" class="row">
       <div v-if="$route.name === 'dashboard'" class="col-sm-12">
         <div class="card">
           <BaseTableHeader
-            title="Stock d'articles par entreprise"
+            :title="$t('common.headers.available_stock_per_enterprise')"
             :refresh-action-field="{ next: true }"
             refresh-action-name="enterprise/getEnterpriseArticleStats"
           />
@@ -16,7 +16,9 @@
                     <th scope="col">
                       {{ $t('common.headers.enterprise_id') }}
                     </th>
-                    <th scope="col">{{ $t('common.attributes.state') }}</th>
+                    <th scope="col">
+                      {{ $t('common.attributes.article_id') }}
+                    </th>
                     <th
                       v-if="canShowEnterpriseArticleLineStats"
                       class="text-end"
@@ -76,7 +78,7 @@ export default defineComponent({
       });
   },
   computed: {
-    ...mapGetters('enterprise', ['distributions']),
+    ...mapGetters('enterprise', ['distributions', 'getEnterpriseById']),
     ...mapGetters('auth', ['canShowMenuItem']),
     canShowEnterpriseArticleStats() {
       return this.canShowMenuItem('Enterprise.viewAnyArticleStats');
@@ -84,14 +86,16 @@ export default defineComponent({
     canShowEnterpriseArticleLineStats() {
       return this.canShowMenuItem('Enterprise.viewAnyArticleLineStats');
     },
-    bookmarkItems() {
-      return [
-        {
-          to: '',
-          title: 'Notifications',
-          feather: 'inbox',
-        },
-      ];
+    dashboardTitle() {
+      if (this.$route.name === 'dashboard.enterprise.article.stats') {
+        const enterprise = this.getEnterpriseById(
+          parseInt('' + this.$route.params.enterprise_id)
+        );
+        return `${this.$t('menu.dashboard.title')} : ${this.$t(
+          'menu.dashboard.article_enterprise_state',
+          { enterprise: enterprise?.name ?? 'Principal' }
+        )}`;
+      } else return this.$t('menu.dashboard.title');
     },
   },
 });
