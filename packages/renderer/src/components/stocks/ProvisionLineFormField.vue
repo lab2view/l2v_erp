@@ -3,11 +3,15 @@
     <td>
       {{ provider?.name || $t('common.not_specify') }}
     </td>
-    <td style="width: 240px">{{ article.name }}</td>
+    <td>
+      {{
+        `${article.product?.code} / ${article.product?.reference} ${article.name}`
+      }}
+    </td>
     <td class="text-center">
       {{ provisionLine.requested_quantity }}
     </td>
-    <td style="width: 140px">
+    <td style="width: 140px" v-if="canFieldQuantity">
       <BaseUpdateNumberForm
         v-if="provisionLine.id"
         :quantity="quantity"
@@ -23,6 +27,7 @@
         :max="provisionLine.remain_qty"
       />
     </td>
+    <td class="text-center" style="width: 140px" v-else>{{ quantity }}</td>
   </tr>
 </template>
 
@@ -50,6 +55,10 @@ export default {
     errors: {
       type: [Array, Object],
       default: null,
+    },
+    canFieldQuantity: {
+      type: Boolean,
+      default: true,
     },
   },
 

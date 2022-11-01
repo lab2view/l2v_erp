@@ -18,7 +18,7 @@
                   v-model.number="shippingForm.stock_entry_id"
                   :label="$t('common.attributes.stock_entry_type_id')"
                   :options="commands"
-                  key-label="reference"
+                  key-label="name"
                   key-value="id"
                   required
                   :disabled="isUpdating"
@@ -28,12 +28,11 @@
             <div class="col-md">
               <div class="form-group mb-3">
                 <BaseDatetime
-                  id="start_at"
                   v-model="shippingForm.delivery_date"
                   :label="$t('common.attributes.delivery_date')"
-                  placeholder="..."
-                  type="date"
                   :disabled="isUpdating"
+                  :max-date="new Date()"
+                  required
                 />
               </div>
             </div>
@@ -86,11 +85,12 @@ import BaseButton from '/@/components/common/BaseButton.vue';
 import BaseSelect from '/@/components/common/BaseSelect.vue';
 import BaseInputGroup from '/@/components/common/BaseInputGroup.vue';
 import store from '/@/store';
-import { stockTypeCode } from '/@/helpers/codes.js';
+import { stockStateCode, stockTypeCode } from '/@/helpers/codes.js';
 import BaseDatetime from '../../../../components/common/BaseDatetime.vue';
 import { random } from 'lodash/number';
 
 export default {
+  name: 'ShippingForm',
   components: { BaseDatetime, BaseSelect, BaseInputGroup, BaseButton },
   beforeRouteEnter(routeTo, routeFrom, next) {
     Promise.all([
@@ -117,7 +117,7 @@ export default {
         enterprise_id: null,
         stock_entry_id: null,
         reference: null,
-        delivery_date: null,
+        delivery_date: new Date(),
         user_id: null,
       },
     };
@@ -132,9 +132,20 @@ export default {
         : this.$t('stocks.shipping.form.createTitle');
     },
     commands() {
-      return this.stock_entries.filter(
-        (st) => st.stock_type.code === stockTypeCode.command
-      );
+      return this.stock_entries
+        .filter(
+          (se) =>
+            se.stock_type.code === stockTypeCode.command &&
+            (se.current_state.stock_state.code === stockStateCode.initiate ||
+              se.current_state.stock_state.code ===
+                stockStateCode.partial_delivered)
+        )
+        .map((com) => {
+          return {
+            id: com.id,
+            name: `${com.reference} - ${this.$d(com.created_at, 'short')}`,
+          };
+        });
     },
     isUpdating() {
       return !!this.shipping;
