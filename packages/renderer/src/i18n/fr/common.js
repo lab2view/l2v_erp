@@ -306,6 +306,10 @@ export default {
     total: 'Total',
     total_percent: 'Moyenne de la vente',
     price: 'Prix',
+    available_article: 'Articles disponibles',
+    family_stock: 'Stock par familles',
+    type_stock: 'Stock par types',
+    available_stock_per_enterprise: 'Stock total disponible par entreprise',
   },
 
   errors: {

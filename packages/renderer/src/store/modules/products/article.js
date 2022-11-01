@@ -8,6 +8,7 @@ import {
   getStockExitLineArticleStock,
 } from '/@/helpers/utils.js';
 import fileService from '/@/services/FileService.js';
+import _ from 'lodash';
 
 const state = {
   articles: null,
@@ -33,10 +34,25 @@ const getters = {
     getters.articles.filter((a) => a.product_id === product_id),
   getArticleById: (state, getters) => (id) =>
     getters.articles.find((a) => a.id === id),
+  filterAvailableArticles: (state, getters) => (distribution_id) => {
+    return getters.articles.filter((a) => {
+      if (distribution_id) {
+        const distribution = a.stats.distributions.find(
+          (d) => d.id === distribution_id
+        );
+        return distribution !== undefined
+          ? getDistributionCurrentStock(distribution) > 0
+          : a.stock.available > 0;
+      } else return a.stock.available > 0;
+    });
+  },
   searchArticleByCriteria:
     (state, getters) =>
     ({ product_type_id, product_id, keyword, haveStock, distribution_id }) =>
-      getters.articles.filter((a) => {
+      (haveStock
+        ? getters.filterAvailableArticles(distribution_id)
+        : getters.articles
+      ).filter((a) => {
         let result = true;
         if (getters.article?.id) result = a.id !== getters.article.id;
         if (product_type_id)
@@ -49,19 +65,46 @@ const getters = {
             }`
           );
         }
-        if (haveStock) {
-          if (distribution_id) {
-            const distribution = a.stats.distributions.find(
-              (d) => d.id === distribution_id
-            );
-            result =
-              distribution !== undefined
-                ? getDistributionCurrentStock(distribution) > 0
-                : a.stock.available > 0;
-          } else result = a.stock.available > 0;
-        }
         return result;
       }),
+  getTransformAvailableArticles: (state, getters) => (enterprise_id) => {
+    return getters.filterAvailableArticles(enterprise_id).map((art) => {
+      const distribution = art.stats.distributions.find(
+        (d) => d.id === parseInt(enterprise_id)
+      );
+      return {
+        id: art.id,
+        product_type: art.product?.product_type?.label,
+        product_family:
+          art.product?.product_type?.product_family?.label ?? null,
+        quantity: distribution
+          ? getDistributionCurrentStock(distribution)
+          : getStockExitLineArticleStock(art),
+      };
+    });
+  },
+  getArticleFamilyStatsByEnterpriseId: (state, getters) => (enterprise_id) => {
+    return _(getters.getTransformAvailableArticles(enterprise_id))
+      .groupBy((sel) => sel.product_family)
+      .map((objs, key) => {
+        return {
+          product_family: key,
+          total: _.sumBy(objs, 'quantity'),
+        };
+      })
+      .value();
+  },
+  getArticleTypeStatsByEnterpriseId: (state, getters) => (enterprise_id) => {
+    return _(getters.getTransformAvailableArticles(enterprise_id))
+      .groupBy((sel) => sel.product_type)
+      .map((objs, key) => {
+        return {
+          product_type: key,
+          total: _.sumBy(objs, 'quantity'),
+        };
+      })
+      .value();
+  },
 };
 // privileges
 const actions = {

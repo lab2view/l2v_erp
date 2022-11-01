@@ -21,16 +21,24 @@
 </template>
 
 <script>
-import ArticleDistributionMixin from '/@/mixins/ArticleDistributionMixin';
 import BaseButton from '/@/components/common/BaseButton.vue';
 import { mapGetters } from 'vuex';
+import { getDistributionCurrentStock } from '/@/helpers/utils';
 
 export default {
   name: 'EnterpriseArticleStatsLine',
   components: { BaseButton },
-  mixins: [ArticleDistributionMixin],
+  props: {
+    distribution: {
+      type: Object,
+      required: true,
+    },
+  },
   computed: {
     ...mapGetters('auth', ['canShowMenuItem']),
+    totalStock() {
+      return getDistributionCurrentStock(this.distribution);
+    },
     canShowEnterpriseArticleLineStats() {
       return (
         this.canShowMenuItem('Enterprise.viewAnyArticleLineStats') &&
