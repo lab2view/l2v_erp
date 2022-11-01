@@ -68,6 +68,8 @@ export default {
     provisionForm: 'Finalisation de la livraison',
     list: 'Liste des livraisons',
     add: 'Ajouter une livraison',
+    store: 'Livraison enregistree avec succes',
+    update: 'Livraison modifiee avec succes',
     listTitle: '',
     updateStock: '',
     state_date: '',

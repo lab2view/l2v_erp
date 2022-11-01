@@ -1,4 +1,8 @@
 export default {
+  dashboard: {
+    title: 'Tableau de board',
+    article_enterprise_state: 'details - {enterprise}',
+  },
   modules: {
     products: 'Products',
     articles: 'Articles',

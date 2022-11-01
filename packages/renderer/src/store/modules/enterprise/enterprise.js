@@ -17,6 +17,8 @@ const getters = {
     state.enterprise ? JSON.parse(state.enterprise) : null,
   haveEnterprise: (state) => !!state.enterprise,
   getEnterpriseHash: (state) => state.hash ?? null,
+  getEnterpriseById: (state, getters) => (id) =>
+    getters.enterprises.find((ent) => ent.id === id) ?? null,
 };
 
 const actions = {

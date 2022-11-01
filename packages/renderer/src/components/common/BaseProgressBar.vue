@@ -1,8 +1,11 @@
 <template>
-  <div class="progress">
+  <div v-if="showPercent" class="text-end">
+    {{ `${progress} %` }}
+  </div>
+  <div class="progress" :style="styleProp">
     <div
       v-bind="$attrs"
-      class="progress-bar-animated bg-primary progress-bar-striped"
+      :class="progressClass"
       role="progressbar"
       :style="`width: ${progress}%`"
       :aria-valuenow="value"
@@ -27,6 +30,18 @@ export default {
     value: {
       type: Number,
       default: 50,
+    },
+    styleProp: {
+      type: String,
+      default: null,
+    },
+    progressClass: {
+      type: String,
+      default: 'progress-bar-animated bg-primary progress-bar-striped',
+    },
+    showPercent: {
+      type: Boolean,
+      default: false,
     },
   },
   computed: {

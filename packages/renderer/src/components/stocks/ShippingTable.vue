@@ -18,7 +18,8 @@
       <td>{{ shippingEntry.reference }}</td>
       <td>
         {{
-          shippingEntry.current_state?.stock_state.label || $t('common.not_set')
+          shippingEntry.stock_entry.current_state?.stock_state.label ||
+          $t('common.not_set')
         }}
       </td>
       <td>{{ $d(shippingEntry.delivery_date, 'short') }}</td>
@@ -26,24 +27,22 @@
         <BaseButton
           type="button"
           :class="`btn btn-iconsolid btn-${
-            shippingEntry.not_deletable ? 'success' : 'secondary'
+            shippingEntry.is_confirm ? 'success' : 'secondary'
           } btn-sm`"
-          :title="
-            $t(`common.${shippingEntry.not_deletable ? 'show' : 'update'}`)
-          "
+          :title="$t(`common.${shippingEntry.is_confirm ? 'show' : 'update'}`)"
           @click.prevent="
             $router.push({
               name: `shipping.form.${
-                shippingEntry.not_deletable ? 'article.form' : 'desc'
+                shippingEntry.is_confirm ? 'article' : 'desc'
               }`,
               params: { id: shippingEntry.id },
             })
           "
         >
-          {{ $t(`common.${shippingEntry.not_deletable ? 'show' : 'update'}`) }}
+          {{ $t(`common.${shippingEntry.is_confirm ? 'show' : 'update'}`) }}
         </BaseButton>
         <button
-          v-if="!shippingEntry.not_deletable"
+          v-if="!shippingEntry.is_confirm"
           class="btn btn-danger btn-xs m-l-5"
           type="button"
           data-original-title="btn btn-danger btn-xs"

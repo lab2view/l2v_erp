@@ -7,11 +7,69 @@
       <BaseTableHeader
         :title="$t('stocks.stockEntry.list')"
         add-action-router-name="stocks.entry.form.desc"
-        :refresh-action-field="{ page: 1, field: { next: true } }"
+        :refresh-action-field="{
+          page: 1,
+          field: { ...requestField, next: true },
+        }"
         refresh-action-name="stock_entry/getStockEntriesList"
         add-action-label="stocks.stockEntry.add"
       />
-      <div class="card-body pb-0">
+      <div class="card-body p-1">
+        <div class="row mb-2 justify-content-center">
+          <div class="col-md">
+            <BaseFieldGroup
+              :with-refresh="true"
+              :with-append="false"
+              refresh-action-name="enterprise/getEnterprisesList"
+            >
+              <BaseSelect
+                v-model.number="enterpriseId"
+                :options="enterprises"
+                key-label="name"
+                key-value="id"
+                :placeholder="`${$t('common.attributes.structure')} ?`"
+              />
+            </BaseFieldGroup>
+          </div>
+          <div class="col-md">
+            <BaseFieldGroup
+              :with-refresh="true"
+              :with-append="false"
+              refresh-action-name="stock_type/getStockTypesList"
+            >
+              <BaseSelect
+                v-model.number="stockTypeId"
+                :options="stockTypes"
+                key-label="label"
+                key-value="id"
+                :placeholder="`${$t('common.attributes.stock_type')} ?`"
+              />
+            </BaseFieldGroup>
+          </div>
+          <div class="col-md">
+            <BaseFieldGroup
+              :with-refresh="true"
+              :with-append="false"
+              refresh-action-name="stock_state/getStockStatesList"
+            >
+              <BaseSelect
+                v-model.number="stockStateId"
+                :options="stockStates"
+                key-label="label"
+                key-value="id"
+                :placeholder="`${$t('common.attributes.stock_state')} ?`"
+              />
+            </BaseFieldGroup>
+          </div>
+          <div class="col-md">
+            <BaseDatetime
+              v-model="filterDate"
+              placeholder="Filtrer par date ?"
+              :range="true"
+              :max-date="new Date()"
+            />
+          </div>
+        </div>
         <StockEntryTable :stock-entries="stock_entries" />
       </div>
       <router-view />
@@ -25,16 +83,28 @@ import { mapGetters } from 'vuex';
 import BaseContainer from '/@/components/common/BaseContainer.vue';
 import StockEntryTable from '/@/components/stocks/StockEntryTable.vue';
 import BaseTableHeader from '/@/components/common/BaseTableHeader.vue';
+import BaseFieldGroup from '/@/components/common/BaseFieldGroup.vue';
+import BaseSelect from '/@/components/common/BaseSelect.vue';
+import { stockFor } from '/@/helpers/codes.js';
+import BaseDatetime from '/@/components/common/BaseDatetime.vue';
 
 export default {
   name: 'StockEntriesList',
-  components: { BaseTableHeader, StockEntryTable, BaseContainer },
+  components: {
+    BaseDatetime,
+    BaseSelect,
+    BaseFieldGroup,
+    BaseTableHeader,
+    StockEntryTable,
+    BaseContainer,
+  },
   beforeRouteEnter(routeTo, routeFrom, next) {
-    store
-      .dispatch('stock_entry/getStockEntriesList', {
-        page: 1,
-        field: {},
-      })
+    Promise.all([
+      store.dispatch('stock_entry/getStockEntriesList', { page: 1, field: {} }),
+      store.dispatch('enterprise/getEnterprisesList', { page: 1, field: {} }),
+      store.dispatch('stock_type/getStockTypesList', { page: 1, field: {} }),
+      store.dispatch('stock_state/getStockStatesList', { page: 1, field: {} }),
+    ])
       .then(() => {
         next();
       })
@@ -44,7 +114,60 @@ export default {
       });
   },
   computed: {
-    ...mapGetters('stock_entry', ['stock_entries']),
+    ...mapGetters('stock_entry', ['stock_entries', 'requestField']),
+    ...mapGetters('enterprise', ['enterprises']),
+    ...mapGetters('stock_type', ['getListByTypeFor']),
+    ...mapGetters('stock_state', ['getListByStateFor']),
+    stockTypes() {
+      return this.getListByTypeFor(stockFor.entry);
+    },
+    stockStates() {
+      return this.getListByStateFor(stockFor.entry);
+    },
+    enterpriseId: {
+      get() {
+        return this.requestField.enterprise_id;
+      },
+      set(id) {
+        this.$store.commit('stock_entry/SET_REQUEST_FIELD_VALUE', {
+          field: 'enterprise_id',
+          value: id,
+        });
+      },
+    },
+    stockTypeId: {
+      get() {
+        return this.requestField.stock_type_id;
+      },
+      set(id) {
+        this.$store.commit('stock_entry/SET_REQUEST_FIELD_VALUE', {
+          field: 'stock_type_id',
+          value: id,
+        });
+      },
+    },
+    stockStateId: {
+      get() {
+        return this.requestField.stock_state_id;
+      },
+      set(id) {
+        this.$store.commit('stock_entry/SET_REQUEST_FIELD_VALUE', {
+          field: 'stock_state_id',
+          value: id,
+        });
+      },
+    },
+    filterDate: {
+      get() {
+        return this.requestField.created_at;
+      },
+      set(date) {
+        this.$store.commit('stock_entry/SET_REQUEST_FIELD_VALUE', {
+          field: 'created_at',
+          value: date,
+        });
+      },
+    },
   },
 };
 </script>
