@@ -57,6 +57,21 @@
             </BaseFieldGroup>
           </div>
           <div class="col-md">
+            <BaseFieldGroup
+              :with-refresh="true"
+              :with-append="false"
+              refresh-action-name="payment_method/getPaymentMethodsList"
+            >
+              <BaseSelect
+                v-model.number="paymentMethodId"
+                :options="paymentMethods"
+                key-label="label"
+                key-value="id"
+                :placeholder="`${$t('common.attributes.payment_method')} ?`"
+              />
+            </BaseFieldGroup>
+          </div>
+          <div class="col-md">
             <BaseDatetime
               v-model="filterDate"
               placeholder="Filtrer par date ?"
@@ -98,6 +113,10 @@ export default {
       store.dispatch('enterprise/getEnterprisesList', { page: 1, field: {} }),
       store.dispatch('cashier/getCashiersList', { page: 1, field: {} }),
       store.dispatch('sale_type/getSaleTypesList', { page: 1, field: {} }),
+      store.dispatch('payment_method/getPaymentMethodsList', {
+        page: 1,
+        field: {},
+      }),
     ]).finally(() => next());
   },
   computed: {
@@ -105,6 +124,7 @@ export default {
     ...mapGetters('enterprise', ['enterprises']),
     ...mapGetters('cashier', ['cashiers']),
     ...mapGetters('sale_type', ['saleTypes']),
+    ...mapGetters('payment_method', ['paymentMethods']),
 
     enterpriseId: {
       get() {
@@ -135,6 +155,17 @@ export default {
       set(id) {
         this.$store.commit('sale/SET_REQUEST_FIELD_VALUE', {
           field: 'sale_type_id',
+          value: id,
+        });
+      },
+    },
+    paymentMethodId: {
+      get() {
+        return this.requestField.payment_method_id;
+      },
+      set(id) {
+        this.$store.commit('sale/SET_REQUEST_FIELD_VALUE', {
+          field: 'payment_method_id',
           value: id,
         });
       },

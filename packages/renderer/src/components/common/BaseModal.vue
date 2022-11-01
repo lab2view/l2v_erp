@@ -27,7 +27,7 @@
         <div class="modal-body" :class="modalBodyClass">
           <slot></slot>
         </div>
-        <div v-if="showFooter" class="modal-footer">
+        <div v-if="showFooter" :class="modalFooterClass">
           <slot name="footer"></slot>
         </div>
       </div>
@@ -45,6 +45,7 @@ export default {
     withCloseAction: { type: Boolean, default: true },
     modalBodyClass: { type: String, default: null },
     showFooter: { type: Boolean, default: true },
+    modalFooterClass: { type: String, default: 'modal-footer' },
   },
   computed: {
     sizeClass() {

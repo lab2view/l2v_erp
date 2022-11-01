@@ -168,6 +168,7 @@ export default {
     iso_3166_3: 'iso_3166_3',
     phone_length: 'Nombre de chiffres du numero',
     stock_type: 'Type de stocks',
+    stock_state: 'Statut de stocks',
     none: 'Aucun',
     all: 'Tous',
     code: 'Code',
@@ -307,6 +308,13 @@ export default {
     total: 'Total',
     total_percent: 'Moyenne de la vente',
     price: 'Prix',
+    available_article: 'Articles disponibles',
+    family_stock: 'Stock par familles',
+    type_stock: 'Stock par types',
+    available_stock_per_enterprise: 'Stock total disponible par entreprise',
+    pay_per_method: 'Paye par {name}',
+    cashin: 'Encaisse',
+    cashout: 'Decaisse',
   },
 
   errors: {

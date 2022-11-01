@@ -39,7 +39,7 @@ export default {
     update: 'La taxe a ete effectuee avec succes',
   },
   productFamily: {
-    listTitle: 'Liste des familles de produit',
+    listTitle: 'Liste des familles de produits',
     formCreateTitle: 'Ajouter une famille de produit',
     formUpdateTitle: 'Modifier une famille de produit',
     store:
@@ -48,14 +48,14 @@ export default {
       'La modification de la famille de produit a ete effectuee avec succes',
   },
   productType: {
-    listTitle: 'Liste des types de produit',
+    listTitle: 'Liste des types de produits',
     formCreateTitle: 'Ajouter un type de produit',
     formUpdateTitle: 'Modifier un type de produit',
     store: "L'enregistrement du type de produit a ete effectue avec succes",
     update: 'La modification du type de produit a ete effectuee avec succes',
   },
   productUnit: {
-    listTitle: 'Liste des unites de produit',
+    listTitle: 'Liste des unites de produits',
     formCreateTitle: 'Ajouter une unite de produit',
     formUpdateTitle: 'Modifier une unite de produit',
     store: "L'enregistrement de l'unite de produit a ete effectue avec succes",

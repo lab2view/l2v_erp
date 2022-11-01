@@ -1,50 +1,48 @@
 <template>
-  <tr v-if="haveStockIn">
+  <tr>
     <td>{{ article.id }}</td>
-    <td>{{ article.product.name }}</td>
     <td>{{ article.name }}</td>
-    <td class="text-center">
-      <ArticleStockDistribution
-        v-if="distribution"
-        :distribution="distribution"
-      />
-      <ArticleStockIn v-else :article="article" />
-    </td>
     <td>
       {{ `${article.product.code} / ${article.product.reference}` }}
+    </td>
+    <td class="text-center">
+      <div
+        class="span badge rounded-pill"
+        :class="`pill-badge-${stockClassState}`"
+      >
+        {{ article.stock_quantity }}
+      </div>
     </td>
   </tr>
 </template>
 
 <script>
-import ArticleMixin from '/@/mixins/ArticleMixin';
-import ArticleStockDistribution from '/@/components/articles/ArticleStockDistributionIn.vue';
-import {
-  getDistributionCurrentStock,
-  getStockExitLineArticleStock,
-} from '/@/helpers/utils.js';
-import ArticleStockIn from '/@/components/articles/ArticleStockIn.vue';
-
 export default {
   name: 'ArticleStatsLineDetails',
-  components: { ArticleStockIn, ArticleStockDistribution },
-  mixins: [ArticleMixin],
   props: {
-    enterpriseId: {
-      type: [Number, String],
-      default: null,
+    article: {
+      type: Object,
+      required: true,
     },
   },
   computed: {
-    distribution() {
-      return this.article.stats.distributions.find(
-        (d) => d.id === parseInt(this.enterpriseId)
-      );
-    },
-    haveStockIn() {
-      return this.distribution
-        ? getDistributionCurrentStock(this.distribution) > 0
-        : getStockExitLineArticleStock(this.article) > 0;
+    stockClassState() {
+      if (
+        this.article.stock_quantity <=
+        parseInt(this.article.product.critical_stock)
+      )
+        return 'danger';
+      if (
+        this.article.stock_quantity <= parseInt(this.article.product.min_stock)
+      )
+        return 'warning';
+      if (
+        this.article.stock_quantity <=
+        parseInt(this.article.product.alert_stock)
+      )
+        return 'info';
+
+      return 'success';
     },
   },
 };

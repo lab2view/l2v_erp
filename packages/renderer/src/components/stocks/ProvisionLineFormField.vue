@@ -11,7 +11,7 @@
     <td class="text-center">
       {{ provisionLine.requested_quantity }}
     </td>
-    <td style="width: 140px" v-if="canFieldQuantity">
+    <td v-if="canFieldQuantity" style="width: 140px">
       <BaseUpdateNumberForm
         v-if="provisionLine.id"
         :quantity="quantity"
@@ -27,7 +27,7 @@
         :max="provisionLine.remain_qty"
       />
     </td>
-    <td class="text-center" style="width: 140px" v-else>{{ quantity }}</td>
+    <td v-else class="text-center" style="width: 140px">{{ quantity }}</td>
   </tr>
 </template>
 
