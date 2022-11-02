@@ -2,13 +2,23 @@
   <tr>
     <td class="bd-t-none u-s-tb">
       <div class="media">
-        <img
-          v-if="article.image && article.image !== ''"
-          class="img-30 rounded-circle"
-          :src="article.image"
-          :alt="article.article_id"
-          :title="article.label"
-        />
+        <a
+          href="#"
+          @click.prevent="
+            $router.push({
+              name: 'sales.session.picture',
+              params: { article_id: article.article_id },
+            })
+          "
+        >
+          <img
+            v-if="article.image && article.image !== ''"
+            class="img-30 rounded-circle"
+            :src="article.image"
+            :alt="article.article_id"
+            :title="article.label"
+          />
+        </a>
         <div class="media-body m-l-10">
           <div class="font-primary f-w-500 f-12">
             {{ article.label }}

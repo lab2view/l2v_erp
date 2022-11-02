@@ -79,6 +79,15 @@ export const saleRoutes = [
           },
         ],
       },
+      {
+        path: 'show-article-picture/:article_id',
+        name: 'sales.session.picture',
+        component: () =>
+          import('/@/views/articles/details/ShowArticlePicture.vue'),
+        meta: {
+          requireArticle: true,
+        },
+      },
     ],
   },
   {

@@ -16,6 +16,7 @@ import cashierSessionGuard from '/@/guards/cashierSessionGuard.js';
 import redirectCashierSessionGuard from '/@/guards/redirectCashierSessionGuard.js';
 import userGuard from '/@/guards/userGuard.js';
 import saleGuard from '/@/guards/saleGuard.js';
+import articleGuard from '/@/guards/articleGuard.js';
 
 const routes = [
   {
@@ -115,6 +116,10 @@ router.beforeEach(async (to, from, next) => {
   if (to.meta.requireSale) {
     await store.dispatch('sale/getSale', to.params.id);
     saleGuard(to, from, next);
+  }
+  if (to.meta.requireArticle) {
+    await store.dispatch('article/getArticle', to.params.article_id);
+    articleGuard(to, from, next);
   }
 
   next();
