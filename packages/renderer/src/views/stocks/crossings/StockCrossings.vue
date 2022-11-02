@@ -29,7 +29,6 @@
                     v-model.number="crossingField.target_enterprise_id"
                     :label="$t('common.fields.enterprise_to')"
                     :options="targetEnterprises"
-                    required
                     key-label="name"
                     key-value="id"
                   />
@@ -77,6 +76,7 @@
                 type="submit"
                 class="btn btn-sm btn-primary"
                 :loading="loading"
+                :disabled="!canMakeCrossing"
               />
             </div>
           </div>
@@ -181,9 +181,10 @@ export default {
       ];
     },
     targetEnterprises() {
-      return this.enterprises.filter(
-        (ent) => ent.id !== this.crossingField.source_enterprise_id
-      );
+      return [
+        { id: '', name: this.$t('common.parent') },
+        ...this.enterprises,
+      ].filter((ent) => ent.id !== this.crossingField.source_enterprise_id);
     },
     sourceEntName() {
       return (
@@ -225,21 +226,30 @@ export default {
         },
       ];
     },
+    canMakeCrossing() {
+      return (
+        this.crossingField.quantity &&
+        this.crossingField.target_enterprise_id !==
+          this.crossingField.source_enterprise_id
+      );
+    },
   },
 
   methods: {
     processToStockCrossing() {
-      this.loading = true;
-      setTimeout(
-        () =>
-          this.$store
-            .dispatch('article/getArticleByStockCrossing', {
-              ...this.crossingField,
-            })
-            .then((data) => (this.articlesCrossings = data))
-            .finally(() => (this.loading = false)),
-        2000
-      );
+      if (this.canMakeCrossing) {
+        this.loading = true;
+        setTimeout(
+          () =>
+            this.$store
+              .dispatch('article/getArticleByStockCrossing', {
+                ...this.crossingField,
+              })
+              .then((data) => (this.articlesCrossings = data))
+              .finally(() => (this.loading = false)),
+          2000
+        );
+      }
     },
   },
 };
