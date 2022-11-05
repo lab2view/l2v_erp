@@ -95,6 +95,7 @@ export default {
   open_store: 'Ouvrir la boutique',
   make_crossing: 'Effectuer le croisement',
   confirm_shipping: 'Confirmer la livraison',
+  upload_csv: 'Charger un csv',
 
   la: 'la',
   le: 'le',

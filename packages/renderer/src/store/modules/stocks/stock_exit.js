@@ -31,6 +31,9 @@ const getters = {
   stockExitLines: (state, getters) =>
     getters.haveStockExit ? getters.stockExit.stock_exit_lines : [],
   stockExitReference: (state, getters) => getters.stockExit?.reference,
+  stockExitTitleName: (state, getters) =>
+    getters.stockExit?.stock_type?.label ??
+    i18n.global.t('stocks.exitLine.list'),
   stockExitIsConfirm: (state, getters) => {
     return (
       getters.stockExit?.current_state?.stock_state.code ===
