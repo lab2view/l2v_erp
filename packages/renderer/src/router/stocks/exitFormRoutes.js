@@ -58,6 +58,11 @@ export default [
         component: () =>
           import('/@/views/stocks/exits/forms/ExitLinesForm.vue'),
       },
+      {
+        path: 'csv',
+        name: 'stocks.exit.form.article.csv',
+        component: () => import('/@/views/stocks/exits/forms/ExitLinesCsv.vue'),
+      },
     ],
   },
 ];
