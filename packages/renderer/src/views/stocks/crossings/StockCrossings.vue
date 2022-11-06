@@ -96,6 +96,8 @@
           :total="articlesCrossings.length"
         >
           <template #headers>
+            <th class="text-start">{{ $t('common.attributes.barcode') }}</th>
+            <th class="text-start">{{ $t('common.attributes.reference') }}</th>
             <th class="text-start">{{ $t('common.attributes.article_id') }}</th>
             <th class="text-center">{{ sourceEntTableHeaderName }}</th>
             <th class="text-center">{{ targetEntTableHeaderName }}</th>
@@ -104,7 +106,9 @@
             v-for="article in articlesCrossings"
             :key="`art-crossing-${article.id}`"
           >
-            <td class="text-start">{{ article.articleName }}</td>
+            <td class="text-start">{{ article.code }}</td>
+            <td class="text-start">{{ article.reference }}</td>
+            <td class="text-start">{{ article.name }}</td>
             <td class="text-center">
               {{ `${article.sourceStock} ${article.unitName}` }}
             </td>

@@ -4,14 +4,24 @@
       <form @submit.prevent="handleFileUpload">
         <div class="row align-items-center">
           <div class="col-sm">
-            <BaseInput v-model="fileField" type="file" accept=".csv" required />
+            <span class="f-w-600">{{ $t('common.upload_header') }}</span>
+            <pre class="helper-classes p-2">barcode, quantity</pre>
+          </div>
+          <div class="col-sm">
+            <BaseInputFile
+              type="file"
+              v-model="csvFile"
+              accept=".csv"
+              required
+            />
           </div>
           <div class="col-sm-auto align-items-end">
             <BaseButton
               type="submit"
-              class="btn btn-outline-primary m-r-5"
+              class="btn btn-sm btn-outline-primary m-r-5"
               icon="fa fa-upload"
-              :text="$t('common.selected_article')"
+              :loading="loadingUpload"
+              :text="$t('common.upload_file')"
             />
           </div>
         </div>
@@ -73,18 +83,20 @@
 import { mapGetters } from 'vuex';
 import BaseButton from '/@/components/common/BaseButton.vue';
 import ExitLineFormField from '/@/components/stocks/ExitLineFormField.vue';
-import BaseInput from '/@/components/common/BaseInput.vue';
+import BaseInputFile from '/@/components/common/BaseInputFile.vue';
+import { getContentCsvFileAsArray } from '/@/helpers/utils';
 
 export default {
   name: 'ExitLinesCsv',
-  components: { BaseInput, ExitLineFormField, BaseButton },
+  components: { BaseInputFile, ExitLineFormField, BaseButton },
   data() {
     return {
       stock_exit_line_fields: [],
       show_select_form: true,
       errors: [],
       loading: false,
-      fileField: null,
+      loadingUpload: false,
+      csvFile: null,
     };
   },
   computed: {
@@ -93,6 +105,7 @@ export default {
       'manage_price',
       'stockExitLines',
     ]),
+    ...mapGetters('article', ['getArticleByBarcode']),
   },
   created() {
     if (this.stockExitLines.length)
@@ -153,7 +166,26 @@ export default {
       }
     },
     handleFileUpload() {
-      console.log(this.fileField);
+      this.loadingUpload = true;
+      getContentCsvFileAsArray(this.csvFile)
+        .then((lines) => {
+          lines.forEach((line) => {
+            if (line.barcode) {
+              const article = this.getArticleByBarcode(
+                parseFloat(line.barcode)
+              );
+              if (article !== undefined) {
+                this.stock_exit_line_fields.push({
+                  id: null,
+                  stock_exit_id: this.stockExit.id,
+                  article_id: article.id,
+                  quantity: parseInt(line.quantity),
+                });
+              }
+            }
+          });
+        })
+        .finally(() => (this.loadingUpload = false));
     },
   },
 };

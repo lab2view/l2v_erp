@@ -10,6 +10,8 @@ export default {
   add_article: 'Ajouter des articles',
   add_to_list: 'Ajouter a la liste',
   selected_article: 'Selectionner les articles',
+  upload_file: 'Charger le fichier',
+  upload_header: 'Entete du fichier CSV',
   false: 'Faux',
   true: 'Vrai',
   back: 'Precedent',
