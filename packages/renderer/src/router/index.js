@@ -16,6 +16,8 @@ import cashierSessionGuard from '/@/guards/cashierSessionGuard.js';
 import redirectCashierSessionGuard from '/@/guards/redirectCashierSessionGuard.js';
 import userGuard from '/@/guards/userGuard.js';
 import saleGuard from '/@/guards/saleGuard.js';
+import articleGuard from '/@/guards/articleGuard.js';
+import stockExitGuard from '/@/guards/stockExitGuard.js';
 
 const routes = [
   {
@@ -109,12 +111,17 @@ router.beforeEach(async (to, from, next) => {
   if (to.meta.requireCustomerGroup) customerGroupGuard(to, from, next);
   if (to.meta.requireDiscount) discountGuard(to, from, next);
   if (to.meta.requireStockEntry) stockEntryGuard(to, from, next);
+  if (to.meta.requireStockExit) stockExitGuard(to, from, next);
   if (to.meta.requireCashierSession) cashierSessionGuard(to, from, next);
   if (to.meta.redirectCashierSession)
     redirectCashierSessionGuard(to, from, next);
   if (to.meta.requireSale) {
     await store.dispatch('sale/getSale', to.params.id);
     saleGuard(to, from, next);
+  }
+  if (to.meta.requireArticle) {
+    await store.dispatch('article/getArticle', to.params.article_id);
+    articleGuard(to, from, next);
   }
 
   next();

@@ -217,3 +217,25 @@ export function transformSaleForTable(sale) {
     quantities,
   };
 }
+
+export function csvToArray(str, delimiter = ',') {
+  const headers = str.slice(0, str.indexOf('\n')).split(delimiter);
+  const rows = str.slice(str.indexOf('\n') + 1).split('\n');
+
+  return rows.map(function (row) {
+    const values = row.split(delimiter);
+    return headers.reduce(function (object, header, index) {
+      object[header] = values[index];
+      return object;
+    }, {});
+  });
+}
+
+export async function getContentCsvFileAsArray(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = (e) => resolve(csvToArray(e.target.result));
+    reader.onerror = (error) => reject(error);
+    reader.readAsText(file);
+  });
+}

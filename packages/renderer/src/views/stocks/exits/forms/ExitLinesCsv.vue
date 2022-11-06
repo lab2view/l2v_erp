@@ -1,48 +1,31 @@
 <template>
-  <ArticleSelectableList
-    v-if="show_select_form"
-    :used-articles="stock_exit_line_fields"
-    :submit-store-action="addStockExitLineFields"
-    :can-cancel="false"
-    confirm-btn-label="common.add_to_list"
-    :for-exit="true"
-    :distribution-id="stockExit?.enterprise_id"
-  >
-    <div class="card-header p-3">
-      <div class="row align-items-center">
-        <div class="col">
-          <h5>{{ $t('stocks.exitLine.articleSelect') }}</h5>
-        </div>
-        <div class="col-auto">
-          <BaseButton
-            type="button"
-            class="btn btn-outline-secondary"
-            icon="fa fa-times"
-            :text="$t('common.close')"
-            @click.prevent="closeArticleSelectable"
-          />
-        </div>
-      </div>
-    </div>
-  </ArticleSelectableList>
-  <div v-else class="card mb-0">
+  <div class="card mb-0">
     <div class="card-header pb-0">
-      <div class="row align-items-center">
-        <div class="col-sm">
-          <h5>
-            {{ `${$t('stocks.exitLine.articleForm')}` }}
-          </h5>
+      <form @submit.prevent="handleFileUpload">
+        <div class="row align-items-center">
+          <div class="col-sm">
+            <span class="f-w-600">{{ $t('common.upload_header') }}</span>
+            <pre class="helper-classes p-2">barcode, quantity</pre>
+          </div>
+          <div class="col-sm">
+            <BaseInputFile
+              v-model="csvFile"
+              type="file"
+              accept=".csv"
+              required
+            />
+          </div>
+          <div class="col-sm-auto align-items-end">
+            <BaseButton
+              type="submit"
+              class="btn btn-sm btn-outline-primary m-r-5"
+              icon="fa fa-upload"
+              :loading="loadingUpload"
+              :text="$t('common.upload_file')"
+            />
+          </div>
         </div>
-        <div v-if="!show_select_form" class="col-sm-auto align-items-end">
-          <BaseButton
-            type="button"
-            class="btn btn-outline-primary m-r-5"
-            icon="fa fa-plus"
-            :text="$t('common.selected_article')"
-            @click.prevent="show_select_form = true"
-          />
-        </div>
-      </div>
+      </form>
     </div>
     <form @submit.prevent="submitExitLinesForm">
       <div class="card-body">
@@ -102,20 +85,23 @@
 </template>
 
 <script>
-import ArticleSelectableList from '/@/components/articles/ArticleSelectableList.vue';
 import { mapGetters } from 'vuex';
 import BaseButton from '/@/components/common/BaseButton.vue';
 import ExitLineFormField from '/@/components/stocks/ExitLineFormField.vue';
+import BaseInputFile from '/@/components/common/BaseInputFile.vue';
+import { getContentCsvFileAsArray } from '/@/helpers/utils';
 
 export default {
-  name: 'ExitLinesForm',
-  components: { ExitLineFormField, BaseButton, ArticleSelectableList },
+  name: 'ExitLinesCsv',
+  components: { BaseInputFile, ExitLineFormField, BaseButton },
   data() {
     return {
       stock_exit_line_fields: [],
       show_select_form: true,
       errors: [],
       loading: false,
+      loadingUpload: false,
+      csvFile: null,
     };
   },
   computed: {
@@ -124,6 +110,7 @@ export default {
       'manage_price',
       'stockExitLines',
     ]),
+    ...mapGetters('article', ['getArticleByBarcode']),
   },
   created() {
     if (this.stockExitLines.length)
@@ -183,13 +170,27 @@ export default {
           .finally(() => (this.loading = false));
       }
     },
-    closeArticleSelectable() {
-      if (this.stock_exit_line_fields.length > 0) this.show_select_form = false;
-      else
-        this.$router.push({
-          name: 'stocks.exit.form.article',
-          params: this.$route.params,
-        });
+    handleFileUpload() {
+      this.loadingUpload = true;
+      getContentCsvFileAsArray(this.csvFile)
+        .then((lines) => {
+          lines.forEach((line) => {
+            if (line.barcode) {
+              const article = this.getArticleByBarcode(
+                parseFloat(line.barcode)
+              );
+              if (article !== undefined) {
+                this.stock_exit_line_fields.push({
+                  id: null,
+                  stock_exit_id: this.stockExit.id,
+                  article_id: article.id,
+                  quantity: parseInt(line.quantity),
+                });
+              }
+            }
+          });
+        })
+        .finally(() => (this.loadingUpload = false));
     },
   },
 };

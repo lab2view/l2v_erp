@@ -5,13 +5,13 @@
       <div class="row align-items-center">
         <div class="col-sm">
           <h5>
-            {{ `${$t('stocks.exitLine.list')} - ${stockExitReference}` }}
+            {{ `${stockExitTitleName} - ${stockExitReference}` }}
           </h5>
         </div>
         <div v-if="!stockExitIsConfirm" class="col-sm-auto align-items-end">
           <BaseButton
             type="button"
-            class="btn btn-outline-danger m-r-5"
+            class="btn btn-sm btn-outline-danger m-r-5"
             :disabled="!isSelected"
             icon="fa fa-trash-o"
             :text="$t('common.delete_all')"
@@ -24,11 +24,23 @@
               params: $route.params,
               query: $route.query,
             }"
-            class="btn btn-primary"
+            class="btn btn-sm btn-primary m-r-5"
             type="button"
           >
             <i class="fa fa-plus m-r-5" />
             {{ $t('common.add_article') }}
+          </router-link>
+          <router-link
+            :to="{
+              name: 'stocks.exit.form.article.csv',
+              params: $route.params,
+              query: $route.query,
+            }"
+            class="btn btn-sm btn-info"
+            type="button"
+          >
+            <i class="fa fa-upload m-r-5" />
+            {{ $t('common.upload_csv') }}
           </router-link>
         </div>
         <div
@@ -157,6 +169,7 @@ export default {
   computed: {
     ...mapGetters('stock_exit', [
       'stockExitLines',
+      'stockExitTitleName',
       'stockExitReference',
       'stockExitIsConfirm',
       'currentStockExitStateDate',
