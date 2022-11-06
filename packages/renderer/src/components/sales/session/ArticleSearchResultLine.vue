@@ -14,6 +14,16 @@
             </li>
           </ul>
         </div>
+        <div class="row">
+          <div v-if="article.cover_thumb_url" class="col text-center">
+            <img
+              class="rounded img-optimize"
+              :src="article.cover_thumb_url"
+              :alt="article.article_id"
+              :title="article.label"
+            />
+          </div>
+        </div>
       </div>
       <div class="col-md">
         <p class="text-center f-w-700">{{ $t('common.headers.stock_in') }}</p>
@@ -61,4 +71,10 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.img-optimize {
+  max-width: 100%;
+  height: auto;
+  max-height: 200px;
+}
+</style>

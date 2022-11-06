@@ -105,6 +105,11 @@ const getters = {
       })
       .value();
   },
+  getArticleByBarcode: (state, getters) => (barcode) => {
+    return getters.articles.find(
+      (art) => art.product.code.toString() === barcode.toString()
+    );
+  },
 };
 // privileges
 const actions = {
@@ -166,7 +171,9 @@ const actions = {
         })
         .map((art) => {
           return {
-            articleName: `${art.product?.code} / ${art.product?.reference} ${art.name}`,
+            code: art.product.code,
+            reference: art.product.reference,
+            name: art.name,
             sourceStock: getStockByEnterpriseId(source_enterprise_id, art),
             targetStock: getStockByEnterpriseId(target_enterprise_id, art),
             unitName: art.product.product_unit.label,

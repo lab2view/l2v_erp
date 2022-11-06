@@ -29,7 +29,6 @@
                     v-model.number="crossingField.target_enterprise_id"
                     :label="$t('common.fields.enterprise_to')"
                     :options="targetEnterprises"
-                    required
                     key-label="name"
                     key-value="id"
                   />
@@ -77,6 +76,7 @@
                 type="submit"
                 class="btn btn-sm btn-primary"
                 :loading="loading"
+                :disabled="!canMakeCrossing"
               />
             </div>
           </div>
@@ -96,6 +96,8 @@
           :total="articlesCrossings.length"
         >
           <template #headers>
+            <th class="text-start">{{ $t('common.attributes.barcode') }}</th>
+            <th class="text-start">{{ $t('common.attributes.reference') }}</th>
             <th class="text-start">{{ $t('common.attributes.article_id') }}</th>
             <th class="text-center">{{ sourceEntTableHeaderName }}</th>
             <th class="text-center">{{ targetEntTableHeaderName }}</th>
@@ -104,7 +106,9 @@
             v-for="article in articlesCrossings"
             :key="`art-crossing-${article.id}`"
           >
-            <td class="text-start">{{ article.articleName }}</td>
+            <td class="text-start">{{ article.code }}</td>
+            <td class="text-start">{{ article.reference }}</td>
+            <td class="text-start">{{ article.name }}</td>
             <td class="text-center">
               {{ `${article.sourceStock} ${article.unitName}` }}
             </td>
@@ -181,9 +185,10 @@ export default {
       ];
     },
     targetEnterprises() {
-      return this.enterprises.filter(
-        (ent) => ent.id !== this.crossingField.source_enterprise_id
-      );
+      return [
+        { id: '', name: this.$t('common.parent') },
+        ...this.enterprises,
+      ].filter((ent) => ent.id !== this.crossingField.source_enterprise_id);
     },
     sourceEntName() {
       return (
@@ -225,21 +230,30 @@ export default {
         },
       ];
     },
+    canMakeCrossing() {
+      return (
+        this.crossingField.quantity &&
+        this.crossingField.target_enterprise_id !==
+          this.crossingField.source_enterprise_id
+      );
+    },
   },
 
   methods: {
     processToStockCrossing() {
-      this.loading = true;
-      setTimeout(
-        () =>
-          this.$store
-            .dispatch('article/getArticleByStockCrossing', {
-              ...this.crossingField,
-            })
-            .then((data) => (this.articlesCrossings = data))
-            .finally(() => (this.loading = false)),
-        2000
-      );
+      if (this.canMakeCrossing) {
+        this.loading = true;
+        setTimeout(
+          () =>
+            this.$store
+              .dispatch('article/getArticleByStockCrossing', {
+                ...this.crossingField,
+              })
+              .then((data) => (this.articlesCrossings = data))
+              .finally(() => (this.loading = false)),
+          2000
+        );
+      }
     },
   },
 };
