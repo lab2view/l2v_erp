@@ -15,7 +15,7 @@
           </ul>
         </div>
         <div class="row">
-          <div class="col text-center" v-if="article.cover_thumb_url">
+          <div v-if="article.cover_thumb_url" class="col text-center">
             <img
               class="rounded img-optimize"
               :src="article.cover_thumb_url"

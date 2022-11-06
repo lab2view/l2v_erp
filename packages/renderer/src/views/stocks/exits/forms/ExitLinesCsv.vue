@@ -9,8 +9,8 @@
           </div>
           <div class="col-sm">
             <BaseInputFile
-              type="file"
               v-model="csvFile"
+              type="file"
               accept=".csv"
               required
             />
