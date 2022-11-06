@@ -65,7 +65,12 @@
             type="button"
             class="btn btn-secondary col-auto m-r-5"
             :text="$t('common.cancel')"
-            @click.prevent="$router.push({ name: 'stocks.exit.form.article' })"
+            @click.prevent="
+              $router.push({
+                name: 'stocks.exit.form.article',
+                params: $route.params,
+              })
+            "
           />
           <BaseButton
             class="btn btn-primary col-auto"
