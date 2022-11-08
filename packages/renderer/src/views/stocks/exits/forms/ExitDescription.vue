@@ -92,6 +92,7 @@
                 key-value="id"
                 :errors="errors?.enterprise_id"
                 :disabled="isUpdating"
+                :required="isReturnTransferStock"
               />
             </div>
             <div class="col-md">
