@@ -189,13 +189,13 @@ export default defineComponent({
       }
     },
     searchArticles() {
-      if (this.$route.meta.requireCashierSession) {
-        if (this.searchKeyword)
-          this.$router.push({
-            name: 'sales.session.finder',
-            query: { keyword: this.searchKeyword },
-          });
-      }
+      if (this.searchKeyword)
+        this.$router.push({
+          name: this.$route.meta.requireCashierSession
+            ? 'sales.session.finder'
+            : 'article.finder',
+          query: { keyword: this.searchKeyword },
+        });
     },
     openWebStore() {
       window.ipcRenderer.send('open-navigator', {

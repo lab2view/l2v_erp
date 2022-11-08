@@ -8,6 +8,12 @@ export default [
     component: () => import('/@/views/articles/ArticleList.vue'),
   },
   {
+    path: 'search-results',
+    name: 'article.finder',
+    component: () =>
+      import('/@/views/sales/session/SaleModalSearchResults.vue'),
+  },
+  {
     path: ':id/details',
     component: () => import('/@/components/articles/DetailLayout.vue'),
     beforeEnter: (to) => {
