@@ -45,12 +45,6 @@ export default [
       icon: 'fa fa-list',
       requireStockExit: true,
     },
-    beforeEnter: (to) => {
-      return store
-        .dispatch('stock_exit/getStockExit', to.params.id)
-        .then(() => 1)
-        .catch(() => -1);
-    },
     children: [
       {
         path: 'form',
