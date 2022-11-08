@@ -20,7 +20,7 @@
         {{ errors.label[0] }}
       </div>
     </div>
-    <div class="form-group mb-3">
+    <div class="form-group mb-3" v-if="canShowRadioSection">
       <label class="form-label fw-bold" for="label">{{
         $t('common.attributes.stock_variety')
       }}</label>
@@ -94,10 +94,9 @@ export default {
         ? this.$t('stocks.stockState.formUpdateTitle')
         : this.$t('stocks.stockState.formCreateTitle');
     },
-  },
-  mounted() {
-    console.log('stockStateForm.state_for');
-    console.log(this.stockStateForm.state_for);
+    canShowRadioSection() {
+      return !this.stockState?.not_deletable;
+    },
   },
   created() {
     if (this.stockState && this.stockState.id)
