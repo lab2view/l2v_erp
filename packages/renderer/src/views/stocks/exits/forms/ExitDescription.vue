@@ -6,7 +6,7 @@
           <div class="col-md">
             <h5>{{ formTitle }}</h5>
           </div>
-          <div v-if="!isUpdating" class="col-auto">
+          <div v-if="!isUpdating && !isReturnTransferStock" class="col-auto">
             <BaseSwitchInput
               v-model="is_multi_enterprise"
               :label="$t('common.fields.multi_enterprise')"
@@ -32,7 +32,7 @@
                 "
               >
                 <BaseSelect
-                  v-model="stockExitForm.stock_type_id"
+                  v-model.number="stockExitForm.stock_type_id"
                   :options="stockTypes"
                   key-label="label"
                   key-value="id"
@@ -85,7 +85,7 @@
           <div class="row align-items-center">
             <div class="col-md">
               <BaseSelect
-                v-model="stockExitForm.enterprise_id"
+                v-model.number="stockExitForm.enterprise_id"
                 :label="$t('common.fields.enterprise_from')"
                 :options="sourceEnterprises"
                 key-label="name"
@@ -111,8 +111,8 @@
                   "
                   key-label="name"
                   key-value="id"
-                  :required="!is_multi_enterprise"
-                  :disabled="isUpdating"
+                  :required="!is_multi_enterprise || !isReturnTransferStock"
+                  :disabled="isUpdating || isReturnTransferStock"
                   @input="selectReceiverEnterprise"
                 />
               </BaseFieldGroup>
@@ -217,19 +217,36 @@ export default {
         (t) => t.code !== stockTypeCode.sale
       );
     },
+    selectedStockType() {
+      return (
+        this.stockTypes.find(
+          (st) => st.id === this.stockExitForm.stock_type_id
+        ) ?? null
+      );
+    },
+    isReturnTransferStock() {
+      return this.selectedStockType?.code === stockTypeCode.returnTransfer;
+    },
     sourceEnterprises() {
-      return [
-        { id: '', name: this.$t('common.parent') },
-        ...this.enterprises.filter(
-          (ent) =>
-            ent.id.toString() !== this.stockExitForm.enterprise_receiver_id
-        ),
-      ];
+      return this.isReturnTransferStock
+        ? this.enterprises.filter(
+            (ent) =>
+              ent.id.toString() !== this.stockExitForm.enterprise_receiver_id
+          )
+        : [
+            { id: '', name: this.$t('common.parent') },
+            ...this.enterprises.filter(
+              (ent) =>
+                ent.id.toString() !== this.stockExitForm.enterprise_receiver_id
+            ),
+          ];
     },
     targetEnterprises() {
-      return this.enterprises.filter(
-        (ent) => ent.id.toString() !== this.stockExitForm.enterprise_id
-      );
+      return this.isReturnTransferStock
+        ? [{ id: '', name: this.$t('common.parent') }]
+        : this.enterprises.filter(
+            (ent) => ent.id.toString() !== this.stockExitForm.enterprise_id
+          );
     },
     uniqueTargetEnterprises() {
       return this.targetEnterprises.filter(
