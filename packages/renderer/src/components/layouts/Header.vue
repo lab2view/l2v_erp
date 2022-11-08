@@ -96,7 +96,7 @@
           </li>
           <li
             v-if="isSaleSession"
-            :title="$t('sales.session.report')"
+            :title="$t('common.discount_code_verify')"
             class="font-primary m-0"
             @click.prevent="
               $router.push({
@@ -107,7 +107,7 @@
             "
           >
             <div class="mode">
-              <i class="fa fa-check"></i>
+              <i class="fa fa-check-square-o"></i>
             </div>
           </li>
           <li @click.prevent="setDarkMode">

@@ -1,7 +1,6 @@
 <template>
   <BaseFormModal
     :title="$t('common.discount_code_verify')"
-    :show-footer="false"
     :submit-form="checkDiscountValidity"
   >
     <div class="form-group mb-3">
@@ -12,12 +11,19 @@
         required
       />
     </div>
+    <div class="alert p-2 text-center alert-danger" v-if="errorMessage">
+      {{ errorMessage }}
+    </div>
+    <div class="alert p-2 text-center alert-primary" v-if="successMessage">
+      {{ successMessage }}
+    </div>
     <template #footer>
       <BaseButton
         :title="$t('common.verify')"
         class="btn btn-primary"
         type="submit"
         :text="$t('common.verify')"
+        icon="fa fa-check"
         :loading="loading"
       />
     </template>
@@ -40,6 +46,8 @@ export default {
   data() {
     return {
       discountCode: null,
+      successMessage: null,
+      errorMessage: null,
       loading: false,
     };
   },
@@ -47,12 +55,20 @@ export default {
   methods: {
     checkDiscountValidity() {
       this.loading = true;
+      this.errorMessage = null;
+      this.successMessage = null;
       this.$store
         .dispatch('discount_code/getDiscountCodeByCode', this.discountCode)
         .then((discountCode) => {
-          if (discountCode?.is_active) notify('Code de reduction valide', 'Ok');
-          else notify('Code de reduction invalid', 'Erreur', 'danger');
+          if (discountCode?.is_active) {
+            this.successMessage = this.$t('common.discount_valid_code');
+            notify(this.successMessage, 'Ok');
+          } else {
+            this.errorMessage = this.$t('common.discount_invalid_code');
+            notify(this.errorMessage, 'NOK', 'danger');
+          }
         })
+        .catch((error) => (this.errorMessage = error?.response?.data?.message))
         .finally(() => (this.loading = false));
     },
   },

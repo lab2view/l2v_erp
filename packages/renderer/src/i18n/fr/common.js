@@ -112,6 +112,9 @@ export default {
     discount_note: 'Une reduction deja appliquee ! Annuler pour changer',
   },
 
+  discount_valid_code: 'Le code de reduction est valide',
+  discount_invalid_code: "Le code de reduction n'est pas valide",
+
   fields: {
     required_field_start: 'Les champs marques par',
     required_field_end:
