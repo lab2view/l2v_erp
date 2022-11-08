@@ -1,5 +1,5 @@
 <template>
-  <router-view :discount="discount"/>
+  <router-view :discount="discount" />
   <div class="card mb-0">
     <div class="card-header pb-0">
       <div class="row align-items-center">
@@ -22,7 +22,10 @@
             @click.prevent="deleteSelectedDiscountCustomers"
           />
           <router-link
-            :to="{ name: 'sales.discount.form.customers.form' }"
+            :to="{
+              name: 'sales.discount.form.customers.form',
+              params: $route.params,
+            }"
             class="btn btn-primary"
             type="button"
           >
@@ -36,32 +39,34 @@
       <div class="table-responsive mb-3">
         <table class="table">
           <thead>
-          <tr>
-            <th :title="$t('common.select_all')">
-              <div
-                class="checkbox"
-                :class="
-                  partialSelect
-                    ? 'checkbox-solid-success'
-                    : 'checkbox-primary'
-                "
-              >
-                <input
-                  id="checkbox-primary-1"
-                  v-model="selectAll"
-                  type="checkbox"
-                />
-                <label
-                  class="m-0 pt-0 pb-0 p-l-5"
-                  for="checkbox-primary-1"
-                  style="padding-left: 60px"
+            <tr>
+              <th :title="$t('common.select_all')">
+                <div
+                  class="checkbox"
+                  :class="
+                    partialSelect
+                      ? 'checkbox-solid-success'
+                      : 'checkbox-primary'
+                  "
                 >
-                  {{ `${$t('customers.customer.listTitle')} ${countSelected}` }}</label
-                >
-              </div>
-            </th>
-            <th scope="col">{{ $t('common.actions') }}</th>
-          </tr>
+                  <input
+                    id="checkbox-primary-1"
+                    v-model="selectAll"
+                    type="checkbox"
+                  />
+                  <label
+                    class="m-0 pt-0 pb-0 p-l-5"
+                    for="checkbox-primary-1"
+                    style="padding-left: 60px"
+                  >
+                    {{
+                      `${$t('customers.customer.listTitle')} ${countSelected}`
+                    }}</label
+                  >
+                </div>
+              </th>
+              <th scope="col">{{ $t('common.actions') }}</th>
+            </tr>
           </thead>
           <tbody>
             <CustomerLineSelectable
@@ -84,16 +89,24 @@
           :text="$t('common.prev')"
           class="btn btn-secondary col-auto m-r-5"
           type="button"
-          @click.prevent="$router.push({ name: 'sales.discount.form.customers' })"
+          @click.prevent="
+            $router.push({
+              name: 'sales.discount.form.articles',
+              params: $route.params,
+            })
+          "
         />
         <BaseButton
           :text="$t('common.next')"
           class="btn btn-primary col-auto"
           icon="fa fa-save"
-          @click.prevent="$router.push({
-            name: 'sales.discount.form.codes',
-            params: { id: discount.id },
-          })"
+          type="button"
+          @click.prevent="
+            $router.push({
+              name: 'sales.discount.form.codes',
+              params: $route.params,
+            })
+          "
         />
       </div>
     </div>
@@ -106,6 +119,7 @@ import BaseButton from '/@/components/common/BaseButton.vue';
 import { mapGetters } from 'vuex';
 
 export default {
+  name: 'DiscountCustomersList',
   components: { CustomerLineSelectable, BaseButton },
   data() {
     return {
@@ -157,7 +171,7 @@ export default {
       if (adding) this.selected.push(discountCustomer.id);
       else {
         this.selected = this.selected.filter(
-          (id) => id !== discountCustomer.id,
+          (id) => id !== discountCustomer.id
         );
       }
     },

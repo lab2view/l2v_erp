@@ -10,7 +10,9 @@
         :for="`selected-${customer.id}`"
         class="mt-0 pt-0"
         style="padding-left: 60px"
-        >{{ `${customer.name} - ${customer.phone}` }}</label
+        >{{
+          `${customer.first_name} ${customer.name} - ${customer.phone}`
+        }}</label
       >
     </div>
   </td>

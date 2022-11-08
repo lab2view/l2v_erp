@@ -215,16 +215,6 @@ export const saleRoutes = [
     name: 'sales.discount.form',
     component: () => import('/@/components/sales/DiscountFormLayout.vue'),
     children: formRoutes,
-    beforeEnter: (to) => {
-      if (to.params.id) {
-        return store
-          .dispatch('discount/getDiscount', to.params.id)
-          .then(() => {
-            return 1;
-          })
-          .catch(() => -1);
-      }
-    },
   },
   {
     path: 'discount-types',

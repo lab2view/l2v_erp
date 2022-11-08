@@ -128,6 +128,7 @@ import store from '/@/store';
 import { mapGetters } from 'vuex';
 
 export default {
+  name: 'DiscountCodesList',
   components: {
     BaseInput,
     BaseFormModal,

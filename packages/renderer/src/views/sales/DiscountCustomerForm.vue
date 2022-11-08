@@ -13,6 +13,7 @@
 import CustomerSelectableList from '/@/components/customers/CustomerSelectableList.vue';
 
 export default {
+  name: 'DiscountCustomerForm',
   components: {
     CustomerSelectableList,
   },
@@ -26,7 +27,7 @@ export default {
     submitAddCustomersToDiscountForm(selected) {
       return this.$store.dispatch('discount/addCustomers', {
         customers: selected,
-        discount: this.discount
+        discount: this.discount,
       });
     },
   },
