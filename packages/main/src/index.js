@@ -30,7 +30,7 @@ if (isDevelopment) {
         loadExtensionOptions: {
           allowFileAccess: true,
         },
-      }),
+      })
     )
     .catch((e) => console.error('Failed install extension:', e));
 }
@@ -56,6 +56,7 @@ const createWindow = async () => {
    */
   mainWindow.on('ready-to-show', () => {
     mainWindow?.show();
+    mainWindow?.maximize();
 
     if (isDevelopment) {
       mainWindow?.webContents.openDevTools();
@@ -72,7 +73,7 @@ const createWindow = async () => {
       ? import.meta.env.VITE_DEV_SERVER_URL
       : new URL(
           '../renderer/dist/index.html',
-          'file://' + __dirname,
+          'file://' + __dirname
         ).toString();
 
   await mainWindow.loadURL(pageUrl);
