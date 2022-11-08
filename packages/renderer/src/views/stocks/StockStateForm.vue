@@ -20,7 +20,7 @@
         {{ errors.label[0] }}
       </div>
     </div>
-    <div class="form-group mb-3" v-if="canShowRadioSection">
+    <div v-if="canShowRadioSection" class="form-group mb-3">
       <label class="form-label fw-bold" for="label">{{
         $t('common.attributes.stock_variety')
       }}</label>

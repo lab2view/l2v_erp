@@ -11,10 +11,10 @@
         required
       />
     </div>
-    <div class="alert p-2 text-center alert-danger" v-if="errorMessage">
+    <div v-if="errorMessage" class="alert p-2 text-center alert-danger">
       {{ errorMessage }}
     </div>
-    <div class="alert p-2 text-center alert-primary" v-if="successMessage">
+    <div v-if="successMessage" class="alert p-2 text-center alert-primary">
       {{ successMessage }}
     </div>
     <template #footer>
