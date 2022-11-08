@@ -8,7 +8,7 @@
           class="text-center"
         >
           <i v-if="globalProgress.label" class="font-primary">
-            {{ `${globalProgress.label} {${progress}%)` }}
+            {{ `${globalProgress.label} (${progress}%)` }}
           </i>
           <BaseProgressBar
             :max="globalProgress?.max"
