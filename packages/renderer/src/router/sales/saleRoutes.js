@@ -80,6 +80,12 @@ export const saleRoutes = [
         ],
       },
       {
+        path: 'verify-discount-codes',
+        name: 'sales.session.discount.check',
+        component: () =>
+          import('/@/views/sales/session/CashierSessionDiscountVerify.vue'),
+      },
+      {
         path: 'show-article-picture/:article_id',
         name: 'sales.session.picture',
         component: () =>

@@ -9,16 +9,11 @@ export default [
   },
   {
     path: ':id/details',
-    meta: {
-      requireArticle: true,
-    },
     component: () => import('/@/components/articles/DetailLayout.vue'),
     beforeEnter: (to) => {
       return store
         .dispatch('article/getArticle', to.params.id)
-        .then(() => {
-          return 1;
-        })
+        .then(() => 1)
         .catch(() => -1);
     },
     children: [
@@ -28,12 +23,9 @@ export default [
         component: () => import('/@/views/articles/details/Details.vue'),
       },
       {
-        path: '',
+        path: 'entries',
         name: 'article.entry.line.form',
-        component: () =>
-          import(
-            '/@/views/articles/details/EntryLineForm.vue'
-            ),
+        component: () => import('/@/views/articles/details/EntryLineForm.vue'),
       },
       {
         path: 'prices',

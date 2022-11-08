@@ -3,7 +3,7 @@
     <div class="row align-items-end">
       <div class="col">
         <div class="row justify-content-center mb-2">
-          <div class="col-md-5">
+          <div class="col-md-6">
             <BaseFieldGroup
               :with-refresh="true"
               refresh-action-name="customer/getCustomersList"
@@ -56,19 +56,19 @@
           <div class="col">
             <table class="table table-bordered">
               <tbody>
-                <tr class="table-success">
-                  <td class="font-primary bg-white" style="width: 20%">
+                <tr>
+                  <td class="font-primary" style="width: 20%">
                     <h6 class="mb-0">
                       {{ $t('common.attributes.sub_price') }} :
                     </h6>
                   </td>
-                  <td class="font-primary bg-white" style="width: 30%">
+                  <td class="font-primary" style="width: 30%">
                     <h5 class="mb-0 f-w-600 p-l-10">
                       {{ `${getCurrentSaleSupAmount} ${currency}` }}
                     </h5>
                   </td>
                   <td
-                    class="font-primary"
+                    class="bg-light-primary font-primary"
                     style="width: 50%"
                     rowspan="2"
                     colspan="2"
@@ -199,9 +199,10 @@ import BaseButton from '/@/components/common/BaseButton.vue';
 import { mapGetters } from 'vuex';
 import BaseCheckboxGroup from '/@/components/common/BaseCheckboxGroup.vue';
 import BaseSelect from '/@/components/common/BaseSelect.vue';
-import { cashPaymentMethodCode } from '/@/helpers/codes.js';
+import { cashPaymentMethodCode } from '/@/helpers/codes';
 import BaseFieldGroup from '/@/components/common/BaseFieldGroup.vue';
-import store from '/@/store/index.js';
+import store from '/@/store/index';
+
 export default {
   components: {
     BaseFieldGroup,
@@ -216,6 +217,7 @@ export default {
       default: false,
     },
   },
+
   computed: {
     ...mapGetters('cashier_session', [
       'getCurrentSaleCustomerId',
@@ -314,5 +316,8 @@ export default {
   font-size: 20px;
   padding-bottom: 10px;
   padding-top: 10px;
+}
+.bg-light-primary {
+  background-color: rgba(27, 76, 67, 0.1);
 }
 </style>

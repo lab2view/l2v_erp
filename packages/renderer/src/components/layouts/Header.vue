@@ -94,6 +94,22 @@
               <i class="fa fa-table"></i>
             </div>
           </li>
+          <li
+            v-if="isSaleSession"
+            :title="$t('sales.session.report')"
+            class="font-primary m-0"
+            @click.prevent="
+              $router.push({
+                name: 'sales.session.discount.check',
+                params: $route.params,
+                query: $route.query,
+              })
+            "
+          >
+            <div class="mode">
+              <i class="fa fa-check"></i>
+            </div>
+          </li>
           <li @click.prevent="setDarkMode">
             <div class="mode">
               <i :class="headerModeIconClass"></i>
