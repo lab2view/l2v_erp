@@ -94,6 +94,22 @@
               <i class="fa fa-table"></i>
             </div>
           </li>
+          <li
+            v-if="isSaleSession"
+            :title="$t('common.discount_code_verify')"
+            class="font-primary m-0"
+            @click.prevent="
+              $router.push({
+                name: 'sales.session.discount.check',
+                params: $route.params,
+                query: $route.query,
+              })
+            "
+          >
+            <div class="mode">
+              <i class="fa fa-check-square-o"></i>
+            </div>
+          </li>
           <li @click.prevent="setDarkMode">
             <div class="mode">
               <i :class="headerModeIconClass"></i>
@@ -173,13 +189,13 @@ export default defineComponent({
       }
     },
     searchArticles() {
-      if (this.$route.meta.requireCashierSession) {
-        if (this.searchKeyword)
-          this.$router.push({
-            name: 'sales.session.finder',
-            query: { keyword: this.searchKeyword },
-          });
-      }
+      if (this.searchKeyword)
+        this.$router.push({
+          name: this.$route.meta.requireCashierSession
+            ? 'sales.session.finder'
+            : 'article.finder',
+          query: { keyword: this.searchKeyword },
+        });
     },
     openWebStore() {
       window.ipcRenderer.send('open-navigator', {

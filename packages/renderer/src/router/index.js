@@ -109,9 +109,15 @@ router.beforeEach(async (to, from, next) => {
   }
   if (to.meta.requireArticleGroup) productArticleGroupGuard(to, from, next);
   if (to.meta.requireCustomerGroup) customerGroupGuard(to, from, next);
-  if (to.meta.requireDiscount) discountGuard(to, from, next);
+  if (to.meta.requireDiscount) {
+    await store.dispatch('discount/getDiscount', to.params.id);
+    discountGuard(to, from, next);
+  }
   if (to.meta.requireStockEntry) stockEntryGuard(to, from, next);
-  if (to.meta.requireStockExit) stockExitGuard(to, from, next);
+  if (to.meta.requireStockExit) {
+    await store.dispatch('stock_exit/getStockExit', to.params.id);
+    stockExitGuard(to, from, next);
+  }
   if (to.meta.requireCashierSession) cashierSessionGuard(to, from, next);
   if (to.meta.redirectCashierSession)
     redirectCashierSessionGuard(to, from, next);

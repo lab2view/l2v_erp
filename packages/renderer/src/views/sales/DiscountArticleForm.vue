@@ -13,6 +13,7 @@
 import ArticleSelectableList from '/@/components/articles/ArticleSelectableList.vue';
 
 export default {
+  name: 'DiscountArticleForm',
   components: {
     ArticleSelectableList,
   },
@@ -26,7 +27,7 @@ export default {
     submitAddArticlesToDiscountForm(selected) {
       return this.$store.dispatch('discount/addArticles', {
         articles: selected,
-        discount: this.discount
+        discount: this.discount,
       });
     },
   },

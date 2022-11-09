@@ -11,8 +11,8 @@
           :for="`selected-${model.id}`"
           class="mt-0 pt-0"
           style="padding-left: 60px"
-          >
-          {{ `${customer.name}` }}
+        >
+          {{ `${customer?.first_name} ${customer?.name}` }}
         </label>
       </div>
     </td>
@@ -65,7 +65,8 @@ export default {
   computed: {
     ...mapGetters('customer', ['getCustomerById']),
     customer() {
-      const a = this.getCustomerById(this.model.customer_id);
+      const a =
+        this.model.customer ?? this.getCustomerById(this.model.customer_id);
       return a ?? null;
     },
     isSelected() {

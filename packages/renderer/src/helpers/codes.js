@@ -11,6 +11,7 @@ export const stockTypeCode = {
   saleDeposit: 'STOCK_SALE_DEPOSIT',
   transfer: 'STOCK_TRANSFER',
   sale: 'S_STOCK_SALE',
+  returnTransfer: 'STOCK_TRF_RETURN',
 };
 export const stockStateCode = {
   success: 'SUCCESS',
