@@ -56,6 +56,7 @@ const createWindow = async () => {
    */
   mainWindow.on('ready-to-show', () => {
     mainWindow?.show();
+    mainWindow?.maximize();
 
     if (isDevelopment) {
       mainWindow?.webContents.openDevTools();

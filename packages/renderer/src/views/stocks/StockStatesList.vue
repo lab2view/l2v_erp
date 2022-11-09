@@ -48,6 +48,7 @@
                 {{ $t('common.update') }}
               </button>
               <button
+                v-if="!stockState.not_deletable"
                 :title="$t('common.delete')"
                 class="btn btn-danger btn-xs m-l-5"
                 data-original-title="btn btn-danger btn-xs"

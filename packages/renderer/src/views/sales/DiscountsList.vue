@@ -19,16 +19,16 @@
             <th>{{ $t('common.attributes.enterprise') }}</th>
             <th>{{ $t('common.attributes.label') }}</th>
             <th>{{ $t('common.attributes.value') }}</th>
-            <th>{{ $t('common.attributes.start_at') }}</th>
             <th>{{ $t('common.actions') }}</th>
           </template>
           <tr v-for="discount in discounts" :key="discount.id">
             <td>{{ discount.id }}</td>
             <td>{{ discount.discount_type.label }}</td>
-            <td>{{ discount.enterprise?.label }}</td>
+            <td class="text-center">
+              {{ discount.enterprise?.label ?? '---' }}
+            </td>
             <td>{{ discount.label }}</td>
-            <td>{{ discount.value }}</td>
-            <td>{{ discount.start_at }}</td>
+            <td>{{ `${discount.value}${discount.is_percent ? '%' : ''}` }}</td>
             <td>
               <button
                 class="btn btn-secondary btn-xs"
@@ -71,6 +71,7 @@ import { mapGetters } from 'vuex';
 import BaseTableHeader from '/@/components/common/BaseTableHeader.vue';
 
 export default {
+  name: 'DiscountsList',
   components: { BaseTableHeader, BaseContainer, BaseDatatable },
   beforeRouteEnter(routeTo, routeFrom, next) {
     store

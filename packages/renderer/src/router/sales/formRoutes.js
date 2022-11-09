@@ -1,3 +1,5 @@
+import store from '/@/store/index.js';
+
 export default [
   {
     path: '',
@@ -6,6 +8,14 @@ export default [
     meta: {
       code: 'discount.form.desc',
       icon: 'fa fa-info',
+    },
+    beforeEnter: (to) => {
+      if (to.params.id) {
+        return store
+          .dispatch('discount/getDiscount', to.params.id)
+          .then(() => 1)
+          .catch(() => -1);
+      }
     },
   },
   {
@@ -21,8 +31,7 @@ export default [
       {
         path: 'form',
         name: 'sales.discount.form.articles.form',
-        component: () =>
-          import('/@/views/sales/DiscountArticleForm.vue'),
+        component: () => import('/@/views/sales/DiscountArticleForm.vue'),
       },
     ],
   },
@@ -39,8 +48,7 @@ export default [
       {
         path: 'form',
         name: 'sales.discount.form.customers.form',
-        component: () =>
-          import('/@/views/sales/DiscountCustomerForm.vue'),
+        component: () => import('/@/views/sales/DiscountCustomerForm.vue'),
       },
     ],
   },
