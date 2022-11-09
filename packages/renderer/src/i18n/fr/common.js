@@ -76,6 +76,7 @@ export default {
   pending_sale: 'Vente en cours | Ventes en cours',
   apply: 'Appliquer',
   discount_code: 'Code de reduction',
+  discount_code_verify: "Verification d'un code de reduction",
   select_discount: 'Selectionner une reduction',
   printer_config: "Configuration de l'imprimante",
   print_after_sale: 'Vendre & Imprimer',
@@ -110,6 +111,9 @@ export default {
     print: 'Imprimer le ticket',
     discount_note: 'Une reduction deja appliquee ! Annuler pour changer',
   },
+
+  discount_valid_code: 'Le code de reduction est valide',
+  discount_invalid_code: "Le code de reduction n'est pas valide",
 
   fields: {
     required_field_start: 'Les champs marques par',
@@ -215,6 +219,7 @@ export default {
     product_family: 'Famille de produit',
     product_type: 'Type de produit',
     product_unit: 'Unite du produit',
+    unit: 'Unite',
     disabled_at: 'Desactiver le produit',
     can_be_sell: 'Permettre de produire des articles pour la vente',
     state: 'Etat',

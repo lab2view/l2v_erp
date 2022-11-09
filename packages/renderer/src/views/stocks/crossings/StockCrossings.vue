@@ -101,6 +101,7 @@
             <th class="text-start">{{ $t('common.attributes.article_id') }}</th>
             <th class="text-center">{{ sourceEntTableHeaderName }}</th>
             <th class="text-center">{{ targetEntTableHeaderName }}</th>
+            <th class="text-center">{{ $t('common.attributes.unit') }}</th>
           </template>
           <tr
             v-for="article in articlesCrossings"
@@ -109,12 +110,9 @@
             <td class="text-start">{{ article.code }}</td>
             <td class="text-start">{{ article.reference }}</td>
             <td class="text-start">{{ article.name }}</td>
-            <td class="text-center">
-              {{ `${article.sourceStock} ${article.unitName}` }}
-            </td>
-            <td class="text-center">
-              {{ `${article.targetStock} ${article.unitName}` }}
-            </td>
+            <td class="text-center">{{ article.sourceStock }}</td>
+            <td class="text-center">{{ article.targetStock }}</td>
+            <td class="text-center">{{ article.unitName }}</td>
           </tr>
         </BaseDatatable>
       </div>

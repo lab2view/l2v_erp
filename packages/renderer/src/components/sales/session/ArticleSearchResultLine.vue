@@ -54,7 +54,7 @@ export default {
     ...mapGetters('auth', ['currentEnterprise']),
     currentDistribution() {
       return this.article.stats.distributions.find(
-        (d) => d.id === this.currentEnterprise.id
+        (d) => d.id === this.currentEnterprise?.id
       );
     },
     currentDistributionTotalStock() {

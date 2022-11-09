@@ -11,7 +11,7 @@
           required
         />
       </div>
-      <div v-if="!$route.query.type_for" class="mb-3">
+      <div v-if="canShowRadioSection" class="mb-3">
         <BaseRadioButtonGroup
           v-model="stockTypeForm.type_for"
           :errors="errors?.type_for"
@@ -70,6 +70,11 @@ export default {
       return this.stockType && this.stockType.id
         ? this.$t('stocks.stockType.formUpdateTitle')
         : this.$t('stocks.stockType.formCreateTitle');
+    },
+    canShowRadioSection() {
+      return this.stockType?.not_deletable
+        ? false
+        : !this.$route.query.type_for;
     },
   },
   created() {
