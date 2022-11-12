@@ -112,7 +112,9 @@
                   "
                   key-label="name"
                   key-value="id"
-                  :required="!is_multi_enterprise || !isReturnTransferStock"
+                  :required="
+                    is_multi_enterprise ? false : !isReturnTransferStock
+                  "
                   :disabled="isUpdating || isReturnTransferStock"
                   @input="selectReceiverEnterprise"
                 />
@@ -326,6 +328,7 @@ export default {
             .then(() =>
               this.$router.push({
                 name: 'stocks.exit.form.multiple',
+                query: { enterprise_id: this.stockExitForm.enterprise_id },
               })
             )
             .catch((error) => {

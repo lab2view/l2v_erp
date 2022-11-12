@@ -1,5 +1,5 @@
 <template>
-  <tr v-if="stockExitLine.id === null">
+  <tr v-if="stockExitLine.id === null || isMultiple">
     <td class="align-middle f-w-600 f-14">
       {{
         `${article.product?.code} / ${article.product?.reference} ${article.name}`
@@ -21,14 +21,14 @@
         </template>
       </BaseInputGroup>
     </td>
-    <td :style="isMultiple ? '' : 'width: 120px'">
+    <td :style="isMultiple ? 'width: 400px' : 'width: 120px'">
       <div v-if="isMultiple">
         <div
           v-for="stockExit in getMultipleStockExits"
           :key="`stock-multi-${stockExit.id}`"
           class="mb-2 row"
         >
-          <div class="col-sm-3">
+          <div class="col-sm-4">
             <BaseInput
               v-model="quantities[stockExit.id]"
               type="number"
@@ -41,9 +41,9 @@
               "
             />
           </div>
-          <label class="col-sm-auto col-form-label text-end">{{
-            stockExit.enterprise_receiver.name
-          }}</label>
+          <label class="col-sm-auto col-form-label text-end">
+            {{ stockExit.enterprise_receiver.name }}
+          </label>
         </div>
       </div>
       <BaseInput
