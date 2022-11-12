@@ -53,6 +53,7 @@
                 :index="index"
                 :update-field-method="updateStockExitLineField"
                 :errors="errors"
+                :enterprise-id="stockExit.enterprise_id"
                 @remove="removeStockExitLineField"
               />
             </tbody>

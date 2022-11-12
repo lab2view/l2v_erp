@@ -109,6 +109,8 @@ export default {
     list: 'Liste des ventes',
     detail: 'Details de la vente',
     print: 'Imprimer le ticket',
+    discount_selected:
+      'Reduction appliquee !!! Veuillez Enregistrer pour confirmer',
     discount_note: 'Une reduction deja appliquee ! Annuler pour changer',
   },
 
