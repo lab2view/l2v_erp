@@ -4,6 +4,7 @@
       {{
         `${article.product?.code} / ${article.product?.reference} ${article.name}`
       }}
+      <span class="m-l-5">x{{ stockAvailable }}</span>
     </td>
     <td v-if="manage_price" style="width: 210px">
       <BaseInputGroup
@@ -34,7 +35,7 @@
               required
               placeholder="Qte"
               min="1"
-              :max="article.stock.available ?? null"
+              :max="stockAvailable"
               :errors="
                 errors?.[`${stockExit.id}.stock_exit_lines.${index}.quantity`]
               "
@@ -51,7 +52,7 @@
         type="number"
         required
         min="1"
-        :max="article.stock.available ?? null"
+        :max="stockAvailable"
         :errors="errors?.[`stock_exit_lines.${index}.quantity`]"
       />
     </td>
@@ -73,6 +74,7 @@ import { mapGetters } from 'vuex';
 import BaseInput from '/@/components/common/BaseInput.vue';
 import BaseButton from '/@/components/common/BaseButton.vue';
 import BaseInputGroup from '/@/components/common/BaseInputGroup.vue';
+import { getDistributionCurrentStock } from '/@/helpers/utils.js';
 
 export default {
   components: { BaseInputGroup, BaseButton, BaseInput },
@@ -84,6 +86,10 @@ export default {
     index: {
       type: [String, Number],
       required: true,
+    },
+    enterpriseId: {
+      type: Number,
+      default: null,
     },
     updateFieldMethod: {
       type: Function,
@@ -137,6 +143,16 @@ export default {
           this.index
         );
       },
+    },
+    stockAvailable() {
+      if (this.article) {
+        const distribution = this.article.stats.distributions.find(
+          (d) => d.id === this.enterpriseId
+        );
+        return distribution !== undefined
+          ? getDistributionCurrentStock(distribution)
+          : this.article.stock.available;
+      } else return null;
     },
   },
   watch: {
