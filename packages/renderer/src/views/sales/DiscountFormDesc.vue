@@ -96,8 +96,8 @@
         </div>
         <div class="form-group">
           <BaseTextArea
-            :label="$t('common.attributes.description')"
             v-model="discountForm.description"
+            :label="$t('common.attributes.description')"
             placeholder="..."
             :errors="errors?.description"
           />
