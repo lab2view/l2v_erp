@@ -117,10 +117,25 @@
 import CustomerLineSelectable from '/@/components/customers/CustomerLineSelectable.vue';
 import BaseButton from '/@/components/common/BaseButton.vue';
 import { mapGetters } from 'vuex';
+import store from '/@/store/index.js';
 
 export default {
   name: 'DiscountCustomersList',
   components: { CustomerLineSelectable, BaseButton },
+  beforeRouteEnter(routeTo, routeFrom, next) {
+    store
+      .dispatch('customer/getCustomersList', {
+        page: 1,
+        field: {},
+      })
+      .then(() => {
+        next();
+      })
+      .catch((error) => {
+        console.log(error);
+        next();
+      });
+  },
   data() {
     return {
       selected: [],

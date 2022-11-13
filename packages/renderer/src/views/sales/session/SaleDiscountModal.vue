@@ -74,6 +74,9 @@
             <div v-if="haveCurrentDiscount" class="alert alert-secondary p-2">
               {{ $t('common.sale.discount_note') }}
             </div>
+            <div v-else-if="discount" class="alert alert-info p-2">
+              {{ $t('common.sale.discount_selected') }}
+            </div>
             <div class="media card-body">
               <div class="media-body align-self-center">
                 <div>

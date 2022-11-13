@@ -10,131 +10,97 @@
         >
       </div>
       <div class="card-body">
-        <div class="form-group mb-3">
-          <BaseSelect
-            v-model="discountForm.discount_type_id"
-            :label="$t('common.attributes.discount_type')"
-            :options="discountTypes"
-            key-label="label"
-            key-value="id"
-            required
-            :errors="errors.discount_type_id"
-          />
-        </div>
-        <div class="form-group mb-3">
-          <label class="form-label fw-bold" for="label">{{
-            $t('common.attributes.label')
-          }}</label>
-          <input
-            id="label"
-            v-model="discountForm.label"
-            class="form-control"
-            placeholder="..."
-            required
-            type="text"
-          />
-          <div
-            v-if="errors.label && errors.label.length"
-            class="invalid-feedback"
-            style="display: inline"
-          >
-            {{ errors.label[0] }}
+        <div class="row align-items-end">
+          <div class="col-md">
+            <div class="form-group">
+              <BaseSelect
+                v-model="discountForm.discount_type_id"
+                :label="$t('common.attributes.discount_type')"
+                :options="discountTypes"
+                key-label="label"
+                key-value="id"
+                required
+                :errors="errors?.discount_type_id"
+              />
+            </div>
+          </div>
+          <div class="col-md">
+            <div class="form-group">
+              <BaseInput
+                v-model="discountForm.label"
+                :label="$t('common.attributes.label')"
+                placeholder="..."
+                required
+                type="text"
+                :errors="errors?.label"
+              />
+            </div>
           </div>
         </div>
-        <div class="form-group mb-3">
-          <label class="form-label fw-bold" for="value">{{
-            $t('common.attributes.value')
-          }}</label>
-          <input
-            id="value"
-            v-model="discountForm.value"
-            class="form-control"
-            placeholder="1"
-            type="number"
-            step=".01"
-            required
-          />
-          <div
-            v-if="errors.value && errors.value.length"
-            class="invalid-feedback"
-            style="display: inline"
-          >
-            {{ errors.value[0] }}
+        <div class="row align-items-end">
+          <div class="col-md">
+            <div class="form-group">
+              <BaseInput
+                v-model="discountForm.value"
+                :label="$t('common.attributes.value')"
+                placeholder="1"
+                type="text"
+                step=".01"
+                required
+                :errors="errors?.value"
+              />
+            </div>
           </div>
-        </div>
-        <div class="mb-3">
-          <div class="row align-items-center">
-            <div class="form-group col-md">
-              <label class="form-label fw-bold" for="is_percent">{{
-                $t('common.attributes.is_percent')
-              }}</label>
-              <input
-                id="is_percent"
+          <div class="col-md">
+            <div class="form-group">
+              <BaseSwitchInput
                 v-model="discountForm.is_percent"
-                type="checkbox"
+                :errors="errors?.is_percent"
+                :label="$t('common.attributes.is_percent')"
               />
-              <div
-                v-if="errors.is_percent && errors.is_percent.length"
-                class="invalid-feedback"
-                style="display: inline"
-              >
-                {{ errors.is_percent[0] }}
-              </div>
             </div>
-            <div class="form-group col-md">
-              <label class="form-label fw-bold" for="only_bill">{{
-                $t('common.attributes.only_bill')
-              }}</label>
-              <input
-                id="only_bill"
+          </div>
+          <div class="col-md">
+            <div class="form-group">
+              <BaseSwitchInput
                 v-model="discountForm.only_bill"
-                type="checkbox"
+                :errors="errors?.only_bill"
+                :label="$t('common.attributes.only_bill')"
               />
-              <div
-                v-if="errors.only_bill && errors.only_bill.length"
-                class="invalid-feedback"
-                style="display: inline"
-              >
-                {{ errors.only_bill[0] }}
-              </div>
             </div>
           </div>
         </div>
-        <div class="form-group mb-3">
-          <BaseDatetime
-            id="start_at"
-            v-model="discountForm.start_at"
-            :label="$t('common.attributes.start_at')"
-            placeholder="..."
-            type="date"
-          />
-        </div>
-        <div class="form-group mb-3">
-          <BaseDatetime
-            id="end_at"
-            v-model="discountForm.end_at"
-            :label="$t('common.attributes.end_at')"
-            placeholder="..."
-            type="date"
-          />
-        </div>
-        <div class="mb-3">
-          <label class="form-label fw-bold" for="description">{{
-            $t('common.attributes.description')
-          }}</label>
-          <textarea
-            id="description"
-            v-model="discountForm.description"
-            class="form-control"
-            placeholder="..."
-          ></textarea>
-          <div
-            v-if="errors.description"
-            class="invalid-feedback"
-            style="display: inline"
-          >
-            {{ errors.description[0] }}
+        <div class="row align-items-end">
+          <div class="col-md">
+            <div class="form-group">
+              <BaseDatetime
+                id="start_at"
+                v-model="discountForm.start_at"
+                :label="$t('common.attributes.start_at')"
+                placeholder="..."
+                type="date"
+              />
+            </div>
           </div>
+          <div class="col-md">
+            <div class="form-group">
+              <BaseDatetime
+                id="end_at"
+                v-model="discountForm.end_at"
+                :label="$t('common.attributes.end_at')"
+                placeholder="..."
+                type="date"
+              />
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <BaseTextArea
+            v-model="discountForm.description"
+            :label="$t('common.attributes.description')"
+            placeholder="..."
+            :errors="errors?.description"
+          />
         </div>
       </div>
       <div class="card-footer">
@@ -162,10 +128,20 @@ import BaseSelect from '/@/components/common/BaseSelect.vue';
 import BaseDatetime from '/@/components/common/BaseDatetime.vue';
 import { mapGetters } from 'vuex';
 import store from '/@/store';
+import BaseInput from '/@/components/common/BaseInput.vue';
+import BaseSwitchInput from '/@/components/common/BaseSwitchInput.vue';
+import BaseTextArea from '/@/components/common/BaseTextArea.vue';
 
 export default {
   name: 'DiscountFormDesc',
-  components: { BaseButton, BaseDatetime, BaseSelect },
+  components: {
+    BaseTextArea,
+    BaseSwitchInput,
+    BaseInput,
+    BaseButton,
+    BaseDatetime,
+    BaseSelect,
+  },
   beforeRouteEnter(routeTo, routeFrom, next) {
     store
       .dispatch('discount_type/getDiscountTypesList', {
