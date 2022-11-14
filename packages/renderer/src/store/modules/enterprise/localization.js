@@ -21,6 +21,13 @@ const getters = {
     }),
   localization: (state) =>
     state.localization ? JSON.parse(state.localization) : null,
+  getCitiesByLocalizations: (state, getters) =>
+    getters.localizations.map((l) => {
+      return {
+        id: l.id,
+        label: l.city,
+      };
+    }),
 };
 
 const actions = {
