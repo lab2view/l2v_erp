@@ -16,7 +16,7 @@
             <BaseFieldGroup
               :with-append="false"
               :with-refresh="true"
-              refresh-action-name="enterprise/getCustomersList"
+              refresh-action-name="customer/getCustomersList"
             >
               <BaseSelect
                 v-model.number="customerFilter.customer_type_id"
@@ -31,7 +31,7 @@
             <BaseFieldGroup
               :with-append="false"
               :with-refresh="true"
-              refresh-action-name="enterprise/getCustomersList"
+              refresh-action-name="customer/getCustomersList"
             >
               <BaseSelect
                 v-model.number="customerFilter.country_id"
@@ -46,7 +46,7 @@
             <BaseFieldGroup
               :with-append="false"
               :with-refresh="true"
-              refresh-action-name="enterprise/getCustomersList"
+              refresh-action-name="customer/getCustomersList"
             >
               <BaseSelect
                 v-model.number="customerFilter.localization_id"
