@@ -1,7 +1,10 @@
 <template>
   <BaseContainer :module="$t('menu.modules.iam')" :title="$t('iam.title')">
-    <UserTableList :users="users" />
-
+    <UserTableList
+      :update-user-filter="updateUserFilter"
+      :user-filter="userFilter"
+      :users="users"
+    />
     <router-view />
   </BaseContainer>
 </template>
@@ -16,11 +19,10 @@ export default {
   name: 'UsersList',
   components: { UserTableList, BaseContainer },
   beforeRouteEnter(routeTo, routeFrom, next) {
-    store
-      .dispatch('user/getUsersList', {
-        page: 1,
-        field: {},
-      })
+    Promise.all([
+      store.dispatch('user/getUsersList', { page: 1, field: {} }),
+      store.dispatch('enterprise/getEnterprisesList', { page: 1, field: {} }),
+    ])
       .then(() => {
         next();
       })
@@ -29,8 +31,25 @@ export default {
         next();
       });
   },
+  data() {
+    return {
+      userFilter: {
+        enterprise_id: null,
+        role_id: null,
+        country_id: null,
+      },
+    };
+  },
   computed: {
-    ...mapGetters('user', ['users', 'user']),
+    ...mapGetters('user', ['getUsersByFilter', 'user']),
+    users() {
+      return this.getUsersByFilter(this.userFilter);
+    },
+  },
+  methods: {
+    updateUserFilter({ name, value }) {
+      this.userFilter[name] = value;
+    },
   },
 };
 </script>
