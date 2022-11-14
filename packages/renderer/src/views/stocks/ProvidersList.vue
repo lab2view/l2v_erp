@@ -11,23 +11,6 @@
         refresh-action-name="provider/getStockProvidersList"
       />
       <div class="card-body">
-        <div class="row mb-2">
-          <div class="col-md-3">
-            <BaseFieldGroup
-              :with-append="false"
-              :with-refresh="true"
-              refresh-action-name="enterprise_type/getEnterpriseTypesList"
-            >
-              <BaseSelect
-                v-model.number="providerFilter.country_id"
-                :options="countries"
-                :placeholder="`${$t('common.attributes.country')} ?`"
-                key-label="name"
-                key-value="id"
-              />
-            </BaseFieldGroup>
-          </div>
-        </div>
         <BaseDatatable
           v-if="!$store.state.globalLoading"
           :tfoot="false"
@@ -88,29 +71,16 @@ import BaseDatatable from '/@/components/common/BaseDatatable.vue';
 import store from '/@/store';
 import { mapGetters } from 'vuex';
 import BaseTableHeader from '/@/components/common/BaseTableHeader.vue';
-import BaseSelect from '/@/components/common/BaseSelect.vue';
-import BaseFieldGroup from '/@/components/common/BaseFieldGroup.vue';
 
 export default {
   name: 'ProvidersList',
-  components: {
-    BaseTableHeader,
-    BaseContainer,
-    BaseDatatable,
-    BaseSelect,
-    BaseFieldGroup,
-  },
+  components: { BaseTableHeader, BaseContainer, BaseDatatable },
   beforeRouteEnter(routeTo, routeFrom, next) {
-    Promise.all([
-      store.dispatch('provider/getStockProvidersList', {
+    store
+      .dispatch('provider/getStockProvidersList', {
         page: 1,
         field: {},
-      }),
-      store.dispatch('country/getCountriesList', {
-        page: 1,
-        field: {},
-      }),
-    ])
+      })
       .then(() => {
         next();
       })
@@ -119,19 +89,8 @@ export default {
         next();
       });
   },
-  data() {
-    return {
-      providerFilter: {
-        country_id: null,
-      },
-    };
-  },
   computed: {
-    ...mapGetters('provider', ['getProvidersByFilter', 'provider']),
-    ...mapGetters('country', ['countries']),
-    providers() {
-      return this.getProvidersByFilter(this.providerFilter);
-    },
+    ...mapGetters('provider', ['providers', 'provider']),
   },
   created() {
     if (this.provider)

@@ -15,13 +15,6 @@ const getters = {
   provider: (state) => (state.provider ? JSON.parse(state.provider) : null),
   getProviderById: (state, getters) => (id) =>
     getters.providers.find((p) => p.id === id),
-  getProvidersByFilter: (state, getters) => (filter) => {
-    return getters.providers.filter((provider) => {
-      let select = true;
-      if (filter.country_id) select = provider.country_id === filter.country_id;
-      return select;
-    });
-  },
 };
 
 // privileges
