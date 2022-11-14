@@ -16,7 +16,7 @@
             <BaseFieldGroup
               :with-append="false"
               :with-refresh="true"
-              refresh-action-name="provider/getStockProvidersList"
+              refresh-action-name="country/getCountriesList"
             >
               <BaseSelect
                 v-model.number="providerFilter.country_id"
