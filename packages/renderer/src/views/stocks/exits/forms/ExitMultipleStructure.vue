@@ -5,6 +5,8 @@
     :submit-store-action="addStockExitLineFields"
     :can-cancel="false"
     confirm-btn-label="common.add_to_list"
+    :for-exit="true"
+    :distribution-id="$route.query.enterprise_id ?? null"
   >
     <div class="card-header p-3">
       <div class="row align-items-center">
@@ -103,6 +105,7 @@ import ExitLineFormField from '/@/components/stocks/ExitLineFormField.vue';
 import { mapGetters } from 'vuex';
 
 export default {
+  name: 'ExitMultipleStructure',
   components: { ExitLineFormField, BaseButton, ArticleSelectableList },
   data() {
     return {
