@@ -5,12 +5,59 @@
   >
     <div class="card">
       <BaseTableHeader
+        :refresh-action-field="{ page: 1, field: { next: true } }"
         :title="$t('customers.customer.listTitle')"
         add-action-router-name="customer.form"
-        :refresh-action-field="{ page: 1, field: { next: true } }"
         refresh-action-name="customer/getCustomersList"
       />
       <div class="card-body">
+        <div class="row">
+          <div class="col-md-4 mt-2 mb-2">
+            <BaseFieldGroup
+              :with-append="false"
+              :with-refresh="true"
+              refresh-action-name="customer_type/getCustomerTypesList"
+            >
+              <BaseSelect
+                v-model.number="customerFilter.customer_type_id"
+                :options="customerTypes"
+                :placeholder="`${$t('common.attributes.customerType')} ?`"
+                key-label="label"
+                key-value="id"
+              />
+            </BaseFieldGroup>
+          </div>
+          <div class="col-md-4 mt-2 mb-2">
+            <BaseFieldGroup
+              :with-append="false"
+              :with-refresh="true"
+              refresh-action-name="country/getCountriesList"
+            >
+              <BaseSelect
+                v-model.number="customerFilter.country_id"
+                :options="countries"
+                :placeholder="`${$t('common.attributes.country')} ?`"
+                key-label="name"
+                key-value="id"
+              />
+            </BaseFieldGroup>
+          </div>
+          <div class="col-md-4 mt-2 mb-2">
+            <BaseFieldGroup
+              :with-append="false"
+              :with-refresh="true"
+              refresh-action-name="localization/getLocalizationsList"
+            >
+              <BaseSelect
+                v-model.number="customerFilter.localization_id"
+                :options="cities"
+                :placeholder="`${$t('common.attributes.city')} ?`"
+                key-label="label"
+                key-value="id"
+              />
+            </BaseFieldGroup>
+          </div>
+        </div>
         <BaseDatatable
           v-if="!$store.state.globalLoading"
           :tfoot="false"
@@ -75,15 +122,32 @@ import store from '../../store';
 import { mapGetters } from 'vuex';
 import BaseContainer from '../../components/common/BaseContainer.vue';
 import BaseTableHeader from '/@/components/common/BaseTableHeader.vue';
+import BaseSelect from '/@/components/common/BaseSelect.vue';
+import BaseFieldGroup from '/@/components/common/BaseFieldGroup.vue';
 
 export default {
-  components: { BaseTableHeader, BaseContainer, BaseDatatable },
+  components: {
+    BaseTableHeader,
+    BaseContainer,
+    BaseDatatable,
+    BaseSelect,
+    BaseFieldGroup,
+  },
   beforeRouteEnter(routeTo, routeFrom, next) {
-    store
-      .dispatch('customer/getCustomersList', {
+    Promise.all([
+      store.dispatch('customer/getCustomersList', {
         page: 1,
         field: {},
-      })
+      }),
+      store.dispatch('localization/getLocalizationsList', {
+        page: 1,
+        field: {},
+      }),
+      store.dispatch('country/getCountriesList', {
+        page: 1,
+        field: {},
+      }),
+    ])
       .then(() => {
         next();
       })
@@ -92,8 +156,23 @@ export default {
         next();
       });
   },
+  data() {
+    return {
+      customerFilter: {
+        customer_type_id: null,
+        localization_id: null,
+        country_id: null,
+      },
+    };
+  },
   computed: {
-    ...mapGetters('customer', ['customers', 'customer']),
+    ...mapGetters('customer', ['getCustomerByFilter', 'customer']),
+    ...mapGetters('customer_type', ['customerTypes']),
+    ...mapGetters('country', ['countries']),
+    ...mapGetters('localization', ['cities']),
+    customers() {
+      return this.getCustomerByFilter(this.customerFilter);
+    },
   },
   created() {
     if (this.customer)
