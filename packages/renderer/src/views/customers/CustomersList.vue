@@ -16,7 +16,7 @@
             <BaseFieldGroup
               :with-append="false"
               :with-refresh="true"
-              refresh-action-name="customer/getCustomersList"
+              refresh-action-name="customer_type/getCustomerTypesList"
             >
               <BaseSelect
                 v-model.number="customerFilter.customer_type_id"
@@ -31,7 +31,7 @@
             <BaseFieldGroup
               :with-append="false"
               :with-refresh="true"
-              refresh-action-name="customer/getCustomersList"
+              refresh-action-name="country/getCountriesList"
             >
               <BaseSelect
                 v-model.number="customerFilter.country_id"
@@ -46,11 +46,11 @@
             <BaseFieldGroup
               :with-append="false"
               :with-refresh="true"
-              refresh-action-name="customer/getCustomersList"
+              refresh-action-name="localization/getLocalizationsList"
             >
               <BaseSelect
                 v-model.number="customerFilter.localization_id"
-                :options="getCitiesByLocalizations"
+                :options="cities"
                 :placeholder="`${$t('common.attributes.city')} ?`"
                 key-label="label"
                 key-value="id"
@@ -169,7 +169,7 @@ export default {
     ...mapGetters('customer', ['getCustomerByFilter', 'customer']),
     ...mapGetters('customer_type', ['customerTypes']),
     ...mapGetters('country', ['countries']),
-    ...mapGetters('localization', ['getCitiesByLocalizations']),
+    ...mapGetters('localization', ['cities']),
     customers() {
       return this.getCustomerByFilter(this.customerFilter);
     },

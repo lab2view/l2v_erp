@@ -21,7 +21,7 @@ const getters = {
     }),
   localization: (state) =>
     state.localization ? JSON.parse(state.localization) : null,
-  getCitiesByLocalizations: (state, getters) =>
+  cities: (state, getters) =>
     getters.localizations.map((l) => {
       return {
         id: l.id,
