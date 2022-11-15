@@ -5,10 +5,10 @@
         <div class="row align-items-center">
           <div class="col-sm">
             <span class="f-w-600">{{ $t('common.upload_header') }}</span>
-            <pre class="helper-classes p-2" v-if="stockEntryIsCommand">
+            <pre v-if="stockEntryIsCommand" class="helper-classes p-2">
 barcode, provider_id, provider_price, quantity, buying_price, other
             </pre>
-            <pre class="helper-classes p-2" v-else>
+            <pre v-else class="helper-classes p-2">
 barcode, quantity, buying_price, other
             </pre>
           </div>
@@ -115,7 +115,6 @@ barcode, quantity, buying_price, other
 <script>
 import { mapGetters } from 'vuex';
 import BaseButton from '/@/components/common/BaseButton.vue';
-import ExitLineFormField from '/@/components/stocks/ExitLineFormField.vue';
 import BaseInputFile from '/@/components/common/BaseInputFile.vue';
 import { getContentCsvFileAsArray } from '/@/helpers/utils';
 import { sumBy } from 'lodash';
@@ -126,7 +125,6 @@ export default {
   components: {
     EntryLineFormField,
     BaseInputFile,
-    ExitLineFormField,
     BaseButton,
   },
   data() {
