@@ -88,6 +88,12 @@ const StockProvision = new VuexPersistence({
 
 const StockExit = new VuexPersistence({
   key: 'stock_exit',
+  restoreState: (key, storage) => {
+    return storage.getItem(key).then((data) => JSON.parse(data));
+  },
+  saveState: (key, state, storage) => {
+    return storage.setItem(key, JSON.stringify(state));
+  },
   storage: localStore,
   asyncStorage: true,
   reducer: (state) => ({ stock_exit: state.stock_exit }),
