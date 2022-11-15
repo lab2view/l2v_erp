@@ -86,8 +86,8 @@
                   )} `
                 }}
               </th>
-              <th class="text-center">{{ totalStock }}</th>
               <th v-if="stockEntryIsCommand" colspan="2"></th>
+              <th class="text-center">{{ totalStock }}</th>
               <th class="text-center">{{ totalBuyingPrice }}</th>
             </tr>
           </tfoot>
@@ -187,6 +187,8 @@ export default {
     },
 
     submitEntryLinesForm() {
+      if (this.loading) return;
+
       if (this.stock_entry_line_fields.length) {
         this.loading = true;
         return this.$store
