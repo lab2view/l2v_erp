@@ -40,6 +40,18 @@ const getters = {
         ${c.name ? ' - ' + c.name : ''}`,
       };
     }),
+  getCustomerByFilter: (state, getters) => (filter) => {
+    return getters.customers.filter((customer) => {
+      let select = true;
+      if (filter.customer_type_id)
+        select = customer.customer_type_id === filter.customer_type_id;
+      if (select && filter.country_id)
+        select = customer.country_id === filter.country_id;
+      if (select && filter.localization_id)
+        select = customer.localization_id === filter.localization_id;
+      return select;
+    });
+  },
 };
 
 const actions = {

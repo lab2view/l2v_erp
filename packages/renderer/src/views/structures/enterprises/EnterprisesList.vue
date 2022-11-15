@@ -10,7 +10,24 @@
         :refresh-action-field="{ page: 1, field: { next: true } }"
         refresh-action-name="enterprise/getEnterprisesList"
       />
-      <div class="card-body">
+      <div class="card-body p-1">
+        <div class="row mb-2">
+          <div class="col-md-3">
+            <BaseFieldGroup
+              :with-refresh="true"
+              :with-append="false"
+              refresh-action-name="enterprise_type/getEnterpriseTypesList"
+            >
+              <BaseSelect
+                v-model.number="enterpriseFilter.enterprise_type_id"
+                :options="enterpriseTypes"
+                key-label="label"
+                key-value="id"
+                :placeholder="`${$t('common.attributes.structure')} ?`"
+              />
+            </BaseFieldGroup>
+          </div>
+        </div>
         <BaseDatatable
           v-if="!$store.state.globalLoading"
           :tfoot="false"
@@ -57,7 +74,6 @@
             </td>
           </tr>
         </BaseDatatable>
-        <br />
       </div>
 
       <router-view />
@@ -71,10 +87,18 @@ import store from '../../../store';
 import { mapGetters } from 'vuex';
 import BaseContainer from '../../../components/common/BaseContainer.vue';
 import BaseTableHeader from '/@/components/common/BaseTableHeader.vue';
+import BaseSelect from '/@/components/common/BaseSelect.vue';
+import BaseFieldGroup from '/@/components/common/BaseFieldGroup.vue';
 
 export default {
   name: 'EnterprisesList',
-  components: { BaseTableHeader, BaseContainer, BaseDatatable },
+  components: {
+    BaseTableHeader,
+    BaseContainer,
+    BaseDatatable,
+    BaseFieldGroup,
+    BaseSelect,
+  },
   beforeRouteEnter(routeTo, routeFrom, next) {
     store
       .dispatch('enterprise/getEnterprisesList', {
@@ -89,8 +113,19 @@ export default {
         next();
       });
   },
+  data() {
+    return {
+      enterpriseFilter: {
+        enterprise_id: null,
+      },
+    };
+  },
   computed: {
-    ...mapGetters('enterprise', ['enterprises', 'enterprise']),
+    ...mapGetters('enterprise', ['getEnterprisesByFilter']),
+    ...mapGetters('enterprise_type', ['enterpriseTypes']),
+    enterprises() {
+      return this.getEnterprisesByFilter(this.enterpriseFilter);
+    },
   },
   created() {
     if (this.enterprise)
