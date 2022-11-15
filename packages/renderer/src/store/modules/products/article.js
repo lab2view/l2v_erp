@@ -1,7 +1,7 @@
 import articleService from '../../../services/articles/ArticleService';
 import { notify } from '/@/helpers/notify.js';
 import i18n from '../../../i18n';
-import { unitPackageCode } from '/@/helpers/codes.js';
+import { priceTypeCode, unitPackageCode } from '/@/helpers/codes.js';
 import {
   getDistributionCurrentStock,
   getStockByEnterpriseId,
@@ -72,14 +72,21 @@ const getters = {
       const distribution = art.stats.distributions.find(
         (d) => d.id === parseInt(enterprise_id)
       );
+      const quantity = distribution
+        ? getDistributionCurrentStock(distribution)
+        : getStockExitLineArticleStock(art);
+      const price = art.prices.find(
+        (p) => p.price_type.code === priceTypeCode.sell
+      );
+      const amount =
+        price !== undefined && quantity ? price.value * quantity : '0';
       return {
         id: art.id,
         product_type: art.product?.product_type?.label,
         product_family:
           art.product?.product_type?.product_family?.label ?? null,
-        quantity: distribution
-          ? getDistributionCurrentStock(distribution)
-          : getStockExitLineArticleStock(art),
+        quantity: quantity,
+        total_price: parseFloat(amount),
       };
     });
   },
@@ -90,6 +97,7 @@ const getters = {
         return {
           product_family: key,
           total: _.sumBy(objs, 'quantity'),
+          total_price: _.sumBy(objs, 'total_price'),
         };
       })
       .value();
@@ -101,6 +109,7 @@ const getters = {
         return {
           product_type: key,
           total: _.sumBy(objs, 'quantity'),
+          total_price: _.sumBy(objs, 'total_price'),
         };
       })
       .value();

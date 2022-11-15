@@ -13,10 +13,13 @@
         {{ article.stock_quantity }}
       </div>
     </td>
+    <td class="text-end">{{ `${article.price_value} ${currency}` }}</td>
   </tr>
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
+
 export default {
   name: 'ArticleStatsLineDetails',
   props: {
@@ -26,6 +29,7 @@ export default {
     },
   },
   computed: {
+    ...mapGetters('workspace', ['currency']),
     stockClassState() {
       if (
         this.article.stock_quantity <=
