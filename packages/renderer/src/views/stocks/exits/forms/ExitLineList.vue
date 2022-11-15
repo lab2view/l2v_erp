@@ -120,6 +120,25 @@
               </td>
             </ArticleLineSelectable>
           </tbody>
+          <tfoot>
+            <tr>
+              <th>
+                {{
+                  `${stockExitLines.length} ${$tc(
+                    'common.fields.article',
+                    stockExitLines.length
+                  )} `
+                }}
+                <span class="m-l-15">
+                  {{
+                    `${$t('common.headers.total')} ${$t(
+                      'common.attributes.stock_exit'
+                    )}`
+                  }}: <span class="f-w-600">{{ totalArticleQuantity }}</span>
+                </span>
+              </th>
+            </tr>
+          </tfoot>
         </table>
       </div>
     </div>
@@ -147,6 +166,7 @@ import BaseButton from '/@/components/common/BaseButton.vue';
 import store from '/@/store/index.js';
 import { mapGetters } from 'vuex';
 import { stockStateCode } from '/@/helpers/codes.js';
+import { sumBy } from 'lodash';
 
 export default {
   name: 'ExitLineList',
@@ -208,6 +228,9 @@ export default {
     },
     countSelected() {
       return this.isSelected ? `( ${this.selected.length} )` : '';
+    },
+    totalArticleQuantity() {
+      return sumBy(this.stockExitLines, 'quantity');
     },
   },
   methods: {

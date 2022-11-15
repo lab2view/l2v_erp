@@ -76,6 +76,21 @@
               @remove="removeStockEntryLineField"
             />
           </tbody>
+          <tfoot>
+            <tr>
+              <th>
+                {{
+                  `${stock_entry_line_fields.length} ${$tc(
+                    'common.fields.article',
+                    stock_entry_line_fields.length
+                  )} `
+                }}
+              </th>
+              <th class="text-center">{{ totalStock }}</th>
+              <th v-if="stockEntryIsCommand" colspan="2"></th>
+              <th class="text-center">{{ totalBuyingPrice }}</th>
+            </tr>
+          </tfoot>
         </table>
       </div>
     </div>
@@ -112,6 +127,7 @@ import { mapGetters } from 'vuex';
 import BaseButton from '/@/components/common/BaseButton.vue';
 import EntryLineFormField from '/@/components/stocks/EntryLineFormField.vue';
 import store from '/@/store/index.js';
+import { sumBy } from 'lodash';
 
 export default {
   name: 'EntryLinesForm',
@@ -135,6 +151,12 @@ export default {
   },
   computed: {
     ...mapGetters('stock_entry', ['stockEntry', 'stockEntryIsCommand']),
+    totalStock() {
+      return sumBy(this.stock_entry_line_fields, 'quantity');
+    },
+    totalBuyingPrice() {
+      return sumBy(this.stock_entry_line_fields, 'buying_price');
+    },
   },
   methods: {
     addStockEntryLineFields(selected) {

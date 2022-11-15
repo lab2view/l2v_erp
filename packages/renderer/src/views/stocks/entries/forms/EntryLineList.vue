@@ -111,6 +111,27 @@
               <td class="text-center">{{ stockEntryLine.buying_price }}</td>
             </ArticleLineSelectable>
           </tbody>
+          <tfoot>
+            <tr>
+              <th colspan="2">
+                {{
+                  `${stockEntryLines.length} ${$tc(
+                    'common.fields.article',
+                    stockEntryLines.length
+                  )} `
+                }}
+                <span class="m-l-15">
+                  {{
+                    `${$t('common.headers.total')} ${$t(
+                      'common.attributes.stock_entry'
+                    )}`
+                  }}: <span class="f-w-600">{{ totalArticleQuantity }}</span>
+                </span>
+              </th>
+              <th v-if="stockEntryIsCommand" colspan="2"></th>
+              <th class="text-center">{{ totalArticlePrice }}</th>
+            </tr>
+          </tfoot>
         </table>
       </div>
     </div>
@@ -142,6 +163,7 @@ import BaseButton from '/@/components/common/BaseButton.vue';
 import ArticleLineSelectable from '/@/components/articles/ArticleLineSelectable.vue';
 import store from '/@/store/index.js';
 import { stockStateCode } from '/@/helpers/codes.js';
+import { sumBy } from 'lodash';
 
 export default {
   name: 'EntryLineList',
@@ -200,6 +222,12 @@ export default {
     },
     countSelected() {
       return this.isSelected ? `( ${this.selected.length} )` : '';
+    },
+    totalArticleQuantity() {
+      return sumBy(this.stockEntryLines, 'quantity');
+    },
+    totalArticlePrice() {
+      return sumBy(this.stockEntryLines, 'buying_price');
     },
   },
   methods: {
