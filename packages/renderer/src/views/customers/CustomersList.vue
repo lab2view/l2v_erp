@@ -174,11 +174,18 @@ export default {
       return this.getCustomerByFilter(this.customerFilter);
     },
   },
+  watch: {
+    customers() {
+      if (!this.$store.state.globalLoading) {
+        this.$store.dispatch('setGlobalLoading', true);
+        setTimeout(() => this.$store.dispatch('setGlobalLoading', false), 2000);
+      }
+    },
+  },
   created() {
     if (this.customer)
       this.$store.commit('customer/SET_CURRENT_CUSTOMER', null);
   },
-
   methods: {
     deleteCustomer(customer) {
       if (confirm(this.$t('messages.confirmDelete', { label: customer.name })))

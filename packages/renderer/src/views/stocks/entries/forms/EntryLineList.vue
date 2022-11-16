@@ -5,13 +5,13 @@
       <div class="row align-items-center">
         <div class="col-sm">
           <h5>
-            {{ `${$t('stocks.entryLine.list')} - ${stockEntryReference}` }}
+            {{ `${stockEntryTitleName} - ${stockEntryReference}` }}
           </h5>
         </div>
         <div v-if="canEditStockEntry" class="col-sm-auto align-items-end">
           <BaseButton
             type="button"
-            class="btn btn-outline-danger m-r-5"
+            class="btn btn-sm btn-outline-danger m-r-5"
             :disabled="!isSelected"
             icon="fa fa-trash-o"
             :text="$t('common.delete_all')"
@@ -24,11 +24,23 @@
               params: $route.params,
               query: $route.query,
             }"
-            class="btn btn-primary"
+            class="btn btn-sm btn-primary m-r-5"
             type="button"
           >
             <i class="fa fa-plus m-r-5" />
             {{ $t('common.add_article') }}
+          </router-link>
+          <router-link
+            :to="{
+              name: 'stocks.entry.form.article.csv',
+              params: $route.params,
+              query: $route.query,
+            }"
+            class="btn btn-sm btn-info"
+            type="button"
+          >
+            <i class="fa fa-upload m-r-5" />
+            {{ $t('common.upload_csv') }}
           </router-link>
         </div>
         <div
@@ -111,6 +123,27 @@
               <td class="text-center">{{ stockEntryLine.buying_price }}</td>
             </ArticleLineSelectable>
           </tbody>
+          <tfoot>
+            <tr>
+              <th colspan="2">
+                {{
+                  `${stockEntryLines.length} ${$tc(
+                    'common.fields.article',
+                    stockEntryLines.length
+                  )} `
+                }}
+                <span class="m-l-15">
+                  {{
+                    `${$t('common.headers.total')} ${$t(
+                      'common.attributes.stock_entry'
+                    )}`
+                  }}: <span class="f-w-600">{{ totalArticleQuantity }}</span>
+                </span>
+              </th>
+              <th v-if="stockEntryIsCommand" colspan="2"></th>
+              <th class="text-center">{{ totalArticlePrice }}</th>
+            </tr>
+          </tfoot>
         </table>
       </div>
     </div>
@@ -142,6 +175,7 @@ import BaseButton from '/@/components/common/BaseButton.vue';
 import ArticleLineSelectable from '/@/components/articles/ArticleLineSelectable.vue';
 import store from '/@/store/index.js';
 import { stockStateCode } from '/@/helpers/codes.js';
+import { sumBy } from 'lodash';
 
 export default {
   name: 'EntryLineList',
@@ -165,6 +199,7 @@ export default {
     ...mapGetters('stock_entry', [
       'stockEntryLines',
       'stockEntryReference',
+      'stockEntryTitleName',
       'stockEntryIsCommand',
       'stockEntryIsConfirm',
       'currentStockEntryStateDate',
@@ -200,6 +235,12 @@ export default {
     },
     countSelected() {
       return this.isSelected ? `( ${this.selected.length} )` : '';
+    },
+    totalArticleQuantity() {
+      return sumBy(this.stockEntryLines, 'quantity');
+    },
+    totalArticlePrice() {
+      return sumBy(this.stockEntryLines, 'buying_price');
     },
   },
   methods: {

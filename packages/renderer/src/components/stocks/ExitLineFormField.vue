@@ -48,7 +48,7 @@
       </div>
       <BaseInput
         v-else
-        v-model="quantity"
+        v-model.number="quantity"
         type="number"
         required
         min="1"

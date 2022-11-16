@@ -133,6 +133,14 @@ export default {
       return this.getProvidersByFilter(this.providerFilter);
     },
   },
+  watch: {
+    providers() {
+      if (!this.$store.state.globalLoading) {
+        this.$store.dispatch('setGlobalLoading', true);
+        setTimeout(() => this.$store.dispatch('setGlobalLoading', false), 2000);
+      }
+    },
+  },
   created() {
     if (this.provider)
       this.$store.commit('provider/SET_CURRENT_PROVIDER', null);

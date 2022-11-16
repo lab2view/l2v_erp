@@ -46,6 +46,14 @@ export default {
       return this.getUsersByFilter(this.userFilter);
     },
   },
+  watch: {
+    users() {
+      if (!this.$store.state.globalLoading) {
+        this.$store.dispatch('setGlobalLoading', true);
+        setTimeout(() => this.$store.dispatch('setGlobalLoading', false), 2000);
+      }
+    },
+  },
   methods: {
     updateUserFilter({ name, value }) {
       this.userFilter[name] = value;
