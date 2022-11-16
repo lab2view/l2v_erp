@@ -9,6 +9,7 @@ import {
 } from '/@/helpers/utils';
 import fileService from '/@/services/FileService';
 import _ from 'lodash';
+import priceService from '/@/services/articles/PriceService.js';
 
 const state = {
   articles: null,
@@ -266,6 +267,10 @@ const actions = {
       .then(({ data }) => {
         commit('ADD_PRICES', data.prices);
       });
+  },
+
+  updateOrCreatePrices({ getters, commit }, priceFields) {
+    return priceService.updateOrCreate({ prices: priceFields });
   },
 
   updatePrice({ commit }, price) {

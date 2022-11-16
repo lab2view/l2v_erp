@@ -118,7 +118,7 @@ import BaseFieldGroup from '/@/components/common/BaseFieldGroup.vue';
 import BaseSelect from '/@/components/common/BaseSelect.vue';
 import ArticleFilterMixin from '/@/mixins/ArticleFilterMixin';
 import BaseSwitchInput from '/@/components/common/BaseSwitchInput.vue';
-import store from '/@/store/index.js';
+import store from '/@/store/index';
 import { mapGetters } from 'vuex';
 import BaseInput from '/@/components/common/BaseInput.vue';
 
@@ -166,9 +166,21 @@ export default {
       if (confirm('Confirmez ???')) {
         this.loading = true;
         const priceFields = this.articles.map((art) => {
-          return { ...this.articlePriceField, article_id: art.id };
+          const price = art.prices.find(
+            (p) => p.price_type_id === this.articlePriceField.price_type_id
+          );
+          return {
+            id: price !== undefined ? price.id : null,
+            ...this.articlePriceField,
+            article_id: art.id,
+          };
         });
-        console.log(priceFields);
+        this.$store
+          .dispatch('article/updateOrCreatePrices', priceFields)
+          .catch((error) => {
+            console.log(error?.response);
+          })
+          .finally(() => (this.loading = false));
       }
     },
   },
