@@ -21,7 +21,7 @@
           class="btn btn-primary btn-sm m-l-30"
           type="button"
         >
-          <i class="fa fa-plus m-r-5" />
+          <i :class="`${addActionIcon} m-r-5`" />
           {{ $t(addActionLabel) }}
         </router-link>
       </div>
@@ -60,6 +60,10 @@ export default {
     query: {
       type: Object,
       default: null,
+    },
+    addActionIcon: {
+      type: String,
+      default: 'fa fa-plus',
     },
   },
   computed: {

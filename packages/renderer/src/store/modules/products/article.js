@@ -1,13 +1,13 @@
-import articleService from '../../../services/articles/ArticleService';
-import { notify } from '/@/helpers/notify.js';
-import i18n from '../../../i18n';
-import { priceTypeCode, unitPackageCode } from '/@/helpers/codes.js';
+import articleService from '/@/services/articles/ArticleService';
+import { notify } from '/@/helpers/notify';
+import i18n from '/@/i18n';
+import { priceTypeCode, unitPackageCode } from '/@/helpers/codes';
 import {
   getDistributionCurrentStock,
   getStockByEnterpriseId,
   getStockExitLineArticleStock,
-} from '/@/helpers/utils.js';
-import fileService from '/@/services/FileService.js';
+} from '/@/helpers/utils';
+import fileService from '/@/services/FileService';
 import _ from 'lodash';
 
 const state = {
@@ -18,6 +18,23 @@ const state = {
 // getters
 const getters = {
   articles: (state) => (state.articles ? JSON.parse(state.articles) : []),
+  getArticlesByFilter: (state, getters) => (filter) => {
+    return getters.articles.filter((article) => {
+      let select = true;
+      if (select && filter.product_type_id)
+        select = article.product?.product_type_id === filter.product_type_id;
+      if (select && filter.product_unit_id)
+        select = article.product?.product_unit_id === filter.product_unit_id;
+      if (select && filter.sell_price_not_set) {
+        select =
+          article.prices.find(
+            (p) => p.price_type.code === priceTypeCode.sell
+          ) === undefined;
+      }
+
+      return select;
+    });
+  },
   sell_articles: (state, getters) =>
     getters.articles
       .filter((a) => a.package.code === unitPackageCode)

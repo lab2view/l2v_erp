@@ -3,18 +3,18 @@
     <div class="card-header pb-0">
       <div class="row align-items-center">
         <div class="col-sm">
-          <h5>
+          <h6>
             {{ `${$t('articles.detail.price.title')} : ${article.name}` }}
-          </h5>
+          </h6>
         </div>
         <div class="col-sm-auto align-items-end">
           <router-link
             :to="{ name: 'article.prices.from' }"
-            class="btn btn-primary"
+            class="btn btn-sm btn-primary"
             type="button"
           >
             <i class="fa fa-plus m-r-5" />
-            {{ $t('common.add') }}
+            {{ $t('common.add_price_type') }}
           </router-link>
         </div>
       </div>
