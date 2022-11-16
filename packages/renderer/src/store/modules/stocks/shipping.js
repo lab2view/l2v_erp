@@ -7,6 +7,10 @@ const state = {
   shippings: null,
   hash: null,
   shipping: null,
+  request_field: {
+    created_at: null,
+    keyword: null,
+  },
 };
 
 // getters
@@ -25,17 +29,41 @@ const getters = {
   currentShippingStateDate: (state, getters) =>
     getters.shipping?.current_state?.updated_at,
   manage_price: () => false,
+  requestField: (state) => state.request_field,
 };
 
 const actions = {
-  getShippingsList({ commit, getters }, { page, field }) {
+  getShippingsList({ commit, getters, dispatch }, { page, field }) {
     if (getters.shippings.length > 0 && !field.next) {
       return getters.shippings;
     }
-    return shippingService.getShippingsList(page, field).then(({ data }) => {
-      commit('SET_SHIPPINGS', data);
-      return data;
-    });
+    return shippingService
+      .getShippingsList(page, { ...field, paginate: 20 })
+      .then(({ data }) => {
+        commit('SET_SHIPPINGS', data);
+        dispatch(
+          'setGlobalProgress',
+          {
+            label: 'Shipping',
+            min: 0,
+            max: data.last_page,
+            value: data.current_page,
+          },
+          { root: true }
+        );
+
+        if (data.next_page_url) {
+          return dispatch('getShippingsList', {
+            page: page + 1,
+            field: { ...field, next: true },
+          });
+        } else dispatch('setGlobalProgress', null, { root: true });
+        return data;
+      })
+      .catch((error) => {
+        commit('SET_SHIPPINGS', []);
+        return Promise.reject(error);
+      });
   },
 
   getShipping({ getters, commit }, id) {
@@ -93,8 +121,9 @@ const actions = {
 
 // mutations
 const mutations = {
-  SET_SHIPPINGS(state, shippings) {
-    state.shippings = shippings.length ? JSON.stringify(shippings) : null;
+  SET_SHIPPINGS(state, { current_page, data }) {
+    state.shippings =
+      current_page === 1 ? data : [...state.shippings, ...JSON.stringify(data)];
   },
   SET_CURRENT_SHIPPING(state, shipping) {
     state.shipping = shipping === null ? null : JSON.stringify(shipping);
@@ -117,6 +146,9 @@ const mutations = {
     state.shippings = JSON.stringify(
       JSON.parse(state.shippings).filter((p) => p.id !== shippingId)
     );
+  },
+  SET_REQUEST_FIELD_VALUE(state, { field, value }) {
+    state.request_field[field] = value;
   },
 };
 
