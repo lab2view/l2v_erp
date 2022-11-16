@@ -5,12 +5,29 @@
   >
     <div class="card">
       <BaseTableHeader
+        :refresh-action-field="{ page: 1, field: { next: true } }"
         :title="$t('stocks.provider.listTitle')"
         add-action-router-name="provider.form"
-        :refresh-action-field="{ page: 1, field: { next: true } }"
         refresh-action-name="provider/getStockProvidersList"
       />
       <div class="card-body">
+        <div class="row mb-2">
+          <div class="col-md-3">
+            <BaseFieldGroup
+              :with-append="false"
+              :with-refresh="true"
+              refresh-action-name="country/getCountriesList"
+            >
+              <BaseSelect
+                v-model.number="providerFilter.country_id"
+                :options="countries"
+                :placeholder="`${$t('common.attributes.country')} ?`"
+                key-label="name"
+                key-value="id"
+              />
+            </BaseFieldGroup>
+          </div>
+        </div>
         <BaseDatatable
           v-if="!$store.state.globalLoading"
           :tfoot="false"
@@ -71,16 +88,29 @@ import BaseDatatable from '/@/components/common/BaseDatatable.vue';
 import store from '/@/store';
 import { mapGetters } from 'vuex';
 import BaseTableHeader from '/@/components/common/BaseTableHeader.vue';
+import BaseSelect from '/@/components/common/BaseSelect.vue';
+import BaseFieldGroup from '/@/components/common/BaseFieldGroup.vue';
 
 export default {
   name: 'ProvidersList',
-  components: { BaseTableHeader, BaseContainer, BaseDatatable },
+  components: {
+    BaseTableHeader,
+    BaseContainer,
+    BaseDatatable,
+    BaseSelect,
+    BaseFieldGroup,
+  },
   beforeRouteEnter(routeTo, routeFrom, next) {
-    store
-      .dispatch('provider/getStockProvidersList', {
+    Promise.all([
+      store.dispatch('provider/getStockProvidersList', {
         page: 1,
         field: {},
-      })
+      }),
+      store.dispatch('country/getCountriesList', {
+        page: 1,
+        field: {},
+      }),
+    ])
       .then(() => {
         next();
       })
@@ -89,8 +119,27 @@ export default {
         next();
       });
   },
+  data() {
+    return {
+      providerFilter: {
+        country_id: null,
+      },
+    };
+  },
   computed: {
-    ...mapGetters('provider', ['providers', 'provider']),
+    ...mapGetters('provider', ['getProvidersByFilter', 'provider']),
+    ...mapGetters('country', ['countries']),
+    providers() {
+      return this.getProvidersByFilter(this.providerFilter);
+    },
+  },
+  watch: {
+    providers() {
+      if (!this.$store.state.globalLoading) {
+        this.$store.dispatch('setGlobalLoading', true);
+        setTimeout(() => this.$store.dispatch('setGlobalLoading', false), 2000);
+      }
+    },
   },
   created() {
     if (this.provider)

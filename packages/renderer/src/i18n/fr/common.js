@@ -9,6 +9,7 @@ export default {
   generate_code: 'Generer les codes',
   add_article: 'Ajouter des articles',
   add_to_list: 'Ajouter a la liste',
+  add_price_type: 'Ajouter un type de prix',
   selected_article: 'Selectionner les articles',
   upload_file: 'Charger le fichier',
   upload_header: 'Entete du fichier CSV',
@@ -99,6 +100,7 @@ export default {
   make_crossing: 'Effectuer le croisement',
   confirm_shipping: 'Confirmer la livraison',
   upload_csv: 'Charger un csv',
+  btn_set_global_price: 'Appliquer globalement un prix aux articles',
 
   la: 'la',
   le: 'le',

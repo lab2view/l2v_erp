@@ -16,6 +16,17 @@ const getters = {
     getters.users.filter((u) => u.enterprise_id === id) ?? [],
   haveUser: (state) => !!state.user,
   getIamHash: (state) => state.hash ?? null,
+  getUsersByFilter: (state, getters) => (filter) => {
+    return getters.users.filter((user) => {
+      let select = true;
+      if (filter.enterprise_id)
+        select = user.enterprise_id === filter.enterprise_id;
+      if (select && filter.country_id)
+        select = user.country_id === filter.country_id;
+      if (select && filter.role_id) select = user.role_id === filter.role_id;
+      return select;
+    });
+  },
 };
 
 const actions = {

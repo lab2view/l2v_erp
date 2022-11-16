@@ -11,6 +11,14 @@ const state = {
 const getters = {
   enterprises: (state) =>
     state.enterprises ? JSON.parse(state.enterprises) : [],
+  getEnterprisesByFilter: (state, getters) => (filter) => {
+    return getters.enterprises.filter((enterprise) => {
+      let select = true;
+      if (filter.enterprise_type_id)
+        select = enterprise.enterprise_type_id === filter.enterprise_type_id;
+      return select;
+    });
+  },
   distributions: (state) =>
     state.distributions ? JSON.parse(state.distributions) : [],
   enterprise: (state) =>

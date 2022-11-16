@@ -74,6 +74,19 @@
                 @remove="removeStockExitLineField"
               />
             </tbody>
+            <tfoot v-if="unsavedStockExitLines.length">
+              <tr>
+                <th>
+                  {{
+                    `${unsavedStockExitLines.length} ${$tc(
+                      'common.fields.article',
+                      unsavedStockExitLines.length
+                    )} `
+                  }}
+                </th>
+                <th class="text-center">{{ totalStock }}</th>
+              </tr>
+            </tfoot>
           </table>
         </div>
       </div>
@@ -107,6 +120,7 @@ import ArticleSelectableList from '/@/components/articles/ArticleSelectableList.
 import { mapGetters } from 'vuex';
 import BaseButton from '/@/components/common/BaseButton.vue';
 import ExitLineFormField from '/@/components/stocks/ExitLineFormField.vue';
+import { sumBy } from 'lodash';
 
 export default {
   name: 'ExitLinesForm',
@@ -125,6 +139,12 @@ export default {
       'manage_price',
       'stockExitLines',
     ]),
+    unsavedStockExitLines() {
+      return this.stock_exit_line_fields.filter((sel) => sel.id === null);
+    },
+    totalStock() {
+      return sumBy(this.unsavedStockExitLines, 'quantity');
+    },
   },
   created() {
     if (this.stockExitLines.length)
