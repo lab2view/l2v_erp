@@ -6,6 +6,10 @@ const state = {
   inventories: [],
   hash: null,
   inventory: null,
+  request_field: {
+    created_at: null,
+    keyword: null,
+  },
 };
 
 // getters
@@ -16,17 +20,42 @@ const getters = {
   inventoryLines: (state, getters) => getters.inventory?.inventory_lines ?? [],
   inventoryReference: (state, getters) => getters.inventory?.reference,
   inventoryIsConfirm: (state, getters) => getters.inventory?.validate ?? false,
+  requestField: (state) => state.request_field,
 };
 
 const actions = {
-  getInventoriesList({ commit, getters }, { page, field }) {
+  getInventoriesList({ commit, getters, dispatch }, { page, field }) {
     if (getters.inventories.length > 0 && !field.next) {
       return getters.inventories;
     }
-    return inventoryService.getInventoriesList(page, field).then(({ data }) => {
-      commit('SET_INVENTORIES', data);
-      return data;
-    });
+    return inventoryService
+      .getInventoriesList(page, { ...field, paginate: 20 })
+      .then(({ data }) => {
+        commit('SET_INVENTORIES', data);
+        dispatch(
+          'setGlobalProgress',
+          {
+            label: 'Inventory',
+            min: 0,
+            max: data.last_page,
+            value: data.current_page,
+          },
+          { root: true }
+        );
+
+        if (data.next_page_url) {
+          return dispatch('getInventoriesList', {
+            page: page + 1,
+            field: { ...field, next: true },
+          });
+        } else dispatch('setGlobalProgress', null, { root: true });
+
+        return data;
+      })
+      .catch((error) => {
+        commit('SET_INVENTORIES', []);
+        return Promise.reject(error);
+      });
   },
 
   getInventory({ getters, commit }, id) {
@@ -124,8 +153,9 @@ const actions = {
 
 // mutations
 const mutations = {
-  SET_INVENTORIES(state, inventories) {
-    state.inventories = inventories;
+  SET_INVENTORIES(state, { current_page, data }) {
+    state.inventories =
+      current_page === 1 ? data : [...state.inventories, ...data];
   },
   SET_CURRENT_INVENTORY(state, inventory) {
     state.inventory = inventory;
@@ -176,6 +206,10 @@ const mutations = {
       );
       state.inventories.splice(index, 1, state.inventory);
     }
+  },
+
+  SET_REQUEST_FIELD_VALUE(state, { field, value }) {
+    state.request_field[field] = value;
   },
 };
 
