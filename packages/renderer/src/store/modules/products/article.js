@@ -9,7 +9,7 @@ import {
 } from '/@/helpers/utils';
 import fileService from '/@/services/FileService';
 import _ from 'lodash';
-import priceService from '/@/services/articles/PriceService.js';
+import priceService from '/@/services/articles/PriceService';
 
 const state = {
   articles: null,
@@ -273,7 +273,7 @@ const actions = {
       });
   },
 
-  updateOrCreatePrices({ getters, commit }, priceFields) {
+  updateOrCreatePrices(context, priceFields) {
     return priceService.updateOrCreate({ prices: priceFields });
   },
 

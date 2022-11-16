@@ -126,19 +126,19 @@ export default {
       },
     };
   },
+  computed: {
+    ...mapGetters('provider', ['getProvidersByFilter', 'provider']),
+    ...mapGetters('country', ['countries']),
+    providers() {
+      return this.getProvidersByFilter(this.providerFilter);
+    },
+  },
   watch: {
     providers() {
       if (!this.$store.state.globalLoading) {
         this.$store.dispatch('setGlobalLoading', true);
         setTimeout(() => this.$store.dispatch('setGlobalLoading', false), 2000);
       }
-    },
-  },
-  computed: {
-    ...mapGetters('provider', ['getProvidersByFilter', 'provider']),
-    ...mapGetters('country', ['countries']),
-    providers() {
-      return this.getProvidersByFilter(this.providerFilter);
     },
   },
   created() {

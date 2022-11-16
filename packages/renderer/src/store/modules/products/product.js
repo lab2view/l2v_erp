@@ -1,8 +1,6 @@
 import productService from '/@/services/products/ProductService';
 import { notify } from '/@/helpers/notify.js';
-import i18n from '../../../i18n';
-import { priceTypeCode } from '/@/helpers/codes.js';
-import { forEach } from 'lodash';
+import i18n from '/@/i18n';
 
 const state = {
   products: null,

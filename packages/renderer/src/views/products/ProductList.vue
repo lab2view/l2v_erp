@@ -58,11 +58,11 @@
             </BaseFieldGroup>
           </div>
         </div>
-        <div class="row mb-2" v-if="filterableProperties.length">
+        <div v-if="filterableProperties.length" class="row mb-2">
           <div
-            class="col-md"
             v-for="property in filterableProperties"
             :key="`p-filter-${property.id}`"
+            class="col-md"
           >
             <BaseFieldGroup :with-refresh="false" :with-append="false">
               <BaseSelect
@@ -201,14 +201,6 @@ export default {
       },
     };
   },
-  watch: {
-    products() {
-      if (!this.$store.state.globalLoading) {
-        this.$store.dispatch('setGlobalLoading', true);
-        setTimeout(() => this.$store.dispatch('setGlobalLoading', false), 2000);
-      }
-    },
-  },
   computed: {
     ...mapGetters('product', ['getProductsByFilter']),
     ...mapGetters('product_family', ['productFamilies']),
@@ -229,14 +221,22 @@ export default {
       );
     },
   },
+  watch: {
+    products() {
+      if (!this.$store.state.globalLoading) {
+        this.$store.dispatch('setGlobalLoading', true);
+        setTimeout(() => this.$store.dispatch('setGlobalLoading', false), 2000);
+      }
+    },
+  },
+  created() {
+    this.$store.commit('product/SET_CURRENT_PRODUCT', null);
+  },
   methods: {
     deleteProduct(product) {
       if (confirm(this.$t('messages.confirmDelete', { label: product.name })))
         this.$store.dispatch('product/deleteProduct', product.id);
     },
-  },
-  created() {
-    this.$store.commit('product/SET_CURRENT_PRODUCT', null);
   },
 };
 </script>

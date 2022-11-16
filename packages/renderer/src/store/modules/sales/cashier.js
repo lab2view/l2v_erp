@@ -1,7 +1,6 @@
-import cashierService from '../../../services/sales/CashierService';
+import cashierService from '/@/services/sales/CashierService';
 import { notify } from '/@/helpers/notify';
 import i18n from '/@/i18n';
-import { priceTypeCode } from '/@/helpers/codes.js';
 
 const state = {
   cashiers: null,

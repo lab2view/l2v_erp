@@ -144,6 +144,14 @@ import BaseInput from '/@/components/common/BaseInput.vue';
 
 export default {
   name: 'ArticlePricesForm',
+  components: {
+    BaseInput,
+    BaseSwitchInput,
+    BaseSelect,
+    BaseFieldGroup,
+    BaseButton,
+    BaseFormModal,
+  },
   mixins: [ArticleFilterMixin],
   beforeRouteEnter(routeTo, routeFrom, next) {
     store
@@ -158,14 +166,6 @@ export default {
         console.log(error);
         next();
       });
-  },
-  components: {
-    BaseInput,
-    BaseSwitchInput,
-    BaseSelect,
-    BaseFieldGroup,
-    BaseButton,
-    BaseFormModal,
   },
   data() {
     return {

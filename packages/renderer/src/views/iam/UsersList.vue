@@ -31,14 +31,6 @@ export default {
         next();
       });
   },
-  watch: {
-    users() {
-      if (!this.$store.state.globalLoading) {
-        this.$store.dispatch('setGlobalLoading', true);
-        setTimeout(() => this.$store.dispatch('setGlobalLoading', false), 2000);
-      }
-    },
-  },
   data() {
     return {
       userFilter: {
@@ -52,6 +44,14 @@ export default {
     ...mapGetters('user', ['getUsersByFilter', 'user']),
     users() {
       return this.getUsersByFilter(this.userFilter);
+    },
+  },
+  watch: {
+    users() {
+      if (!this.$store.state.globalLoading) {
+        this.$store.dispatch('setGlobalLoading', true);
+        setTimeout(() => this.$store.dispatch('setGlobalLoading', false), 2000);
+      }
     },
   },
   methods: {

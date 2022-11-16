@@ -113,7 +113,6 @@
 import BaseDatatable from '/@/components/common/BaseDatatable.vue';
 import store from '/@/store';
 import BaseContainer from '/@/components/common/BaseContainer.vue';
-import BaseButton from '/@/components/common/BaseButton.vue';
 import BaseTableHeader from '/@/components/common/BaseTableHeader.vue';
 import ArticleTableLine from '/@/components/articles/ArticleTableLine.vue';
 import BaseFieldGroup from '/@/components/common/BaseFieldGroup.vue';
@@ -123,17 +122,16 @@ import ArticleFilterMixin from '/@/mixins/ArticleFilterMixin';
 
 export default {
   name: 'ArticleList',
-  mixins: [ArticleFilterMixin],
   components: {
     BaseSwitchInput,
     BaseSelect,
     BaseFieldGroup,
     ArticleTableLine,
     BaseTableHeader,
-    BaseButton,
     BaseContainer,
     BaseDatatable,
   },
+  mixins: [ArticleFilterMixin],
   beforeRouteEnter(routeTo, routeFrom, next) {
     store
       .dispatch('article/getArticlesList', {

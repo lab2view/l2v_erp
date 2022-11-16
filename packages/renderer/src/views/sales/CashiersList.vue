@@ -149,20 +149,20 @@ export default {
       },
     };
   },
-  watch: {
-    cashiers() {
-      if (!this.$store.state.globalLoading) {
-        this.$store.dispatch('setGlobalLoading', true);
-        setTimeout(() => this.$store.dispatch('setGlobalLoading', false), 2000);
-      }
-    },
-  },
   computed: {
     ...mapGetters('cashier', ['getCashiersByFilter', 'cashier']),
     ...mapGetters('enterprise', ['enterprises']),
     ...mapGetters('cashier_group', ['cashierGroups']),
     cashiers() {
       return this.getCashiersByFilter(this.cashierFilter);
+    },
+  },
+  watch: {
+    cashiers() {
+      if (!this.$store.state.globalLoading) {
+        this.$store.dispatch('setGlobalLoading', true);
+        setTimeout(() => this.$store.dispatch('setGlobalLoading', false), 2000);
+      }
     },
   },
   created() {
