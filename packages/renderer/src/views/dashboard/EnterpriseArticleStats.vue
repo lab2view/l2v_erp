@@ -74,6 +74,9 @@
                   <th class="text-center">
                     {{ $t('common.headers.stock_in') }}
                   </th>
+                  <th class="text-end">
+                    {{ $t('common.attributes.amount') }}
+                  </th>
                 </template>
                 <ArticleStatsLineDetails
                   v-for="article in articles"
@@ -84,6 +87,9 @@
                   <th colspan="3">TOTAL</th>
                   <th class="text-center">
                     {{ totalArticleStock }}
+                  </th>
+                  <th class="text-center">
+                    {{ `${totalArticlePrice} ${currency}` }}
                   </th>
                 </template>
               </BaseDatatable>
@@ -99,6 +105,9 @@
                       <th class="text-center" scope="col">
                         {{ $t('common.headers.stock_in') }}
                       </th>
+                      <th class="text-center" scope="col">
+                        {{ $t('common.attributes.amount') }}
+                      </th>
                       <th class="text-end" scope="col">
                         {{ $t('common.attributes.state') }}
                       </th>
@@ -111,6 +120,9 @@
                     >
                       <td class="f-w-600">{{ statFamily.product_family }}</td>
                       <td class="text-center">{{ statFamily.total }}</td>
+                      <td class="text-center">
+                        {{ `${statFamily.total_price} ${currency}` }}
+                      </td>
                       <td>
                         <BaseProgressBar
                           style-prop="height: 8px"
@@ -122,6 +134,17 @@
                       </td>
                     </tr>
                   </tbody>
+                  <tfoot>
+                    <tr>
+                      <th>{{ $t('common.headers.total') }}</th>
+                      <th class="text-center">
+                        {{ statFamilyTotal.quantity }}
+                      </th>
+                      <th class="text-center">
+                        {{ `${statFamilyTotal.amount} ${currency}` }}
+                      </th>
+                    </tr>
+                  </tfoot>
                 </table>
               </div>
             </div>
@@ -136,6 +159,9 @@
                       <th class="text-center" scope="col">
                         {{ $t('common.headers.stock_in') }}
                       </th>
+                      <th class="text-center" scope="col">
+                        {{ $t('common.attributes.amount') }}
+                      </th>
                       <th class="text-end" scope="col">
                         {{ $t('common.attributes.state') }}
                       </th>
@@ -148,6 +174,9 @@
                     >
                       <td class="f-w-600">{{ statType.product_type }}</td>
                       <td class="text-center">{{ statType.total }}</td>
+                      <td class="text-center">
+                        {{ `${statType.total_price} ${currency}` }}
+                      </td>
                       <td>
                         <BaseProgressBar
                           style-prop="height: 8px"
@@ -159,6 +188,15 @@
                       </td>
                     </tr>
                   </tbody>
+                  <tfoot>
+                    <tr>
+                      <th>{{ $t('common.headers.total') }}</th>
+                      <th class="text-center">{{ statTypeTotal.quantity }}</th>
+                      <th class="text-center">
+                        {{ `${statTypeTotal.amount} ${currency}` }}
+                      </th>
+                    </tr>
+                  </tfoot>
                 </table>
               </div>
             </div>
@@ -177,6 +215,7 @@ import ArticleStatsLineDetails from '/@/components/dashboard/ArticleStatsLineDet
 import BaseProgressBar from '/@/components/common/BaseProgressBar.vue';
 import { sumBy } from 'lodash';
 import { getStockByEnterpriseId } from '/@/helpers/utils.js';
+import { priceTypeCode } from '/@/helpers/codes.js';
 
 export default {
   name: 'EnterpriseArticleStats',
@@ -200,6 +239,7 @@ export default {
       });
   },
   computed: {
+    ...mapGetters('workspace', ['currency']),
     ...mapGetters('article', [
       'filterAvailableArticles',
       'getArticleTypeStatsByEnterpriseId',
@@ -213,14 +253,24 @@ export default {
     },
     articles() {
       return this.filterAvailableArticles(this.enterpriseId).map((article) => {
+        const stock = getStockByEnterpriseId(this.enterpriseId, article);
+        const price = article.prices.find(
+          (p) => p.price_type?.code === priceTypeCode.sell
+        );
         return {
           ...article,
-          stock_quantity: getStockByEnterpriseId(this.enterpriseId, article),
+          stock_quantity: stock,
+          price_value: parseFloat(
+            price !== undefined ? (price.value * stock).toFixed() : 0
+          ),
         };
       });
     },
     totalArticleStock() {
       return sumBy(this.articles, 'stock_quantity');
+    },
+    totalArticlePrice() {
+      return sumBy(this.articles, 'price_value');
     },
     canShowEnterpriseArticleLineStats() {
       return this.canShowMenuItem('Enterprise.viewAnyArticleLineStats');
@@ -230,6 +280,18 @@ export default {
     },
     articleStatTypes() {
       return this.getArticleTypeStatsByEnterpriseId(this.enterpriseId);
+    },
+    statFamilyTotal() {
+      return {
+        quantity: sumBy(this.articleStatFamilies, 'total'),
+        amount: sumBy(this.articleStatFamilies, 'total_price'),
+      };
+    },
+    statTypeTotal() {
+      return {
+        quantity: sumBy(this.articleStatTypes, 'total'),
+        amount: sumBy(this.articleStatTypes, 'total_price'),
+      };
     },
   },
   methods: {

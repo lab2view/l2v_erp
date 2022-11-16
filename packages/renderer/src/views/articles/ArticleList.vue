@@ -8,8 +8,80 @@
         :title="$t('articles.listTitle')"
         :refresh-action-field="{ page: 1, field: { paginate: 50, next: true } }"
         refresh-action-name="article/getArticlesList"
+        add-action-router-name="article.setPrice"
+        add-action-label="common.btn_set_global_price"
+        add-action-icon="fa fa-check-circle-o"
       />
-      <div class="card-body">
+      <div class="card-body p-1">
+        <div class="row mb-2">
+          <div class="col-md">
+            <BaseFieldGroup
+              :with-refresh="true"
+              refresh-action-name="product_family/getProductFamiliesList"
+              :with-append="false"
+            >
+              <BaseSelect
+                v-model.number="articleFilter.product_family_id"
+                :placeholder="`${$t('common.attributes.product_family')} ?`"
+                :options="productFamilies"
+                key-label="label"
+                key-value="id"
+              />
+            </BaseFieldGroup>
+          </div>
+          <div class="col-md">
+            <BaseFieldGroup
+              :with-refresh="true"
+              refresh-action-name="product_type/getProductTypesList"
+              :with-append="false"
+            >
+              <BaseSelect
+                v-model.number="articleFilter.product_type_id"
+                :placeholder="`${$t('common.attributes.product_type')} ?`"
+                :options="filterProductTypes"
+                key-label="label"
+                key-value="id"
+              />
+            </BaseFieldGroup>
+          </div>
+          <div class="col-md">
+            <BaseFieldGroup
+              :with-refresh="true"
+              refresh-action-name="product_unit/getProductUnitsList"
+              :with-append="false"
+            >
+              <BaseSelect
+                v-model.number="articleFilter.product_unit_id"
+                :placeholder="`${$t('common.attributes.product_unit')} ?`"
+                :options="productUnits"
+                key-label="label"
+                key-value="id"
+              />
+            </BaseFieldGroup>
+          </div>
+          <div class="col-md">
+            <BaseFieldGroup
+              :with-refresh="true"
+              refresh-action-name="package/getPackageList"
+              :with-append="false"
+            >
+              <BaseSelect
+                v-model.number="articleFilter.package_id"
+                :placeholder="`${$t('common.attributes.package_id')} ?`"
+                :options="packages"
+                key-label="label"
+                key-value="id"
+              />
+            </BaseFieldGroup>
+          </div>
+          <div class="col-md-3">
+            <BaseSwitchInput
+              v-model="articleFilter.sell_price_not_set"
+              :label="$t('articles.price.form.not_set_price')"
+            />
+          </div>
+        </div>
+
         <BaseDatatable
           v-if="!$store.state.globalLoading"
           :tfoot="false"
@@ -23,42 +95,12 @@
             <th>{{ $t('common.attributes.reference') }}</th>
             <th>{{ $t('common.actions') }}</th>
           </template>
-          <tr v-for="article in articles" :key="article.id">
-            <td>{{ article.id }}</td>
-            <td>{{ article.product.name }}</td>
-            <td>{{ article.name }}</td>
-            <td class="text-center">
-              <ArticleStockIn :article="article" />
-            </td>
-            <td>
-              {{ `${article.product.code} / ${article.product.reference}` }}
-            </td>
-            <td>
-              <BaseButton
-                type="button"
-                class="btn btn-iconsolid btn-primary btn-sm"
-                :title="$t('common.detail')"
-                @click.prevent="
-                  $router.push({
-                    name: 'article.details',
-                    params: { id: article.id },
-                  })
-                "
-              >
-                Consulter
-              </BaseButton>
-              <ArticlePriceState :article="article" />
-              <BaseButton
-                v-if="!article.not_deletable"
-                type="button"
-                class="btn btn-iconsolid btn-danger btn-sm m-l-5"
-                :title="$t('common.delete')"
-                @click.prevent="deleteArticle(article)"
-              >
-                <i class="fa fa-trash-o" />
-              </BaseButton>
-            </td>
-          </tr>
+
+          <ArticleTableLine
+            v-for="article in articles"
+            :key="`article-${article.id}`"
+            :article="article"
+          />
         </BaseDatatable>
       </div>
 
@@ -69,24 +111,27 @@
 
 <script>
 import BaseDatatable from '/@/components/common/BaseDatatable.vue';
-import store from '../../store';
-import { mapGetters } from 'vuex';
-import BaseContainer from '../../components/common/BaseContainer.vue';
-import BaseButton from '../../components/common/BaseButton.vue';
-import ArticleStockIn from '/@/components/articles/ArticleStockIn.vue';
-import ArticlePriceState from '/@/components/articles/ArticlePriceState.vue';
+import store from '/@/store';
+import BaseContainer from '/@/components/common/BaseContainer.vue';
 import BaseTableHeader from '/@/components/common/BaseTableHeader.vue';
+import ArticleTableLine from '/@/components/articles/ArticleTableLine.vue';
+import BaseFieldGroup from '/@/components/common/BaseFieldGroup.vue';
+import BaseSelect from '/@/components/common/BaseSelect.vue';
+import BaseSwitchInput from '/@/components/common/BaseSwitchInput.vue';
+import ArticleFilterMixin from '/@/mixins/ArticleFilterMixin';
 
 export default {
   name: 'ArticleList',
   components: {
+    BaseSwitchInput,
+    BaseSelect,
+    BaseFieldGroup,
+    ArticleTableLine,
     BaseTableHeader,
-    ArticlePriceState,
-    ArticleStockIn,
-    BaseButton,
     BaseContainer,
     BaseDatatable,
   },
+  mixins: [ArticleFilterMixin],
   beforeRouteEnter(routeTo, routeFrom, next) {
     store
       .dispatch('article/getArticlesList', {
@@ -101,18 +146,16 @@ export default {
         next();
       });
   },
-
-  computed: {
-    ...mapGetters('article', ['articles']),
+  watch: {
+    articles() {
+      if (!this.$store.state.globalLoading) {
+        this.$store.dispatch('setGlobalLoading', true);
+        setTimeout(() => this.$store.dispatch('setGlobalLoading', false), 2000);
+      }
+    },
   },
   created() {
     this.$store.commit('article/SET_CURRENT_ARTICLE', null);
-  },
-  methods: {
-    deleteArticle(article) {
-      if (confirm(this.$t('messages.confirmDelete', { label: article.name })))
-        this.$store.dispatch('article/deleteArticle', article.id);
-    },
   },
 };
 </script>

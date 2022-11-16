@@ -31,6 +31,9 @@ const getters = {
   requestField: (state) => state.request_field,
   stockEntry: (state) => state.stock_entry,
   stockEntryReference: (state, getters) => getters.stockEntry?.reference,
+  stockEntryTitleName: (state, getters) =>
+    getters.stockEntry?.stock_type?.label ??
+    i18n.global.t('stocks.entryLine.list'),
   haveStockEntry: (state, getters) => !!getters.stockEntry,
   getStocksHash: (state) => state.hash ?? null,
   stockEntryLines: (state, getters) =>

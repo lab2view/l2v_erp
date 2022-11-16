@@ -18,18 +18,18 @@
       <td>{{ shippingEntry.reference }}</td>
       <td>
         {{
-          shippingEntry.stock_entry.current_state?.stock_state.label ||
+          shippingEntry.stock_entry?.current_state?.stock_state.label ||
           $t('common.not_set')
         }}
       </td>
       <td>{{ $d(shippingEntry.delivery_date, 'short') }}</td>
       <td>
         <BaseButton
-          type="button"
           :class="`btn btn-iconsolid btn-${
             shippingEntry.is_confirm ? 'success' : 'secondary'
           } btn-sm`"
           :title="$t(`common.${shippingEntry.is_confirm ? 'show' : 'update'}`)"
+          type="button"
           @click.prevent="
             $router.push({
               name: `shipping.form.${
@@ -43,10 +43,10 @@
         </BaseButton>
         <button
           v-if="!shippingEntry.is_confirm"
-          class="btn btn-danger btn-xs m-l-5"
-          type="button"
-          data-original-title="btn btn-danger btn-xs"
           :title="$t('common.delete')"
+          class="btn btn-danger btn-xs m-l-5"
+          data-original-title="btn btn-danger btn-xs"
+          type="button"
           @click.prevent="deleteShipping(shippingEntry)"
         >
           <i class="fa fa-trash-o" />

@@ -31,7 +31,7 @@
     </td>
     <td style="width: 120px">
       <BaseInput
-        v-model="quantity"
+        v-model.number="quantity"
         type="number"
         required
         min="1"
@@ -40,7 +40,7 @@
     </td>
     <td style="width: 210px">
       <BaseInputGroup
-        v-model="buying_price"
+        v-model.number="buying_price"
         type="number"
         rel="any"
         required
