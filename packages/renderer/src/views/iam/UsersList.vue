@@ -31,6 +31,14 @@ export default {
         next();
       });
   },
+  watch: {
+    users() {
+      if (!this.$store.state.globalLoading) {
+        this.$store.dispatch('setGlobalLoading', true);
+        setTimeout(() => this.$store.dispatch('setGlobalLoading', false), 2000);
+      }
+    },
+  },
   data() {
     return {
       userFilter: {

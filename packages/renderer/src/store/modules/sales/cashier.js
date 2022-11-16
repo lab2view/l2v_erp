@@ -1,6 +1,7 @@
 import cashierService from '../../../services/sales/CashierService';
 import { notify } from '/@/helpers/notify';
 import i18n from '/@/i18n';
+import { priceTypeCode } from '/@/helpers/codes.js';
 
 const state = {
   cashiers: null,
@@ -12,6 +13,17 @@ const state = {
 const getters = {
   cashiers: (state) => (state.cashiers ? JSON.parse(state.cashiers) : []),
   cashier: (state) => (state.cashier ? JSON.parse(state.cashier) : null),
+  getCashiersByFilter: (state, getters) => (filter) => {
+    return getters.cashiers.filter((cashier) => {
+      let select = true;
+      if (select && filter.enterprise_id)
+        select = cashier.enterprise_id === filter.enterprise_id;
+      if (select && filter.cashier_group_id)
+        select = cashier.cashier_group_id === filter.cashier_group_id;
+
+      return select;
+    });
+  },
 };
 
 // privileges
@@ -25,7 +37,6 @@ const actions = {
       return data;
     });
   },
-
   getCashier({ commit, getters }, id) {
     const cashier = getters.cashiers.find((p) => p.id.toString() === id);
     if (cashier !== undefined) {

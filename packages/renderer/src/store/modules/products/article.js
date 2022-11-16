@@ -26,10 +26,14 @@ const getters = {
         select = article.product?.product_type_id === filter.product_type_id;
       if (select && filter.product_unit_id)
         select = article.product?.product_unit_id === filter.product_unit_id;
+      if (select && filter.package_id)
+        select = article.package_id === filter.package_id;
       if (select && filter.sell_price_not_set) {
         select =
-          article.prices.find(
-            (p) => p.price_type.code === priceTypeCode.sell
+          article.prices.find((p) =>
+            filter.price_type_id
+              ? p.price_type_id === filter.price_type_id
+              : p.price_type.code === priceTypeCode.sell
           ) === undefined;
       }
 

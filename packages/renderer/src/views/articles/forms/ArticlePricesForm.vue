@@ -37,7 +37,7 @@
         </BaseFieldGroup>
       </div>
     </div>
-    <div class="row align-items-end form-group">
+    <div class="row align-items-end justify-content-center form-group mb-3">
       <div class="col-md">
         <BaseFieldGroup
           :with-refresh="true"
@@ -54,29 +54,49 @@
         </BaseFieldGroup>
       </div>
       <div class="col-md">
-        <BaseSwitchInput
-          v-model="articleFilter.sell_price_not_set"
-          :label="$t('articles.price.form.not_set_price')"
-        />
+        <div class="col-md">
+          <BaseFieldGroup
+            :with-refresh="true"
+            :label="$t('common.attributes.package_id')"
+            refresh-action-name="package/getPackageList"
+            :with-append="false"
+          >
+            <BaseSelect
+              v-model.number="articleFilter.package_id"
+              :options="packages"
+              key-label="label"
+              key-value="id"
+            />
+          </BaseFieldGroup>
+        </div>
       </div>
     </div>
     <hr />
-    <div class="form-group">
-      <BaseFieldGroup
-        :with-refresh="true"
-        :label="$t('common.attributes.price_type_id')"
-        refresh-action-name="price_type/getPriceTypeList"
-        :with-append="false"
-        required
-      >
-        <BaseSelect
-          v-model.number="articlePriceField.price_type_id"
-          :options="priceTypes"
-          key-label="label"
-          key-value="id"
+    <div class="row align-items-end justify-content-center form-group">
+      <div class="col">
+        <BaseFieldGroup
+          :with-refresh="true"
+          :label="$t('common.attributes.price_type_id')"
+          refresh-action-name="price_type/getPriceTypeList"
+          :with-append="false"
           required
+        >
+          <BaseSelect
+            v-model.number="articleFilter.price_type_id"
+            :options="priceTypes"
+            key-label="label"
+            key-value="id"
+            required
+          />
+        </BaseFieldGroup>
+      </div>
+      <div class="col">
+        <BaseSwitchInput
+          v-model="articleFilter.sell_price_not_set"
+          :disabled="!articleFilter.price_type_id"
+          :label="$t('articles.price.form.not_set_price')"
         />
-      </BaseFieldGroup>
+      </div>
     </div>
     <div class="form-group">
       <BaseInput
@@ -151,7 +171,6 @@ export default {
     return {
       loading: false,
       articlePriceField: {
-        price_type_id: null,
         article_id: null,
         value: null,
       },
@@ -167,11 +186,12 @@ export default {
         this.loading = true;
         const priceFields = this.articles.map((art) => {
           const price = art.prices.find(
-            (p) => p.price_type_id === this.articlePriceField.price_type_id
+            (p) => p.price_type_id === this.articleFilter.price_type_id
           );
           return {
             id: price !== undefined ? price.id : null,
             ...this.articlePriceField,
+            price_type_id: this.articleFilter.price_type_id,
             article_id: art.id,
           };
         });

@@ -10,7 +10,55 @@
         :refresh-action-field="{ page: 1, field: { paginate: 50, next: true } }"
         refresh-action-name="product/getProductsList"
       />
-      <div class="card-body">
+      <div class="card-body p-1">
+        <div class="row mb-2">
+          <div class="col-md">
+            <BaseFieldGroup
+              :with-refresh="true"
+              refresh-action-name="product_family/getProductFamiliesList"
+              :with-append="false"
+            >
+              <BaseSelect
+                v-model.number="productFilter.product_family_id"
+                :placeholder="`${$t('common.attributes.product_family')} ?`"
+                :options="productFamilies"
+                key-label="label"
+                key-value="id"
+              />
+            </BaseFieldGroup>
+          </div>
+          <div class="col-md">
+            <BaseFieldGroup
+              :with-refresh="true"
+              refresh-action-name="product_type/getProductTypesList"
+              :with-append="false"
+            >
+              <BaseSelect
+                v-model.number="productFilter.product_type_id"
+                :placeholder="`${$t('common.attributes.product_type')} ?`"
+                :options="filterProductTypes"
+                key-label="label"
+                key-value="id"
+              />
+            </BaseFieldGroup>
+          </div>
+          <div class="col-md">
+            <BaseFieldGroup
+              :with-refresh="true"
+              refresh-action-name="product_unit/getProductUnitsList"
+              :with-append="false"
+            >
+              <BaseSelect
+                v-model.number="productFilter.product_unit_id"
+                :placeholder="`${$t('common.attributes.product_unit')} ?`"
+                :options="productUnits"
+                key-label="label"
+                key-value="id"
+              />
+            </BaseFieldGroup>
+          </div>
+        </div>
+
         <BaseDatatable
           v-if="!$store.state.globalLoading"
           :tfoot="false"
@@ -89,15 +137,24 @@
 
 <script>
 import BaseDatatable from '/@/components/common/BaseDatatable.vue';
-import store from '../../store';
+import store from '/@/store';
 import { mapGetters } from 'vuex';
-import BaseContainer from '../../components/common/BaseContainer.vue';
+import BaseContainer from '/@/components/common/BaseContainer.vue';
 import BaseButton from '/@/components/common/BaseButton.vue';
 import BaseTableHeader from '/@/components/common/BaseTableHeader.vue';
+import BaseFieldGroup from '/@/components/common/BaseFieldGroup.vue';
+import BaseSelect from '/@/components/common/BaseSelect.vue';
 
 export default {
   name: 'ProductList',
-  components: { BaseTableHeader, BaseButton, BaseContainer, BaseDatatable },
+  components: {
+    BaseSelect,
+    BaseFieldGroup,
+    BaseTableHeader,
+    BaseButton,
+    BaseContainer,
+    BaseDatatable,
+  },
   beforeRouteEnter(routeTo, routeFrom, next) {
     store
       .dispatch('product/getProductsList', {
@@ -112,15 +169,47 @@ export default {
         next();
       });
   },
-  computed: {
-    ...mapGetters('product', ['products', 'product']),
+  data() {
+    return {
+      productFilter: {
+        product_family_id: null,
+        product_type_id: null,
+        product_unit_id: null,
+      },
+    };
   },
-
+  watch: {
+    products() {
+      if (!this.$store.state.globalLoading) {
+        this.$store.dispatch('setGlobalLoading', true);
+        setTimeout(() => this.$store.dispatch('setGlobalLoading', false), 2000);
+      }
+    },
+  },
+  computed: {
+    ...mapGetters('product', ['getProductsByFilter']),
+    ...mapGetters('product_family', ['productFamilies']),
+    ...mapGetters('product_type', ['productTypes']),
+    ...mapGetters('product_unit', ['productUnits']),
+    products() {
+      return this.getProductsByFilter(this.productFilter);
+    },
+    filterProductTypes() {
+      return this.productTypes.filter((pt) =>
+        this.productFilter?.product_family_id
+          ? pt.product_family_id === this.productFilter?.product_family_id
+          : true
+      );
+    },
+  },
   methods: {
     deleteProduct(product) {
       if (confirm(this.$t('messages.confirmDelete', { label: product.name })))
         this.$store.dispatch('product/deleteProduct', product.id);
     },
+  },
+  created() {
+    this.$store.commit('product/SET_CURRENT_PRODUCT', null);
   },
 };
 </script>

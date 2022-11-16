@@ -165,6 +165,14 @@ export default {
       },
     };
   },
+  watch: {
+    customers() {
+      if (!this.$store.state.globalLoading) {
+        this.$store.dispatch('setGlobalLoading', true);
+        setTimeout(() => this.$store.dispatch('setGlobalLoading', false), 2000);
+      }
+    },
+  },
   computed: {
     ...mapGetters('customer', ['getCustomerByFilter', 'customer']),
     ...mapGetters('customer_type', ['customerTypes']),

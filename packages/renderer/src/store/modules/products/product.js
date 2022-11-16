@@ -1,6 +1,7 @@
 import productService from '/@/services/products/ProductService';
 import { notify } from '/@/helpers/notify.js';
 import i18n from '../../../i18n';
+import { priceTypeCode } from '/@/helpers/codes.js';
 
 const state = {
   products: null,
@@ -11,6 +12,17 @@ const state = {
 // getters
 const getters = {
   products: (state) => (state.products ? JSON.parse(state.products) : []),
+  getProductsByFilter: (state, getters) => (filter) => {
+    return getters.products.filter((product) => {
+      let select = true;
+      if (select && filter.product_type_id)
+        select = product.product_type_id === filter.product_type_id;
+      if (select && filter.product_unit_id)
+        select = product.product_unit_id === filter.product_unit_id;
+
+      return select;
+    });
+  },
   product: (state) => (state.product ? JSON.parse(state.product) : null),
   haveProduct: (state) => !!state.product,
   product_properties: (state, getters) =>

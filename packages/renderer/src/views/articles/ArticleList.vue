@@ -14,7 +14,7 @@
       />
       <div class="card-body p-1">
         <div class="row mb-2">
-          <div class="col-md-3">
+          <div class="col-md">
             <BaseFieldGroup
               :with-refresh="true"
               refresh-action-name="product_family/getProductFamiliesList"
@@ -22,13 +22,14 @@
             >
               <BaseSelect
                 v-model.number="articleFilter.product_family_id"
+                :placeholder="`${$t('common.attributes.product_family')} ?`"
                 :options="productFamilies"
                 key-label="label"
                 key-value="id"
               />
             </BaseFieldGroup>
           </div>
-          <div class="col-md-3">
+          <div class="col-md">
             <BaseFieldGroup
               :with-refresh="true"
               refresh-action-name="product_type/getProductTypesList"
@@ -36,13 +37,14 @@
             >
               <BaseSelect
                 v-model.number="articleFilter.product_type_id"
+                :placeholder="`${$t('common.attributes.product_type')} ?`"
                 :options="filterProductTypes"
                 key-label="label"
                 key-value="id"
               />
             </BaseFieldGroup>
           </div>
-          <div class="col-md-3">
+          <div class="col-md">
             <BaseFieldGroup
               :with-refresh="true"
               refresh-action-name="product_unit/getProductUnitsList"
@@ -50,7 +52,23 @@
             >
               <BaseSelect
                 v-model.number="articleFilter.product_unit_id"
+                :placeholder="`${$t('common.attributes.product_unit')} ?`"
                 :options="productUnits"
+                key-label="label"
+                key-value="id"
+              />
+            </BaseFieldGroup>
+          </div>
+          <div class="col-md">
+            <BaseFieldGroup
+              :with-refresh="true"
+              refresh-action-name="package/getPackageList"
+              :with-append="false"
+            >
+              <BaseSelect
+                v-model.number="articleFilter.package_id"
+                :placeholder="`${$t('common.attributes.package_id')} ?`"
+                :options="packages"
                 key-label="label"
                 key-value="id"
               />
@@ -94,7 +112,6 @@
 <script>
 import BaseDatatable from '/@/components/common/BaseDatatable.vue';
 import store from '/@/store';
-import { mapGetters } from 'vuex';
 import BaseContainer from '/@/components/common/BaseContainer.vue';
 import BaseButton from '/@/components/common/BaseButton.vue';
 import BaseTableHeader from '/@/components/common/BaseTableHeader.vue';
@@ -102,9 +119,11 @@ import ArticleTableLine from '/@/components/articles/ArticleTableLine.vue';
 import BaseFieldGroup from '/@/components/common/BaseFieldGroup.vue';
 import BaseSelect from '/@/components/common/BaseSelect.vue';
 import BaseSwitchInput from '/@/components/common/BaseSwitchInput.vue';
+import ArticleFilterMixin from '/@/mixins/ArticleFilterMixin';
 
 export default {
   name: 'ArticleList',
+  mixins: [ArticleFilterMixin],
   components: {
     BaseSwitchInput,
     BaseSelect,
@@ -129,38 +148,12 @@ export default {
         next();
       });
   },
-  data() {
-    return {
-      articleFilter: {
-        product_family_id: null,
-        product_type_id: null,
-        product_unit_id: null,
-        sell_price_not_set: false,
-      },
-    };
-  },
   watch: {
     articles() {
       if (!this.$store.state.globalLoading) {
         this.$store.dispatch('setGlobalLoading', true);
         setTimeout(() => this.$store.dispatch('setGlobalLoading', false), 2000);
       }
-    },
-  },
-  computed: {
-    ...mapGetters('article', ['getArticlesByFilter']),
-    ...mapGetters('product_family', ['productFamilies']),
-    ...mapGetters('product_type', ['productTypes']),
-    ...mapGetters('product_unit', ['productUnits']),
-    articles() {
-      return this.getArticlesByFilter(this.articleFilter);
-    },
-    filterProductTypes() {
-      return this.productTypes.filter((pt) =>
-        this.articleFilter?.product_family_id
-          ? pt.product_family_id === this.articleFilter?.product_family_id
-          : true
-      );
     },
   },
   created() {
