@@ -28,6 +28,7 @@ export default {
     form: {
       title: "Configuration des prix d'articles",
       not_set_price: 'Articles sans prix',
+      price_value: 'Entrez la valeur en {currency}',
     },
   },
   priceType: {
