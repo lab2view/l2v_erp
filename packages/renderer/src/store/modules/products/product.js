@@ -2,6 +2,7 @@ import productService from '/@/services/products/ProductService';
 import { notify } from '/@/helpers/notify.js';
 import i18n from '../../../i18n';
 import { priceTypeCode } from '/@/helpers/codes.js';
+import { forEach } from 'lodash';
 
 const state = {
   products: null,
@@ -19,7 +20,18 @@ const getters = {
         select = product.product_type_id === filter.product_type_id;
       if (select && filter.product_unit_id)
         select = product.product_unit_id === filter.product_unit_id;
-
+      if (select && filter.properties !== {}) {
+        for (const [key, value] of Object.entries(filter.properties)) {
+          if (key && value) {
+            select =
+              product.product_properties.find(
+                (pp) =>
+                  pp.property_id === parseInt(key) &&
+                  pp.value === value.toString()
+              ) !== undefined;
+          }
+        }
+      }
       return select;
     });
   },

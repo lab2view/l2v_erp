@@ -58,6 +58,23 @@
             </BaseFieldGroup>
           </div>
         </div>
+        <div class="row mb-2" v-if="filterableProperties.length">
+          <div
+            class="col-md"
+            v-for="property in filterableProperties"
+            :key="`p-filter-${property.id}`"
+          >
+            <BaseFieldGroup :with-refresh="false" :with-append="false">
+              <BaseSelect
+                v-model.number="productFilter.properties[property.id]"
+                :placeholder="`${property.label} ?`"
+                :options="property.property_values"
+                key-label="value"
+                key-value="value"
+              />
+            </BaseFieldGroup>
+          </div>
+        </div>
 
         <BaseDatatable
           v-if="!$store.state.globalLoading"
@@ -156,11 +173,16 @@ export default {
     BaseDatatable,
   },
   beforeRouteEnter(routeTo, routeFrom, next) {
-    store
-      .dispatch('product/getProductsList', {
+    Promise.all([
+      store.dispatch('product/getProductsList', {
         page: 1,
         field: {},
-      })
+      }),
+      store.dispatch('property/getPropertiesList', {
+        page: 1,
+        field: {},
+      }),
+    ])
       .then(() => {
         next();
       })
@@ -175,6 +197,7 @@ export default {
         product_family_id: null,
         product_type_id: null,
         product_unit_id: null,
+        properties: {},
       },
     };
   },
@@ -191,6 +214,10 @@ export default {
     ...mapGetters('product_family', ['productFamilies']),
     ...mapGetters('product_type', ['productTypes']),
     ...mapGetters('product_unit', ['productUnits']),
+    ...mapGetters('property', ['properties']),
+    filterableProperties() {
+      return this.properties.filter((p) => p.property_type.is_list);
+    },
     products() {
       return this.getProductsByFilter(this.productFilter);
     },
