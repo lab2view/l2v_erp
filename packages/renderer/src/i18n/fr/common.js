@@ -327,6 +327,7 @@ export default {
     pay_per_method: 'Paye par {name}',
     cashin: 'Encaisse',
     cashout: 'Decaisse',
+    total_buying: "Prix d'achat",
   },
 
   errors: {
