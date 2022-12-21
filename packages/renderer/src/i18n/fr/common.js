@@ -329,7 +329,6 @@ export default {
     cashin: 'Encaisse',
     cashout: 'Decaisse',
     total_buying: "Prix d'achat",
-    role_actions_length: 'S/P',
     privilege: 'Privileges',
     sup_module: 'Sous modules',
   },

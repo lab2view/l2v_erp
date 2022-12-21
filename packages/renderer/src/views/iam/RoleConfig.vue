@@ -2,10 +2,10 @@
   <BaseContainer :module="$t('menu.modules.iam')" :title="$t('iam.title')">
     <div class="card">
       <BaseTableHeader
-        :title="$t('iam.action.listTitle')"
+        :title="`${role.label} : ${$t('iam.action.listTitle')}`"
         add-action-router-name="product.form.desc"
         :refresh-action-field="{ page: 1, field: { paginate: 50, next: true } }"
-        refresh-action-name="product/getProductsList"
+        refresh-action-name="role/getRolesList"
       />
       <div class="card-body p-1">
         <div class="row mb-2">
@@ -40,6 +40,7 @@
               />
             </BaseFieldGroup>
           </div>
+          <div class="col-md"></div>
         </div>
 
         <BaseDatatable
@@ -51,10 +52,9 @@
             <th>#</th>
             <th>{{ $t('common.headers.privilege') }}</th>
             <th>{{ $t('common.fields.modules') }}</th>
-            <th class="text-center">
-              {{ $t('common.headers.role_actions_length') }}
+            <th class="text-center w-auto">
+              {{ $t('common.actions') }}
             </th>
-            <th>{{ $t('common.actions') }}</th>
           </template>
           <RoleConfigTableLine
             v-for="privilege in privileges"
@@ -111,7 +111,7 @@ export default {
   },
   computed: {
     ...mapGetters('module', ['modules']),
-    ...mapGetters('role', ['getPrivilegesByFilter']),
+    ...mapGetters('role', ['role', 'getPrivilegesByFilter']),
     privileges() {
       return this.getPrivilegesByFilter(this.privilegeFilter);
     },

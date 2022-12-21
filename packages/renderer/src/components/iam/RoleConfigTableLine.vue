@@ -3,10 +3,10 @@
     <td>{{ privilege.id }}</td>
     <td>{{ action?.label }}</td>
     <td>{{ action?.module?.name }}</td>
-    <td class="text-center">
+    <td class="text-center w-auto">
       <BaseButton
         type="button"
-        class="btn btn-primary btn-iconsolid btn-sm"
+        class="btn btn-info btn-iconsolid btn-sm m-r-10"
         :title="$t('common.show')"
         @click.prevent="
           $router.push({
@@ -17,8 +17,15 @@
       >
         <i class="fa fa-eye" />
       </BaseButton>
+      <BaseButton
+        type="button"
+        class="btn btn-danger btn-iconsolid btn-sm"
+        :title="$t('common.delete')"
+        @click.prevent=""
+      >
+        <i class="fa fa-trash-o" />
+      </BaseButton>
     </td>
-    <td></td>
   </tr>
 </template>
 

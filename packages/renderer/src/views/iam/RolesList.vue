@@ -17,7 +17,7 @@
             <th>#</th>
             <th>{{ $t('common.attributes.label') }}</th>
             <th>{{ $t('common.attributes.description') }}</th>
-            <th>{{ $t('common.actions') }}</th>
+            <th style="width: 220px">{{ $t('common.actions') }}</th>
           </template>
           <tr v-for="role in roles" :key="role.id">
             <td>{{ role.id }}</td>
@@ -25,10 +25,10 @@
             <td>{{ truncate(role.description) }}</td>
             <td>
               <button
-                v-if="!role.not_deletable"
+                v-if="!role.not_deletable || role.privileges.length"
                 :title="$t('common.update')"
-                class="btn btn-secondary btn-xs"
-                data-original-title="btn btn-secondary btn-xs"
+                class="btn btn-success btn-xs"
+                data-original-title="btn btn-success btn-xs"
                 type="button"
                 @click.prevent="
                   $router.push({
