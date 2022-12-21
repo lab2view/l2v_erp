@@ -33,6 +33,15 @@
                 type="text"
               />
             </div>
+            <div class="col-md">
+              <BaseInput
+                v-model="enterpriseForm.slogan"
+                :errors="errors.slogan"
+                :label="$t('common.attributes.slogan')"
+                placeholder="Note sur la facture"
+                type="text"
+              />
+            </div>
           </div>
         </div>
         <div class="mb-3">
