@@ -17,10 +17,9 @@ export const iamRoutes = [
         component: () => import('/@/views/iam/RoleForm.vue'),
         beforeEnter: (to) => {
           if (to.params.id) {
-            return store.dispatch('role/getRole', to.params.id)
-              .then(() => {
-                return 1;
-              })
+            return store
+              .dispatch('role/getRole', to.params.id)
+              .then(() => 1)
               .catch(() => -1);
           }
         },
@@ -32,16 +31,24 @@ export const iamRoutes = [
     name: 'iam.config.role',
     component: () => import('/@/views/iam/RoleConfig.vue'),
     beforeEnter: (to) => {
-      if (to.params.id) {
-        return store.dispatch('role/getRole', to.params.id)
-          .then(() => {
-            return 1;
-          })
-          .catch(() => -1);
-      }
-
-      return -1;
+      return store
+        .dispatch('role/getRole', to.params.id)
+        .then(() => 1)
+        .catch(() => -1);
     },
+    children: [
+      {
+        path: 'actions/:action_id/details',
+        name: 'iam.config.role.action',
+        component: () => import('/@/views/iam/RoleConfigAction.vue'),
+        beforeEnter: (to) => {
+          return store
+            .dispatch('role/getAction', to.params.action_id)
+            .then(() => 1)
+            .catch(() => -1);
+        },
+      },
+    ],
   },
   {
     path: 'users',
@@ -59,7 +66,8 @@ export const iamRoutes = [
     children: formRoutes,
     beforeEnter: (to) => {
       if (to.params.id) {
-        return store.dispatch('user/getUser', to.params.id)
+        return store
+          .dispatch('user/getUser', to.params.id)
           .then(() => {
             return 1;
           })

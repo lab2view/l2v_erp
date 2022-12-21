@@ -3,8 +3,9 @@ import actionService from '../../../services/iam/IamActionService';
 
 const state = {
   roles: null,
-  hash: null,
+  role: null,
   actions: null,
+  action: null,
 };
 
 // getters
@@ -14,7 +15,6 @@ const getters = {
     getters.actions.find((a) => a.id === id),
   searchActionsByCriteria:
     (state, getters) =>
-    // ({ module_id, action_id, keyword }) =>
     ({ module_id, keyword }) =>
       getters.actions.filter((c) => {
         let result = true;
@@ -31,10 +31,20 @@ const getters = {
       }),
   roles: (state) => (state.roles ? JSON.parse(state.roles) : []),
   role: (state) => (state.role ? JSON.parse(state.role) : null),
-  getRoleById: (state, getters) => (id) =>
-    getters.roles.find((a) => a.id === id),
-  haveRole: (state) => !!state.role,
-  getIamHash: (state) => state.hash ?? null,
+  action: (state) => (state.action ? JSON.parse(state.action) : null),
+  currentPrivileges: (state, getters) => {
+    return getters.role?.privileges.length ? getters.role.privileges : [];
+  },
+  getPrivilegesByFilter: (state, getters) => (filter) => {
+    return getters.currentPrivileges.filter((privilege) => {
+      let select = true;
+      if (filter.module_id)
+        select = privilege.action?.module_id === filter.module_id;
+      if (filter.action_id)
+        select = privilege.action?.action_id === filter.action_id;
+      return select;
+    });
+  },
 };
 
 const actions = {
@@ -68,6 +78,25 @@ const actions = {
         commit('SET_CURRENT_ROLE', data);
         return data;
       });
+  },
+
+  getAction({ getters, commit }, id) {
+    const privilege = getters.currentPrivileges.find(
+      (p) => p.action.id.toString() === id
+    );
+    if (privilege !== undefined) {
+      commit('SET_CURRENT_ACTION', privilege.action);
+      return privilege.action;
+    }
+    const action = getters.actions.find((p) => p.id.toString() === id);
+    if (action !== undefined) {
+      commit('SET_CURRENT_ACTION', action);
+      return action;
+    }
+    return actionService.getAction(id).then(({ data }) => {
+      commit('SET_CURRENT_ROLE', data);
+      return data;
+    });
   },
 
   addRole({ commit }, roleField) {
@@ -126,6 +155,9 @@ const mutations = {
   },
   SET_CURRENT_ROLE(state, role) {
     state.role = role === null ? null : JSON.stringify(role);
+  },
+  SET_CURRENT_ACTION(state, action) {
+    state.action = action === null ? null : JSON.stringify(action);
   },
   ADD_ROLE(state, role) {
     let roles = JSON.parse(state.roles);

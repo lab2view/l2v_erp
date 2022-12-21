@@ -101,6 +101,7 @@ export default {
   confirm_shipping: 'Confirmer la livraison',
   upload_csv: 'Charger un csv',
   btn_set_global_price: 'Appliquer globalement un prix aux articles',
+  empty_list: 'Aucun element dans la liste',
 
   la: 'la',
   le: 'le',
@@ -328,6 +329,9 @@ export default {
     cashin: 'Encaisse',
     cashout: 'Decaisse',
     total_buying: "Prix d'achat",
+    role_actions_length: 'S/P',
+    privilege: 'Privileges',
+    sup_module: 'Sous modules',
   },
 
   errors: {
