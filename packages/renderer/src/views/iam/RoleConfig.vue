@@ -3,7 +3,7 @@
     <div class="card">
       <BaseTableHeader
         :title="`${role.label} : ${$t('iam.action.listTitle')}`"
-        add-action-router-name="product.form.desc"
+        add-action-router-name="iam.config.role.form"
         :refresh-action-field="{ page: 1, field: { paginate: 50, next: true } }"
         refresh-action-name="role/getRolesList"
       />

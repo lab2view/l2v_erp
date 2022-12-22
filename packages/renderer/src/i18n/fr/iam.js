@@ -14,6 +14,7 @@ export default {
     listTitle: 'Liste des roles',
     formCreateTitle: 'Ajouter un role',
     formUpdateTitle: 'Modifier role',
+    addAction: 'Ajouter les actions du role {role}',
     store: "L'enregistrement du role a ete effectue avec succes",
     update: 'La modification du role a ete effectuee avec succes',
     delete: 'La suppression du role a ete effectuee avec succes',

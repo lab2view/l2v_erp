@@ -48,6 +48,11 @@ export const iamRoutes = [
             .catch(() => -1);
         },
       },
+      {
+        path: 'form',
+        name: 'iam.config.role.form',
+        component: () => import('/@/views/iam/RoleConfigForm.vue'),
+      },
     ],
   },
   {

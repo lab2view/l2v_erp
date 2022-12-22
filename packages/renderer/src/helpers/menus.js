@@ -309,7 +309,7 @@ export const iamMenus = [
     ],
   },
   {
-    icon: 'list',
+    icon: 'lock',
     code: 'Role.manage',
     prefix: 'iam.role',
     items: [
@@ -320,7 +320,7 @@ export const iamMenus = [
     ],
   },
   {
-    icon: 'list',
+    icon: 'activity',
     label: 'Histories',
     prefix: 'histories',
     code: 'History.viewAny',
