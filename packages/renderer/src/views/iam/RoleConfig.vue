@@ -7,7 +7,7 @@
         :refresh-action-field="{ page: 1, field: { paginate: 50, next: true } }"
         refresh-action-name="role/getRolesList"
       />
-      <div class="card-body p-1">
+      <div class="card-body p-t-20 p-1">
         <div class="row mb-2">
           <div class="col-md">
             <BaseFieldGroup
@@ -40,7 +40,17 @@
               />
             </BaseFieldGroup>
           </div>
-          <div class="col-md"></div>
+          <div class="col-md">
+            <BaseButton
+              type="button"
+              class="btn btn-outline-danger btn-sm m-r-5"
+              :disabled="!isSelected"
+              icon="fa fa-trash-o"
+              :text="$t('common.delete_all')"
+              :loading="loading"
+              @click.prevent="deleteSelectedPrivilege"
+            />
+          </div>
         </div>
 
         <BaseDatatable
@@ -49,10 +59,34 @@
           :total="privileges.length"
         >
           <template #headers>
-            <th>#</th>
-            <th>{{ $t('common.headers.privilege') }}</th>
+            <th :title="$t('common.select_all')" class="text-start w-auto">
+              <div
+                class="checkbox"
+                :class="
+                  partialSelect ? 'checkbox-solid-success' : 'checkbox-primary'
+                "
+              >
+                <input
+                  id="checkbox-select-all"
+                  v-model="selectAll"
+                  type="checkbox"
+                  style="height: 10px"
+                />
+                <label
+                  class="m-0 f-w-700 p-l-5"
+                  for="checkbox-select-all"
+                  :title="$t('common.select_all')"
+                >
+                  {{
+                    `${$t('common.select_all')} / ${$t(
+                      'iam.privilege.listTitle'
+                    )}`
+                  }}</label
+                >
+              </div>
+            </th>
             <th>{{ $t('common.fields.modules') }}</th>
-            <th class="text-center w-auto">
+            <th class="text-center" style="width: 120px">
               {{ $t('common.actions') }}
             </th>
           </template>
@@ -60,6 +94,10 @@
             v-for="privilege in privileges"
             :key="privilege.id"
             :privilege="privilege"
+            :selected-list="selected"
+            @selected="selectPrivilege(privilege, true)"
+            @unselected="selectPrivilege(privilege, false)"
+            @deleted="resetDatatable"
           />
         </BaseDatatable>
       </div>
@@ -78,10 +116,12 @@ import BaseSelect from '/@/components/common/BaseSelect.vue';
 import { mapGetters } from 'vuex';
 import BaseDatatable from '/@/components/common/BaseDatatable.vue';
 import RoleConfigTableLine from '/@/components/iam/RoleConfigTableLine.vue';
+import BaseButton from '/@/components/common/BaseButton.vue';
 
 export default {
   name: 'RoleConfig',
   components: {
+    BaseButton,
     RoleConfigTableLine,
     BaseDatatable,
     BaseSelect,
@@ -103,10 +143,12 @@ export default {
   },
   data() {
     return {
+      loading: false,
       privilegeFilter: {
         module_id: null,
         action_id: null,
       },
+      selected: [],
     };
   },
   computed: {
@@ -127,12 +169,63 @@ export default {
           });
       } else return [];
     },
+    isSelected() {
+      return this.selected.length > 0;
+    },
+    partialSelect() {
+      return this.isSelected && this.selected.length < this.privileges.length;
+    },
+    selectedAllArticle() {
+      if (this.privileges.length)
+        return this.selected.length === this.privileges.length;
+      else return false;
+    },
+    selectAll: {
+      get() {
+        return this.selectedAllArticle;
+      },
+      set(value) {
+        if (!value) this.selected = [];
+        else {
+          let result = [];
+          this.privileges.forEach((p) => result.push({ id: p.id }));
+          this.selected = result;
+        }
+      },
+    },
   },
   watch: {
     privileges() {
+      this.resetDatatable();
+    },
+  },
+  methods: {
+    resetDatatable() {
       if (!this.$store.state.globalLoading) {
         this.$store.dispatch('setGlobalLoading', true);
         setTimeout(() => this.$store.dispatch('setGlobalLoading', false), 2000);
+      }
+    },
+    selectPrivilege(privilege, adding) {
+      if (adding) this.selected.push(privilege.id);
+      else this.selected = this.selected.filter((s) => s !== privilege.id);
+    },
+
+    deleteSelectedPrivilege() {
+      if (
+        !this.$store.state.globalLoading &&
+        this.selected.length &&
+        confirm(
+          this.$t('messages.confirmDelete', {
+            label: this.$t('common.deleted_selection'),
+          })
+        )
+      ) {
+        this.$store.dispatch('setGlobalLoading', true);
+        this.$store
+          .dispatch('role/removeRolePrivileges', this.selected)
+          .then(() => (this.selected = []))
+          .finally(() => this.$store.dispatch('setGlobalLoading', false));
       }
     },
   },

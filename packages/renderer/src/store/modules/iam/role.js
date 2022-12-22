@@ -189,16 +189,15 @@ const mutations = {
     state.roles = JSON.stringify(roles);
   },
 
-  REMOVE_ROLE_PRIVILEGES(state, { role, privilegeIds }) {
+  REMOVE_ROLE_PRIVILEGES(state, privilegeIds) {
     let roles = JSON.parse(state.roles);
+    let role = JSON.parse(state.role);
     const index = roles.findIndex((p) => p.id === role.id);
     if (index !== -1) {
-      roles.splice(index, 1, {
-        ...role,
-        privileges: role.privileges.filter(
-          (p) => privilegeIds.find((pi) => pi.id === p.id) === undefined
-        ),
-      });
+      role.privileges = role.privileges.filter(
+        (p) => privilegeIds.find((pi) => pi === p.id) === undefined
+      );
+      roles.splice(index, 1, role);
     }
     state.role = JSON.stringify(role);
     state.roles = JSON.stringify(roles);
