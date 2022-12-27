@@ -225,7 +225,6 @@ const mutations = {
       state.role.privileges.push({ ...privilege, id: null, deleted_at: null });
   },
   TEMP_REMOVE_ROLE_PRIVILEGE(state, privilege) {
-    console.log(privilege)
     if (privilege.id) {
       const index = state.role.privileges.findIndex(
         (p) => p.id === privilege.id

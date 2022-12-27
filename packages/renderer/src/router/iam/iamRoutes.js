@@ -36,24 +36,6 @@ export const iamRoutes = [
         .then(() => 1)
         .catch(() => -1);
     },
-    children: [
-      {
-        path: 'actions/:action_id/details',
-        name: 'iam.config.role.action',
-        component: () => import('/@/views/iam/RoleConfigAction.vue'),
-        beforeEnter: (to) => {
-          return store
-            .dispatch('role/getAction', to.params.action_id)
-            .then(() => 1)
-            .catch(() => -1);
-        },
-      },
-      {
-        path: 'form',
-        name: 'iam.config.role.form',
-        component: () => import('/@/views/iam/RoleConfigForm.vue'),
-      },
-    ],
   },
   {
     path: 'users',
