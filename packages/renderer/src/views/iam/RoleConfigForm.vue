@@ -3,7 +3,7 @@
     :title="$t('iam.role.addAction', { role: role.label })"
     modal-size="xl"
   >
-    <div class="card-body p-1"></div>
+      <ActionSelectableList class="p-0" :with-header="false" :submit-store-action="() => {}" :used-actions="[]" />
     <template #footer>
       <BaseButton
         type="button"
@@ -19,12 +19,14 @@
 import BaseModal from '/@/components/common/BaseModal.vue';
 import BaseButton from '/@/components/common/BaseButton.vue';
 import { mapGetters } from 'vuex';
+import ActionSelectableList from "/@/components/iam/ActionSelectableList.vue";
 
 export default {
   name: 'RoleConfigForm',
-  components: { BaseButton, BaseModal },
+  components: {ActionSelectableList, BaseButton, BaseModal },
   computed: {
-    ...mapGetters('role', ['role']),
+    ...mapGetters('module', ['modules']),
+    ...mapGetters('role', ['actions', 'role']),
   },
 };
 </script>

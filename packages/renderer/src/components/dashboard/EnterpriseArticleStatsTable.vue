@@ -25,9 +25,9 @@
       </thead>
       <tbody>
         <EnterpriseArticleStatTableLine
-          :state="stat"
           v-for="(stat, index) in articleStats"
           :key="`stat-fam-${index}`"
+          :state="stat"
           :currency="currency"
           :total-article-stock="totalArticleStock"
         />

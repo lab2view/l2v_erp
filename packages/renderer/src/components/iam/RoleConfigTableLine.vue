@@ -32,8 +32,8 @@
         :title="$t('common.delete')"
         @click.prevent="removePrivilege"
       >
-        <i class="fa fa-spinner fa-spin" v-if="loading" />
-        <i class="fa fa-trash-o" v-else />
+        <i v-if="loading" class="fa fa-spinner fa-spin" />
+        <i v-else class="fa fa-trash-o" />
       </BaseButton>
     </td>
   </tr>

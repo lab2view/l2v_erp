@@ -2,6 +2,7 @@ export const enterpriseImageCode = 'UPLOAD_LOGO';
 export const productPropertyImageCode = 'UPLOAD_IMAGE';
 export const unitPackageCode = 'UNIT';
 export const roleAdminCode = 'ADMIN';
+export const roleEnterpriseCode = 'ENTERPRISE';
 export const roleCashierCode = 'CASHIER';
 export const cashPaymentMethodCode = 'PM_CASH';
 export const stockFor = { entry: 'StockEntry', exit: 'StockExit' };

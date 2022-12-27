@@ -12,7 +12,7 @@
           :required="required"
           @change="$emit('update:modelValue', $event.target.checked)"
         />
-        <span class="switch-state bg-primary"></span>
+        <span :class="switchStyle"></span>
       </label>
     </div>
   </div>
@@ -46,7 +46,18 @@ export default {
       type: [Array, Object],
       default: null,
     },
+    withChangeStyle: {
+      type: Boolean,
+      default: false,
+    },
   },
   emits: ['update:modelValue'],
+  computed: {
+    switchStyle() {
+      return this.withChangeStyle
+        ? `switch-state bg-${this.modelValue ? 'primary' : 'danger'}`
+        : 'switch-state bg-primary';
+    },
+  },
 };
 </script>

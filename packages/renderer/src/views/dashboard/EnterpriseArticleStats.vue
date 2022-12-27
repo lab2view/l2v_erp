@@ -120,19 +120,15 @@ import BaseDatatable from '/@/components/common/BaseDatatable.vue';
 import store from '/@/store/index';
 import { mapGetters } from 'vuex';
 import ArticleStatsLineDetails from '/@/components/dashboard/ArticleStatsLineDetails.vue';
-import BaseProgressBar from '/@/components/common/BaseProgressBar.vue';
 import { sumBy } from 'lodash';
-import { getStockByEnterpriseId } from '/@/helpers/utils.js';
-import { priceTypeCode } from '/@/helpers/codes.js';
-import EnterpriseArticleStatTableLine from '/@/components/dashboard/EnterpriseArticleStatTableLine.vue';
+import { getStockByEnterpriseId } from '/@/helpers/utils';
+import { priceTypeCode } from '/@/helpers/codes';
 import EnterpriseArticleStatsTable from '/@/components/dashboard/EnterpriseArticleStatsTable.vue';
 
 export default {
   name: 'EnterpriseArticleStats',
   components: {
     EnterpriseArticleStatsTable,
-    EnterpriseArticleStatTableLine,
-    BaseProgressBar,
     ArticleStatsLineDetails,
     BaseDatatable,
   },

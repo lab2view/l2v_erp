@@ -36,5 +36,7 @@ export default {
     store: "L'enregistrement du privilege a ete effectue avec succes",
     update: 'La modification du privilege a ete effectuee avec succes',
     delete: 'La suppression du privilege a ete effectuee avec succes',
+    granted: 'Autorisée',
+    denied: 'Refusée'
   },
 };
