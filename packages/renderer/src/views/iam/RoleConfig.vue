@@ -16,10 +16,11 @@
               aria-orientation="vertical"
             >
               <a
-                v-for="module in modules"
+                v-for="(module, index) in modules"
                 :id="`v-pills-${module.id}-tab`"
                 :key="`v-pills-${module.id}-tab`"
                 class="nav-link p-b-20 p-t-20 border-bottom border-bottom-primary"
+                :class="index === 0 ? 'active' : ''"
                 data-bs-toggle="pill"
                 :href="`#v-pills-${module.id}`"
                 role="tab"
@@ -33,9 +34,10 @@
           <div class="col-sm-9">
             <div id="v-pills-tabContent" class="tab-content">
               <ModuleActionList
-                v-for="module in modules"
+                v-for="(module, ind) in modules"
                 :key="`v-pills-${module.id}`"
                 :module="module"
+                :open="ind === 0"
               />
             </div>
           </div>

@@ -1,6 +1,6 @@
-import roleService from '../../../services/iam/IamRoleService';
-import actionService from '../../../services/iam/IamActionService';
-import { roleAdminCode, roleEnterpriseCode } from '/@/helpers/codes.js';
+import roleService from '/@/services/iam/IamRoleService';
+import actionService from '/@/services/iam/IamActionService';
+import { roleAdminCode, roleEnterpriseCode } from '/@/helpers/codes';
 
 const state = {
   roles: [],

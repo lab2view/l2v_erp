@@ -3,10 +3,11 @@
     <div class="card-header">
       <h5 class="mb-0">
         <button
-          class="btn btn-link collapsed"
+          class="btn btn-link "
+          :class="open ? '' : 'collapsed'"
           data-bs-toggle="collapse"
           :data-bs-target="`#collapse-${action.id}`"
-          aria-expanded="false"
+          :aria-expanded="open"
           aria-controls="collapse11"
         >
           <i class="icofont icofont-briefcase-alt-2"></i>
@@ -17,6 +18,7 @@
     <div
       :id="`collapse-${action.id}`"
       class="collapse"
+      :class="open ? 'show' : ''"
       :aria-labelledby="`collapse-${action.id}`"
       data-bs-parent="#accordionoc"
       style=""
@@ -44,6 +46,15 @@ export default {
       type: Object,
       required: true,
     },
+    open: {
+      type: Boolean,
+      default: false
+    }
+  },
+  computed: {
+    name() {
+      return this.data
+    }
   },
 };
 </script>
