@@ -6,14 +6,14 @@
   font-size: 15px;
   line-height: 25px;
 }
-.email-wrap{  
-  .email-app-sidebar{
-    .media{
-      img{
-        border:2px solid $light-gray;
+.email-wrap {
+  .email-app-sidebar {
+    .media {
+      img {
+        border: 2px solid $light-gray;
       }
     }
-    .main-menu{
+    .main-menu {
       > li {
         width: 100%;
         text-align: left;
@@ -22,33 +22,33 @@
           line-height: 39px;
           text-transform: uppercase;
           border-radius: 3px;
-          font-weight:500;
-          i{
+          font-weight: 500;
+          i {
             margin-right: 10px;
           }
           &.active > a {
-            color:$black;
+            color: $black;
           }
           &:hover {
-            background-color:rgba($primary-color,0.1);
-            text-decoration:none;
-            >.title{
-              color:$primary-color;
+            background-color: rgba($primary-color, 0.1);
+            text-decoration: none;
+            > .title {
+              color: $primary-color;
             }
-            > .badge{
-              color:$primary-color;
+            > .badge {
+              color: $primary-color;
             }
           }
         }
       }
     }
-    ul{
-      li{
+    ul {
+      li {
         a {
           display: flex;
           padding-left: 20px;
           align-items: center;
-          >{
+          > {
             .title {
               width: 100%;
             }
@@ -61,115 +61,113 @@
       }
     }
   }
-  .email-left-aside {   
-    .card-body{
+  .email-left-aside {
+    .card-body {
       padding: 20px;
     }
   }
-  .email-right-aside {   
-    .email-body{      
-      .modal-content{
-        .btn-close{
-          top:30px;
-          right:25px;
+  .email-right-aside {
+    .email-body {
+      .modal-content {
+        .btn-close {
+          top: 30px;
+          right: 25px;
         }
       }
 
-      
       .inbox {
-       overflow: auto;
-       overflow-x: hidden;
-       .media{
-        position: relative;
-        .media-body{
-          span{
-            position:absolute;
-            right:20px;           
+        overflow: auto;
+        overflow-x: hidden;
+        .media {
+          position: relative;
+          .media-body {
+            span {
+              position: absolute;
+              right: 20px;
+            }
           }
         }
-      }
-        svg{
+        svg {
           width: 18px;
           margin-right: 10px;
           stroke: $dark-gray;
           cursor: pointer;
-          &.like{
+          &.like {
             fill: $warning-color;
             stroke: $warning-color;
-          }         
+          }
         }
-        .media-size-email{
+        .media-size-email {
           display: flex;
           align-items: center;
           justify-content: center;
         }
-        .media-body{
+        .media-body {
           display: flex;
         }
-        img{
+        img {
           height: 20px;
         }
         .media {
           padding: 12px 20px;
-          transform: translateY(0) scale(1.0);
+          transform: translateY(0) scale(1);
           transition: all 0.3s ease;
           &:hover {
-            background-color: lighten($light-gray , 4%);            
+            background-color: lighten($light-gray, 4%);
             transform: translateY(-1px) scale(1.01);
             transition: transform 0.3s ease;
           }
         }
       }
-    .attachment{
-      margin-top:10px;
-      ul{       
-        li{
-          display: inline-block;
-          img{
-            width:90px;
-            height:90px;
+      .attachment {
+        margin-top: 10px;
+        ul {
+          li {
+            display: inline-block;
+            img {
+              width: 90px;
+              height: 90px;
+            }
           }
-
-        }
         }
       }
-    }    
-    .email-profile{      
-      .inbox{
-        p{
-          color:$light-text;
-          font-weight:500;
-          display:inline-block;
-          width:calc(100% - 200px);
+    }
+    .email-profile {
+      .inbox {
+        p {
+          color: $light-text;
+          font-weight: 500;
+          display: inline-block;
+          width: calc(100% - 200px);
           text-overflow: ellipsis;
           white-space: nowrap;
           overflow: hidden;
-          padding-left:15px;
+          padding-left: 15px;
           max-width: 600px;
         }
       }
-      >div{               
-        &:first-child{           
-          .email-top{
-            padding:20px;           
-            .email-chek{
-              margin-right:20px;
+      > div {
+        &:first-child {
+          .email-top {
+            padding: 20px;
+            .email-chek {
+              margin-right: 20px;
             }
-            .checkbox_animated{
+            .checkbox_animated {
               &:after {
                 width: 2.1rem;
                 height: 2.1rem;
                 border-radius: 4px;
               }
-              &:before{
+              &:before {
                 left: 0.4rem;
                 top: 0.55rem;
                 width: 1.1rem;
                 height: 0.5rem;
               }
             }
-          }              
-        }             
+          }
+        }
       }
     }
   }
@@ -179,104 +177,104 @@
     padding: 13px 15px;
     margin: 20px 0 20px;
     letter-spacing: 1px;
-    line-height: 12px!important;
-    color: $white!important;
+    line-height: 12px !important;
+    color: $white !important;
   }
-  .dropdown-menu{
+  .dropdown-menu {
     background-color: $white;
     border-color: $light-gray;
   }
-  .cke_chrome{
-    background-color:$light-background;   
-    .cke_top{
+  .cke_chrome {
+    background-color: $light-background;
+    .cke_top {
       background-color: transparent;
     }
   }
-  .cke_top{
-    background-color:transparent;   
+  .cke_top {
+    background-color: transparent;
   }
   p {
     margin-bottom: 0;
     color: $light-text;
   }
-  .media-body {      
-    h6{
+  .media-body {
+    h6 {
       margin-bottom: 2px;
       color: $primary-color;
       margin-top: 3px;
       font-weight: 600;
       display: inline-block;
-      font-size: 14px;     
-      span{
-        font-weight:600;
+      font-size: 14px;
+      span {
+        font-weight: 600;
       }
-      small{
-        span{
-          color:$light-font;
+      small {
+        span {
+          color: $light-font;
         }
       }
     }
   }
   .email-top {
-    padding:20px;
-    border-bottom:1px solid $light-gray;   
-    h5{
-      margin-bottom: 0;     
+    padding: 20px;
+    border-bottom: 1px solid $light-gray;
+    h5 {
+      margin-bottom: 0;
       display: flex;
       align-items: center;
     }
-    .email-right{
-      padding:13px 0;
-      display:flex;
-      justify-content:flex-end;
+    .email-right {
+      padding: 13px 0;
+      display: flex;
+      justify-content: flex-end;
     }
   }
-  .email-wrapper{
-    padding:20px;
-    h5{
-      margin-bottom:20px;
+  .email-wrapper {
+    padding: 20px;
+    h5 {
+      margin-bottom: 20px;
     }
-    .emailread-group{
-      &:nth-child(n+2){
+    .emailread-group {
+      &:nth-child(n + 2) {
         border-top: 1px solid $light-gray;
         padding-top: 20px;
         margin-top: 20px;
       }
-      h5{
-        margin-bottom:10px;
+      h5 {
+        margin-bottom: 10px;
       }
-      h6{
+      h6 {
         font-size: 14px;
       }
-      .read-group{ 
-        &:nth-child(n+2){
-          margin-top:15px;
-        }       
-      }   
-      textarea{
-        text-transform:capitalize;
-        padding:15px;
+      .read-group {
+        &:nth-child(n + 2) {
+          margin-top: 15px;
+        }
       }
-      .action-wrapper{
-        margin-top:15px;
-      }   
+      textarea {
+        text-transform: capitalize;
+        padding: 15px;
+      }
+      .action-wrapper {
+        margin-top: 15px;
+      }
     }
-    h6{
-      margin-bottom:10px;
-      float:left;
+    h6 {
+      margin-bottom: 10px;
+      float: left;
     }
     .right-download {
-      float:right;
-    }    
+      float: right;
+    }
   }
-  .email-content{       
-    .email-top{
-      .user-emailid{
-        &:after{
-          content: "";
+  .email-content {
+    .email-top {
+      .user-emailid {
+        &:after {
+          content: '';
           position: relative;
-          height:20px;
-          width:1px;
+          height: 20px;
+          width: 1px;
           right: 0;
           top: 3px;
           z-index: 2;
@@ -288,118 +286,110 @@
       }
     }
   }
-  .email-body{
-    .attachment{
-      ul{
-        li{
-          img{           
-            width:80px;
-            height:80px;
+  .email-body {
+    .attachment {
+      ul {
+        li {
+          img {
+            width: 80px;
+            height: 80px;
           }
-          &:nth-child(n+2){
-            margin-left:10px;
+          &:nth-child(n + 2) {
+            margin-left: 10px;
           }
         }
       }
-      .list-inline{
-        .list-inline-item{
-          padding-right:13px;
-          margin-right:unset;
+      .list-inline {
+        .list-inline-item {
+          padding-right: 13px;
+          margin-right: unset;
         }
       }
     }
-    .email-compose{
+    .email-compose {
       .cke_contents.cke_reset {
-        max-height:100px;
-        width:100% ;      
-        border:1px solid $light-gray;
-        margin-bottom:20px;
+        max-height: 100px;
+        width: 100%;
+        border: 1px solid $light-gray;
+        margin-bottom: 20px;
       }
-      .cke_inner{
+      .cke_inner {
         background-color: transparent;
       }
-      .email-top{       
-        h4{
-          margin-bottom:0;
+      .email-top {
+        h4 {
+          margin-bottom: 0;
         }
       }
-      .compose-border{
+      .compose-border {
         margin: -1px;
-        .btn-middle{
-         padding-top: 5px;
+        .btn-middle {
+          padding-top: 5px;
         }
-      }   
-      .compose-header{
+      }
+      .compose-header {
         display: flex;
         align-items: center;
         justify-content: space-between;
       }
-      .dropzone{
-        i{
-          display:block;
-          margin-bottom:10px;
+      .dropzone {
+        i {
+          display: block;
+          margin-bottom: 10px;
         }
-        h6{
-          float:unset;
+        h6 {
+          float: unset;
         }
-        .needsclick{
-          display:block;
-          margin:0;
+        .needsclick {
+          display: block;
+          margin: 0;
         }
       }
     }
   }
-  .actions{
-    text-align:right;
-    li{
-      display:inline-block;
-      &:nth-child(n+2){
-        margin-left:15px;
+  .actions {
+    text-align: right;
+    li {
+      display: inline-block;
+      &:nth-child(n + 2) {
+        margin-left: 15px;
       }
     }
   }
 
-
-  .email-aside-toggle{
+  .email-aside-toggle {
     text-transform: capitalize;
-    display:none;
-  } 
-
-
-
+    display: none;
+  }
 }
 .cke_top {
-  border-bottom: 1px solid $light-gray !important; 
+  border-bottom: 1px solid $light-gray !important;
 }
-@media (max-width:575px){
+@media (max-width: 575px) {
   .email-wrap {
     .email-app-sidebar {
       .main-menu {
         > li {
-            a{
-              line-height:30px;
-            }
+          a {
+            line-height: 30px;
+          }
         }
       }
     }
     .email-right-aside {
       .tab-content {
         .email-wrapper {
-          h6{
+          h6 {
             font-size: 12px;
           }
-          .right-download{
-            font-size:12px;
+          .right-download {
+            font-size: 12px;
           }
         }
       }
     }
   }
-
-  
 }
-
-
 
 /**=================================
     13.  Email Application  CSS Ends

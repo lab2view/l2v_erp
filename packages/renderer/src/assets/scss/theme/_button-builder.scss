@@ -1,4 +1,3 @@
-
 /**=====================
    64. Button Builder CSS start Here
 ==========================**/
@@ -35,8 +34,7 @@ $url_8: url(../images/button_builder/header.jpg);
     text-decoration: none;
   }
 
-  .button-generator-bx
-  {
+  .button-generator-bx {
     position: fixed;
     width: 340px;
     max-height: 500px;
@@ -89,7 +87,7 @@ $url_8: url(../images/button_builder/header.jpg);
     &.selected {
       background-color: $primary-color;
     }
-    input[type="radio"] {
+    input[type='radio'] {
       margin: 1px;
       position: absolute;
       z-index: 2;
@@ -113,7 +111,7 @@ $url_8: url(../images/button_builder/header.jpg);
     &.selected {
       background-position: 0 -32px;
     }
-    input[type="checkbox"] {
+    input[type='checkbox'] {
       margin: 0;
       position: absolute;
       z-index: 2;
@@ -192,8 +190,8 @@ $url_8: url(../images/button_builder/header.jpg);
     width: 75px;
     background-color: $primary-color;
     border-radius: 5px;
-    &:before{
-      content: "Ok";
+    &:before {
+      content: 'Ok';
       position: absolute;
       width: 100%;
       text-align: center;
@@ -204,7 +202,7 @@ $url_8: url(../images/button_builder/header.jpg);
       @extend %extend-col2;
     }
     &:hover {
-      background-color:  darken($primary-color ,10%);
+      background-color: darken($primary-color, 10%);
     }
   }
   .box {
@@ -221,8 +219,8 @@ $url_8: url(../images/button_builder/header.jpg);
       color: $dark-color;
       font-size: 18px;
       font-weight: normal;
-      margin:0;
-      font-weight:600;
+      margin: 0;
+      font-weight: 600;
     }
     &.affix {
       top: 58px;
@@ -232,16 +230,14 @@ $url_8: url(../images/button_builder/header.jpg);
     }
   }
   #result {
-    padding-top:30px;
+    padding-top: 30px;
   }
   .well {
-   .language-markup
-   {
-     word-wrap: break-word;
-     white-space: normal;
-   }
-    .language-css
-    {
+    .language-markup {
+      word-wrap: break-word;
+      white-space: normal;
+    }
+    .language-css {
       word-wrap: break-word;
       white-space: pre-wrap;
     }
@@ -249,7 +245,7 @@ $url_8: url(../images/button_builder/header.jpg);
   pre {
     &.well {
       margin: 0;
-      padding: 0;     
+      padding: 0;
       overflow: unset;
     }
   }
@@ -342,17 +338,16 @@ $url_8: url(../images/button_builder/header.jpg);
     }
   }
 }
-.button-builder-wrap{
-    .form-group{
-        margin-bottom: 15px;
-        .btn{
-          margin-right: 15px;
-          margin-bottom: 15px;
-          min-width: 100px;
-        }
+.button-builder-wrap {
+  .form-group {
+    margin-bottom: 15px;
+    .btn {
+      margin-right: 15px;
+      margin-bottom: 15px;
+      min-width: 100px;
     }
+  }
 }
-
 
 /*==============================
  64. Button Builder CSS End

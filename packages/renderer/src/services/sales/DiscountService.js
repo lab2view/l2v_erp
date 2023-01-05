@@ -30,24 +30,22 @@ export default {
   },
 
   addArticles(articles, discount_id) {
-    return axios.post(`/discounts/articles/${discount_id}/add`, {articles});
+    return axios.post(`/discounts/articles/${discount_id}/add`, { articles });
   },
 
   addCustomers(customers, discount_id) {
-    return axios.post(`/discounts/customers/${discount_id}/add`, {customers});
+    return axios.post(`/discounts/customers/${discount_id}/add`, { customers });
   },
 
   removeArticleDiscounts(discountArticleIds, discount_id) {
-    return axios.post(
-      `/discounts/articles/${discount_id}/remove`,
-      {discount_article_ids: discountArticleIds},
-    );
+    return axios.post(`/discounts/articles/${discount_id}/remove`, {
+      discount_article_ids: discountArticleIds,
+    });
   },
 
   removeDiscountCustomers(discountCustomerIds, discount_id) {
-    return axios.post(
-      `/discounts/customers/${discount_id}/remove`,
-      {discount_customer_ids: discountCustomerIds},
-    );
+    return axios.post(`/discounts/customers/${discount_id}/remove`, {
+      discount_customer_ids: discountCustomerIds,
+    });
   },
 };

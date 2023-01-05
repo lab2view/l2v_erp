@@ -26,10 +26,10 @@
       .icon {
         font-size: 20px;
         vertical-align: -5px;
-        .icon-trash        {
-            color: $primary-color;
+        .icon-trash {
+          color: $primary-color;
         }
-        .icon-check{
+        .icon-check {
           color: $primary-color;
         }
       }
@@ -137,7 +137,7 @@
         }
       }
       .new-task-wrapper::after {
-        content: "";
+        content: '';
         display: block;
         clear: both;
       }
@@ -150,23 +150,23 @@
       list-style: none;
       margin: 0;
       padding: 0;
-      .task{
-        &:first-child{
-            .task-container{
+      .task {
+        &:first-child {
+          .task-container {
+            padding-top: 0;
+            h4 {
               padding-top: 0;
-              h4{
-                padding-top: 0;
-              }
             }
+          }
         }
       }
       li {
         margin: 0;
         padding: 0;
         .task-container {
-          display:table;         
-          padding:10px 0;
-          width:100%;
+          display: table;
+          padding: 10px 0;
+          width: 100%;
           border-bottom: 1px solid $light-gray;
           box-sizing: border-box;
           position: relative;
@@ -175,7 +175,7 @@
             display: block;
             font-size: 17px;
             vertical-align: middle;
-            color:$light-text;
+            color: $light-text;
             word-break: break-all;
             padding-top: 5px;
           }
@@ -200,8 +200,8 @@
             }
           }
           &:hover {
-            h4{
-                color: $dark-color;
+            h4 {
+              color: $dark-color;
               transition: all 0.3s ease;
             }
           }

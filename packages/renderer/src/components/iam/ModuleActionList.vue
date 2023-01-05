@@ -12,7 +12,7 @@
         v-for="(action, index) in actions"
         :key="`act-grp-${action.id}`"
         :action="action"
-        :open="index === (actions.length - 1)"
+        :open="index === actions.length - 1"
       />
     </div>
   </div>
@@ -31,14 +31,14 @@ export default {
     },
     open: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
   computed: {
     ...mapGetters('role', ['searchActionsByCriteria']),
     actions() {
       return this.searchActionsByCriteria({ module_id: this.module.id });
-    }
+    },
   },
 };
 </script>

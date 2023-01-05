@@ -3,7 +3,7 @@
     <div class="card-header">
       <h5 class="mb-0">
         <button
-          class="btn btn-link "
+          class="btn btn-link"
           :class="open ? '' : 'collapsed'"
           data-bs-toggle="collapse"
           :data-bs-target="`#collapse-${action.id}`"
@@ -27,7 +27,12 @@
         <div class="table-responsive">
           <table class="table table-bordered">
             <tbody>
-              <ActionGroupLine v-for='act in action.actions' :key='`act-lne-${act.id}`' :action='act' :parent-code='action.code'/>
+              <ActionGroupLine
+                v-for="act in action.actions"
+                :key="`act-lne-${act.id}`"
+                :action="act"
+                :parent-code="action.code"
+              />
             </tbody>
           </table>
         </div>
@@ -48,13 +53,13 @@ export default {
     },
     open: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
   computed: {
     name() {
-      return this.data
-    }
+      return this.data;
+    },
   },
 };
 </script>

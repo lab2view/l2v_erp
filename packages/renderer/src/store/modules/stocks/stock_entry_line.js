@@ -11,7 +11,8 @@ const getters = {
   stock_entry_lines: (state) => {
     return state.stock_entry_lines ? JSON.parse(state.stock_entry_lines) : [];
   },
-  stockEntryLine: (state) => (state.stockEntryLine ? JSON.parse(state.stockEntryLine) : null),
+  stockEntryLine: (state) =>
+    state.stockEntryLine ? JSON.parse(state.stockEntryLine) : null,
 };
 
 const actions = {
@@ -19,14 +20,18 @@ const actions = {
     if (getters.stock_entry_lines.length > 0) {
       return getters.stock_entry_lines;
     }
-    return stockEntryLineService.getStockEntryLinesList(page, field).then(({ data }) => {
-      commit('SET_STOCK_ENTRY_LINES', data);
-      return data;
-    });
+    return stockEntryLineService
+      .getStockEntryLinesList(page, field)
+      .then(({ data }) => {
+        commit('SET_STOCK_ENTRY_LINES', data);
+        return data;
+      });
   },
 
   getStockEntryLine({ getters, commit }, id) {
-    const stockEntryLine = getters.stock_entry_lines.find((p) => p.id.toString() === id);
+    const stockEntryLine = getters.stock_entry_lines.find(
+      (p) => p.id.toString() === id
+    );
     if (stockEntryLine !== undefined) {
       commit('SET_CURRENT_STOCK_ENTRY_LINE', stockEntryLine);
       return stockEntryLine;
@@ -39,10 +44,12 @@ const actions = {
   },
 
   addStockEntryLine({ commit }, stockEntryLineField) {
-    return stockEntryLineService.addStockEntryLine(stockEntryLineField).then(({ data }) => {
-      commit('ADD_STOCK_ENTRY_LINE', data);
-      return data;
-    });
+    return stockEntryLineService
+      .addStockEntryLine(stockEntryLineField)
+      .then(({ data }) => {
+        commit('ADD_STOCK_ENTRY_LINE', data);
+        return data;
+      });
   },
 
   updateStockEntryLine({ commit }, stockEntryLineField) {
@@ -55,10 +62,12 @@ const actions = {
   },
 
   deleteStockEntryLine({ commit }, stockEntryLineId) {
-    return stockEntryLineService.deleteStockEntryLine(stockEntryLineId).then(({ data }) => {
-      commit('DELETE_STOCK_ENTRY_LINE', stockEntryLineId);
-      return data;
-    });
+    return stockEntryLineService
+      .deleteStockEntryLine(stockEntryLineId)
+      .then(({ data }) => {
+        commit('DELETE_STOCK_ENTRY_LINE', stockEntryLineId);
+        return data;
+      });
   },
 };
 
@@ -82,7 +91,9 @@ const mutations = {
   },
   UPDATE_STOCK_ENTRY_LINE(state, stockEntryLine) {
     let stock_entry_lines = JSON.parse(state.stock_entry_lines);
-    const index = stock_entry_lines.findIndex((p) => p.id === stockEntryLine.id);
+    const index = stock_entry_lines.findIndex(
+      (p) => p.id === stockEntryLine.id
+    );
     if (index !== -1) {
       stock_entry_lines.splice(index, 1, stockEntryLine);
     }
@@ -90,7 +101,9 @@ const mutations = {
   },
   DELETE_STOCK_ENTRY_LINE(state, stockEntryLineId) {
     state.stock_entry_lines = JSON.stringify(
-      JSON.parse(state.stock_entry_lines).filter((p) => p.id !== stockEntryLineId)
+      JSON.parse(state.stock_entry_lines).filter(
+        (p) => p.id !== stockEntryLineId
+      )
     );
   },
 };

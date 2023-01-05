@@ -1,5 +1,5 @@
-@import "../theme/variables";
-@import "elements";
+@import '../theme/variables';
+@import 'elements';
 
 //fonts
 $font: summernote;
@@ -26,7 +26,7 @@ $font: summernote;
 //original selectors
 //.note-popover .popover-content .btn-group .note-table .note-dimension-picker .note-dimension-picker-mousecatcher, .card-header.note-toolbar .btn-group .note-table .note-dimension-picker .note-dimension-picker-mousecatcher
 %summernote-position-2 {
-  position: absolute!important;
+  position: absolute !important;
   z-index: 3;
   width: 10em;
   height: 10em;
@@ -36,21 +36,23 @@ $font: summernote;
 //original selectors
 //.note-popover .popover-content .btn-group .note-table .note-dimension-picker .note-dimension-picker-unhighlighted, .card-header.note-toolbar .btn-group .note-table .note-dimension-picker .note-dimension-picker-unhighlighted
 %summernote-position-3 {
-  position: relative!important;
+  position: relative !important;
   z-index: 1;
   width: 5em;
   height: 5em;
-  background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAASAgMAAAAroGbEAAAACVBMVEUAAIj4+Pjp6ekKlAqjAAAAAXRSTlMAQObYZgAAAAFiS0dEAIgFHUgAAAAJcEhZcwAACxMAAAsTAQCanBgAAAAHdElNRQfYAR0BKhmnaJzPAAAAG0lEQVQI12NgAAOtVatWMTCohoaGUY+EmIkEAEruEzK2J7tvAAAAAElFTkSuQmCC") repeat;
+  background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAASAgMAAAAroGbEAAAACVBMVEUAAIj4+Pjp6ekKlAqjAAAAAXRSTlMAQObYZgAAAAFiS0dEAIgFHUgAAAAJcEhZcwAACxMAAAsTAQCanBgAAAAHdElNRQfYAR0BKhmnaJzPAAAAG0lEQVQI12NgAAOtVatWMTCohoaGUY+EmIkEAEruEzK2J7tvAAAAAElFTkSuQmCC')
+    repeat;
 }
 
 //original selectors
 //.note-popover .popover-content .btn-group .note-table .note-dimension-picker .note-dimension-picker-highlighted, .card-header.note-toolbar .btn-group .note-table .note-dimension-picker .note-dimension-picker-highlighted
 %summernote-position-4 {
-  position: absolute!important;
+  position: absolute !important;
   z-index: 2;
   width: 1em;
   height: 1em;
-  background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAASAgMAAAAroGbEAAAACVBMVEUAAIjd6vvD2f9LKLW+AAAAAXRSTlMAQObYZgAAAAFiS0dEAIgFHUgAAAAJcEhZcwAACxMAAAsTAQCanBgAAAAHdElNRQfYAR0BKwNDEVT0AAAAG0lEQVQI12NgAAOtVatWMTCohoaGUY+EmIkEAEruEzK2J7tvAAAAAElFTkSuQmCC") repeat;
+  background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAASAgMAAAAroGbEAAAACVBMVEUAAIjd6vvD2f9LKLW+AAAAAXRSTlMAQObYZgAAAAFiS0dEAIgFHUgAAAAJcEhZcwAACxMAAAsTAQCanBgAAAAHdElNRQfYAR0BKwNDEVT0AAAAG0lEQVQI12NgAAOtVatWMTCohoaGUY+EmIkEAEruEzK2J7tvAAAAAElFTkSuQmCC')
+    repeat;
 }
 
 //original selectors
@@ -107,13 +109,17 @@ $font: summernote;
   outline: 0;
 }
 
-
 @font-face {
   font-family: $font;
   font-style: normal;
   font-weight: normal;
   src: url(../fonts/summernote/summernote.eot?dbafe969167589eda84514394d126413);
-  src: url(../fonts/summernote/summernote.eot?#iefix) format("embedded-opentype"),url(../fonts/summernote/summernote.woff?dbafe969167589eda84514394d126413) format("woff"),url(../fonts/summernote/summernote.ttf?dbafe969167589eda84514394d126413) format("truetype");
+  src: url(../fonts/summernote/summernote.eot?#iefix)
+      format('embedded-opentype'),
+    url(../fonts/summernote/summernote.woff?dbafe969167589eda84514394d126413)
+      format('woff'),
+    url(../fonts/summernote/summernote.ttf?dbafe969167589eda84514394d126413)
+      format('truetype');
 }
 .note-editor {
   position: relative;
@@ -123,7 +129,7 @@ $font: summernote;
     display: none;
     color: $color_malibu_approx;
     background-color: $white;
-    opacity: .95;
+    opacity: 0.95;
     .note-dropzone-message {
       display: table-cell;
       font-size: 28px;
@@ -144,7 +150,7 @@ $font: summernote;
       }
       sub {
         vertical-align: sub;
-      }      
+      }
     }
     img {
       &.note-float-start {
@@ -164,13 +170,13 @@ $font: summernote;
         padding: 10px;
         overflow: auto;
         color: $black;
-        word-wrap: break-word;       
+        word-wrap: break-word;
         min-height: 50px;
-        p{
-          color: $light-text
+        p {
+          color: $light-text;
         }
       }
-      .note-editable[contenteditable="false"] {
+      .note-editable[contenteditable='false'] {
         background-color: $mercury;
       }
       .note-codable {
@@ -197,10 +203,10 @@ $font: summernote;
       top: 0;
       left: 0;
       z-index: 1050;
-      width: 100%!important;
+      width: 100% !important;
       .note-editable {
-        background-color:$white;
-        border-color:$light-gray;
+        background-color: $white;
+        border-color: $light-gray;
       }
       .note-resizebar {
         display: none;
@@ -221,7 +227,7 @@ $font: summernote;
         border-top: 0 solid transparent;
       }
       .pull-right {
-        float: right!important;
+        float: right !important;
       }
       .text-muted {
         color: $color_tapa_approx;
@@ -253,20 +259,20 @@ $font: summernote;
         }
       }
       .alert-success {
-        color: $color_killarney_approx!important;
-        background-color: $color_willow_brook_approx!important;
+        color: $color_killarney_approx !important;
+        background-color: $color_willow_brook_approx !important;
       }
       .alert-info {
-        color: $color_calypso_approx!important;
-        background-color: $color_link_water_approx!important;
+        color: $color_calypso_approx !important;
+        background-color: $color_link_water_approx !important;
       }
       .alert-warning {
-        color: $color_pesto_approx!important;
-        background-color: $color_solitaire_approx!important;
+        color: $color_pesto_approx !important;
+        background-color: $color_solitaire_approx !important;
       }
       .alert-danger {
-        color: $color_apple_blossom_approx!important;
-        background-color: $color_vanilla_ice_approx!important;
+        color: $color_apple_blossom_approx !important;
+        background-color: $color_vanilla_ice_approx !important;
       }
     }
     .note-statusbar {
@@ -315,7 +321,7 @@ $font: summernote;
     display: none;
     max-width: none;
     .arrow {
-      left: 20px!important;
+      left: 20px !important;
     }
     .popover-content a {
       display: inline-block;
@@ -364,11 +370,11 @@ $font: summernote;
       }
       &.right::before {
         right: 9px;
-        left: auto!important;
+        left: auto !important;
       }
       &.right::after {
         right: 10px;
-        left: auto!important;
+        left: auto !important;
       }
       &.note-check a {
         i {
@@ -496,7 +502,7 @@ $font: summernote;
     padding: 3px;
     overflow: auto;
     .note-hint-group .note-hint-item {
-      display: block!important;
+      display: block !important;
       padding: 3px;
       &.active {
         @extend %summernote-position-9;
@@ -509,211 +515,211 @@ $font: summernote;
 }
 .note-icon-align-center:before {
   @extend %summernote-position;
-  content: "\f101";
+  content: '\f101';
 }
 .note-icon-align-indent:before {
   @extend %summernote-position;
-  content: "\f102";
+  content: '\f102';
 }
 .note-icon-align-justify:before {
   @extend %summernote-position;
-  content: "\f103";
+  content: '\f103';
 }
 .note-icon-align-left:before {
   @extend %summernote-position;
-  content: "\f104";
+  content: '\f104';
 }
 .note-icon-align-outdent:before {
   @extend %summernote-position;
-  content: "\f105";
+  content: '\f105';
 }
 .note-icon-align-right:before {
   @extend %summernote-position;
-  content: "\f106";
+  content: '\f106';
 }
 .note-icon-align:before {
   @extend %summernote-position;
-  content: "\f107";
+  content: '\f107';
 }
 .note-icon-arrow-circle-down:before {
   @extend %summernote-position;
-  content: "\f108";
+  content: '\f108';
 }
 .note-icon-arrow-circle-left:before {
   @extend %summernote-position;
-  content: "\f109";
+  content: '\f109';
 }
 .note-icon-arrow-circle-right:before {
   @extend %summernote-position;
-  content: "\f10a";
+  content: '\f10a';
 }
 .note-icon-arrow-circle-up:before {
   @extend %summernote-position;
-  content: "\f10b";
+  content: '\f10b';
 }
 .note-icon-arrows-alt:before {
   @extend %summernote-position;
-  content: "\f10c";
+  content: '\f10c';
 }
 .note-icon-arrows-h:before {
   @extend %summernote-position;
-  content: "\f10d";
+  content: '\f10d';
 }
 .note-icon-arrows-v:before {
   @extend %summernote-position;
-  content: "\f10e";
+  content: '\f10e';
 }
 .note-icon-bold:before {
   @extend %summernote-position;
-  content: "\f10f";
+  content: '\f10f';
 }
 .note-icon-caret:before {
   @extend %summernote-position;
-  content: "\f110";
+  content: '\f110';
 }
 .note-icon-chain-broken:before {
   @extend %summernote-position;
-  content: "\f111";
+  content: '\f111';
 }
 .note-icon-circle:before {
   @extend %summernote-position;
-  content: "\f112";
+  content: '\f112';
 }
 .note-icon-close:before {
   @extend %summernote-position;
-  content: "\f113";
+  content: '\f113';
 }
 .note-icon-code:before {
   @extend %summernote-position;
-  content: "\f114";
+  content: '\f114';
 }
 .note-icon-col-after:before {
   @extend %summernote-position;
-  content: "\f115";
+  content: '\f115';
 }
 .note-icon-col-before:before {
   @extend %summernote-position;
-  content: "\f116";
+  content: '\f116';
 }
 .note-icon-col-remove:before {
   @extend %summernote-position;
-  content: "\f117";
+  content: '\f117';
 }
 .note-icon-eraser:before {
   @extend %summernote-position;
-  content: "\f118";
+  content: '\f118';
 }
 .note-icon-font:before {
   @extend %summernote-position;
-  content: "\f119";
+  content: '\f119';
 }
 .note-icon-frame:before {
   @extend %summernote-position;
-  content: "\f11a";
+  content: '\f11a';
 }
 .note-icon-italic:before {
   @extend %summernote-position;
-  content: "\f11b";
+  content: '\f11b';
 }
 .note-icon-link:before {
   @extend %summernote-position;
-  content: "\f11c";
+  content: '\f11c';
 }
 .note-icon-magic:before {
   @extend %summernote-position;
-  content: "\f11d";
+  content: '\f11d';
 }
 .note-icon-menu-check:before {
   @extend %summernote-position;
-  content: "\f11e";
+  content: '\f11e';
 }
 .note-icon-minus:before {
   @extend %summernote-position;
-  content: "\f11f";
+  content: '\f11f';
 }
 .note-icon-orderedlist:before {
   @extend %summernote-position;
-  content: "\f120";
+  content: '\f120';
 }
 .note-icon-pencil:before {
   @extend %summernote-position;
-  content: "\f121";
+  content: '\f121';
 }
 .note-icon-picture:before {
   @extend %summernote-position;
-  content: "\f122";
+  content: '\f122';
 }
 .note-icon-question:before {
   @extend %summernote-position;
-  content: "\f123";
+  content: '\f123';
 }
 .note-icon-redo:before {
   @extend %summernote-position;
-  content: "\f124";
+  content: '\f124';
 }
 .note-icon-row-above:before {
   @extend %summernote-position;
-  content: "\f125";
+  content: '\f125';
 }
 .note-icon-row-below:before {
   @extend %summernote-position;
-  content: "\f126";
+  content: '\f126';
 }
 .note-icon-row-remove:before {
   @extend %summernote-position;
-  content: "\f127";
+  content: '\f127';
 }
 .note-icon-special-character:before {
   @extend %summernote-position;
-  content: "\f128";
+  content: '\f128';
 }
 .note-icon-square:before {
   @extend %summernote-position;
-  content: "\f129";
+  content: '\f129';
 }
 .note-icon-strikethrough:before {
   @extend %summernote-position;
-  content: "\f12a";
+  content: '\f12a';
 }
 .note-icon-subscript:before {
   @extend %summernote-position;
-  content: "\f12b";
+  content: '\f12b';
 }
 .note-icon-summernote:before {
   @extend %summernote-position;
-  content: "\f12c";
+  content: '\f12c';
 }
 .note-icon-superscript:before {
   @extend %summernote-position;
-  content: "\f12d";
+  content: '\f12d';
 }
 .note-icon-table:before {
   @extend %summernote-position;
-  content: "\f12e";
+  content: '\f12e';
 }
 .note-icon-text-height:before {
   @extend %summernote-position;
-  content: "\f12f";
+  content: '\f12f';
 }
 .note-icon-trash:before {
   @extend %summernote-position;
-  content: "\f130";
+  content: '\f130';
 }
 .note-icon-underline:before {
   @extend %summernote-position;
-  content: "\f131";
+  content: '\f131';
 }
 .note-icon-undo:before {
   @extend %summernote-position;
-  content: "\f132";
+  content: '\f132';
 }
 .note-icon-unorderedlist:before {
   @extend %summernote-position;
-  content: "\f133";
+  content: '\f133';
 }
 .note-icon-video:before {
   @extend %summernote-position;
-  content: "\f134";
+  content: '\f134';
 }
 .card-header.note-toolbar {
   padding: 0 0 5px 5px !important;
@@ -754,11 +760,11 @@ $font: summernote;
     }
     &.right::before {
       right: 9px;
-      left: auto!important;
+      left: auto !important;
     }
     &.right::after {
       right: 10px;
-      left: auto!important;
+      left: auto !important;
     }
     &.note-check a {
       i {
@@ -861,7 +867,7 @@ $font: summernote;
     width: 100%;
     height: 100%;
     background-color: $black;
-    opacity: .3;
+    opacity: 0.3;
     filter: alpha(opacity=30);
   }
   .note-control-handle {
@@ -918,7 +924,7 @@ $font: summernote;
     background-color: $black;
     //Instead of the line below you could use @include border-radius($radius, $vertical-radius)
     border-radius: 5px;
-    opacity: .7;
+    opacity: 0.7;
     filter: alpha(opacity=70);
   }
 }

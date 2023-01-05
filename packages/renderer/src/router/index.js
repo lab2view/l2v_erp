@@ -1,4 +1,4 @@
-import {createRouter, createWebHashHistory} from 'vue-router';
+import { createRouter, createWebHashHistory } from 'vue-router';
 import Page from '/@/components/layouts/Page.vue';
 import workspace from './workspace';
 import store from '/@/store';
@@ -77,7 +77,7 @@ const routes = [
       requireUnlock: true,
     },
   },
-  {path: '/:pathMatch(.*)*', redirect: {name: 'pageNotFound'}},
+  { path: '/:pathMatch(.*)*', redirect: { name: 'pageNotFound' } },
 ];
 
 const router = createRouter({
@@ -85,17 +85,19 @@ const router = createRouter({
   history: createWebHashHistory(),
   scrollBehavior(to, from, savedPosition) {
     if (savedPosition) return savedPosition;
-    else return {top: 0};
+    else return { top: 0 };
   },
   // linkActiveClass: 'active',
   linkExactActiveClass: 'active',
 });
 
 const restoreState = new Promise(function (resolve, reject) {
-  store.restored.then(() => setTimeout(() => resolve(), 3000)).catch(error => {
-    console.log('RESTORE STATE ERROR', error)
-    reject(error)
-  })
+  store.restored
+    .then(() => setTimeout(() => resolve(), 3000))
+    .catch((error) => {
+      console.log('RESTORE STATE ERROR', error);
+      reject(error);
+    });
 });
 
 router.beforeEach(async (to, from, next) => {

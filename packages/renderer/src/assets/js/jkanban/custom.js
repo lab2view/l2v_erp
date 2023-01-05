@@ -1,10 +1,12 @@
 var kanban1 = new jKanban({
   element: '#demo1',
-  boards: [{
-      'id': '_todo',
-      'title': 'Todo (2)',
-      'item': [{
-          'title': `
+  boards: [
+    {
+      id: '_todo',
+      title: 'Todo (2)',
+      item: [
+        {
+          title: `
                                <a class="kanban-box" href="#"><span class="date">23/7/20</span><span class="badge badge-primary f-right">medium</span>
                                 <h6>Design Dashboard</h6>
                                 <div class="media"><img class="img-20 me-1 rounded-circle" src="../assets/images/user/3.jpg" alt="" data-original-title="" title="">
@@ -32,7 +34,7 @@ var kanban1 = new jKanban({
                             `,
         },
         {
-          'title': `
+          title: `
                                <a class="kanban-box" href="#"><span class="date">24/7/20</span><span class="badge badge-danger f-right">Argent</span>
                                 <h6>Test Sidebar</h6>
                                 <div class="media"><img class="img-20 me-1 rounded-circle" src="../assets/images/user/3.jpg" alt="" data-original-title="" title="">
@@ -58,14 +60,15 @@ var kanban1 = new jKanban({
                                   </div>
                                 </div></a>
                             `,
-        }
-      ]
+        },
+      ],
     },
     {
-      'id': '_doing',
-      'title': 'Doing (2)',
-      'item': [{
-          'title': `
+      id: '_doing',
+      title: 'Doing (2)',
+      item: [
+        {
+          title: `
                                <a class="kanban-box" href="#"><span class="date">24/7/20</span><span class="badge badge-danger f-right">Argent</span>
                                 <h6>Test Sidebar</h6>
                                 <div class="media"><img class="img-20 me-1 rounded-circle" src="../assets/images/user/3.jpg" alt="" data-original-title="" title="">
@@ -93,7 +96,7 @@ var kanban1 = new jKanban({
                             `,
         },
         {
-          'title': `
+          title: `
                                <a class="kanban-box" href="#"><span class="date">24/7/20</span><span class="badge badge-success f-right">Low</span>
                                 <h6>Dashboard issue</h6>
                                 <div class="media"><img class="img-20 me-1 rounded-circle" src="../assets/images/user/3.jpg" alt="" data-original-title="" title="">
@@ -119,14 +122,15 @@ var kanban1 = new jKanban({
                                   </div>
                                 </div></a>
                             `,
-        }
-      ]
+        },
+      ],
     },
     {
-      'id': '_done',
-      'title': 'Done (2)',
-      'item': [{
-          'title': `
+      id: '_done',
+      title: 'Done (2)',
+      item: [
+        {
+          title: `
                                <a class="kanban-box" href="#"><span class="date">24/7/20</span><span class="badge badge-danger f-right">Argent</span>
                                 <h6>Test Sidebar</h6>
                                 <div class="media"><img class="img-20 me-1 rounded-circle" src="../assets/images/user/3.jpg" alt="" data-original-title="" title="">
@@ -154,7 +158,7 @@ var kanban1 = new jKanban({
                             `,
         },
         {
-          'title': `
+          title: `
                                <a class="kanban-box" href="#"><span class="date">23/7/20</span><span class="badge badge-primary f-right">medium</span>
                                 <h6>Design Dashboard</h6>
                                 <div class="media"><img class="img-20 me-1 rounded-circle" src="../assets/images/user/3.jpg" alt="" data-original-title="" title="">
@@ -180,10 +184,10 @@ var kanban1 = new jKanban({
                                   </div>
                                 </div></a>
                             `,
-        }
-      ]
-    }
-  ]
+        },
+      ],
+    },
+  ],
 });
 
 var kanban2 = new jKanban({
@@ -192,13 +196,15 @@ var kanban2 = new jKanban({
   click: function (el) {
     alert(el.innerHTML);
   },
-  boards: [{
-      'id': '_todo',
-      'title': 'To Do (Item only in Working)',
-      'class': 'bg-primary',
-      'dragTo': ['_working'],
-      'item': [{
-          'title': `
+  boards: [
+    {
+      id: '_todo',
+      title: 'To Do (Item only in Working)',
+      class: 'bg-primary',
+      dragTo: ['_working'],
+      item: [
+        {
+          title: `
                                <a class="kanban-box" href="#"><span class="date">24/7/20</span><span class="badge badge-info f-right">medium</span>
                                 <h6>Test Sidebar</h6>
                                 <div class="media"><img class="img-20 me-1 rounded-circle" src="../assets/images/user/3.jpg" alt="" data-original-title="" title="">
@@ -226,7 +232,7 @@ var kanban2 = new jKanban({
                             `,
         },
         {
-          'title': `
+          title: `
                                <a class="kanban-box" href="#"><span class="date">24/7/20</span><span class="badge badge-success f-right">Low</span>
                                 <h6>Dashboard issue</h6>
                                 <div class="media"><img class="img-20 me-1 rounded-circle" src="../assets/images/user/3.jpg" alt="" data-original-title="" title="">
@@ -252,15 +258,16 @@ var kanban2 = new jKanban({
                                   </div>
                                 </div></a>
                             `,
-        }
-      ]
+        },
+      ],
     },
     {
-      'id': '_working',
-      'title': 'Working',
-      'class': 'bg-warning',
-      'item': [{
-          'title': `
+      id: '_working',
+      title: 'Working',
+      class: 'bg-warning',
+      item: [
+        {
+          title: `
                                <a class="kanban-box" href="#"><span class="date">24/7/20</span><span class="badge badge-danger f-right">Argent</span>
                                 <h6>Test Sidebar</h6>
                                 <div class="media"><img class="img-20 me-1 rounded-circle" src="../assets/images/user/3.jpg" alt="" data-original-title="" title="">
@@ -288,7 +295,7 @@ var kanban2 = new jKanban({
                             `,
         },
         {
-          'title': `
+          title: `
                                <a class="kanban-box" href="#"><span class="date">24/7/20</span><span class="badge badge-success f-right">Low</span>
                                 <h6>Dashboard issue</h6>
                                 <div class="media"><img class="img-20 me-1 rounded-circle" src="../assets/images/user/3.jpg" alt="" data-original-title="" title="">
@@ -314,16 +321,17 @@ var kanban2 = new jKanban({
                                   </div>
                                 </div></a>
                             `,
-        }
-      ]
+        },
+      ],
     },
     {
-      'id': '_done',
-      'title': 'Done (Item only in Working)',
-      'class': 'bg-secondary',
-      'dragTo': ['_working'],
-      'item': [{
-          'title': `
+      id: '_done',
+      title: 'Done (Item only in Working)',
+      class: 'bg-secondary',
+      dragTo: ['_working'],
+      item: [
+        {
+          title: `
                                <a class="kanban-box" href="#"><span class="date">24/7/20</span><span class="badge badge-danger f-right">Argent</span>
                                 <h6>Test Sidebar</h6>
                                 <div class="media"><img class="img-20 me-1 rounded-circle" src="../assets/images/user/3.jpg" alt="" data-original-title="" title="">
@@ -351,7 +359,7 @@ var kanban2 = new jKanban({
                             `,
         },
         {
-          'title': `
+          title: `
                                <a class="kanban-box" href="#"><span class="date">24/7/20</span><span class="badge badge-success f-right">Low</span>
                                 <h6>Dashboard issue</h6>
                                 <div class="media"><img class="img-20 me-1 rounded-circle" src="../assets/images/user/3.jpg" alt="" data-original-title="" title="">
@@ -377,10 +385,10 @@ var kanban2 = new jKanban({
                                   </div>
                                 </div></a>
                             `,
-        }
-      ]
-    }
-  ]
+        },
+      ],
+    },
+  ],
 });
 
 var kanban3 = new jKanban({
@@ -389,12 +397,14 @@ var kanban3 = new jKanban({
   click: function (el) {
     alert(el.innerHTML);
   },
-  boards: [{
-      'id': '_todo',
-      'title': 'To Do',
-      'class': 'info',
-      'item': [{
-          'title': `
+  boards: [
+    {
+      id: '_todo',
+      title: 'To Do',
+      class: 'info',
+      item: [
+        {
+          title: `
                                <a class="kanban-box" href="#"><span class="date">24/7/20</span><span class="badge badge-danger f-right">Argent</span>
                                 <h6>Test Sidebar</h6>
                                 <div class="media"><img class="img-20 me-1 rounded-circle" src="../assets/images/user/3.jpg" alt="" data-original-title="" title="">
@@ -422,7 +432,7 @@ var kanban3 = new jKanban({
                             `,
         },
         {
-          'title': `
+          title: `
                                <a class="kanban-box" href="#"><span class="date">24/7/20</span><span class="badge badge-danger f-right">Argent</span>
                                 <h6>Test Sidebar</h6>
                                 <div class="media"><img class="img-20 me-1 rounded-circle" src="../assets/images/user/3.jpg" alt="" data-original-title="" title="">
@@ -449,14 +459,15 @@ var kanban3 = new jKanban({
                                 </div></a>
                             `,
         },
-      ]
+      ],
     },
     {
-      'id': '_working',
-      'title': 'Working',
-      'class': 'warning',
-      'item': [{
-          'title': `
+      id: '_working',
+      title: 'Working',
+      class: 'warning',
+      item: [
+        {
+          title: `
                                <a class="kanban-box" href="#"><span class="date">24/7/20</span><span class="badge badge-danger f-right">Argent</span>
                                 <img class="mt-2 img-fluid" src="../assets/images/other-images/maintenance-bg.jpg" alt="" data-original-title="" title="">
                                 <h6>Test Sidebar</h6>
@@ -485,7 +496,7 @@ var kanban3 = new jKanban({
                             `,
         },
         {
-          'title': `
+          title: `
                                <a class="kanban-box" href="#"><span class="date">24/7/20</span><span class="badge badge-danger f-right">Argent</span>
                                 <h6>Test Sidebar</h6>
                                 <div class="media"><img class="img-20 me-1 rounded-circle" src="../assets/images/user/3.jpg" alt="" data-original-title="" title="">
@@ -512,14 +523,15 @@ var kanban3 = new jKanban({
                                 </div></a>
                             `,
         },
-      ]
+      ],
     },
     {
-      'id': '_done',
-      'title': 'Done',
-      'class': 'success',
-      'item': [{
-          'title': `
+      id: '_done',
+      title: 'Done',
+      class: 'success',
+      item: [
+        {
+          title: `
                                <a class="kanban-box" href="#"><span class="date">24/7/20</span><span class="badge badge-danger f-right">Argent</span>
                                 <h6>Test Sidebar</h6>
                                 <div class="media"><img class="img-20 me-1 rounded-circle" src="../assets/images/user/3.jpg" alt="" data-original-title="" title="">
@@ -547,7 +559,7 @@ var kanban3 = new jKanban({
                             `,
         },
         {
-          'title': `
+          title: `
                                <a class="kanban-box" href="#"><span class="date">24/7/20</span><span class="badge badge-danger f-right">Argent</span>
                                 <img class="mt-2 img-fluid" src="../assets/images/other-images/sidebar-bg.jpg" alt="" data-original-title="" title="">
                                 <h6>Test Sidebar</h6>
@@ -575,16 +587,15 @@ var kanban3 = new jKanban({
                                 </div></a>
                             `,
         },
-      ]
-    }
-  ]
+      ],
+    },
+  ],
 });
 
 var toDoButton = document.getElementById('addToDo');
 toDoButton.addEventListener('click', function () {
-  kanban3.addElement(
-    '_todo', {
-      'title': `
+  kanban3.addElement('_todo', {
+    title: `
                                <a class="kanban-box" href="#"><span class="date">24/7/20</span><span class="badge badge-danger f-right">Argent</span>
                                 <img class="mt-2 img-fluid" src="../assets/images/other-images/sidebar-bg.jpg" alt="" data-original-title="" title="">
                                 <h6>Test Sidebar</h6>
@@ -611,18 +622,18 @@ toDoButton.addEventListener('click', function () {
                                   </div>
                                 </div></a>
                             `,
-    }
-  );
+  });
 });
 
 var addBoardDefault = document.getElementById('addDefault');
 addBoardDefault.addEventListener('click', function () {
-  kanban3.addBoards(
-    [{
-      'id': '_default',
-      'title': 'Kanban Default',
-      'item': [{
-          'title': `
+  kanban3.addBoards([
+    {
+      id: '_default',
+      title: 'Kanban Default',
+      item: [
+        {
+          title: `
                                <a class="kanban-box" href="#"><span class="date">24/7/20</span><span class="badge badge-danger f-right">Argent</span>
                                 <h6>Test Sidebar</h6>
                                 <div class="media"><img class="img-20 me-1 rounded-circle" src="../assets/images/user/3.jpg" alt="" data-original-title="" title="">
@@ -651,7 +662,7 @@ addBoardDefault.addEventListener('click', function () {
         },
 
         {
-          'title': `
+          title: `
                                <a class="kanban-box" href="#"><span class="date">24/7/20</span><span class="badge badge-danger f-right">Argent</span>
                                 <img class="mt-2 img-fluid" src="../assets/images/other-images/maintenance-bg.jpg" alt="" data-original-title="" title="">
                                 <h6>Test Sidebar</h6>
@@ -678,10 +689,10 @@ addBoardDefault.addEventListener('click', function () {
                                   </div>
                                 </div></a>
                             `,
-        }
-      ]
-    }]
-  )
+        },
+      ],
+    },
+  ]);
 });
 
 var removeBoard = document.getElementById('removeBoard');

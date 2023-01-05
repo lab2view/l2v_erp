@@ -1,12 +1,12 @@
-@import "../theme/variables";
-@import "elements";
+@import '../theme/variables';
+@import 'elements';
 
 .CodeMirror {
   color: $black;
   position: relative;
-  overflow: hidden;  
-  height:auto;
-  min-height:300px;
+  overflow: hidden;
+  height: auto;
+  min-height: 300px;
   border: 1px solid $light-gray;
   //Instead of the line below you could use @include border-bottom-left-radius($radius)
   border-bottom-left-radius: 4px;
@@ -78,7 +78,7 @@
     background: $color_alto_approx;
   }
   .CodeMirror-placeholder {
-    opacity: .5;
+    opacity: 0.5;
   }
   div.CodeMirror-secondarycursor {
     border-left: 1px solid $silver;
@@ -144,7 +144,7 @@
 .cm-fat-cursor {
   .CodeMirror-cursor {
     width: auto;
-    border: 0!important;
+    border: 0 !important;
     background: $color_pastel_green_approx;
   }
   div.CodeMirror-cursors {
@@ -294,7 +294,7 @@ div {
   background: $color_solitude_approx;
 }
 .CodeMirror-scroll {
-  overflow: scroll!important;
+  overflow: scroll !important;
   margin-bottom: -30px;
   margin-right: -30px;
   padding-bottom: 30px;
@@ -341,8 +341,8 @@ div {
 .CodeMirror-gutter-wrapper {
   position: absolute;
   z-index: 4;
-  background: 0 0!important;
-  border: none!important;
+  background: 0 0 !important;
+  border: none !important;
   //Instead of the line below you could use @include user-select($select)
   user-select: none;
 }
@@ -424,7 +424,7 @@ div {
   background: $yellow_40;
 }
 .cm-force-border {
-  padding-right: .1px;
+  padding-right: 0.1px;
 }
 @media print {
   .CodeMirror div.CodeMirror-cursors {
@@ -433,7 +433,7 @@ div {
 }
 .CodeMirror-fullscreen {
   background: $white;
-  position: fixed!important;
+  position: fixed !important;
   top: 50px;
   left: 0;
   right: 0;
@@ -442,11 +442,11 @@ div {
   z-index: 9;
 }
 .CodeMirror-sided {
-  width: 50%!important;
+  width: 50% !important;
 }
 .editor-toolbar {
   position: relative;
-  opacity: .6;
+  opacity: 0.6;
   //Instead of the line below you could use @include user-select($select)
   user-select: none;
   padding: 0 10px;
@@ -470,7 +470,7 @@ div {
     margin-bottom: 8px;
   }
   &:hover {
-    opacity: .8;
+    opacity: 0.8;
   }
   &.fullscreen {
     width: 100%;
@@ -493,7 +493,11 @@ div {
   &.fullscreen::before {
     width: 20px;
     height: 50px;
-    background: linear-gradient(to right, $white_100 0, rgba(255, 255, 255, 0) 100%);
+    background: linear-gradient(
+      to right,
+      $white_100 0,
+      rgba(255, 255, 255, 0) 100%
+    );
     position: fixed;
     top: 0;
     left: 0;
@@ -503,7 +507,11 @@ div {
   &.fullscreen::after {
     width: 20px;
     height: 50px;
-    background: linear-gradient(to right, rgba(255, 255, 255, 0) 0, $white_100 100%);
+    background: linear-gradient(
+      to right,
+      rgba(255, 255, 255, 0) 0,
+      $white_100 100%
+    );
     position: fixed;
     top: 0;
     right: 0;
@@ -513,8 +521,8 @@ div {
   a {
     display: inline-block;
     text-align: center;
-    text-decoration: none!important;
-    color: $color_pickled_bluewood_approx!important;
+    text-decoration: none !important;
+    color: $color_pickled_bluewood_approx !important;
     width: 30px;
     height: 30px;
     margin: 0;
@@ -541,19 +549,19 @@ div {
       top: 2px;
     }
     &.fa-header-1:after {
-      content: "1";
+      content: '1';
     }
     &.fa-header-2:after {
-      content: "2";
+      content: '2';
     }
     &.fa-header-3:after {
-      content: "3";
+      content: '3';
     }
     &.fa-header-bigger:after {
-      content: "▲";
+      content: '▲';
     }
     &.fa-header-smaller:after {
-      content: "▼";
+      content: '▼';
     }
   }
   i.separator {
@@ -682,9 +690,9 @@ span.CodeMirror-selectedtext {
 }
 .editor-wrapper input.title {
   &:focus {
-    opacity: .8;
+    opacity: 0.8;
   }
   &:hover {
-    opacity: .8;
+    opacity: 0.8;
   }
 }
