@@ -69,3 +69,8 @@ export const datatableBtnCode = {
   excel: 'excelHtml5',
   pdf: 'pdfHtml5',
 };
+
+export const privilegeExtension = {
+  forceDelete: 'forceDelete',
+  restore: 'restore',
+};

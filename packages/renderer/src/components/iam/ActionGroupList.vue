@@ -28,7 +28,7 @@
           <table class="table table-bordered">
             <tbody>
               <ActionGroupLine
-                v-for="act in action.actions"
+                v-for="act in exec_actions"
                 :key="`act-lne-${act.id}`"
                 :action="act"
                 :parent-code="action.code"
@@ -42,6 +42,7 @@
 </template>
 <script>
 import ActionGroupLine from '/@/components/iam/ActionGroupLine.vue';
+import { privilegeExtension } from '/@/helpers/codes';
 
 export default {
   name: 'ActionGroupList',
@@ -59,6 +60,13 @@ export default {
   computed: {
     name() {
       return this.data;
+    },
+    exec_actions() {
+      return this.action.actions.filter(
+        (act) =>
+          !act.code.includes(privilegeExtension.forceDelete) &&
+          !act.code.includes(privilegeExtension.restore)
+      );
     },
   },
 };
