@@ -12,12 +12,17 @@ const state = {
 // getters
 const getters = {
   actions: (state) => state.actions,
+  exec_actions: (state, getters) =>
+    getters.actions.filter(
+      (act) =>
+        !(act.code.includes('restore') || act.code.includes('forceDelete'))
+    ),
   getActionById: (state, getters) => (id) =>
     getters.actions.find((a) => a.id === id),
   searchActionsByCriteria:
     (state, getters) =>
     ({ module_id, keyword }) =>
-      getters.actions.filter((c) => {
+      getters.exec_actions.filter((c) => {
         let result = true;
         if (module_id) result = c.module_id.toString() === module_id.toString();
         // if (action_id)

@@ -2,13 +2,8 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "/@/*": [
-        "./src/*"
-      ]
+      "/@/*": ["./src/*"]
     }
   },
-  "include": [
-    "src/**/*.vue",
-    "src/**/*.js"
-  ]
+  "include": ["src/**/*.vue", "src/**/*.js"]
 }
