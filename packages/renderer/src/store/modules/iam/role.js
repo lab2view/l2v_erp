@@ -195,10 +195,7 @@ const actions = {
     return roleService
       .addRolePrivileges(privileges, getters.role.id)
       .then(({ data }) => {
-        commit('SET_ROLE_PRIVILEGES', {
-          role: getters.role,
-          privileges: data.privileges,
-        });
+        commit('SET_ROLE_PRIVILEGES', data.privileges);
       });
   },
 

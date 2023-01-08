@@ -5,8 +5,6 @@ export default async function initEchoClient(store, loadScript) {
   const currentDomain = workspace?.domain ?? store.state.landlordDomain;
   const protocol = import.meta.env.VITE_PROTOCOL ?? 'https';
 
-  console.log('PROTOCOL', import.meta.env, import.meta.env.VITE_PROTOCOL);
-
   await loadScript(
     `${protocol}://${currentDomain}:6001/socket.io/socket.io.js`
   );
