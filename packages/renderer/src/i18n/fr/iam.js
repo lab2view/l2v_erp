@@ -38,5 +38,6 @@ export default {
     delete: 'La suppression du privilege a ete effectuee avec succes',
     granted: 'Autorisée',
     denied: 'Refusée',
+    granted_list: 'Liste des privilèges attribués au role {role}',
   },
 };

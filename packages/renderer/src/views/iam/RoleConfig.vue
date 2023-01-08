@@ -1,11 +1,26 @@
 <template>
   <BaseContainer :module="$t('menu.modules.iam')" :title="$t('iam.title')">
     <div class="card">
-      <BaseTableHeader
-        :title="`${role.label} : ${$t('iam.action.listTitle')}`"
-        :refresh-action-field="{ page: 1, field: { paginate: 50, next: true } }"
-        refresh-action-name="role/getRolesList"
-      />
+      <div class="card-header pt-2 pb-1 border-bottom border-bottom-">
+        <div class="row align-items-center">
+          <div class="col-sm">
+            <h6>
+              {{ $t('iam.privilege.granted_list', { role: role.label }) }}
+            </h6>
+          </div>
+          <div class="col-auto">
+            <BaseButton
+              type="button"
+              class="btn btn-sm btn-success"
+              icon="fa fa-save"
+              :disabled="!canSaveModification"
+              :loading="loading"
+              :text="$t('common.save_update')"
+              @click.prevent="handlePrivilegeForm"
+            />
+          </div>
+        </div>
+      </div>
       <div class="card-body p-1">
         <div class="row">
           <div class="col-sm-3 tabs-responsive-side">
@@ -50,15 +65,15 @@
 <script>
 import BaseContainer from '/@/components/common/BaseContainer.vue';
 import store from '/@/store';
-import BaseTableHeader from '/@/components/common/BaseTableHeader.vue';
 import { mapGetters } from 'vuex';
 import ModuleActionList from '/@/components/iam/ModuleActionList.vue';
+import BaseButton from '/@/components/common/BaseButton.vue';
 
 export default {
   name: 'RoleConfig',
   components: {
+    BaseButton,
     ModuleActionList,
-    BaseTableHeader,
     BaseContainer,
   },
   beforeRouteEnter(routeTo, routeFrom, next) {
@@ -74,9 +89,61 @@ export default {
         next();
       });
   },
+  data() {
+    return {
+      loading: false,
+    };
+  },
   computed: {
     ...mapGetters('module', ['modules']),
-    ...mapGetters('role', ['role']),
+    ...mapGetters('role', [
+      'role',
+      'currentRoleActionToAdd',
+      'currentRoleActionToRemove',
+    ]),
+    canSaveModification() {
+      return (
+        this.currentRoleActionToAdd.length ||
+        this.currentRoleActionToRemove.length
+      );
+    },
+  },
+  methods: {
+    handlePrivilegeForm() {
+      if (this.loading) return;
+
+      if (confirm(this.$t('messages.validatePrivilege'))) {
+        this.loading = true;
+
+        if (
+          this.currentRoleActionToAdd.length > 0 &&
+          this.currentRoleActionToRemove.length > 0
+        ) {
+          Promise.all([
+            this.$store.dispatch('role/addRolePrivileges', {
+              privileges: this.currentRoleActionToAdd,
+            }),
+            this.$store.dispatch(
+              'role/removeRolePrivileges',
+              this.currentRoleActionToRemove
+            ),
+          ]).finally(() => (this.loading = false));
+        } else if (this.currentRoleActionToAdd.length > 0) {
+          this.$store
+            .dispatch('role/addRolePrivileges', {
+              privileges: this.currentRoleActionToAdd,
+            })
+            .finally(() => (this.loading = false));
+        } else {
+          this.$store
+            .dispatch(
+              'role/removeRolePrivileges',
+              this.currentRoleActionToRemove
+            )
+            .finally(() => (this.loading = false));
+        }
+      }
+    },
   },
 };
 </script>

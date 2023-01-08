@@ -52,7 +52,9 @@ export default {
   methods: {
     submitAddActionsToUserForm(selected) {
       return this.$store.dispatch('user/addUserPrivileges', {
-        actions: selected,
+        user_privileges: selected.map((s) => {
+          return { user_id: this.user.id, action_id: s.id };
+        }),
       });
     },
   },

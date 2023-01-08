@@ -30,6 +30,7 @@ export default {
   verify: 'Verifier',
   resend: 'Renvoyer',
   save: 'Enregistrer',
+  save_update: 'Enregistrer les modifications',
   find: 'Rechercher',
   update: 'Modifier',
   restore: 'Restaurer',

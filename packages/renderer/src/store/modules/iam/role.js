@@ -104,6 +104,18 @@ const getters = {
     }
     return state;
   },
+  currentRoleActionToAdd: (state, getters) => {
+    return getters.currentPrivileges
+      .filter((p) => p.id === null)
+      .map((p) => {
+        return { role_id: p.role_id, action_id: p.action_id };
+      });
+  },
+  currentRoleActionToRemove: (state, getters) => {
+    return getters.currentPrivileges
+      .filter((p) => p.deleted_at !== null)
+      .map((p) => p.id);
+  },
 };
 
 const actions = {
@@ -181,7 +193,7 @@ const actions = {
 
   addRolePrivileges({ getters, commit }, privileges) {
     return roleService
-      .addRolePrivileges(privileges, getters.user.id)
+      .addRolePrivileges(privileges, getters.role.id)
       .then(({ data }) => {
         commit('SET_ROLE_PRIVILEGES', {
           role: getters.role,
