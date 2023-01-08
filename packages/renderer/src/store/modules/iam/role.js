@@ -1,6 +1,10 @@
 import roleService from '/@/services/iam/IamRoleService';
 import actionService from '/@/services/iam/IamActionService';
-import { roleAdminCode, roleEnterpriseCode } from '/@/helpers/codes';
+import {
+  privilegeExtension,
+  roleAdminCode,
+  roleEnterpriseCode,
+} from '/@/helpers/codes';
 
 const state = {
   roles: [],
@@ -20,8 +24,6 @@ const getters = {
       getters.actions.filter((c) => {
         let result = true;
         if (module_id) result = c.module_id.toString() === module_id.toString();
-        // if (action_id)
-        //   result = c.action_id.toString() === action_id.toString();
         if (keyword && result)
           result = RegExp(`${keyword.toString().toLowerCase()}*`).test(
             `${c.label.toString().toLowerCase()} ${c.code
@@ -52,17 +54,55 @@ const getters = {
     );
     return privilege !== undefined ? privilege : null;
   },
-  isGrantedAction: (state, getters) => (privilege, parentCode) => {
-    if (
+  isCurrentRoleGranted: (state, getters) => {
+    return (
       getters.role.code === roleAdminCode ||
       getters.role.code === roleEnterpriseCode
-    )
-      return true;
+    );
+  },
+  isGrantedByActionCode: (state, getters) => (code) => {
+    const privilege = getters.getPrivilegeByCode(code);
+    if (privilege) return privilege.deleted_at === null;
+    else return false;
+  },
+  isGrantedAction: (state, getters) => (privilege, parentCode) => {
+    if (getters.isCurrentRoleGranted) return true;
 
     if (privilege) return privilege.deleted_at === null;
 
-    const parent = getters.getPrivilegeByCode(parentCode);
-    if (parent) return parent.deleted_at === null;
+    return getters.isGrantedByActionCode(parentCode);
+  },
+  actionGroupState: (state, getters) => (action) => {
+    let state = {
+      granted: getters.isCurrentRoleGranted,
+      partial_granted: false,
+    };
+    if (!state.granted) {
+      state.granted = getters.isGrantedByActionCode(action.code);
+
+      if (!state.granted) {
+        const privileges = getters
+          .getPrivilegesByFilter({ action_id: action.id })
+          .filter(
+            (p) =>
+              p.deleted_at === null &&
+              !p.action.code.includes(privilegeExtension.forceDelete) &&
+              !p.action.code.includes(privilegeExtension.restore)
+          );
+
+        if (
+          privileges.length ===
+          action.actions.filter(
+            (action) =>
+              !action.code.includes(privilegeExtension.forceDelete) &&
+              !action.code.includes(privilegeExtension.restore)
+          ).length
+        )
+          state.granted = true;
+        else state.partial_granted = privileges.length > 0;
+      }
+    }
+    return state;
   },
 };
 

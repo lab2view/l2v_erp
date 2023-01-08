@@ -3,7 +3,10 @@
     <label v-if="label" :class="labelClass" class="mt-2">
       {{ label }}
     </label>
-    <div class="media-body icon-state switch-outline p-l-10">
+    <div
+      class="media-body switch-outline p-l-10"
+      :class="iconState ? 'icon-state' : ''"
+    >
       <label class="switch">
         <input
           v-bind="$attrs"
@@ -49,6 +52,10 @@ export default {
     withChangeStyle: {
       type: Boolean,
       default: false,
+    },
+    iconState: {
+      type: Boolean,
+      default: true,
     },
   },
   emits: ['update:modelValue'],

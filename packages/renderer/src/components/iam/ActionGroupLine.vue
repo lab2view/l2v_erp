@@ -42,9 +42,11 @@ export default {
           action_id: this.action.id,
           action: this.action,
         };
-        if (value)
+        if (value) {
           this.$store.commit('role/TEMP_ADD_ROLE_PRIVILEGE', privilege);
-        else this.$store.commit('role/TEMP_REMOVE_ROLE_PRIVILEGE', privilege);
+        } else {
+          this.$store.commit('role/TEMP_REMOVE_ROLE_PRIVILEGE', privilege);
+        }
       },
     },
     stateClass() {
