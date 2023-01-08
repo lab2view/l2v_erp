@@ -7,7 +7,7 @@ import { URL } from 'url';
  * In development mode you need allow open `http://localhost`
  */
 const ALLOWED_ORIGINS_AND_PERMISSIONS = new Map(
-  import.meta.env.DEV ? [['http://localhost', new Set()]] : []
+  import.meta.env.DEV ? [['http://localhost', new Set()]] : [],
 );
 
 /**
@@ -65,10 +65,10 @@ app.on('web-contents-created', (_, contents) => {
 
       if (!permissionGranted && import.meta.env.DEV) {
         console.warn(
-          `${origin} requested permission for '${permission}', but was blocked.`
+          `${origin} requested permission for '${permission}', but was blocked.`,
         );
       }
-    }
+    },
   );
 
   /**
@@ -108,7 +108,7 @@ app.on('web-contents-created', (_, contents) => {
     if (!ALLOWED_ORIGINS_AND_PERMISSIONS.has(origin)) {
       if (import.meta.env.DEV) {
         console.warn(
-          `A webview tried to attach ${params.src}, but was blocked.`
+          `A webview tried to attach ${params.src}, but was blocked.`,
         );
       }
 

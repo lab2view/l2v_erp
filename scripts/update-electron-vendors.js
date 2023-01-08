@@ -37,8 +37,8 @@ function updateVendors() {
           node: nodeMajorVersion,
         },
         null,
-        2
-      ) + '\n'
+        2,
+      ) + '\n',
     ),
 
     writeFile(browserslistrcPath, `Chrome ${chromeMajorVersion}\n`, 'utf8'),
