@@ -52,6 +52,17 @@ const getters = {
       );
     } else return false;
   },
+  isGrantedAction: (state, getters) => (code) => {
+    if (getters.isRoleAdmin) return true;
+    return getters.currentUser?.privileges?.find(
+      (p) =>
+        p.code.toString().toLowerCase() === code.toString().toLowerCase() ||
+        p.actions.find(
+          (a) =>
+            a.code.toString().toLowerCase() === code.toString().toLowerCase()
+        ) !== undefined
+    );
+  },
   canShowMenuItem: (state, getters) => (actionCode) => {
     if (!actionCode) return true;
     if (getters.currentUser) {

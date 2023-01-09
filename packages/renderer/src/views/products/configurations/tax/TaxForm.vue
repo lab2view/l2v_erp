@@ -2,7 +2,7 @@
   <BaseFormModal :title="title" :submit-form="submitTaxForm">
     <div class="mb-3">
       <BaseInput
-        v-model="taxForm.value"
+        v-model="taxForm.label"
         :label="$t('common.attributes.label')"
         type="text"
         placeholder="TVA,..."
@@ -22,7 +22,7 @@
 </template>
 
 <script>
-import BaseFormModal from '../../../../components/common/BaseFormModal.vue';
+import BaseFormModal from '/@/components/common/BaseFormModal.vue';
 import { mapGetters } from 'vuex';
 import BaseButton from '/@/components/common/BaseButton.vue';
 import BaseInput from '/@/components/common/BaseInput.vue';

@@ -121,27 +121,18 @@
               </span>
             </td>
             <td>
-              <BaseButton
-                class="btn btn-secondary btn-xs"
-                type="button"
-                :text="$t('common.update')"
-                @click.prevent="
+              <BaseActionBtnGroup
+                entity="Product"
+                :with-show-btn="false"
+                :with-delete-btn="!product.not_deletable"
+                @update="
                   $router.push({
                     name: 'product.form.desc',
                     params: { id: product.id },
                   })
                 "
+                @delete="deleteProduct(product)"
               />
-              <button
-                v-if="!product.not_deletable"
-                class="btn btn-danger btn-xs m-l-5"
-                type="button"
-                data-original-title="btn btn-danger btn-xs"
-                :title="$t('common.delete')"
-                @click.prevent="deleteProduct(product)"
-              >
-                <i class="fa fa-trash-o" />
-              </button>
             </td>
           </tr>
         </BaseDatatable>
@@ -161,10 +152,12 @@ import BaseButton from '/@/components/common/BaseButton.vue';
 import BaseTableHeader from '/@/components/common/BaseTableHeader.vue';
 import BaseFieldGroup from '/@/components/common/BaseFieldGroup.vue';
 import BaseSelect from '/@/components/common/BaseSelect.vue';
+import BaseActionBtnGroup from '/@/components/common/BaseActionBtnGroup.vue';
 
 export default {
   name: 'ProductList',
   components: {
+    BaseActionBtnGroup,
     BaseSelect,
     BaseFieldGroup,
     BaseTableHeader,

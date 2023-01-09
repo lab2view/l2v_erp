@@ -15,43 +15,33 @@
       {{ `${article.product.code} / ${article.product.reference}` }}
     </td>
     <td>
-      <BaseButton
-        type="button"
-        class="btn btn-iconsolid btn-primary btn-sm"
-        :title="$t('common.detail')"
-        @click.prevent="
+      <BaseActionBtnGroup
+        entity="Article"
+        :with-delete-btn="!article.not_deletable"
+        :with-update-btn="false"
+        @show="
           $router.push({
             name: 'article.details',
             params: { id: article.id },
           })
         "
+        @delete="deleteArticle(article)"
       >
-        {{ $t('common.show') }}
-      </BaseButton>
-      <BaseButton
-        v-if="!haveSalePrice"
-        type="button"
-        class="btn btn-iconsolid btn-warning btn-sm m-l-5"
-        :title="$t('common.configure')"
-        @click.prevent="
-          $router.push({
-            name: 'article.prices',
-            params: { id: article.id },
-          })
-        "
-      >
-        <i class="fa fa-exclamation-triangle" />
-      </BaseButton>
-      <BaseButton
-        v-if="!article.not_deletable"
-        type="button"
-        class="btn btn-iconsolid btn-danger btn-sm m-l-5"
-        :title="$t('common.delete')"
-        :loading="loading"
-        @click.prevent="deleteArticle(article)"
-      >
-        <i class="fa fa-trash-o" />
-      </BaseButton>
+        <BaseButton
+          v-if="!haveSalePrice"
+          type="button"
+          class="btn btn-iconsolid btn-warning btn-sm m-l-5"
+          :title="$t('common.configure')"
+          @click.prevent="
+            $router.push({
+              name: 'article.prices',
+              params: { id: article.id },
+            })
+          "
+        >
+          <i class="fa fa-exclamation-triangle" />
+        </BaseButton>
+      </BaseActionBtnGroup>
     </td>
   </tr>
 </template>
@@ -59,10 +49,12 @@
 <script>
 import ArticleMixin from '/@/mixins/ArticleMixin';
 import BaseButton from '/@/components/common/BaseButton.vue';
+import BaseActionBtnGroup from '/@/components/common/BaseActionBtnGroup.vue';
+import { entityCode } from '/@/helpers/codes';
 
 export default {
   name: 'ArticleTableLine',
-  components: { BaseButton },
+  components: { BaseActionBtnGroup, BaseButton },
   mixins: [ArticleMixin],
   data() {
     return {

@@ -45,7 +45,7 @@ const actions = {
 
   getEnterpriseArticleStats({ commit, getters, rootGetters }, next) {
     if (
-      !rootGetters['auth/canShowMenuItem'](privilegeCode.enterpriseArticleStat)
+      !rootGetters['auth/isGrantedAction'](privilegeCode.enterpriseArticleStat)
     )
       return;
 

@@ -30,7 +30,7 @@ const actions = {
     { page, field }
   ) {
     if (
-      !rootGetters['auth/canShowMenuItem'](
+      !rootGetters['auth/isGrantedAction'](
         privilegeCode.stock.inventory.viewAny
       )
     )

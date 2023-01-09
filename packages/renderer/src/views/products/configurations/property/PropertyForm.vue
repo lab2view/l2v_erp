@@ -95,7 +95,7 @@
 <script>
 import BaseFormModal from '../../../../components/common/BaseFormModal.vue';
 import { mapGetters } from 'vuex';
-import store from '../../../../store';
+import store from '/@/store';
 import BaseSelect from '../../../../components/common/BaseSelect.vue';
 import BaseInput from '../../../../components/common/BaseInput.vue';
 import PropertyValueList from '/@/components/products/PropertyValueList.vue';
