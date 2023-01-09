@@ -6,6 +6,7 @@
       :title="$t('iam.user.listTitle')"
       add-action-router-name="iam.user.form.desc"
       refresh-action-name="user/getUsersList"
+      entity="User"
     />
     <div class="card-body">
       <div v-if="canMakeFilter" class="row mb-2">
@@ -79,27 +80,18 @@
           </td>
           <td>{{ user.phone }}</td>
           <td>
-            <BaseButton
-              :text="$t('common.update')"
-              :title="$t('common.update')"
-              class="btn btn-secondary btn-xs"
-              type="button"
-              @click.prevent="
+            <BaseActionBtnGroup
+              entity="User"
+              :with-show-btn="false"
+              @update="
                 $router.push({
                   name: 'iam.user.form.desc',
                   params: { id: user.id },
                   query,
                 })
               "
+              @delete="deleteUser(user)"
             />
-            <BaseButton
-              :title="$t('common.delete')"
-              class="btn btn-danger btn-xs m-l-5"
-              type="button"
-              @click.prevent="deleteUser(user)"
-            >
-              <i class="fa fa-trash-o" />
-            </BaseButton>
           </td>
         </tr>
       </BaseDatatable>
@@ -110,15 +102,15 @@
 <script>
 import BaseTableHeader from '/@/components/common/BaseTableHeader.vue';
 import BaseDatatable from '/@/components/common/BaseDatatable.vue';
-import BaseButton from '/@/components/common/BaseButton.vue';
 import BaseSelect from '/@/components/common/BaseSelect.vue';
 import BaseFieldGroup from '/@/components/common/BaseFieldGroup.vue';
 import { mapGetters } from 'vuex';
+import BaseActionBtnGroup from '/@/components/common/BaseActionBtnGroup.vue';
 
 export default {
   name: 'UserTableList',
   components: {
-    BaseButton,
+    BaseActionBtnGroup,
     BaseDatatable,
     BaseTableHeader,
     BaseSelect,

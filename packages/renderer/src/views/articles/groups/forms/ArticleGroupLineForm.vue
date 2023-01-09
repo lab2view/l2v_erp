@@ -24,14 +24,16 @@ export default {
   },
   methods: {
     submitArticleGroupLinesForm(selected) {
-      return this.$store.dispatch('article_group/addArticleGroupLines', {
-        articles: selected,
-      })
-        .then(() =>
-        this.$router.push({
-          name: 'article.group.form.setting'
+      return this.$store
+        .dispatch('article_group/addArticleGroupLines', {
+          articles: selected,
         })
-      ).catch((error) => {
+        .then(() =>
+          this.$router.push({
+            name: 'article.group.form.setting',
+          })
+        )
+        .catch((error) => {
           this.errors = error.response?.data?.errors;
           console.log(error);
         });

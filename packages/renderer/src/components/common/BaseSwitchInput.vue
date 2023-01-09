@@ -3,7 +3,10 @@
     <label v-if="label" :class="labelClass" class="mt-2">
       {{ label }}
     </label>
-    <div class="media-body icon-state switch-outline p-l-10">
+    <div
+      class="media-body switch-outline p-l-10"
+      :class="iconState ? 'icon-state' : ''"
+    >
       <label class="switch">
         <input
           v-bind="$attrs"
@@ -12,7 +15,7 @@
           :required="required"
           @change="$emit('update:modelValue', $event.target.checked)"
         />
-        <span class="switch-state bg-primary"></span>
+        <span :class="switchStyle"></span>
       </label>
     </div>
   </div>
@@ -46,7 +49,22 @@ export default {
       type: [Array, Object],
       default: null,
     },
+    withChangeStyle: {
+      type: Boolean,
+      default: false,
+    },
+    iconState: {
+      type: Boolean,
+      default: true,
+    },
   },
   emits: ['update:modelValue'],
+  computed: {
+    switchStyle() {
+      return this.withChangeStyle
+        ? `switch-state bg-${this.modelValue ? 'primary' : 'danger'}`
+        : 'switch-state bg-primary';
+    },
+  },
 };
 </script>

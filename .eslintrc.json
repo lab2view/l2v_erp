@@ -6,18 +6,11 @@
     "browser": false,
     "jquery": true
   },
-  "extends": [
-    "eslint:recommended",
-    "prettier"
-  ],
+  "extends": ["eslint:recommended", "prettier"],
   "parserOptions": {
     "sourceType": "module"
   },
-  "ignorePatterns": [
-    "node_modules/**",
-    "**/dist/**",
-    "**/assets/**"
-  ],
+  "ignorePatterns": ["node_modules/**", "**/dist/**", "**/assets/**"],
   "rules": {
     "vue/multi-word-component-names": 0,
 
@@ -26,22 +19,14 @@
      * This avoids rare errors in optimized code.
      * @see https://twitter.com/alex_kozack/status/1364210394328408066
      */
-    "semi": [
-      "error",
-      "always"
-    ],
+    "semi": ["error", "always"],
     /**
      * This will make the history of changes in the hit a little cleaner
      */
-    "comma-dangle": [
-      "warn",
-      "always-multiline"
-    ],
+    "comma-dangle": ["warn", "always-multiline"],
     /**
      * Just for beauty
      */
-    "quotes": [
-      "warn", "single"
-    ]
+    "quotes": ["warn", "single"]
   }
 }

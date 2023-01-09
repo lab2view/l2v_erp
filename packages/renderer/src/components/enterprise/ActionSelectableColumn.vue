@@ -1,11 +1,7 @@
 <template>
   <td class="font-primary" colspan="2">
     <div class="checkbox checkbox-primary">
-      <input
-        :id="`selected-${action.id}`"
-        v-model="selected"
-        type="checkbox"
-      />
+      <input :id="`selected-${action.id}`" v-model="selected" type="checkbox" />
       <label
         :for="`selected-${action.id}`"
         class="mt-0 pt-0"
@@ -47,7 +43,7 @@ export default {
       if (!this.isSelected && value) this.$emit('selected');
     },
     selectedList() {
-    // selectedList(value) {
+      // selectedList(value) {
       // console.log('list value')
       // console.log(value)
       this.selected = this.isSelected;

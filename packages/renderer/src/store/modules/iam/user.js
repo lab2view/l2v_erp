@@ -81,7 +81,7 @@ const actions = {
     return userService
       .addUserPrivileges(actions, getters.user.id)
       .then(({ data }) => {
-        commit('ADD_USER_PRIVILEGES', data.actions);
+        commit('ADD_USER_PRIVILEGES', data.privileges);
       });
   },
 
@@ -170,7 +170,7 @@ const mutations = {
     let user = JSON.parse(state.user);
     let index = users.findIndex((u) => u.id === user.id);
     if (index !== -1) {
-      user.privileges = [...user.privileges, ...userPrivileges];
+      user.privileges = userPrivileges;
       users.splice(index, 1, user);
       state.user = JSON.stringify(user);
       state.users = JSON.stringify(users);

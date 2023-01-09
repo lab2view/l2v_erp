@@ -102,6 +102,13 @@ const getters = {
       );
       const amount =
         price !== undefined && quantity ? price.value * quantity : '0';
+      const buyingPrice = art.prices.find(
+        (p) => p.price_type.code === priceTypeCode.buy
+      );
+      const buyingAmount =
+        buyingPrice !== undefined && quantity
+          ? buyingPrice.value * quantity
+          : '0';
       return {
         id: art.id,
         product_type: art.product?.product_type?.label,
@@ -109,6 +116,7 @@ const getters = {
           art.product?.product_type?.product_family?.label ?? null,
         quantity: quantity,
         total_price: parseFloat(amount),
+        total_buying_price: parseFloat(buyingAmount),
       };
     });
   },
@@ -117,9 +125,10 @@ const getters = {
       .groupBy((sel) => sel.product_family)
       .map((objs, key) => {
         return {
-          product_family: key,
+          label: key,
           total: _.sumBy(objs, 'quantity'),
           total_price: _.sumBy(objs, 'total_price'),
+          total_buying_price: _.sumBy(objs, 'total_buying_price'),
         };
       })
       .value();
@@ -129,9 +138,10 @@ const getters = {
       .groupBy((sel) => sel.product_type)
       .map((objs, key) => {
         return {
-          product_type: key,
+          label: key,
           total: _.sumBy(objs, 'quantity'),
           total_price: _.sumBy(objs, 'total_price'),
+          total_buying_price: _.sumBy(objs, 'total_buying_price'),
         };
       })
       .value();

@@ -5,6 +5,7 @@
       add-action-router-name="config.products.priceType.form"
       :refresh-action-field="{ page: 1, field: { next: true } }"
       refresh-action-name="price_type/getPriceTypeList"
+      entity="PriceType"
     />
     <div class="card-body">
       <BaseDatatable v-if="!$store.state.globalLoading" :tfoot="false">
@@ -17,30 +18,18 @@
           <td>{{ priceType.id }}</td>
           <td>{{ priceType.label }}</td>
           <td>
-            <button
-              class="btn btn-secondary btn-xs"
-              type="button"
-              data-original-title="btn btn-secondary btn-xs"
-              :title="$t('common.update')"
-              @click.prevent="
+            <BaseActionBtnGroup
+              entity="PriceType"
+              :with-show-btn="false"
+              :with-delete-btn="!priceType.not_deletable"
+              @update="
                 $router.push({
                   name: 'config.products.priceType.form',
                   params: { id: priceType.id },
                 })
               "
-            >
-              {{ $t('common.update') }}
-            </button>
-            <button
-              v-if="!priceType.not_deletable"
-              class="btn btn-danger btn-xs m-l-5"
-              type="button"
-              data-original-title="btn btn-danger btn-xs"
-              :title="$t('common.delete')"
-              @click.prevent="deletePriceType(priceType)"
-            >
-              <i class="fa fa-trash-o" />
-            </button>
+              @delete="deletePriceType(priceType)"
+            />
           </td>
         </tr>
       </BaseDatatable>
@@ -52,12 +41,14 @@
 
 <script>
 import BaseDatatable from '/@/components/common/BaseDatatable.vue';
-import store from '../../../../store';
+import store from '/@/store';
 import { mapGetters } from 'vuex';
 import BaseTableHeader from '/@/components/common/BaseTableHeader.vue';
+import BaseActionBtnGroup from '/@/components/common/BaseActionBtnGroup.vue';
 
 export default {
-  components: { BaseTableHeader, BaseDatatable },
+  name: 'PriceTypeList',
+  components: { BaseActionBtnGroup, BaseTableHeader, BaseDatatable },
   beforeRouteEnter(routeTo, routeFrom, next) {
     store
       .dispatch('price_type/getPriceTypeList', {

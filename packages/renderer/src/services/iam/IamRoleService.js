@@ -30,10 +30,10 @@ export default {
   },
 
   addRolePrivileges(privileges, role_id) {
-    return axios.post(`/users/${role_id}/privileges/add`, privileges);
+    return axios.post(`/roles/${role_id}/privileges/add`, privileges);
   },
 
   removeRolePrivileges(privilegesIds, role_id) {
-    return axios.post(`/users/${role_id}/privileges/remove`, privilegesIds);
+    return axios.post(`/roles/${role_id}/privileges/remove`, privilegesIds);
   },
 };

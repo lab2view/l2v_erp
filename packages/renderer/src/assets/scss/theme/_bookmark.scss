@@ -2,40 +2,40 @@
     81. Bookmark CSS start
 ==========================**/
 .bookmark {
-  text-align:right;
+  text-align: right;
   ul {
     li {
-      border:1px solid $light-gray;
-      background-color:$white;
-      display:inline-block;
-      border-radius:8px;
+      border: 1px solid $light-gray;
+      background-color: $white;
+      display: inline-block;
+      border-radius: 8px;
       transition: all 0.5s ease;
-      svg{
+      svg {
         transition: all 0.5s ease;
       }
-      &:hover{
-        background-color:$primary-color;       
+      &:hover {
+        background-color: $primary-color;
         a {
-          svg{
-            color:$white;
-            stroke:$white;
+          svg {
+            color: $white;
+            stroke: $white;
           }
-        }       
+        }
       }
       .search-form {
         position: absolute;
         bottom: 53px;
         .form-control-search {
-          top:60px;
-          position:absolute;
-          transition:all linear 0.3s;
-          right:-20px;
+          top: 60px;
+          position: absolute;
+          transition: all linear 0.3s;
+          right: -20px;
           transform: translateY(-35px) scaleY(0);
-          opacity:0;
+          opacity: 0;
           visibility: hidden;
           input {
             width: 285px;
-            background-color: $white;           
+            background-color: $white;
             border: 1px solid $light-gray;
           }
           &.open {
@@ -57,7 +57,7 @@
           }
         }
       }
-      a{
+      a {
         position: relative;
         color: $theme-body-font-color;
         svg {
@@ -67,8 +67,8 @@
           margin: 12px;
         }
       }
-      &:nth-child(n+2){
-        margin-left:8px;
+      &:nth-child(n + 2) {
+        margin-left: 8px;
       }
       &:last-child {
         padding-right: 0;
@@ -80,7 +80,6 @@
           }
         }
       }
-      
     }
   }
 }
@@ -104,7 +103,7 @@
   &:before {
     position: fixed;
     content: '';
-    background-color: rgba(0,0,0,0.5);
+    background-color: rgba(0, 0, 0, 0.5);
     height: 100%;
     width: 100%;
     z-index: 99;
@@ -112,7 +111,6 @@
     left: 0;
   }
 }
-
 
 /**=====================
     81. Bookmark CSS Ends

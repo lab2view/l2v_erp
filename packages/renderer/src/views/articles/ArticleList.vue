@@ -11,6 +11,7 @@
         add-action-router-name="article.setPrice"
         add-action-label="common.btn_set_global_price"
         add-action-icon="fa fa-check-circle-o"
+        entity="Price"
       />
       <div class="card-body p-1">
         <div class="row mb-2">

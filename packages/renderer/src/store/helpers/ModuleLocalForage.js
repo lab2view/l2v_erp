@@ -310,6 +310,12 @@ const DiscountCode = new VuexPersistence({
 
 const Role = new VuexPersistence({
   key: 'role',
+  restoreState: (key, storage) => {
+    return storage.getItem(key).then((data) => JSON.parse(data));
+  },
+  saveState: (key, state, storage) => {
+    return storage.setItem(key, JSON.stringify(state));
+  },
   storage: localStore,
   asyncStorage: true,
   reducer: (state) => ({ role: state.role }),

@@ -3,23 +3,30 @@
 ==========================**/
 @media print {
   .page-wrapper .page-main-header {
-    visibility: hidden; }
+    visibility: hidden;
+  }
   .page-wrapper .page-body-wrapper .page-header {
-    display: none; }
+    display: none;
+  }
   table.fixedHeader-floating {
-    display: none; } }
+    display: none;
+  }
+}
 
 .invoice-table {
   margin-top: 16px;
-  margin-bottom: 16px; }
+  margin-bottom: 16px;
+}
 
 .invoice .text-end input {
-  margin-top: 6px; }
+  margin-top: 6px;
+}
 
 .invoice .media {
   -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center; }
+  -ms-flex-align: center;
+  align-items: center;
+}
 
 /**=====================
  77. Print CSS Ends

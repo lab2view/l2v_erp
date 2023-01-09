@@ -13,6 +13,7 @@
         }"
         refresh-action-name="stock_exit/getStockExitsList"
         add-action-label="stocks.stockExit.add"
+        entity="StockExit"
       />
       <div class="card-body p-1">
         <div class="row mb-2 justify-content-center">

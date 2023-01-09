@@ -16,46 +16,51 @@
   }
   .component {
     cursor: pointer;
-    label{
+    label {
       padding-top: 8px;
     }
-    .form-group{
-      input,textarea,select{
+    .form-group {
+      input,
+      textarea,
+      select {
         border-radius: 4px;
       }
-      .input-group{
-        #prependedcheckbox, #prependedtext{
+      .input-group {
+        #prependedcheckbox,
+        #prependedtext {
           border-top-left-radius: 0;
           border-bottom-left-radius: 0;
         }
-        #appendedcheckbox{
+        #appendedcheckbox {
           border-top-right-radius: 0;
           border-bottom-right-radius: 0;
           border-right-color: transparent;
         }
-        #appendedtext, #buttondropdown{
+        #appendedtext,
+        #buttondropdown {
           border-top-right-radius: 0;
           border-bottom-right-radius: 0;
-      }
-        #buttondropdown{
+        }
+        #buttondropdown {
           margin-right: -1px;
         }
-        .input-group-btn{
-          button{
+        .input-group-btn {
+          button {
             border-radius: 4px;
             border-top-left-radius: 0;
             border-bottom-left-radius: 0;
           }
         }
-        .input-group-prepend{
-          .btn-right,.checkbox-radius{
+        .input-group-prepend {
+          .btn-right,
+          .checkbox-radius {
             border-radius: 4px;
             border-top-left-radius: 0;
             border-bottom-left-radius: 0;
           }
         }
       }
-      .pl-md-radios{
+      .pl-md-radios {
         padding-left: 37px;
       }
     }
@@ -81,9 +86,9 @@
   .render {
     min-height: 500px;
     width: 100%;
-    border-radius:4px;
-    background-color:$light-background;
-    border-color:$light-gray;   
+    border-radius: 4px;
+    background-color: $light-background;
+    border-color: $light-gray;
   }
   .popover {
     .controls {
@@ -95,15 +100,14 @@
     form {
       width: 100%;
     }
-    .fade.left.in
-    {
+    .fade.left.in {
       left: -215px;
     }
   }
-  .target{
-    &:after{
+  .target {
+    &:after {
       float: left;
-      content: " ";
+      content: ' ';
       height: 77px;
       margin-top: 3px;
       background: $light-gray;
@@ -120,47 +124,47 @@
     background: $white;
     box-shadow: 0 0 30px $light-gray;
     overflow: hidden;
-    input{
+    input {
       border-radius: 5px;
     }
   }
 }
-.form-builder-header-1{
+.form-builder-header-1 {
   background-color: $light-gray;
   padding: 15px;
   border-radius: 5px;
   min-height: 67px;
-  h6{
+  h6 {
     margin-bottom: 0;
     margin-top: 10px;
     line-height: 2.2;
   }
 }
-.form-builder{
-  .help-block{
+.form-builder {
+  .help-block {
     font-size: 12px;
   }
-  input{
+  input {
     border-radius: 4px !important;
   }
-  .form-group{
-    .col-md-12{
+  .form-group {
+    .col-md-12 {
       padding: 0;
     }
   }
-  .popover{
+  .popover {
     width: 300px;
   }
-  .popover-header{
+  .popover-header {
     background-color: $primary-color;
     padding: 15px;
   }
-  .popover-body{
+  .popover-body {
     padding: 15px;
-    .form-group{
-      &.row{
+    .form-group {
+      &.row {
         padding: 0 15px;
-        .col-lg-12{
+        .col-lg-12 {
           padding: 0;
         }
       }
@@ -168,7 +172,7 @@
   }
 }
 
-.dropdown-menu{
+.dropdown-menu {
   background-color: $light-background;
 }
 /**=====================

@@ -5,13 +5,14 @@
     <td>{{ stockExitLine.sup_price }}</td>
     <td>{{ articleDiscount }}</td>
     <td>{{ totalAmount }}</td>
-    <td v-if="!isCashierSession">{{ totalMarge }}</td>
-    <td v-if="!isCashierSession">{{ margePercent.toFixed(2) }}</td>
+    <td v-if="showTotalWinAmount">{{ totalMarge }}</td>
+    <td v-if="showTotalWinAmount">{{ margePercent.toFixed(2) }}</td>
   </tr>
 </template>
 
 <script>
 import { priceTypeCode } from '/@/helpers/codes.js';
+import { mapGetters } from 'vuex';
 
 export default {
   name: 'SaleStockExitLine',
@@ -26,6 +27,7 @@ export default {
     },
   },
   computed: {
+    ...mapGetters('auth', ['canShowSaleReportsMargin']),
     articleName() {
       return `${this.stockExitLine?.article.product?.code} / ${this.stockExitLine?.article.product?.reference} ${this.stockExitLine?.article.name}`;
     },
@@ -52,6 +54,9 @@ export default {
     },
     margePercent() {
       return (this.totalMarge * 100) / this.totalAmount;
+    },
+    showTotalWinAmount() {
+      return !this.isCashierSession && this.canShowSaleReportsMargin;
     },
   },
 };

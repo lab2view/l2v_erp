@@ -109,6 +109,7 @@
 import BaseButton from '/@/components/common/BaseButton.vue';
 import BaseInput from '/@/components/common/BaseInput.vue';
 export default {
+  name: 'Login',
   components: { BaseButton, BaseInput },
   data() {
     return {

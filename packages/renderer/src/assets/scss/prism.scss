@@ -1,10 +1,10 @@
-@import "prism/prism";
+@import 'prism/prism';
 
 .code-box-copy {
   position: relative;
   font-size: 16px;
   display: none;
-  pre[class*="language-"] {
+  pre[class*='language-'] {
     border: 1px solid #dee3f9;
     border-radius: 2px;
   }
@@ -42,7 +42,8 @@
     border: 1px solid #ccc;
     color: #333;
   }
-  &:focus, &:active {
+  &:focus,
+  &:active {
     outline: 0;
   }
 }
@@ -73,8 +74,8 @@
     border-color: #333 transparent transparent transparent;
   }
 }
-.card-body.show-source{
-	.code-box-copy{
-    	display: block;
-    }
+.card-body.show-source {
+  .code-box-copy {
+    display: block;
+  }
 }

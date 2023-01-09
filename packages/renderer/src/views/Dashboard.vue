@@ -57,6 +57,7 @@ import store from '/@/store/index.js';
 import EnterpriseArticleStatsLine from '/@/components/dashboard/EnterpriseArticleStatsLine.vue';
 import { mapGetters } from 'vuex';
 import BaseTableHeader from '/@/components/common/BaseTableHeader.vue';
+import { privilegeCode } from '/@/helpers/codes';
 
 export default defineComponent({
   name: 'Dashboard',
@@ -81,10 +82,10 @@ export default defineComponent({
     ...mapGetters('enterprise', ['distributions', 'getEnterpriseById']),
     ...mapGetters('auth', ['canShowMenuItem']),
     canShowEnterpriseArticleStats() {
-      return this.canShowMenuItem('Enterprise.viewAnyArticleStats');
+      return this.canShowMenuItem(privilegeCode.enterpriseArticleStat);
     },
     canShowEnterpriseArticleLineStats() {
-      return this.canShowMenuItem('Enterprise.viewAnyArticleLineStats');
+      return this.canShowMenuItem(privilegeCode.enterpriseArticleLineStat);
     },
     dashboardTitle() {
       if (this.$route.name === 'dashboard.enterprise.article.stats') {

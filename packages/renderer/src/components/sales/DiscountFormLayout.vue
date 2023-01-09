@@ -42,7 +42,6 @@ export default {
     this.$store.commit('discount/SET_CURRENT_DISCOUNT', null);
   },
 };
-
 </script>
 
 <style scoped></style>

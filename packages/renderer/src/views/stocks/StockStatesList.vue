@@ -9,6 +9,7 @@
         add-action-router-name="config.stocks.state.form"
         :refresh-action-field="{ page: 1, field: { next: true } }"
         refresh-action-name="stock_state/getStockStatesList"
+        entity="StockState"
       />
       <div class="card-body">
         <BaseDatatable
@@ -33,30 +34,18 @@
               }}
             </td>
             <td>
-              <button
-                :title="$t('common.update')"
-                class="btn btn-secondary btn-xs"
-                data-original-title="btn btn-secondary btn-xs"
-                type="button"
-                @click.prevent="
+              <BaseActionBtnGroup
+                entity="StockState"
+                :with-show-btn="false"
+                :with-delete-btn="!stockState.not_deletable"
+                @update="
                   $router.push({
                     name: 'config.stocks.state.form',
                     params: { id: stockState.id },
                   })
                 "
-              >
-                {{ $t('common.update') }}
-              </button>
-              <button
-                v-if="!stockState.not_deletable"
-                :title="$t('common.delete')"
-                class="btn btn-danger btn-xs m-l-5"
-                data-original-title="btn btn-danger btn-xs"
-                type="button"
-                @click.prevent="deleteStockState(stockState)"
-              >
-                <i class="fa fa-trash-o" />
-              </button>
+                @delete="deleteStockState(stockState)"
+              />
             </td>
           </tr>
         </BaseDatatable>
@@ -73,10 +62,16 @@ import BaseDatatable from '/@/components/common/BaseDatatable.vue';
 import store from '/@/store';
 import { mapGetters } from 'vuex';
 import BaseTableHeader from '/@/components/common/BaseTableHeader.vue';
+import BaseActionBtnGroup from '/@/components/common/BaseActionBtnGroup.vue';
 
 export default {
   name: 'StockStatesList',
-  components: { BaseTableHeader, BaseContainer, BaseDatatable },
+  components: {
+    BaseActionBtnGroup,
+    BaseTableHeader,
+    BaseContainer,
+    BaseDatatable,
+  },
   beforeRouteEnter(routeTo, routeFrom, next) {
     store
       .dispatch('stock_state/getStockStatesList', {

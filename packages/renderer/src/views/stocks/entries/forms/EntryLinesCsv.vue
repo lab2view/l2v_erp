@@ -121,7 +121,7 @@ import { sumBy } from 'lodash';
 import EntryLineFormField from '/@/components/stocks/EntryLineFormField.vue';
 
 export default {
-  name: 'ExitLinesCsv',
+  name: 'EntryLinesCsv',
   components: {
     EntryLineFormField,
     BaseInputFile,

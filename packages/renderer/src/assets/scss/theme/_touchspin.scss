@@ -2,13 +2,13 @@
     20.  Touchspin  CSS Start
 ==========================**/
 .bootstrap-touchspin {
-  input{
+  input {
     &.touchspin {
       padding: 0 12px;
     }
   }
-  .input-group .btn{
-    padding:10px 20px;
+  .input-group .btn {
+    padding: 10px 20px;
   }
   .touchspin-vertical-tab {
     .input-group {
@@ -40,18 +40,18 @@
       }
     }
   }
-  .input-group{
+  .input-group {
     font-family: $font-rubik, $font-serif;
-    .btn{
+    .btn {
       border-radius: 0 !important;
     }
   }
-  .dropdown-basic{
-    .dropdown{
-      .dropbtn{
+  .dropdown-basic {
+    .dropdown {
+      .dropbtn {
         padding: 9px 30px;
       }
-      .dropdown-content{
+      .dropdown-content {
         z-index: 9999;
       }
     }

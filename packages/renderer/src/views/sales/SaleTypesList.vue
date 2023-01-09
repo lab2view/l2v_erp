@@ -6,6 +6,7 @@
         add-action-router-name="config.sales.sale.type.form"
         :refresh-action-field="{ page: 1, field: { next: true } }"
         refresh-action-name="sale_type/getSaleTypesList"
+        entity="SaleType"
       />
       <div class="card-body">
         <BaseDatatable
@@ -22,29 +23,17 @@
             <td>{{ saleType.id }}</td>
             <td>{{ saleType.label }}</td>
             <td>
-              <button
-                class="btn btn-secondary btn-xs"
-                type="button"
-                data-original-title="btn btn-secondary btn-xs"
-                :title="$t('common.update')"
-                @click.prevent="
+              <BaseActionBtnGroup
+                entity="SaleType"
+                :with-show-btn="false"
+                @update="
                   $router.push({
                     name: 'config.sales.sale.type.form',
                     params: { id: saleType.id },
                   })
                 "
-              >
-                {{ $t('common.update') }}
-              </button>
-              <button
-                class="btn btn-danger btn-xs m-l-5"
-                type="button"
-                data-original-title="btn btn-danger btn-xs"
-                :title="$t('common.delete')"
-                @click.prevent="deleteSaleType(saleType)"
-              >
-                <i class="fa fa-trash-o" />
-              </button>
+                @delete="deleteSaleType(saleType)"
+              />
             </td>
           </tr>
         </BaseDatatable>
@@ -61,9 +50,15 @@ import BaseDatatable from '/@/components/common/BaseDatatable.vue';
 import store from '/@/store';
 import { mapGetters } from 'vuex';
 import BaseTableHeader from '/@/components/common/BaseTableHeader.vue';
+import BaseActionBtnGroup from '/@/components/common/BaseActionBtnGroup.vue';
 
 export default {
-  components: { BaseTableHeader, BaseContainer, BaseDatatable },
+  components: {
+    BaseActionBtnGroup,
+    BaseTableHeader,
+    BaseContainer,
+    BaseDatatable,
+  },
   beforeRouteEnter(routeTo, routeFrom, next) {
     store
       .dispatch('sale_type/getSaleTypesList', {

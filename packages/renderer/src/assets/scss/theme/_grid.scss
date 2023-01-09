@@ -9,32 +9,32 @@
     padding: 10px;
     margin-bottom: 10px;
     text-align: center;
-    background-color: rgba($primary-color,0.1);
+    background-color: rgba($primary-color, 0.1);
     color: $primary-color;
-    font-weight:600;
+    font-weight: 600;
   }
 }
-.grid-align{
+.grid-align {
   margin-bottom: -30px;
-  .row{
+  .row {
     padding: 15px 0;
     min-height: 10rem;
-    border: 1px solid  rgba($primary-color, 0.03);
+    border: 1px solid rgba($primary-color, 0.03);
     margin-bottom: 30px;
     background-color: rgba($primary-color, 0.03);
   }
 }
 
-
-.grid-wrrapper{ 
+.grid-wrrapper {
   .table-striped {
     tbody {
-      tr{
-        &:nth-of-type(odd){
-          --bs-table-accent-bg:unset;
+      tr {
+        &:nth-of-type(odd) {
+          --bs-table-accent-bg: unset;
           background-color: rgba($primary-color, 0.1);
           color: $primary-color;
-          th,td{
+          th,
+          td {
             color: $primary-color;
           }
         }
@@ -43,9 +43,6 @@
   }
 }
 
-
-
 /**=====================
       08. GRID CSS Ends
 ==========================**/
-

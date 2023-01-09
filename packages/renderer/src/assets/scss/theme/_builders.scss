@@ -1,7 +1,7 @@
 /**=====================
      35. Form builder css start
 ==========================**/
-.form-builder{
+.form-builder {
   .help-block {
     margin-bottom: 0;
     color: $gray-60;
@@ -10,21 +10,25 @@
   .btn-light {
     color: $gray-60;
   }
-  .copy-btn{
+  .copy-btn {
     padding: 8px;
   }
   .nav-primary {
-    .nav-link.active, .nav-primary .show > .nav-link, .nav-pills.nav-primary .nav-link.active, .nav-pills.nav-primary .show > .nav-link{
+    .nav-link.active,
+    .nav-primary .show > .nav-link,
+    .nav-pills.nav-primary .nav-link.active,
+    .nav-pills.nav-primary .show > .nav-link {
       border-radius: 4px;
     }
-    .nav-link, .nav-pills.nav-primary .nav-link {
+    .nav-link,
+    .nav-pills.nav-primary .nav-link {
       color: $black;
       font-weight: 500;
     }
   }
-  #components{
+  #components {
     margin-top: 30px;
-    #viewhtml{
+    #viewhtml {
       height: 526px;
     }
   }

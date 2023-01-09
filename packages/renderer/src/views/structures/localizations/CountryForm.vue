@@ -194,7 +194,7 @@ export default {
               this.$router.back() ??
               this.$router.push({
                 name: 'localizations.countries',
-              }),
+              })
           )
           .catch((error) => {
             this.errors = error.response?.data?.errors;
@@ -209,7 +209,7 @@ export default {
               this.$router.back() ??
               this.$router.push({
                 name: 'localizations.countries',
-              }),
+              })
           )
           .catch((error) => {
             this.errors = error.response?.data?.errors;

@@ -2,7 +2,7 @@
      77. Print CSS Start
 ==========================**/
 @media print {
-.page-wrapper {
+  .page-wrapper {
     .page-main-header {
       visibility: hidden;
     }
@@ -16,13 +16,13 @@
     display: none;
   }
 }
-.invoice-table{
+.invoice-table {
   margin-top: 16px;
   margin-bottom: 16px;
 }
-.invoice{
-  .text-end{
-    input{
+.invoice {
+  .text-end {
+    input {
       margin-top: 6px;
     }
   }

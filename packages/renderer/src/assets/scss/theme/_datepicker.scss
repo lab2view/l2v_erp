@@ -8,14 +8,16 @@
     stroke: $primary-color;
   }
 }
-.clockpicker-canvas-fg, .clockpicker-canvas-bearing {
+.clockpicker-canvas-fg,
+.clockpicker-canvas-bearing {
   fill: $primary-color;
 }
 .daterangepicker {
-  td, th {
+  td,
+  th {
     &.available {
       &:hover {
-          background-color: $primary-color;
+        background-color: $primary-color;
       }
     }
   }
@@ -81,22 +83,19 @@
     width: auto;
   }
 }
-.date-range-picker{
-  .theme-form{
+.date-range-picker {
+  .theme-form {
     // margin-bottom: 30px;
   }
-  > div{
-    &:last-child{
-      .theme-form{
+  > div {
+    &:last-child {
+      .theme-form {
         margin-bottom: 0px;
       }
     }
   }
-
-
-  
 }
-.daterangepicker{
+.daterangepicker {
   &:before {
     border-bottom: 7px solid $light-semi-gray;
   }
@@ -107,37 +106,32 @@
     }
   }
 
- .input-mini{
-   border-color: $light-semi-gray !important;
-   font-size: 14px;
-   color: $semi-dark;
- }
-  th,td{
+  .input-mini {
+    border-color: $light-semi-gray !important;
+    font-size: 14px;
+    color: $semi-dark;
+  }
+  th,
+  td {
     height: 34px;
     width: 34px;
-    &:hover{
+    &:hover {
       color: $dark-color;
     }
-    &.prev,&.next{
+    &.prev,
+    &.next {
       color: $white;
       height: 34px;
       width: 34px;
       background-color: $primary-color;
     }
-    &.month{
+    &.month {
       color: $primary-color;
       letter-spacing: 1px;
       text-transform: uppercase;
     }
   }
 }
-
-
-
-
-
-
-
 
 /**=====================
    52. Datepicker CSS End

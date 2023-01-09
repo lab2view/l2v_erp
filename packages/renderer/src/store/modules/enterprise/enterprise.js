@@ -1,4 +1,5 @@
 import enterpriseService from '../../../services/enterprise/EnterpriseService';
+import { privilegeCode } from '/@/helpers/codes';
 
 const state = {
   enterprises: null,
@@ -42,7 +43,12 @@ const actions = {
         });
   },
 
-  getEnterpriseArticleStats({ commit, getters }, next) {
+  getEnterpriseArticleStats({ commit, getters, rootGetters }, next) {
+    if (
+      !rootGetters['auth/isGrantedAction'](privilegeCode.enterpriseArticleStat)
+    )
+      return;
+
     if (getters.distributions.length > 0 && !next) {
       return getters.distributions;
     } else

@@ -9,6 +9,7 @@
         add-action-router-name="config.payments.transaction.type.form"
         :refresh-action-field="{ page: 1, field: { next: true } }"
         refresh-action-name="transaction_type/getTransactionTypesList"
+        entity="TransactionType"
       />
       <div class="card-body">
         <BaseDatatable
@@ -28,29 +29,17 @@
             <td>{{ transactionType.id }}</td>
             <td>{{ transactionType.label }}</td>
             <td>
-              <button
-                :title="$t('common.update')"
-                class="btn btn-secondary btn-xs"
-                data-original-title="btn btn-secondary btn-xs"
-                type="button"
-                @click.prevent="
+              <BaseActionBtnGroup
+                entity="TransactionType"
+                :with-show-btn="false"
+                @update="
                   $router.push({
                     name: 'config.payments.transaction.type.form',
                     params: { id: transactionType.id },
                   })
                 "
-              >
-                {{ $t('common.update') }}
-              </button>
-              <button
-                :title="$t('common.delete')"
-                class="btn btn-danger btn-xs m-l-5"
-                data-original-title="btn btn-danger btn-xs"
-                type="button"
-                @click.prevent="deleteTransactionType(transactionType)"
-              >
-                <i class="fa fa-trash-o" />
-              </button>
+                @delete="deleteTransactionType(transactionType)"
+              />
             </td>
           </tr>
         </BaseDatatable>
@@ -67,9 +56,15 @@ import BaseDatatable from '/@/components/common/BaseDatatable.vue';
 import store from '/@/store';
 import { mapGetters } from 'vuex';
 import BaseTableHeader from '/@/components/common/BaseTableHeader.vue';
+import BaseActionBtnGroup from '/@/components/common/BaseActionBtnGroup.vue';
 
 export default {
-  components: { BaseTableHeader, BaseContainer, BaseDatatable },
+  components: {
+    BaseActionBtnGroup,
+    BaseTableHeader,
+    BaseContainer,
+    BaseDatatable,
+  },
   beforeRouteEnter(routeTo, routeFrom, next) {
     store
       .dispatch('transaction_type/getTransactionTypesList', {

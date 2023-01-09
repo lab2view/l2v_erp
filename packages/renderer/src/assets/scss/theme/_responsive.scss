@@ -2,9 +2,9 @@
      62. Responsive CSS Start
 ==========================**/
 @media screen and (max-width: 1660px) {
-  .blog-list{
-    .blog-details{
-      p{
+  .blog-list {
+    .blog-details {
+      p {
         width: 100%;
         white-space: nowrap;
         overflow: hidden;
@@ -12,9 +12,9 @@
       }
     }
   }
-  .photos{
-    ul{
-      li{
+  .photos {
+    ul {
+      li {
         width: 22%;
       }
     }
@@ -48,13 +48,13 @@
       }
     }
   }
-  .employee-status{
+  .employee-status {
     table {
       tbody {
         tr {
-          td{
-            &:first-child{
-              min-width:300px;
+          td {
+            &:first-child {
+              min-width: 300px;
             }
           }
         }
@@ -80,7 +80,7 @@
   .chat-box {
     .chat-history {
       .call-icons {
-        margin-bottom:15px;
+        margin-bottom: 15px;
         ul {
           li {
             width: 45px;
@@ -93,9 +93,9 @@
       }
       .total-time {
         h2 {
-          font-size:40px;
+          font-size: 40px;
           color: $dark-gray;
-          margin-bottom:10px;
+          margin-bottom: 10px;
         }
       }
       .call-content {
@@ -110,7 +110,7 @@
         .chat-header {
           .chat-menu-icons {
             li {
-              &:nth-child(n+2){
+              &:nth-child(n + 2) {
                 margin-left: 10px;
               }
               a {
@@ -180,52 +180,47 @@
     }
   }
   // user profile //
-  .user-profile{
-    .photos{
-      ul{
-        li{
-          width:21%;
+  .user-profile {
+    .photos {
+      ul {
+        li {
+          width: 21%;
         }
       }
     }
   }
-
 
   // email wrap
   .email-wrap {
     .email-right-aside {
       .email-profile {
         .inbox {
-          p{
-            width:calc(100% - 300px);
-            max-width:500px;
+          p {
+            width: calc(100% - 300px);
+            max-width: 500px;
           }
         }
       }
     }
   }
-
-
-
 }
 @media screen and (max-width: 1550px) {
   .bg-gallery {
     height: 90vh;
   }
-  .email-wrap .email-content .email-top .user-emailid:after{
+  .email-wrap .email-content .email-top .user-emailid:after {
     display: none;
   }
-  .email-wrap .email-top .email-right{
+  .email-wrap .email-top .email-right {
     display: none;
   }
   .cal-date-widget {
-    .datepicker{
-      width:unset;
+    .datepicker {
+      width: unset;
     }
   }
 }
 @media screen and (max-width: 1440px) {
-
   .target-sec .card-header ul.target-list li:nth-child(n + 2) p {
     padding: 0 5px;
   }
@@ -235,7 +230,7 @@
   }
   .landing_gallery_section_img {
     &:before {
-      content: "";
+      content: '';
       height: 300px;
       background: linear-gradient(to top, #01397d 8%, transparent 92%);
     }
@@ -251,23 +246,23 @@
   }
 }
 @media screen and (min-width: 1200px) and (max-width: 1660px) {
-  .latest-articles{
-    .card-body{
-      .media{
-        .m-r-30{
+  .latest-articles {
+    .card-body {
+      .media {
+        .m-r-30 {
           margin-right: 10px;
         }
       }
     }
   }
-  .whishlist-main{
+  .whishlist-main {
     .prooduct-details-box .btn {
       top: 0;
       bottom: unset;
       right: unset;
       left: 0;
-  }
-    .col-xl-2{
+    }
+    .col-xl-2 {
       width: 25%;
     }
   }
@@ -275,32 +270,32 @@
     display: none;
   }
   .xl-60 {
-    max-width:60%;
-    flex:0 0 60%;
+    max-width: 60%;
+    flex: 0 0 60%;
   }
   .xl-30 {
-    max-width:30%;
-    flex:0 0 30%;
+    max-width: 30%;
+    flex: 0 0 30%;
   }
   .xl-33 {
     max-width: 33.33333%;
     flex: 33.33333%;
   }
   .xl-35 {
-    max-width:35%;
-    flex:35%;
+    max-width: 35%;
+    flex: 35%;
   }
   .xl-65 {
-    max-width:65%;
-    flex:65%;
+    max-width: 65%;
+    flex: 65%;
   }
-  .xl-60{
-    max-width:60%;
-    flex:60%;
+  .xl-60 {
+    max-width: 60%;
+    flex: 60%;
   }
   .xl-70 {
-    max-width:70%;
-    flex:70%;
+    max-width: 70%;
+    flex: 70%;
   }
   .xl-50 {
     max-width: 50%;
@@ -343,8 +338,8 @@
         border-radius: 5px;
       }
     }
-    .proorder-xl-3{
-      order:3;
+    .proorder-xl-3 {
+      order: 3;
     }
   }
   .owl-carousel {
@@ -355,11 +350,6 @@
       }
     }
   }
-
-
-
-
-
 }
 @media screen and (max-width: 1580px) and (min-width: 768px) {
   //ecommerce page
@@ -375,8 +365,8 @@
                   width: 100%;
                 }
               }
-              .product-details{
-                padding:15px 0;
+              .product-details {
+                padding: 15px 0;
               }
             }
           }
@@ -399,19 +389,20 @@
   }
 }
 @media screen and (min-width: 1200px) and (max-width: 1214px) {
-  .product-thumbnail,.product-main{
+  .product-thumbnail,
+  .product-main {
     flex: 0 0 auto;
     width: 100% !important;
   }
-  .product-thumbnail{
+  .product-thumbnail {
     margin-top: 15px;
   }
 }
 @media screen and (min-width: 1200px) and (max-width: 1366px) {
-  .knowledgebase-bg{
-    height:400px;
+  .knowledgebase-bg {
+    height: 400px;
   }
-  .custom-card .card-footer>div {
+  .custom-card .card-footer > div {
     padding: 10px 0;
   }
   .card-activity {
@@ -513,7 +504,7 @@
   .chat-box {
     .chat-history {
       .call-content {
-        .btn{
+        .btn {
           font-size: 15px;
         }
       }
@@ -542,7 +533,7 @@
       margin-right: 3px;
     }
     .about {
-      margin-top:0;
+      margin-top: 0;
     }
     .border-tab.nav-tabs {
       .nav-item {
@@ -597,17 +588,16 @@
   }
   .comment-box {
     .media {
-      img{
-        margin-right:25px;
+      img {
+        margin-right: 25px;
       }
     }
     ul {
-      ul{
-        margin-left:50px;
+      ul {
+        margin-left: 50px;
       }
     }
   }
-
 
   .browser-widget {
     img {
@@ -629,8 +619,8 @@
           .media-size-email {
             width: 100%;
             text-align: center;
-            img{
-              margin-bottom:10px;
+            img {
+              margin-bottom: 10px;
             }
             .me-3 {
               margin-right: 0 !important;
@@ -682,13 +672,12 @@
         }
       }
     }
-    .media-body{
-      p{
-        font-size:13px;
+    .media-body {
+      p {
+        font-size: 13px;
       }
     }
   }
-
 
   // alert page
   .alert-dismissible {
@@ -728,8 +717,8 @@
 @media screen and (max-width: 1470px) {
   .edit-profile {
     .profile-title {
-      .media{
-        display:block;
+      .media {
+        display: block;
         .media-body {
           margin-left: unset;
           margin-top: 10px;
@@ -737,32 +726,31 @@
       }
     }
   }
-  .user-profile{
-    .photos{
-      ul{
-        li{
-          width:20%;
+  .user-profile {
+    .photos {
+      ul {
+        li {
+          width: 20%;
         }
       }
     }
   }
   .page-main-header {
     .main-header-right {
-      .left-menu-header{
-        flex:0 0 35%;
+      .left-menu-header {
+        flex: 0 0 35%;
       }
     }
   }
-
 
   // email wrap
   .email-wrap {
     .email-right-aside {
       .email-profile {
         .inbox {
-          p{
-            width:calc(100% - 300px);
-            max-width:500px;
+          p {
+            width: calc(100% - 300px);
+            max-width: 500px;
           }
         }
       }
@@ -770,29 +758,26 @@
   }
 }
 @media screen and (max-width: 1366px) {
-  .email-wrap .email-content .email-top .user-emailid:after{
+  .email-wrap .email-content .email-top .user-emailid:after {
     display: none;
   }
-  .lnb-calendars{
-		display: block !important;
-    	text-align: right;
-	}
+  .lnb-calendars {
+    display: block !important;
+    text-align: right;
+  }
 
-
-  .page-main-header{
+  .page-main-header {
     .main-header-right {
       .nav-right {
-        .nav-menus{
-          padding:20px 35px;
+        .nav-menus {
+          padding: 20px 35px;
         }
       }
     }
   }
 
-
-
   // products page
-  .span.ace_indent-guide{
+  .span.ace_indent-guide {
     display: none;
   }
   .grid-options {
@@ -854,18 +839,15 @@
     }
   }
 
-
   // blog
   .learning-box {
-    .details-main{
+    .details-main {
       margin: 20px;
-      h6{
-        font-size:18px;
+      h6 {
+        font-size: 18px;
       }
     }
   }
-
-
 
   // timeline small page
   .timeline-small {
@@ -891,8 +873,8 @@
     .media {
       flex-wrap: wrap;
       .media-body {
-        h3{
-          font-size:20px;
+        h3 {
+          font-size: 20px;
         }
         p {
           margin-bottom: 2px;
@@ -942,33 +924,25 @@
     }
   }
 
-
-
   // book mark //
   .left-bookmark {
     ul {
       li {
-        button{
-          font-size:13px;
+        button {
+          font-size: 13px;
         }
       }
     }
   }
 
-
-
-
-
-
   // social app
   .photos {
-    ul{
-      li{
-        width:21%;
+    ul {
+      li {
+        width: 21%;
       }
     }
   }
-
 
   // chat page
   .chat-box {
@@ -984,12 +958,12 @@
             padding: 15px;
           }
         }
-        .chat-header{
-          .chat-menu-icons{
-            li{
-              a{
-                i{
-                  font-size:20px;
+        .chat-header {
+          .chat-menu-icons {
+            li {
+              a {
+                i {
+                  font-size: 20px;
                 }
               }
             }
@@ -998,8 +972,8 @@
       }
     }
     .chat-history {
-      .call-content{
-        min-height:512px;
+      .call-content {
+        min-height: 512px;
       }
     }
   }
@@ -1094,13 +1068,13 @@
   }
 
   //default dashboard
-  .custom-card{
-    padding:15px;
-    .card-social{
-      li{
-        a{
-          width:30px;
-          height:30px;
+  .custom-card {
+    padding: 15px;
+    .card-social {
+      li {
+        a {
+          width: 30px;
+          height: 30px;
         }
       }
     }
@@ -1132,9 +1106,9 @@
       font-size: 20px;
     }
   }
-  .status-widget{
-    .card-body{
-      padding:10px;
+  .status-widget {
+    .card-body {
+      padding: 10px;
     }
   }
 
@@ -1144,7 +1118,7 @@
       flex-wrap: wrap;
       .media-body {
         h3 {
-          font-size:20px;
+          font-size: 20px;
         }
         p {
           margin-bottom: 2px;
@@ -1331,66 +1305,63 @@
     }
   }
 }
-@media screen and (min-width:1200px) and (max-width: 1365px){
-  .redial-social-widget{
-    width:90px;
-    height:90px;
-    i{
-      width:70px;
-      height:70px;
+@media screen and (min-width: 1200px) and (max-width: 1365px) {
+  .redial-social-widget {
+    width: 90px;
+    height: 90px;
+    i {
+      width: 70px;
+      height: 70px;
     }
   }
-  .social-widget-card{
-    .card-body{
-      padding:20px;
+  .social-widget-card {
+    .card-body {
+      padding: 20px;
     }
-    h5{
-      margin-bottom:15px;
+    h5 {
+      margin-bottom: 15px;
     }
   }
-  .widget-joins{
-    .media{
-      padding:15px;
-      h5{
-        font-size:14px;
+  .widget-joins {
+    .media {
+      padding: 15px;
+      h5 {
+        font-size: 14px;
       }
-      .media-body{
-        svg{
-          width:25px;
-          height:25px;
+      .media-body {
+        svg {
+          width: 25px;
+          height: 25px;
         }
-        > span{
-          font-size:13px;
+        > span {
+          font-size: 13px;
         }
       }
-      .me-3{
-        margin-right:10px !important;
+      .me-3 {
+        margin-right: 10px !important;
       }
     }
-
   }
 
   .testimonial {
-    p{
-      margin-top:unset;
+    p {
+      margin-top: unset;
     }
   }
   .general-widget {
     .custom-card {
       .card-header {
-        img{
-          margin-top:-45px;
+        img {
+          margin-top: -45px;
         }
       }
     }
   }
-
-
 }
-@media screen and (min-width: 992px) and (max-width: 1199px){
-  .project-box{
-    padding:20px;
-    .badge{
+@media screen and (min-width: 992px) and (max-width: 1199px) {
+  .project-box {
+    padding: 20px;
+    .badge {
       right: 10px;
       top: 10px;
       font-size: 8px;
@@ -1399,20 +1370,20 @@
   }
 }
 @media screen and (max-width: 1280px) {
-  .blog-list .blog-details{
-    hr{
+  .blog-list .blog-details {
+    hr {
       display: none;
     }
-    p{
+    p {
       display: none;
     }
   }
-  .page-main-header  {
+  .page-main-header {
     .main-header-right {
       .nav-right {
         > ul {
-          > li{
-            margin-right:10px;
+          > li {
+            margin-right: 10px;
           }
         }
       }
@@ -1439,16 +1410,16 @@
   .user-profile {
     .photos {
       ul {
-        li{
-          width:19%;
+        li {
+          width: 19%;
         }
       }
     }
     .social-tab {
-      ul{
-        li{
-          &:nth-child(n+2){
-            margin-left:10px;
+      ul {
+        li {
+          &:nth-child(n + 2) {
+            margin-left: 10px;
           }
         }
       }
@@ -1458,30 +1429,29 @@
   // emaill application
   .email-wrap {
     .actions {
-      li{
-        &:nth-child(n+2){
-          margin-left:10px;
+      li {
+        &:nth-child(n + 2) {
+          margin-left: 10px;
         }
-        .btn{
+        .btn {
           padding: 7px 20px;
-          text-transform:capitalize;
+          text-transform: capitalize;
         }
       }
     }
   }
-
-
 }
 @media screen and (max-width: 1199px) {
-  .ttl-info{
+  .ttl-info {
     display: none;
   }
-  input[type='checkbox'].tui-full-calendar-checkbox-round+span{
+  input[type='checkbox'].tui-full-calendar-checkbox-round + span {
     margin-right: 2px;
     width: 4px;
   }
   .blog-list .blog-details {
-    p,hr{
+    p,
+    hr {
       display: block;
     }
   }
@@ -1530,7 +1500,6 @@
     }
   }
 
-
   // sidebar css
   .page-wrapper {
     .page-main-header {
@@ -1561,8 +1530,8 @@
   .page-main-header {
     .main-header-right {
       .left-menu-header {
-        padding:24px 15px;
-        flex:0 0 30%;
+        padding: 24px 15px;
+        flex: 0 0 30%;
       }
       .nav-right {
         .nav-menus {
@@ -1584,7 +1553,8 @@
   }
 
   // dashboard 2
-  .dashboard-default-sec,.dashboard-2-main {
+  .dashboard-default-sec,
+  .dashboard-2-main {
     .card {
       &.income-card {
         .card-body {
@@ -1600,10 +1570,10 @@
   }
 
   // social app page
-  .photos{
-    ul{
-      li{
-        width:20%;
+  .photos {
+    ul {
+      li {
+        width: 20%;
       }
     }
   }
@@ -1845,7 +1815,7 @@
     .card-profile {
       .card-social {
         li {
-          a{
+          a {
             padding: 8px;
           }
         }
@@ -1854,9 +1824,9 @@
         height: 90px;
       }
       .card-footer {
-        > div{
-          h3{
-            font-size:18px;
+        > div {
+          h3 {
+            font-size: 18px;
           }
         }
       }
@@ -1868,9 +1838,8 @@
       h6 {
         margin-bottom: 20px;
       }
-
     }
-    .card-footer{
+    .card-footer {
       > div {
         h3 {
           font-size: 18px;
@@ -1881,8 +1850,6 @@
   .equal-height-lg {
     min-height: unset !important;
   }
-
-
 
   //mega menu
   .mega-menu {
@@ -1930,12 +1897,6 @@
       }
     }
   }
-
-
-
-
-
-
 
   // general widget
   .mobile-clock-widget {
@@ -2058,7 +2019,7 @@
 
     .border-after-xs {
       &:after {
-        content: "";
+        content: '';
         position: absolute;
         height: 1px;
         width: 94%;
@@ -2087,21 +2048,20 @@
       height: 200px;
     }
   }
-  .product-page-main{
-    .proorder-lg-1{
-      order:-1;
+  .product-page-main {
+    .proorder-lg-1 {
+      order: -1;
     }
   }
-
 
   //chat
   .chat-box {
     .chat-menu {
-      background-color:$white;
+      background-color: $white;
       .people-list {
         ul.list {
-          max-height:444px;
-          overflow-y:auto;
+          max-height: 444px;
+          overflow-y: auto;
         }
       }
     }
@@ -2157,13 +2117,12 @@
     text-align: right;
   }
 
-
   // chat application
   .chat-box {
-    .border-tab{
+    .border-tab {
       &.nav-tabs {
         .nav-item {
-          a{
+          a {
             height: auto;
             line-height: 1.2;
           }
@@ -2176,14 +2135,13 @@
   }
   .chat-box {
     .toogle-bar {
-      display:inline-block;
+      display: inline-block;
       margin-right: 0 !important;
     }
   }
   // Email app
   .email-wrap {
     .email-right-aside {
-
       .email-body {
         border-top-right-radius: 4px;
         border-bottom-right-radius: 4px;
@@ -2196,25 +2154,25 @@
         border-bottom-left-radius: 4px !important;
       }
     }
-    .email-aside-toggle{
-      display:block;
+    .email-aside-toggle {
+      display: block;
     }
-    .email-sidebar{
+    .email-sidebar {
       position: relative;
-      .email-aside-toggle{
-        margin-bottom:20px;
-        width:fit-content;
+      .email-aside-toggle {
+        margin-bottom: 20px;
+        width: fit-content;
       }
-      .email-left-aside{
-        position:absolute;
-        top:100%;
-        left:0;
-        opacity:0;
-        visibility:hidden;
+      .email-left-aside {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        opacity: 0;
+        visibility: hidden;
         z-index: 2;
-        width:300px;
+        width: 300px;
         transition: all 0.5s ease;
-        &.open{
+        &.open {
           visibility: visible;
           opacity: 1;
         }
@@ -2222,19 +2180,18 @@
     }
   }
   .job-accordion {
-
-    .card{
-      margin-bottom:20px;
+    .card {
+      margin-bottom: 20px;
     }
   }
-  .job-sidebar{
+  .job-sidebar {
     position: relative;
-    .job-toggle{
-      display:block;
-      margin-bottom:20px;
+    .job-toggle {
+      display: block;
+      margin-bottom: 20px;
     }
-    .job-left-aside{
-      position:absolute;
+    .job-left-aside {
+      position: absolute;
       top: 100%;
       left: 0;
       margin-top: 20px;
@@ -2243,20 +2200,20 @@
       overflow-y: scroll;
       z-index: 3;
       max-width: 270px;
-      height:600px;
+      height: 600px;
       background-color: $white;
       border: 1px solid $light-gray;
       padding: 20px;
-      &.open{
-        opacity:1;
+      &.open {
+        opacity: 1;
         visibility: visible;
       }
     }
   }
-  .learning-block{
-    >div{
-      &:first-child{
-        order:2;
+  .learning-block {
+    > div {
+      &:first-child {
+        order: 2;
       }
     }
   }
@@ -2317,44 +2274,43 @@
       text-align: center;
     }
   }
-  .user-profile{
-    .photos{
-      ul{
-        li{
-          width:20%;
+  .user-profile {
+    .photos {
+      ul {
+        li {
+          width: 20%;
         }
       }
     }
-    .profile-header{
-      height:380px;
-      .userpro-box{
-        max-width:325px;
-        padding:25px;
-        .icon-wrapper{
-          width:30px;
-          height:30px;
-          font-size:13px;
+    .profile-header {
+      height: 380px;
+      .userpro-box {
+        max-width: 325px;
+        padding: 25px;
+        .icon-wrapper {
+          width: 30px;
+          height: 30px;
+          font-size: 13px;
         }
-        .avatar{
-          width:85px;
-          height:85px;
+        .avatar {
+          width: 85px;
+          height: 85px;
         }
-        h4{
+        h4 {
           font-size: 18px;
         }
-        h6{
+        h6 {
           font-size: 14px;
         }
-
       }
     }
     .social-media {
-      ul{
+      ul {
         &.user-list-social {
           li {
-            a{
-              width:28px;
-              height:28px;
+            a {
+              width: 28px;
+              height: 28px;
             }
           }
         }
@@ -2362,18 +2318,18 @@
     }
   }
   .social-tab {
-    padding:20px;
-    ul{
-      li{
-        a{
+    padding: 20px;
+    ul {
+      li {
+        a {
           padding: 8px 10px;
           font-size: 12px;
         }
       }
     }
-    .input-group{
-      .form-control{
-        height:35px;
+    .input-group {
+      .form-control {
+        height: 35px;
       }
     }
   }
@@ -2404,26 +2360,17 @@
       width: 87%;
     }
   }
-
-
-
-
-
 }
 @media screen and (max-width: 1120px) {
   .bg-gallery {
     height: 94vh;
   }
 
-
   .social-tab {
-    .input-group{
-      width:190px;
+    .input-group {
+      width: 190px;
     }
   }
-
-
-
 }
 @media screen and (max-width: 1024px) {
   .bg-gallery {
@@ -2469,38 +2416,37 @@
   }
 }
 @media screen and (max-width: 991px) {
-
-  .page-wrapper{
+  .page-wrapper {
     &.compact-wrapper {
       .page-body-wrapper {
-        header{
-          &.main-nav{
-            .main-navbar{
-              .nav-menu{
+        header {
+          &.main-nav {
+            .main-navbar {
+              .nav-menu {
                 height: calc(100vh - 220px);
               }
             }
           }
-          .sidebar-user{
+          .sidebar-user {
             padding: 20px 30px;
-            .setting-primary{
+            .setting-primary {
               top: 20px;
             }
-            img{
+            img {
               width: 35px !important;
               border-width: 3px !important;
               float: left;
             }
-            .badge-bottom{
+            .badge-bottom {
               display: none;
             }
-            h6{
+            h6 {
               margin-top: 0 !important;
               padding-left: 50px;
               text-align: left;
               display: block;
             }
-            p{
+            p {
               padding-left: 15px;
               text-align: left;
               max-width: 120px;
@@ -2508,14 +2454,14 @@
               white-space: nowrap;
               overflow: hidden;
             }
-            ul{
+            ul {
               margin-top: 10px;
               border-top: 1px $gray-60 dashed;
               padding-top: 10px;
             }
           }
-          &.main-nav{
-            top:65px;
+          &.main-nav {
+            top: 65px;
           }
         }
       }
@@ -2523,7 +2469,7 @@
   }
   .ttl-info {
     display: block;
-}
+  }
   .page-wrapper {
     .page-body-wrapper {
       .page-body {
@@ -2735,37 +2681,32 @@
     padding-bottom: 25px !important;
   }
 
-
   // user-profile
-  .user-profile{
-    .photos{
-      ul{
-        li{
-          width:19%;
+  .user-profile {
+    .photos {
+      ul {
+        li {
+          width: 19%;
         }
       }
     }
     .profile-post {
       .post-header {
         .media {
-          img{
-            width:50px;
-            height:50px;
+          img {
+            width: 50px;
+            height: 50px;
           }
-          h5{
-            font-size:16px;
+          h5 {
+            font-size: 16px;
           }
-          h6{
-            font-size:12px;
+          h6 {
+            font-size: 12px;
           }
         }
       }
     }
   }
-
-
-
-
 
   // main header css
   .page-wrapper {
@@ -2811,11 +2752,11 @@
           }
         }
       }
-      .page-body-wrapper{
-        &.sidebar-icon{
-          header{
-            &.main-nav{
-              top: 59px ;
+      .page-body-wrapper {
+        &.sidebar-icon {
+          header {
+            &.main-nav {
+              top: 59px;
               box-shadow: 0 4px 14px 0 rgba(4, 122, 251, 0.13);
               .logo-wrapper {
                 display: none;
@@ -2832,8 +2773,8 @@
                 }
               }
               &.close_icon {
-                .main-navbar{
-                  .nav-menu{
+                .main-navbar {
+                  .nav-menu {
                     height: unset;
                   }
                 }
@@ -2900,19 +2841,19 @@
         }
       }
     }
-    &.compact-sidebar{
-      &.compact-wrapper{
-        .page-body-wrapper{
-          header{
-            &.main-nav{
-              .main-navbar{
-                .nav-menu{
+    &.compact-sidebar {
+      &.compact-wrapper {
+        .page-body-wrapper {
+          header {
+            &.main-nav {
+              .main-navbar {
+                .nav-menu {
                   height: calc(100vh - 80px);
                   padding-top: 20px;
                   padding-bottom: 20px;
-                  .dropdown{
-                    .menu-content{
-                      top:60px;
+                  .dropdown {
+                    .menu-content {
+                      top: 60px;
                     }
                   }
                 }
@@ -3353,14 +3294,13 @@
     }
   }
 
-
   //blog
   .comment-box {
     .comment-social {
-      li{
-        &:nth-child(n+2){
-          padding-left:15px;
-          margin-left:15px;
+      li {
+        &:nth-child(n + 2) {
+          padding-left: 15px;
+          margin-left: 15px;
         }
       }
     }
@@ -3398,7 +3338,7 @@
     }
   }
 
- //business dashboard
+  //business dashboard
   .calender-widget {
     .cal-desc {
       padding: 10px 20px 20px !important;
@@ -3603,34 +3543,31 @@
     }
   }
   // call-chat page
-  .chat-box{
+  .chat-box {
     .chat-left-aside {
       .people-list {
         height: 483px;
       }
     }
-    .chat-menu{
-      top:75px;
+    .chat-menu {
+      top: 75px;
       .user-profile {
-        .user-content{
-          h5{
-            margin-bottom:10px;
+        .user-content {
+          h5 {
+            margin-bottom: 10px;
           }
         }
         .follow {
-          span{
-            font-size:12px;
+          span {
+            font-size: 12px;
           }
-          .follow-num{
+          .follow-num {
             font-size: 18px;
           }
         }
       }
     }
-
-
   }
-
 }
 @media screen and (max-width: 900px) {
   .bg-gallery {
@@ -3644,28 +3581,28 @@
   }
 }
 @media screen and (max-width: 767px) {
-  .page-wrapper.compact-wrapper{
-      .page-body-wrapper{
-        header.main-nav{
-          .sidebar-user{
-            padding: 20px;
-            ul{
-              display: none;
-            }
+  .page-wrapper.compact-wrapper {
+    .page-body-wrapper {
+      header.main-nav {
+        .sidebar-user {
+          padding: 20px;
+          ul {
+            display: none;
           }
-          .main-navbar {
-            .nav-menu {
-              height: calc(100vh - 220px);
-            }
+        }
+        .main-navbar {
+          .nav-menu {
+            height: calc(100vh - 220px);
           }
         }
       }
     }
+  }
 
-  .order-history table tbody tr td img{
+  .order-history table tbody tr td img {
     width: 25px !important;
   }
-  .calendar-basic .lnb-calendars>div{
+  .calendar-basic .lnb-calendars > div {
     padding: 12px 0;
   }
   .learning-box .details-main {
@@ -3674,7 +3611,7 @@
   .ace-editor {
     height: 280px;
     width: 100%;
-}
+  }
   .dashboard-2-main .card .card-header p {
     font-size: 0;
   }
@@ -3801,81 +3738,77 @@
     }
   }
 
-
-
   // user profile //
   .user-profile {
     .photos {
       ul {
-        li{
-          width:55px;
+        li {
+          width: 55px;
         }
       }
     }
-    .profile-header{
-      height:355px;
-      .userpro-box{
-        padding:20px;
-        max-width:300px;
-        .avatar{
-          width:70px;
-          height:70px;
+    .profile-header {
+      height: 355px;
+      .userpro-box {
+        padding: 20px;
+        max-width: 300px;
+        .avatar {
+          width: 70px;
+          height: 70px;
         }
-        h4{
-          font-size:16px;
+        h4 {
+          font-size: 16px;
         }
-        h6{
-          font-size:13px;
+        h6 {
+          font-size: 13px;
         }
       }
-     }
+    }
   }
-  .social-tab{
-    display:block;
-    ul{
-      justify-content:center;
-      margin-bottom:-10px;
-      li{
+  .social-tab {
+    display: block;
+    ul {
+      justify-content: center;
+      margin-bottom: -10px;
+      li {
         display: inline-block;
         margin-bottom: 10px;
       }
     }
-    .input-group{
-      margin-top:15px;
+    .input-group {
+      margin-top: 15px;
       margin-right: auto;
       margin-left: auto;
     }
   }
-  .social-app-profile{
+  .social-app-profile {
     .social-status {
       .media {
-        img{
-          width:40px !important;
+        img {
+          width: 40px !important;
         }
-        .social-status{
-          bottom:10px;
-          left:35px;
+        .social-status {
+          bottom: 10px;
+          left: 35px;
         }
       }
     }
   }
 
-
-
   // general-widget
-  .general-widget{
-    .custom-card{
-      padding:0;
-      .card-profile{
-        margin-top:-45px;
+  .general-widget {
+    .custom-card {
+      padding: 0;
+      .card-profile {
+        margin-top: -45px;
       }
-      .card-header{
-        padding:0;
-        img{
-          margin-top:0;
+      .card-header {
+        padding: 0;
+        img {
+          margin-top: 0;
         }
       }
-      .card-social{
+      .card-social {
         margin-top: unset;
       }
     }
@@ -3907,7 +3840,6 @@
       }
     }
   }
-
 
   // card css//
   .tabbed-card {
@@ -3991,7 +3923,7 @@
               font-size: 0;
               &:before {
                 position: absolute;
-                content: "\e661";
+                content: '\e661';
                 font-family: $font-themify;
                 font-size: 18px;
                 top: 11px;
@@ -4001,7 +3933,6 @@
           }
         }
       }
-
     }
     .border-tab {
       &.nav-tabs {
@@ -4019,27 +3950,25 @@
     }
     .people-list {
       ul {
-        margin-bottom:-15px;
-        li{
+        margin-bottom: -15px;
+        li {
           display: inline-block;
           padding: 10px;
-          margin-right:5px;
+          margin-right: 5px;
           border: 1px solid $light-gray;
-          margin-bottom:10px;
-          &:last-child{
-            padding-bottom:10px;
+          margin-bottom: 10px;
+          &:last-child {
+            padding-bottom: 10px;
           }
         }
       }
     }
     .chat-left-aside {
-      .people-list{
-        height:auto;
+      .people-list {
+        height: auto;
       }
     }
   }
-
-
 
   .clockpicker-align-top {
     left: 55px !important;
@@ -4252,27 +4181,26 @@
       padding: 20px;
     }
   }
-  .user-card{
-    .custom-card{
-      padding:0;
-      .card-header{
-        padding:0;
+  .user-card {
+    .custom-card {
+      padding: 0;
+      .card-header {
+        padding: 0;
       }
-      .card-profile{
+      .card-profile {
         margin-top: -40px;
       }
-      .card-social{
+      .card-social {
         margin-top: unset;
       }
     }
   }
-  .custom-card{
-     .card-header{
-
-        img{
-          transform: scale(1);
-        }
-     }
+  .custom-card {
+    .card-header {
+      img {
+        transform: scale(1);
+      }
+    }
     .card-profile {
       img {
         height: 75px;
@@ -4512,7 +4440,6 @@
     }
   }
 
-
   //calendar
   .calendar-wrap {
     .fc {
@@ -4664,8 +4591,8 @@
                   padding-right: 0;
                 }
                 img {
-                  width:90px;
-                  height:90px;
+                  width: 90px;
+                  height: 90px;
                 }
               }
             }
@@ -4673,7 +4600,7 @@
         }
       }
       .email-body {
-        .inbox .media{
+        .inbox .media {
           // padding-top:15px;
           // padding-bottom:15px;
         }
@@ -4683,10 +4610,10 @@
   .email-wrap {
     .email-right-aside {
       .email-profile {
-        overflow-x:auto;
-        .inbox{
-          width:700px;
-          p{
+        overflow-x: auto;
+        .inbox {
+          width: 700px;
+          p {
             width: calc(100% - 200px);
             max-width: 500px;
           }
@@ -4694,9 +4621,6 @@
       }
     }
   }
-
-
-
 
   // alert page
   .alert-dismissible {
@@ -4813,9 +4737,9 @@
     }
   }
   .call-chat-sidebar {
-    max-width:100%;
-    width:100%;
-    flex-basis:auto;
+    max-width: 100%;
+    width: 100%;
+    flex-basis: auto;
   }
 
   // user-profile page
@@ -4859,11 +4783,11 @@
       background-color: rgba($primary-color, 0.05);
       color: $primary-color;
     }
-    span{
+    span {
       font-size: 12px;
-      &.f-w-600{
-        padding-top:8px;
-        display:inline-block;
+      &.f-w-600 {
+        padding-top: 8px;
+        display: inline-block;
       }
     }
   }
@@ -4878,7 +4802,7 @@
     &.sidebaron {
       .product-grid {
         .product-wrapper-grid {
-          margin-left:0;
+          margin-left: 0;
         }
       }
     }
@@ -4903,7 +4827,6 @@
       }
     }
   }
-
 }
 @media screen and (max-width: 700px) {
   .bg-gallery {
@@ -4919,17 +4842,15 @@
   .bg-gallery {
     height: 60vh;
   }
-  .user-profile{
-    .photos{
+  .user-profile {
+    .photos {
       ul {
-        li{
-          width:53px;
+        li {
+          width: 53px;
         }
       }
     }
   }
-
-
 }
 @media screen and (max-width: 540px) {
   .bg-gallery {
@@ -4961,7 +4882,6 @@
     margin-right: 15px;
   }
 
-
   // card css //
   .card {
     .card-footer {
@@ -4989,89 +4909,85 @@
   }
 
   // products page
-  .feature-products{
-    .text-end{
+  .feature-products {
+    .text-end {
       text-align: left !important;
     }
-    .select-options{
-      float:left;
+    .select-options {
+      float: left;
       margin-right: 10px;
     }
   }
   .call-chat-body {
-    .chat-box{
-      height:auto;
+    .chat-box {
+      height: auto;
     }
   }
-  .chat-box{
-    .chat-menu{
-      .people-list{
-        ul.list{
-          max-height:400px;
+  .chat-box {
+    .chat-menu {
+      .people-list {
+        ul.list {
+          max-height: 400px;
         }
       }
     }
     .chat-history {
-      .call-content{
-        min-height:447px;
+      .call-content {
+        min-height: 447px;
       }
     }
   }
 
   // user profile
-  .user-profile{
-    .photos{
-      ul{
-        li{
-          width:18%;
+  .user-profile {
+    .photos {
+      ul {
+        li {
+          width: 18%;
         }
       }
     }
-    .profile-post{
-      padding:20px;
+    .profile-post {
+      padding: 20px;
       .post-body {
-        figure{
-          margin-bottom:20px;
+        figure {
+          margin-bottom: 20px;
         }
         .post-react {
           ul {
             li {
-              img{
-                width:20px;
-                height:20px;
+              img {
+                width: 20px;
+                height: 20px;
               }
-              &:nth-child(n+2){
-                margin-left:-15px;
+              &:nth-child(n + 2) {
+                margin-left: -15px;
               }
             }
           }
-          h6{
-            margin-left:10px;
-            font-size:13px;
+          h6 {
+            margin-left: 10px;
+            font-size: 13px;
           }
         }
       }
     }
-    .profile-header{
-      padding:0;
-      height:auto;
-      .profile-img-wrrap{
-        display:block;
-        height:280px;
+    .profile-header {
+      padding: 0;
+      height: auto;
+      .profile-img-wrrap {
+        display: block;
+        height: 280px;
       }
-      .userpro-box{
-        max-width:100%;
+      .userpro-box {
+        max-width: 100%;
       }
     }
   }
 
-
-
-
-
   //dashboard mian //
-  .center-content{
-    margin-top:5px;
+  .center-content {
+    margin-top: 5px;
     p {
       text-align: left;
       i {
@@ -5297,8 +5213,8 @@
   }
 
   // main sidebar css
-  .page-wrapper{
-    &.compact-wrapper{
+  .page-wrapper {
+    &.compact-wrapper {
       .page-body-wrapper {
         &.sidebar-icon {
           header {
@@ -5335,7 +5251,7 @@
       margin-bottom: 15px;
     }
   }
-   .cal-date-widget {
+  .cal-date-widget {
     .cal-datepicker {
       margin-top: 15px;
     }
@@ -5463,7 +5379,7 @@
     }
     .border-after-xs {
       &:after {
-        content: "";
+        content: '';
         position: absolute;
         height: 1px;
         width: 94%;
@@ -5587,8 +5503,8 @@
   .tabs-scoial {
     position: relative;
     padding-top: 90px;
-    li{
-      &:nth-child(3){
+    li {
+      &:nth-child(3) {
         position: absolute;
         top: 25px;
         left: 0;
@@ -5643,7 +5559,7 @@
       margin-bottom: 15px;
     }
   }
-  .social-network{
+  .social-network {
     span {
       margin-bottom: 15px;
     }
@@ -5680,8 +5596,8 @@
   }
   .photos {
     ul {
-      li{
-        width:70px;
+      li {
+        width: 70px;
       }
     }
   }
@@ -5703,7 +5619,6 @@
       }
     }
   }
-
 
   // timeline small page css
   .timeline-small {
@@ -6029,7 +5944,7 @@
           > div {
             &.row {
               > div {
-                &[class^="col-"] {
+                &[class^='col-'] {
                   &:last-child {
                     padding-left: 0 !important;
                   }
@@ -6069,7 +5984,7 @@
               font-size: 0;
               padding: 0;
               &:before {
-                content: "\e64a";
+                content: '\e64a';
                 font-family: $font-themify;
                 font-size: 11px;
                 padding: 0 5px;
@@ -6079,7 +5994,7 @@
               font-size: 0;
               padding: 0;
               &:before {
-                content: "\e649";
+                content: '\e649';
                 font-family: $font-themify;
                 font-size: 11px;
                 padding: 0 5px;
@@ -6091,7 +6006,7 @@
       .dataTables_filter {
         margin-bottom: 15px;
         input {
-          &[type="search"] {
+          &[type='search'] {
             height: 30px;
           }
         }
@@ -6132,17 +6047,16 @@
       }
       .blog-social {
         li {
-          font-size:12px;
-          font-weight:500;
-          &:nth-child(n+2){
-            padding-left:unset;
-            margin-left:10px ;
-            border-left:none;
+          font-size: 12px;
+          font-weight: 500;
+          &:nth-child(n + 2) {
+            padding-left: unset;
+            margin-left: 10px;
+            border-left: none;
           }
         }
       }
     }
-
   }
   .comment-box {
     h4 {
@@ -6224,8 +6138,8 @@
         }
       }
       .page-body {
-        padding:5px 0 !important;
-        padding-top:20px!important;
+        padding: 5px 0 !important;
+        padding-top: 20px !important;
       }
       .page-header {
         // padding-top: 20px;
@@ -6357,9 +6271,9 @@
         display: none;
       }
       .headline {
-        font-size:30px;
-        margin-top:-10%;
-        letter-spacing:2px;
+        font-size: 30px;
+        margin-top: -10%;
+        letter-spacing: 2px;
       }
     }
   }
@@ -6392,13 +6306,12 @@
           margin: 0 auto;
         }
       }
-      img{
-        width:auto;
-        height:75px;
+      img {
+        width: auto;
+        height: 75px;
       }
     }
   }
-
 
   // Form Wizard One start
   .form-wizard {
@@ -6673,21 +6586,21 @@
   }
 }
 @media screen and (max-width: 480px) {
-.editor-toolbar a{
-  width: 16px;
-  &:before{
-    line-height: 30px;
+  .editor-toolbar a {
+    width: 16px;
+    &:before {
+      line-height: 30px;
+      font-size: 12px;
+    }
+  }
+  .note-editor {
+    .btn-group .btn {
+      padding: 0.375rem 0.5rem;
+    }
+  }
+  .CodeMirror pre {
     font-size: 12px;
   }
-}
-.note-editor{
-  .btn-group .btn {
-    padding: 0.375rem 0.5rem;
-  }
-}
-.CodeMirror pre{
-  font-size: 12px;
-}
   .and-many-more {
     font-size: 45px;
   }
@@ -6746,15 +6659,15 @@
       // .page-wrapper .page-main-header .main-header-right .nav-right > ul
       .main-header-right {
         .nav-right {
-          > ul{
+          > ul {
             padding-left: 15px;
             padding-right: 15px;
           }
           .btn-primary-light {
-            padding:5px 7px;
-            font-size:12px;
-            svg{
-              width:14px;
+            padding: 5px 7px;
+            font-size: 12px;
+            svg {
+              width: 14px;
             }
           }
           > ul {
@@ -6770,22 +6683,22 @@
       }
     }
   }
-  .todo{
-    .btn{
+  .todo {
+    .btn {
       padding: 7px 20px;
     }
   }
 
-// chat
-.chat-box {
-  .people-list {
-    ul {
-      li{
-        display: block;
+  // chat
+  .chat-box {
+    .people-list {
+      ul {
+        li {
+          display: block;
+        }
       }
     }
   }
-}
 
   //landing page css
   .wizard-4 {
@@ -6978,32 +6891,31 @@
       .card-header {
         display: none;
       }
-       .left-filter{
-         top:unset !important;
-       }
+      .left-filter {
+        top: unset !important;
+      }
     }
   }
   .feature-products {
-    .filter-toggle{
-      font-size:14px;
-      padding:7px 15px;
+    .filter-toggle {
+      font-size: 14px;
+      padding: 7px 15px;
       margin-left: 10px;
       border-radius: 5px;
       background-color: rgba($primary-color, 0.05);
       color: $primary-color;
-      h6{
-        font-size:12px;
+      h6 {
+        font-size: 12px;
       }
     }
-    .text-end{
-      text-align:left !important;
+    .text-end {
+      text-align: left !important;
     }
   }
-  .d-none-productlist{
+  .d-none-productlist {
     display: block;
     margin-right: 10px;
   }
-
 
   // email app
   .email-wrap {
@@ -7024,45 +6936,45 @@
       }
     }
     .actions {
-      margin-bottom:-10px;
+      margin-bottom: -10px;
       li {
-        margin-bottom:10px;
-        .btn{
-          padding:5px 10px;
+        margin-bottom: 10px;
+        .btn {
+          padding: 5px 10px;
           font-size: 12px;
         }
       }
     }
     .email-wrapper {
-      .right-download{
-        float:none;
-        margin-top:5px;
+      .right-download {
+        float: none;
+        margin-top: 5px;
       }
-      h6{
-        float:none;
+      h6 {
+        float: none;
       }
     }
   }
 
   //social app
-  .social-app-profile{
-    .hovercard{
-      .user-image{
+  .social-app-profile {
+    .hovercard {
+      .user-image {
         .share-icons {
-          li{
-            .social-icon{
-              width:30px;
-              height:30px;
+          li {
+            .social-icon {
+              width: 30px;
+              height: 30px;
             }
           }
         }
-        .icon-wrapper{
-          top:-5px;
+        .icon-wrapper {
+          top: -5px;
         }
-        .avatar{
-          img{
-            width:80px;
-            height:80px;
+        .avatar {
+          img {
+            width: 80px;
+            height: 80px;
           }
         }
       }
@@ -7125,26 +7037,26 @@
   }
 
   //user profile
-  .user-profile{
+  .user-profile {
     .profile-header {
-      .profile-img-wrrap{
-        height:210px;
+      .profile-img-wrrap {
+        height: 210px;
       }
-      .userpro-box{
-        padding:15px;
+      .userpro-box {
+        padding: 15px;
       }
     }
     .follow {
-      .follow-num{
-        font-size:16px;
+      .follow-num {
+        font-size: 16px;
       }
-      span{
-        font-size:12px;
+      span {
+        font-size: 12px;
       }
-      ul{
+      ul {
         &.follow-list {
-          li{
-            &:nth-child(n+2){
+          li {
+            &:nth-child(n + 2) {
               margin-left: 10px;
               padding-left: 10px;
             }
@@ -7153,11 +7065,6 @@
       }
     }
   }
-
-
-
-
-
 }
 @media screen and (max-width: 420px) {
   .and-many-more {
@@ -7188,24 +7095,24 @@
         }
       }
     }
-    .chat-menu{
-      &.show{
-        top:102px;
+    .chat-menu {
+      &.show {
+        top: 102px;
       }
     }
-    .chat-menu{
-      width:260px;
-      .people-list{
-        ul{
-          &.list{
-            height:360px;
+    .chat-menu {
+      width: 260px;
+      .people-list {
+        ul {
+          &.list {
+            height: 360px;
           }
         }
       }
     }
   }
-  .chat-menu{
-    top:120px;
+  .chat-menu {
+    top: 120px;
   }
   .product-page-main {
     .pro-group {
@@ -7227,12 +7134,12 @@
       display: block;
     }
   }
-  .tabs-scoial{
-    &.border-tab{
+  .tabs-scoial {
+    &.border-tab {
       &.nav-tabs {
         .nav-item {
           width: auto !important;
-          .nav-link{
+          .nav-link {
             padding: 8px 8px;
             font-size: 14px;
           }
@@ -7241,27 +7148,25 @@
     }
   }
 
-
   // products page
-  .feature-products{
-    span.f-w-600{
+  .feature-products {
+    span.f-w-600 {
       padding-top: unset;
       margin-bottom: 5px;
     }
   }
 
-
   //user
   .custom-card {
     .card-social {
       li {
-        a{
+        a {
           width: 25px;
           height: 25px;
           font-size: 12px;
         }
-        &:nth-child(n+2){
-          margin-left:5px;
+        &:nth-child(n + 2) {
+          margin-left: 5px;
         }
       }
     }
@@ -7271,10 +7176,10 @@
   .email-wrap {
     .email-body {
       .email-compose {
-        .compose-header{
-          display:block;
-          .btn{
-            margin-top:10px;
+        .compose-header {
+          display: block;
+          .btn {
+            margin-top: 10px;
           }
         }
       }
@@ -7283,13 +7188,10 @@
 
   // job search
   .job-sidebar {
-    .job-left-aside{
-      padding:15px;
+    .job-left-aside {
+      padding: 15px;
     }
   }
-
-
-
 }
 @media screen and (max-width: 397px) {
   .clockpicker-align-top {
@@ -7634,8 +7536,8 @@
   // touchspin page
   .bootstrap-touchspin {
     .touchspin-vertical-tab {
-      .input-group{
-        width:93% !important;
+      .input-group {
+        width: 93% !important;
       }
     }
   }
@@ -7703,10 +7605,10 @@
     }
   }
 }
-@media screen and (min-width:768px) {
+@media screen and (min-width: 768px) {
   .product-wrapper-grid {
     &.list-view {
-      .ribbon{
+      .ribbon {
         display: none;
       }
       .col-sm-6 {
