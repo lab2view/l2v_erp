@@ -95,110 +95,18 @@
               </BaseDatatable>
             </div>
             <div id="top-stat-per-family" class="tab-pane fade" role="tabpanel">
-              <div class="user-status table-responsive">
-                <table class="table table-bordernone">
-                  <thead>
-                    <tr>
-                      <th scope="col">
-                        {{ $t('products.productFamily.listTitle') }}
-                      </th>
-                      <th class="text-center" scope="col">
-                        {{ $t('common.headers.stock_in') }}
-                      </th>
-                      <th class="text-center" scope="col">
-                        {{ $t('common.attributes.amount') }}
-                      </th>
-                      <th class="text-end" scope="col">
-                        {{ $t('common.attributes.state') }}
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr
-                      v-for="(statFamily, index) in articleStatFamilies"
-                      :key="`stat-fam-${index}`"
-                    >
-                      <td class="f-w-600">{{ statFamily.product_family }}</td>
-                      <td class="text-center">{{ statFamily.total }}</td>
-                      <td class="text-center">
-                        {{ `${statFamily.total_price} ${currency}` }}
-                      </td>
-                      <td>
-                        <BaseProgressBar
-                          style-prop="height: 8px"
-                          progress-class="progress-bar bg-primary"
-                          :value="statFamily.total"
-                          :max="totalArticleStock"
-                          :show-percent="true"
-                        />
-                      </td>
-                    </tr>
-                  </tbody>
-                  <tfoot>
-                    <tr>
-                      <th>{{ $t('common.headers.total') }}</th>
-                      <th class="text-center">
-                        {{ statFamilyTotal.quantity }}
-                      </th>
-                      <th class="text-center">
-                        {{ `${statFamilyTotal.amount} ${currency}` }}
-                      </th>
-                    </tr>
-                  </tfoot>
-                </table>
-              </div>
+              <EnterpriseArticleStatsTable
+                :article-stats="articleStatFamilies"
+                :total-article-stock="totalArticleStock"
+                :currency="currency"
+              />
             </div>
             <div id="top-stat-per-type" class="tab-pane fade" role="tabpanel">
-              <div class="user-status table-responsive">
-                <table class="table table-bordernone">
-                  <thead>
-                    <tr>
-                      <th scope="col">
-                        {{ $t('products.productType.listTitle') }}
-                      </th>
-                      <th class="text-center" scope="col">
-                        {{ $t('common.headers.stock_in') }}
-                      </th>
-                      <th class="text-center" scope="col">
-                        {{ $t('common.attributes.amount') }}
-                      </th>
-                      <th class="text-end" scope="col">
-                        {{ $t('common.attributes.state') }}
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr
-                      v-for="(statType, index) in articleStatTypes"
-                      :key="`stat-fam-${index}`"
-                    >
-                      <td class="f-w-600">{{ statType.product_type }}</td>
-                      <td class="text-center">{{ statType.total }}</td>
-                      <td class="text-center">
-                        {{ `${statType.total_price} ${currency}` }}
-                      </td>
-                      <td>
-                        <BaseProgressBar
-                          style-prop="height: 8px"
-                          progress-class="progress-bar bg-primary"
-                          :value="statType.total"
-                          :max="totalArticleStock"
-                          :show-percent="true"
-                        />
-                      </td>
-                    </tr>
-                  </tbody>
-                  <tfoot>
-                    <tr>
-                      <th>{{ $t('common.headers.total') }}</th>
-                      <th class="text-center">{{ statTypeTotal.quantity }}</th>
-                      <th class="text-center">
-                        {{ `${statTypeTotal.amount} ${currency}` }}
-                      </th>
-                    </tr>
-                  </tfoot>
-                </table>
-              </div>
+              <EnterpriseArticleStatsTable
+                :article-stats="articleStatTypes"
+                :total-article-stock="totalArticleStock"
+                :currency="currency"
+              />
             </div>
           </div>
         </div>
@@ -212,15 +120,15 @@ import BaseDatatable from '/@/components/common/BaseDatatable.vue';
 import store from '/@/store/index';
 import { mapGetters } from 'vuex';
 import ArticleStatsLineDetails from '/@/components/dashboard/ArticleStatsLineDetails.vue';
-import BaseProgressBar from '/@/components/common/BaseProgressBar.vue';
 import { sumBy } from 'lodash';
-import { getStockByEnterpriseId } from '/@/helpers/utils.js';
-import { priceTypeCode } from '/@/helpers/codes.js';
+import { getStockByEnterpriseId } from '/@/helpers/utils';
+import { priceTypeCode } from '/@/helpers/codes';
+import EnterpriseArticleStatsTable from '/@/components/dashboard/EnterpriseArticleStatsTable.vue';
 
 export default {
   name: 'EnterpriseArticleStats',
   components: {
-    BaseProgressBar,
+    EnterpriseArticleStatsTable,
     ArticleStatsLineDetails,
     BaseDatatable,
   },
@@ -280,18 +188,6 @@ export default {
     },
     articleStatTypes() {
       return this.getArticleTypeStatsByEnterpriseId(this.enterpriseId);
-    },
-    statFamilyTotal() {
-      return {
-        quantity: sumBy(this.articleStatFamilies, 'total'),
-        amount: sumBy(this.articleStatFamilies, 'total_price'),
-      };
-    },
-    statTypeTotal() {
-      return {
-        quantity: sumBy(this.articleStatTypes, 'total'),
-        amount: sumBy(this.articleStatTypes, 'total_price'),
-      };
     },
   },
   methods: {

@@ -1513,9 +1513,7 @@
               The page you are attempting to reach is currently not available.
               This may be because the page does not exist or has been moved.
             </p>
-            <a class="btn btn-primary btn-lg" href="/">
-              BACK TO HOME PAGE
-            </a>
+            <a class="btn btn-primary btn-lg" href="/"> BACK TO HOME PAGE </a>
           </div>
         </div>
       </div>

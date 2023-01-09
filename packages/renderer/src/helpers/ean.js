@@ -1,4 +1,4 @@
-import {random} from 'lodash';
+import { random } from 'lodash';
 
 function getCheckDigit(code) {
   let codePartials = code.split('');
@@ -60,5 +60,5 @@ function generatePassword() {
 export default {
   getCheckDigit,
   generateEan13,
-  generatePassword
+  generatePassword,
 };

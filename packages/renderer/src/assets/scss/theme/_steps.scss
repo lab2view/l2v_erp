@@ -16,7 +16,7 @@
 }
 .u-step-icon {
   float: left;
-  margin-right: .5em;
+  margin-right: 0.5em;
   font-size: 20px;
   line-height: 1.4;
 }
@@ -28,14 +28,14 @@
   height: 40px;
   font-size: 24px;
   line-height: 40px;
-  color:$white;
-  text-align:center;
-  background:$primary-color;
-  border-radius:50%;
-  -webkit-transform:translateY(-50%);
-  -ms-transform:translateY(-50%);
-  -o-transform:translateY(-50%);
-  transform:translateY(-50%);
+  color: $white;
+  text-align: center;
+  background: $primary-color;
+  border-radius: 50%;
+  -webkit-transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+  -o-transform: translateY(-50%);
+  transform: translateY(-50%);
   ~ .u-step-desc {
     min-height: 40px;
     margin-left: 50px;
@@ -46,7 +46,7 @@
   margin-bottom: 0;
   font-size: 20px;
   color: #526069;
-  font-weight:600;
+  font-weight: 600;
 }
 
 .u-step-desc {
@@ -59,17 +59,20 @@
   flex-direction: column;
 }
 .u-step {
-  &.active, &.current {
+  &.active,
+  &.current {
     color: $white;
     background-color: $primary-color;
-    p{
-      color:$white;
+    p {
+      color: $white;
     }
   }
-  &.active .u-step-title, &.current .u-step-title {
+  &.active .u-step-title,
+  &.current .u-step-title {
     color: $white;
   }
-  &.active .u-step-number, &.current .u-step-number {
+  &.active .u-step-number,
+  &.current .u-step-number {
     color: $primary-color;
     background-color: $white;
   }
@@ -77,7 +80,8 @@
     color: $light-gray;
     pointer-events: none;
     cursor: auto;
-    .u-step-title, p {
+    .u-step-title,
+    p {
       color: $semi-dark;
     }
     .u-step-number {
@@ -112,7 +116,8 @@
   .u-step {
     font-size: 16px;
   }
-  .u-step-icon, .u-step-title {
+  .u-step-icon,
+  .u-step-title {
     font-size: 22px;
   }
   .u-step-number {
@@ -130,7 +135,8 @@
   .u-step {
     font-size: 12px;
   }
-  .u-step-icon, .u-step-title {
+  .u-step-icon,
+  .u-step-title {
     font-size: 18px;
   }
   .u-step-number {
@@ -148,7 +154,8 @@
   .u-step {
     font-size: 10px;
   }
-  .u-step-icon, .u-step-title {
+  .u-step-icon,
+  .u-step-title {
     font-size: 16px;
   }
   .u-step-number {
@@ -156,7 +163,7 @@
     height: 24px;
     font-size: 20px;
     line-height: 24px;
-    ~.u-step-desc {
+    ~ .u-step-desc {
       min-height: 24px;
       margin-left: 34px;
     }
@@ -173,7 +180,7 @@
     z-index: 0;
     width: 50%;
     height: 4px;
-    content: "";
+    content: '';
     background-color: $light-gray;
   }
   &:before {
@@ -182,14 +189,15 @@
     z-index: 0;
     width: 50%;
     height: 4px;
-    content: "";
+    content: '';
     background-color: $light-gray;
     left: 0;
   }
   &:after {
     right: 0;
   }
-  &:first-child:before, &:last-child:after {
+  &:first-child:before,
+  &:last-child:after {
     display: none !important;
   }
 }
@@ -206,12 +214,12 @@
   background: $light-gray;
   border: 2px solid $light-gray;
   border-radius: 50%;
-  i{
+  i {
     position: absolute;
-    top:7px;
+    top: 7px;
     left: 8px;
   }
-  .icon-check{
+  .icon-check {
     left: 7px;
   }
 }
@@ -220,10 +228,10 @@
   position: relative;
   z-index: 1;
   display: inline-block;
-  width:36px;
-  height:36px;
+  width: 36px;
+  height: 36px;
   line-height: 32px;
-  color:$primary-color;
+  color: $primary-color;
   text-align: center;
   background: $light-gray;
   border: 2px solid $light-gray;
@@ -240,26 +248,29 @@
   text-overflow: ellipsis;
   white-space: nowrap;
   display: block;
-  margin-top: .5em;
+  margin-top: 0.5em;
   margin-bottom: 0;
   font-size: 16px;
   color: #526069;
-  font-weight:600;
+  font-weight: 600;
 }
 
 .u-pearl {
   &.active {
-    &:after, &:before {
+    &:after,
+    &:before {
       background-color: $primary-color;
     }
   }
   &.current {
-    &:after, &:before {
+    &:after,
+    &:before {
       background-color: $primary-color !important;
     }
   }
   &.active {
-    .u-pearl-icon, .u-pearl-number {
+    .u-pearl-icon,
+    .u-pearl-number {
       color: $primary-color;
       // background-color: $white;
       border-color: $primary-color;
@@ -270,7 +281,8 @@
     }
   }
   &.current {
-    .u-pearl-icon, .u-pearl-number {
+    .u-pearl-icon,
+    .u-pearl-number {
       color: $primary-color;
       // background-color: $white;
       border-color: $primary-color;
@@ -283,10 +295,12 @@
   &.disabled {
     pointer-events: none;
     cursor: auto;
-    &:after, &:before {
+    &:after,
+    &:before {
       background-color: $light-gray;
     }
-    .u-pearl-icon, .u-pearl-number {
+    .u-pearl-icon,
+    .u-pearl-number {
       color: $white;
       background-color: $light-gray;
       border-color: $light-gray;
@@ -299,17 +313,20 @@
     &:after {
       background-color: $light-gray;
     }
-    .u-pearl-icon, .u-pearl-number {
+    .u-pearl-icon,
+    .u-pearl-number {
       color: $danger-color;
       background-color: $white;
       border-color: $danger-color;
     }
   }
   &.done {
-    &:after, &:before {
+    &:after,
+    &:before {
       background-color: $primary-color !important;
     }
-    .u-pearl-icon, .u-pearl-number {
+    .u-pearl-icon,
+    .u-pearl-number {
       color: $white;
       background-color: $primary-color;
       border-color: $primary-color;
@@ -319,26 +336,30 @@
 
 .u-pearls-lg {
   .u-pearl {
-    &:after, &:before {
+    &:after,
+    &:before {
       top: 20px;
     }
   }
   .u-pearl-title {
     font-size: 18px;
   }
-  .u-pearl-icon, .u-pearl-number {
+  .u-pearl-icon,
+  .u-pearl-number {
     width: 40px;
     height: 40px;
     line-height: 36px;
   }
-  .u-pearl-icon, .u-pearl-number {
+  .u-pearl-icon,
+  .u-pearl-number {
     font-size: 20px;
   }
 }
 
 .u-pearls-sm {
   .u-pearl {
-    &:after, &:before {
+    &:after,
+    &:before {
       top: 16px;
     }
   }
@@ -363,7 +384,8 @@
 
 .u-pearls-xs {
   .u-pearl {
-    &:after, &:before {
+    &:after,
+    &:before {
       top: 12px;
       height: 2px;
     }
@@ -386,9 +408,9 @@
     font-size: 12px;
   }
 }
-.u-pearl.current{
-  .u-pearl-icon{
-    i{
+.u-pearl.current {
+  .u-pearl-icon {
+    i {
       left: 6px;
     }
   }

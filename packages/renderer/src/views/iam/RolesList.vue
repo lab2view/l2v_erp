@@ -6,6 +6,7 @@
         add-action-router-name="iam.role.form"
         :refresh-action-field="{ page: 1, field: { next: true } }"
         refresh-action-name="role/getRolesList"
+        entity="Role"
       />
       <div class="card-body">
         <BaseDatatable
@@ -17,52 +18,42 @@
             <th>#</th>
             <th>{{ $t('common.attributes.label') }}</th>
             <th>{{ $t('common.attributes.description') }}</th>
-            <th>{{ $t('common.actions') }}</th>
+            <th style="width: 220px">{{ $t('common.actions') }}</th>
           </template>
           <tr v-for="role in roles" :key="role.id">
             <td>{{ role.id }}</td>
             <td>{{ role.label }}</td>
             <td>{{ truncate(role.description) }}</td>
             <td>
-              <button
-                v-if="!role.not_deletable"
-                :title="$t('common.update')"
-                class="btn btn-secondary btn-xs"
-                data-original-title="btn btn-secondary btn-xs"
-                type="button"
-                @click.prevent="
-                  $router.push({
-                    name: 'iam.config.role',
-                    params: { id: role.id },
-                  })
-                "
-              >
-                {{ $t('common.configure') }}
-              </button>
-              <button
-                :title="$t('common.update')"
-                class="btn btn-secondary m-l-5"
-                data-original-title="btn btn-secondary btn-xs"
-                type="button"
-                @click.prevent="
+              <BaseActionBtnGroup
+                entity="Role"
+                :with-show-btn="false"
+                :with-delete-btn="!role.not_deletable"
+                @update="
                   $router.push({
                     name: 'iam.role.form',
                     params: { id: role.id },
                   })
                 "
+                @delete="deleteRole(role)"
               >
-                {{ $t('common.update') }}
-              </button>
-              <button
-                v-if="!role.not_deletable"
-                :title="$t('common.delete')"
-                class="btn btn-danger btn-xs m-l-5"
-                data-original-title="btn btn-danger btn-xs"
-                type="button"
-                @click.prevent="deleteRole(role)"
-              >
-                <i class="fa fa-trash-o" />
-              </button>
+                <BaseButton
+                  v-if="
+                    canConfigure &&
+                    (!role.not_deletable || role.privileges.length)
+                  "
+                  class="btn btn-success btn-xs"
+                  data-original-title="btn btn-success btn-xs"
+                  type="button"
+                  :text="$t('common.configure')"
+                  @click.prevent="
+                    $router.push({
+                      name: 'iam.config.role',
+                      params: { id: role.id },
+                    })
+                  "
+                />
+              </BaseActionBtnGroup>
             </td>
           </tr>
         </BaseDatatable>
@@ -80,9 +71,17 @@ import BaseDatatable from '/@/components/common/BaseDatatable.vue';
 import store from '../../store';
 import { mapGetters } from 'vuex';
 import BaseTableHeader from '/@/components/common/BaseTableHeader.vue';
+import BaseActionBtnGroup from '/@/components/common/BaseActionBtnGroup.vue';
+import BaseButton from '/@/components/common/BaseButton.vue';
 
 export default {
-  components: { BaseTableHeader, BaseContainer, BaseDatatable },
+  components: {
+    BaseButton,
+    BaseActionBtnGroup,
+    BaseTableHeader,
+    BaseContainer,
+    BaseDatatable,
+  },
   beforeRouteEnter(routeTo, routeFrom, next) {
     store
       .dispatch('role/getRolesList', {
@@ -99,6 +98,10 @@ export default {
   },
   computed: {
     ...mapGetters('role', ['roles', 'role']),
+    ...mapGetters('auth', ['isGrantedAction']),
+    canConfigure() {
+      return this.isGrantedAction('Privilege.create');
+    },
   },
   created() {
     if (this.role) this.$store.commit('role/SET_CURRENT_ROLE', null);

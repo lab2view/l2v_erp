@@ -6,6 +6,7 @@
         add-action-router-name="sales.cashier.group.form"
         :refresh-action-field="{ page: 1, field: { next: true } }"
         refresh-action-name="cashier_group/getCashierGroupsList"
+        entity="CashierGroup"
       />
       <div class="card-body">
         <BaseDatatable
@@ -22,29 +23,17 @@
             <td>{{ cashierGroup.id }}</td>
             <td>{{ cashierGroup.label }}</td>
             <td>
-              <button
-                class="btn btn-secondary btn-xs"
-                type="button"
-                data-original-title="btn btn-secondary btn-xs"
-                :title="$t('common.update')"
-                @click.prevent="
+              <BaseActionBtnGroup
+                entity="CashierGroup"
+                :with-show-btn="false"
+                @update="
                   $router.push({
                     name: 'sales.cashier.group.form',
                     params: { id: cashierGroup.id },
                   })
                 "
-              >
-                {{ $t('common.update') }}
-              </button>
-              <button
-                class="btn btn-danger btn-xs m-l-5"
-                type="button"
-                data-original-title="btn btn-danger btn-xs"
-                :title="$t('common.delete')"
-                @click.prevent="deleteCashierGroup(cashierGroup)"
-              >
-                <i class="fa fa-trash-o" />
-              </button>
+                @delete="deleteCashierGroup(cashierGroup)"
+              />
             </td>
           </tr>
         </BaseDatatable>
@@ -61,10 +50,16 @@ import BaseDatatable from '/@/components/common/BaseDatatable.vue';
 import store from '/@/store';
 import { mapGetters } from 'vuex';
 import BaseTableHeader from '/@/components/common/BaseTableHeader.vue';
+import BaseActionBtnGroup from '/@/components/common/BaseActionBtnGroup.vue';
 
 export default {
   name: 'CashierGroupsList',
-  components: { BaseTableHeader, BaseContainer, BaseDatatable },
+  components: {
+    BaseActionBtnGroup,
+    BaseTableHeader,
+    BaseContainer,
+    BaseDatatable,
+  },
   beforeRouteEnter(routeTo, routeFrom, next) {
     store
       .dispatch('cashier_group/getCashierGroupsList', {

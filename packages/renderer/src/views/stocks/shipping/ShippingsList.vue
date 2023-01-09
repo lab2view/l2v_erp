@@ -13,6 +13,7 @@
         add-action-label="stocks.shipping.add"
         add-action-router-name="shipping.form.desc"
         refresh-action-name="shipping/getShippingsList"
+        entity="Shipping"
       />
       <div class="card-body pb-0">
         <div class="row">

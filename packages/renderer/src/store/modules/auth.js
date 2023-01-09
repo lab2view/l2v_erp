@@ -1,5 +1,9 @@
 import AuthService from '../../services/AuthService';
-import { roleAdminCode, roleCashierCode } from '/@/helpers/codes.js';
+import {
+  privilegeCode,
+  roleAdminCode,
+  roleCashierCode,
+} from '/@/helpers/codes.js';
 import userService from '/@/services/iam/IamUserService';
 import { removeStorage } from '/@/helpers/utils.js';
 
@@ -43,10 +47,23 @@ const getters = {
         getters.currentUser.privileges.find(
           (p) =>
             p.module.code.toString().toLowerCase() ===
-            moduleCode.toString().toLowerCase()
+              moduleCode.toString().toLowerCase() ||
+            p.action?.module?.code.toString().toLowerCase() ===
+              moduleCode.toString().toLowerCase()
         ) !== undefined
       );
     } else return false;
+  },
+  isGrantedAction: (state, getters) => (code) => {
+    if (getters.isRoleAdmin) return true;
+    return getters.currentUser?.privileges?.find(
+      (p) =>
+        p.code.toString().toLowerCase() === code.toString().toLowerCase() ||
+        p.actions.find(
+          (a) =>
+            a.code.toString().toLowerCase() === code.toString().toLowerCase()
+        ) !== undefined
+    );
   },
   canShowMenuItem: (state, getters) => (actionCode) => {
     if (!actionCode) return true;
@@ -56,6 +73,8 @@ const getters = {
         (p) =>
           p.code.toString().toLowerCase() ===
             actionCode.toString().toLowerCase() ||
+          p.action?.code.toString().toLowerCase() ===
+            actionCode.toString().toLowerCase() ||
           p.actions.find(
             (a) =>
               a.code.toString().toLowerCase() ===
@@ -64,6 +83,9 @@ const getters = {
       );
       return canAccessModule !== undefined;
     } else return false;
+  },
+  canShowSaleReportsMargin: (state, getters) => {
+    return getters.canShowMenuItem(privilegeCode.sale.report.margin);
   },
 };
 

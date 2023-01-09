@@ -6,6 +6,7 @@
         add-action-router-name="sales.cashRegister.form"
         :refresh-action-field="{ page: 1, field: { next: true } }"
         refresh-action-name="cash_register/getCashRegistersList"
+        entity="CashRegister"
       />
       <div class="card-body">
         <BaseDatatable
@@ -26,42 +27,37 @@
             </td>
             <td>{{ cashRegister.label }}</td>
             <td>
-              <button
-                :class="`btn btn-xs m-r-5 btn-${
-                  cashRegister.disabled_at ? 'primary' : 'danger'
-                }`"
-                type="button"
-                data-original-title="btn btn-light btn-xs"
-                :title="$t('common.states.disabled')"
-                @click.prevent="updateStatusCashRegister(cashRegister)"
-              >
-                <i
-                  :class="`fa fa-${cashRegister.disabled_at ? 'check' : 'ban'}`"
-                />
-              </button>
-              <button
-                class="btn btn-secondary btn-xs"
-                type="button"
-                data-original-title="btn btn-secondary btn-xs"
-                :title="$t('common.update')"
-                @click.prevent="
+              <BaseActionBtnGroup
+                entity="CashRegister"
+                :with-show-btn="false"
+                @update="
                   $router.push({
                     name: 'sales.cashRegister.form',
                     params: { id: cashRegister.id },
                   })
                 "
+                @delete="deleteCashRegister(cashRegister)"
               >
-                {{ $t('common.update') }}
-              </button>
-              <button
-                class="btn btn-danger btn-xs m-l-5"
-                type="button"
-                data-original-title="btn btn-danger btn-xs"
-                :title="$t('common.delete')"
-                @click.prevent="deleteCashRegister(cashRegister)"
-              >
-                <i class="fa fa-trash-o" />
-              </button>
+                <BaseButton
+                  v-if="canChangeState"
+                  type="button"
+                  :class="`btn btn-xs m-r-5 btn-${
+                    cashRegister.disabled_at ? 'primary' : 'danger'
+                  }`"
+                  :title="
+                    cashRegister.disabled_at
+                      ? $t('common.states.enabled')
+                      : $t('common.states.disabled')
+                  "
+                  @click.prevent="updateStatusCashRegister(cashRegister)"
+                >
+                  <i
+                    :class="`fa fa-${
+                      cashRegister.disabled_at ? 'check' : 'ban'
+                    }`"
+                  />
+                </BaseButton>
+              </BaseActionBtnGroup>
             </td>
           </tr>
         </BaseDatatable>
@@ -78,9 +74,17 @@ import BaseDatatable from '/@/components/common/BaseDatatable.vue';
 import store from '/@/store';
 import { mapGetters } from 'vuex';
 import BaseTableHeader from '/@/components/common/BaseTableHeader.vue';
+import BaseActionBtnGroup from '/@/components/common/BaseActionBtnGroup.vue';
+import BaseButton from '/@/components/common/BaseButton.vue';
 
 export default {
-  components: { BaseTableHeader, BaseContainer, BaseDatatable },
+  components: {
+    BaseButton,
+    BaseActionBtnGroup,
+    BaseTableHeader,
+    BaseContainer,
+    BaseDatatable,
+  },
   beforeRouteEnter(routeTo, routeFrom, next) {
     store
       .dispatch('cash_register/getCashRegistersList', {
@@ -97,6 +101,10 @@ export default {
   },
   computed: {
     ...mapGetters('cash_register', ['cashRegisters', 'cashRegister']),
+    ...mapGetters('auth', ['isGrantedAction']),
+    canChangeState() {
+      return this.isGrantedAction('CashRegister.update');
+    },
   },
   created() {
     if (this.cashRegister)

@@ -1,7 +1,7 @@
 /**=====================
      07. Color CSS Start
 ==========================**/
-.color-box{
+.color-box {
   margin-bottom: -10px;
   button {
     margin-bottom: 10px;
@@ -12,7 +12,7 @@
 }
 
 // primary Color
-$m-val:13;
+$m-val: 13;
 $or: $primary-color;
 @while $m-val >=1 {
   .primary-color ul li {
@@ -22,7 +22,7 @@ $or: $primary-color;
       padding: 10px 15px;
       margin-bottom: 10px;
       span:before {
-        content: "#{$or}";
+        content: '#{$or}';
         display: block;
         color: $white;
         text-align: center;
@@ -37,7 +37,7 @@ $or: $primary-color;
 //primary Color
 
 // secondary Color
-$m-val:13;
+$m-val: 13;
 $or: $secondary-color;
 @while $m-val >=1 {
   .secondary-color ul li {
@@ -47,7 +47,7 @@ $or: $secondary-color;
       padding: 10px 15px;
       margin-bottom: 10px;
       span:before {
-        content: "#{$or}";
+        content: '#{$or}';
         display: block;
         color: $white;
         text-align: center;
@@ -62,17 +62,17 @@ $or: $secondary-color;
 //secondary Color
 
 //Success Color
-$m-val:13;
-$or:$success-color;
+$m-val: 13;
+$or: $success-color;
 @while $m-val >=1 {
   .success-color ul li {
     &:nth-child(#{$m-val}) {
-      $or: lighten($or, .9%);
+      $or: lighten($or, 0.9%);
       background-color: $or;
       padding: 10px 15px;
       margin-bottom: 10px;
       span:before {
-        content: "#{$or}";
+        content: '#{$or}';
         display: block;
         color: $white;
         text-align: center;
@@ -87,7 +87,7 @@ $or:$success-color;
 //Success Color
 
 // Info Color
-$m-val:13;
+$m-val: 13;
 $or: $light-font;
 @while $m-val >=1 {
   .info-color ul li {
@@ -97,7 +97,7 @@ $or: $light-font;
       padding: 10px 15px;
       margin-bottom: 10px;
       span:before {
-        content: "#{$or}";
+        content: '#{$or}';
         display: block;
         color: $white;
         text-align: center;
@@ -112,8 +112,8 @@ $or: $light-font;
 //Info Color
 
 // warning Color
-$m-val:13;
-$or:  $warning-color;
+$m-val: 13;
+$or: $warning-color;
 @while $m-val >=1 {
   .yellow-color ul li {
     &:nth-child(#{$m-val}) {
@@ -122,7 +122,7 @@ $or:  $warning-color;
       padding: 10px 15px;
       margin-bottom: 10px;
       span:before {
-        content: "#{$or}";
+        content: '#{$or}';
         display: block;
         color: $white;
         text-align: center;
@@ -137,8 +137,8 @@ $or:  $warning-color;
 //warning Color
 
 //Danger Color
-$m-val:13;
-$or:$danger-color;
+$m-val: 13;
+$or: $danger-color;
 @while $m-val >=1 {
   .red-color ul li {
     &:nth-child(#{$m-val}) {
@@ -147,7 +147,7 @@ $or:$danger-color;
       padding: 10px 15px;
       margin-bottom: 10px;
       span:before {
-        content: "#{$or}";
+        content: '#{$or}';
         display: block;
         color: $white;
         text-align: center;
@@ -162,8 +162,8 @@ $or:$danger-color;
 //Danger Color
 
 //Pink Color
-$m-val:13;
-$or:#e6155e;
+$m-val: 13;
+$or: #e6155e;
 @while $m-val >=1 {
   .pink-color ul li {
     &:nth-child(#{$m-val}) {
@@ -172,7 +172,7 @@ $or:#e6155e;
       padding: 10px 15px;
       margin-bottom: 10px;
       span:before {
-        content: "#{$or}";
+        content: '#{$or}';
         display: block;
         color: $white;
         text-align: center;
@@ -186,9 +186,8 @@ $or:#e6155e;
 }
 //Pink Color
 
-
 // Gray Color
-$m-val:13;
+$m-val: 13;
 $or: $dark-gray;
 @while $m-val >=1 {
   .gray-color ul li {
@@ -198,7 +197,7 @@ $or: $dark-gray;
       padding: 10px 15px;
       margin-bottom: 10px;
       span:before {
-        content: "#{$or}";
+        content: '#{$or}';
         display: block;
         color: $white;
         text-align: center;
@@ -211,7 +210,6 @@ $or: $dark-gray;
   }
 }
 //gray Color
-
 
 .light-font {
   color: $theme-body-sub-title-color;

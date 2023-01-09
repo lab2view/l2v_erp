@@ -5,17 +5,17 @@
   .history {
     height: 294px;
     .chartist-tooltip {
-      box-shadow:-1.5px 1.33px 15px 0px rgba($secondary-color,0.1);
+      box-shadow: -1.5px 1.33px 15px 0px rgba($secondary-color, 0.1);
       .chartist-tooltip-value {
-         color: $secondary-color;
+        color: $secondary-color;
       }
     }
     svg {
       .ct-grids {
         .ct-horizontal {
           stroke: $transparent-color;
-          &:nth-child(4){
-            stroke: rgba(0,0,0,0.2);
+          &:nth-child(4) {
+            stroke: rgba(0, 0, 0, 0.2);
           }
         }
       }
@@ -27,12 +27,17 @@
         }
       }
       .ct-series-a {
-        .ct-point, .ct-line, .ct-bar, .ct-slice-donut {
+        .ct-point,
+        .ct-line,
+        .ct-bar,
+        .ct-slice-donut {
           stroke: lighten($secondary-color, 30%);
         }
       }
       .ct-series-b {
-        .ct-slice-pie, .ct-slice-donut-solid, .ct-area {
+        .ct-slice-pie,
+        .ct-slice-donut-solid,
+        .ct-area {
           fill: url(#gradient) !important;
           fill-opacity: 0.2;
         }
@@ -46,7 +51,8 @@
     margin-top: 10px;
   }
 }
-.task-table, .project-table {
+.task-table,
+.project-table {
   table {
     tr {
       th {
@@ -104,7 +110,8 @@
       }
     }
     tr {
-      th,td {
+      th,
+      td {
         vertical-align: middle;
         span {
           font-size: 12px;
@@ -133,33 +140,34 @@
   }
 }
 @media screen and (min-width: 1200px) and (max-width: 1291px) {
- .update-line {
-  .media {
-    .activity-line {
-       height: 287px;
+  .update-line {
+    .media {
+      .activity-line {
+        height: 287px;
+      }
     }
   }
- }
- .order-chart-container {
-  .history {
-    height: 321px;
+  .order-chart-container {
+    .history {
+      height: 321px;
+    }
   }
- }
- #project-status {
-  min-height: 320px !important;
-  .apexcharts-canvas, svg {
-    height: 320px !important;
-  } 
- }
+  #project-status {
+    min-height: 320px !important;
+    .apexcharts-canvas,
+    svg {
+      height: 320px !important;
+    }
+  }
 }
 @media only screen and (max-width: 991px) {
   .update-line {
     .media {
       .activity-line {
-         height: 211px;
+        height: 211px;
       }
     }
-   }
+  }
   .map-progress {
     li {
       + li {
@@ -175,7 +183,8 @@
   .project-table {
     table {
       tr {
-        td,th {
+        td,
+        th {
           min-width: 130px;
           &:nth-child(2) {
             min-width: 169px;
@@ -189,7 +198,8 @@
   .task-table {
     table {
       tr {
-        th,td {
+        th,
+        td {
           &:first-child {
             min-width: 280px;
           }

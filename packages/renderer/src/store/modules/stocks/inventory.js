@@ -1,6 +1,7 @@
 import inventoryService from '../../../services/stocks/InventoryService';
 import { notify } from '/@/helpers/notify';
 import i18n from '/@/i18n';
+import { privilegeCode } from '/@/helpers/codes';
 
 const state = {
   inventories: [],
@@ -24,7 +25,17 @@ const getters = {
 };
 
 const actions = {
-  getInventoriesList({ commit, getters, dispatch }, { page, field }) {
+  getInventoriesList(
+    { commit, getters, dispatch, rootGetters },
+    { page, field }
+  ) {
+    if (
+      !rootGetters['auth/isGrantedAction'](
+        privilegeCode.stock.inventory.viewAny
+      )
+    )
+      return; //todo update all module to use this specific control
+
     if (getters.inventories.length > 0 && !field.next) {
       return getters.inventories;
     }

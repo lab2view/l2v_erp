@@ -30,6 +30,7 @@ export default {
   verify: 'Verifier',
   resend: 'Renvoyer',
   save: 'Enregistrer',
+  save_update: 'Enregistrer les modifications',
   find: 'Rechercher',
   update: 'Modifier',
   restore: 'Restaurer',
@@ -101,6 +102,7 @@ export default {
   confirm_shipping: 'Confirmer la livraison',
   upload_csv: 'Charger un csv',
   btn_set_global_price: 'Appliquer globalement un prix aux articles',
+  empty_list: 'Aucun element dans la liste',
 
   la: 'la',
   le: 'le',
@@ -327,6 +329,9 @@ export default {
     pay_per_method: 'Paye par {name}',
     cashin: 'Encaisse',
     cashout: 'Decaisse',
+    total_buying: "Prix d'achat",
+    privilege: 'Privileges',
+    sup_module: 'Sous modules',
   },
 
   errors: {

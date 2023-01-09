@@ -13,6 +13,7 @@
           : null
       "
       :params="$route.params"
+      entity="Article"
     />
     <div class="card-body">
       <div class="user-status table-responsive">

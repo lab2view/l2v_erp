@@ -12,9 +12,9 @@
   }
 
   .carbonads {
-    border-radius: .25rem;
+    border-radius: 0.25rem;
     border: 1px solid #ccc;
-    font-size: .875rem;
+    font-size: 0.875rem;
     overflow: hidden;
     padding: 1rem;
   }
@@ -49,14 +49,12 @@
     text-decoration: none;
   }
 
-
-    .carbonads {
-      float: right;
-      margin-bottom: -1rem;
-      margin-top: -1rem;
-      max-width: 360px;
-    }
-
+  .carbonads {
+    float: right;
+    margin-bottom: -1rem;
+    margin-top: -1rem;
+    max-width: 360px;
+  }
 
   .heart {
     color: #ddd;
@@ -76,7 +74,7 @@
 
   .heart::before {
     border-top: 1px solid #eee;
-    content: " ";
+    content: ' ';
     display: block;
     height: 0;
     left: 0;
@@ -87,9 +85,9 @@
 
   .heart::after {
     background-color: #fff;
-    content: "♥";
-    padding-left: .5rem;
-    padding-right: .5rem;
+    content: '♥';
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
     position: relative;
     z-index: 1;
   }
@@ -105,15 +103,14 @@
     margin-bottom: 1rem;
     max-height: 497px;
     min-height: 200px;
-    .cropper-bg{
-      width: 100%!important;
+    .cropper-bg {
+      width: 100% !important;
     }
   }
 
-    .img-container {
-      min-height: 497px;
-    }
-
+  .img-container {
+    min-height: 497px;
+  }
 
   .img-container > img {
     max-width: 100%;
@@ -125,8 +122,8 @@
 
   .img-preview {
     float: left;
-    margin-bottom: .5rem;
-    margin-right: .5rem;
+    margin-bottom: 0.5rem;
+    margin-right: 0.5rem;
     overflow: hidden;
   }
 
@@ -156,7 +153,7 @@
   }
 
   .docs-data > .input-group {
-    margin-bottom: .5rem;
+    margin-bottom: 0.5rem;
   }
 
   .docs-data .input-group-prepend .input-group-text {
@@ -177,7 +174,7 @@
   .docs-toggles > .btn,
   .docs-toggles > .btn-group,
   .docs-toggles > .dropdown {
-    margin-bottom: .5rem;
+    margin-bottom: 0.5rem;
   }
 
   .docs-tooltip {
@@ -187,7 +184,7 @@
   }
 
   .docs-tooltip > .icon {
-    margin: 0 -.25rem;
+    margin: 0 -0.25rem;
     vertical-align: top;
   }
 
@@ -201,39 +198,37 @@
   }
 
   .btn-toggle {
-    padding: .5rem;
+    padding: 0.5rem;
   }
 
   .btn-toggle > .docs-tooltip {
-    margin: -.5rem;
-    padding: .5rem;
+    margin: -0.5rem;
+    padding: 0.5rem;
   }
 
+  .btn-group-crop {
+    margin-right: 5px !important;
+  }
 
-    .btn-group-crop {
-      margin-right: 5px !important;
-    }
+  .btn-group-crop > .btn {
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+  }
 
-    .btn-group-crop > .btn {
-      padding-left: .5rem;
-      padding-right: .5rem;
-    }
-
-    .btn-group-crop .docs-tooltip {
-      margin-left: -.5rem;
-      margin-right: -.5rem;
-      padding-left: .5rem;
-      padding-right: .5rem;
-    }
-
+  .btn-group-crop .docs-tooltip {
+    margin-left: -0.5rem;
+    margin-right: -0.5rem;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+  }
 
   .docs-options .dropdown-menu {
     width: 100%;
   }
 
   .docs-options .dropdown-menu > li {
-    font-size: .875rem;
-    padding: .125rem 1rem;
+    font-size: 0.875rem;
+    padding: 0.125rem 1rem;
   }
 
   .docs-options .dropdown-menu .form-check-label {

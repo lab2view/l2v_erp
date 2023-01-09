@@ -11,9 +11,13 @@
     </td>
     <td class="font-primary f-w-600">{{ article.name }}</td>
     <td>
-      <div class="row justify-content-center align-items-center">
+      <div
+        v-if="canShowArticle && canDeleteArticle"
+        class="row justify-content-center align-items-center"
+      >
         <div class="col-md-6 p-0">
           <BaseButton
+            v-if="canShowArticle"
             type="button"
             class="btn btn-iconsolid btn-info btn-sm"
             :title="$t('common.delete')"
@@ -29,7 +33,7 @@
         </div>
         <div class="col-md-6 p-0">
           <BaseButton
-            v-if="!article.not_deletable"
+            v-if="!article.not_deletable && canDeleteArticle"
             type="button"
             class="btn btn-iconsolid btn-danger btn-sm"
             :title="$t('common.delete')"
@@ -44,8 +48,9 @@
 </template>
 
 <script>
-import BaseButton from '../common/BaseButton.vue';
+import BaseButton from '/@/components/common/BaseButton.vue';
 import BaseUpdateNumberForm from '/@/components/common/BaseUpdateNumberForm.vue';
+import { mapGetters } from 'vuex';
 export default {
   name: 'ProductArticleLine',
   components: { BaseUpdateNumberForm, BaseButton },
@@ -59,6 +64,15 @@ export default {
     return {
       loading: false,
     };
+  },
+  computed: {
+    ...mapGetters('auth', ['isGrantedAction']),
+    canShowArticle() {
+      return this.isGrantedAction('Article.view');
+    },
+    canDeleteArticle() {
+      return this.isGrantedAction('Article.delete');
+    },
   },
   methods: {
     deleteArticle(article) {

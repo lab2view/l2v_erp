@@ -29,32 +29,25 @@
       </td>
       <td>{{ $d(stockExit.created_at, 'short') }}</td>
       <td>
-        <BaseButton
-          type="button"
-          :class="`btn btn-iconsolid btn-sm ${
-            stockExit.not_deletable ? 'btn-success' : 'btn-secondary'
-          }`"
-          :title="$t('common.update')"
-          @click.prevent="
+        <BaseActionBtnGroup
+          entity="StockExit"
+          :with-show-btn="stockExit.not_deletable"
+          :with-update-btn="!stockExit.not_deletable"
+          :with-delete-btn="!stockExit.not_deletable"
+          @update="
             $router.push({
-              name: `stocks.exit.form.${
-                stockExit.not_deletable ? 'article' : 'desc'
-              }`,
+              name: `stocks.exit.form.desc`,
               params: { id: stockExit.id },
             })
           "
-        >
-          {{ $t(`common.${stockExit.not_deletable ? 'show' : 'update'}`) }}
-        </BaseButton>
-        <button
-          v-if="!stockExit.not_deletable"
-          class="btn btn-danger btn-xs m-l-5"
-          data-original-title="btn btn-danger btn-xs"
-          type="button"
-          @click.prevent="deleteStockExit(stockExit)"
-        >
-          <i class="fa fa-trash-o" />
-        </button>
+          @show="
+            $router.push({
+              name: `stocks.exit.form.article`,
+              params: { id: stockExit.id },
+            })
+          "
+          @delete="deleteStockExit(stockExit)"
+        />
       </td>
     </tr>
   </BaseDatatable>
@@ -63,10 +56,10 @@
 <script>
 import BaseDatatable from '/@/components/common/BaseDatatable.vue';
 import { mapGetters } from 'vuex';
-import BaseButton from '/@/components/common/BaseButton.vue';
+import BaseActionBtnGroup from '/@/components/common/BaseActionBtnGroup.vue';
 export default {
   name: 'StockExitTable',
-  components: { BaseButton, BaseDatatable },
+  components: { BaseActionBtnGroup, BaseDatatable },
   props: {
     stockExits: {
       type: Array,

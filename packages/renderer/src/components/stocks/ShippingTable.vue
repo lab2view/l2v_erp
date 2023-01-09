@@ -24,33 +24,25 @@
       </td>
       <td>{{ $d(shippingEntry.delivery_date, 'short') }}</td>
       <td>
-        <BaseButton
-          :class="`btn btn-iconsolid btn-${
-            shippingEntry.is_confirm ? 'success' : 'secondary'
-          } btn-sm`"
-          :title="$t(`common.${shippingEntry.is_confirm ? 'show' : 'update'}`)"
-          type="button"
-          @click.prevent="
+        <BaseActionBtnGroup
+          entity="Shipping"
+          :with-show-btn="shippingEntry.is_confirm"
+          :with-update-btn="!shippingEntry.is_confirm"
+          :with-delete-btn="!shippingEntry.is_confirm"
+          @update="
             $router.push({
-              name: `shipping.form.${
-                shippingEntry.is_confirm ? 'article' : 'desc'
-              }`,
+              name: `shipping.form.desc`,
               params: { id: shippingEntry.id },
             })
           "
-        >
-          {{ $t(`common.${shippingEntry.is_confirm ? 'show' : 'update'}`) }}
-        </BaseButton>
-        <button
-          v-if="!shippingEntry.is_confirm"
-          :title="$t('common.delete')"
-          class="btn btn-danger btn-xs m-l-5"
-          data-original-title="btn btn-danger btn-xs"
-          type="button"
-          @click.prevent="deleteShipping(shippingEntry)"
-        >
-          <i class="fa fa-trash-o" />
-        </button>
+          @show="
+            $router.push({
+              name: `shipping.form.article`,
+              params: { id: shippingEntry.id },
+            })
+          "
+          @delete="deleteShipping(shippingEntry)"
+        />
       </td>
     </tr>
   </BaseDatatable>
@@ -58,10 +50,10 @@
 
 <script>
 import BaseDatatable from '/@/components/common/BaseDatatable.vue';
-import BaseButton from '/@/components/common/BaseButton.vue';
+import BaseActionBtnGroup from '/@/components/common/BaseActionBtnGroup.vue';
 export default {
   name: 'ShippingEntryTable',
-  components: { BaseButton, BaseDatatable },
+  components: { BaseActionBtnGroup, BaseDatatable },
   props: {
     shippingEntries: {
       type: Array,

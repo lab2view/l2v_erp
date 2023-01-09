@@ -10,7 +10,7 @@
  * Copyright (c) 2015 Aleksandras Nelkinas
  */
 
-;(function (factory) {
+(function (factory) {
   if (typeof define === 'function' && define.amd) {
     // AMD
     define(['jquery'], factory);
@@ -21,8 +21,7 @@
     // Browser globals
     factory(jQuery);
   }
-}(function ($, undefined) {
-
+})(function ($, undefined) {
   'use strict';
 
   var pluginName = 'drilldown';
@@ -34,12 +33,11 @@
       container: pluginName + '-container',
       root: pluginName + '-root',
       sub: pluginName + '-sub',
-      back: pluginName + '-back'
-    }
+      back: pluginName + '-back',
+    },
   };
 
   var Plugin = (function () {
-
     function Plugin(element, options) {
       var inst = this;
 
@@ -54,25 +52,33 @@
       this._history = [];
       this._css = {
         float: 'left',
-        width: null
+        width: null,
       };
 
-      this.$container = this.$element.find('.' + this.options.cssClass.container);
+      this.$container = this.$element.find(
+        '.' + this.options.cssClass.container
+      );
 
-      this.$element.on(this.options.event + '.' + pluginName, this.options.selector, function (e) {
-        handleAction.call(inst, e, $(this));
-      });
+      this.$element.on(
+        this.options.event + '.' + pluginName,
+        this.options.selector,
+        function (e) {
+          handleAction.call(inst, e, $(this));
+        }
+      );
     }
 
     Plugin.prototype = {
-
       /**
        * Destroys plugin instance.
        */
       destroy: function () {
         this.reset();
 
-        this.$element.off(this.options.event + '.' + pluginName, this.options.selector);
+        this.$element.off(
+          this.options.event + '.' + pluginName,
+          this.options.selector
+        );
       },
 
       /**
@@ -91,10 +97,9 @@
         this._history = [];
         this._css = {
           float: 'left',
-          width: null
+          width: null,
         };
-      }
-
+      },
     };
 
     /**
@@ -135,19 +140,24 @@
       this._css.width = this.$element.outerWidth();
       this.$container.width(this._css.width * 2);
 
-      $next = $next.clone(true)
-          .removeClass(this.options.cssClass.sub)
-          .addClass(this.options.cssClass.root);
+      $next = $next
+        .clone(true)
+        .removeClass(this.options.cssClass.sub)
+        .addClass(this.options.cssClass.root);
 
       this.$container.append($next);
 
-      animateDrilling.call(this, -1 * this._css.width, function () {
-        var $current = $next.prev();
+      animateDrilling.call(
+        this,
+        -1 * this._css.width,
+        function () {
+          var $current = $next.prev();
 
-        this._history.push($current.detach());
+          this._history.push($current.detach());
 
-        restoreState.call(this, $next);
-      }.bind(this));
+          restoreState.call(this, $next);
+        }.bind(this)
+      );
     }
 
     /**
@@ -163,13 +173,17 @@
 
       this.$container.prepend($next);
 
-      animateDrilling.call(this, 0, function () {
-        var $current = $next.next();
+      animateDrilling.call(
+        this,
+        0,
+        function () {
+          var $current = $next.next();
 
-        $current.remove();
+          $current.remove();
 
-        restoreState.call(this, $next);
-      }.bind(this));
+          restoreState.call(this, $next);
+        }.bind(this)
+      );
     }
 
     /**
@@ -184,9 +198,13 @@
 
       $menus.css(this._css);
 
-      $menus.first().animate({
-        marginLeft: marginLeft
-      }, this.options.speed, callback);
+      $menus.first().animate(
+        {
+          marginLeft: marginLeft,
+        },
+        this.options.speed,
+        callback
+      );
     }
 
     /**
@@ -199,14 +217,13 @@
       $menu.css({
         float: '',
         width: '',
-        marginLeft: ''
+        marginLeft: '',
       });
 
       this.$container.css('width', '');
     }
 
     return Plugin;
-
   })();
 
   $.fn[pluginName] = function (options) {
@@ -218,7 +235,7 @@
         $.data(this, pluginName, new Plugin(this, options));
       } else if (typeof method === 'string') {
         if (method === 'destroy') {
-          $.removeData(this,  pluginName);
+          $.removeData(this, pluginName);
         }
         if (typeof inst[method] === 'function') {
           inst[method]();
@@ -226,5 +243,4 @@
       }
     });
   };
-
-}));
+});

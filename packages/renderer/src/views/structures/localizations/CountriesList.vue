@@ -10,6 +10,7 @@
         add-action-label="enterprise.country.activate_country"
         :refresh-action-field="{ page: 1, field: { next: true } }"
         refresh-action-name="country/getCountriesList"
+        entity="Country"
       />
       <div class="card-body">
         <BaseDatatable
@@ -30,16 +31,15 @@
             <td>{{ country.name }}</td>
             <td>{{ country.currency }}</td>
             <td>{{ country.timezone }}</td>
-            <td v-if="country.is_active">
-              <button
-                :title="$t('common.activate')"
+            <td v-if="country.is_active && canDisabledCountry">
+              <BaseButton
+                :title="$t('common.deactivate')"
+                :text="$t('common.deactivate')"
                 class="btn btn-danger btn-xs m-l-5"
                 data-original-title="btn btn-danger btn-xs"
                 type="button"
                 @click.prevent="deactivateCountry(country)"
-              >
-                {{ $t('common.deactivate') }}
-              </button>
+              />
             </td>
           </tr>
         </BaseDatatable>
@@ -56,9 +56,10 @@ import BaseDatatable from '/@/components/common/BaseDatatable.vue';
 import store from '/@/store';
 import { mapGetters } from 'vuex';
 import BaseTableHeader from '/@/components/common/BaseTableHeader.vue';
+import BaseButton from '/@/components/common/BaseButton.vue';
 
 export default {
-  components: { BaseTableHeader, BaseContainer, BaseDatatable },
+  components: { BaseButton, BaseTableHeader, BaseContainer, BaseDatatable },
   beforeRouteEnter(routeTo, routeFrom, next) {
     store
       .dispatch('country/getCountriesList', {
@@ -75,6 +76,10 @@ export default {
   },
   computed: {
     ...mapGetters('country', ['activeCountries']),
+    ...mapGetters('auth', ['isGrantedAction']),
+    canDisabledCountry() {
+      return this.isGrantedAction('Country.update');
+    },
   },
   methods: {
     deactivateCountry(country) {

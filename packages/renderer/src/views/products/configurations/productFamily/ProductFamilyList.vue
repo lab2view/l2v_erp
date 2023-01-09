@@ -5,6 +5,7 @@
       add-action-router-name="config.products.productFamily.form"
       :refresh-action-field="{ page: 1, field: { next: true } }"
       refresh-action-name="product_family/getProductFamiliesList"
+      entity="ProductFamily"
     />
     <div class="card-body">
       <BaseDatatable v-if="!$store.state.globalLoading" :tfoot="false">
@@ -19,30 +20,18 @@
           <td>{{ productFamily.label }}</td>
           <td>{{ productFamily.description }}</td>
           <td>
-            <button
-              class="btn btn-secondary btn-xs"
-              type="button"
-              data-original-title="btn btn-secondary btn-xs"
-              :title="$t('common.update')"
-              @click.prevent="
+            <BaseActionBtnGroup
+              entity="ProductFamily"
+              :with-show-btn="false"
+              :with-delete-btn="!productFamily.not_deletable"
+              @update="
                 $router.push({
                   name: 'config.products.productFamily.form',
                   params: { id: productFamily.id },
                 })
               "
-            >
-              {{ $t('common.update') }}
-            </button>
-            <button
-              v-if="!productFamily.not_deletable"
-              class="btn btn-danger btn-xs m-l-5"
-              type="button"
-              data-original-title="btn btn-danger btn-xs"
-              :title="$t('common.delete')"
-              @click.prevent="deleteProductFamily(productFamily)"
-            >
-              <i class="fa fa-trash-o" />
-            </button>
+              @delete="deleteProductFamily(productFamily)"
+            />
           </td>
         </tr>
       </BaseDatatable>
@@ -54,12 +43,14 @@
 
 <script>
 import BaseDatatable from '/@/components/common/BaseDatatable.vue';
-import store from '../../../../store';
+import store from '/@/store';
 import { mapGetters } from 'vuex';
 import BaseTableHeader from '/@/components/common/BaseTableHeader.vue';
+import BaseActionBtnGroup from '/@/components/common/BaseActionBtnGroup.vue';
 
 export default {
-  components: { BaseTableHeader, BaseDatatable },
+  name: 'ProductFamilyList',
+  components: { BaseActionBtnGroup, BaseTableHeader, BaseDatatable },
   beforeRouteEnter(routeTo, routeFrom, next) {
     store
       .dispatch('product_family/getProductFamiliesList', {

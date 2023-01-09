@@ -97,10 +97,10 @@
                 <th class="text-capitalize">
                   {{ $t('common.headers.total') }}
                 </th>
-                <th v-if="!isCashierSession" class="text-capitalize">
+                <th v-if="showTotalWinAmount" class="text-capitalize">
                   {{ $t('common.headers.win_amount') }}
                 </th>
-                <th v-if="!isCashierSession">%</th>
+                <th v-if="showTotalWinAmount">%</th>
               </tr>
             </thead>
             <tbody>
@@ -135,10 +135,10 @@
                 <th>
                   {{ `${selectableSale.sale_amount.toFixed(2)} ${currency}` }}
                 </th>
-                <th v-if="!isCashierSession">
+                <th v-if="showTotalWinAmount">
                   {{ `${selectableSale.sale_win_amount} ${currency}` }}
                 </th>
-                <th v-if="!isCashierSession">
+                <th v-if="showTotalWinAmount">
                   {{ `${selectableSale.sale_win_amount_percent} %` }}
                 </th>
               </tr>
@@ -189,11 +189,15 @@ export default {
   computed: {
     ...mapGetters('workspace', ['currency']),
     ...mapGetters('sale', ['sale', 'getSelectedSaleById']),
+    ...mapGetters('auth', ['canShowSaleReportsMargin']),
     selectableSale() {
       return this.getSelectedSaleById(this.sale.id);
     },
     isCashierSession() {
       return this.$route.name === 'sales.session.reports.details';
+    },
+    showTotalWinAmount() {
+      return !this.isCashierSession && this.canShowSaleReportsMargin;
     },
     cashRegisterLabel() {
       return this.sale?.cashier_session?.cash_register?.label ?? '--';

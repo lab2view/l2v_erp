@@ -24,14 +24,8 @@ export default {
   products: {
     manage: 'Produits',
   },
-  enterprises: {
-    manage: 'Structures',
-  },
   localizations: {
     manage: 'Localisations',
-  },
-  customers: {
-    manage: 'Clients',
   },
   module: {
     create: 'Ajouter un module',
@@ -114,6 +108,7 @@ export default {
     },
   },
   enterprise: {
+    manage: 'Structures',
     create: 'Ajouter une structure',
     viewany: 'Liste des enterprise',
     form: {
@@ -134,6 +129,7 @@ export default {
     },
   },
   customer: {
+    manage: 'Clients',
     create: 'Ajouter un client',
     viewany: 'Liste des clients',
     form: {
@@ -229,7 +225,7 @@ export default {
     },
   },
   stockcrossing: {
-    viewany: 'Croisement de Stock',
+    make: 'Croisement de Stock',
   },
   stocktype: {
     viewany: 'Types de Stock',

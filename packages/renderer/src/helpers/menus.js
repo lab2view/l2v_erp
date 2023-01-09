@@ -70,7 +70,7 @@ export const productMenus = [
 export const structureMenus = [
   {
     icon: 'shopping-bag',
-    code: 'Enterprises.manage',
+    code: 'Enterprise.manage',
     prefix: 'enterprise',
     items: [
       {
@@ -104,7 +104,7 @@ export const structureMenus = [
   },
   {
     icon: 'settings',
-    code: 'Enterprises.manage',
+    code: 'Enterprise.manage',
     label: 'Configurations',
     prefix: 'types.enterprise',
     items: [
@@ -119,7 +119,7 @@ export const structureMenus = [
 export const customerMenus = [
   {
     icon: 'users',
-    code: 'Customers.manage',
+    code: 'Customer.manage',
     prefix: 'customer',
     items: [
       {
@@ -134,7 +134,7 @@ export const customerMenus = [
   },
   {
     icon: 'settings',
-    code: 'Customers.manage',
+    code: 'Customer.manage',
     label: 'Configurations',
     prefix: 'config.customers',
     items: [
@@ -161,7 +161,7 @@ export const stockMenus = [
         to: 'stocks.exits',
       },
       {
-        code: 'StockCrossing.viewAny',
+        code: 'StockCrossing.make',
         to: 'stocks.crossings',
       },
     ],
@@ -309,7 +309,7 @@ export const iamMenus = [
     ],
   },
   {
-    icon: 'list',
+    icon: 'lock',
     code: 'Role.manage',
     prefix: 'iam.role',
     items: [
@@ -320,7 +320,7 @@ export const iamMenus = [
     ],
   },
   {
-    icon: 'list',
+    icon: 'activity',
     label: 'Histories',
     prefix: 'histories',
     code: 'History.viewAny',

@@ -8,13 +8,13 @@
     font-size: 25px;
   }
 }
-.alert{
+.alert {
   border-radius: $alert-border-radious;
-  padding:15px;
-  svg{
+  padding: 15px;
+  svg {
     vertical-align: middle;
   }
-  .progress{
+  .progress {
     margin-top: $alert-padding;
   }
   [data-notify='icon'] {
@@ -27,16 +27,16 @@
     display: inline-block;
     width: 100%;
   }
-  i{
+  i {
     margin-right: 5px;
     font-size: $alert-msg-icon-size;
   }
-  p{
+  p {
     margin-bottom: 0;
   }
-  .close{
+  .close {
     opacity: 1;
-    span{
+    span {
       font-size: 24px;
       font-weight: 400;
       display: inline-block;
@@ -50,67 +50,54 @@
 .alert-dismissible {
   .close {
     padding: 10px 1.25rem;
-    top:4px;
+    top: 4px;
     padding-right: 13px;
     opacity: 0.5;
     transition: all 0.3s ease;
-    &:hover{
+    &:hover {
       transition: all 0.3s ease;
       opacity: 1;
       color: inherit;
     }
   }
 }
-.card-body{
-  button{
-    &:focus{
+.card-body {
+  button {
+    &:focus {
       outline: none;
     }
   }
-  .alert{
-    &:last-child{
+  .alert {
+    &:last-child {
       margin-bottom: 0;
     }
-    svg{
+    svg {
       width: 14px;
       height: 14px;
       margin-right: 4px;
       position: absolute;
-      top:18px;
-      &~p{
+      top: 18px;
+      & ~ p {
         padding-left: 20px;
       }
     }
   }
 }
-strong{
+strong {
   display: inline-block;
-  &~p{
+  & ~ p {
     display: inline-block;
   }
 }
 
-$alert-name:primary,
-secondary,
-success,
-danger,
-warning,
-info,
-light,
-dark;
+$alert-name: primary, secondary, success, danger, warning, info, light, dark;
 
-$alert-color :$primary-color,
-$secondary-color,
-$success-color,
-$danger-color,
-$warning-color,
-$light-font,
-$light-gray,
-$dark-color;
+$alert-color: $primary-color, $secondary-color, $success-color, $danger-color,
+  $warning-color, $light-font, $light-gray, $dark-color;
 
 @each $var in $alert-name {
   $i: index($alert-name, $var);
-  .alert-#{$var}{
+  .alert-#{$var} {
     background-color: rgba(nth($alert-color, $i), 0.8);
     border-color: rgba(nth($alert-color, $i), 0.9);
     color: $white;
@@ -119,33 +106,33 @@ $dark-color;
       background-color: darken(nth($alert-color, $i), 1%);
       border-radius: 0;
     }
-    .progress-bar{
+    .progress-bar {
       background-color: lighten(nth($alert-color, $i), 50%);
     }
-     .btn-close {
-       filter: brightness(1) invert(1);
-     }
-    .alert-link{
+    .btn-close {
+      filter: brightness(1) invert(1);
+    }
+    .alert-link {
       color: nth($alert-color, $i);
-      @if($var == "light"){
+      @if ($var == 'light') {
         color: $dark-color;
       }
     }
-    @if($var == "light"){
+    @if ($var == 'light') {
       color: $dark-color;
       background-color: $light-color;
       .btn-close {
         filter: unset;
       }
     }
-    hr{
+    hr {
       border-top-color: nth($alert-color, $i);
     }
   }
   .alert-#{$var}.dark {
-    .alert-link{
+    .alert-link {
       color: $white;
-      @if($var == "light"){
+      @if ($var == 'light') {
         color: $dark-color;
       }
     }
@@ -153,25 +140,26 @@ $dark-color;
     border-color: nth($alert-color, $i);
     color: $auth-bg-color;
 
-    @if($var == "light"){
+    @if ($var == 'light') {
       color: $dark-color;
     }
   }
-  .alert-#{$var}.outline,.alert-#{$var}.outline-2x {
+  .alert-#{$var}.outline,
+  .alert-#{$var}.outline-2x {
     background-color: $transparent-color;
     border-color: nth($alert-color, $i);
     color: nth($alert-color, $i);
     .btn-close {
       filter: unset;
     }
-    @if($var == "light"){
+    @if ($var == 'light') {
       color: $dark-color;
     }
   }
-  .alert-#{$var}.inverse{
-    &:before{
+  .alert-#{$var}.inverse {
+    &:before {
       top: 16px;
-      content: "";
+      content: '';
       position: absolute;
       left: 54px;
       width: 0;
@@ -184,7 +172,7 @@ $dark-color;
     padding: 13px 20px 13px 65px;
     border-color: nth($alert-color, $i);
     color: $theme-body-font-color;
-    i{
+    i {
       padding: 17px 20px;
       display: inline-block;
       background-color: nth($alert-color, $i);
@@ -193,7 +181,7 @@ $dark-color;
       position: absolute;
       left: 0;
       top: 0;
-      height:100%;
+      height: 100%;
     }
     .btn-close {
       filter: unset;
@@ -218,7 +206,7 @@ $dark-color;
     }
   }
 }
-.outline-2x{
+.outline-2x {
   border-width: 2px;
   padding: 11px 1.25rem;
 }
