@@ -44,6 +44,16 @@ export const privilegeCode = {
   manageDashboard: 'Dashboard.manage',
   enterpriseArticleStat: 'Enterprise.viewAnyArticleStats',
   enterpriseArticleLineStat: 'Enterprise.viewAnyArticleLineStats',
+  sale: {
+    report: {
+      margin: 'SaleReports.margin',
+    },
+  },
+  stock: {
+    inventory: {
+      viewAny: 'Inventory.viewAny',
+    },
+  },
 };
 
 export const saleTypeCode = {

@@ -1,5 +1,9 @@
 import AuthService from '../../services/AuthService';
-import { roleAdminCode, roleCashierCode } from '/@/helpers/codes.js';
+import {
+  privilegeCode,
+  roleAdminCode,
+  roleCashierCode,
+} from '/@/helpers/codes.js';
 import userService from '/@/services/iam/IamUserService';
 import { removeStorage } from '/@/helpers/utils.js';
 
@@ -56,6 +60,8 @@ const getters = {
         (p) =>
           p.code.toString().toLowerCase() ===
             actionCode.toString().toLowerCase() ||
+          p.action?.code.toString().toLowerCase() ===
+            actionCode.toString().toLowerCase() ||
           p.actions.find(
             (a) =>
               a.code.toString().toLowerCase() ===
@@ -64,6 +70,9 @@ const getters = {
       );
       return canAccessModule !== undefined;
     } else return false;
+  },
+  canShowSaleReportsMargin: (state, getters) => {
+    return getters.canShowMenuItem(privilegeCode.sale.report.margin);
   },
 };
 
