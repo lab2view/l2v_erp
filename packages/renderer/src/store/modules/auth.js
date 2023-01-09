@@ -47,7 +47,9 @@ const getters = {
         getters.currentUser.privileges.find(
           (p) =>
             p.module.code.toString().toLowerCase() ===
-            moduleCode.toString().toLowerCase()
+              moduleCode.toString().toLowerCase() ||
+            p.action?.module?.code.toString().toLowerCase() ===
+              moduleCode.toString().toLowerCase()
         ) !== undefined
       );
     } else return false;

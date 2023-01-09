@@ -120,7 +120,7 @@ export default defineComponent({
           menus: paymentMenus,
         },
         {
-          code: 'STRUCTURES',
+          code: 'ENTERPRISE',
           menus: structureMenus,
         },
         {
