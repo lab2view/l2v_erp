@@ -34,30 +34,18 @@
                 }}
               </td>
               <td>
-                <button
-                  :title="$t('common.update')"
-                  class="btn btn-secondary btn-xs"
-                  data-original-title="btn btn-secondary btn-xs"
-                  type="button"
-                  @click.prevent="
+                <BaseActionBtnGroup
+                  entity="StockType"
+                  :with-show-btn="false"
+                  :with-delete-btn="!stockType.not_deletable"
+                  @update="
                     $router.push({
                       name: 'config.stocks.type.form',
                       params: { id: stockType.id },
                     })
                   "
-                >
-                  {{ $t('common.update') }}
-                </button>
-                <button
-                  v-if="!stockType.not_deletable"
-                  :title="$t('common.delete')"
-                  class="btn btn-danger btn-xs m-l-5"
-                  data-original-title="btn btn-danger btn-xs"
-                  type="button"
-                  @click.prevent="deleteStockType(stockType)"
-                >
-                  <i class="fa fa-trash-o" />
-                </button>
+                  @delete="deleteStockType(stockType)"
+                />
               </td>
             </tr>
           </template>
@@ -75,10 +63,16 @@ import BaseDatatable from '/@/components/common/BaseDatatable.vue';
 import store from '/@/store';
 import { mapGetters } from 'vuex';
 import BaseTableHeader from '/@/components/common/BaseTableHeader.vue';
+import BaseActionBtnGroup from '/@/components/common/BaseActionBtnGroup.vue';
 
 export default {
   name: 'StockTypesList',
-  components: { BaseTableHeader, BaseContainer, BaseDatatable },
+  components: {
+    BaseActionBtnGroup,
+    BaseTableHeader,
+    BaseContainer,
+    BaseDatatable,
+  },
   beforeRouteEnter(routeTo, routeFrom, next) {
     store
       .dispatch('stock_type/getStockTypesList', {
