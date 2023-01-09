@@ -50,7 +50,6 @@
 import ArticleMixin from '/@/mixins/ArticleMixin';
 import BaseButton from '/@/components/common/BaseButton.vue';
 import BaseActionBtnGroup from '/@/components/common/BaseActionBtnGroup.vue';
-import { entityCode } from '/@/helpers/codes';
 
 export default {
   name: 'ArticleTableLine',

@@ -106,14 +106,13 @@
 <script>
 import BaseDatatable from '/@/components/common/BaseDatatable.vue';
 import { mapGetters } from 'vuex';
-import { getSaleAmount } from '/@/helpers/utils.js';
-import BaseButton from '/@/components/common/BaseButton.vue';
+import { getSaleAmount } from '/@/helpers/utils';
 import _ from 'lodash';
 import BaseActionBtnGroup from '/@/components/common/BaseActionBtnGroup.vue';
 
 export default {
   name: 'SaleTable',
-  components: { BaseActionBtnGroup, BaseButton, BaseDatatable },
+  components: { BaseActionBtnGroup, BaseDatatable },
   props: {
     sales: {
       type: Array,

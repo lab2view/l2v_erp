@@ -102,7 +102,6 @@
 <script>
 import BaseTableHeader from '/@/components/common/BaseTableHeader.vue';
 import BaseDatatable from '/@/components/common/BaseDatatable.vue';
-import BaseButton from '/@/components/common/BaseButton.vue';
 import BaseSelect from '/@/components/common/BaseSelect.vue';
 import BaseFieldGroup from '/@/components/common/BaseFieldGroup.vue';
 import { mapGetters } from 'vuex';
@@ -112,7 +111,6 @@ export default {
   name: 'UserTableList',
   components: {
     BaseActionBtnGroup,
-    BaseButton,
     BaseDatatable,
     BaseTableHeader,
     BaseSelect,

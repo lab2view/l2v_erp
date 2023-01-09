@@ -149,7 +149,6 @@ import BaseDatatable from '/@/components/common/BaseDatatable.vue';
 import store from '/@/store';
 import { mapGetters } from 'vuex';
 import BaseContainer from '/@/components/common/BaseContainer.vue';
-import BaseButton from '/@/components/common/BaseButton.vue';
 import BaseTableHeader from '/@/components/common/BaseTableHeader.vue';
 import BaseFieldGroup from '/@/components/common/BaseFieldGroup.vue';
 import BaseSelect from '/@/components/common/BaseSelect.vue';
@@ -162,7 +161,6 @@ export default {
     BaseSelect,
     BaseFieldGroup,
     BaseTableHeader,
-    BaseButton,
     BaseContainer,
     BaseDatatable,
   },

@@ -54,7 +54,6 @@ import BaseDatatable from '/@/components/common/BaseDatatable.vue';
 import store from '/@/store';
 import { mapGetters } from 'vuex';
 import BaseContainer from '/@/components/common/BaseContainer.vue';
-import BaseButton from '/@/components/common/BaseButton.vue';
 import FilterMixin from '/@/mixins/FilterMixin';
 import BaseTableHeader from '/@/components/common/BaseTableHeader.vue';
 import BaseActionBtnGroup from '/@/components/common/BaseActionBtnGroup.vue';
@@ -64,7 +63,6 @@ export default {
   components: {
     BaseActionBtnGroup,
     BaseTableHeader,
-    BaseButton,
     BaseContainer,
     BaseDatatable,
   },

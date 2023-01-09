@@ -83,14 +83,12 @@ import BaseDatatable from '/@/components/common/BaseDatatable.vue';
 import store from '/@/store/index.js';
 import { mapGetters } from 'vuex';
 import BaseTableHeader from '/@/components/common/BaseTableHeader.vue';
-import BaseButton from '/@/components/common/BaseButton.vue';
 import BaseDatetime from '/@/components/common/BaseDatetime.vue';
 import BaseActionBtnGroup from '/@/components/common/BaseActionBtnGroup.vue';
 export default {
   name: 'InventoriesList',
   components: {
     BaseActionBtnGroup,
-    BaseButton,
     BaseTableHeader,
     BaseContainer,
     BaseDatatable,
