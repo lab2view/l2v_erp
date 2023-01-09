@@ -65,29 +65,17 @@
               {{ cashier.ended_at ? date(cashier.ended_at) : '---' }}
             </td>
             <td>
-              <button
-                class="btn btn-secondary btn-xs"
-                type="button"
-                data-original-title="btn btn-secondary btn-xs"
-                :title="$t('common.update')"
-                @click.prevent="
+              <BaseActionBtnGroup
+                entity="Cashier"
+                :with-show-btn="false"
+                @update="
                   $router.push({
                     name: 'sales.cashier.form',
                     params: { id: cashier.id },
                   })
                 "
-              >
-                {{ $t('common.update') }}
-              </button>
-              <button
-                class="btn btn-danger btn-xs m-l-5"
-                type="button"
-                data-original-title="btn btn-danger btn-xs"
-                :title="$t('common.delete')"
-                @click.prevent="deleteCashier(cashier)"
-              >
-                <i class="fa fa-trash-o" />
-              </button>
+                @delete="deleteCashier(cashier)"
+              />
             </td>
           </tr>
         </BaseDatatable>
@@ -107,10 +95,12 @@ import BaseFieldGroup from '/@/components/common/BaseFieldGroup.vue';
 import store from '/@/store';
 import { mapGetters } from 'vuex';
 import filterMixin from '/@/mixins/FilterMixin';
+import BaseActionBtnGroup from '/@/components/common/BaseActionBtnGroup.vue';
 
 export default {
   name: 'CashiersList',
   components: {
+    BaseActionBtnGroup,
     BaseFieldGroup,
     BaseSelect,
     BaseTableHeader,

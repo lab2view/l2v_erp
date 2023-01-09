@@ -30,29 +30,17 @@
             <td>{{ discount.label }}</td>
             <td>{{ `${discount.value}${discount.is_percent ? '%' : ''}` }}</td>
             <td>
-              <button
-                class="btn btn-secondary btn-xs"
-                type="button"
-                data-original-title="btn btn-secondary btn-xs"
-                :title="$t('common.update')"
-                @click.prevent="
+              <BaseActionBtnGroup
+                entity="Discount"
+                :with-show-btn="false"
+                @update="
                   $router.push({
                     name: 'sales.discount.form.desc',
                     params: { id: discount.id },
                   })
                 "
-              >
-                {{ $t('common.update') }}
-              </button>
-              <button
-                class="btn btn-danger btn-xs m-l-5"
-                type="button"
-                data-original-title="btn btn-danger btn-xs"
-                :title="$t('common.delete')"
-                @click.prevent="deleteDiscount(discount)"
-              >
-                <i class="fa fa-trash-o" />
-              </button>
+                @delete="deleteDiscount(discount)"
+              />
             </td>
           </tr>
         </BaseDatatable>
@@ -69,10 +57,16 @@ import BaseDatatable from '/@/components/common/BaseDatatable.vue';
 import store from '/@/store';
 import { mapGetters } from 'vuex';
 import BaseTableHeader from '/@/components/common/BaseTableHeader.vue';
+import BaseActionBtnGroup from '/@/components/common/BaseActionBtnGroup.vue';
 
 export default {
   name: 'DiscountsList',
-  components: { BaseTableHeader, BaseContainer, BaseDatatable },
+  components: {
+    BaseActionBtnGroup,
+    BaseTableHeader,
+    BaseContainer,
+    BaseDatatable,
+  },
   beforeRouteEnter(routeTo, routeFrom, next) {
     store
       .dispatch('discount/getDiscountsList', {

@@ -61,26 +61,17 @@
       </td>
       <td>{{ $d(sale.created_at, isCashierSession ? 'time' : 'short') }}</td>
       <td v-if="!isCashierSession">
-        <BaseButton
-          type="button"
-          class="btn btn-sm btn-success"
-          :title="$t('common.show')"
-          :text="$t('common.show')"
-          @click.prevent="
+        <BaseActionBtnGroup
+          entity="Sale"
+          :with-update-btn="false"
+          @show="
             $router.push({
               name: 'sales.sales.details',
               params: { id: sale.id },
             })
           "
+          @delete="deleteSale(sale)"
         />
-        <BaseButton
-          class="btn btn-danger btn-xs m-l-5"
-          type="button"
-          :title="$t('common.delete')"
-          @click.prevent="deleteSale(sale)"
-        >
-          <i class="fa fa-trash-o" />
-        </BaseButton>
       </td>
     </tr>
     <template #footers>
@@ -118,10 +109,11 @@ import { mapGetters } from 'vuex';
 import { getSaleAmount } from '/@/helpers/utils.js';
 import BaseButton from '/@/components/common/BaseButton.vue';
 import _ from 'lodash';
+import BaseActionBtnGroup from '/@/components/common/BaseActionBtnGroup.vue';
 
 export default {
   name: 'SaleTable',
-  components: { BaseButton, BaseDatatable },
+  components: { BaseActionBtnGroup, BaseButton, BaseDatatable },
   props: {
     sales: {
       type: Array,
