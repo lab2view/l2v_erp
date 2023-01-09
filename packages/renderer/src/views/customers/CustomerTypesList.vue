@@ -27,29 +27,17 @@
             <td>{{ customerType.label }}</td>
             <td>{{ truncate(customerType.description) }}</td>
             <td>
-              <button
-                :title="$t('common.update')"
-                class="btn btn-secondary btn-xs"
-                data-original-title="btn btn-secondary btn-xs"
-                type="button"
-                @click.prevent="
+              <BaseActionBtnGroup
+                entity="CustomerType"
+                :with-show-btn="false"
+                @update="
                   $router.push({
                     name: 'config.customers.type.form',
                     params: { id: customerType.id },
                   })
                 "
-              >
-                {{ $t('common.update') }}
-              </button>
-              <button
-                :title="$t('common.delete')"
-                class="btn btn-danger btn-xs m-l-5"
-                data-original-title="btn btn-danger btn-xs"
-                type="button"
-                @click.prevent="deleteCustomerType(customerType)"
-              >
-                <i class="fa fa-trash-o" />
-              </button>
+                @delete="deleteCustomerType(customerType)"
+              />
             </td>
           </tr>
         </BaseDatatable>
@@ -66,9 +54,15 @@ import BaseDatatable from '/@/components/common/BaseDatatable.vue';
 import store from '/@/store';
 import { mapGetters } from 'vuex';
 import BaseTableHeader from '/@/components/common/BaseTableHeader.vue';
+import BaseActionBtnGroup from '/@/components/common/BaseActionBtnGroup.vue';
 
 export default {
-  components: { BaseTableHeader, BaseContainer, BaseDatatable },
+  components: {
+    BaseActionBtnGroup,
+    BaseTableHeader,
+    BaseContainer,
+    BaseDatatable,
+  },
   beforeRouteEnter(routeTo, routeFrom, next) {
     store
       .dispatch('customer_type/getCustomerTypesList', {

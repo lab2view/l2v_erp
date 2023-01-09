@@ -84,29 +84,17 @@
             <td>{{ customer.phone }}</td>
             <td>{{ customer.email ?? '-' }}</td>
             <td>
-              <button
-                :title="$t('common.update')"
-                class="btn btn-secondary btn-xs"
-                data-original-title="btn btn-secondary btn-xs"
-                type="button"
-                @click.prevent="
+              <BaseActionBtnGroup
+                entity="Customer"
+                :with-show-btn="false"
+                @update="
                   $router.push({
                     name: 'customer.form',
                     params: { id: customer.id },
                   })
                 "
-              >
-                {{ $t('common.update') }}
-              </button>
-              <button
-                :title="$t('common.delete')"
-                class="btn btn-danger btn-xs m-l-5"
-                data-original-title="btn btn-danger btn-xs"
-                type="button"
-                @click.prevent="deleteCustomer(customer)"
-              >
-                <i class="fa fa-trash-o" />
-              </button>
+                @delete="deleteCustomer(customer)"
+              />
             </td>
           </tr>
         </BaseDatatable>
@@ -118,15 +106,17 @@
 
 <script>
 import BaseDatatable from '/@/components/common/BaseDatatable.vue';
-import store from '../../store';
+import store from '/@/store';
 import { mapGetters } from 'vuex';
-import BaseContainer from '../../components/common/BaseContainer.vue';
+import BaseContainer from '/@/components/common/BaseContainer.vue';
 import BaseTableHeader from '/@/components/common/BaseTableHeader.vue';
 import BaseSelect from '/@/components/common/BaseSelect.vue';
 import BaseFieldGroup from '/@/components/common/BaseFieldGroup.vue';
+import BaseActionBtnGroup from '/@/components/common/BaseActionBtnGroup.vue';
 
 export default {
   components: {
+    BaseActionBtnGroup,
     BaseTableHeader,
     BaseContainer,
     BaseDatatable,

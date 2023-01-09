@@ -27,42 +27,22 @@
             <td>{{ customerGroup.label }}</td>
             <td>{{ truncate(customerGroup.description, 100) }}</td>
             <td>
-              <button
-                :title="$t('customers.show_customers')"
-                class="btn btn-default btn-xs"
-                type="button"
-                @click.prevent="
+              <BaseActionBtnGroup
+                entity="CustomerGroup"
+                @show="
                   $router.push({
                     name: 'customerGroup.details',
                     params: { id: customerGroup.id },
                   })
                 "
-              >
-                {{ $t('customers.show_customers') }}
-              </button>
-              <button
-                :title="$t('common.update')"
-                class="btn btn-secondary btn-xs"
-                data-original-title="btn btn-secondary btn-xs m-l-5"
-                type="button"
-                @click.prevent="
+                @update="
                   $router.push({
                     name: 'customers.group.form',
                     params: { id: customerGroup.id },
                   })
                 "
-              >
-                {{ $t('common.update') }}
-              </button>
-              <button
-                :title="$t('common.delete')"
-                class="btn btn-danger btn-xs m-l-5"
-                data-original-title="btn btn-danger btn-xs"
-                type="button"
-                @click.prevent="deleteCustomerGroup(customerGroup)"
-              >
-                <i class="fa fa-trash-o" />
-              </button>
+                @delete="deleteCustomerGroup(customerGroup)"
+              />
             </td>
           </tr>
         </BaseDatatable>
@@ -78,11 +58,17 @@ import BaseContainer from '/@/components/common/BaseContainer.vue';
 import BaseDatatable from '/@/components/common/BaseDatatable.vue';
 import store from '/@/store';
 import { mapGetters } from 'vuex';
-import FilterMixin from '/@/mixins/FilterMixin.js';
+import FilterMixin from '/@/mixins/FilterMixin';
 import BaseTableHeader from '/@/components/common/BaseTableHeader.vue';
+import BaseActionBtnGroup from '/@/components/common/BaseActionBtnGroup.vue';
 
 export default {
-  components: { BaseTableHeader, BaseContainer, BaseDatatable },
+  components: {
+    BaseActionBtnGroup,
+    BaseTableHeader,
+    BaseContainer,
+    BaseDatatable,
+  },
   mixins: [FilterMixin],
   beforeRouteEnter(routeTo, routeFrom, next) {
     store
