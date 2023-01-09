@@ -74,6 +74,9 @@
                   <th class="text-center">
                     {{ $t('common.headers.stock_in') }}
                   </th>
+                  <th class="text-end">
+                    {{ $t('common.attributes.amount') }}
+                  </th>
                 </template>
                 <ArticleStatsLineDetails
                   v-for="article in articles"
@@ -85,82 +88,25 @@
                   <th class="text-center">
                     {{ totalArticleStock }}
                   </th>
+                  <th class="text-center">
+                    {{ `${totalArticlePrice} ${currency}` }}
+                  </th>
                 </template>
               </BaseDatatable>
             </div>
             <div id="top-stat-per-family" class="tab-pane fade" role="tabpanel">
-              <div class="user-status table-responsive">
-                <table class="table table-bordernone">
-                  <thead>
-                    <tr>
-                      <th scope="col">
-                        {{ $t('products.productFamily.listTitle') }}
-                      </th>
-                      <th class="text-center" scope="col">
-                        {{ $t('common.headers.stock_in') }}
-                      </th>
-                      <th class="text-end" scope="col">
-                        {{ $t('common.attributes.state') }}
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr
-                      v-for="(statFamily, index) in articleStatFamilies"
-                      :key="`stat-fam-${index}`"
-                    >
-                      <td class="f-w-600">{{ statFamily.product_family }}</td>
-                      <td class="text-center">{{ statFamily.total }}</td>
-                      <td>
-                        <BaseProgressBar
-                          style-prop="height: 8px"
-                          progress-class="progress-bar bg-primary"
-                          :value="statFamily.total"
-                          :max="totalArticleStock"
-                          :show-percent="true"
-                        />
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
+              <EnterpriseArticleStatsTable
+                :article-stats="articleStatFamilies"
+                :total-article-stock="totalArticleStock"
+                :currency="currency"
+              />
             </div>
             <div id="top-stat-per-type" class="tab-pane fade" role="tabpanel">
-              <div class="user-status table-responsive">
-                <table class="table table-bordernone">
-                  <thead>
-                    <tr>
-                      <th scope="col">
-                        {{ $t('products.productType.listTitle') }}
-                      </th>
-                      <th class="text-center" scope="col">
-                        {{ $t('common.headers.stock_in') }}
-                      </th>
-                      <th class="text-end" scope="col">
-                        {{ $t('common.attributes.state') }}
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr
-                      v-for="(statType, index) in articleStatTypes"
-                      :key="`stat-fam-${index}`"
-                    >
-                      <td class="f-w-600">{{ statType.product_type }}</td>
-                      <td class="text-center">{{ statType.total }}</td>
-                      <td>
-                        <BaseProgressBar
-                          style-prop="height: 8px"
-                          progress-class="progress-bar bg-primary"
-                          :value="statType.total"
-                          :max="totalArticleStock"
-                          :show-percent="true"
-                        />
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
+              <EnterpriseArticleStatsTable
+                :article-stats="articleStatTypes"
+                :total-article-stock="totalArticleStock"
+                :currency="currency"
+              />
             </div>
           </div>
         </div>
@@ -174,14 +120,15 @@ import BaseDatatable from '/@/components/common/BaseDatatable.vue';
 import store from '/@/store/index';
 import { mapGetters } from 'vuex';
 import ArticleStatsLineDetails from '/@/components/dashboard/ArticleStatsLineDetails.vue';
-import BaseProgressBar from '/@/components/common/BaseProgressBar.vue';
 import { sumBy } from 'lodash';
-import { getStockByEnterpriseId } from '/@/helpers/utils.js';
+import { getStockByEnterpriseId } from '/@/helpers/utils';
+import { priceTypeCode } from '/@/helpers/codes';
+import EnterpriseArticleStatsTable from '/@/components/dashboard/EnterpriseArticleStatsTable.vue';
 
 export default {
   name: 'EnterpriseArticleStats',
   components: {
-    BaseProgressBar,
+    EnterpriseArticleStatsTable,
     ArticleStatsLineDetails,
     BaseDatatable,
   },
@@ -200,6 +147,7 @@ export default {
       });
   },
   computed: {
+    ...mapGetters('workspace', ['currency']),
     ...mapGetters('article', [
       'filterAvailableArticles',
       'getArticleTypeStatsByEnterpriseId',
@@ -213,14 +161,24 @@ export default {
     },
     articles() {
       return this.filterAvailableArticles(this.enterpriseId).map((article) => {
+        const stock = getStockByEnterpriseId(this.enterpriseId, article);
+        const price = article.prices.find(
+          (p) => p.price_type?.code === priceTypeCode.sell
+        );
         return {
           ...article,
-          stock_quantity: getStockByEnterpriseId(this.enterpriseId, article),
+          stock_quantity: stock,
+          price_value: parseFloat(
+            price !== undefined ? (price.value * stock).toFixed() : 0
+          ),
         };
       });
     },
     totalArticleStock() {
       return sumBy(this.articles, 'stock_quantity');
+    },
+    totalArticlePrice() {
+      return sumBy(this.articles, 'price_value');
     },
     canShowEnterpriseArticleLineStats() {
       return this.canShowMenuItem('Enterprise.viewAnyArticleLineStats');

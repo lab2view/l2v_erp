@@ -29,16 +29,16 @@ $url-4: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAAQCAYAAADNo/U5AA
   margin-top: 4.5px;
   line-height: 21px;
 }
-.cke_wysiwyg_frame, .cke_wysiwyg_div{
-  background-color:$white;
+.cke_wysiwyg_frame,
+.cke_wysiwyg_div {
+  background-color: $white;
 }
-
 
 .chart-block {
   canvas {
     width: 100% !important;
   }
-  #pie-sparkline-chart{
+  #pie-sparkline-chart {
     width: auto !important;
   }
   .chart-overflow {
@@ -60,13 +60,13 @@ $url-4: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAAQCAYAAADNo/U5AA
   left: 0;
   background-color: $white;
   .canvas-container {
-    transition: opacity .5s ease-out;
+    transition: opacity 0.5s ease-out;
   }
   &.active {
     display: block;
   }
   &.dropbox .canvas-container {
-    opacity: .5;
+    opacity: 0.5;
   }
 }
 .flot-chart-container {
@@ -78,8 +78,8 @@ $url-4: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAAQCAYAAADNo/U5AA
     width: 79% !important;
   }
 }
-.all-chart{
-  .flot-chart-container{
+.all-chart {
+  .flot-chart-container {
     height: 350px;
   }
 }
@@ -120,14 +120,14 @@ $url-4: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAAQCAYAAADNo/U5AA
   left: 0;
   top: 0;
   visibility: hidden;
-  background: rgba(49, 49, 49, 0.70);
+  background: rgba(49, 49, 49, 0.7);
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#99000000, endColorstr=#99000000);
   color: $white;
   font: 10px $font-rubik, $font-serif;
   text-align: left;
   white-space: nowrap;
   padding: 5px;
-  border: 1px solid rgba(49, 49, 49, 0.75);;
+  border: 1px solid rgba(49, 49, 49, 0.75);
   box-sizing: content-box;
   z-index: 10000;
   border-radius: 5px;
@@ -184,10 +184,21 @@ $url-4: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAAQCAYAAADNo/U5AA
 }
 .radial-bar-danger {
   &.radial-bar-20 {
-    background-image: linear-gradient(90deg, $light-semi-gray 50%, transparent 50%, transparent), linear-gradient(162deg, $danger-color 50%, $light-semi-gray 50%, $light-semi-gray);
+    background-image: linear-gradient(
+        90deg,
+        $light-semi-gray 50%,
+        transparent 50%,
+        transparent
+      ),
+      linear-gradient(
+        162deg,
+        $danger-color 50%,
+        $light-semi-gray 50%,
+        $light-semi-gray
+      );
   }
 }
-.radial-bar{
+.radial-bar {
   &.radial-bar-lg {
     width: 100px;
     height: 100px;
@@ -222,35 +233,35 @@ $url-4: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAAQCAYAAADNo/U5AA
     }
   }
 }
-.pieLabel{
+.pieLabel {
   div {
     color: $white !important;
-    input[type=checkbox] {
+    input[type='checkbox'] {
       margin: 7px;
     }
   }
 }
 // knob chart css
-.knob-chart{
+.knob-chart {
   min-height: 255px;
-  .chart-clock-main{
-    position:relative;
-    width:200px;
-    margin:45px auto;
-    .clock-large{
-      position:absolute;
-      left:-48px;
-      top:-45px;
+  .chart-clock-main {
+    position: relative;
+    width: 200px;
+    margin: 45px auto;
+    .clock-large {
+      position: absolute;
+      left: -48px;
+      top: -45px;
     }
-    .clock-medium{
-      position:absolute;
-      left:2px;
-      top:5px;
+    .clock-medium {
+      position: absolute;
+      left: 2px;
+      top: 5px;
     }
-    .clock-small{
-      position:absolute;
-      left:15px;
-      top:55px;
+    .clock-small {
+      position: absolute;
+      left: 15px;
+      top: 55px;
     }
   }
 }
@@ -260,20 +271,20 @@ $url-4: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAAQCAYAAADNo/U5AA
     width: 100%;
     height: 250px;
   }
-  &.peity-chart-primary{
-    svg{
-      polygon{
+  &.peity-chart-primary {
+    svg {
+      polygon {
         fill: rgba(36, 105, 92, 0.5);
       }
-      polyline{
+      polyline {
         stroke: $primary-color;
       }
     }
   }
 }
-p{
-  &.data-attributes{
-    svg{
+p {
+  &.data-attributes {
+    svg {
       margin-right: 10px;
     }
   }
@@ -281,7 +292,7 @@ p{
 // knob chart
 .knob-block {
   position: relative;
-  input{
+  input {
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
@@ -300,7 +311,7 @@ p{
 .apexcharts-menu-item {
   width: 110px;
 }
-.word-tree{
+.word-tree {
   height: 400px;
 }
 /**=====================

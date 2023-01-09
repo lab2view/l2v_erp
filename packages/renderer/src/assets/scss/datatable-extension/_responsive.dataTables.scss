@@ -10,7 +10,6 @@ $control-button-color: white !default;
 $open-button-background: #31b131 !default;
 $close-button-background: #d33333 !default;
 
-
 //
 // Mixins
 //
@@ -40,7 +39,6 @@ $close-button-background: #d33333 !default;
   background-color: $close-button-background;
 }
 
-
 //
 // Table styles
 //
@@ -59,8 +57,8 @@ table.dataTable {
       }
     }
 
-    > tr[role="row"] > td:first-child,
-    > tr[role="row"] > th:first-child {
+    > tr[role='row'] > td:first-child,
+    > tr[role='row'] > th:first-child {
       position: relative;
       padding-left: 30px;
       cursor: pointer;
@@ -101,7 +99,6 @@ table.dataTable {
     }
   }
 
-
   // Styling for the `column` type
   &.dtr-column > tbody {
     > tr > td.control,
@@ -128,7 +125,6 @@ table.dataTable {
       }
     }
   }
-
 
   // Child row styling
   > tbody > tr.child {
@@ -164,10 +160,10 @@ table.dataTable {
       font-weight: bold;
     }
 
-    span.dtr-data {}
+    span.dtr-data {
+    }
   }
 }
-
 
 div.dtr-modal {
   position: fixed;
@@ -195,7 +191,7 @@ div.dtr-modal {
     background-color: #f5f5f7;
     border: 1px solid black;
     border-radius: 0.5em;
-    box-shadow: 0 12px 30px rgba(0,0,0,0.6);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.6);
   }
 
   div.dtr-modal-content {
@@ -229,10 +225,9 @@ div.dtr-modal {
     bottom: 0;
     z-index: 101;
 
-    background: rgba(0,0,0,0.6);
+    background: rgba(0, 0, 0, 0.6);
   }
 }
-
 
 @media screen and (max-width: 767px) {
   div.dtr-modal div.dtr-modal-display {

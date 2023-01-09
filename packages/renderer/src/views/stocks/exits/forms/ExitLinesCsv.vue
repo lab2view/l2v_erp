@@ -5,7 +5,7 @@
         <div class="row align-items-center">
           <div class="col-sm">
             <span class="f-w-600">{{ $t('common.upload_header') }}</span>
-            <pre class="helper-classes p-2">barcode, quantity</pre>
+            <pre class="helper-classes p-2">barcode, quantity, other</pre>
           </div>
           <div class="col-sm">
             <BaseInputFile
@@ -33,7 +33,9 @@
           <table class="table">
             <thead>
               <tr>
-                <th scope="col">{{ $t('common.attributes.article_id') }}</th>
+                <th scope="col">
+                  {{ $t('common.attributes.article_id') }}
+                </th>
                 <th v-if="manage_price" scope="col" style="width: 210px">
                   {{ $t('common.attributes.buying_price') }}
                   <span class="text-danger m-l-5">*</span>
@@ -57,6 +59,19 @@
                 @remove="removeStockExitLineField"
               />
             </tbody>
+            <tfoot v-if="unsavedStockExitLines.length">
+              <tr>
+                <th>
+                  {{
+                    `${unsavedStockExitLines.length} ${$tc(
+                      'common.fields.article',
+                      unsavedStockExitLines.length
+                    )} `
+                  }}
+                </th>
+                <th class="text-center">{{ totalStock }}</th>
+              </tr>
+            </tfoot>
           </table>
         </div>
       </div>
@@ -91,6 +106,7 @@ import BaseButton from '/@/components/common/BaseButton.vue';
 import ExitLineFormField from '/@/components/stocks/ExitLineFormField.vue';
 import BaseInputFile from '/@/components/common/BaseInputFile.vue';
 import { getContentCsvFileAsArray } from '/@/helpers/utils';
+import { sumBy } from 'lodash';
 
 export default {
   name: 'ExitLinesCsv',
@@ -112,6 +128,12 @@ export default {
       'stockExitLines',
     ]),
     ...mapGetters('article', ['getArticleByBarcode']),
+    unsavedStockExitLines() {
+      return this.stock_exit_line_fields.filter((sel) => sel.id === null);
+    },
+    totalStock() {
+      return sumBy(this.unsavedStockExitLines, 'quantity');
+    },
   },
   created() {
     if (this.stockExitLines.length)

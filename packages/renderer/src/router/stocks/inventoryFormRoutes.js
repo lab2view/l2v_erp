@@ -26,6 +26,12 @@ export default [
         component: () =>
           import('/@/views/stocks/inventories/forms/InventoryLinesForm.vue'),
       },
+      {
+        path: 'csv',
+        name: 'inventory.form.article.csv',
+        component: () =>
+          import('/@/views/stocks/inventories/forms/InventoryLinesCsv.vue'),
+      },
     ],
   },
 ];

@@ -6,6 +6,14 @@ export default [
     path: '',
     name: 'articles',
     component: () => import('/@/views/articles/ArticleList.vue'),
+    children: [
+      {
+        path: 'set-global-prices',
+        name: 'article.setPrice',
+        component: () =>
+          import('/@/views/articles/forms/ArticlePricesForm.vue'),
+      },
+    ],
   },
   {
     path: 'search-results',

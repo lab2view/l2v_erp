@@ -1,13 +1,61 @@
 <template>
   <div class="card">
     <BaseTableHeader
+      :query="query"
+      :refresh-action-field="{ page: 1, field: { next: true } }"
       :title="$t('iam.user.listTitle')"
       add-action-router-name="iam.user.form.desc"
-      :refresh-action-field="{ page: 1, field: { next: true } }"
       refresh-action-name="user/getUsersList"
-      :query="query"
+      entity="User"
     />
     <div class="card-body">
+      <div v-if="canMakeFilter" class="row mb-2">
+        <div v-if="!query" class="col-md-3">
+          <BaseFieldGroup
+            :with-append="false"
+            :with-refresh="true"
+            refresh-action-name="enterprise/getEnterprisesList"
+          >
+            <BaseSelect
+              v-model.number="enterpriseId"
+              :options="enterprises"
+              :placeholder="`${$t('common.attributes.structure')} ?`"
+              key-label="name"
+              key-value="id"
+            />
+          </BaseFieldGroup>
+        </div>
+        <div class="col-md-3">
+          <BaseFieldGroup
+            :with-append="false"
+            :with-refresh="true"
+            refresh-action-name="enterprise/getEnterprisesList"
+          >
+            <BaseSelect
+              v-model.number="countryId"
+              :options="countries"
+              :placeholder="`${$t('common.attributes.country')} ?`"
+              key-label="name"
+              key-value="id"
+            />
+          </BaseFieldGroup>
+        </div>
+        <div class="col-md-3">
+          <BaseFieldGroup
+            :with-append="false"
+            :with-refresh="true"
+            refresh-action-name="enterprise/getEnterprisesList"
+          >
+            <BaseSelect
+              v-model.number="roleId"
+              :options="roles"
+              :placeholder="`${$t('common.attributes.role')} ?`"
+              key-label="label"
+              key-value="id"
+            />
+          </BaseFieldGroup>
+        </div>
+      </div>
       <BaseDatatable
         v-if="!$store.state.globalLoading"
         :tfoot="false"
@@ -32,27 +80,18 @@
           </td>
           <td>{{ user.phone }}</td>
           <td>
-            <BaseButton
-              type="button"
-              class="btn btn-secondary btn-xs"
-              :text="$t('common.update')"
-              :title="$t('common.update')"
-              @click.prevent="
+            <BaseActionBtnGroup
+              entity="User"
+              :with-show-btn="false"
+              @update="
                 $router.push({
                   name: 'iam.user.form.desc',
                   params: { id: user.id },
                   query,
                 })
               "
+              @delete="deleteUser(user)"
             />
-            <BaseButton
-              :title="$t('common.delete')"
-              class="btn btn-danger btn-xs m-l-5"
-              type="button"
-              @click.prevent="deleteUser(user)"
-            >
-              <i class="fa fa-trash-o" />
-            </BaseButton>
           </td>
         </tr>
       </BaseDatatable>
@@ -63,10 +102,20 @@
 <script>
 import BaseTableHeader from '/@/components/common/BaseTableHeader.vue';
 import BaseDatatable from '/@/components/common/BaseDatatable.vue';
-import BaseButton from '/@/components/common/BaseButton.vue';
+import BaseSelect from '/@/components/common/BaseSelect.vue';
+import BaseFieldGroup from '/@/components/common/BaseFieldGroup.vue';
+import { mapGetters } from 'vuex';
+import BaseActionBtnGroup from '/@/components/common/BaseActionBtnGroup.vue';
+
 export default {
   name: 'UserTableList',
-  components: { BaseButton, BaseDatatable, BaseTableHeader },
+  components: {
+    BaseActionBtnGroup,
+    BaseDatatable,
+    BaseTableHeader,
+    BaseSelect,
+    BaseFieldGroup,
+  },
   props: {
     users: {
       type: Array,
@@ -76,7 +125,52 @@ export default {
       type: Object,
       default: null,
     },
+    userFilter: {
+      type: Object,
+      default: null,
+    },
+    updateUserFilter: {
+      type: Function,
+      default: null,
+    },
   },
+
+  computed: {
+    ...mapGetters('enterprise', ['enterprises']),
+    ...mapGetters('role', ['roles']),
+    ...mapGetters('country', ['countries']),
+    canMakeFilter() {
+      return !!this.userFilter && !!this.updateUserFilter;
+    },
+    enterpriseId: {
+      get() {
+        return this.userFilter?.enterprise_id;
+      },
+      set(value) {
+        if (this.updateUserFilter)
+          this.updateUserFilter({ name: 'enterprise_id', value: value });
+      },
+    },
+    countryId: {
+      get() {
+        return this.userFilter?.country_id;
+      },
+      set(value) {
+        if (this.updateUserFilter)
+          this.updateUserFilter({ name: 'country_id', value: value });
+      },
+    },
+    roleId: {
+      get() {
+        return this.userFilter?.role_id;
+      },
+      set(value) {
+        if (this.updateUserFilter)
+          this.updateUserFilter({ name: 'role_id', value: value });
+      },
+    },
+  },
+
   methods: {
     deleteUser(user) {
       if (confirm(this.$t('messages.confirmDelete', { label: user.name })))

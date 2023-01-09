@@ -1,26 +1,29 @@
-import roleService from '../../../services/iam/IamRoleService';
-import actionService from '../../../services/iam/IamActionService';
+import roleService from '/@/services/iam/IamRoleService';
+import actionService from '/@/services/iam/IamActionService';
+import {
+  privilegeExtension,
+  roleAdminCode,
+  roleEnterpriseCode,
+} from '/@/helpers/codes';
 
 const state = {
-  roles: null,
-  hash: null,
-  actions: null,
+  roles: [],
+  role: null,
+  actions: [],
+  action: null,
 };
 
 // getters
 const getters = {
-  actions: (state) => (state.actions ? JSON.parse(state.actions) : []),
+  actions: (state) => state.actions,
   getActionById: (state, getters) => (id) =>
     getters.actions.find((a) => a.id === id),
   searchActionsByCriteria:
     (state, getters) =>
-    // ({ module_id, action_id, keyword }) =>
     ({ module_id, keyword }) =>
       getters.actions.filter((c) => {
         let result = true;
         if (module_id) result = c.module_id.toString() === module_id.toString();
-        // if (action_id)
-        //   result = c.action_id.toString() === action_id.toString();
         if (keyword && result)
           result = RegExp(`${keyword.toString().toLowerCase()}*`).test(
             `${c.label.toString().toLowerCase()} ${c.code
@@ -29,12 +32,90 @@ const getters = {
           );
         return result;
       }),
-  roles: (state) => (state.roles ? JSON.parse(state.roles) : []),
-  role: (state) => (state.role ? JSON.parse(state.role) : null),
-  getRoleById: (state, getters) => (id) =>
-    getters.roles.find((a) => a.id === id),
-  haveRole: (state) => !!state.role,
-  getIamHash: (state) => state.hash ?? null,
+  roles: (state) => state.roles,
+  role: (state) => state.role,
+  action: (state) => state.action,
+  currentPrivileges: (state, getters) => {
+    return getters.role?.privileges?.length > 0 ? getters.role.privileges : [];
+  },
+  getPrivilegesByFilter: (state, getters) => (filter) => {
+    return getters.currentPrivileges.filter((privilege) => {
+      let select = true;
+      if (filter.module_id)
+        select = privilege.action?.module_id === filter.module_id;
+      if (filter.action_id)
+        select = privilege.action?.action_id === filter.action_id;
+      return select;
+    });
+  },
+  getPrivilegeByCode: (state, getters) => (code) => {
+    const privilege = getters.currentPrivileges.find(
+      (p) => p.action.code === code
+    );
+    return privilege !== undefined ? privilege : null;
+  },
+  isCurrentRoleGranted: (state, getters) => {
+    return (
+      getters.role.code === roleAdminCode ||
+      getters.role.code === roleEnterpriseCode
+    );
+  },
+  isGrantedByActionCode: (state, getters) => (code) => {
+    const privilege = getters.getPrivilegeByCode(code);
+    if (privilege) return privilege.deleted_at === null;
+    else return false;
+  },
+  isGrantedAction: (state, getters) => (privilege, parentCode) => {
+    if (getters.isCurrentRoleGranted) return true;
+
+    if (privilege) return privilege.deleted_at === null;
+
+    return getters.isGrantedByActionCode(parentCode);
+  },
+  actionGroupState: (state, getters) => (action) => {
+    let state = {
+      granted: getters.isCurrentRoleGranted,
+      partial_granted: false,
+    };
+    if (!state.granted) {
+      state.granted = getters.isGrantedByActionCode(action.code);
+
+      if (!state.granted) {
+        const privileges = getters
+          .getPrivilegesByFilter({ action_id: action.id })
+          .filter(
+            (p) =>
+              p.deleted_at === null &&
+              !p.action.code.includes(privilegeExtension.forceDelete) &&
+              !p.action.code.includes(privilegeExtension.restore)
+          );
+
+        if (
+          privileges.length ===
+          action.actions.filter(
+            (action) =>
+              !action.code.includes(privilegeExtension.forceDelete) &&
+              !action.code.includes(privilegeExtension.restore)
+          ).length
+        )
+          state.granted = true;
+        else state.partial_granted = privileges.length > 0;
+      }
+    }
+    return state;
+  },
+  currentRoleActionToAdd: (state, getters) => {
+    return getters.currentPrivileges
+      .filter((p) => p.id === null)
+      .map((p) => {
+        return { role_id: p.role_id, action_id: p.action_id };
+      });
+  },
+  currentRoleActionToRemove: (state, getters) => {
+    return getters.currentPrivileges
+      .filter((p) => p.deleted_at !== null)
+      .map((p) => p.id);
+  },
 };
 
 const actions = {
@@ -70,6 +151,25 @@ const actions = {
       });
   },
 
+  getAction({ getters, commit }, id) {
+    const privilege = getters.currentPrivileges.find(
+      (p) => p.action.id.toString() === id
+    );
+    if (privilege !== undefined) {
+      commit('SET_CURRENT_ACTION', privilege.action);
+      return privilege.action;
+    }
+    const action = getters.actions.find((p) => p.id.toString() === id);
+    if (action !== undefined) {
+      commit('SET_CURRENT_ACTION', action);
+      return action;
+    }
+    return actionService.getAction(id).then(({ data }) => {
+      commit('SET_CURRENT_ROLE', data);
+      return data;
+    });
+  },
+
   addRole({ commit }, roleField) {
     return roleService.addRole(roleField).then(({ data }) => {
       commit('ADD_ROLE', data);
@@ -93,7 +193,7 @@ const actions = {
 
   addRolePrivileges({ getters, commit }, privileges) {
     return roleService
-      .addRolePrivileges(privileges, getters.user.id)
+      .addRolePrivileges(privileges, getters.role.id)
       .then(({ data }) => {
         commit('SET_ROLE_PRIVILEGES', data.privileges);
       });
@@ -119,57 +219,75 @@ const mutations = {
     state.hash = hash;
   },
   SET_ROLES(state, roles) {
-    state.roles = JSON.stringify(roles);
+    state.roles = roles;
   },
   SET_ACTIONS(state, actions) {
-    state.actions = JSON.stringify(actions);
+    state.actions = actions;
   },
   SET_CURRENT_ROLE(state, role) {
-    state.role = role === null ? null : JSON.stringify(role);
+    state.role = role;
+  },
+  SET_CURRENT_ACTION(state, action) {
+    state.action = action;
   },
   ADD_ROLE(state, role) {
-    let roles = JSON.parse(state.roles);
-    roles.push(role);
-    state.roles = JSON.stringify(roles);
+    state.roles.push(role);
   },
   UPDATE_ROLE(state, role) {
-    let roles = JSON.parse(state.roles);
-    const index = roles.findIndex((p) => p.id === role.id);
+    const index = state.roles.findIndex((p) => p.id === role.id);
     if (index !== -1) {
-      roles.splice(index, 1, role);
+      state.roles.splice(index, 1, role);
     }
-    state.role = JSON.stringify(role);
-    state.roles = JSON.stringify(roles);
   },
   DELETE_ROLE(state, roleId) {
-    state.roles = JSON.stringify(
-      JSON.parse(state.roles).filter((role) => role.id !== roleId)
+    state.roles = state.roles.filter((role) => role.id !== roleId);
+  },
+
+  SET_ROLE_PRIVILEGES(state, privileges) {
+    const index = state.roles.findIndex((p) => p.id === state.role.id);
+    if (index !== -1) {
+      state.role.privileges = privileges;
+      state.roles.splice(index, 1, state.role);
+    }
+  },
+
+  REMOVE_ROLE_PRIVILEGES(state, privilegeIds) {
+    const index = state.roles.findIndex((p) => p.id === state.role?.id);
+    if (index !== -1 && state.role) {
+      state.role.privileges = state.role.privileges.filter(
+        (p) => privilegeIds.find((pi) => pi === p.id) === undefined
+      );
+      state.roles.splice(index, 1, state.role);
+    }
+  },
+
+  TEMP_ADD_ROLE_PRIVILEGE(state, privilege) {
+    const index = state.role.privileges.findIndex(
+      (p) => p.action.code === privilege.action.code
     );
-  },
-
-  SET_ROLE_PRIVILEGES(state, { role, privileges }) {
-    let roles = JSON.parse(state.roles);
-    const index = roles.findIndex((p) => p.id === role.id);
     if (index !== -1) {
-      roles.splice(index, 1, { ...role, privileges });
-    }
-    state.role = JSON.stringify(role);
-    state.roles = JSON.stringify(roles);
-  },
-
-  REMOVE_ROLE_PRIVILEGES(state, { role, privilegeIds }) {
-    let roles = JSON.parse(state.roles);
-    const index = roles.findIndex((p) => p.id === role.id);
-    if (index !== -1) {
-      roles.splice(index, 1, {
-        ...role,
-        privileges: role.privileges.filter(
-          (p) => privilegeIds.find((pi) => pi.id === p.id) === undefined
-        ),
+      state.role.privileges.splice(index, 1, {
+        ...privilege,
+        deleted_at: null,
       });
-    }
-    state.role = JSON.stringify(role);
-    state.roles = JSON.stringify(roles);
+    } else
+      state.role.privileges.push({ ...privilege, id: null, deleted_at: null });
+  },
+  TEMP_REMOVE_ROLE_PRIVILEGE(state, privilege) {
+    if (privilege.id) {
+      const index = state.role.privileges.findIndex(
+        (p) => p.id === privilege.id
+      );
+      if (index !== -1) {
+        state.role.privileges.splice(index, 1, {
+          ...privilege,
+          deleted_at: new Date(),
+        });
+      }
+    } else
+      state.role.privileges = state.role.privileges.filter(
+        (p) => p.action.code !== privilege.action.code
+      );
   },
 };
 

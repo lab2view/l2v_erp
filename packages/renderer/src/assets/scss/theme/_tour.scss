@@ -85,7 +85,8 @@
   &:hover {
     border-color: $light-semi-gray;
   }
-  &:focus, &:active {
+  &:focus,
+  &:active {
     background-image: linear-gradient($light-gray, $light-semi-gray);
   }
 }
@@ -100,7 +101,8 @@
 .introjs-disabled {
   color: $tour-color;
   border-color: $light-semi-gray;
-  &:hover, &:focus {
+  &:hover,
+  &:focus {
     color: $tour-color;
     border-color: $light-semi-gray;
   }

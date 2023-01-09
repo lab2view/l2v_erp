@@ -4,18 +4,20 @@ import i18n from '/@/i18n';
 import { stockStateCode } from '/@/helpers/codes';
 
 const state = {
-  shippings: null,
+  shippings: [],
   hash: null,
   shipping: null,
+  request_field: {
+    created_at: null,
+    keyword: null,
+  },
 };
 
 // getters
 const getters = {
   haveShipping: (state, getters) => !!getters.shipping,
-  shippings: (state) => {
-    return state.shippings ? JSON.parse(state.shippings) : [];
-  },
-  shipping: (state) => (state.shipping ? JSON.parse(state.shipping) : null),
+  shippings: (state) => state.shippings,
+  shipping: (state) => state.shipping,
   shippingIsConfirm: (state, getters) => {
     return (
       getters.shipping?.shipping?.shipping.code === stockStateCode.success ||
@@ -25,17 +27,41 @@ const getters = {
   currentShippingStateDate: (state, getters) =>
     getters.shipping?.current_state?.updated_at,
   manage_price: () => false,
+  requestField: (state) => state.request_field,
 };
 
 const actions = {
-  getShippingsList({ commit, getters }, { page, field }) {
+  getShippingsList({ commit, getters, dispatch }, { page, field }) {
     if (getters.shippings.length > 0 && !field.next) {
       return getters.shippings;
     }
-    return shippingService.getShippingsList(page, field).then(({ data }) => {
-      commit('SET_SHIPPINGS', data);
-      return data;
-    });
+    return shippingService
+      .getShippingsList(page, { ...field, paginate: 20 })
+      .then(({ data }) => {
+        commit('SET_SHIPPINGS', data);
+        dispatch(
+          'setGlobalProgress',
+          {
+            label: 'Shipping',
+            min: 0,
+            max: data.last_page,
+            value: data.current_page,
+          },
+          { root: true }
+        );
+
+        if (data.next_page_url) {
+          return dispatch('getShippingsList', {
+            page: page + 1,
+            field: { ...field, next: true },
+          });
+        } else dispatch('setGlobalProgress', null, { root: true });
+        return data;
+      })
+      .catch((error) => {
+        commit('SET_SHIPPINGS', []);
+        return Promise.reject(error);
+      });
   },
 
   getShipping({ getters, commit }, id) {
@@ -93,30 +119,26 @@ const actions = {
 
 // mutations
 const mutations = {
-  SET_SHIPPINGS(state, shippings) {
-    state.shippings = shippings.length ? JSON.stringify(shippings) : null;
+  SET_SHIPPINGS(state, { current_page, data }) {
+    state.shippings = current_page === 1 ? data : [...state.shippings, ...data];
   },
   SET_CURRENT_SHIPPING(state, shipping) {
-    state.shipping = shipping === null ? null : JSON.stringify(shipping);
+    state.shipping = shipping;
   },
   ADD_SHIPPING(state, shipping) {
-    let shippings = state.shippings ? JSON.parse(state.shippings) : [];
-    shippings.push(shipping);
-
-    state.shippings = JSON.stringify(shippings);
+    state.shippings.push(shipping);
   },
   UPDATE_SHIPPING(state, shipping) {
-    let shippings = JSON.parse(state.shippings);
-    const index = shippings.findIndex((p) => p.id === shipping.id);
+    const index = state.shippings.findIndex((p) => p.id === shipping.id);
     if (index !== -1) {
-      shippings.splice(index, 1, shipping);
+      state.shippings.splice(index, 1, shipping);
     }
-    state.shippings = JSON.stringify(shippings);
   },
   DELETE_SHIPPING(state, shippingId) {
-    state.shippings = JSON.stringify(
-      JSON.parse(state.shippings).filter((p) => p.id !== shippingId)
-    );
+    state.shippings = state.shippings.filter((p) => p.id !== shippingId);
+  },
+  SET_REQUEST_FIELD_VALUE(state, { field, value }) {
+    state.request_field[field] = value;
   },
 };
 

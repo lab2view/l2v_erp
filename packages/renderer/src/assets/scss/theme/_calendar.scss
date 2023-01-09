@@ -13,17 +13,16 @@
 }
 %calander-mixin3 {
   border-color: $transparent-color;
-  
 }
 .calendar-wrap {
   .fc-scroller {
     margin-right: -17px;
   }
-  .fc-events-container{
+  .fc-events-container {
     margin-top: 55px;
   }
   .checkbox {
-    label{
+    label {
       margin-top: 20px;
       margin-bottom: 0;
     }
@@ -32,7 +31,7 @@
     .external-events {
       .fc-event {
         cursor: pointer;
-        &+ .fc-event{
+        & + .fc-event {
           margin-top: 20px;
         }
       }
@@ -56,18 +55,17 @@
       line-height: 1.5;
       border-radius: 0.25rem;
 
-
       .fc-icon {
         position: relative;
-        top: .05em;
-        margin: 0 .1em;
+        top: 0.05em;
+        margin: 0 0.1em;
         display: inline-block;
         font-size: 2em;
-        line-height: .5em;
-        height: .5em;
+        line-height: 0.5em;
+        height: 0.5em;
       }
     }
-    button{
+    button {
       &::-moz-focus-inner {
         margin: 0;
         padding: 0;
@@ -92,7 +90,7 @@
     .fc-toolbar > * {
       > * {
         float: left;
-        margin-left: .75em;
+        margin-left: 0.75em;
       }
       > :first-child {
         margin-bottom: 0;
@@ -169,12 +167,12 @@
   }
   .fc-highlight {
     background: $success-color;
-    opacity: .3;
+    opacity: 0.3;
     filter: alpha(opacity=30);
   }
   .fc-bgevent {
     background: $secondary-color;
-    opacity: .3;
+    opacity: 0.3;
     filter: alpha(opacity=30);
   }
   .fc-nonbusiness {
@@ -182,8 +180,8 @@
   }
   .fc-state-active {
     background-color: $primary-color !important;
-    border:1px solid $primary-color !important;
-    color:$white;
+    border: 1px solid $primary-color !important;
+    color: $white;
   }
   .fc-state-down {
     color: $theme-font-color;
@@ -195,14 +193,14 @@
     background-color: $white;
     text-decoration: none;
     background-position: 0 -15px;
-    transition: background-position .1s linear;
+    transition: background-position 0.1s linear;
   }
   .fc-button-group {
     display: inline-block;
   }
   .fc-today-button {
-    font-size: 14px!important;
-    text-transform: capitalize!important;
+    font-size: 14px !important;
+    text-transform: capitalize !important;
     font-weight: bold;
   }
   .fc-popover {
@@ -230,7 +228,7 @@
     }
     .fc-axis {
       text-align: right;
-      font-weight:600;
+      font-weight: 600;
     }
     .fc-popover .fc-header {
       .fc-title {
@@ -269,7 +267,7 @@
   }
   .fc-row {
     position: relative;
-    
+
     table {
       border-left: 0 hidden $transparent-color;
       border-right: 0 hidden $transparent-color;
@@ -403,42 +401,45 @@
       padding: 10px;
     }
   }
-  
 
   .fc-toolbar {
     text-align: center;
     margin-bottom: 1em;
-    .fc-left,.fc-right {
-      .fc-prev-button,.fc-next-button,.fc-today-button {
+    .fc-left,
+    .fc-right {
+      .fc-prev-button,
+      .fc-next-button,
+      .fc-today-button {
         background-color: transparent;
         padding: 4px 10px;
       }
-      .fc-prev-button{
-        .fc-icon-left-single-arrow{
-          &:after{
+      .fc-prev-button {
+        .fc-icon-left-single-arrow {
+          &:after {
             font-size: 14px;
-            content: "\e64a";
+            content: '\e64a';
             font-family: $font-themify;
             color: $theme-body-sub-title-color;
           }
         }
       }
-      .fc-next-button{
-        .fc-icon-right-single-arrow{
-          &:after{
+      .fc-next-button {
+        .fc-icon-right-single-arrow {
+          &:after {
             font-size: 14px;
-            content: "\e649";
-            font-family: $font-themify; color: $theme-body-sub-title-color;
+            content: '\e649';
+            font-family: $font-themify;
+            color: $theme-body-sub-title-color;
           }
         }
       }
       float: left;
       display: flex;
     }
-    .fc-left{
-      .fc-button-group{
-        .fc-month-button{
-          margin-left: 0!important;
+    .fc-left {
+      .fc-button-group {
+        .fc-month-button {
+          margin-left: 0 !important;
         }
       }
     }
@@ -455,13 +456,12 @@
       &:focus {
         z-index: 5;
       }
-      &:hover{
-        background-color:$primary-color !important;
-        color: $white !important; 
+      &:hover {
+        background-color: $primary-color !important;
+        color: $white !important;
       }
     }
 
-    
     .fc-state-hover {
       z-index: 2;
     }
@@ -472,8 +472,8 @@
       z-index: 3;
     }
     .fc-state-active {
-      z-index:4;
-      color:$white;
+      z-index: 4;
+      color: $white;
     }
     .ui-state-active {
       z-index: 4;
@@ -482,7 +482,7 @@
   .fc-view-container {
     * {
       box-sizing: content-box;
-      font-family:$font-rubik, $font-serif;
+      font-family: $font-rubik, $font-serif;
     }
     :after {
       box-sizing: content-box;
@@ -612,7 +612,7 @@
     }
     .fc-time {
       padding: 0 1px;
-      font-size: .85em;
+      font-size: 0.85em;
       white-space: nowrap;
     }
     .fc-title {
@@ -621,7 +621,7 @@
     .fc-bg {
       z-index: 1;
       background: $white;
-      opacity: .25;
+      opacity: 0.25;
       filter: alpha(opacity=25);
     }
     &.fc-short {
@@ -638,13 +638,13 @@
           content: attr(data-start);
         }
         &:after {
-          content: "\000A0-\000A0";
+          content: '\000A0-\000A0';
         }
       }
       .fc-title {
         display: inline-block;
         vertical-align: top;
-        font-size: .85em;
+        font-size: 0.85em;
         padding: 0;
       }
     }
@@ -661,7 +661,7 @@
       text-align: center;
       cursor: s-resize;
       &:after {
-        content: "=";
+        content: '=';
       }
     }
     > .fc-content {
@@ -670,24 +670,24 @@
     }
   }
   .fc-icon-left-single-arrow:after {
-    content: "\02039";
+    content: '\02039';
     font-weight: 700;
   }
   .fc-icon-right-single-arrow:after {
-    content: "\0203A";
+    content: '\0203A';
     font-weight: 700;
   }
   .fc-icon-left-double-arrow:after {
-    content: "\000AB";
+    content: '\000AB';
   }
   .fc-icon-right-double-arrow:after {
-    content: "\000BB";
+    content: '\000BB';
   }
   .fc-icon-x:after {
-    content: "\000D7";
+    content: '\000D7';
   }
   a.fc-more {
-    font-size: .85em;
+    font-size: 0.85em;
     cursor: pointer;
     text-decoration: none;
     &:hover {
@@ -706,7 +706,7 @@
     padding-bottom: 1em;
   }
   .fc-day-number.fc-other-month {
-    opacity: .3;
+    opacity: 0.3;
     filter: alpha(opacity=30);
   }
   .fc-agenda-view .fc-day-grid {

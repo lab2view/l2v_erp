@@ -6,8 +6,40 @@
         add-action-router-name="sales.cashier.form"
         :refresh-action-field="{ page: 1, field: { next: true } }"
         refresh-action-name="cashier/getCashiersList"
+        entity="Cashier"
       />
-      <div class="card-body">
+      <div class="card-body p-1">
+        <div class="row mb-2">
+          <div class="col-md-3">
+            <BaseFieldGroup
+              :with-refresh="true"
+              refresh-action-name="enterprise/getEnterprisesList"
+              :with-append="false"
+            >
+              <BaseSelect
+                v-model.number="cashierFilter.enterprise_id"
+                :options="enterprises"
+                key-label="name"
+                key-value="id"
+              />
+            </BaseFieldGroup>
+          </div>
+          <div class="col-md-3">
+            <BaseFieldGroup
+              :with-refresh="true"
+              refresh-action-name="cashier_group/getCashierGroupsList"
+              :with-append="false"
+            >
+              <BaseSelect
+                v-model.number="cashierFilter.cashier_group_id"
+                :options="cashierGroups"
+                key-label="label"
+                key-value="id"
+              />
+            </BaseFieldGroup>
+          </div>
+        </div>
+
         <BaseDatatable
           v-if="!$store.state.globalLoading"
           :tfoot="false"
@@ -34,29 +66,17 @@
               {{ cashier.ended_at ? date(cashier.ended_at) : '---' }}
             </td>
             <td>
-              <button
-                class="btn btn-secondary btn-xs"
-                type="button"
-                data-original-title="btn btn-secondary btn-xs"
-                :title="$t('common.update')"
-                @click.prevent="
+              <BaseActionBtnGroup
+                entity="Cashier"
+                :with-show-btn="false"
+                @update="
                   $router.push({
                     name: 'sales.cashier.form',
                     params: { id: cashier.id },
                   })
                 "
-              >
-                {{ $t('common.update') }}
-              </button>
-              <button
-                class="btn btn-danger btn-xs m-l-5"
-                type="button"
-                data-original-title="btn btn-danger btn-xs"
-                :title="$t('common.delete')"
-                @click.prevent="deleteCashier(cashier)"
-              >
-                <i class="fa fa-trash-o" />
-              </button>
+                @delete="deleteCashier(cashier)"
+              />
             </td>
           </tr>
         </BaseDatatable>
@@ -70,20 +90,40 @@
 <script>
 import BaseContainer from '/@/components/common/BaseContainer.vue';
 import BaseDatatable from '/@/components/common/BaseDatatable.vue';
+import BaseTableHeader from '/@/components/common/BaseTableHeader.vue';
+import BaseSelect from '/@/components/common/BaseSelect.vue';
+import BaseFieldGroup from '/@/components/common/BaseFieldGroup.vue';
 import store from '/@/store';
 import { mapGetters } from 'vuex';
-import filterMixin from '/@/mixins/FilterMixin.js';
-import BaseTableHeader from '/@/components/common/BaseTableHeader.vue';
+import filterMixin from '/@/mixins/FilterMixin';
+import BaseActionBtnGroup from '/@/components/common/BaseActionBtnGroup.vue';
 
 export default {
-  components: { BaseTableHeader, BaseContainer, BaseDatatable },
+  name: 'CashiersList',
+  components: {
+    BaseActionBtnGroup,
+    BaseFieldGroup,
+    BaseSelect,
+    BaseTableHeader,
+    BaseContainer,
+    BaseDatatable,
+  },
   mixins: [filterMixin],
   beforeRouteEnter(routeTo, routeFrom, next) {
-    store
-      .dispatch('cashier/getCashiersList', {
+    Promise.all([
+      store.dispatch('cashier/getCashiersList', {
         page: 1,
         field: {},
-      })
+      }),
+      store.dispatch('cashier_group/getCashierGroupsList', {
+        page: 1,
+        field: {},
+      }),
+      store.dispatch('enterprise/getEnterprisesList', {
+        page: 1,
+        field: {},
+      }),
+    ])
       .then(() => {
         next();
       })
@@ -92,8 +132,29 @@ export default {
         next();
       });
   },
+  data() {
+    return {
+      cashierFilter: {
+        enterprise_id: null,
+        cashier_group_id: null,
+      },
+    };
+  },
   computed: {
-    ...mapGetters('cashier', ['cashiers', 'cashier']),
+    ...mapGetters('cashier', ['getCashiersByFilter', 'cashier']),
+    ...mapGetters('enterprise', ['enterprises']),
+    ...mapGetters('cashier_group', ['cashierGroups']),
+    cashiers() {
+      return this.getCashiersByFilter(this.cashierFilter);
+    },
+  },
+  watch: {
+    cashiers() {
+      if (!this.$store.state.globalLoading) {
+        this.$store.dispatch('setGlobalLoading', true);
+        setTimeout(() => this.$store.dispatch('setGlobalLoading', false), 2000);
+      }
+    },
   },
   created() {
     if (this.cashier) this.$store.commit('cashier/SET_CURRENT_CASHIER', null);

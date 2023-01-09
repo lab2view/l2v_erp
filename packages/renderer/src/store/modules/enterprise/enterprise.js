@@ -1,4 +1,5 @@
 import enterpriseService from '../../../services/enterprise/EnterpriseService';
+import { privilegeCode } from '/@/helpers/codes';
 
 const state = {
   enterprises: null,
@@ -11,6 +12,14 @@ const state = {
 const getters = {
   enterprises: (state) =>
     state.enterprises ? JSON.parse(state.enterprises) : [],
+  getEnterprisesByFilter: (state, getters) => (filter) => {
+    return getters.enterprises.filter((enterprise) => {
+      let select = true;
+      if (filter.enterprise_type_id)
+        select = enterprise.enterprise_type_id === filter.enterprise_type_id;
+      return select;
+    });
+  },
   distributions: (state) =>
     state.distributions ? JSON.parse(state.distributions) : [],
   enterprise: (state) =>
@@ -34,7 +43,12 @@ const actions = {
         });
   },
 
-  getEnterpriseArticleStats({ commit, getters }, next) {
+  getEnterpriseArticleStats({ commit, getters, rootGetters }, next) {
+    if (
+      !rootGetters['auth/isGrantedAction'](privilegeCode.enterpriseArticleStat)
+    )
+      return;
+
     if (getters.distributions.length > 0 && !next) {
       return getters.distributions;
     } else

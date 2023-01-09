@@ -1,8 +1,8 @@
 /**=====================
       Page Builder CSS Start
 ==========================**/
-.cke{
-  z-index: 0!important;
+.cke {
+  z-index: 0 !important;
 }
 .page-builder {
   .btn-screen {
@@ -16,10 +16,10 @@
     background-color: transparent;
     border: none;
     font-size: 12px;
-    border-right: 1px solid $light-gray ;
+    border-right: 1px solid $light-gray;
     color: $gray-60;
   }
-  .btn-grid{
+  .btn-grid {
     background-color: $light-background;
     color: $theme-body-sub-title-color !important;
     border-right: 1px solid $light-semi-gray;
@@ -32,7 +32,7 @@
     margin-bottom: 10px;
     .ge-wrapper {
       color: $white;
-      font-family:$font-rubik, $font-serif;
+      font-family: $font-rubik, $font-serif;
       &.ge-fixed {
         position: fixed;
         z-index: 8;
@@ -64,7 +64,7 @@
         li {
           a {
             cursor: pointer;
-            &:active{
+            &:active {
               background-color: $secondary-color;
               color: $white;
             }
@@ -95,7 +95,7 @@
           padding: 5px;
           &:hover {
             cursor: pointer;
-            color: $primary-color!important;
+            color: $primary-color !important;
           }
         }
         .ge-details {
@@ -111,15 +111,15 @@
           }
         }
       }
-      .row {       
-        background-color:rgba($primary-color,0.02);
-        padding:25px;
-        margin-bottom:20px;
-        margin-left:0;
-        margin-right:0;
-        border-radius:4px;
+      .row {
+        background-color: rgba($primary-color, 0.02);
+        padding: 25px;
+        margin-bottom: 20px;
+        margin-left: 0;
+        margin-right: 0;
+        border-radius: 4px;
         > .ge-tools-drawer {
-          text-align:right;
+          text-align: right;
           width: 100%;
           > a {
             color: $gray-60;
@@ -128,9 +128,9 @@
         }
       }
       .column {
-        background-color:$light-background;
-        border:1px solid $light-gray ;
-        padding:15px;
+        background-color: $light-background;
+        border: 1px solid $light-gray;
+        padding: 15px;
         border-radius: 4px;
         > .ge-tools-drawer {
           a {
@@ -138,7 +138,7 @@
             font-size: 11px;
           }
           > a.ge-add-row {
-            color: $dark-color ;
+            color: $dark-color;
           }
         }
       }
@@ -600,7 +600,7 @@
       }
     }
   }
-  .ge-content-type-ckeditor{
+  .ge-content-type-ckeditor {
     padding: 10px;
     color: $dark-gray;
   }

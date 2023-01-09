@@ -21,8 +21,7 @@ export const formRoutes = [
       {
         path: 'form',
         name: 'iam.user.form.privileges.form',
-        component: () =>
-          import('/@/views/iam/UserFormPrivilegesForm.vue'),
+        component: () => import('/@/views/iam/UserFormPrivilegesForm.vue'),
       },
     ],
   },

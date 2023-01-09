@@ -13,7 +13,7 @@
       <th>{{ $t('common.headers.sub_amount') }}</th>
       <th>{{ $t('common.attributes.discount') }}</th>
       <th>{{ $t('common.headers.total_price') }}</th>
-      <th v-if="!isCashierSession">{{ $t('common.headers.win_amount') }}</th>
+      <th v-if="showTotalWinAmount">{{ $t('common.headers.win_amount') }}</th>
       <th>
         {{ $t(`common.attributes.${isCashierSession ? 'time' : 'date'}`) }}
       </th>
@@ -49,7 +49,7 @@
       <td>{{ `${sale.sup_amount}` }}</td>
       <td>{{ sale.discount }}</td>
       <td>{{ sale.sale_amount }}</td>
-      <td v-if="!isCashierSession">
+      <td v-if="showTotalWinAmount">
         {{ `${sale.sale_win_amount}` }}
         <i
           :class="`f-w-400 font-${
@@ -61,30 +61,21 @@
       </td>
       <td>{{ $d(sale.created_at, isCashierSession ? 'time' : 'short') }}</td>
       <td v-if="!isCashierSession">
-        <BaseButton
-          type="button"
-          class="btn btn-sm btn-success"
-          :title="$t('common.show')"
-          :text="$t('common.show')"
-          @click.prevent="
+        <BaseActionBtnGroup
+          entity="Sale"
+          :with-update-btn="false"
+          @show="
             $router.push({
               name: 'sales.sales.details',
               params: { id: sale.id },
             })
           "
+          @delete="deleteSale(sale)"
         />
-        <BaseButton
-          class="btn btn-danger btn-xs m-l-5"
-          type="button"
-          :title="$t('common.delete')"
-          @click.prevent="deleteSale(sale)"
-        >
-          <i class="fa fa-trash-o" />
-        </BaseButton>
       </td>
     </tr>
     <template #footers>
-      <th :colspan="isCashierSession ? 0 : 2" class="text-center">
+      <th :colspan="footerTotalColspan" class="text-center">
         {{ $t('common.headers.total').toUpperCase() }}
       </th>
       <th colspan="2" class="text-end">
@@ -102,7 +93,7 @@
       <th :colspan="isCashierSession ? 2 : 0">
         {{ `${saleTotalSaleAmount} ${currency}` }}
       </th>
-      <th v-if="!isCashierSession" colspan="3">
+      <th v-if="showTotalWinAmount" colspan="3">
         {{ `${saleTotalWinAmount} ${currency}` }}
         <label :class="`font-${saleTotalWinAmount > 0 ? 'primary' : 'danger'}`">
           ({{ `${saleTotalWinAmountPercent} %` }})
@@ -115,13 +106,13 @@
 <script>
 import BaseDatatable from '/@/components/common/BaseDatatable.vue';
 import { mapGetters } from 'vuex';
-import { getSaleAmount } from '/@/helpers/utils.js';
-import BaseButton from '/@/components/common/BaseButton.vue';
+import { getSaleAmount } from '/@/helpers/utils';
 import _ from 'lodash';
+import BaseActionBtnGroup from '/@/components/common/BaseActionBtnGroup.vue';
 
 export default {
   name: 'SaleTable',
-  components: { BaseButton, BaseDatatable },
+  components: { BaseActionBtnGroup, BaseDatatable },
   props: {
     sales: {
       type: Array,
@@ -133,8 +124,11 @@ export default {
     },
   },
   computed: {
-    ...mapGetters('auth', ['isRoleAdmin']),
+    ...mapGetters('auth', ['isRoleAdmin', 'canShowSaleReportsMargin']),
     ...mapGetters('workspace', ['currency']),
+    footerTotalColspan() {
+      return this.isCashierSession ? 0 : this.canShowSaleReportsMargin ? 2 : 1;
+    },
     saleTotalSupAmount() {
       return _.sumBy(this.sales, 'sup_amount').toFixed(2);
     },
@@ -172,6 +166,9 @@ export default {
           };
         })
         .value();
+    },
+    showTotalWinAmount() {
+      return !this.isCashierSession && this.canShowSaleReportsMargin;
     },
   },
   methods: {

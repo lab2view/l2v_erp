@@ -24,6 +24,13 @@ export default {
     store: `L'enregistrement du conditionnement a ete effectue avec succes.`,
     update: 'Modification du conditionnement effectue avec succes.',
   },
+  price: {
+    form: {
+      title: "Configuration des prix d'articles",
+      not_set_price: 'Articles sans prix',
+      price_value: 'Entrez la valeur en {currency}',
+    },
+  },
   priceType: {
     listTitle: 'Liste des Types de prix',
     formCreateTitle: 'Ajouter un type de prix',

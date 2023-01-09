@@ -8,11 +8,11 @@
       />
     </td>
     <td class="text-center">
-      <BaseButton
-        type="button"
-        class="btn btn-iconsolid btn-secondary btn-sm"
-        :title="$t('common.update')"
-        @click.prevent="
+      <BaseActionBtnGroup
+        entity="ProductProperty"
+        :with-show-btn="false"
+        :with-delete-btn="!productProperty.not_deletable"
+        @update="
           $router.push({
             name: 'product.form.setting.property.form',
             params: {
@@ -21,28 +21,18 @@
             },
           })
         "
-      >
-        <i class="fa fa-edit" />
-      </BaseButton>
-      <BaseButton
-        v-if="!productProperty.not_deletable"
-        type="button"
-        class="btn btn-iconsolid btn-danger btn-sm m-l-10"
-        :title="$t('common.delete')"
-        @click.prevent="deleteProductProperty"
-      >
-        <i class="fa fa-trash-o" />
-      </BaseButton>
+        @delete="deleteProductProperty"
+      />
     </td>
   </tr>
 </template>
 
 <script>
-import BaseButton from '../common/BaseButton.vue';
 import PropertyLineValue from '/@/components/products/PropertyLineValue.vue';
+import BaseActionBtnGroup from '/@/components/common/BaseActionBtnGroup.vue';
 
 export default {
-  components: { PropertyLineValue, BaseButton },
+  components: { BaseActionBtnGroup, PropertyLineValue },
   props: {
     productProperty: {
       type: Object,

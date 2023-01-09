@@ -31,33 +31,25 @@
       </td>
       <td>{{ $d(stockEntry.created_at, 'short') }}</td>
       <td>
-        <BaseButton
-          type="button"
-          :class="`btn btn-iconsolid btn-${
-            stockEntry.not_deletable ? 'success' : 'secondary'
-          } btn-sm`"
-          :title="$t(`common.${stockEntry.not_deletable ? 'show' : 'update'}`)"
-          @click.prevent="
+        <BaseActionBtnGroup
+          entity="StockEntry"
+          :with-show-btn="stockEntry.not_deletable"
+          :with-update-btn="!stockEntry.not_deletable"
+          :with-delete-btn="!stockEntry.not_deletable"
+          @update="
             $router.push({
-              name: `stocks.entry.form.${
-                stockEntry.not_deletable ? 'article' : 'desc'
-              }`,
+              name: `stocks.entry.form.desc`,
               params: { id: stockEntry.id },
             })
           "
-        >
-          {{ $t(`common.${stockEntry.not_deletable ? 'show' : 'update'}`) }}
-        </BaseButton>
-        <button
-          v-if="!stockEntry.not_deletable"
-          class="btn btn-danger btn-xs m-l-5"
-          type="button"
-          data-original-title="btn btn-danger btn-xs"
-          :title="$t('common.delete')"
-          @click.prevent="deleteStockEntry(stockEntry)"
-        >
-          <i class="fa fa-trash-o" />
-        </button>
+          @show="
+            $router.push({
+              name: `stocks.entry.form.article`,
+              params: { id: stockEntry.id },
+            })
+          "
+          @delete="deleteStockEntry(stockEntry)"
+        />
       </td>
     </tr>
   </BaseDatatable>
@@ -65,10 +57,10 @@
 
 <script>
 import BaseDatatable from '/@/components/common/BaseDatatable.vue';
-import BaseButton from '/@/components/common/BaseButton.vue';
+import BaseActionBtnGroup from '/@/components/common/BaseActionBtnGroup.vue';
 export default {
   name: 'StockEntryTable',
-  components: { BaseButton, BaseDatatable },
+  components: { BaseActionBtnGroup, BaseDatatable },
   props: {
     stockEntries: {
       type: Array,

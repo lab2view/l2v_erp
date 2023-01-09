@@ -31,6 +31,12 @@ export default [
         component: () =>
           import('/@/views/stocks/entries/forms/EntryLinesForm.vue'),
       },
+      {
+        path: 'csv',
+        name: 'stocks.entry.form.article.csv',
+        component: () =>
+          import('/@/views/stocks/entries/forms/EntryLinesCsv.vue'),
+      },
     ],
   },
 ];

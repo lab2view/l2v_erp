@@ -11,40 +11,84 @@
               <div class="form-group">
                 <label>Your Name</label>
                 <div class="small-group">
-                  <div class="input-group"><span class="input-group-text"><i class="icon-user"></i></span>
-                    <input class="form-control" type="text" required="" placeholder="Fist Name">
+                  <div class="input-group">
+                    <span class="input-group-text"
+                      ><i class="icon-user"></i
+                    ></span>
+                    <input
+                      class="form-control"
+                      type="text"
+                      required=""
+                      placeholder="Fist Name"
+                    />
                   </div>
-                  <div class="input-group"><span class="input-group-text"><i class="icon-user"></i></span>
-                    <input class="form-control" type="email" required="" placeholder="Last Name">
+                  <div class="input-group">
+                    <span class="input-group-text"
+                      ><i class="icon-user"></i
+                    ></span>
+                    <input
+                      class="form-control"
+                      type="email"
+                      required=""
+                      placeholder="Last Name"
+                    />
                   </div>
                 </div>
               </div>
               <div class="form-group">
                 <label>Email Address</label>
-                <div class="input-group"><span class="input-group-text"><i class="icon-email"></i></span>
-                  <input class="form-control" type="email" required="" placeholder="Test@gmail.com">
+                <div class="input-group">
+                  <span class="input-group-text"
+                    ><i class="icon-email"></i
+                  ></span>
+                  <input
+                    class="form-control"
+                    type="email"
+                    required=""
+                    placeholder="Test@gmail.com"
+                  />
                 </div>
               </div>
               <div class="form-group">
                 <label>Password</label>
-                <div class="input-group"><span class="input-group-text"><i class="icon-lock"></i></span>
-                  <input class="form-control" type="password" name="login[password]" required="" placeholder="*********">
-                  <div class="show-hide"><span class="show">                         </span></div>
+                <div class="input-group">
+                  <span class="input-group-text"
+                    ><i class="icon-lock"></i
+                  ></span>
+                  <input
+                    class="form-control"
+                    type="password"
+                    name="login[password]"
+                    required=""
+                    placeholder="*********"
+                  />
+                  <div class="show-hide"><span class="show"> </span></div>
                 </div>
               </div>
               <div class="form-group">
                 <div class="checkbox">
-                  <input id="checkbox1" type="checkbox">
-                  <label class="text-muted" for="checkbox1">Agree with <span>Privacy Policy                   </span></label>
+                  <input id="checkbox1" type="checkbox" />
+                  <label class="text-muted" for="checkbox1"
+                    >Agree with <span>Privacy Policy </span></label
+                  >
                 </div>
               </div>
               <div class="form-group">
-                <button class="btn btn-primary btn-block" type="submit">Create Account</button>
+                <button class="btn btn-primary btn-block" type="submit">
+                  Create Account
+                </button>
               </div>
               <div class="login-social-title">
                 <h5>.</h5>
               </div>
-              <p>Already have an account?<a class="ms-2" href="#" @click.prevent="$router.push({name: 'login'})">Sign in</a></p>
+              <p>
+                Already have an account?<a
+                  class="ms-2"
+                  href="#"
+                  @click.prevent="$router.push({ name: 'login' })"
+                  >Sign in</a
+                >
+              </p>
             </form>
           </div>
         </div>
@@ -60,6 +104,4 @@ export default {
 };
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

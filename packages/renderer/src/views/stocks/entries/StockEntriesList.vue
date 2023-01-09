@@ -13,6 +13,7 @@
         }"
         refresh-action-name="stock_entry/getStockEntriesList"
         add-action-label="stocks.stockEntry.add"
+        entity="StockEntry"
       />
       <div class="card-body p-1">
         <div class="row mb-2 justify-content-center">

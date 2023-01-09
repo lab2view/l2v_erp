@@ -1,7 +1,7 @@
 /**
-* Chartist.js plugin to display a data label on top of the points in a line chart.
-*
-*/
+ * Chartist.js plugin to display a data label on top of the points in a line chart.
+ *
+ */
 /* global Chartist */
 (function (window, document, Chartist) {
   'use strict';
@@ -11,12 +11,12 @@
     currencyFormatCallback: undefined,
     tooltipOffset: {
       x: 0,
-      y: -20
+      y: -20,
     },
     anchorToPoint: false,
     appendToBody: false,
     class: undefined,
-    pointClass: 'ct-point'
+    pointClass: 'ct-point',
   };
 
   Chartist.plugins = Chartist.plugins || {};
@@ -27,7 +27,9 @@
       var tooltipSelector = options.pointClass;
       if (chart.constructor.name == Chartist.Bar.prototype.constructor.name) {
         tooltipSelector = 'ct-bar';
-      } else if (chart.constructor.name ==  Chartist.Pie.prototype.constructor.name) {
+      } else if (
+        chart.constructor.name == Chartist.Pie.prototype.constructor.name
+      ) {
         // Added support for donut graph
         if (chart.options.donut) {
           tooltipSelector = 'ct-slice-donut';
@@ -40,7 +42,9 @@
       var $toolTip = $chart.querySelector('.chartist-tooltip');
       if (!$toolTip) {
         $toolTip = document.createElement('div');
-        $toolTip.className = (!options.class) ? 'chartist-tooltip' : 'chartist-tooltip ' + options.class;
+        $toolTip.className = !options.class
+          ? 'chartist-tooltip'
+          : 'chartist-tooltip ' + options.class;
         if (!options.appendToBody) {
           $chart.appendChild($toolTip);
         } else {
@@ -54,22 +58,28 @@
 
       function on(event, selector, callback) {
         $chart.addEventListener(event, function (e) {
-          if (!selector || hasClass(e.target, selector))
-          callback(e);
+          if (!selector || hasClass(e.target, selector)) callback(e);
         });
       }
 
-      on('mouseover', null, function ()  {
+      on('mouseover', null, function () {
         var $point = event.target;
         var tooltipText = '';
 
-        var isPieChart = (chart instanceof Chartist.Pie) ? $point : $point.parentNode;
-        var seriesName = (isPieChart) ? $point.parentNode.getAttribute('ct:meta') || $point.parentNode.getAttribute('ct:series-name') : '';
+        var isPieChart =
+          chart instanceof Chartist.Pie ? $point : $point.parentNode;
+        var seriesName = isPieChart
+          ? $point.parentNode.getAttribute('ct:meta') ||
+            $point.parentNode.getAttribute('ct:series-name')
+          : '';
         var meta = $point.getAttribute('ct:meta') || seriesName || '';
         var hasMeta = !!meta;
         var value = $point.getAttribute('ct:value');
 
-        if (options.transformTooltipTextFnc && typeof options.transformTooltipTextFnc === 'function') {
+        if (
+          options.transformTooltipTextFnc &&
+          typeof options.transformTooltipTextFnc === 'function'
+        ) {
           value = options.transformTooltipTextFnc(value);
         }
 
@@ -102,7 +112,9 @@
               if (options.currencyFormatCallback != undefined) {
                 value = options.currencyFormatCallback(value, options);
               } else {
-                value = options.currency + value.replace(/(\d)(?=(\d{3})+(?:\.\d+)?$)/g, '$1,');
+                value =
+                  options.currency +
+                  value.replace(/(\d)(?=(\d{3})+(?:\.\d+)?$)/g, '$1,');
               }
             }
             value = '<span class="chartist-tooltip-value">' + value + '</span>';
@@ -110,7 +122,7 @@
           }
         }
 
-        if(tooltipText) {
+        if (tooltipText) {
           $toolTip.innerHTML = tooltipText;
           setPosition(event);
           show($toolTip);
@@ -128,16 +140,20 @@
       function setPosition(event) {
         height = height || $toolTip.offsetHeight;
         width = width || $toolTip.offsetWidth;
-        var offsetX = - width / 2 + options.tooltipOffset.x
-        var offsetY = - height + options.tooltipOffset.y;
+        var offsetX = -width / 2 + options.tooltipOffset.x;
+        var offsetY = -height + options.tooltipOffset.y;
         var anchorX, anchorY;
 
         if (!options.appendToBody) {
           var box = $chart.getBoundingClientRect();
-          var left = event.pageX - box.left - window.pageXOffset ;
-          var top = event.pageY - box.top - window.pageYOffset ;
+          var left = event.pageX - box.left - window.pageXOffset;
+          var top = event.pageY - box.top - window.pageYOffset;
 
-          if (true === options.anchorToPoint && event.target.x2 && event.target.y2) {
+          if (
+            true === options.anchorToPoint &&
+            event.target.x2 &&
+            event.target.y2
+          ) {
             anchorX = parseInt(event.target.x2.baseVal.value);
             anchorY = parseInt(event.target.y2.baseVal.value);
           }
@@ -149,11 +165,11 @@
           $toolTip.style.left = event.pageX + offsetX + 'px';
         }
       }
-    }
+    };
   };
 
   function show(element) {
-    if(!hasClass(element, 'tooltip-show')) {
+    if (!hasClass(element, 'tooltip-show')) {
       element.className = element.className + ' tooltip-show';
     }
   }
@@ -165,7 +181,11 @@
   }
 
   function hasClass(element, className) {
-    return (' ' + element.getAttribute('class') + ' ').indexOf(' ' + className + ' ') > -1;
+    return (
+      (' ' + element.getAttribute('class') + ' ').indexOf(
+        ' ' + className + ' '
+      ) > -1
+    );
   }
 
   function next(element, className) {
@@ -178,5 +198,4 @@
   function text(element) {
     return element.innerText || element.textContent;
   }
-
-} (window, document, Chartist));
+})(window, document, Chartist);

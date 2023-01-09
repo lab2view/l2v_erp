@@ -5,12 +5,30 @@
   >
     <div class="card">
       <BaseTableHeader
+        :refresh-action-field="{ page: 1, field: { next: true } }"
         :title="$t('stocks.provider.listTitle')"
         add-action-router-name="provider.form"
-        :refresh-action-field="{ page: 1, field: { next: true } }"
         refresh-action-name="provider/getStockProvidersList"
+        entity="Provider"
       />
       <div class="card-body">
+        <div class="row mb-2">
+          <div class="col-md-3">
+            <BaseFieldGroup
+              :with-append="false"
+              :with-refresh="true"
+              refresh-action-name="country/getCountriesList"
+            >
+              <BaseSelect
+                v-model.number="providerFilter.country_id"
+                :options="countries"
+                :placeholder="`${$t('common.attributes.country')} ?`"
+                key-label="name"
+                key-value="id"
+              />
+            </BaseFieldGroup>
+          </div>
+        </div>
         <BaseDatatable
           v-if="!$store.state.globalLoading"
           :tfoot="false"
@@ -31,29 +49,17 @@
             <td>{{ provider.phone }}</td>
             <td>{{ provider.email }}</td>
             <td>
-              <button
-                :title="$t('common.update')"
-                class="btn btn-secondary btn-xs"
-                data-original-title="btn btn-secondary btn-xs"
-                type="button"
-                @click.prevent="
+              <BaseActionBtnGroup
+                entity="Provider"
+                :with-show-btn="false"
+                @update="
                   $router.push({
                     name: 'provider.form',
                     params: { id: provider.id },
                   })
                 "
-              >
-                {{ $t('common.update') }}
-              </button>
-              <button
-                :title="$t('common.delete')"
-                class="btn btn-danger btn-xs m-l-5"
-                data-original-title="btn btn-danger btn-xs"
-                type="button"
-                @click.prevent="deleteProvider(provider)"
-              >
-                <i class="fa fa-trash-o" />
-              </button>
+                @delete="deleteProvider(provider)"
+              />
             </td>
           </tr>
         </BaseDatatable>
@@ -71,16 +77,31 @@ import BaseDatatable from '/@/components/common/BaseDatatable.vue';
 import store from '/@/store';
 import { mapGetters } from 'vuex';
 import BaseTableHeader from '/@/components/common/BaseTableHeader.vue';
+import BaseSelect from '/@/components/common/BaseSelect.vue';
+import BaseFieldGroup from '/@/components/common/BaseFieldGroup.vue';
+import BaseActionBtnGroup from '/@/components/common/BaseActionBtnGroup.vue';
 
 export default {
   name: 'ProvidersList',
-  components: { BaseTableHeader, BaseContainer, BaseDatatable },
+  components: {
+    BaseActionBtnGroup,
+    BaseTableHeader,
+    BaseContainer,
+    BaseDatatable,
+    BaseSelect,
+    BaseFieldGroup,
+  },
   beforeRouteEnter(routeTo, routeFrom, next) {
-    store
-      .dispatch('provider/getStockProvidersList', {
+    Promise.all([
+      store.dispatch('provider/getStockProvidersList', {
         page: 1,
         field: {},
-      })
+      }),
+      store.dispatch('country/getCountriesList', {
+        page: 1,
+        field: {},
+      }),
+    ])
       .then(() => {
         next();
       })
@@ -89,8 +110,27 @@ export default {
         next();
       });
   },
+  data() {
+    return {
+      providerFilter: {
+        country_id: null,
+      },
+    };
+  },
   computed: {
-    ...mapGetters('provider', ['providers', 'provider']),
+    ...mapGetters('provider', ['getProvidersByFilter', 'provider']),
+    ...mapGetters('country', ['countries']),
+    providers() {
+      return this.getProvidersByFilter(this.providerFilter);
+    },
+  },
+  watch: {
+    providers() {
+      if (!this.$store.state.globalLoading) {
+        this.$store.dispatch('setGlobalLoading', true);
+        setTimeout(() => this.$store.dispatch('setGlobalLoading', false), 2000);
+      }
+    },
   },
   created() {
     if (this.provider)

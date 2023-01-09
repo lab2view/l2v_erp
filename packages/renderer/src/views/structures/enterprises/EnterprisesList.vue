@@ -9,8 +9,26 @@
         add-action-router-name="enterprise.form.desc"
         :refresh-action-field="{ page: 1, field: { next: true } }"
         refresh-action-name="enterprise/getEnterprisesList"
+        entity="Enterprise"
       />
-      <div class="card-body">
+      <div class="card-body p-1">
+        <div class="row mb-2">
+          <div class="col-md-3">
+            <BaseFieldGroup
+              :with-refresh="true"
+              :with-append="false"
+              refresh-action-name="enterprise_type/getEnterpriseTypesList"
+            >
+              <BaseSelect
+                v-model.number="enterpriseFilter.enterprise_type_id"
+                :options="enterpriseTypes"
+                key-label="label"
+                key-value="id"
+                :placeholder="`${$t('common.attributes.structure')} ?`"
+              />
+            </BaseFieldGroup>
+          </div>
+        </div>
         <BaseDatatable
           v-if="!$store.state.globalLoading"
           :tfoot="false"
@@ -31,33 +49,20 @@
             <td>{{ enterprise.email }}</td>
             <td>{{ enterprise.phone }}</td>
             <td>
-              <button
-                :title="$t('common.update')"
-                class="btn btn-secondary btn-xs"
-                data-original-title="btn btn-secondary btn-xs"
-                type="button"
-                @click.prevent="
+              <BaseActionBtnGroup
+                entity="Enterprise"
+                :with-show-btn="false"
+                @update="
                   $router.push({
                     name: 'enterprise.form.desc',
                     params: { id: enterprise.id },
                   })
                 "
-              >
-                {{ $t('common.update') }}
-              </button>
-              <button
-                :title="$t('common.delete')"
-                class="btn btn-danger btn-xs m-l-5"
-                data-original-title="btn btn-danger btn-xs"
-                type="button"
-                @click.prevent="deleteEnterprise(enterprise)"
-              >
-                <i class="fa fa-trash-o" />
-              </button>
+                @delete="deleteEnterprise(enterprise)"
+              />
             </td>
           </tr>
         </BaseDatatable>
-        <br />
       </div>
 
       <router-view />
@@ -67,14 +72,24 @@
 
 <script>
 import BaseDatatable from '/@/components/common/BaseDatatable.vue';
-import store from '../../../store';
+import store from '/@/store';
 import { mapGetters } from 'vuex';
-import BaseContainer from '../../../components/common/BaseContainer.vue';
+import BaseContainer from '/@/components/common/BaseContainer.vue';
 import BaseTableHeader from '/@/components/common/BaseTableHeader.vue';
+import BaseSelect from '/@/components/common/BaseSelect.vue';
+import BaseFieldGroup from '/@/components/common/BaseFieldGroup.vue';
+import BaseActionBtnGroup from '/@/components/common/BaseActionBtnGroup.vue';
 
 export default {
   name: 'EnterprisesList',
-  components: { BaseTableHeader, BaseContainer, BaseDatatable },
+  components: {
+    BaseActionBtnGroup,
+    BaseTableHeader,
+    BaseContainer,
+    BaseDatatable,
+    BaseFieldGroup,
+    BaseSelect,
+  },
   beforeRouteEnter(routeTo, routeFrom, next) {
     store
       .dispatch('enterprise/getEnterprisesList', {
@@ -89,8 +104,19 @@ export default {
         next();
       });
   },
+  data() {
+    return {
+      enterpriseFilter: {
+        enterprise_id: null,
+      },
+    };
+  },
   computed: {
-    ...mapGetters('enterprise', ['enterprises', 'enterprise']),
+    ...mapGetters('enterprise', ['getEnterprisesByFilter']),
+    ...mapGetters('enterprise_type', ['enterpriseTypes']),
+    enterprises() {
+      return this.getEnterprisesByFilter(this.enterpriseFilter);
+    },
   },
   created() {
     if (this.enterprise)

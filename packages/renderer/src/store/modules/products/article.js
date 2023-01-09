@@ -1,14 +1,15 @@
-import articleService from '../../../services/articles/ArticleService';
-import { notify } from '/@/helpers/notify.js';
-import i18n from '../../../i18n';
-import { unitPackageCode } from '/@/helpers/codes.js';
+import articleService from '/@/services/articles/ArticleService';
+import { notify } from '/@/helpers/notify';
+import i18n from '/@/i18n';
+import { priceTypeCode, unitPackageCode } from '/@/helpers/codes';
 import {
   getDistributionCurrentStock,
   getStockByEnterpriseId,
   getStockExitLineArticleStock,
-} from '/@/helpers/utils.js';
-import fileService from '/@/services/FileService.js';
+} from '/@/helpers/utils';
+import fileService from '/@/services/FileService';
 import _ from 'lodash';
+import priceService from '/@/services/articles/PriceService';
 
 const state = {
   articles: null,
@@ -18,6 +19,27 @@ const state = {
 // getters
 const getters = {
   articles: (state) => (state.articles ? JSON.parse(state.articles) : []),
+  getArticlesByFilter: (state, getters) => (filter) => {
+    return getters.articles.filter((article) => {
+      let select = true;
+      if (select && filter.product_type_id)
+        select = article.product?.product_type_id === filter.product_type_id;
+      if (select && filter.product_unit_id)
+        select = article.product?.product_unit_id === filter.product_unit_id;
+      if (select && filter.package_id)
+        select = article.package_id === filter.package_id;
+      if (select && filter.sell_price_not_set) {
+        select =
+          article.prices.find((p) =>
+            filter.price_type_id
+              ? p.price_type_id === filter.price_type_id
+              : p.price_type.code === priceTypeCode.sell
+          ) === undefined;
+      }
+
+      return select;
+    });
+  },
   sell_articles: (state, getters) =>
     getters.articles
       .filter((a) => a.package.code === unitPackageCode)
@@ -72,14 +94,29 @@ const getters = {
       const distribution = art.stats.distributions.find(
         (d) => d.id === parseInt(enterprise_id)
       );
+      const quantity = distribution
+        ? getDistributionCurrentStock(distribution)
+        : getStockExitLineArticleStock(art);
+      const price = art.prices.find(
+        (p) => p.price_type.code === priceTypeCode.sell
+      );
+      const amount =
+        price !== undefined && quantity ? price.value * quantity : '0';
+      const buyingPrice = art.prices.find(
+        (p) => p.price_type.code === priceTypeCode.buy
+      );
+      const buyingAmount =
+        buyingPrice !== undefined && quantity
+          ? buyingPrice.value * quantity
+          : '0';
       return {
         id: art.id,
         product_type: art.product?.product_type?.label,
         product_family:
           art.product?.product_type?.product_family?.label ?? null,
-        quantity: distribution
-          ? getDistributionCurrentStock(distribution)
-          : getStockExitLineArticleStock(art),
+        quantity: quantity,
+        total_price: parseFloat(amount),
+        total_buying_price: parseFloat(buyingAmount),
       };
     });
   },
@@ -88,8 +125,10 @@ const getters = {
       .groupBy((sel) => sel.product_family)
       .map((objs, key) => {
         return {
-          product_family: key,
+          label: key,
           total: _.sumBy(objs, 'quantity'),
+          total_price: _.sumBy(objs, 'total_price'),
+          total_buying_price: _.sumBy(objs, 'total_buying_price'),
         };
       })
       .value();
@@ -99,8 +138,10 @@ const getters = {
       .groupBy((sel) => sel.product_type)
       .map((objs, key) => {
         return {
-          product_type: key,
+          label: key,
           total: _.sumBy(objs, 'quantity'),
+          total_price: _.sumBy(objs, 'total_price'),
+          total_buying_price: _.sumBy(objs, 'total_buying_price'),
         };
       })
       .value();
@@ -240,6 +281,10 @@ const actions = {
       .then(({ data }) => {
         commit('ADD_PRICES', data.prices);
       });
+  },
+
+  updateOrCreatePrices(context, priceFields) {
+    return priceService.updateOrCreate({ prices: priceFields });
   },
 
   updatePrice({ commit }, price) {

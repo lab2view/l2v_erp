@@ -1,23 +1,70 @@
 @mixin dtb-two-stop-gradient($fromColor, $toColor) {
   background-color: $toColor; /* Fallback */
-  background-image: -webkit-linear-gradient(top, $fromColor 0%, $toColor 100%); /* Chrome 10+, Saf5.1+, iOS 5+ */
-  background-image:    -moz-linear-gradient(top, $fromColor 0%, $toColor 100%); /* FF3.6 */
-  background-image:     -ms-linear-gradient(top, $fromColor 0%, $toColor 100%); /* IE10 */
-  background-image:      -o-linear-gradient(top, $fromColor 0%, $toColor 100%); /* Opera 11.10+ */
-  background-image:         linear-gradient(to bottom, $fromColor 0%, $toColor 100%);
+  background-image: -webkit-linear-gradient(
+    top,
+    $fromColor 0%,
+    $toColor 100%
+  ); /* Chrome 10+, Saf5.1+, iOS 5+ */
+  background-image: -moz-linear-gradient(
+    top,
+    $fromColor 0%,
+    $toColor 100%
+  ); /* FF3.6 */
+  background-image: -ms-linear-gradient(
+    top,
+    $fromColor 0%,
+    $toColor 100%
+  ); /* IE10 */
+  background-image: -o-linear-gradient(
+    top,
+    $fromColor 0%,
+    $toColor 100%
+  ); /* Opera 11.10+ */
+  background-image: linear-gradient(to bottom, $fromColor 0%, $toColor 100%);
   filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,StartColorStr='#{nth( $fromColor, 1 )}', EndColorStr='#{nth( $toColor, 1 )}');
 }
 
-@mixin dtb-radial-gradient ($fromColor, $toColor ) {
+@mixin dtb-radial-gradient($fromColor, $toColor) {
   background: $toColor; /* Fallback */
-  background:     -ms-radial-gradient(center, ellipse farthest-corner, $fromColor 0%, $toColor 100%); /* IE10 Consumer Preview */
-  background:    -moz-radial-gradient(center, ellipse farthest-corner, $fromColor 0%, $toColor 100%); /* Firefox */
-  background:      -o-radial-gradient(center, ellipse farthest-corner, $fromColor 0%, $toColor 100%); /* Opera */
-  background: -webkit-gradient(radial, center center, 0, center center, 497, color-stop(0, $fromColor), color-stop(1, $toColor)); /* Webkit (Safari/Chrome 10) */
-  background: -webkit-radial-gradient(center, ellipse farthest-corner, $fromColor 0%, $toColor 100%); /* Webkit (Chrome 11+) */
-  background: radial-gradient(ellipse farthest-corner at center, $fromColor 0%, $toColor 100%); /* W3C Markup, IE10 Release Preview */
+  background: -ms-radial-gradient(
+    center,
+    ellipse farthest-corner,
+    $fromColor 0%,
+    $toColor 100%
+  ); /* IE10 Consumer Preview */
+  background: -moz-radial-gradient(
+    center,
+    ellipse farthest-corner,
+    $fromColor 0%,
+    $toColor 100%
+  ); /* Firefox */
+  background: -o-radial-gradient(
+    center,
+    ellipse farthest-corner,
+    $fromColor 0%,
+    $toColor 100%
+  ); /* Opera */
+  background: -webkit-gradient(
+    radial,
+    center center,
+    0,
+    center center,
+    497,
+    color-stop(0, $fromColor),
+    color-stop(1, $toColor)
+  ); /* Webkit (Safari/Chrome 10) */
+  background: -webkit-radial-gradient(
+    center,
+    ellipse farthest-corner,
+    $fromColor 0%,
+    $toColor 100%
+  ); /* Webkit (Chrome 11+) */
+  background: radial-gradient(
+    ellipse farthest-corner at center,
+    $fromColor 0%,
+    $toColor 100%
+  ); /* W3C Markup, IE10 Release Preview */
 }
-
 
 @mixin dtb-fixed-collection {
   // Fixed positioning feature
@@ -92,7 +139,6 @@
   }
 }
 
-
 @mixin dtb-processing {
   color: rgba(0, 0, 0, 0.2);
 
@@ -107,7 +153,7 @@
 
     display: block;
     content: ' ';
-    border: 2px solid rgb(40,40,40);
+    border: 2px solid rgb(40, 40, 40);
     border-radius: 50%;
     border-left-color: transparent;
     border-right-color: transparent;
@@ -120,21 +166,35 @@
 }
 
 @keyframes dtb-spinner {
-  100%{ transform: rotate(360deg); }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 @-o-keyframes dtb-spinner {
-  100%{ -o-transform: rotate(360deg); transform: rotate(360deg); }
+  100% {
+    -o-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
 }
 
 @-ms-keyframes dtb-spinner {
-  100%{ -ms-transform: rotate(360deg); transform: rotate(360deg); }
+  100% {
+    -ms-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
 }
 
 @-webkit-keyframes dtb-spinner {
-  100%{ -webkit-transform: rotate(360deg); transform: rotate(360deg); }
+  100% {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
 }
 
 @-moz-keyframes dtb-spinner {
-  100%{ -moz-transform: rotate(360deg); transform: rotate(360deg); }
+  100% {
+    -moz-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
 }

@@ -5,6 +5,7 @@
       add-action-router-name="config.products.package.form"
       :refresh-action-field="{ page: 1, field: { next: true } }"
       refresh-action-name="package/getPackageList"
+      entity="Package"
     />
     <div class="card-body">
       <BaseDatatable
@@ -21,30 +22,18 @@
           <td>{{ pack.id }}</td>
           <td>{{ pack.label }}</td>
           <td>
-            <button
-              class="btn btn-secondary btn-xs"
-              type="button"
-              data-original-title="btn btn-secondary btn-xs"
-              :title="$t('common.update')"
-              @click.prevent="
+            <BaseActionBtnGroup
+              entity="Package"
+              :with-show-btn="false"
+              :with-delete-btn="!pack.not_deletable"
+              @update="
                 $router.push({
                   name: 'config.products.package.form',
                   params: { id: pack.id },
                 })
               "
-            >
-              {{ $t('common.update') }}
-            </button>
-            <button
-              v-if="!pack.not_deletable"
-              class="btn btn-danger btn-xs m-l-5"
-              type="button"
-              data-original-title="btn btn-danger btn-xs"
-              :title="$t('common.delete')"
-              @click.prevent="deletePackage(pack)"
-            >
-              <i class="fa fa-trash-o" />
-            </button>
+              @delete="deletePackage(pack)"
+            />
           </td>
         </tr>
       </BaseDatatable>
@@ -56,13 +45,14 @@
 
 <script>
 import BaseDatatable from '/@/components/common/BaseDatatable.vue';
-import store from '../../../../store';
+import store from '/@/store';
 import { mapGetters } from 'vuex';
 import BaseTableHeader from '/@/components/common/BaseTableHeader.vue';
+import BaseActionBtnGroup from '/@/components/common/BaseActionBtnGroup.vue';
 
 export default {
   name: 'PackageList',
-  components: { BaseTableHeader, BaseDatatable },
+  components: { BaseActionBtnGroup, BaseTableHeader, BaseDatatable },
   beforeRouteEnter(routeTo, routeFrom, next) {
     store
       .dispatch('package/getPackageList', {

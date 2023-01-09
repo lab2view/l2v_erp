@@ -2,11 +2,6 @@
   {
     "year": "1935",
     "value": "Mutiny on the Bounty",
-    "tokens": [
-      "Mutiny",
-      "on",
-      "the",
-      "Bounty"
-    ]
+    "tokens": ["Mutiny", "on", "the", "Bounty"]
   }
 ]

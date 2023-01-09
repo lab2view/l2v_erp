@@ -6,37 +6,27 @@
       <span v-if="productTax.is_percent">%</span>
     </td>
     <td class="text-center">
-      <BaseButton
-        type="button"
-        class="btn btn-iconsolid btn-secondary btn-sm"
-        :title="$t('common.update')"
-        @click.prevent="
+      <BaseActionBtnGroup
+        entity="ProductTax"
+        :with-show-btn="false"
+        :with-delete-btn="!productTax.not_deletable"
+        @update="
           $router.push({
             name: 'product.form.setting.tax.form',
             params: { ...$route.params, product_tax_id: productTax.id },
           })
         "
-      >
-        <i class="fa fa-edit" />
-      </BaseButton>
-      <BaseButton
-        v-if="!productTax.not_deletable"
-        type="button"
-        class="btn btn-iconsolid btn-danger btn-sm m-l-10"
-        :title="$t('common.delete')"
-        @click.prevent="deleteProductTax"
-      >
-        <i class="fa fa-trash-o" />
-      </BaseButton>
+        @delete="deleteProductTax"
+      />
     </td>
   </tr>
 </template>
 
 <script>
-import BaseButton from '../common/BaseButton.vue';
+import BaseActionBtnGroup from '/@/components/common/BaseActionBtnGroup.vue';
 
 export default {
-  components: { BaseButton },
+  components: { BaseActionBtnGroup },
   props: {
     productTax: {
       type: Object,

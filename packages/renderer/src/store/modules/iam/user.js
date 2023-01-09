@@ -16,6 +16,17 @@ const getters = {
     getters.users.filter((u) => u.enterprise_id === id) ?? [],
   haveUser: (state) => !!state.user,
   getIamHash: (state) => state.hash ?? null,
+  getUsersByFilter: (state, getters) => (filter) => {
+    return getters.users.filter((user) => {
+      let select = true;
+      if (filter.enterprise_id)
+        select = user.enterprise_id === filter.enterprise_id;
+      if (select && filter.country_id)
+        select = user.country_id === filter.country_id;
+      if (select && filter.role_id) select = user.role_id === filter.role_id;
+      return select;
+    });
+  },
 };
 
 const actions = {
@@ -70,7 +81,7 @@ const actions = {
     return userService
       .addUserPrivileges(actions, getters.user.id)
       .then(({ data }) => {
-        commit('ADD_USER_PRIVILEGES', data.actions);
+        commit('ADD_USER_PRIVILEGES', data.privileges);
       });
   },
 
@@ -159,7 +170,7 @@ const mutations = {
     let user = JSON.parse(state.user);
     let index = users.findIndex((u) => u.id === user.id);
     if (index !== -1) {
-      user.privileges = [...user.privileges, ...userPrivileges];
+      user.privileges = userPrivileges;
       users.splice(index, 1, user);
       state.user = JSON.stringify(user);
       state.users = JSON.stringify(users);

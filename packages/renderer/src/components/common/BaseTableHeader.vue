@@ -15,13 +15,13 @@
           {{ $t('common.refresh') }}
         </a>
         <router-link
-          v-if="addActionRouterName"
+          v-if="canOpenAddingForm"
           :to="{ name: addActionRouterName, params, query }"
           href="#"
           class="btn btn-primary btn-sm m-l-30"
           type="button"
         >
-          <i class="fa fa-plus m-r-5" />
+          <i :class="`${addActionIcon} m-r-5`" />
           {{ $t(addActionLabel) }}
         </router-link>
       </div>
@@ -30,6 +30,8 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
+
 export default {
   name: 'BaseTableHeader',
   props: {
@@ -61,12 +63,27 @@ export default {
       type: Object,
       default: null,
     },
+    addActionIcon: {
+      type: String,
+      default: 'fa fa-plus',
+    },
+    entity: {
+      type: String,
+      default: null,
+    },
   },
   computed: {
+    ...mapGetters('auth', ['isGrantedAction']),
     canShowRefreshAction() {
       return (
         this.refreshActionName !== null && this.refreshActionField !== null
       );
+    },
+    canOpenAddingForm() {
+      return this.entity
+        ? this.addActionRouterName &&
+            this.isGrantedAction(`${this.entity}.create`)
+        : this.addActionRouterName;
     },
   },
   methods: {

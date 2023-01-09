@@ -1,12 +1,11 @@
-@import "variables";
-@import "../../theme/variables";
+@import 'variables';
+@import '../../theme/variables';
 
 .br-theme-fontawesome-stars-o {
-
   .br-widget {
     height: 28px;
     white-space: nowrap;
-  
+
     a {
       font: normal normal normal 20px/1 FontAwesome;
       text-rendering: auto;
@@ -53,15 +52,13 @@
       -moz-transform: scaleX(-1);
       -webkit-transform: scaleX(-1);
       filter: FlipH;
-      -ms-filter: "FlipH";
-    }    
+      -ms-filter: 'FlipH';
+    }
   }
-
 }
 
 @media print {
   .br-theme-fontawesome-stars-o {
-
     .br-widget {
       a:after {
         content: '\f006';
@@ -79,6 +76,5 @@
         color: black;
       }
     }
-
   }
 }

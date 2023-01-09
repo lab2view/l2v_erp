@@ -3,21 +3,21 @@ import Page from '/@/components/layouts/Page.vue';
 import workspace from './workspace';
 import store from '/@/store';
 
-import landlordGuard from '../guards/landlordGuard';
-import workspaceGuard from '../guards/workspaceGuard';
-import authGuard from '../guards/authGuard';
-import redirectAuthGuard from '../guards/redirectAuthGuard';
-import productGuard from '../guards/productGuard';
+import landlordGuard from '/@/guards/landlordGuard';
+import workspaceGuard from '/@/guards/workspaceGuard';
+import authGuard from '/@/guards/authGuard';
+import redirectAuthGuard from '/@/guards/redirectAuthGuard';
+import productGuard from '/@/guards/productGuard';
 import productArticleGroupGuard from '/@/guards/productArticleGroupGuard';
 import customerGroupGuard from '/@/guards/customerGroupGuard';
 import discountGuard from '/@/guards/discountGuard';
 import stockEntryGuard from '/@/guards/stockEntryGuard';
-import cashierSessionGuard from '/@/guards/cashierSessionGuard.js';
-import redirectCashierSessionGuard from '/@/guards/redirectCashierSessionGuard.js';
-import userGuard from '/@/guards/userGuard.js';
-import saleGuard from '/@/guards/saleGuard.js';
-import articleGuard from '/@/guards/articleGuard.js';
-import stockExitGuard from '/@/guards/stockExitGuard.js';
+import cashierSessionGuard from '/@/guards/cashierSessionGuard';
+import redirectCashierSessionGuard from '/@/guards/redirectCashierSessionGuard';
+import userGuard from '/@/guards/userGuard';
+import saleGuard from '/@/guards/saleGuard';
+import articleGuard from '/@/guards/articleGuard';
+import stockExitGuard from '/@/guards/stockExitGuard';
 
 const routes = [
   {
@@ -91,9 +91,18 @@ const router = createRouter({
   linkExactActiveClass: 'active',
 });
 
+const restoreState = new Promise(function (resolve, reject) {
+  store.restored
+    .then(() => setTimeout(() => resolve(), 3000))
+    .catch((error) => {
+      console.log('RESTORE STATE ERROR', error);
+      reject(error);
+    });
+});
+
 router.beforeEach(async (to, from, next) => {
   await store.dispatch('setGlobalLoading', true);
-  await store.restored;
+  await restoreState;
 
   if (to.meta.requireLandlord) landlordGuard(to, from, next);
   if (to.meta.requireWorkspace) workspaceGuard(to, from, next);

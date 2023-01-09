@@ -2,6 +2,7 @@ export const enterpriseImageCode = 'UPLOAD_LOGO';
 export const productPropertyImageCode = 'UPLOAD_IMAGE';
 export const unitPackageCode = 'UNIT';
 export const roleAdminCode = 'ADMIN';
+export const roleEnterpriseCode = 'ENTERPRISE';
 export const roleCashierCode = 'CASHIER';
 export const cashPaymentMethodCode = 'PM_CASH';
 export const stockFor = { entry: 'StockEntry', exit: 'StockExit' };
@@ -43,6 +44,16 @@ export const privilegeCode = {
   manageDashboard: 'Dashboard.manage',
   enterpriseArticleStat: 'Enterprise.viewAnyArticleStats',
   enterpriseArticleLineStat: 'Enterprise.viewAnyArticleLineStats',
+  sale: {
+    report: {
+      margin: 'SaleReports.margin',
+    },
+  },
+  stock: {
+    inventory: {
+      viewAny: 'Inventory.viewAny',
+    },
+  },
 };
 
 export const saleTypeCode = {
@@ -67,4 +78,9 @@ export const datatableBtnCode = {
   csv: 'csvHtml5',
   excel: 'excelHtml5',
   pdf: 'pdfHtml5',
+};
+
+export const privilegeExtension = {
+  forceDelete: 'forceDelete',
+  restore: 'restore',
 };

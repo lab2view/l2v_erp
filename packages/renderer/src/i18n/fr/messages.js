@@ -8,6 +8,8 @@ export default {
   validateInventory: "Voulez-vous valider l'inventaire {reference} ?",
   confirmInventory:
     "Voulez-vous vraiment mettre a jour le stock a partir de l'inventaire {reference} ?",
+  validatePrivilege:
+    "Confirmez-vous l'application des modification sur le role ?",
 
   update_user_successfully: 'Profil modifie avec succes',
 

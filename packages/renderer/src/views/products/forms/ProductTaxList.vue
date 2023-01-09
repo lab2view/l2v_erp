@@ -13,6 +13,7 @@
           : null
       "
       :params="$route.params"
+      entity="ProductTax"
     />
     <div class="card-body">
       <div class="user-status table-responsive">

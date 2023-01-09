@@ -16,9 +16,7 @@
         :label="$t('common.attributes.region')"
         :errors="errors.region_id"
         required
-        @btn-click="
-          $router.push({ name: 'region.form' })
-        "
+        @btn-click="$router.push({ name: 'region.form' })"
       >
         <BaseSelect
           v-model="localizationForm.region_id"
@@ -53,7 +51,7 @@
       </button>
     </template>
   </BaseFormModal>
-  <br/>
+  <br />
   <router-view />
 </template>
 
@@ -70,7 +68,7 @@ export default {
     BaseInput,
     BaseSelect,
     BaseFormModal,
-    BaseFieldGroup
+    BaseFieldGroup,
   },
   beforeRouteEnter(routeTo, routeFrom, next) {
     Promise.all([
@@ -82,12 +80,14 @@ export default {
         page: 1,
         field: {},
       }),
-    ]).then(() => {
-      next();
-    }).catch((error) => {
-      console.log(error);
-      next();
-    });
+    ])
+      .then(() => {
+        next();
+      })
+      .catch((error) => {
+        console.log(error);
+        next();
+      });
   },
   data() {
     return {
@@ -116,10 +116,10 @@ export default {
     active_regions() {
       return this.localizationForm.country_id
         ? this.regions.filter(
-          (region) =>
-            region.country_id.toString() ===
-            this.localizationForm.country_id.toString()
-        )
+            (region) =>
+              region.country_id.toString() ===
+              this.localizationForm.country_id.toString()
+          )
         : this.regions;
     },
   },

@@ -88,6 +88,12 @@ const StockProvision = new VuexPersistence({
 
 const StockExit = new VuexPersistence({
   key: 'stock_exit',
+  restoreState: (key, storage) => {
+    return storage.getItem(key).then((data) => JSON.parse(data));
+  },
+  saveState: (key, state, storage) => {
+    return storage.setItem(key, JSON.stringify(state));
+  },
   storage: localStore,
   asyncStorage: true,
   reducer: (state) => ({ stock_exit: state.stock_exit }),
@@ -187,6 +193,12 @@ const Provider = new VuexPersistence({
 
 const Shipping = new VuexPersistence({
   key: 'shipping',
+  restoreState: (key, storage) => {
+    return storage.getItem(key).then((data) => JSON.parse(data));
+  },
+  saveState: (key, state, storage) => {
+    return storage.setItem(key, JSON.stringify(state));
+  },
   storage: localStore,
   asyncStorage: true,
   reducer: (state) => ({ shipping: state.shipping }),
@@ -298,6 +310,12 @@ const DiscountCode = new VuexPersistence({
 
 const Role = new VuexPersistence({
   key: 'role',
+  restoreState: (key, storage) => {
+    return storage.getItem(key).then((data) => JSON.parse(data));
+  },
+  saveState: (key, state, storage) => {
+    return storage.setItem(key, JSON.stringify(state));
+  },
   storage: localStore,
   asyncStorage: true,
   reducer: (state) => ({ role: state.role }),

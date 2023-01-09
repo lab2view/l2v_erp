@@ -44,8 +44,8 @@
   -moz-box-sizing: border-box;
   box-sizing: border-box;
   position: relative;
-  border: 1px solid rgba(0,0,0,0.08);
-  background: rgba(0,0,0,0.02);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  background: rgba(0, 0, 0, 0.02);
   padding: 1em;
   min-height: 360px;
   -webkit-border-radius: 3px;
@@ -61,15 +61,15 @@
     filter: none;
   }
   .dz-preview {
-    background: rgba(255,255,255,0.8);
+    background: rgba(255, 255, 255, 0.8);
     position: relative;
     display: inline-block;
     margin: 17px;
     vertical-align: top;
     border: 1px solid #acacac;
     padding: 6px 6px 6px 6px;
-    -webkit-box-shadow: 1px 1px 4px rgba(0,0,0,0.16);
-    box-shadow: 1px 1px 4px rgba(0,0,0,0.16);
+    -webkit-box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.16);
+    box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.16);
     font-size: 14px;
     .dz-details {
       position: absolute;
@@ -110,13 +110,13 @@
       display: block;
       opacity: 0;
       filter: alpha(opacity=0);
-      -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+      -ms-filter: 'progid:DXImageTransform.Microsoft.Alpha(Opacity=0)';
       -webkit-transition: opacity 0.4s ease-in-out;
       -moz-transition: opacity 0.4s ease-in-out;
       -o-transition: opacity 0.4s ease-in-out;
       -ms-transition: opacity 0.4s ease-in-out;
       transition: opacity 0.4s ease-in-out;
-      background-image: image-url("dropzone-spritemap.png");
+      background-image: image-url('dropzone-spritemap.png');
       background-repeat: no-repeat;
       background-position: -268px -163px;
       span {
@@ -136,13 +136,13 @@
       display: block;
       opacity: 0;
       filter: alpha(opacity=0);
-      -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+      -ms-filter: 'progid:DXImageTransform.Microsoft.Alpha(Opacity=0)';
       -webkit-transition: opacity 0.4s ease-in-out;
       -moz-transition: opacity 0.4s ease-in-out;
       -o-transition: opacity 0.4s ease-in-out;
       -ms-transition: opacity 0.4s ease-in-out;
       transition: opacity 0.4s ease-in-out;
-      background-image: image-url("dropzone-spritemap.png");
+      background-image: image-url('dropzone-spritemap.png');
       background-repeat: no-repeat;
       background-position: -268px -123px;
       span {
@@ -181,7 +181,7 @@
         left: 0;
         width: 0%;
         height: 100%;
-        background-image: image-url("dropzone-spritemap.png");
+        background-image: image-url('dropzone-spritemap.png');
         background-repeat: repeat-x;
         background-position: 0px -400px;
       }
@@ -191,7 +191,7 @@
       position: absolute;
       top: -5px;
       left: -20px;
-      background: rgba(245,245,245,0.8);
+      background: rgba(245, 245, 245, 0.8);
       padding: 8px 10px;
       color: #800;
       min-width: 140px;
@@ -200,7 +200,7 @@
       display: block;
       opacity: 0;
       filter: alpha(opacity=0);
-      -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+      -ms-filter: 'progid:DXImageTransform.Microsoft.Alpha(Opacity=0)';
       -webkit-transition: opacity 0.3s ease-in-out;
       -moz-transition: opacity 0.3s ease-in-out;
       -o-transition: opacity 0.3s ease-in-out;
@@ -245,7 +245,7 @@
       display: block;
       opacity: 0;
       filter: alpha(opacity=0);
-      -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+      -ms-filter: 'progid:DXImageTransform.Microsoft.Alpha(Opacity=0)';
       -webkit-transition: opacity 0.4s ease-in-out;
       -moz-transition: opacity 0.4s ease-in-out;
       -o-transition: opacity 0.4s ease-in-out;
@@ -267,7 +267,7 @@
     -o-transition: opacity 0.3s ease-in-out;
     -ms-transition: opacity 0.3s ease-in-out;
     transition: opacity 0.3s ease-in-out;
-    background-image: image-url("dropzone-spritemap.png");
+    background-image: image-url('dropzone-spritemap.png');
     background-repeat: no-repeat;
     background-position: 0 0;
     position: absolute;
@@ -288,7 +288,7 @@
           display: block;
           opacity: 0.1;
           filter: alpha(opacity=10);
-          -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=10)";
+          -ms-filter: 'progid:DXImageTransform.Microsoft.Alpha(Opacity=10)';
         }
       }
     }
@@ -304,15 +304,15 @@
     box-sizing: border-box;
   }
   .dz-preview {
-    background: rgba(255,255,255,0.8);
+    background: rgba(255, 255, 255, 0.8);
     position: relative;
     display: inline-block;
     margin: 17px;
     vertical-align: top;
     border: 1px solid #acacac;
     padding: 6px 6px 6px 6px;
-    -webkit-box-shadow: 1px 1px 4px rgba(0,0,0,0.16);
-    box-shadow: 1px 1px 4px rgba(0,0,0,0.16);
+    -webkit-box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.16);
+    box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.16);
     font-size: 14px;
     .dz-details {
       width: 100px;
@@ -360,13 +360,13 @@
       display: block;
       opacity: 0;
       filter: alpha(opacity=0);
-      -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+      -ms-filter: 'progid:DXImageTransform.Microsoft.Alpha(Opacity=0)';
       -webkit-transition: opacity 0.4s ease-in-out;
       -moz-transition: opacity 0.4s ease-in-out;
       -o-transition: opacity 0.4s ease-in-out;
       -ms-transition: opacity 0.4s ease-in-out;
       transition: opacity 0.4s ease-in-out;
-      background-image: image-url("dropzone-spritemap.png");
+      background-image: image-url('dropzone-spritemap.png');
       background-repeat: no-repeat;
       background-position: -268px -163px;
       span {
@@ -386,13 +386,13 @@
       display: block;
       opacity: 0;
       filter: alpha(opacity=0);
-      -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+      -ms-filter: 'progid:DXImageTransform.Microsoft.Alpha(Opacity=0)';
       -webkit-transition: opacity 0.4s ease-in-out;
       -moz-transition: opacity 0.4s ease-in-out;
       -o-transition: opacity 0.4s ease-in-out;
       -ms-transition: opacity 0.4s ease-in-out;
       transition: opacity 0.4s ease-in-out;
-      background-image: image-url("dropzone-spritemap.png");
+      background-image: image-url('dropzone-spritemap.png');
       background-repeat: no-repeat;
       background-position: -268px -123px;
       span {
@@ -431,7 +431,7 @@
         left: 0;
         width: 0%;
         height: 100%;
-        background-image: image-url("dropzone-spritemap.png");
+        background-image: image-url('dropzone-spritemap.png');
         background-repeat: repeat-x;
         background-position: 0px -400px;
       }
@@ -441,7 +441,7 @@
       position: absolute;
       top: -5px;
       left: -20px;
-      background: rgba(245,245,245,0.8);
+      background: rgba(245, 245, 245, 0.8);
       padding: 8px 10px;
       color: #800;
       min-width: 140px;
@@ -450,7 +450,7 @@
       display: block;
       opacity: 0;
       filter: alpha(opacity=0);
-      -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+      -ms-filter: 'progid:DXImageTransform.Microsoft.Alpha(Opacity=0)';
       -webkit-transition: opacity 0.3s ease-in-out;
       -moz-transition: opacity 0.3s ease-in-out;
       -o-transition: opacity 0.3s ease-in-out;
@@ -495,7 +495,7 @@
       display: block;
       opacity: 0;
       filter: alpha(opacity=0);
-      -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+      -ms-filter: 'progid:DXImageTransform.Microsoft.Alpha(Opacity=0)';
       -webkit-transition: opacity 0.4s ease-in-out;
       -moz-transition: opacity 0.4s ease-in-out;
       -o-transition: opacity 0.4s ease-in-out;
@@ -515,38 +515,38 @@
           display: block;
           opacity: 0.1;
           filter: alpha(opacity=10);
-          -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=10)";
+          -ms-filter: 'progid:DXImageTransform.Microsoft.Alpha(Opacity=10)';
         }
       }
     }
   }
 }
-.dropzone{
+.dropzone {
   &.dz-clickable {
-  cursor: pointer;
-    text-align: center;
-  .dz-message {
     cursor: pointer;
-    * {
-      cursor: default;
-    }
+    text-align: center;
     .dz-message {
       cursor: pointer;
+      * {
+        cursor: default;
+      }
+      .dz-message {
+        cursor: pointer;
+      }
+    }
+    * {
+      cursor: default;
+      border-radius: 5px;
     }
   }
-  * {
-    cursor: default;
-    border-radius: 5px;
-  }
-}
 }
 .dropzone.dz-drag-hover {
-  border-color: rgba(0,0,0,0.15);
-  background: rgba(0,0,0,0.04);
+  border-color: rgba(0, 0, 0, 0.15);
+  background: rgba(0, 0, 0, 0.04);
   .dz-message {
     opacity: 0.15;
     filter: alpha(opacity=15);
-    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=15)";
+    -ms-filter: 'progid:DXImageTransform.Microsoft.Alpha(Opacity=15)';
   }
 }
 .dropzone.dz-started {
@@ -554,7 +554,7 @@
     display: none;
     opacity: 0;
     filter: alpha(opacity=0);
-    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+    -ms-filter: 'progid:DXImageTransform.Microsoft.Alpha(Opacity=0)';
   }
 }
 .dropzone.dz-square {

@@ -27,10 +27,12 @@ const actions = {
     if (getters.stock_provisions.length > 0) {
       return getters.stock_provisions;
     } else
-      return stockEntryService.getStockEntriesList(page, field).then(({ data }) => {
-        commit('SET_STOCK_PROVISIONS', data);
-        return data;
-      });
+      return stockEntryService
+        .getStockEntriesList(page, field)
+        .then(({ data }) => {
+          commit('SET_STOCK_PROVISIONS', data);
+          return data;
+        });
   },
 
   getStockStockProvision({ getters, commit }, id) {
@@ -41,23 +43,27 @@ const actions = {
       commit('SET_CURRENT_STOCK_PROVISION', stock_provision);
       return stock_provision;
     } else
-      return stockEntryProvisionService.getStockEntryProvision(id).then(({ data }) => {
-        commit('SET_CURRENT_STOCK_PROVISION', data);
-        return data;
-      });
+      return stockEntryProvisionService
+        .getStockEntryProvision(id)
+        .then(({ data }) => {
+          commit('SET_CURRENT_STOCK_PROVISION', data);
+          return data;
+        });
   },
 
   addStockProvision({ commit }, stockProvisionField) {
-    return stockEntryProvisionService.addStockEntryProvision(stockProvisionField).then(({ data }) => {
-      commit('ADD_STOCK_PROVISION', data);
-      notify(
-        i18n.global.t('stocks.provision.store'),
-        'Ok',
-        'theme',
-        'fa fa-check'
-      );
-      return data;
-    });
+    return stockEntryProvisionService
+      .addStockEntryProvision(stockProvisionField)
+      .then(({ data }) => {
+        commit('ADD_STOCK_PROVISION', data);
+        notify(
+          i18n.global.t('stocks.provision.store'),
+          'Ok',
+          'theme',
+          'fa fa-check'
+        );
+        return data;
+      });
   },
 
   updateStockProvision({ commit }, stockProvisionField) {
@@ -76,10 +82,12 @@ const actions = {
   },
 
   deleteStockProvision({ commit }, stockProvisionId) {
-    return stockEntryProvisionService.deleteStockEntryProvision(stockProvisionId).then(({ data }) => {
-      commit('DELETE_STOCK_PROVISION', stockProvisionId);
-      return data;
-    });
+    return stockEntryProvisionService
+      .deleteStockEntryProvision(stockProvisionId)
+      .then(({ data }) => {
+        commit('DELETE_STOCK_PROVISION', stockProvisionId);
+        return data;
+      });
   },
 };
 
@@ -98,7 +106,9 @@ const mutations = {
   },
   UPDATE_STOCK_PROVISION(state, stock_provision) {
     let stock_provisions = JSON.parse(state.stock_provisions);
-    const index = stock_provisions.findIndex((p) => p.id === stock_provision.id);
+    const index = stock_provisions.findIndex(
+      (p) => p.id === stock_provision.id
+    );
     if (index !== -1) {
       stock_provisions.splice(index, 1, stock_provision);
       state.stock_provisions = JSON.stringify(stock_provisions);

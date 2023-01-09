@@ -1,3 +1,5 @@
+import { priceTypeCode } from '/@/helpers/codes';
+
 export default {
   props: {
     article: {
@@ -6,6 +8,13 @@ export default {
     },
   },
   computed: {
+    haveSalePrice() {
+      return (
+        this.article?.prices?.find(
+          (p) => p.price_type.code === priceTypeCode.sell
+        ) !== undefined
+      );
+    },
     totalEntry() {
       return (
         parseInt(this.article.stock.total_entry) +

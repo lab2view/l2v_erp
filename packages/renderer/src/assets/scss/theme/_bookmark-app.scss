@@ -2,36 +2,35 @@
      85. bookmark app CSS Start
 ==========================**/
 
-.email-wrap .email-app-sidebar .main-menu>li a[aria-selected="true"] span{  
-  color:$primary-color !important;
+.email-wrap .email-app-sidebar .main-menu > li a[aria-selected='true'] span {
+  color: $primary-color !important;
 }
 
-
-.modal-bookmark{
-  .modal-body,.modal-header {
-    padding:25px;
-    h5{
-      font-weight:600;
+.modal-bookmark {
+  .modal-body,
+  .modal-header {
+    padding: 25px;
+    h5 {
+      font-weight: 600;
     }
-  } 
-} 
-
+  }
+}
 
 .bookmark-wrap {
   .btn-mail {
-    color:$primary-color !important;
-    width:100% ; 
-    font-weight:600;  
+    color: $primary-color !important;
+    width: 100%;
+    font-weight: 600;
   }
 
   .row {
     .col-xl-3 {
-      +.col-xl-3 {
+      + .col-xl-3 {
         padding-right: 15px;
       }
     }
   }
-  .left-bookmark {   
+  .left-bookmark {
     ul {
       li {
         button {
@@ -46,12 +45,12 @@
           height: 18px;
           vertical-align: middle;
         }
-        >.main-title {
+        > .main-title {
           color: $primary-color;
           font-weight: 600;
           margin-bottom: 5px;
           display: block;
-          font-size:16px;
+          font-size: 16px;
           span {
             a {
               &:hover {
@@ -65,9 +64,9 @@
           }
         }
         a {
-          >.title {
+          > .title {
             text-transform: capitalize;
-            color:$theme-font-color;
+            color: $theme-font-color;
           }
         }
       }
@@ -90,11 +89,12 @@
     }
   }
   .form-group {
-    label{
+    label {
       font-weight: 600;
       margin-bottom: 5px;
     }
-    input, select {
+    input,
+    select {
       font-size: 14px;
     }
     .select2-container {
@@ -106,26 +106,29 @@
       width: 100% !important;
     }
     .error {
-       margin: 0 !important;
-       font-size: 11px;
-       color: red !important;
-     }
+      margin: 0 !important;
+      font-size: 11px;
+      color: red !important;
+    }
 
-     .fill-color{
-       width:35px;
-       height:30px;
-       padding:3px;
-     }
+    .fill-color {
+      width: 35px;
+      height: 30px;
+      padding: 3px;
+    }
   }
   button {
     margin-top: 30px;
   }
-
 }
 
 @keyframes displayTransition {
-    from { opacity: 0; }
-      to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 .bookmark-tabcontent {
   .details-bookmark {
@@ -135,111 +138,111 @@
       position: relative;
       &.card {
         .favourite-icon {
-        padding: 3px;
-        border-radius: 4px;
-        background-color: rgba($black, 0.2);
-        width: 30px;
-        position: absolute;
-        right: 15px;
-        top: 15px;
-        opacity:0;
-        i {
-          color: $white;
-          font-size: 16px;
-          vertical-align: text-bottom;
-        }
-        &.favourite {
+          padding: 3px;
+          border-radius: 4px;
+          background-color: rgba($black, 0.2);
+          width: 30px;
+          position: absolute;
+          right: 15px;
+          top: 15px;
+          opacity: 0;
           i {
-            color: #fed112;
+            color: $white;
+            font-size: 16px;
+            vertical-align: text-bottom;
+          }
+          &.favourite {
+            i {
+              color: #fed112;
+            }
           }
         }
-      }
-      .desciption-data {
-        width: 100%;
-        .content-general {
-          display: none;
+        .desciption-data {
+          width: 100%;
+          .content-general {
+            display: none;
+          }
         }
-      }
-      .favourite-icon {
-        transition: 0.5s;
-      }
-      .title-bookmark {
-        text-align:left;
-        padding:15px;
-        border-top:1px solid $light-gray;
-        position:relative;
-        p{         
-          animation:displayTransition 1s;          
-          font-size:13px;
-          opacity:1;
+        .favourite-icon {
+          transition: 0.5s;
         }
-        .hover-block{
-          display:none;
-          margin-top:15px;
-          ul{
-            li {
-              display: inline-block;
-              + li {
-                margin-left: 5px;
-              }
-              svg {
-                width: 16px;
-                height: 16px;
-                color: $dark-gray;
+        .title-bookmark {
+          text-align: left;
+          padding: 15px;
+          border-top: 1px solid $light-gray;
+          position: relative;
+          p {
+            animation: displayTransition 1s;
+            font-size: 13px;
+            opacity: 1;
+          }
+          .hover-block {
+            display: none;
+            margin-top: 15px;
+            ul {
+              li {
+                display: inline-block;
+                + li {
+                  margin-left: 5px;
+                }
+                svg {
+                  width: 16px;
+                  height: 16px;
+                  color: $dark-gray;
+                }
               }
             }
           }
         }
-      }
-      &:hover {
-        box-shadow: 1px 4px 16px 3px rgba($black, 0.04);
-        transition: 0.5s;
-        .title-bookmark {
-          p {
-            opacity: 0;           
+        &:hover {
+          box-shadow: 1px 4px 16px 3px rgba($black, 0.04);
+          transition: 0.5s;
+          .title-bookmark {
+            p {
+              opacity: 0;
+            }
+            .hover-block {
+              display: block;
+              animation: displayTransition 2s;
+              // opacity: 0;
+              position: absolute;
+              width: 100%;
+              padding: 15px;
+              top: 15px;
+              left: 0;
+            }
           }
-          .hover-block {
-            display: block;
-            animation: displayTransition 2s;
-            // opacity: 0;
-            position: absolute;
-            width: 100%;
-            padding: 15px;
-            top: 15px;
-            left: 0;
+          .favourite-icon {
+            opacity: 1;
           }
         }
-        .favourite-icon {
-          opacity: 1;
-        }
-      }
       }
     }
     &.list-bookmark {
-      .row{
-        .col-xl-3{
-          flex:0 0 100%;
-          max-width: 100%
+      .row {
+        .col-xl-3 {
+          flex: 0 0 100%;
+          max-width: 100%;
         }
       }
-      .bookmark-card{
-        .desciption-data{
-          .content-general{
+      .bookmark-card {
+        .desciption-data {
+          .content-general {
             display: block;
           }
         }
         .details-website {
-          display:flex;
-          align-items:center;
+          display: flex;
+          align-items: center;
           .title-bookmark {
             p {
               display: block;
               opacity: 1;
             }
             .hover-block {
-              position:absolute;
-              right:15px;
-              display:block;
+              position: absolute;
+              right: 15px;
+              display: block;
               text-align: right;
             }
           }
@@ -250,12 +253,13 @@
                 animation: displayTransition 0s;
               }
             }
-          }             
+          }
         }
         &.card {
           .title-bookmark {
             border-top: none;
-            p, h6 {
+            p,
+            h6 {
               margin-top: 0;
               display: inline-block;
             }
@@ -289,11 +293,11 @@
     .card {
       .card-header {
         justify-content: space-between;
-        display:flex ;
-        border-bottom:1px solid $light-gray;
-        h5{
-          font-weight:600;
-          font-size:22px;
+        display: flex;
+        border-bottom: 1px solid $light-gray;
+        h5 {
+          font-weight: 600;
+          font-size: 22px;
         }
         svg {
           width: 18px;
@@ -313,16 +317,16 @@
   }
 }
 
-// responsive 
+// responsive
 @media only screen and (max-width: 1660px) {
   .bookmark-tabcontent {
     .details-bookmark {
       &.list-bookmark {
         .bookmark-card {
-          &.card{
-            .title-bookmark{             
-              .content-general{
-                p{
+          &.card {
+            .title-bookmark {
+              .content-general {
+                p {
                   display: none;
                 }
               }
@@ -335,13 +339,6 @@
       }
     }
   }
-
-
-
-
-
-
-  
 }
 @media screen and (min-width: 1200px) and (max-width: 1366px) {
   .bookmark-wrap {
@@ -368,8 +365,8 @@
           }
           &.card {
             .title-bookmark {
-              .hover-block{
-                top:80px;
+              .hover-block {
+                top: 80px;
               }
             }
           }
@@ -382,18 +379,15 @@
     ul {
       li {
         a {
-          svg{
-            width:15px;
-            height:15px;
-            margin:10px;
+          svg {
+            width: 15px;
+            height: 15px;
+            margin: 10px;
           }
         }
       }
     }
   }
-
-
-
 }
 @media only screen and (max-width: 1199px) {
   .bookmark-wrap {
@@ -401,9 +395,9 @@
       height: auto;
     }
   }
-  .bookmark-tabcontent{
-    .details-bookmark{
-      min-height:auto;
+  .bookmark-tabcontent {
+    .details-bookmark {
+      min-height: auto;
       // .bookmark-card.card {
       //   .title-bookmark{
       //     h6{
@@ -413,11 +407,11 @@
       // }
     }
   }
-  
 }
 @media only screen and (max-width: 991px) {
   .modal-bookmark {
-    .modal-body, .modal-header {
+    .modal-body,
+    .modal-header {
       padding: 20px;
     }
   }
@@ -430,21 +424,18 @@
   .bookmark-tabcontent {
     .tab-content {
       .card {
-        .card-header,.card-body {
-          padding:20px;
-          h5{
-            font-size:18px;
+        .card-header,
+        .card-body {
+          padding: 20px;
+          h5 {
+            font-size: 18px;
           }
         }
       }
     }
-    
   }
-
-
 }
 @media only screen and (max-width: 767px) {
-  
   .bookmark-tabcontent {
     .details-bookmark {
       &.list-bookmark {
@@ -474,7 +465,7 @@
             }
           }
           img {
-            width:45%;
+            width: 45%;
           }
         }
       }
@@ -487,20 +478,21 @@
       &.list-bookmark {
         .bookmark-card {
           img {
-              width:46%;
-          }         
+            width: 46%;
+          }
           .details-website {
             display: block;
-            
-            img{
-              width:100%;
+
+            img {
+              width: 100%;
             }
             .title-bookmark {
-              h6,p{
+              h6,
+              p {
                 display: block;
               }
-              .content-general{
-                display:none;
+              .content-general {
+                display: none;
               }
               .hover-block {
                 position: relative;
@@ -511,17 +503,13 @@
               }
             }
           }
-
-
-
-          
-
-        }       
+        }
       }
     }
   }
   .modal-bookmark {
-    .modal-body, .modal-header {
+    .modal-body,
+    .modal-header {
       padding: 15px;
     }
   }
@@ -530,12 +518,6 @@
       margin-top: 15px;
     }
   }
-
-
-  
-
-
-
 }
 @media only screen and (max-width: 360px) {
   .bookmark-tabcontent {
@@ -543,7 +525,7 @@
       &.list-bookmark {
         .bookmark-card {
           img {
-              width: 28%;
+            width: 28%;
           }
         }
       }
