@@ -6,6 +6,7 @@
         add-action-router-name="config.sales.sale.type.form"
         :refresh-action-field="{ page: 1, field: { next: true } }"
         refresh-action-name="sale_type/getSaleTypesList"
+        entity="SaleType"
       />
       <div class="card-body">
         <BaseDatatable

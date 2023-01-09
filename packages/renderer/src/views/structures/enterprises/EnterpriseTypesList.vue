@@ -9,6 +9,7 @@
         add-action-router-name="types.enterprise.form"
         :refresh-action-field="{ page: 1, field: { next: true } }"
         refresh-action-name="enterprise_type/getEnterpriseTypesList"
+        entity="EnterpriseType"
       />
       <div class="card-body">
         <BaseDatatable

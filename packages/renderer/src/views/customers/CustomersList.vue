@@ -9,6 +9,7 @@
         :title="$t('customers.customer.listTitle')"
         add-action-router-name="customer.form"
         refresh-action-name="customer/getCustomersList"
+        entity="Customer"
       />
       <div class="card-body">
         <div class="row">

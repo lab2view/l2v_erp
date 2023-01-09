@@ -9,6 +9,7 @@
         add-action-router-name="customers.group.form"
         :refresh-action-field="{ page: 1, field: { next: true } }"
         refresh-action-name="customer_group/getCustomerGroupsList"
+        entity="CustomerGroup"
       />
       <div class="card-body">
         <BaseDatatable

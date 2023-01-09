@@ -6,6 +6,7 @@
         add-action-router-name="sales.cashier.form"
         :refresh-action-field="{ page: 1, field: { next: true } }"
         refresh-action-name="cashier/getCashiersList"
+        entity="Cashier"
       />
       <div class="card-body p-1">
         <div class="row mb-2">

@@ -5,6 +5,7 @@
       add-action-router-name="config.products.property.form"
       :refresh-action-field="{ page: 1, field: { next: true } }"
       refresh-action-name="property/getPropertiesList"
+      entity="Property"
     />
     <div class="card-body">
       <BaseDatatable v-if="!$store.state.globalLoading" :tfoot="false">

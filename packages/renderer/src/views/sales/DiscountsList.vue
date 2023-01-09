@@ -6,6 +6,7 @@
         add-action-router-name="sales.discount.form.desc"
         :refresh-action-field="{ page: 1, field: { next: true } }"
         refresh-action-name="discount/getDiscountsList"
+        entity="Discount"
       />
       <div class="card-body">
         <BaseDatatable

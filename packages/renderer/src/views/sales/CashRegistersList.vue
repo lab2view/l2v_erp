@@ -6,6 +6,7 @@
         add-action-router-name="sales.cashRegister.form"
         :refresh-action-field="{ page: 1, field: { next: true } }"
         refresh-action-name="cash_register/getCashRegistersList"
+        entity="CashRegister"
       />
       <div class="card-body">
         <BaseDatatable

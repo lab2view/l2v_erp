@@ -5,6 +5,7 @@
       add-action-router-name="config.products.package.form"
       :refresh-action-field="{ page: 1, field: { next: true } }"
       refresh-action-name="package/getPackageList"
+      entity="Package"
     />
     <div class="card-body">
       <BaseDatatable

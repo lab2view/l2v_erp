@@ -9,6 +9,7 @@
         :title="$t('stocks.provider.listTitle')"
         add-action-router-name="provider.form"
         refresh-action-name="provider/getStockProvidersList"
+        entity="Provider"
       />
       <div class="card-body">
         <div class="row mb-2">

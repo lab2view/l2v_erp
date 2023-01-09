@@ -6,6 +6,7 @@
         add-action-router-name="sales.cashier.group.form"
         :refresh-action-field="{ page: 1, field: { next: true } }"
         refresh-action-name="cashier_group/getCashierGroupsList"
+        entity="CashierGroup"
       />
       <div class="card-body">
         <BaseDatatable

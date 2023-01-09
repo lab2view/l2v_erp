@@ -5,6 +5,7 @@
       add-action-router-name="config.products.productUnit.form"
       :refresh-action-field="{ page: 1, field: { next: true } }"
       refresh-action-name="product_unit/getProductUnitsList"
+      entity="ProductUnit"
     />
     <div class="card-body">
       <BaseDatatable v-if="!$store.state.globalLoading" :tfoot="false">

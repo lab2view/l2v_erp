@@ -5,6 +5,7 @@
       add-action-router-name="config.products.priceType.form"
       :refresh-action-field="{ page: 1, field: { next: true } }"
       refresh-action-name="price_type/getPriceTypeList"
+      entity="PriceType"
     />
     <div class="card-body">
       <BaseDatatable v-if="!$store.state.globalLoading" :tfoot="false">

@@ -9,6 +9,7 @@
         add-action-router-name="product.form.desc"
         :refresh-action-field="{ page: 1, field: { paginate: 50, next: true } }"
         refresh-action-name="product/getProductsList"
+        entity="Product"
       />
       <div class="card-body p-1">
         <div class="row mb-2">

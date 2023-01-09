@@ -12,6 +12,7 @@
         :title="$t('stocks.inventory.listTitle')"
         add-action-router-name="inventory.form.desc"
         refresh-action-name="inventory/getInventoriesList"
+        entity="Inventory"
       />
       <div class="card-body">
         <div class="row">
@@ -46,32 +47,25 @@
             </td>
             <td>{{ $d(inventory.inventory_date, 'short') }}</td>
             <td>
-              <BaseButton
-                :class="`btn btn-xs btn-${
-                  inventory.validate ? 'primary' : 'secondary'
-                }`"
-                :text="$t(`common.${inventory.validate ? 'show' : 'update'}`)"
-                :title="$t(`common.${inventory.validate ? 'show' : 'update'}`)"
-                type="button"
-                @click.prevent="
+              <BaseActionBtnGroup
+                entity="Inventory"
+                :with-show-btn="inventory.validate"
+                :with-update-btn="!inventory.validate"
+                :with-delete-btn="!inventory.stock_balancing"
+                @show="
                   $router.push({
-                    name: `inventory.form.${
-                      inventory.validate ? 'article' : 'desc'
-                    }`,
+                    name: `inventory.form.article`,
                     params: { id: inventory.id },
                   })
                 "
+                @update="
+                  $router.push({
+                    name: `inventory.form.desc`,
+                    params: { id: inventory.id },
+                  })
+                "
+                @delete="deleteInventory(inventory)"
               />
-              <BaseButton
-                v-if="!inventory.stock_balancing"
-                :title="$t('common.delete')"
-                class="btn btn-danger btn-xs m-l-5"
-                data-original-title="btn btn-danger btn-xs"
-                type="button"
-                @click.prevent="deleteInventory(inventory)"
-              >
-                <i class="fa fa-trash-o" />
-              </BaseButton>
             </td>
           </tr>
         </BaseDatatable>
@@ -91,9 +85,11 @@ import { mapGetters } from 'vuex';
 import BaseTableHeader from '/@/components/common/BaseTableHeader.vue';
 import BaseButton from '/@/components/common/BaseButton.vue';
 import BaseDatetime from '/@/components/common/BaseDatetime.vue';
+import BaseActionBtnGroup from '/@/components/common/BaseActionBtnGroup.vue';
 export default {
   name: 'InventoriesList',
   components: {
+    BaseActionBtnGroup,
     BaseButton,
     BaseTableHeader,
     BaseContainer,

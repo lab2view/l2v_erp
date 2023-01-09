@@ -9,6 +9,7 @@
         add-action-router-name="config.stocks.state.form"
         :refresh-action-field="{ page: 1, field: { next: true } }"
         refresh-action-name="stock_state/getStockStatesList"
+        entity="StockState"
       />
       <div class="card-body">
         <BaseDatatable

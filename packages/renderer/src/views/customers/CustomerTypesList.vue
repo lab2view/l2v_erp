@@ -9,6 +9,7 @@
         add-action-router-name="config.customers.type.form"
         :refresh-action-field="{ page: 1, field: { next: true } }"
         refresh-action-name="customer_type/getCustomerTypesList"
+        entity="CustomerType"
       />
       <div class="card-body">
         <BaseDatatable

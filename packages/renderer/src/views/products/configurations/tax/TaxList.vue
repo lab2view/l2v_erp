@@ -5,6 +5,7 @@
       add-action-router-name="config.products.tax.form"
       :refresh-action-field="{ page: 1, field: { next: true } }"
       refresh-action-name="tax/getTaxesList"
+      entity="Tax"
     />
     <div class="card-body">
       <BaseDatatable

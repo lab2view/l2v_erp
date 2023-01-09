@@ -9,6 +9,7 @@
         add-action-router-name="config.payments.transaction.type.form"
         :refresh-action-field="{ page: 1, field: { next: true } }"
         refresh-action-name="transaction_type/getTransactionTypesList"
+        entity="TransactionType"
       />
       <div class="card-body">
         <BaseDatatable
