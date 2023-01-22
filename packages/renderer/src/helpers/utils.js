@@ -41,6 +41,14 @@ export function getDistributionCurrentStock(distribution) {
   return totalEntry - totalExit;
 }
 
+export function getWorkspaceTotalArticleStock(article) {
+  let stock = 0;
+  article.stats.distributions.forEach(
+    (distribution) => (stock += getDistributionCurrentStock(distribution))
+  );
+  return stock;
+}
+
 export function getStockByEnterpriseId(enterprise_id, article) {
   const distribution = article.stats.distributions.find(
     (d) => d.id === parseInt(enterprise_id)
