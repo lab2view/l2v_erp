@@ -6,6 +6,7 @@ import {
   getDistributionCurrentStock,
   getStockByEnterpriseId,
   getStockExitLineArticleStock,
+  getWorkspaceTotalArticleStock,
 } from '/@/helpers/utils';
 import fileService from '/@/services/FileService';
 import _ from 'lodash';
@@ -151,6 +152,16 @@ const getters = {
       (art) => art.product.code.toString() === barcode.toString()
     );
   },
+  filterSaleArticleByTotalAvailableStock: (state, getters) => (stock) => {
+    return getters.sell_articles
+      .map((article) => {
+        return {
+          ...article,
+          workspace_stock: getWorkspaceTotalArticleStock(article),
+        };
+      })
+      .filter((art) => art.workspace_stock >= stock);
+  },
 };
 // privileges
 const actions = {
@@ -223,6 +234,17 @@ const actions = {
     );
   },
 
+  getSaleArticleByWorkspaceStock({ getters }, stock) {
+    return getters.sell_articles
+      .map((article) => {
+        return {
+          ...article,
+          workspace_stock: getWorkspaceTotalArticleStock(article),
+        };
+      })
+      .filter((art) => art.workspace_stock >= stock);
+  },
+
   searchArticles(context, { page, field }) {
     return articleService.getList(page, field);
   },
@@ -238,7 +260,6 @@ const actions = {
         return data;
       });
   },
-
   addArticle({ commit }, articleField) {
     return articleService.add(articleField).then(({ data }) => {
       commit('ADD_ARTICLE', data);
@@ -251,7 +272,6 @@ const actions = {
       return data;
     });
   },
-
   updateArticle({ commit }, articleField) {
     return articleService
       .update(articleField, articleField.id)
@@ -267,7 +287,6 @@ const actions = {
         return data;
       });
   },
-
   deleteArticle({ commit }, articleId) {
     return articleService.delete(articleId).then(({ data }) => {
       commit('DELETE_ARTICLE', articleId);
@@ -282,11 +301,9 @@ const actions = {
         commit('ADD_PRICES', data.prices);
       });
   },
-
   updateOrCreatePrices(context, priceFields) {
     return priceService.updateOrCreate({ prices: priceFields });
   },
-
   updatePrice({ commit }, price) {
     return articleService.updatePrice(price).then(({ data }) => {
       commit('UPDATE_PRICE', data);
@@ -298,7 +315,6 @@ const actions = {
       );
     });
   },
-
   removePrices({ getters, commit }, pricesIds) {
     return articleService
       .removePrices(
@@ -319,7 +335,6 @@ const actions = {
         commit('ADD_COMPOSITION_PRESETS', data.composition_presets);
       });
   },
-
   updateCompositionPreset({ commit }, compositionPreset) {
     return articleService
       .updateCompositionPreset(compositionPreset)
@@ -333,7 +348,6 @@ const actions = {
         );
       });
   },
-
   removeCompositionPresets({ getters, commit }, compositionPresetIds) {
     return articleService
       .removeCompositionPresets(
@@ -352,7 +366,6 @@ const actions = {
       commit('ADD_COMPOSITIONS', data.compositions);
     });
   },
-
   makeDecomposition({ commit }, article) {
     return articleService.makeDecomposition(article.id).then(({ data }) => {
       commit('MAKE_DECOMPOSITION', data.lot);

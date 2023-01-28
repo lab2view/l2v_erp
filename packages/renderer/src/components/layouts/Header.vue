@@ -110,6 +110,22 @@
               <i class="fa fa-check-square-o"></i>
             </div>
           </li>
+          <li
+            v-if="isSaleSession"
+            :title="$t('common.filter_article_by_stock')"
+            class="font-secondary m-0"
+            @click.prevent="
+              $router.push({
+                name: 'sales.session.article.filter',
+                params: $route.params,
+                query: $route.query,
+              })
+            "
+          >
+            <div class="mode">
+              <i class="fa fa-file-pdf-o"></i>
+            </div>
+          </li>
           <li @click.prevent="setDarkMode">
             <div class="mode">
               <i :class="headerModeIconClass"></i>

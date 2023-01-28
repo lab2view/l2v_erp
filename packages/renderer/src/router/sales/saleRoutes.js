@@ -86,6 +86,12 @@ export const saleRoutes = [
           import('/@/views/sales/session/CashierSessionDiscountVerify.vue'),
       },
       {
+        path: 'filter-articles',
+        name: 'sales.session.article.filter',
+        component: () =>
+          import('/@/views/sales/session/CashierSessionArticleFilter.vue'),
+      },
+      {
         path: 'show-article-picture/:article_id',
         name: 'sales.session.picture',
         component: () =>
