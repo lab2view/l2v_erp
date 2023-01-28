@@ -79,6 +79,8 @@ export default {
   apply: 'Appliquer',
   discount_code: 'Code de reduction',
   discount_code_verify: "Verification d'un code de reduction",
+  filter_article_by_stock: 'Filtrer les articles par stock',
+  article_list_by_stock: 'Liste des articles ayant un stock >= {stock} YARDS',
   select_discount: 'Selectionner une reduction',
   printer_config: "Configuration de l'imprimante",
   print_after_sale: 'Vendre & Imprimer',
@@ -103,6 +105,7 @@ export default {
   upload_csv: 'Charger un csv',
   btn_set_global_price: 'Appliquer globalement un prix aux articles',
   empty_list: 'Aucun element dans la liste',
+  print: 'Imprimer',
 
   la: 'la',
   le: 'le',
@@ -332,6 +335,7 @@ export default {
     total_buying: "Prix d'achat",
     privilege: 'Privileges',
     sup_module: 'Sous modules',
+    images: 'Images',
   },
 
   errors: {
