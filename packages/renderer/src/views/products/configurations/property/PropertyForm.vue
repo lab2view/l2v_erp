@@ -76,6 +76,14 @@
             required
           />
         </div>
+        <hr />
+        <div>
+          <BaseSwitchInput
+            v-model="propertyForm.can_filter"
+            :label="$t('common.attributes.can_filter')"
+            :errors="errors?.can_filter"
+          />
+        </div>
       </div>
       <div v-if="isListPropertyType" class="col-md-7">
         <PropertyValueList v-model="propertyValues" />
@@ -101,10 +109,12 @@ import BaseInput from '../../../../components/common/BaseInput.vue';
 import PropertyValueList from '/@/components/products/PropertyValueList.vue';
 import BaseButton from '/@/components/common/BaseButton.vue';
 import BaseFieldGroup from '/@/components/common/BaseFieldGroup.vue';
+import BaseSwitchInput from '/@/components/common/BaseSwitchInput.vue';
 
 export default {
   name: 'PropertyForm',
   components: {
+    BaseSwitchInput,
     BaseFieldGroup,
     BaseButton,
     PropertyValueList,
@@ -145,6 +155,7 @@ export default {
         product_type_id: null,
         label: null,
         placeholder: null,
+        can_filter: true,
       },
       propertyValues: [],
     };

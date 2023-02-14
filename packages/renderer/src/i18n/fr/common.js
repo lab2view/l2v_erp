@@ -301,6 +301,7 @@ export default {
     delivery_date: 'Date de livraison',
     inventory_qty: 'Quantite disponible',
     sale_type: 'Type de vente',
+    can_filter: 'Filtrer sur le site',
   },
 
   gender: {
