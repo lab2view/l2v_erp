@@ -157,6 +157,7 @@ export default {
     select_structures: 'Selectionner les structures',
     multi_quantity: 'Quantites par structures',
     forget_password: 'Mot de passe oublie? ',
+    discount: 'Réduction',
   },
 
   states: {
