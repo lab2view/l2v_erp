@@ -40,6 +40,12 @@
                 :key="collection.id"
                 class="sub-total mt-2"
               >
+                <li v-if="discountUsage" class="text-end">
+                  <span class="f-w-400">
+                    {{ $t('common.fields.discount') }} :
+                  </span>
+                  <i>{{ discountUsage }}</i>
+                </li>
                 <li class="text-end">
                   {{
                     $t('common.headers.pay_per_method', {
@@ -192,6 +198,9 @@ export default {
     ...mapGetters('auth', ['canShowSaleReportsMargin']),
     selectableSale() {
       return this.getSelectedSaleById(this.sale.id);
+    },
+    discountUsage() {
+      return this.sale?.discount_model?.label;
     },
     isCashierSession() {
       return this.$route.name === 'sales.session.reports.details';
