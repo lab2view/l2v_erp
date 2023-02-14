@@ -52,7 +52,7 @@
       </span>
       <hr class="m-1" />
       <span v-if="cashierSale.discount">
-        REDUCTION
+        {{ $t('common.fields.discount').toUpperCase() }}
         <span class="float-end">
           {{ `-${cashierSale.discount} ${currency}` }}</span
         >

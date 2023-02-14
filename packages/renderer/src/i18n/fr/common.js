@@ -157,6 +157,7 @@ export default {
     select_structures: 'Selectionner les structures',
     multi_quantity: 'Quantites par structures',
     forget_password: 'Mot de passe oublie? ',
+    discount: 'Réduction',
   },
 
   states: {
@@ -301,6 +302,7 @@ export default {
     delivery_date: 'Date de livraison',
     inventory_qty: 'Quantite disponible',
     sale_type: 'Type de vente',
+    can_filter: 'Filtrer sur le site',
   },
 
   gender: {
