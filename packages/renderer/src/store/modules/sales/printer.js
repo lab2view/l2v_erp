@@ -57,6 +57,7 @@ const actions = {
             trade_register:
               enterprise.trade_register ?? workspace.trade_register,
             phone: enterprise.phone ?? workspace.phone,
+            domain: workspace.domain,
           },
         }) +
         ('\x1D' + '\x56' + '\x00'); //other cut command '\x1D' + '\x56'  + '\x30'
