@@ -1,4 +1,4 @@
-import customerService from '../../../services/customers/CustomerService';
+import customerService from '/@/services/customers/CustomerService';
 
 const state = {
   customers: null,
@@ -86,7 +86,9 @@ const actions = {
   },
 
   getCustomer({ getters, commit }, id) {
-    const customer = getters.customers.find((p) => p.id.toString() === id);
+    const customer = getters.customers.find(
+      (p) => p.id.toString() === id.toString()
+    );
     if (customer !== undefined) {
       commit('SET_CURRENT_CUSTOMER', customer);
       return customer;

@@ -283,6 +283,7 @@ export default {
     cash_register_id: 'Caisse',
     sub_price: 'SOUS TOTAL',
     total_price: 'PRIX TOTAL',
+    total_amount_buying: 'Achat total',
     discount: 'Remise',
     receive_amount: 'MONTANT RECU',
     customer_id: 'Client',
