@@ -14,6 +14,16 @@ const getters = {
     localStorage.getItem('currentWorkspace')
       ? JSON.parse(localStorage.getItem('currentWorkspace'))
       : null,
+  isWoodinWorkspace: (state, getters) => {
+    if (getters.currentWorkspace)
+      return RegExp('woodin*').test(getters.currentWorkspace.domain);
+    else return false;
+  },
+  isGilsSportWorkspace: (state, getters) => {
+    if (getters.currentWorkspace)
+      return RegExp('gils-sport*').test(getters.currentWorkspace.domain);
+    else return false;
+  },
   currency: (state, getters) => getters.currentWorkspace?.currency ?? 'XAF',
   databaseName: (state, getters) =>
     getters.currentWorkspace?.database ?? 'kitbusiness',
