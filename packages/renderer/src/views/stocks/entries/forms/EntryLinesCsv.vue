@@ -6,10 +6,10 @@
           <div class="col-sm">
             <span class="f-w-600">{{ $t('common.upload_header') }}</span>
             <pre v-if="stockEntryIsCommand" class="helper-classes p-2">
-barcode, provider_id, provider_price, quantity, buying_price, other
+barcode (or reference), provider_id, provider_price, quantity, buying_price, other
             </pre>
             <pre v-else class="helper-classes p-2">
-barcode, quantity, buying_price, other
+barcode (or reference), quantity, buying_price, other
             </pre>
           </div>
           <div class="col-sm">
@@ -139,7 +139,7 @@ export default {
   },
   computed: {
     ...mapGetters('stock_entry', ['stockEntry', 'stockEntryIsCommand']),
-    ...mapGetters('article', ['getArticleByBarcode']),
+    ...mapGetters('article', ['getArticleByBarcode', 'getArticleByReference']),
     unsavedStockEntryLines() {
       return this.stock_entry_line_fields.filter((sel) => sel.id === null);
     },
@@ -196,10 +196,10 @@ export default {
       getContentCsvFileAsArray(this.csvFile)
         .then((lines) => {
           lines.forEach((line) => {
-            if (line.barcode) {
-              const article = this.getArticleByBarcode(
-                parseFloat(line.barcode)
-              );
+            if (line.barcode || line.reference) {
+              const article = line.barcode
+                ? this.getArticleByBarcode(parseFloat(line.barcode))
+                : this.getArticleByReference(line.reference);
               if (article !== undefined) {
                 this.stock_entry_line_fields.push({
                   id: null,

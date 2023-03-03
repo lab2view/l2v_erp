@@ -152,6 +152,11 @@ const getters = {
       (art) => art.product.code.toString() === barcode.toString()
     );
   },
+  getArticleByReference: (state, getters) => (reference) => {
+    return getters.articles.find(
+      (art) => art.product.reference.toString() === reference.toString()
+    );
+  },
   filterSaleArticleByTotalAvailableStock: (state, getters) => (stock) => {
     return getters.sell_articles
       .map((article) => {
