@@ -66,28 +66,32 @@
         >
           <template #headers>
             <th>#</th>
-            <th>{{ $t('common.attributes.customerType') }}</th>
-            <th>{{ $t('common.attributes.country') }}</th>
             <th>{{ $t('common.attributes.city') }}</th>
-            <th>{{ $t('common.attributes.localization') }}</th>
             <th>{{ $t('common.attributes.name') }}</th>
             <th>{{ $t('common.attributes.phone') }}</th>
-            <th>{{ $t('common.attributes.email') }}</th>
+            <th>
+              {{ $t('common.attributes.total_amount_buying') }}
+            </th>
             <th>{{ $t('common.actions') }}</th>
           </template>
           <tr v-for="customer in customers" :key="customer.id">
             <td>{{ customer.id }}</td>
-            <td>{{ customer.customer_type.label }}</td>
-            <td>{{ customer.country.name }}</td>
             <td>{{ customer.localization?.city ?? '-' }}</td>
-            <td>{{ customer.localization?.address ?? '-' }}</td>
             <td>{{ `${customer?.first_name} ${customer?.name}` }}</td>
             <td>{{ customer.phone }}</td>
-            <td>{{ customer.email ?? '-' }}</td>
+            <td>
+              {{ (customer.total_sub_price ?? 0).toFixed() + ' ' + currency }}
+            </td>
             <td>
               <BaseActionBtnGroup
                 entity="Customer"
-                :with-show-btn="false"
+                :icon-version="true"
+                @show="
+                  $router.push({
+                    name: 'customer.details',
+                    params: { id: customer.id },
+                  })
+                "
                 @update="
                   $router.push({
                     name: 'customer.form',
@@ -102,6 +106,8 @@
         <br />
       </div>
     </div>
+
+    <router-view />
   </BaseContainer>
 </template>
 
@@ -116,6 +122,7 @@ import BaseFieldGroup from '/@/components/common/BaseFieldGroup.vue';
 import BaseActionBtnGroup from '/@/components/common/BaseActionBtnGroup.vue';
 
 export default {
+  name: 'CustomersList',
   components: {
     BaseActionBtnGroup,
     BaseTableHeader,
@@ -157,6 +164,7 @@ export default {
     };
   },
   computed: {
+    ...mapGetters('workspace', ['currency']),
     ...mapGetters('customer', ['getCustomerByFilter', 'customer']),
     ...mapGetters('customer_type', ['customerTypes']),
     ...mapGetters('country', ['countries']),
@@ -172,10 +180,6 @@ export default {
         setTimeout(() => this.$store.dispatch('setGlobalLoading', false), 2000);
       }
     },
-  },
-  created() {
-    if (this.customer)
-      this.$store.commit('customer/SET_CURRENT_CUSTOMER', null);
   },
   methods: {
     deleteCustomer(customer) {
