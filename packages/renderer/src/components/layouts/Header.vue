@@ -3,26 +3,61 @@
     <div class="main-header-right row m-0">
       <div class="main-header-left">
         <div class="logo-wrapper">
-          <a href="/" class="text-dark f-16 f-w-500"
-            ><img
+          <a href="/" class="text-dark f-16 f-w-500">
+            <img
+              v-if="isGilsSportWorkspace"
+              alt=""
+              width="30"
+              height="90"
+              class="img-fluid m-r-5"
+              src="../../assets/images/logo/logo-gils.jpeg"
+            />
+            <img
+              v-else-if="isWoodinWorkspace"
               alt=""
               width="30"
               height="90"
               class="img-fluid m-r-5"
               src="../../assets/images/logo/logo.jpg"
             />
+            <img
+              v-else
+              alt=""
+              width="30"
+              height="90"
+              class="img-fluid m-r-5"
+              src="../../assets/images/logo/logo-1.png"
+            />
             {{ enterpriseName.toString().toUpperCase() }}
           </a>
         </div>
         <div class="dark-logo-wrapper">
-          <a href="/" class="text-light f-16 f-w-500"
-            ><img
+          <a href="/" class="text-light f-16 f-w-500">
+            <img
+              v-if="isGilsSportWorkspace"
               alt=""
               width="30"
               height="90"
-              class="img-fluid"
+              class="img-fluid m-r-5"
+              src="../../assets/images/logo/logo-gils.jpeg"
+            />
+            <img
+              v-else-if="isWoodinWorkspace"
+              alt=""
+              width="30"
+              height="90"
+              class="img-fluid m-r-5"
               src="../../assets/images/logo/dark-logo.jpg"
             />
+            <img
+              v-else
+              alt=""
+              width="30"
+              height="90"
+              class="img-fluid m-r-5"
+              src="../../assets/images/logo/dark-logo.png"
+            />
+
             {{ enterpriseName.toString().toUpperCase() }}
           </a>
         </div>
@@ -175,6 +210,8 @@ export default defineComponent({
     ...mapGetters('workspace', [
       'currentWorkspace',
       'workspaceExternalShopLink',
+      'isWoodinWorkspace',
+      'isGilsSportWorkspace',
     ]),
     ...mapGetters('auth', ['currentUser']),
     enterpriseName() {

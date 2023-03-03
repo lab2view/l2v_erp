@@ -3,7 +3,7 @@
     <td>{{ article.id }}</td>
     <td>{{ article.name }}</td>
     <td>
-      {{ `${article.product.code} / ${article.product.reference}` }}
+      {{ articleName }}
     </td>
     <td class="text-center">
       <div
@@ -47,6 +47,11 @@ export default {
         return 'info';
 
       return 'success';
+    },
+    articleName() {
+      return this.article.product.code
+        ? `${this.article.product.code} / ${this.article.product.reference}`
+        : this.article.product.reference;
     },
   },
 };

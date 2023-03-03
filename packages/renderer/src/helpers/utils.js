@@ -58,6 +58,9 @@ export function getStockByEnterpriseId(enterprise_id, article) {
     : article.stock.available;
 }
 
+export function isGilsSport(domain) {
+  return RegExp('gils-sport*').test(domain);
+}
 export function getPrinterRawText({
   enterprise,
   discount,
@@ -66,6 +69,7 @@ export function getPrinterRawText({
   cashier_session,
   stock_exit_lines,
   cashier_session_collections,
+  customer,
 }) {
   //Create ESP/POS commands for sample label
   const esc = '\x1B'; //ESC byte in hex notation
@@ -81,6 +85,14 @@ export function getPrinterRawText({
     cmds += `${enterprise.slogan}`.toUpperCase();
     cmds += newLine;
   }
+  if (isGilsSport(enterprise.domain)) {
+    cmds += `-------`.toUpperCase();
+    cmds += newLine;
+    cmds +=
+      'Carrefour Famous / Carrefour mini prix bastos \u00e0 cot\u00e9 du Fast Food KMC';
+    cmds += newLine;
+  }
+
   cmds += `-------`.toUpperCase();
   cmds += newLine;
   if (enterprise.matriculation || enterprise.trade_register) {
@@ -89,6 +101,14 @@ export function getPrinterRawText({
   if (enterprise.trade_register) {
     cmds += `  RCCM: ${enterprise.trade_register}`.toUpperCase();
   }
+
+  if (isGilsSport(enterprise.domain) && customer) {
+    cmds += newLine;
+    cmds += `-------`.toUpperCase();
+    cmds += newLine;
+    cmds += `Client: ${customer.first_name} ${customer.name}`;
+  }
+
   cmds += newLine;
   cmds += newLine;
   // cmds += `TEL: ${enterprise.phone || ''}`.toUpperCase();
@@ -159,7 +179,7 @@ export function getPrinterRawText({
   cmds += newLine + newLine;
   cmds += newLine + newLine;
 
-  // console.log(cmds);
+  console.log(cmds);
 
   return cmds;
 }
