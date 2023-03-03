@@ -159,7 +159,7 @@ export default {
   },
   beforeUnmount() {
     if (this.productType)
-      this.$store.commit('product_type/SET_CURRENT_PRODUCT_FAMILY', null);
+      this.$store.commit('product_type/SET_CURRENT_PRODUCT_TYPE', null);
   },
   methods: {
     submitProductTypeForm() {
