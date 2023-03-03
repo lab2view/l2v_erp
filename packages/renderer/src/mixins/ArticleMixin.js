@@ -8,6 +8,12 @@ export default {
     },
   },
   computed: {
+    articleName() {
+      return this.article.product.code
+        ? `${this.article.product.code} / ${this.article.product.reference}`
+        : this.article.product.reference;
+    },
+
     haveSalePrice() {
       return (
         this.article?.prices?.find(

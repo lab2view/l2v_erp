@@ -12,7 +12,7 @@
       </div>
     </td>
     <td>
-      {{ `${article.product.code} / ${article.product.reference}` }}
+      {{ articleName }}
     </td>
     <td>
       <BaseActionBtnGroup
