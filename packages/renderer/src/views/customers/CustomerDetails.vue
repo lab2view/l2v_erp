@@ -122,7 +122,7 @@
                 </div>
               </div>
             </div>
-            <CustomerBuyingStats />
+            <CustomerBuyingStats :customer-id="customer.id" />
           </div>
         </div>
       </div>
