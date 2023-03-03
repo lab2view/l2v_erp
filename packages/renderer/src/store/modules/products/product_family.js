@@ -1,6 +1,6 @@
-import productFamilyService from '../../../services/products/ProductFamilyService';
-import { notify } from '../../../helpers/notify';
-import i18n from '../../../i18n';
+import productFamilyService from '/@/services/products/ProductFamilyService';
+import { notify } from '/@/helpers/notify';
+import i18n from '/@/i18n';
 
 const state = {
   productFamilies: null,
@@ -83,19 +83,19 @@ const mutations = {
   SET_PRODUCT_FAMILIES(state, productFamilies) {
     state.productFamilies = JSON.stringify(productFamilies);
   },
-  SET_CURRENT_PRODUCT_FAMILY(state, pack) {
-    state.productFamily = JSON.stringify(pack);
+  SET_CURRENT_PRODUCT_FAMILY(state, productFamily) {
+    state.productFamily = productFamily ? JSON.stringify(productFamily) : null;
   },
-  ADD_PRODUCT_FAMILY(state, pack) {
+  ADD_PRODUCT_FAMILY(state, productFamily) {
     let productFamilies = JSON.parse(state.productFamilies);
-    productFamilies.push(pack);
+    productFamilies.push(productFamily);
     state.productFamilies = JSON.stringify(productFamilies);
   },
-  UPDATE_PRODUCT_FAMILY(state, pack) {
+  UPDATE_PRODUCT_FAMILY(state, productFamily) {
     let productFamilies = JSON.parse(state.productFamilies);
-    const index = productFamilies.findIndex((p) => p.id === pack.id);
+    const index = productFamilies.findIndex((p) => p.id === productFamily.id);
     if (index !== -1) {
-      productFamilies.splice(index, 1, pack);
+      productFamilies.splice(index, 1, productFamily);
       state.productFamilies = JSON.stringify(productFamilies);
     }
   },

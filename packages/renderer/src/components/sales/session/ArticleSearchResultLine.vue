@@ -52,6 +52,7 @@ export default {
   mixins: [ArticleMixin],
   computed: {
     ...mapGetters('auth', ['currentEnterprise']),
+    ...mapGetters('workspace', ['isWoodinWorkspace']),
     currentDistribution() {
       return this.article.stats.distributions.find(
         (d) => d.id === this.currentEnterprise?.id
@@ -63,9 +64,14 @@ export default {
       } else return 0;
     },
     articleName() {
-      return `(${(this.currentDistributionTotalStock / 6).toFixed(2)}) ${
-        this.article.product.code
-      } / ${this.article.product.reference} - ${this.article.name}`;
+      let name = `${this.article.product.reference} - ${this.article.name}`;
+      if (this.article.product.code)
+        name = `${this.article.product.code} / ${name}`;
+      if (this.isWoodinWorkspace)
+        name = `(${(this.currentDistributionTotalStock / 6).toFixed(
+          2
+        )}) ${name}`;
+      return name;
     },
   },
 };

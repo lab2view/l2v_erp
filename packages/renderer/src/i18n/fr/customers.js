@@ -4,6 +4,7 @@ export default {
   show_customers: 'Afficher les clients',
   show_discounts: 'Afficher les rabais',
   customer_type: 'Type de client',
+  details: 'Détails du client : {customer}',
   attributes: {
     customer: 'Client',
     customers: 'Clients',

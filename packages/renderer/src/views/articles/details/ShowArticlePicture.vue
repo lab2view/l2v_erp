@@ -1,9 +1,5 @@
 <template>
-  <BaseModal
-    :title="`${article.product.code} - ${article.product.reference}`"
-    modal-body-class="p-1"
-    :show-footer="false"
-  >
+  <BaseModal :title="modalTitle" modal-body-class="p-1" :show-footer="false">
     <img
       class="rounded img-optimize"
       :src="article.cover_url"
@@ -22,6 +18,11 @@ export default {
   components: { BaseModal },
   computed: {
     ...mapGetters('article', ['article']),
+    modalTitle() {
+      return this.article.product.code
+        ? `${this.article.product.code} - ${this.article.product.reference}`
+        : this.article.product.reference;
+    },
   },
   beforeUnmount() {
     this.$store.commit('article/SET_CURRENT_ARTICLE', null);
