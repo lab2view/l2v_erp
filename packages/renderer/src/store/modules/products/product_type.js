@@ -83,19 +83,19 @@ const mutations = {
   SET_PRODUCT_TYPES(state, productTypes) {
     state.productTypes = JSON.stringify(productTypes);
   },
-  SET_CURRENT_PRODUCT_TYPE(state, pack) {
-    state.productType = JSON.stringify(pack);
+  SET_CURRENT_PRODUCT_TYPE(state, productType) {
+    state.productType = productType ? JSON.stringify(productType) : null;
   },
-  ADD_PRODUCT_TYPE(state, pack) {
+  ADD_PRODUCT_TYPE(state, productType) {
     let productTypes = JSON.parse(state.productTypes);
-    productTypes.push(pack);
+    productTypes.push(productType);
     state.productTypes = JSON.stringify(productTypes);
   },
-  UPDATE_PRODUCT_TYPE(state, pack) {
+  UPDATE_PRODUCT_TYPE(state, productType) {
     let productTypes = JSON.parse(state.productTypes);
-    const index = productTypes.findIndex((p) => p.id === pack.id);
+    const index = productTypes.findIndex((p) => p.id === productType.id);
     if (index !== -1) {
-      productTypes.splice(index, 1, pack);
+      productTypes.splice(index, 1, productType);
       state.productTypes = JSON.stringify(productTypes);
     }
   },

@@ -11,6 +11,17 @@ export const customerRoutes = [
     },
   },
   {
+    path: ':id/details',
+    name: 'customer.details',
+    component: () => import('/@/views/customers/CustomerDetails.vue'),
+    beforeEnter: (to) => {
+      return store
+        .dispatch('customer/getCustomer', to.params.id)
+        .then(() => 1)
+        .catch(() => -1);
+    },
+  },
+  {
     path: ':id?/forms',
     name: 'customer.form',
     component: () => import('/@/views/customers/CustomerForm.vue'),
@@ -22,11 +33,11 @@ export const customerRoutes = [
       if (to.params.id) {
         return store
           .dispatch('customer/getCustomer', to.params.id)
-          .then((data) => {
-            store.commit('customer/SET_CURRENT_CUSTOMER', data);
-            return { name: to.name };
-          })
+          .then(() => 1)
           .catch(() => -1);
+      } else {
+        store.commit('customer/SET_CURRENT_CUSTOMER', null);
+        return 1;
       }
     },
   },

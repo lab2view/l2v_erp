@@ -20,4 +20,9 @@ export default {
   deleteSale(id) {
     return axios.delete(`/sales/${id}`);
   },
+
+  getCustomerStats(customer_id, year) {
+    const query = year ? `?year=${year}` : '';
+    return axios.get(`sales/stats/customers/${customer_id}${query}`);
+  },
 };

@@ -41,15 +41,20 @@ const getters = {
       return select;
     });
   },
-  sell_articles: (state, getters) =>
+  sell_articles: (state, getters, rootState, rootGetters) =>
     getters.articles
       .filter((a) => a.package.code === unitPackageCode)
       .map((a) => {
+        let name = `${a.product.reference} - ${a.name}`;
+        if (a.product.code) name = `${a.product.code} / ${name}`;
+        if (rootGetters['workspace/isWoodinWorkspace'])
+          name = `(${(getStockExitLineArticleStock(a) / 6).toFixed(
+            2
+          )}) ${name}`;
+        else name = `(${getStockExitLineArticleStock(a)}) ${name}`;
         return {
           ...a,
-          name: `(${(getStockExitLineArticleStock(a) / 6).toFixed(2)}) ${
-            a.product.code
-          } / ${a.product.reference} - ${a.name}`,
+          name: name,
         };
       }),
   article: (state) => (state.article ? JSON.parse(state.article) : null),
@@ -150,6 +155,11 @@ const getters = {
   getArticleByBarcode: (state, getters) => (barcode) => {
     return getters.articles.find(
       (art) => art.product.code.toString() === barcode.toString()
+    );
+  },
+  getArticleByReference: (state, getters) => (reference) => {
+    return getters.articles.find(
+      (art) => art.product.reference.toString() === reference.toString()
     );
   },
   filterSaleArticleByTotalAvailableStock: (state, getters) => (stock) => {

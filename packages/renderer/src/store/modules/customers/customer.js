@@ -1,9 +1,13 @@
-import customerService from '../../../services/customers/CustomerService';
+import customerService from '/@/services/customers/CustomerService';
+import SaleService from '/@/services/sales/SaleService';
+import i18n from '/@/i18n';
 
 const state = {
   customers: null,
   hash: null,
   customer: null,
+  stats: null,
+  year: null,
 };
 
 // getters
@@ -52,6 +56,25 @@ const getters = {
       return select;
     });
   },
+  stats: (state) => (state.stats ? JSON.parse(state.stats) : null),
+  year: (state) => state.year,
+  getStatsChartData: (state, getters) => {
+    return {
+      labels: getters.stats.map((stat) => stat.month),
+      datasets: [
+        {
+          label: i18n.global.t('common.attributes.total_amount_buying'),
+          backgroundColor: '#24695c',
+          data: getters.stats.map((stat) => (stat.amount ?? 0).toFixed()),
+        },
+        {
+          label: i18n.global.t('common.attributes.discount'),
+          backgroundColor: '#ba895d',
+          data: getters.stats.map((stat) => (stat.discount ?? 0).toFixed()),
+        },
+      ],
+    };
+  },
 };
 
 const actions = {
@@ -86,7 +109,9 @@ const actions = {
   },
 
   getCustomer({ getters, commit }, id) {
-    const customer = getters.customers.find((p) => p.id.toString() === id);
+    const customer = getters.customers.find(
+      (p) => p.id.toString() === id.toString()
+    );
     if (customer !== undefined) {
       commit('SET_CURRENT_CUSTOMER', customer);
       return customer;
@@ -118,6 +143,17 @@ const actions = {
       commit('DELETE_CUSTOMER', customerId);
       return data;
     });
+  },
+
+  getCustomerStats({ commit, getters }, { customer_id, year }) {
+    if (getters.year && getters.year === year) return getters.stats;
+    else
+      return SaleService.getCustomerStats(customer_id, year).then(
+        ({ data }) => {
+          commit('SET_META_STATS', { data, year });
+          return data;
+        }
+      );
   },
 };
 
@@ -156,6 +192,11 @@ const mutations = {
         (customer) => customer.id !== customerId
       )
     );
+  },
+
+  SET_META_STATS(state, { data, year }) {
+    state.year = year ?? new Date().getFullYear();
+    state.stats = JSON.stringify(data);
   },
 };
 
