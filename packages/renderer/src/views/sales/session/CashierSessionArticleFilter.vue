@@ -2,7 +2,7 @@
   <BaseModal modal-size="lg" :title="modalTitle">
     <BaseInput
       v-model.number="filterQuantity"
-      :placeholder="$t('common.discount_code')"
+      :placeholder="$t('common.attributes.stock_entry')"
       type="text"
       required
       @keydown.enter="getSaleArticleByWorkspaceStock"
@@ -64,7 +64,7 @@ import BaseInput from '/@/components/common/BaseInput.vue';
 import BaseButton from '/@/components/common/BaseButton.vue';
 import BaseModal from '/@/components/common/BaseModal.vue';
 import BaseDatatable from '/@/components/common/BaseDatatable.vue';
-import { datatableBtnCode } from '/@/helpers/codes';
+import {datatableBtnCode} from '/@/helpers/codes';
 
 export default {
   name: 'CashierSessionDiscountVerify',
@@ -85,8 +85,8 @@ export default {
     modalTitle() {
       return this.articles.length > 0
         ? this.$t('common.article_list_by_stock', {
-            stock: this.filterQuantity,
-          })
+          stock: this.filterQuantity,
+        })
         : this.$t('common.filter_article_by_stock');
     },
     datatableButtons() {
