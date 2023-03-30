@@ -7,19 +7,19 @@
   />
 
   <div v-else class="product-table">
-    <table id="datatable-dt" class="display" style="width: 100%">
+    <table id="datatable-dt" class="display" style="width: 100%;">
       <thead>
-        <tr>
-          <slot name="headers" />
-        </tr>
+      <tr>
+        <slot name="headers"/>
+      </tr>
       </thead>
       <tbody>
-        <slot></slot>
+      <slot></slot>
       </tbody>
       <tfoot v-if="tfoot">
-        <tr>
-          <slot name="footers" />
-        </tr>
+      <tr>
+        <slot name="footers"/>
+      </tr>
       </tfoot>
     </table>
   </div>
@@ -27,9 +27,10 @@
 
 <script>
 import BaseEmptyModelList from './BaseEmptyModelList.vue';
+
 export default {
   name: 'BaseDatatable',
-  components: { BaseEmptyModelList },
+  components: {BaseEmptyModelList},
   props: {
     tfoot: {
       type: Boolean,
@@ -46,6 +47,10 @@ export default {
     pageLength: {
       type: Number,
       default: 10,
+    },
+    scrollX: {
+      type: [String, Boolean],
+      default: false,
     },
     scrollY: {
       type: [String, Boolean],
@@ -96,6 +101,7 @@ export default {
         dataTableOption.dom = 'Blfrtip';
         dataTableOption.buttons = this.buttons;
       }
+      if (this.scrollX) dataTableOption.scrollX = this.scrollX;
       if (this.scrollY) dataTableOption.scrollY = this.scrollY;
       $('#datatable-dt').DataTable(dataTableOption);
     },
