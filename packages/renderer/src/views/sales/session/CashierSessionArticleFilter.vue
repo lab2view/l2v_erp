@@ -105,15 +105,15 @@ export default {
     operators() {
       return [
         {
-          label: 'Greater than or equal to',
+          label: this.$t('sales.comparisons.greaterThan'),
           value: '>=',
         },
         {
-          label: 'Less than or equal to',
+          label: this.$t('sales.comparisons.lessThan'),
           value: '<=',
         },
         {
-          label: 'Equal to',
+          label: this.$t('sales.comparisons.equalTo'),
           value: '===',
         },
       ];
