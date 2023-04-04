@@ -15,6 +15,7 @@ import priceService from '/@/services/articles/PriceService';
 const state = {
   articles: null,
   article: null,
+  operator: null,
 };
 
 // getters
@@ -244,7 +245,7 @@ const actions = {
     );
   },
 
-  getSaleArticleByWorkspaceStock({ getters }, stock) {
+  getSaleArticleByWorkspaceStock({ getters, state }, stock) {
     return getters.sell_articles
       .map((article) => {
         return {
@@ -252,7 +253,13 @@ const actions = {
           workspace_stock: getWorkspaceTotalArticleStock(article),
         };
       })
-      .filter((art) => art.workspace_stock >= stock);
+      .filter((art) =>
+        state.operator === '<='
+          ? art.workspace_stock <= stock
+          : state.operator === '==='
+          ? art.workspace_stock === stock
+          : art.workspace_stock >= stock
+      );
   },
 
   searchArticles(context, { page, field }) {
@@ -578,6 +585,9 @@ const mutations = {
       state.article = JSON.stringify(article);
       state.articles = JSON.stringify(articles);
     }
+  },
+  UPDATE_OPERATOR(state, operator) {
+    state.operator = operator;
   },
 };
 
