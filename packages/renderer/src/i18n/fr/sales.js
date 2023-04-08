@@ -74,4 +74,9 @@ export default {
     store: "L'enregistrement du type de rabais a ete effectue avec succes",
     update: 'La modification du type de rabais a ete effectuee avec succes',
   },
+  comparisons: {
+    lessThan: 'Inférieur ou égal à',
+    greaterThan: 'Supérieur ou égal à',
+    equalTo: 'Egal à',
+  },
 };
