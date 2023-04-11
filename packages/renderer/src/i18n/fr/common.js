@@ -304,6 +304,7 @@ export default {
     inventory_qty: 'Quantite disponible',
     sale_type: 'Type de vente',
     can_filter: 'Filtrer sur le site',
+    expires_at: 'Expire le',
   },
 
   gender: {

@@ -54,6 +54,12 @@
       </BaseInputGroup>
     </td>
     <td>
+      <BaseDatetime
+        v-model="expires_at"
+        :placeholder="$t('common.attributes.expires_at')"
+      />
+    </td>
+    <td>
       <BaseButton
         type="button"
         class="btn btn-iconsolid btn-danger btn-sm"
@@ -73,9 +79,16 @@ import BaseInput from '/@/components/common/BaseInput.vue';
 import BaseButton from '/@/components/common/BaseButton.vue';
 import BaseInputGroup from '/@/components/common/BaseInputGroup.vue';
 import { priceTypeCode } from '/@/helpers/codes.js';
+import BaseDatetime from '/@/components/common/BaseDatetime.vue';
 
 export default {
-  components: { BaseInputGroup, BaseButton, BaseInput, BaseSelect },
+  components: {
+    BaseDatetime,
+    BaseInputGroup,
+    BaseButton,
+    BaseInput,
+    BaseSelect,
+  },
   props: {
     stockEntryLine: {
       type: Object,
@@ -159,6 +172,20 @@ export default {
           {
             ...this.stockEntryLine,
             buying_price: value,
+          },
+          this.index
+        );
+      },
+    },
+    expires_at: {
+      get() {
+        return this.stockEntryLine.expires_at;
+      },
+      set(date) {
+        return this.updateFieldMethod(
+          {
+            ...this.stockEntryLine,
+            expires_at: date,
           },
           this.index
         );
