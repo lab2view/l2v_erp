@@ -223,6 +223,7 @@ export default {
     payment_method: 'Methode de paiement',
     transaction_type: 'Type de transaction',
     date: 'Date',
+    expiry_date: 'Expiry date',
     time: 'Heure',
     fee: 'Frais',
     amount: 'Montant',

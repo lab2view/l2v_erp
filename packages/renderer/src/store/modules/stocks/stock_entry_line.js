@@ -4,12 +4,18 @@ const state = {
   stock_entry_lines: null,
   hash: null,
   stockEntryLine: null,
+  stock_expired_entry_lines: null,
 };
 
 // getters
 const getters = {
   stock_entry_lines: (state) => {
     return state.stock_entry_lines ? JSON.parse(state.stock_entry_lines) : [];
+  },
+  stock_expired_entry_lines: (state) => {
+    return state.stock_expired_entry_lines
+      ? JSON.parse(state.stock_expired_entry_lines)
+      : [];
   },
   stockEntryLine: (state) =>
     state.stockEntryLine ? JSON.parse(state.stockEntryLine) : null,
@@ -24,6 +30,18 @@ const actions = {
       .getStockEntryLinesList(page, field)
       .then(({ data }) => {
         commit('SET_STOCK_ENTRY_LINES', data);
+        return data;
+      });
+  },
+
+  getStockExpiredEntryLinesList({ commit, getters }, { page, field }) {
+    if (getters.stock_expired_entry_lines.length > 0) {
+      return getters.stock_expired_entry_lines;
+    }
+    return stockEntryLineService
+      .getStockExpiredEntryLinesList(page, field)
+      .then(({ data }) => {
+        commit('SET_STOCK_EXPIRED_ENTRY_LINES', data);
         return data;
       });
   },
@@ -75,6 +93,9 @@ const actions = {
 const mutations = {
   SET_STOCK_ENTRY_LINES(state, stock_entry_lines) {
     state.stock_entry_lines = JSON.stringify(stock_entry_lines);
+  },
+  SET_STOCK_EXPIRED_ENTRY_LINES(state, stock_expired_entry_lines) {
+    state.stock_expired_entry_lines = JSON.stringify(stock_expired_entry_lines);
   },
   SET_CURRENT_STOCK_ENTRY_LINE(state, stockEntryLine) {
     state.stockEntryLine = JSON.stringify(stockEntryLine);

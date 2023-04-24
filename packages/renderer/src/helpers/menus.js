@@ -167,6 +167,17 @@ export const stockMenus = [
     ],
   },
   {
+    icon: 'calendar',
+    code: 'Expiry.manage',
+    prefix: 'expiry',
+    items: [
+      {
+        code: 'stockExpiry.viewAny',
+        to: 'stocks.expired.entries',
+      },
+    ],
+  },
+  {
     icon: 'clipboard',
     code: 'Inventory.viewAny',
     prefix: 'inventories',
