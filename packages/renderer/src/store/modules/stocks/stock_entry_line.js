@@ -3,8 +3,11 @@ import stockEntryLineService from '../../../services/stocks/StockEntryLineServic
 const state = {
   stock_entry_lines: null,
   hash: null,
-  stockEntryLine: null,
+  stock_entry_line: null,
   stock_expired_entry_lines: null,
+  request_field: {
+    expires_at: null,
+  },
 };
 
 // getters
@@ -12,13 +15,14 @@ const getters = {
   stock_entry_lines: (state) => {
     return state.stock_entry_lines ? JSON.parse(state.stock_entry_lines) : [];
   },
-  stock_expired_entry_lines: (state) => {
+  stockExpiredEntryLines: (state) => {
     return state.stock_expired_entry_lines
       ? JSON.parse(state.stock_expired_entry_lines)
       : [];
   },
   stockEntryLine: (state) =>
-    state.stockEntryLine ? JSON.parse(state.stockEntryLine) : null,
+    state.stock_entry_line ? JSON.parse(state.stock_entry_line) : null,
+  requestField: (state) => state.request_field,
 };
 
 const actions = {
@@ -34,14 +38,34 @@ const actions = {
       });
   },
 
-  getStockExpiredEntryLinesList({ commit, getters }, { page, field }) {
-    if (getters.stock_expired_entry_lines.length > 0) {
-      return getters.stock_expired_entry_lines;
+  getStockExpiredEntryLinesList(
+    { commit, getters, dispatch },
+    { page, field }
+  ) {
+    if (getters.stockExpiredEntryLines.length > 0 && !field.next) {
+      return getters.stockExpiredEntryLines;
     }
     return stockEntryLineService
       .getStockExpiredEntryLinesList(page, field)
       .then(({ data }) => {
         commit('SET_STOCK_EXPIRED_ENTRY_LINES', data);
+        dispatch(
+          'setGlobalProgress',
+          {
+            label: 'stock expired entry lines',
+            min: 0,
+            max: data.last_page,
+            value: data.current_page,
+          },
+          { root: true }
+        );
+
+        if (data.next_page_url) {
+          return dispatch('getProductsList', {
+            page: page + 1,
+            field: { ...field, next: true },
+          });
+        } else dispatch('setGlobalProgress', null, { root: true });
         return data;
       });
   },
@@ -91,6 +115,9 @@ const actions = {
 
 // mutations
 const mutations = {
+  SET_REQUEST_FIELD_VALUE(state, { field, value }) {
+    state.request_field[field] = value;
+  },
   SET_STOCK_ENTRY_LINES(state, stock_entry_lines) {
     state.stock_entry_lines = JSON.stringify(stock_entry_lines);
   },
@@ -98,7 +125,7 @@ const mutations = {
     state.stock_expired_entry_lines = JSON.stringify(stock_expired_entry_lines);
   },
   SET_CURRENT_STOCK_ENTRY_LINE(state, stockEntryLine) {
-    state.stockEntryLine = JSON.stringify(stockEntryLine);
+    state.stock_entry_line = JSON.stringify(stockEntryLine);
   },
   ADD_STOCK_ENTRY_LINE(state, stockEntryLine) {
     let stock_entry_lines = null;
