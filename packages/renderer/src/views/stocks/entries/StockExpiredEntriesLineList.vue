@@ -39,20 +39,20 @@
           </template>
           <tr
             v-for="stockExpiredEntryLine in stockExpiredEntryLines"
-            :key="stockExpiredEntryLine.id"
+            :key="stockExpiredEntryLine.article_id"
           >
             <td>
-              {{ stockExpiredEntryLine.id }}
+              {{ stockExpiredEntryLine.article_id }}
             </td>
             <td>
-              {{ stockExpiredEntryLine.article.product.name }}
+              {{ stockExpiredEntryLine.article.name }}
             </td>
             <td>
               {{ stockExpiredEntryLine.article.product.code }} /
               {{ stockExpiredEntryLine.article.product.reference }}
             </td>
             <td>{{ stockExpiredEntryLine.article.product.reference }}</td>
-            <td>{{ stockExpiredEntryLine.quantity }}</td>
+            <td>{{ stockExpiredEntryLine.article.quantity }}</td>
             <td>{{ $d(stockExpiredEntryLine.expires_at, 'short') }}</td>
           </tr>
         </BaseDatatable>
