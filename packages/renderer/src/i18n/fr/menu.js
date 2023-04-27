@@ -233,12 +233,18 @@ export default {
   stockstate: {
     viewany: 'Status de Stock',
   },
+  stockexpiry: {
+    viewany: 'Liste des produits périmé',
+  },
   inventory: {
     viewany: 'Inventaires',
     form: {
       description: "Description de l'inventaire",
       line: 'liste des articles',
     },
+  },
+  expiry: {
+    manage: 'Péremptions',
   },
   provider: {
     viewany: 'Fournisseurs',

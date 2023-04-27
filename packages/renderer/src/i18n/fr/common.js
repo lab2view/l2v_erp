@@ -223,6 +223,7 @@ export default {
     payment_method: 'Methode de paiement',
     transaction_type: 'Type de transaction',
     date: 'Date',
+    expiry_date: 'Expiry date',
     time: 'Heure',
     fee: 'Frais',
     amount: 'Montant',
@@ -304,6 +305,7 @@ export default {
     inventory_qty: 'Quantite disponible',
     sale_type: 'Type de vente',
     can_filter: 'Filtrer sur le site',
+    expires_at: 'Expire le',
   },
 
   gender: {

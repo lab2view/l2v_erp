@@ -96,6 +96,9 @@
               <th class="text-center" scope="col">
                 {{ $t('common.attributes.buying_price') }}
               </th>
+              <th class="text-center" scope="col">
+                {{ $t('common.attributes.expires_at') }}
+              </th>
               <th v-if="canEditStockEntry" scope="col">
                 {{ $t('common.actions') }}
               </th>
@@ -121,6 +124,9 @@
                 {{ stockEntryLine.provider_price }}
               </td>
               <td class="text-center">{{ stockEntryLine.buying_price }}</td>
+              <td class="text-center">
+                {{ stockEntryLine.expires_at }}
+              </td>
             </ArticleLineSelectable>
           </tbody>
           <tfoot>
