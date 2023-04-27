@@ -46,9 +46,9 @@ const actions = {
       return getters.stockExpiredEntryLines;
     }
     return stockEntryLineService
-      .getStockExpiredEntryLinesList(page, field)
+      .getStockExpiredEntryLinesList(page, { ...field, paginate: 16 })
       .then(({ data }) => {
-        commit('SET_STOCK_EXPIRED_ENTRY_LINES', data);
+        commit('SET_STOCK_EXPIRED_ENTRY_LINES', data.data);
         dispatch(
           'setGlobalProgress',
           {
