@@ -29,6 +29,7 @@ import shipping from './modules/stocks/shipping';
 import stock_state from './modules/stocks/stock_state';
 import stock_type from './modules/stocks/stock_type';
 import stock_entry from './modules/stocks/stock_entry';
+import stock_entry_line from './modules/stocks/stock_entry_line';
 import transaction from './modules/payments/transaction';
 import transaction_type from './modules/payments/transaction_type';
 import payment_method from './modules/payments/payment_method';
@@ -177,6 +178,7 @@ export default createStore({
     stock_state,
     stock_type,
     stock_entry,
+    stock_entry_line,
     stock_exit,
     payment_method,
     payment_charge,

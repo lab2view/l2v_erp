@@ -15,11 +15,14 @@ import priceService from '/@/services/articles/PriceService';
 const state = {
   articles: null,
   article: null,
+  operator: null,
+  filterStockLevel: 'critical',
 };
 
 // getters
 const getters = {
   articles: (state) => (state.articles ? JSON.parse(state.articles) : []),
+  getFilterStockLevel: (state) => state.filterStockLevel,
   getArticlesByFilter: (state, getters) => (filter) => {
     return getters.articles.filter((article) => {
       let select = true;
@@ -172,6 +175,64 @@ const getters = {
       })
       .filter((art) => art.workspace_stock >= stock);
   },
+  filterArticleByDistributionStockLevel:
+    (state, getters) => (distribution_id) => {
+      return getters.articles
+        .map((a) => {
+          const distribution = a.stats.distributions.find(
+            (d) => d.id === distribution_id
+          );
+          const buyingPrice = a.prices.find(
+            (p) => p.price_type.code === priceTypeCode.buy
+          );
+          return {
+            id: a.id,
+            product: a.product,
+            name: `${a.name} - ${a.product.code} / ${a.product.reference}`,
+            stock_quantity:
+              distribution !== undefined
+                ? getDistributionCurrentStock(distribution)
+                : a.stock.available,
+            buy_price: buyingPrice !== undefined ? buyingPrice.value : 0,
+          };
+        })
+        .filter((a) => {
+          let level = 0;
+          switch (getters.getFilterStockLevel) {
+            case 'critical':
+              level = a.product.critical_stock;
+              break;
+            case 'alert':
+              level = a.product.alert_stock;
+              break;
+            case 'min':
+              level = a.product.min_stock;
+              break;
+          }
+          return a.stock_quantity <= level;
+        });
+    },
+  getStatsCountByArticleStockLevel: (state, getters) => (distribution_id) => {
+    const articles = getters.articles.map((a) => {
+      const distribution = a.stats.distributions.find(
+        (d) => d.id === distribution_id
+      );
+      const stock =
+        distribution !== undefined
+          ? getDistributionCurrentStock(distribution)
+          : a.stock.available;
+      return {
+        critical: stock <= a.product.critical_stock,
+        alert: stock <= a.product.alert_stock,
+        min: stock <= a.product.min_stock,
+      };
+    });
+    return {
+      min: _.sumBy(articles, 'min'),
+      alert: _.sumBy(articles, 'alert'),
+      critical: _.sumBy(articles, 'critical'),
+    };
+  },
 };
 // privileges
 const actions = {
@@ -244,7 +305,7 @@ const actions = {
     );
   },
 
-  getSaleArticleByWorkspaceStock({ getters }, stock) {
+  getSaleArticleByWorkspaceStock({ getters, state }, stock) {
     return getters.sell_articles
       .map((article) => {
         return {
@@ -252,7 +313,13 @@ const actions = {
           workspace_stock: getWorkspaceTotalArticleStock(article),
         };
       })
-      .filter((art) => art.workspace_stock >= stock);
+      .filter((art) =>
+        state.operator === '<='
+          ? art.workspace_stock <= stock
+          : state.operator === '==='
+          ? art.workspace_stock === stock
+          : art.workspace_stock >= stock
+      );
   },
 
   searchArticles(context, { page, field }) {
@@ -578,6 +645,12 @@ const mutations = {
       state.article = JSON.stringify(article);
       state.articles = JSON.stringify(articles);
     }
+  },
+  UPDATE_OPERATOR(state, operator) {
+    state.operator = operator;
+  },
+  SET_FILTER_STOCK_LEVEL(state, filterStockLevel) {
+    state.filterStockLevel = filterStockLevel;
   },
 };
 
