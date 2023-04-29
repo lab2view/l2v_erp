@@ -334,6 +334,7 @@ export default {
     family_stock: 'Stock par familles',
     type_stock: 'Stock par types',
     available_stock_per_enterprise: 'Stock total disponible par entreprise',
+    level_stock_per_enterprise: "Nombre d'article par niveau de stock",
     pay_per_method: 'Paye par {name}',
     cashin: 'Encaisse',
     cashout: 'Decaisse',
