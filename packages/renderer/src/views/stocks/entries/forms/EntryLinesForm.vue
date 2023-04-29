@@ -62,6 +62,9 @@
                 {{ $t('common.attributes.buying_price') }}
                 <span class="text-danger m-l-5">*</span>
               </th>
+              <th scope="col" style="width: 210px">
+                {{ $t('common.attributes.expires_at') }}
+              </th>
               <th scope="col">{{ $t('common.actions') }}</th>
             </tr>
           </thead>

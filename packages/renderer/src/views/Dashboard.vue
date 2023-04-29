@@ -39,9 +39,53 @@
             </div>
           </div>
         </div>
+
+        <div class="card">
+          <BaseTableHeader
+            :title="$t('common.headers.level_stock_per_enterprise')"
+            :refresh-action-field="{ next: true }"
+            refresh-action-name="enterprise/getEnterpriseArticleStats"
+          />
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th scope="col">
+                      {{ $t('common.headers.enterprise_id') }}
+                    </th>
+                    <th scope="col" class="text-center">
+                      {{ 'Stock ' + $t('common.attributes.critical') }}
+                    </th>
+                    <th scope="col" class="text-center">
+                      {{ 'Stock ' + $t('common.attributes.alert') }}
+                    </th>
+                    <th
+                      v-if="canShowEnterpriseArticleLineStats"
+                      class="text-end"
+                      scope="col"
+                    >
+                      {{ $t('common.actions') }}
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <EnterpriseArticleStockPerLevelLine
+                    v-for="(distribution, index) in distributions"
+                    :key="`ent-stock-level-${index}`"
+                    :distribution="distribution"
+                  />
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
       </div>
       <div
-        v-if="$route.name === 'dashboard.enterprise.article.stats'"
+        v-if="
+          $route.name === 'dashboard.enterprise.article.stats' ||
+          $route.name === 'dashboard.enterprise.article.levels'
+        "
         class="col-sm-12"
       >
         <router-view />
@@ -53,15 +97,21 @@
 <script>
 import { defineComponent } from 'vue';
 import BaseContainer from '/@/components/common/BaseContainer.vue';
-import store from '/@/store/index.js';
+import store from '/@/store/index';
 import EnterpriseArticleStatsLine from '/@/components/dashboard/EnterpriseArticleStatsLine.vue';
 import { mapGetters } from 'vuex';
 import BaseTableHeader from '/@/components/common/BaseTableHeader.vue';
 import { privilegeCode } from '/@/helpers/codes';
+import EnterpriseArticleStockPerLevelLine from '/@/components/dashboard/EnterpriseArticleStockPerLevelLine.vue';
 
 export default defineComponent({
   name: 'Dashboard',
-  components: { BaseTableHeader, EnterpriseArticleStatsLine, BaseContainer },
+  components: {
+    EnterpriseArticleStockPerLevelLine,
+    BaseTableHeader,
+    EnterpriseArticleStatsLine,
+    BaseContainer,
+  },
   beforeRouteEnter(routeTo, routeFrom, next) {
     Promise.all([
       store.dispatch('article/getArticlesList', {

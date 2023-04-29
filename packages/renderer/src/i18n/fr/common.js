@@ -80,7 +80,7 @@ export default {
   discount_code: 'Code de reduction',
   discount_code_verify: "Verification d'un code de reduction",
   filter_article_by_stock: 'Filtrer les articles par stock',
-  article_list_by_stock: 'Liste des articles ayant un stock >= {stock}',
+  article_list_by_stock: 'Liste des articles ayant un stock {operator} {stock}',
   select_discount: 'Selectionner une reduction',
   printer_config: "Configuration de l'imprimante",
   print_after_sale: 'Vendre & Imprimer',
@@ -223,6 +223,7 @@ export default {
     payment_method: 'Methode de paiement',
     transaction_type: 'Type de transaction',
     date: 'Date',
+    expiry_date: 'Expiry date',
     time: 'Heure',
     fee: 'Frais',
     amount: 'Montant',
@@ -304,6 +305,7 @@ export default {
     inventory_qty: 'Quantite disponible',
     sale_type: 'Type de vente',
     can_filter: 'Filtrer sur le site',
+    expires_at: 'Expire le',
   },
 
   gender: {
@@ -332,6 +334,7 @@ export default {
     family_stock: 'Stock par familles',
     type_stock: 'Stock par types',
     available_stock_per_enterprise: 'Stock total disponible par entreprise',
+    level_stock_per_enterprise: "Nombre d'article par niveau de stock",
     pay_per_method: 'Paye par {name}',
     cashin: 'Encaisse',
     cashout: 'Decaisse',

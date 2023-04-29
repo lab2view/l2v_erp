@@ -64,6 +64,15 @@ export const stockRoutes = [
     },
   },
   {
+    path: 'entries',
+    name: 'stocks.expired.entries',
+    component: () =>
+      import('/@/views/stocks/entries/StockExpiredEntriesLineList.vue'),
+    meta: {
+      code: 'stockExpiry.viewAny',
+    },
+  },
+  {
     path: 'entries/:id?/forms',
     component: () => import('/@/components/stocks/EntryFormLayout.vue'),
     children: entryFormRoutes,
