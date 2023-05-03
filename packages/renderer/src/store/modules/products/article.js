@@ -187,8 +187,14 @@ const getters = {
           );
           return {
             id: a.id,
-            product: a.product,
-            name: `${a.name} - ${a.product.code} / ${a.product.reference}`,
+            name: a.name,
+            code: a.product.code,
+            reference: a.product.reference,
+            product: {
+              critical_stock: a.product.critical_stock,
+              alert_stock: a.product.alert_stock,
+              min_stock: a.product.min_stock,
+            },
             stock_quantity:
               distribution !== undefined
                 ? getDistributionCurrentStock(distribution)
