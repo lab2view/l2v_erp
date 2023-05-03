@@ -198,18 +198,23 @@ const getters = {
         })
         .filter((a) => {
           let level = 0;
+          let downLevel = 0;
           switch (getters.getFilterStockLevel) {
             case 'critical':
               level = a.product.critical_stock;
               break;
             case 'alert':
               level = a.product.alert_stock;
+              downLevel = a.product.critical_stock;
               break;
             case 'min':
               level = a.product.min_stock;
+              downLevel = a.product.alert_stock;
               break;
           }
-          return a.stock_quantity <= level;
+          if (downLevel !== 0)
+            return a.stock_quantity > downLevel && a.stock_quantity <= level;
+          else return a.stock_quantity <= level;
         });
     },
   getStatsCountByArticleStockLevel: (state, getters) => (distribution_id) => {
@@ -223,8 +228,9 @@ const getters = {
           : a.stock.available;
       return {
         critical: stock <= a.product.critical_stock,
-        alert: stock <= a.product.alert_stock,
-        min: stock <= a.product.min_stock,
+        alert:
+          stock > a.product.critical_stock && stock <= a.product.alert_stock,
+        min: stock > a.product.alert_stock && stock <= a.product.min_stock,
       };
     });
     return {
