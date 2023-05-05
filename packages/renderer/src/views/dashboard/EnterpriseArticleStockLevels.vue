@@ -33,6 +33,8 @@
           <template #headers>
             <th>#</th>
             <th>{{ $t('common.attributes.article_id') }}</th>
+            <th>{{ $t('common.attributes.code') }}</th>
+            <th>{{ $t('common.attributes.reference') }}</th>
             <th class="text-center">
               {{ $t('common.headers.stock_in') }}
             </th>
@@ -43,6 +45,8 @@
           <tr v-for="article in articles" :key="`art-level-lne-${article.id}`">
             <td>{{ article.id }}</td>
             <td>{{ article.name }}</td>
+            <td>{{ article.code }}</td>
+            <td>{{ article.reference }}</td>
             <td class="text-center">
               {{ article.stock_quantity }}
             </td>
