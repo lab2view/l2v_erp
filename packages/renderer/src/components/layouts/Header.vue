@@ -3,7 +3,7 @@
     <div class="main-header-right row m-0">
       <div class="main-header-left">
         <div class="logo-wrapper">
-          <a href="/" class="text-dark f-16 f-w-500">
+          <a href="/" class="text-dark f-14 f-w-500">
             <img
               v-if="isGilsSportWorkspace"
               alt=""
@@ -32,7 +32,7 @@
           </a>
         </div>
         <div class="dark-logo-wrapper">
-          <a href="/" class="text-light f-16 f-w-500">
+          <a href="/" class="text-light f-14 f-w-500">
             <img
               v-if="isGilsSportWorkspace"
               alt=""
