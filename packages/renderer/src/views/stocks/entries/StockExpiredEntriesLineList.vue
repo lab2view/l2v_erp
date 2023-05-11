@@ -23,6 +23,21 @@
             />
           </div>
         </div>
+        <div class="col-md-12 row mb-2">
+          <div>
+            {{ $t('common.filter_interval') }}
+
+            <a
+              v-for="(day, index) in getDailyFilters"
+              :key="`filter-${index}`"
+              href="#"
+              class="badge rounded-pill bg-primary"
+              @click="filterStockByNumberOfDay(day.min_day, day.max_day)"
+            >
+              {{ day.label }}
+            </a>
+          </div>
+        </div>
 
         <BaseDatatable
           v-if="!$store.state.globalLoading"
@@ -77,7 +92,9 @@ export default {
     store
       .dispatch('stock_entry_line/getStockExpiredEntryLinesList', {
         page: 1,
-        field: {},
+        field: {
+          expires_at: null,
+        },
       })
       .then(() => {
         next();
@@ -103,13 +120,65 @@ export default {
         });
       },
     },
+    getDailyFilters() {
+      return [
+        { label: 'Maintenant - 7 jours', min_day: null, max_day: 7 },
+        { label: 'Interval 7 - 14 jours', min_day: 7, max_day: 14 },
+        { label: 'Interval 14 - 21 jours', min_day: 14, max_day: 21 },
+        { label: 'Interval 21 - 30 jours', min_day: 21, max_day: 30 },
+      ];
+    },
   },
   methods: {
     getFilterStockExpiredList() {
       if (!this.$store.state.globalLoading) {
+        this.$store.commit('stock_entry_line/SET_REQUEST_FIELD_VALUE', {
+          field: 'expires_interval',
+          value: null,
+        });
         this.$store.dispatch('stock_entry_line/getStockExpiredEntryLinesList', {
           page: 1,
           field: { ...this.requestField, next: true },
+        });
+        this.$store.dispatch('setGlobalLoading', true);
+        setTimeout(() => this.$store.dispatch('setGlobalLoading', false), 2000);
+      }
+    },
+    filterStockByNumberOfDay(min_day, max_day) {
+      if (!this.$store.state.globalLoading) {
+        let day1, day2;
+        const today = new Date();
+        if (!min_day) {
+          day1 = today.toISOString(); // Convert today's date to ISO string format
+          day2 = new Date(
+            today.getTime() + max_day * 24 * 60 * 60 * 1000
+          ).toISOString();
+        } else {
+          const startDate = new Date(
+            today.getTime() + min_day * 24 * 60 * 60 * 1000
+          );
+          const endDate = new Date(
+            today.getTime() + max_day * 24 * 60 * 60 * 1000
+          );
+          day1 = startDate.toISOString();
+          day2 = endDate.toISOString();
+        }
+
+        this.$store.commit('stock_entry_line/SET_REQUEST_FIELD_VALUE', {
+          field: 'expires_at',
+          value: null,
+        });
+
+        this.$store.commit('stock_entry_line/SET_REQUEST_FIELD_VALUE', {
+          field: 'expires_interval',
+          value: `${day1},${day2}`,
+        });
+        this.$store.dispatch('stock_entry_line/getStockExpiredEntryLinesList', {
+          page: 1,
+          field: {
+            ...this.requestField,
+            next: true,
+          },
         });
         this.$store.dispatch('setGlobalLoading', true);
         setTimeout(() => this.$store.dispatch('setGlobalLoading', false), 2000);
@@ -119,4 +188,8 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.badge:hover {
+  color: white;
+}
+</style>
