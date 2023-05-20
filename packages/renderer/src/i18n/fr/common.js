@@ -49,6 +49,7 @@ export default {
   activate: 'Activer',
   filter: 'Filtrer',
   filter_list: 'Filtrer la liste',
+  filter_interval: 'Filtrer par intervalle de date',
   all: 'Tout',
   deleted_selection: 'la selection ',
   actif: 'Actif',
