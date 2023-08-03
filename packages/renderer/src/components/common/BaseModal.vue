@@ -24,7 +24,7 @@
             @click.prevent="$router.back()"
           ></button>
         </div>
-        <div class="modal-body" :class="modalBodyClass">
+        <div class="modal-body scrollable-body" :class="modalBodyClass">
           <slot></slot>
         </div>
         <div v-if="showFooter" :class="modalFooterClass">
@@ -55,4 +55,10 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.scrollable-body{
+  overflow-y: scroll;
+  overflow-x: clip;
+  max-height: 500px;
+}
+</style>
