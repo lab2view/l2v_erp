@@ -4,8 +4,8 @@
       v-if="!$store.state.globalLoading"
       :tfoot="true"
       :total="sales.length"
-      :scroll-x="isCashierSession ? '530px' : false"
-      :scroll-y="isCashierSession ? '110px' : false"
+      :scroll-x="isCashierSession ? '60%' : false"
+      :scroll-y="isCashierSession ? '85%' : false"
     >
       <template #headers>
         <th>#</th>
