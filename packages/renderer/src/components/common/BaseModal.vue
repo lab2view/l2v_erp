@@ -55,4 +55,10 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.scrollable-body {
+  overflow-y: scroll;
+  overflow-x: clip;
+  max-height: 500px;
+}
+</style>
