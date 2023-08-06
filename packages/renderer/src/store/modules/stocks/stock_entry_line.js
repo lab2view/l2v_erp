@@ -7,6 +7,7 @@ const state = {
   stock_expired_entry_lines: null,
   request_field: {
     expires_at: null,
+    expires_interval: null,
   },
 };
 
