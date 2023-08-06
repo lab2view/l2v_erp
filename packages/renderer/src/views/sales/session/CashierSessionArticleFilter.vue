@@ -69,7 +69,7 @@ import { datatableBtnCode } from '/@/helpers/codes';
 import BaseRadioButton from '/@/components/common/BaseRadioButton.vue';
 
 export default {
-  name: 'CashierSessionDiscountVerify',
+  name: 'CashierSessionArticleFilter',
   components: {
     BaseRadioButton,
     BaseDatatable,
