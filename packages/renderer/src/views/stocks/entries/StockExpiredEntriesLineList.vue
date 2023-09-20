@@ -32,7 +32,9 @@
               :key="`filter-${index}`"
               href="#"
               class="badge rounded-pill bg-primary"
-              @click="filterStockByNumberOfDay(day.min_day, day.max_day)"
+              @click.prevent="
+                filterStockByNumberOfDay(day.min_day, day.max_day)
+              "
             >
               {{ day.label }}
             </a>
