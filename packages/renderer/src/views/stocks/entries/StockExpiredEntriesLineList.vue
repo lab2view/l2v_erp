@@ -9,7 +9,7 @@
           <div class="col-md-4">
             <BaseDatetime
               v-model="filterStockExpiredDate"
-              :max-date="new Date()"
+              :range="true"
               placeholder="Filtrer par date d'expiration ?"
             />
           </div>
