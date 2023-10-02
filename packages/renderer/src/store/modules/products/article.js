@@ -17,7 +17,7 @@ const state = {
   article: null,
   operator: null,
   filterStockLevel: 'critical',
-  most_sale_articles: [],
+  most_sale_articles: null,
 };
 
 // getters
@@ -288,7 +288,7 @@ const actions = {
   },
 
   getMostSaleArticlesList({ commit, getters, dispatch }, { page, field }) {
-    if (getters.mostSaleArticles > 0 && !field.next) {
+    if (getters.mostSaleArticles.length > 0 && !field.next) {
       return state.most_sale_articles;
     } else
       return articleService
