@@ -17,11 +17,14 @@ const state = {
   article: null,
   operator: null,
   filterStockLevel: 'critical',
+  most_sale_articles: [],
 };
 
 // getters
 const getters = {
   articles: (state) => (state.articles ? JSON.parse(state.articles) : []),
+  mostSaleArticles: (state) =>
+    state.most_sale_articles ? JSON.parse(state.most_sale_articles) : [],
   getFilterStockLevel: (state) => state.filterStockLevel,
   getArticlesByFilter: (state, getters) => (filter) => {
     return getters.articles.filter((article) => {
@@ -284,6 +287,16 @@ const actions = {
     }
   },
 
+  getMostSaleArticlesList({ commit, getters }, { page, field }) {
+    if (getters.mostSaleArticles > 0 && !field.next) {
+      return state.most_sale_articles;
+    } else
+      return articleService.getMostSales(page, field).then(({ data }) => {
+        commit('SET_MOST_SALE_ARTICLES', data);
+        return data;
+      });
+  },
+
   getArticleByStockCrossing(
     { getters },
     { source_enterprise_id, target_enterprise_id, quantity, is_existing }
@@ -494,6 +507,9 @@ const mutations = {
       let oldArticles = state.articles ? JSON.parse(state.articles) : [];
       state.articles = JSON.stringify([...oldArticles, ...data]);
     }
+  },
+  SET_MOST_SALE_ARTICLES(state, { data }) {
+    state.most_sale_articles = JSON.stringify(data);
   },
   SET_SEARCH_ARTICLES(state, { data }) {
     state.search_results = data?.length ? JSON.stringify(data) : null;
