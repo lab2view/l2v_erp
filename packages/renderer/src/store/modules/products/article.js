@@ -287,14 +287,39 @@ const actions = {
     }
   },
 
-  getMostSaleArticlesList({ commit, getters }, { page, field }) {
+  getMostSaleArticlesList({ commit, getters, dispatch }, { page, field }) {
     if (getters.mostSaleArticles > 0 && !field.next) {
       return state.most_sale_articles;
     } else
-      return articleService.getMostSales(page, field).then(({ data }) => {
-        commit('SET_MOST_SALE_ARTICLES', data);
-        return data;
-      });
+      return articleService
+        .getMostSales(page, field)
+        .then(({ data }) => {
+          commit('SET_MOST_SALE_ARTICLES', data);
+
+          dispatch(
+            'setGlobalProgress',
+            {
+              label: 'Liste des articles les plus vendus',
+              min: 0,
+              max: data.last_page,
+              value: data.current_page,
+            },
+            { root: true }
+          );
+
+          if (data.next_page_url) {
+            return dispatch('getMostSaleArticlesList', {
+              page: page + 1,
+              field: { ...field, next: true },
+            });
+          } else dispatch('setGlobalProgress', null, { root: true });
+
+          return data;
+        })
+        .catch((error) => {
+          commit('SET_MOST_SALE_ARTICLES', []);
+          return Promise.reject(error);
+        });
   },
 
   getArticleByStockCrossing(
@@ -508,8 +533,14 @@ const mutations = {
       state.articles = JSON.stringify([...oldArticles, ...data]);
     }
   },
-  SET_MOST_SALE_ARTICLES(state, { data }) {
-    state.most_sale_articles = JSON.stringify(data);
+  SET_MOST_SALE_ARTICLES(state, { current_page, data }) {
+    if (current_page === 1) state.most_sale_articles = JSON.stringify(data);
+    else {
+      let oldArticles = state.most_sale_articles
+        ? JSON.parse(state.most_sale_articles)
+        : [];
+      state.most_sale_articles = JSON.stringify([...oldArticles, ...data]);
+    }
   },
   SET_SEARCH_ARTICLES(state, { data }) {
     state.search_results = data?.length ? JSON.stringify(data) : null;
