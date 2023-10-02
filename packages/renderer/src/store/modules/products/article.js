@@ -17,7 +17,7 @@ const state = {
   article: null,
   operator: null,
   filterStockLevel: 'critical',
-  most_sale_articles: [],
+  most_sale_articles: null,
 };
 
 // getters
