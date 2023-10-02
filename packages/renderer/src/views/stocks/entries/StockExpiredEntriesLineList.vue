@@ -9,7 +9,7 @@
           <div class="col-md-4">
             <BaseDatetime
               v-model="filterStockExpiredDate"
-              :max-date="new Date()"
+              :range="true"
               placeholder="Filtrer par date d'expiration ?"
             />
           </div>
@@ -32,7 +32,9 @@
               :key="`filter-${index}`"
               href="#"
               class="badge rounded-pill bg-primary"
-              @click="filterStockByNumberOfDay(day.min_day, day.max_day)"
+              @click.prevent="
+                filterStockByNumberOfDay(day.min_day, day.max_day)
+              "
             >
               {{ day.label }}
             </a>
