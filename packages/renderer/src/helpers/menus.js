@@ -12,6 +12,10 @@ export const productMenus = [
         code: 'ArticleGroup.viewAny',
         to: 'article.groups',
       },
+      {
+        code: 'ArticleSale.viewAny',
+        to: 'article.sales',
+      },
     ],
   },
   {

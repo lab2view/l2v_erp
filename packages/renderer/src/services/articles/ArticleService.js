@@ -5,6 +5,12 @@ export default {
     return axios.post(`/articles/list?page=${page}`, field);
   },
 
+  getMostSales(page, field) {
+    return axios.get(
+      `/v1/web/engine/articles?page=${page}&most_sale_limit=${field.most_sale_limit}`
+    );
+  },
+
   add(article) {
     return axios.post(`/articles`, article);
   },
