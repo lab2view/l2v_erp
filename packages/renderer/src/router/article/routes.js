@@ -83,6 +83,14 @@ export default [
     component: () => import('/@/views/articles/groups/GroupList.vue'),
   },
   {
+    path: 'sales',
+    name: 'article.sales',
+    component: () => import('/@/views/sales/MostSalesList.vue'),
+    meta: {
+      code: 'articlesale.viewAny',
+    },
+  },
+  {
     path: 'groups/:id?/forms',
     name: 'article.group.form',
     component: () => import('/@/components/articles/groups/FormLayout.vue'),

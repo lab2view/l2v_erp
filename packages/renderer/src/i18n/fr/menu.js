@@ -183,6 +183,9 @@ export default {
       setting: 'Configurations',
     },
   },
+  articlesale: {
+    viewany: 'liste des articles les plus vendus',
+  },
   package: {
     viewany: 'Conditionnements',
     create: 'Ajouter un conditionnement',
