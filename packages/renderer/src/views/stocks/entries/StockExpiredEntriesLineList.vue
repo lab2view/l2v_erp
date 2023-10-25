@@ -13,15 +13,6 @@
               placeholder="Filtrer par date d'expiration ?"
             />
           </div>
-          <div class="col-md text-end">
-            <BaseButton
-              type="button"
-              class="btn btn-sm btn-primary m-r-20"
-              icon="fa fa-filter"
-              :text="$t('common.filter_list')"
-              @click.prevent="getFilterStockExpiredList"
-            />
-          </div>
         </div>
         <div class="col-md-12 row mb-2">
           <div>
@@ -113,13 +104,17 @@ export default {
     ]),
     filterStockExpiredDate: {
       get() {
-        return this.requestField.expires_at;
+        const dates = this.requestField.expires_interval
+          ? this.requestField.expires_interval.split(',')
+          : null;
+        return this.requestField.expires_at ?? dates;
       },
       set(date) {
         this.$store.commit('stock_entry_line/SET_REQUEST_FIELD_VALUE', {
           field: 'expires_at',
           value: date,
         });
+        this.getFilterStockExpiredList();
       },
     },
     getDailyFilters() {
@@ -138,12 +133,18 @@ export default {
           field: 'expires_interval',
           value: null,
         });
-        this.$store.dispatch('stock_entry_line/getStockExpiredEntryLinesList', {
-          page: 1,
-          field: { ...this.requestField, next: true },
-        });
         this.$store.dispatch('setGlobalLoading', true);
-        setTimeout(() => this.$store.dispatch('setGlobalLoading', false), 2000);
+        this.$store
+          .dispatch('stock_entry_line/getStockExpiredEntryLinesList', {
+            page: 1,
+            field: { ...this.requestField, next: true },
+          })
+          .finally(() =>
+            setTimeout(
+              () => this.$store.dispatch('setGlobalLoading', false),
+              1000
+            )
+          );
       }
     },
     filterStockByNumberOfDay(min_day, max_day) {
