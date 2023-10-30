@@ -125,7 +125,7 @@
               </td>
               <td class="text-center">{{ stockEntryLine.buying_price }}</td>
               <td class="text-center">
-                {{ stockEntryLine.expires_at }}
+                {{ stockEntryLine.expires_at ?? '--' }}
               </td>
             </ArticleLineSelectable>
           </tbody>
