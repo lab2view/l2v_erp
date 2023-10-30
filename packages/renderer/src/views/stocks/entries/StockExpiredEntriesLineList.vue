@@ -73,14 +73,13 @@
 <script>
 import BaseDatatable from '/@/components/common/BaseDatatable.vue';
 import BaseDatetime from '/@/components/common/BaseDatetime.vue';
-import BaseButton from '/@/components/common/BaseButton.vue';
 import { mapGetters } from 'vuex';
 import BaseContainer from '/@/components/common/BaseContainer.vue';
 import store from '/@/store/index.js';
 
 export default {
   name: 'StockExpiredEntriesLineList',
-  components: { BaseContainer, BaseButton, BaseDatetime, BaseDatatable },
+  components: { BaseContainer, BaseDatetime, BaseDatatable },
   beforeRouteEnter(routeTo, routeFrom, next) {
     store
       .dispatch('stock_entry_line/getStockExpiredEntryLinesList', {
