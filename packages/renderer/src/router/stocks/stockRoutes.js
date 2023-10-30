@@ -64,7 +64,7 @@ export const stockRoutes = [
     },
   },
   {
-    path: 'entries',
+    path: 'expired-stocks',
     name: 'stocks.expired.entries',
     component: () =>
       import('/@/views/stocks/entries/StockExpiredEntriesLineList.vue'),
