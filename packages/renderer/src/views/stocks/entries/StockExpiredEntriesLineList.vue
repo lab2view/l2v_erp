@@ -41,7 +41,6 @@
             <th>#</th>
             <th>{{ $t('common.attributes.name') }}</th>
             <th>{{ $t('common.attributes.barcode') }}</th>
-            <th>{{ $t('common.attributes.reference') }}</th>
             <th>{{ $t('common.attributes.quantity') }}</th>
             <th>{{ $t('common.attributes.expiry_date') }}</th>
           </template>
@@ -59,7 +58,6 @@
               {{ stockExpiredEntryLine.article.product.code }} /
               {{ stockExpiredEntryLine.article.product.reference }}
             </td>
-            <td>{{ stockExpiredEntryLine.article.product.reference }}</td>
             <td>{{ stockExpiredEntryLine.article.quantity }}</td>
             <td>{{ $d(stockExpiredEntryLine.expires_at, 'short') }}</td>
           </tr>
