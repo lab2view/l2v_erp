@@ -42,7 +42,7 @@
             <th>{{ $t('common.attributes.name') }}</th>
             <th>{{ $t('common.attributes.barcode') }}</th>
             <th>{{ $t('common.attributes.stock_entry_date') }}</th>
-            <th>{{ $t('common.attributes.quantity') }}</th>
+            <th>{{ $t('common.headers.stock_in') }}</th>
             <th>{{ $t('common.attributes.expiry_date') }}</th>
           </template>
           <tr
@@ -62,7 +62,7 @@
             <td>
               {{ $d(stockExpiredEntryLine.stock_entry.created_at, 'short') }}
             </td>
-            <td>{{ stockExpiredEntryLine.article.quantity }}</td>
+            <td>{{ stockExpiredEntryLine.article.stock.available }}</td>
             <td>{{ $d(stockExpiredEntryLine.expires_at, 'short') }}</td>
           </tr>
         </BaseDatatable>
