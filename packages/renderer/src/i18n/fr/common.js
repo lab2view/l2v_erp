@@ -187,6 +187,7 @@ export default {
     phone_length: 'Nombre de chiffres du numero',
     stock_type: 'Type de stocks',
     stock_state: 'Statut de stocks',
+    stock_entry_date: "Date d'entrée de stock",
     none: 'Aucun',
     all: 'Tous',
     code: 'Code',
