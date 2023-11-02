@@ -187,6 +187,7 @@ export default {
     phone_length: 'Nombre de chiffres du numero',
     stock_type: 'Type de stocks',
     stock_state: 'Statut de stocks',
+    stock_entry_date: "Date d'entrée de stock",
     none: 'Aucun',
     all: 'Tous',
     code: 'Code',
@@ -307,6 +308,7 @@ export default {
     sale_type: 'Type de vente',
     can_filter: 'Filtrer sur le site',
     expires_at: 'Expire le',
+    stock_expired: 'Qté Expirée',
   },
 
   gender: {

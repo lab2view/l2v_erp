@@ -38,11 +38,11 @@
           :total="stockExpiredEntryLines.length"
         >
           <template #headers>
-            <th>#</th>
-            <th>{{ $t('common.attributes.name') }}</th>
             <th>{{ $t('common.attributes.barcode') }}</th>
-            <th>{{ $t('common.attributes.reference') }}</th>
-            <th>{{ $t('common.attributes.quantity') }}</th>
+            <th>{{ $t('common.attributes.stock_entry_date') }}</th>
+            <th>{{ $t('common.headers.stock_entry_qty') }}</th>
+            <th>{{ $t('common.attributes.stock_expired') }}</th>
+            <th>{{ $t('common.headers.stock_in') }}</th>
             <th>{{ $t('common.attributes.expiry_date') }}</th>
           </template>
           <tr
@@ -50,17 +50,16 @@
             :key="stockExpiredEntryLine.article_id"
           >
             <td>
-              {{ stockExpiredEntryLine.article_id }}
+              {{ stockExpiredEntryLine.product_code }}
             </td>
             <td>
-              {{ stockExpiredEntryLine.article.name }}
+              {{ $d(stockExpiredEntryLine.stock_entry.created_at, 'short') }}
             </td>
             <td>
-              {{ stockExpiredEntryLine.article.product.code }} /
-              {{ stockExpiredEntryLine.article.product.reference }}
+              {{ stockExpiredEntryLine.stock_entry.initial_stock }}
             </td>
-            <td>{{ stockExpiredEntryLine.article.product.reference }}</td>
-            <td>{{ stockExpiredEntryLine.article.quantity }}</td>
+            <td>{{ '--' }}</td>
+            <td>{{ stockExpiredEntryLine.stock_available }}</td>
             <td>{{ $d(stockExpiredEntryLine.expires_at, 'short') }}</td>
           </tr>
         </BaseDatatable>
