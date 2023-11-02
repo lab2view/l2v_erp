@@ -1,4 +1,5 @@
 import stockEntryLineService from '../../../services/stocks/StockEntryLineService';
+import { sumBy } from 'lodash';
 
 const state = {
   stock_entry_lines: null,
@@ -18,7 +19,24 @@ const getters = {
   },
   stockExpiredEntryLines: (state) => {
     return state.stock_expired_entry_lines
-      ? JSON.parse(state.stock_expired_entry_lines)
+      ? JSON.parse(state.stock_expired_entry_lines).map(
+          ({ article, stock_entry, expires_at }) => {
+            return {
+              product_code: `${article.product.code} / ${article.product.reference}`,
+              stock_available: article.stock.available,
+              stock_entry: {
+                created_at: stock_entry.created_at,
+                initial_stock: sumBy(
+                  stock_entry.stock_entry_lines.filter(
+                    (stockEntryLine) => stockEntryLine.article_id === article.id
+                  ),
+                  'quantity'
+                ),
+              },
+              expires_at,
+            };
+          }
+        )
       : [];
   },
   stockEntryLine: (state) =>

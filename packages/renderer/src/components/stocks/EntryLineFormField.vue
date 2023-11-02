@@ -57,6 +57,7 @@
       <BaseDatetime
         v-model="expires_at"
         :placeholder="$t('common.attributes.expires_at')"
+        :min-date="new Date()"
       />
     </td>
     <td>
