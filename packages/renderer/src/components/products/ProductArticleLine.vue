@@ -1,6 +1,7 @@
 <template>
   <tr>
     <td>{{ article.package.label }}</td>
+    <BaseSwitchInput v-model="canSaleWithoutStock" />
     <td class="text-center">
       <BaseUpdateNumberForm
         v-if="!article.not_deletable"
@@ -51,9 +52,11 @@
 import BaseButton from '/@/components/common/BaseButton.vue';
 import BaseUpdateNumberForm from '/@/components/common/BaseUpdateNumberForm.vue';
 import { mapGetters } from 'vuex';
+import BaseSwitchInput from '/@/components/common/BaseSwitchInput.vue';
+
 export default {
   name: 'ProductArticleLine',
-  components: { BaseUpdateNumberForm, BaseButton },
+  components: { BaseSwitchInput, BaseUpdateNumberForm, BaseButton },
   props: {
     article: {
       type: Object,
@@ -72,6 +75,20 @@ export default {
     },
     canDeleteArticle() {
       return this.isGrantedAction('Article.delete');
+    },
+    canSaleWithoutStock: {
+      get() {
+        return this.article.can_sale_without_stock;
+      },
+      set(value) {
+        this.loading = true;
+        return this.$store
+          .dispatch('article/updateArticle', {
+            ...this.article,
+            can_sale_without_stock: value,
+          })
+          .finally(() => (this.loading = false));
+      },
     },
   },
   methods: {
