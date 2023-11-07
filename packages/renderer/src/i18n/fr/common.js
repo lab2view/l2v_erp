@@ -309,6 +309,7 @@ export default {
     can_filter: 'Filtrer sur le site',
     expires_at: 'Expire le',
     stock_expired: 'Qté Expirée',
+    sans_stock: 'Vendre sans stock',
   },
 
   gender: {
