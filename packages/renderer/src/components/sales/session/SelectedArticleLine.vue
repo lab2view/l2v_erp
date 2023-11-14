@@ -56,7 +56,7 @@
           v-model.number="quantity"
           type="number"
           min="1"
-          :max="totalStock"
+          :max="canSaleWithoutStock ? null : totalStock"
           class="font-primary text-center m-0 f-w-600 form-control-sm f-40"
         >
           <template #prefix>
@@ -179,7 +179,10 @@ export default {
       );
     },
     incrementArticleQuantity() {
-      if (parseFloat(this.article.quantity) < this.totalStock)
+      if (
+        this.canSaleWithoutStock ||
+        parseFloat(this.article.quantity) < this.totalStock
+      )
         this.$store.commit(
           'cashier_session/UPDATE_CURRENT_REQUEST_ARTICLE_QUANTITY',
           {
