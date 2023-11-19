@@ -96,7 +96,7 @@ import BaseButton from '/@/components/common/BaseButton.vue';
 import { mapGetters } from 'vuex';
 import { sumBy } from 'lodash';
 export default {
-  name: 'SaleSessionDetails',
+  name: 'SaleDetails',
   components: { BaseButton, BaseModal },
   computed: {
     ...mapGetters('sale', ['cashierSale']),
@@ -113,7 +113,9 @@ export default {
   },
   methods: {
     printSaleTicket() {
-      this.$store.dispatch('printer/printSaleBill', this.cashierSale);
+      this.$store
+        .dispatch('printer/printSaleBill', this.cashierSale)
+        .then(() => this.$router.back());
     },
   },
 };

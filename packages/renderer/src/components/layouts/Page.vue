@@ -60,7 +60,11 @@ export default defineComponent({
     };
   },
   computed: {
-    ...mapGetters('workspace', ['workspaces', 'currentWorkspace']),
+    ...mapGetters('workspace', [
+      'workspaces',
+      'currentWorkspace',
+      'isEscaleMarketWorkspace',
+    ]),
     ...mapGetters('auth', ['unlock']),
     showLockScreen() {
       return !this.unlock;
@@ -111,9 +115,12 @@ export default defineComponent({
       }
     },
     seTimer() {
+      const delay = this.isEscaleMarketWorkspace
+        ? 2 * 60 * 60 * 1000
+        : 10 * 60 * 1000;
       this.logoutTimer = setTimeout(() => {
         if (this.unlock) this.$store.commit('auth/SET_UNLOCK_SCREEN', false);
-      }, 30 * 10 * 1000);
+      }, delay);
     },
   },
 });

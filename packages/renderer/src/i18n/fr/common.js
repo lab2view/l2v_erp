@@ -147,6 +147,7 @@ export default {
     crossing_type: 'Type de verification',
     stock_level: 'Niveau de stock',
     enterprise_to: 'Structure cible',
+    enterprise_visibility: 'Configurer la visivilité par structure',
     select_enterprise_for_custom_price: 'Editer le prix pour une entreprise ?',
     pin: 'Code pin',
     payment_method: 'Méthode de paiement',
@@ -155,7 +156,7 @@ export default {
     article: 'article | articles',
     default_printer: 'Imprimante par default',
     multi_enterprise: 'Vers plusieurs structures',
-    select_structures: 'Selectionner les structures',
+    select_structures: 'Selectionner une structure',
     multi_quantity: 'Quantites par structures',
     forget_password: 'Mot de passe oublie? ',
     discount: 'Réduction',
@@ -309,6 +310,7 @@ export default {
     can_filter: 'Filtrer sur le site',
     expires_at: 'Expire le',
     stock_expired: 'Qté Expirée',
+    sans_stock: 'Vendre sans stock',
   },
 
   gender: {

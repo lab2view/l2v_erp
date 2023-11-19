@@ -21,6 +21,7 @@
           <thead>
             <tr>
               <th scope="col">{{ $t('common.attributes.package_id') }}</th>
+              <th scope="col">{{ $t('common.attributes.sans_stock') }}</th>
               <th scope="col" class="text-center">
                 {{ $t('common.attributes.quantity') }}
               </th>

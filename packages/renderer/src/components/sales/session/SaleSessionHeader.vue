@@ -124,6 +124,7 @@ export default {
           sup_price: price !== undefined ? (haveStock ? price.value : 0) : null,
           price: price !== undefined ? price.value : null,
           vat: null,
+          can_sale_without_stock: article.can_sale_without_stock,
           barcode: article.product.code ?? '',
           image: article.cover_thumb_url ?? article.product.image_url,
           stock: article.stock,
