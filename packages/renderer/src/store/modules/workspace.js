@@ -24,6 +24,11 @@ const getters = {
       return RegExp('gils-sport*').test(getters.currentWorkspace.domain);
     else return false;
   },
+  isEscaleMarketWorkspace: (state, getters) => {
+    if (getters.currentWorkspace)
+      return RegExp('escale-market*').test(getters.currentWorkspace.domain);
+    else return false;
+  },
   currency: (state, getters) => getters.currentWorkspace?.currency ?? 'XAF',
   databaseName: (state, getters) =>
     getters.currentWorkspace?.database ?? 'kitbusiness',

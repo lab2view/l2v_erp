@@ -9,9 +9,11 @@ export default {
   },
   computed: {
     articleName() {
-      return this.article.product.code
-        ? `${this.article.product.code} / ${this.article.product.reference}`
-        : this.article.product.reference;
+      if (this.article.product)
+        return this.article.product.code
+          ? `${this.article.product.code} / ${this.article.product.reference}`
+          : this.article.product.reference;
+      else return null;
     },
 
     haveSalePrice() {
@@ -45,6 +47,9 @@ export default {
         return 'info';
 
       return 'success';
+    },
+    canSaleWithoutStock() {
+      return this.article.can_sale_without_stock;
     },
   },
 };
