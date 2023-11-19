@@ -61,6 +61,9 @@ export function getStockByEnterpriseId(enterprise_id, article) {
 export function isGilsSport(domain) {
   return RegExp('gils-sport*').test(domain);
 }
+export function isEscaleMarket(domain) {
+  return RegExp('escale-market*').test(domain);
+}
 export function getPrinterRawText({
   enterprise,
   discount,
@@ -128,11 +131,13 @@ export function getPrinterRawText({
   // cmds += esc + '!' + '\x00'; //Character font A selected (ESC ! 0)
 
   stock_exit_lines.forEach((stockExitLine) => {
-    cmds += `${stockExitLine.article.product.code.slice(
-      -4
-    )} ${stockExitLine.article.name.toUpperCase()} x${
-      stockExitLine.quantity
-    } ${getFormattedAmount(stockExitLine.sup_price)}`; //text to print
+    cmds += `${stockExitLine.article.product.code.slice(-4)} ${getArticleName(
+      enterprise.domain,
+      stockExitLine.article.name,
+      stockExitLine.article.product.product_type.label
+    )} x${stockExitLine.quantity} ${getFormattedAmount(
+      stockExitLine.sup_price
+    )}`; //text to print
     cmds += newLine;
   });
 
@@ -182,6 +187,12 @@ export function getPrinterRawText({
   console.log(cmds);
 
   return cmds;
+}
+
+export function getArticleName(domain, name, type) {
+  return isEscaleMarket(domain)
+    ? name.replace(` ${type} `, '').toUpperCase()
+    : name.toUpperCase();
 }
 
 export function getFormattedAmount(amount) {
