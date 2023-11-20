@@ -61,9 +61,11 @@ export function getStockByEnterpriseId(enterprise_id, article) {
 export function isGilsSport(domain) {
   return RegExp('gils-sport*').test(domain);
 }
+
 export function isEscaleMarket(domain) {
   return RegExp('escale-market*').test(domain);
 }
+
 export function getPrinterRawText({
   enterprise,
   discount,
@@ -133,8 +135,7 @@ export function getPrinterRawText({
   stock_exit_lines.forEach((stockExitLine) => {
     cmds += `${stockExitLine.article.product.code.slice(-4)} ${getArticleName(
       enterprise.domain,
-      stockExitLine.article.name,
-      stockExitLine.article.product.product_type.label
+      stockExitLine.article
     )} x${stockExitLine.quantity} ${getFormattedAmount(
       stockExitLine.sup_price
     )}`; //text to print
@@ -189,10 +190,19 @@ export function getPrinterRawText({
   return cmds;
 }
 
-export function getArticleName(domain, name, type) {
-  return isEscaleMarket(domain)
-    ? name.replace(` ${type} `, '').toUpperCase()
-    : name.toUpperCase();
+export function getArticleName(domain, article) {
+  let name = article.name;
+  if (isEscaleMarket(domain)) {
+    name = article.product.name;
+    if (article.product.package?.code) {
+      if (article.product.package.code !== 'UNIT') {
+        name = `${article.product.package.label} ${
+          article.quantity > 1 ? article.quantity : ''
+        } ${name}`;
+      }
+    }
+  }
+  return name.toUpperCase();
 }
 
 export function getFormattedAmount(amount) {
@@ -245,6 +255,7 @@ export function transformSaleForTable(sale) {
     sup_amount: totalSupPrice,
     discount: saleDiscount,
     sale_amount,
+    payment_method_id: sale.cashier_session_collections[0].payment_method_id,
     created_at: sale.created_at,
     sale_win_amount: parseFloat(sale_win_amount),
     sale_win_amount_percent:

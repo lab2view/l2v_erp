@@ -4,7 +4,7 @@
       <div class="row align-items-center">
         <div class="col-sm">
           <h6>
-            {{ `${$t('articles.detail.price.title')} : ${article.name}` }}
+            {{ `${$t('articles.detail.price.title')}` }}
           </h6>
         </div>
         <div class="col-sm-auto align-items-end">

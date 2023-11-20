@@ -1,9 +1,13 @@
 <template>
-  <div class="card-body mt-0">
+  <div :class="`card-body mt-0 ${isEscaleMarketWorkspace ? 'pt-1' : ''}`">
     <div class="row align-items-end">
       <div class="col">
-        <div class="row justify-content-center mb-2">
-          <div class="col-md-6">
+        <div
+          :class="`row justify-content-center ${
+            isEscaleMarketWorkspace ? 'mb-1' : 'mb-2'
+          }`"
+        >
+          <div :class="isEscaleMarketWorkspace ? `col-md` : `col-md-6`">
             <BaseFieldGroup
               :with-refresh="true"
               refresh-action-name="customer/getCustomersList"
@@ -159,8 +163,12 @@
             type="button"
             :text="
               isCurrentSaleHaveArticle
-                ? $t('common.send_current_sale_in_background')
-                : $t('common.show_background_sale')
+                ? $t(
+                    getLabelTranslateCode(
+                      'common.send_current_sale_in_background'
+                    )
+                  )
+                : $t(getLabelTranslateCode('common.show_background_sale'))
             "
             class="btn btn-outline-primary btn-block mb-3"
             @click.prevent="
@@ -174,7 +182,7 @@
           <BaseButton
             :disabled="!isCurrentSaleHaveArticle"
             type="button"
-            :text="$t('common.make_an_discount')"
+            :text="$t(getLabelTranslateCode('common.make_an_discount'))"
             class="btn btn-outline-primary btn-block mb-3"
             :class="{ 'font-primary': !isCurrentSaleHaveArticle }"
             @click.prevent="$router.push({ name: 'sales.session.discount' })"
@@ -182,7 +190,9 @@
         </div>
         <div class="row">
           <BaseButton
-            :text="$t('common.process_sale').toUpperCase()"
+            :text="
+              $t(getLabelTranslateCode('common.process_sale')).toUpperCase()
+            "
             class="btn btn-primary-light btn-lg"
             :loading="loading"
             :disabled="!isCurrentSaleHaveArticle"
@@ -229,7 +239,7 @@ export default {
       'getCurrentSaleCashOutAmount',
       'isCurrentSaleHaveArticle',
     ]),
-    ...mapGetters('workspace', ['currency']),
+    ...mapGetters('workspace', ['currency', 'isEscaleMarketWorkspace']),
     ...mapGetters('payment_method', ['paymentMethods']),
     ...mapGetters('sale_type', ['saleTypes']),
     ...mapGetters('customer', ['getCustomerForSelect2']),
@@ -304,6 +314,9 @@ export default {
     });
   },
   methods: {
+    getLabelTranslateCode(code) {
+      return this.isEscaleMarketWorkspace ? `${code}_2` : code;
+    },
     saveCurrentSaleInBackground() {
       this.$store.dispatch('cashier_session/saveCurrentSaleInBackground');
     },

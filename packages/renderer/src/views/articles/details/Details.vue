@@ -37,7 +37,7 @@
     </div>
     <div class="card-body pt-0">
       <div class="table-responsive">
-        <h5>{{ $t('stocks.fields.structure_stocks') }}</h5>
+        <h6>{{ $t('stocks.fields.structure_stocks') }}</h6>
         <table class="table table-bordernone">
           <thead>
             <tr>
@@ -66,6 +66,7 @@ import { mapGetters } from 'vuex';
 import ArticleStructureMovementLine from '/@/views/articles/details/ArticleStructureMovementLine.vue';
 
 export default {
+  name: 'Details',
   components: { ArticleStructureMovementLine },
   mixins: [ArticleMixin],
   computed: {

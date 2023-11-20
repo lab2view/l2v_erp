@@ -42,7 +42,10 @@
         />
       </div>
     </div>
-    <div v-if="getSelectedSaleList.length" class="card-body p-0 mb-2">
+    <div
+      v-if="getSelectedSaleList.length"
+      class="card-body p-0 mb-2 vertical-scroll scroll-demo"
+    >
       <SaleTable :sales="getSelectedSaleList" :is-cashier-session="true" />
     </div>
     <div v-else class="card-body">

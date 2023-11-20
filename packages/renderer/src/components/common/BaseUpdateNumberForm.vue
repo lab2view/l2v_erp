@@ -104,6 +104,9 @@ export default {
     },
   },
   watch: {
+    quantity(value) {
+      if (this.quantityField !== value) this.quantityField = value;
+    },
     quantityField(value) {
       if (this.max)
         this.is_edited = value !== this.quantity && value <= this.max;

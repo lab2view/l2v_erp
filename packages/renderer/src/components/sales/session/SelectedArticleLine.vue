@@ -1,5 +1,5 @@
 <template>
-  <tr>
+  <tr :class="isEscaleMarketWorkspace ? 'f-10' : ''">
     <td class="bd-t-none u-s-tb">
       <div class="media">
         <a
@@ -20,7 +20,11 @@
           />
         </a>
         <div class="media-body m-l-10">
-          <div class="font-primary f-w-500 f-12">
+          <div
+            :class="`font-primary f-w-500 ${
+              isEscaleMarketWorkspace ? 'f-10' : 'f-12'
+            }`"
+          >
             {{ article.label }}
             <span :class="`f-10 text-${is_stock ? 'success' : 'danger'}`">
               ({{ totalStock || 0 }})</span
@@ -51,7 +55,7 @@
       />
     </td>
     <td>
-      <div style="width: 140px">
+      <div :style="`width: ${isEscaleMarketWorkspace ? 90 : 140}px`">
         <BaseInputGroup
           v-model.number="quantity"
           type="number"
@@ -61,7 +65,11 @@
         >
           <template #prefix>
             <BaseButton
-              class="input-group-text btn btn-primary btn-iconsolid pt-1 pb-1"
+              :class="
+                isEscaleMarketWorkspace
+                  ? 'font-secondary border-0'
+                  : 'input-group-text btn btn-primary btn-iconsolid pt-1 pb-1'
+              "
               icon="fa fa-minus"
               icon-class=""
               type="button"
@@ -69,7 +77,11 @@
             />
           </template>
           <BaseButton
-            class="input-group-text btn btn-primary btn-iconsolid pt-1 pb-1"
+            :class="
+              isEscaleMarketWorkspace
+                ? 'font-secondary border-0'
+                : 'input-group-text btn btn-primary btn-iconsolid pt-1 pb-1'
+            "
             icon="fa fa-plus"
             icon-class=""
             type="button"
@@ -110,7 +122,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters('workspace', ['currency']),
+    ...mapGetters('workspace', ['currency', 'isEscaleMarketWorkspace']),
     articleSalePriceTypes() {
       return this.article.prices
         .map((p) => {
@@ -205,4 +217,11 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.f-10 {
+  font-size: 10px;
+}
+.f-8 {
+  font-size: 8px;
+}
+</style>

@@ -106,8 +106,8 @@ router.beforeEach(async (to, from, next) => {
 
   if (to.meta.requireLandlord) landlordGuard(to, from, next);
   if (to.meta.requireWorkspace) workspaceGuard(to, from, next);
-  if (to.meta.requireAuth) authGuard(to, from, next);
   if (to.meta.redirectAuth) redirectAuthGuard(to, from, next);
+  if (to.meta.requireAuth) authGuard(to, from, next);
   if (to.meta.requireProduct) {
     await store.dispatch('product/getProduct', to.params.id);
     productGuard(to, from, next);
@@ -127,9 +127,9 @@ router.beforeEach(async (to, from, next) => {
     await store.dispatch('stock_exit/getStockExit', to.params.id);
     stockExitGuard(to, from, next);
   }
-  if (to.meta.requireCashierSession) cashierSessionGuard(to, from, next);
   if (to.meta.redirectCashierSession)
     redirectCashierSessionGuard(to, from, next);
+  if (to.meta.requireCashierSession) cashierSessionGuard(to, from, next);
   if (to.meta.requireSale) {
     await store.dispatch('sale/getSale', to.params.id);
     saleGuard(to, from, next);
