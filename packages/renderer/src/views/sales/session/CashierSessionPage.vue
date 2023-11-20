@@ -74,14 +74,14 @@ export default {
       errors: [],
     };
   },
+  computed: {
+    ...mapGetters('printer', ['printAfterSale']),
+  },
   created() {
     this.initEchoSync(moduleCode.products, 'product');
     this.$store.dispatch('printer/initPrint').then(() => {
       this.$store.dispatch('printer/getInstalledPrinters');
     });
-  },
-  computed: {
-    ...mapGetters('printer', ['printAfterSale']),
   },
   methods: {
     handleSaleProcessButton() {
