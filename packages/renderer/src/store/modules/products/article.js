@@ -35,6 +35,11 @@ const getters = {
         select = article.product?.product_unit_id === filter.product_unit_id;
       if (select && filter.package_id)
         select = article.package_id === filter.package_id;
+      if (select && filter.enterprise_id)
+        select =
+          article.product?.enterprises.find(
+            (ent) => ent.id === filter.enterprise_id
+          ) !== undefined;
       if (select && filter.sell_price_not_set) {
         select =
           article.prices.find((p) =>
@@ -256,12 +261,18 @@ const getters = {
 };
 // privileges
 const actions = {
-  getArticlesList({ commit, getters, dispatch }, { page, field }) {
+  getArticlesList({ commit, getters, dispatch, rootGetters }, { page, field }) {
     if (getters.articles.length > 0 && !field.next) {
       return getters.articles;
     } else {
+      const enterprise_id =
+        field.enterprise_id ??
+        rootGetters['cashier_session/currentSessionEnterpriseId'] ??
+        rootGetters['auth/currentEnterpriseId'] ??
+        null;
+
       return articleService
-        .getList(page, { ...field, paginate: 50 })
+        .getList(page, { ...field, enterprise_id, paginate: 50 })
         .then(({ data }) => {
           commit('SET_ARTICLES', data);
 

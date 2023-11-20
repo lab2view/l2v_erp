@@ -18,6 +18,10 @@ const getters = {
         select = product.product_type_id === filter.product_type_id;
       if (select && filter.product_unit_id)
         select = product.product_unit_id === filter.product_unit_id;
+      if (select && filter.enterprise_id)
+        select =
+          product.enterprises.find((ent) => ent.id === filter.enterprise_id) !==
+          undefined;
       if (select && filter.properties !== {}) {
         for (const [key, value] of Object.entries(filter.properties)) {
           if (key && value) {
@@ -44,12 +48,17 @@ const getters = {
 
 // privileges
 const actions = {
-  getProductsList({ commit, getters, dispatch }, { page, field }) {
+  getProductsList({ commit, getters, dispatch, rootGetters }, { page, field }) {
     if (getters.products.length > 0 && !field.next) {
       return getters.products;
-    } else
+    } else {
+      const enterprise_id =
+        field.enterprise_id ??
+        rootGetters['cashier_session/currentSessionEnterpriseId'] ??
+        rootGetters['auth/currentEnterpriseId'] ??
+        null;
       return productService
-        .getList(page, { ...field, paginate: 50 })
+        .getList(page, { ...field, enterprise_id, paginate: 50 })
         .then(({ data }) => {
           commit('SET_PRODUCTS', data);
           dispatch(
@@ -72,6 +81,7 @@ const actions = {
 
           return data;
         });
+    }
   },
 
   getProduct({ getters, commit }, id) {

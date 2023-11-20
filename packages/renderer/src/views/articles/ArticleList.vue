@@ -75,6 +75,21 @@
               />
             </BaseFieldGroup>
           </div>
+          <div class="col-md">
+            <BaseFieldGroup
+              :with-refresh="true"
+              :with-append="false"
+              refresh-action-name="enterprise/getEnterprisesList"
+            >
+              <BaseSelect
+                v-model.number="articleFilter.enterprise_id"
+                :options="enterprises"
+                key-label="name"
+                key-value="id"
+                :placeholder="`${$t('common.attributes.structure')} ?`"
+              />
+            </BaseFieldGroup>
+          </div>
           <div class="col-md-3">
             <BaseSwitchInput
               v-model="articleFilter.sell_price_not_set"

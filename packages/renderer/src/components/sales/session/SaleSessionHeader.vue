@@ -81,7 +81,7 @@ export default {
     ...mapGetters('price_type', ['salePriceTypes']),
     ...mapGetters('sale_type', ['saleTypes']),
     ...mapGetters('workspace', ['isEscaleMarketWorkspace']),
-    ...mapGetters('cashier_session', ['currentSession']),
+    ...mapGetters('cashier_session', ['currentSessionEnterpriseId']),
     searchArticleField: {
       get() {
         return null;
@@ -119,14 +119,10 @@ export default {
         let price = article.prices.find(
           (p) => p.price_type_id === this.salePriceTypeField
         );
-        if (
-          this.currentSession?.cash_register.enterprise_id &&
-          price?.customs?.length
-        ) {
+        if (this.currentSessionEnterpriseId && price?.customs?.length) {
           const specificPrice = price.customs.find(
             (pc) =>
-              pc.enterprise_id ===
-                this.currentSession.cash_register.enterprise_id &&
+              pc.enterprise_id === this.currentSessionEnterpriseId &&
               pc.price_id === price.id
           );
           if (specificPrice !== undefined)
@@ -184,7 +180,10 @@ export default {
         this.$store
           .dispatch('article/getArticlesList', {
             page: 1,
-            field: { next: true },
+            field: {
+              next: true,
+              enterprise_id: this.currentSessionEnterpriseId,
+            },
           })
           .then(() => this.$store.dispatch('setGlobalLoading', false));
       }
