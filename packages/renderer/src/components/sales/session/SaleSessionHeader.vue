@@ -1,5 +1,8 @@
 <template>
-  <div class="card-header mb-0 pb-0">
+  <div
+    class="card-header mb-0 pb-0"
+    :class="{ 'mt-1 pt-0': isEscaleMarketWorkspace }"
+  >
     <div class="row align-items-center">
       <div class="col-auto p-r-1 m-r-0">
         <BaseButton
@@ -77,6 +80,8 @@ export default {
     ...mapGetters('article', ['sell_articles']),
     ...mapGetters('price_type', ['salePriceTypes']),
     ...mapGetters('sale_type', ['saleTypes']),
+    ...mapGetters('workspace', ['isEscaleMarketWorkspace']),
+    ...mapGetters('cashier_session', ['currentSessionEnterpriseId']),
     searchArticleField: {
       get() {
         return null;
@@ -111,9 +116,18 @@ export default {
 
     articles() {
       return this.sell_articles.map((article) => {
-        const price = article.prices.find(
+        let price = article.prices.find(
           (p) => p.price_type_id === this.salePriceTypeField
         );
+        if (this.currentSessionEnterpriseId && price?.customs?.length) {
+          const specificPrice = price.customs.find(
+            (pc) =>
+              pc.enterprise_id === this.currentSessionEnterpriseId &&
+              pc.price_id === price.id
+          );
+          if (specificPrice !== undefined)
+            price = { ...price, value: specificPrice.value };
+        }
         const haveStock = getStockExitLineArticleStock(article) > 0;
         return {
           label: `${article.name}`,
@@ -166,7 +180,10 @@ export default {
         this.$store
           .dispatch('article/getArticlesList', {
             page: 1,
-            field: { next: true },
+            field: {
+              next: true,
+              enterprise_id: this.currentSessionEnterpriseId,
+            },
           })
           .then(() => this.$store.dispatch('setGlobalLoading', false));
       }

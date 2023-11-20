@@ -3,7 +3,9 @@
     <SaleSessionHeader />
 
     <form @submit.prevent="handleSaleProcessButton">
-      <div class="card-body pb-2">
+      <div
+        :class="`card-body pb-2 ${isEscaleMarketWorkspace ? 'mt-1 pt-1' : ''}`"
+      >
         <div class="row align-items-center">
           <SaleSessionSelectedArticleList />
         </div>
@@ -23,6 +25,7 @@ import SaleSessionState from '/@/components/sales/session/SaleSessionState.vue';
 import store from '/@/store/index';
 import { moduleCode } from '/@/helpers/codes';
 import ModuleSyncMixin from '/@/mixins/ModuleSyncMixin';
+import { mapGetters } from 'vuex';
 
 export default {
   name: 'CashierSessionPage',
@@ -33,44 +36,46 @@ export default {
   },
   mixins: [ModuleSyncMixin],
   beforeRouteEnter(routeTo, routeFrom, next) {
-    const hash = store.getters['product/getProductsHash'];
+    // const hash = store.getters['product/getProductsHash'];
     const cashier_id =
       store.getters['cashier_session/currentSession'].cashier_id;
-    if (hash) {
-      return Promise.all([
-        store.dispatch('initModuleSynchronisation', {
-          module: moduleCode.products,
-          hash: hash,
-          mutation: 'product',
-        }),
-        store.dispatch('sale/getCashierSaleList', { cashier_id }),
-      ]).finally(() => next());
-    } else {
-      const field = { page: 1, field: {} };
-      return Promise.all([
-        store.dispatch('article/getArticlesList', field),
-        store.dispatch('customer/getCustomersList', field),
-        store.dispatch('tax/getTaxesList', field),
-        store.dispatch('sale/getCashierSaleList', { cashier_id }),
-        store.dispatch('price_type/getPriceTypeList', field),
-        store.dispatch('getLastHash', moduleCode.products).then((data) => {
-          store.commit('product/SET_PRODUCTS_HASH', data.hash);
-          return data;
-        }),
-      ])
-        .then(() => next())
-        .catch((error) => {
-          console.log(error);
-          next();
-        });
-    }
+    // if (hash) {
+    //   return Promise.all([
+    //     store.dispatch('initModuleSynchronisation', {
+    //       module: moduleCode.products,
+    //       hash: hash,
+    //       mutation: 'product',
+    //     }),
+    //     store.dispatch('sale/getCashierSaleList', { cashier_id }),
+    //   ]).finally(() => next());
+    // } else {
+    const field = { page: 1, field: {} };
+    return Promise.all([
+      store.dispatch('article/getArticlesList', field),
+      store.dispatch('customer/getCustomersList', field),
+      store.dispatch('tax/getTaxesList', field),
+      store.dispatch('sale/getCashierSaleList', { cashier_id }),
+      store.dispatch('price_type/getPriceTypeList', field),
+      // store.dispatch('getLastHash', moduleCode.products).then((data) => {
+      //   store.commit('product/SET_PRODUCTS_HASH', data.hash);
+      //   return data;
+      // }),
+    ])
+      .then(() => next())
+      .catch((error) => {
+        console.log(error);
+        next();
+      });
+    // }
   },
-
   data() {
     return {
       loading: false,
       errors: [],
     };
+  },
+  computed: {
+    ...mapGetters('printer', ['printAfterSale']),
   },
   created() {
     this.initEchoSync(moduleCode.products, 'product');

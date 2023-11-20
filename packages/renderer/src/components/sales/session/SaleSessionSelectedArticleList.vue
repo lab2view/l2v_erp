@@ -34,7 +34,7 @@
   <div class="col-auto">
     <BaseButton
       type="button"
-      :text="$t('common.remove_all_in_list')"
+      :text="deleteListText"
       class="btn btn-outline-secondary"
       icon="fa fa-trash"
       :disabled="!isCurrentSaleHaveArticle"
@@ -57,6 +57,12 @@ export default {
       'isCurrentSaleHaveArticle',
       'getCurrentSaleArticleCount',
     ]),
+    ...mapGetters('workspace', ['isEscaleMarketWorkspace']),
+    deleteListText() {
+      return this.isEscaleMarketWorkspace
+        ? this.$t('common.remove_all_in_list_2')
+        : this.$t('common.remove_all_in_list');
+    },
   },
 };
 </script>

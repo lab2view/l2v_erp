@@ -360,7 +360,7 @@ export default {
         code: null,
         description: null,
         image: null,
-        weight: null,
+        weight: 1,
         price: null,
         disabled_at: null,
         can_be_sell: true,

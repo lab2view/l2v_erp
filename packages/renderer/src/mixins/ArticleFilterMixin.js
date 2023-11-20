@@ -10,6 +10,7 @@ export default {
         package_id: null,
         sell_price_not_set: false,
         price_type_id: null,
+        enterprise_id: null,
       },
     };
   },
@@ -19,6 +20,7 @@ export default {
     ...mapGetters('product_type', ['productTypes']),
     ...mapGetters('product_unit', ['productUnits']),
     ...mapGetters('package', ['packages']),
+    ...mapGetters('enterprise', ['enterprises']),
     articles() {
       return this.getArticlesByFilter(this.articleFilter);
     },

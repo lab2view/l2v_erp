@@ -19,7 +19,7 @@ export default {
     haveSalePrice() {
       return (
         this.article?.prices?.find(
-          (p) => p.price_type.code === priceTypeCode.sell
+          (p) => p.price_type?.code === priceTypeCode.sell
         ) !== undefined
       );
     },

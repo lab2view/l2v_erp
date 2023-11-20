@@ -304,6 +304,10 @@ export default {
   created() {
     if (this.user && this.user.id) {
       this.userForm = this.user;
+      delete this.userForm.country;
+      delete this.userForm.privileges;
+      delete this.userForm.role;
+      delete this.userForm.enterprise;
       this.is_edited = true;
     }
     if (this.enterprise_id)

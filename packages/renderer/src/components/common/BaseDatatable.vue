@@ -7,19 +7,24 @@
   />
 
   <div v-else class="product-table">
-    <table id="datatable-dt" class="display" style="width: 100%;">
+    <table id="datatable-dt" class="display" style="width: 100%">
       <thead>
-      <tr>
-        <slot name="headers"/>
-      </tr>
+        <tr>
+          <slot name="headers" />
+        </tr>
       </thead>
       <tbody>
-      <slot></slot>
+        <slot></slot>
       </tbody>
+      <tfoot v-if="tfootExtension">
+        <tr>
+          <slot name="extension" />
+        </tr>
+      </tfoot>
       <tfoot v-if="tfoot">
-      <tr>
-        <slot name="footers"/>
-      </tr>
+        <tr>
+          <slot name="footers" />
+        </tr>
       </tfoot>
     </table>
   </div>
@@ -30,9 +35,13 @@ import BaseEmptyModelList from './BaseEmptyModelList.vue';
 
 export default {
   name: 'BaseDatatable',
-  components: {BaseEmptyModelList},
+  components: { BaseEmptyModelList },
   props: {
     tfoot: {
+      type: Boolean,
+      default: false,
+    },
+    tfootExtension: {
       type: Boolean,
       default: false,
     },

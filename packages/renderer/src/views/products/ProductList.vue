@@ -58,6 +58,21 @@
               />
             </BaseFieldGroup>
           </div>
+          <div class="col-md">
+            <BaseFieldGroup
+              :with-refresh="true"
+              :with-append="false"
+              refresh-action-name="enterprise/getEnterprisesList"
+            >
+              <BaseSelect
+                v-model.number="productFilter.enterprise_id"
+                :options="enterprises"
+                key-label="name"
+                key-value="id"
+                :placeholder="`${$t('common.attributes.structure')} ?`"
+              />
+            </BaseFieldGroup>
+          </div>
         </div>
         <div v-if="filterableProperties.length" class="row mb-2">
           <div
@@ -189,6 +204,7 @@ export default {
         product_family_id: null,
         product_type_id: null,
         product_unit_id: null,
+        enterprise_id: null,
         properties: {},
       },
     };
@@ -199,6 +215,7 @@ export default {
     ...mapGetters('product_type', ['productTypes']),
     ...mapGetters('product_unit', ['productUnits']),
     ...mapGetters('property', ['properties']),
+    ...mapGetters('enterprise', ['enterprises']),
     filterableProperties() {
       return this.properties.filter((p) => p.property_type.is_list);
     },

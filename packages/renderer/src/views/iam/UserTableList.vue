@@ -29,7 +29,7 @@
           <BaseFieldGroup
             :with-append="false"
             :with-refresh="true"
-            refresh-action-name="enterprise/getEnterprisesList"
+            refresh-action-name="country/getCountriesList"
           >
             <BaseSelect
               v-model.number="countryId"

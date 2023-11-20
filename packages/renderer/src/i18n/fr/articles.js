@@ -6,11 +6,11 @@ export default {
   detail: {
     title: 'Details article',
     price: {
-      title: 'Prix',
+      title: 'Configuration des prix',
       update: 'Le prix a bien ete modifie',
     },
     composition: {
-      title: 'Liste des compositions',
+      title: 'Gestion des compositions',
 
       config: {
         title: 'Liste des composantes',
