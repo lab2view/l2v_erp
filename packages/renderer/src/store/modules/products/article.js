@@ -58,9 +58,14 @@ const getters = {
             2
           )}) ${name}`;
         else name = `(${getStockExitLineArticleStock(a)}) ${name}`;
+
+        if (rootGetters['workspace/isEscaleMarketWorkspace']) {
+          name = a.product.name;
+          if (a.product.code) name = `${a.product.code} / ${name}`;
+        }
         return {
           ...a,
-          name: name,
+          name,
         };
       }),
   article: (state) => (state.article ? JSON.parse(state.article) : null),

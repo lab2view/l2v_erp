@@ -39,31 +39,30 @@ const actions = {
   },
 
   printSaleBill({ getters, rootGetters }, saleOrder) {
-    if (getters.getDefaultPrinter) {
-      let cpj = new ClientPrintJob();
-      cpj.clientPrinter = new InstalledPrinter(getters.getDefaultPrinter);
+    // if (getters.getDefaultPrinter) {
+    //   let cpj = new ClientPrintJob();
+    //   cpj.clientPrinter = new InstalledPrinter(getters.getDefaultPrinter);
 
-      const workspace = rootGetters['workspace/currentWorkspace'];
-      let enterprise =
-        saleOrder.enterprise ?? rootGetters['workspace/currentWorkspace'];
-      cpj.printerCommands =
-        getPrinterRawText({
-          ...saleOrder,
-          enterprise: {
-            ...enterprise,
-            currency: enterprise.currency ?? workspace.currency,
-            slogan: enterprise.slogan ?? workspace.slogan,
-            matriculation: enterprise.matriculation ?? workspace.matriculation,
-            trade_register:
-              enterprise.trade_register ?? workspace.trade_register,
-            phone: enterprise.phone ?? workspace.phone,
-            domain: workspace.domain,
-          },
-        }) +
-        ('\x1D' + '\x56' + '\x00'); //other cut command '\x1D' + '\x56'  + '\x30'
-      //Send print job to printer!
-      cpj.sendToClient().then((r) => console.log(r));
-    } else alert("SELECTIONNER l'IMPRIMANTE");
+    const workspace = rootGetters['workspace/currentWorkspace'];
+    let enterprise =
+      saleOrder.enterprise ?? rootGetters['workspace/currentWorkspace'];
+    // cpj.printerCommands =
+    getPrinterRawText({
+      ...saleOrder,
+      enterprise: {
+        ...enterprise,
+        currency: enterprise.currency ?? workspace.currency,
+        slogan: enterprise.slogan ?? workspace.slogan,
+        matriculation: enterprise.matriculation ?? workspace.matriculation,
+        trade_register: enterprise.trade_register ?? workspace.trade_register,
+        phone: enterprise.phone ?? workspace.phone,
+        domain: workspace.domain,
+      },
+    }) +
+      ('\x1D' + '\x56' + '\x00'); //other cut command '\x1D' + '\x56'  + '\x30'
+    //Send print job to printer!
+    // cpj.sendToClient().then((r) => console.log(r));
+    //   } else alert("SELECTIONNER l'IMPRIMANTE");
   },
 };
 

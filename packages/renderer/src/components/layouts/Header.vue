@@ -212,13 +212,18 @@ export default defineComponent({
       'workspaceExternalShopLink',
       'isWoodinWorkspace',
       'isGilsSportWorkspace',
+      'isEscaleMarketWorkspace',
     ]),
     ...mapGetters('auth', ['currentUser']),
     enterpriseName() {
       return this.currentUser?.enterprise?.name ?? this.currentWorkspace.name;
     },
     logoutText() {
-      return this.isSaleSession ? 'Fermer la session' : 'Deconnexion';
+      return this.isSaleSession
+        ? this.isEscaleMarketWorkspace
+          ? ''
+          : 'Fermer'
+        : 'Deconnexion';
     },
     headerModeIconClass() {
       return this.dark_mode ? 'fa fa-lightbulb-o' : 'fa fa-moon-o';
