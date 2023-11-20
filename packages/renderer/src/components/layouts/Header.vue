@@ -33,6 +33,9 @@
               <template v-if="isEscaleMarketWorkspace">
                 {{ truncate(enterpriseName.toString().toUpperCase(), 15) }}
               </template>
+              <template v-else>
+                {{ enterpriseName.toString().toUpperCase() }}
+              </template>
             </template>
             <template v-else>
               <img

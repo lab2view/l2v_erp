@@ -25,6 +25,7 @@ import SaleSessionState from '/@/components/sales/session/SaleSessionState.vue';
 import store from '/@/store/index';
 import { moduleCode } from '/@/helpers/codes';
 import ModuleSyncMixin from '/@/mixins/ModuleSyncMixin';
+import { mapGetters } from 'vuex';
 
 export default {
   name: 'CashierSessionPage',
@@ -67,7 +68,6 @@ export default {
       });
     // }
   },
-
   data() {
     return {
       loading: false,
@@ -79,6 +79,9 @@ export default {
     this.$store.dispatch('printer/initPrint').then(() => {
       this.$store.dispatch('printer/getInstalledPrinters');
     });
+  },
+  computed: {
+    ...mapGetters('printer', ['printAfterSale']),
   },
   methods: {
     handleSaleProcessButton() {
