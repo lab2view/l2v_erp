@@ -75,19 +75,17 @@ export default {
       if (this.price) {
         if (this.enterpriseId) {
           if (this.customPrice)
-            return this.$store.dispatch('article/updatePrice', {
+            return this.$store.dispatch('article/updateCustomPrice', {
               ...this.customPrice,
               value,
             });
           else
-            return this.$store.dispatch('article/addPrices', {
-              prices: [
-                {
-                  value: value,
-                  price_type_id: this.priceType.id,
-                  enterprise_id: this.enterpriseId,
-                },
-              ],
+            return this.$store.dispatch('article/addCustomPrice', {
+              customPrice: {
+                value: value,
+                enterprise_id: this.enterpriseId,
+              },
+              price_id: this.price.id,
             });
         } else
           return this.$store.dispatch('article/updatePrice', {

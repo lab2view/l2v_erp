@@ -42,7 +42,7 @@
           <label
             v-for="(quantity, index) in sale.quantities"
             :key="`qty-${index}`"
-            class="f-w-700 m-r-5"
+            class="f-w-700 m-r-5 f-12"
           >
             {{ quantity.total }}
             <i class="f-w-400">{{ quantity.unit }}</i>

@@ -433,12 +433,30 @@ const actions = {
         commit('ADD_PRICES', data.prices);
       });
   },
+  addCustomPrice({ commit }, { customPrice, price_id }) {
+    return articleService
+      .addCustomPrice(customPrice, price_id)
+      .then(({ data }) => {
+        commit('ADD_CUSTOM_PRICE', data.custom);
+      });
+  },
   updateOrCreatePrices(context, priceFields) {
     return priceService.updateOrCreate({ prices: priceFields });
   },
   updatePrice({ commit }, price) {
     return articleService.updatePrice(price).then(({ data }) => {
       commit('UPDATE_PRICE', data);
+      notify(
+        i18n.global.t('articles.detail.price.update'),
+        'Ok',
+        'theme',
+        'fa fa-check'
+      );
+    });
+  },
+  updateCustomPrice({ commit }, customPrice) {
+    return articleService.updateCustomPrice(customPrice).then(({ data }) => {
+      commit('UPDATE_CUSTOM_PRICE', data);
       notify(
         i18n.global.t('articles.detail.price.update'),
         'Ok',
@@ -596,6 +614,24 @@ const mutations = {
       state.articles = JSON.stringify(articles);
     }
   },
+  ADD_CUSTOM_PRICE(state, customPrice) {
+    console.log(customPrice);
+    let articles = state.articles ? JSON.parse(state.articles) : [];
+    let article = JSON.parse(state.article);
+    let index = articles.findIndex((a) => a.id === article.id);
+    if (index !== -1) {
+      article.prices = article.prices.map((ap) => {
+        return {
+          ...ap,
+          customs: [...ap.customs, customPrice],
+        };
+      });
+
+      articles.splice(index, 1, article);
+      state.article = JSON.stringify(article);
+      state.articles = JSON.stringify(articles);
+    }
+  },
   UPDATE_PRICE(state, price) {
     let articles = state.articles ? JSON.parse(state.articles) : [];
     let article = JSON.parse(state.article);
@@ -608,6 +644,24 @@ const mutations = {
         state.article = JSON.stringify(article);
         state.articles = JSON.stringify(articles);
       }
+    }
+  },
+  UPDATE_CUSTOM_PRICE(state, customPrice) {
+    let articles = state.articles ? JSON.parse(state.articles) : [];
+    let article = JSON.parse(state.article);
+    let index = articles.findIndex((a) => a.id === article.id);
+    if (index !== -1) {
+      article.prices = article.prices.map((ap) => {
+        return {
+          ...ap,
+          customs: ap.customs.map((pc) => {
+            return pc.id === customPrice.id ? customPrice : pc;
+          }),
+        };
+      });
+      articles.splice(index, 1, article);
+      state.article = JSON.stringify(article);
+      state.articles = JSON.stringify(articles);
     }
   },
   REMOVE_PRICES(state, prices) {

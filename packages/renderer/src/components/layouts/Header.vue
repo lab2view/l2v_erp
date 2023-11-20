@@ -1,34 +1,49 @@
 <template>
   <div class="page-main-header" :class="sliderMenuClass">
     <div class="main-header-right row m-0">
-      <div class="main-header-left">
-        <div class="logo-wrapper">
+      <div
+        class="main-header-left"
+        :class="isEscaleMarketWorkspace ? 'pt-2 pb-2' : ''"
+      >
+        <div class="logo-wrapper" :title="enterpriseName">
           <a href="/" class="text-dark f-14 f-w-500">
-            <img
-              v-if="isGilsSportWorkspace"
-              alt=""
-              width="30"
-              height="90"
-              class="img-fluid m-r-5"
-              src="../../assets/images/logo/logo-gils.jpeg"
-            />
-            <img
-              v-else-if="isWoodinWorkspace"
-              alt=""
-              width="30"
-              height="90"
-              class="img-fluid m-r-5"
-              src="../../assets/images/logo/logo.jpg"
-            />
-            <img
-              v-else
-              alt=""
-              width="30"
-              height="90"
-              class="img-fluid m-r-5"
-              src="../../assets/images/logo/logo-1.png"
-            />
-            {{ enterpriseName.toString().toUpperCase() }}
+            <template
+              v-if="
+                isEscaleMarketWorkspace ||
+                isGilsSportWorkspace ||
+                isWoodinWorkspace
+              "
+            >
+              <img
+                v-if="isGilsSportWorkspace"
+                alt=""
+                width="30"
+                height="90"
+                class="img-fluid m-r-5"
+                src="../../assets/images/logo/logo-gils.jpeg"
+              />
+              <img
+                v-else-if="isWoodinWorkspace"
+                alt=""
+                width="30"
+                height="90"
+                class="img-fluid m-r-5"
+                src="../../assets/images/logo/logo.jpg"
+              />
+              <template v-if="isEscaleMarketWorkspace">
+                {{ truncate(enterpriseName.toString().toUpperCase(), 15) }}
+              </template>
+            </template>
+            <template v-else>
+              <img
+                alt=""
+                width="30"
+                height="90"
+                class="img-fluid m-r-5"
+                src="../../assets/images/logo/logo-1.png"
+              />
+              {{ enterpriseName.toString().toUpperCase() }}
+            </template>
           </a>
         </div>
         <div class="dark-logo-wrapper">
@@ -69,7 +84,10 @@
           ></i>
         </div>
       </div>
-      <div class="left-menu-header col">
+      <div
+        class="left-menu-header col"
+        :class="isEscaleMarketWorkspace ? 'pt-2 pb-2' : ''"
+      >
         <ul class="row">
           <li class="col">
             <form
@@ -99,7 +117,10 @@
         </ul>
       </div>
       <div class="nav-right col pull-right right-menu p-0">
-        <ul class="nav-menus">
+        <ul
+          class="nav-menus"
+          :class="isEscaleMarketWorkspace ? 'pt-2 pb-2' : ''"
+        >
           <li
             v-if="isSaleSession"
             :title="`${cashierName} - ${cashRegisterName}`"

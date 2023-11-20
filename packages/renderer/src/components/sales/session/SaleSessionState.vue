@@ -20,7 +20,6 @@
             >
               <BaseSelect
                 v-model="customer"
-                class="form-control-sm"
                 :options="getCustomerForSelect2"
                 :searchable="true"
                 :placeholder="$t('common.fields.add_customer')"
