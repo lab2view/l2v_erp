@@ -81,6 +81,7 @@ export default {
     ...mapGetters('price_type', ['salePriceTypes']),
     ...mapGetters('sale_type', ['saleTypes']),
     ...mapGetters('workspace', ['isEscaleMarketWorkspace']),
+    ...mapGetters('cashier_session', ['currentSession']),
     searchArticleField: {
       get() {
         return null;
@@ -115,9 +116,22 @@ export default {
 
     articles() {
       return this.sell_articles.map((article) => {
-        const price = article.prices.find(
+        let price = article.prices.find(
           (p) => p.price_type_id === this.salePriceTypeField
         );
+        if (
+          this.currentSession?.cash_register.enterprise_id &&
+          price?.customs?.length
+        ) {
+          const specificPrice = price.customs.find(
+            (pc) =>
+              pc.enterprise_id ===
+                this.currentSession.cash_register.enterprise_id &&
+              pc.price_id === price.id
+          );
+          if (specificPrice !== undefined)
+            price = { ...price, value: specificPrice.value };
+        }
         const haveStock = getStockExitLineArticleStock(article) > 0;
         return {
           label: `${article.name}`,

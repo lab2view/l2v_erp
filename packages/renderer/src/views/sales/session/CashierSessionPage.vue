@@ -35,37 +35,37 @@ export default {
   },
   mixins: [ModuleSyncMixin],
   beforeRouteEnter(routeTo, routeFrom, next) {
-    const hash = store.getters['product/getProductsHash'];
+    // const hash = store.getters['product/getProductsHash'];
     const cashier_id =
       store.getters['cashier_session/currentSession'].cashier_id;
-    if (hash) {
-      return Promise.all([
-        store.dispatch('initModuleSynchronisation', {
-          module: moduleCode.products,
-          hash: hash,
-          mutation: 'product',
-        }),
-        store.dispatch('sale/getCashierSaleList', { cashier_id }),
-      ]).finally(() => next());
-    } else {
-      const field = { page: 1, field: {} };
-      return Promise.all([
-        store.dispatch('article/getArticlesList', field),
-        store.dispatch('customer/getCustomersList', field),
-        store.dispatch('tax/getTaxesList', field),
-        store.dispatch('sale/getCashierSaleList', { cashier_id }),
-        store.dispatch('price_type/getPriceTypeList', field),
-        store.dispatch('getLastHash', moduleCode.products).then((data) => {
-          store.commit('product/SET_PRODUCTS_HASH', data.hash);
-          return data;
-        }),
-      ])
-        .then(() => next())
-        .catch((error) => {
-          console.log(error);
-          next();
-        });
-    }
+    // if (hash) {
+    //   return Promise.all([
+    //     store.dispatch('initModuleSynchronisation', {
+    //       module: moduleCode.products,
+    //       hash: hash,
+    //       mutation: 'product',
+    //     }),
+    //     store.dispatch('sale/getCashierSaleList', { cashier_id }),
+    //   ]).finally(() => next());
+    // } else {
+    const field = { page: 1, field: {} };
+    return Promise.all([
+      store.dispatch('article/getArticlesList', field),
+      store.dispatch('customer/getCustomersList', field),
+      store.dispatch('tax/getTaxesList', field),
+      store.dispatch('sale/getCashierSaleList', { cashier_id }),
+      store.dispatch('price_type/getPriceTypeList', field),
+      // store.dispatch('getLastHash', moduleCode.products).then((data) => {
+      //   store.commit('product/SET_PRODUCTS_HASH', data.hash);
+      //   return data;
+      // }),
+    ])
+      .then(() => next())
+      .catch((error) => {
+        console.log(error);
+        next();
+      });
+    // }
   },
 
   data() {

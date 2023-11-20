@@ -16,6 +16,8 @@ export default {
   visible_by_all_structures: 'Visible par toute les structues',
   right_click_to_delete: 'Clic droit sur le nom pour supprimer une structure',
 
+  delete_specific_price: 'Retirer le prix spécifique',
+
   errors: {
     password_not_match: 'Les mots de passe ne correspondent pas',
   },

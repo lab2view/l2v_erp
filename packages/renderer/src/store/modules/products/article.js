@@ -477,6 +477,11 @@ const actions = {
         commit('REMOVE_PRICES', pricesIds);
       });
   },
+  removeCustomPrice({ commit }, customPriceId) {
+    return articleService.deleteCustomPrice(customPriceId).then(() => {
+      commit('REMOVE_CUSTOM_PRICE', customPriceId);
+    });
+  },
 
   addCompositionPresets({ getters, commit }, articles) {
     return articleService
@@ -615,7 +620,6 @@ const mutations = {
     }
   },
   ADD_CUSTOM_PRICE(state, customPrice) {
-    console.log(customPrice);
     let articles = state.articles ? JSON.parse(state.articles) : [];
     let article = JSON.parse(state.article);
     let index = articles.findIndex((a) => a.id === article.id);
@@ -671,6 +675,23 @@ const mutations = {
     if (index !== -1) {
       article.prices = article.prices.filter((ap) => {
         return prices.find((p) => p === ap.id) === undefined;
+      });
+      articles.splice(index, 1, article);
+      state.article = JSON.stringify(article);
+      state.articles = JSON.stringify(articles);
+    }
+  },
+
+  REMOVE_CUSTOM_PRICE(state, customPriceId) {
+    let articles = state.articles ? JSON.parse(state.articles) : [];
+    let article = JSON.parse(state.article);
+    let index = articles.findIndex((a) => a.id === article.id);
+    if (index !== -1) {
+      article.prices = article.prices.map((ap) => {
+        return {
+          ...ap,
+          customs: ap.customs.filter((c) => c.id !== customPriceId),
+        };
       });
       articles.splice(index, 1, article);
       state.article = JSON.stringify(article);

@@ -1,7 +1,22 @@
 <template>
   <tr>
     <td>{{ priceType.label }}</td>
-    <td>{{ priceStateLabel }}</td>
+    <td>
+      <div class="row align-content-center">
+        <div class="col">{{ priceStateLabel }}</div>
+        <div class="col-auto">
+          <a
+            v-if="customPrice"
+            href="#"
+            class="text-danger"
+            :title="$t('messages.delete_specific_price')"
+            @click.prevent="removeCustomPrice"
+          >
+            <i class="fa fa-times m-r-5" /> Retirer
+          </a>
+        </div>
+      </div>
+    </td>
     <td style="width: 250px">
       <BaseUpdateNumberForm
         prefix="XAF"
@@ -48,7 +63,9 @@ export default {
       if (this.enterpriseId) {
         if (this.price?.customs?.length) {
           const custom = this.price.customs.find(
-            (cp) => cp.enterpriseId === this.enterpriseId
+            (cp) =>
+              cp.enterprise_id === this.enterpriseId &&
+              cp.price_id === this.price.id
           );
           if (custom !== undefined) return custom;
         }
@@ -96,6 +113,18 @@ export default {
         return this.$store.dispatch('article/addPrices', {
           prices: [{ value: value, price_type_id: this.priceType.id }],
         });
+      }
+    },
+    removeCustomPrice() {
+      if (
+        confirm(
+          this.$t('messages.confirmDelete', { label: this.customPrice.value })
+        )
+      ) {
+        return this.$store.dispatch(
+          'article/removeCustomPrice',
+          this.customPrice.id
+        );
       }
     },
   },

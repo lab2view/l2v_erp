@@ -5,9 +5,9 @@
   >
     <div class="card">
       <div class="card-header">
-        <h5 class="pull-left">
+        <h6 class="pull-left">
           {{ `#${article.name}` }}
-        </h5>
+        </h6>
       </div>
       <div class="card-body p-0">
         <div class="tabbed-card">

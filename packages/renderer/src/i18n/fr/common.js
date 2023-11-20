@@ -172,7 +172,7 @@ export default {
     no: 'Non',
     enabled: 'Active',
     disabled: 'Desactive',
-    custom_price: 'Specifique',
+    custom_price: 'Spécifique',
     global_price: 'General',
   },
 
