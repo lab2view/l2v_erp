@@ -1,11 +1,12 @@
 <template>
-  <div>
+  <div :class="{ 'p-1': isCashierSession }">
     <BaseDatatable
       v-if="!$store.state.globalLoading"
       :tfoot="true"
       :total="sales.length"
       :scroll-x="isCashierSession ? '60%' : false"
       :scroll-y="isCashierSession ? '85%' : false"
+      :tfoot-extension="true"
     >
       <template #headers>
         <th>#</th>
@@ -104,6 +105,28 @@
           </label>
         </th>
       </template>
+      <template v-if="isCashierSession" #extension>
+        <th class="text-end">
+          <label class="f-w-700 m-r-5">{{
+            $t('common.sale.payment_method_stat')
+          }}</label>
+        </th>
+        <th colspan="6" class="text-center">
+          <div class="row align-items-center">
+            <div
+              v-for="(paymentMethodStat, index) in paymentMethodStats"
+              :key="`stat-${index}`"
+              class="col"
+            >
+              <span class="f-w-600">{{ paymentMethodStat.label }} </span>
+              <br />
+              <span class="font-primary f-w-600">
+                {{ `${paymentMethodStat.totalAmount} ${currency}` }}
+              </span>
+            </div>
+          </div>
+        </th>
+      </template>
     </BaseDatatable>
   </div>
 </template>
@@ -112,7 +135,7 @@
 import BaseDatatable from '/@/components/common/BaseDatatable.vue';
 import { mapGetters } from 'vuex';
 import { getSaleAmount } from '/@/helpers/utils';
-import _ from 'lodash';
+import _, { sumBy } from 'lodash';
 import BaseActionBtnGroup from '/@/components/common/BaseActionBtnGroup.vue';
 
 export default {
@@ -131,6 +154,7 @@ export default {
   computed: {
     ...mapGetters('auth', ['isRoleAdmin', 'canShowSaleReportsMargin']),
     ...mapGetters('workspace', ['currency']),
+    ...mapGetters('payment_method', ['paymentMethods']),
     footerTotalColspan() {
       return this.isCashierSession ? 0 : this.canShowSaleReportsMargin ? 2 : 1;
     },
@@ -174,6 +198,17 @@ export default {
     },
     showTotalWinAmount() {
       return !this.isCashierSession && this.canShowSaleReportsMargin;
+    },
+    paymentMethodStats() {
+      return this.paymentMethods.map((paymentMethod) => {
+        return {
+          label: paymentMethod.label,
+          totalAmount: sumBy(
+            this.sales.filter((s) => s.payment_method_id === paymentMethod.id),
+            'sale_amount'
+          ),
+        };
+      });
     },
   },
   methods: {

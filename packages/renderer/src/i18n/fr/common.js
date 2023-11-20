@@ -125,6 +125,7 @@ export default {
     discount_selected:
       'Reduction appliquee !!! Veuillez Enregistrer pour confirmer',
     discount_note: 'Une reduction deja appliquee ! Annuler pour changer',
+    payment_method_stat: 'Paiements',
   },
 
   discount_valid_code: 'Le code de reduction est valide',

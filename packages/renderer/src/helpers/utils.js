@@ -255,6 +255,7 @@ export function transformSaleForTable(sale) {
     sup_amount: totalSupPrice,
     discount: saleDiscount,
     sale_amount,
+    payment_method_id: sale.cashier_session_collections[0].payment_method_id,
     created_at: sale.created_at,
     sale_win_amount: parseFloat(sale_win_amount),
     sale_win_amount_percent:
