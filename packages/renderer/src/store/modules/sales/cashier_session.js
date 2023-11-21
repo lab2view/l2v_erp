@@ -34,6 +34,8 @@ const state = {
 const getters = {
   cashierSessions: (state) => state.cashier_sessions,
   currentSession: (state) => state.current_session,
+  currentSessionEnterpriseId: (state, getters) =>
+    getters.currentSession?.cash_register?.enterprise_id ?? null,
   currentSaleRequest: (state) => state.currentSaleRequest,
   stock_exit_lines: (state) => state.currentSaleRequest.stock_exit_lines,
   isCurrentSaleHaveArticle: (state, getters) => getters.stock_exit_lines.length,

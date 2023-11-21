@@ -35,6 +35,11 @@ const getters = {
         select = article.product?.product_unit_id === filter.product_unit_id;
       if (select && filter.package_id)
         select = article.package_id === filter.package_id;
+      if (select && filter.enterprise_id)
+        select =
+          article.product?.enterprises.find(
+            (ent) => ent.id === filter.enterprise_id
+          ) !== undefined;
       if (select && filter.sell_price_not_set) {
         select =
           article.prices.find((p) =>
@@ -58,9 +63,14 @@ const getters = {
             2
           )}) ${name}`;
         else name = `(${getStockExitLineArticleStock(a)}) ${name}`;
+
+        if (rootGetters['workspace/isEscaleMarketWorkspace']) {
+          name = a.product.name;
+          if (a.product.code) name = `${a.product.code} / ${name}`;
+        }
         return {
           ...a,
-          name: name,
+          name,
         };
       }),
   article: (state) => (state.article ? JSON.parse(state.article) : null),
@@ -251,12 +261,18 @@ const getters = {
 };
 // privileges
 const actions = {
-  getArticlesList({ commit, getters, dispatch }, { page, field }) {
+  getArticlesList({ commit, getters, dispatch, rootGetters }, { page, field }) {
     if (getters.articles.length > 0 && !field.next) {
       return getters.articles;
     } else {
+      const enterprise_id =
+        field.enterprise_id ??
+        rootGetters['cashier_session/currentSessionEnterpriseId'] ??
+        rootGetters['auth/currentEnterpriseId'] ??
+        null;
+
       return articleService
-        .getList(page, { ...field, paginate: 50 })
+        .getList(page, { ...field, enterprise_id, paginate: 50 })
         .then(({ data }) => {
           commit('SET_ARTICLES', data);
 
@@ -428,12 +444,30 @@ const actions = {
         commit('ADD_PRICES', data.prices);
       });
   },
+  addCustomPrice({ commit }, { customPrice, price_id }) {
+    return articleService
+      .addCustomPrice(customPrice, price_id)
+      .then(({ data }) => {
+        commit('ADD_CUSTOM_PRICE', data.custom);
+      });
+  },
   updateOrCreatePrices(context, priceFields) {
     return priceService.updateOrCreate({ prices: priceFields });
   },
   updatePrice({ commit }, price) {
     return articleService.updatePrice(price).then(({ data }) => {
       commit('UPDATE_PRICE', data);
+      notify(
+        i18n.global.t('articles.detail.price.update'),
+        'Ok',
+        'theme',
+        'fa fa-check'
+      );
+    });
+  },
+  updateCustomPrice({ commit }, customPrice) {
+    return articleService.updateCustomPrice(customPrice).then(({ data }) => {
+      commit('UPDATE_CUSTOM_PRICE', data);
       notify(
         i18n.global.t('articles.detail.price.update'),
         'Ok',
@@ -453,6 +487,11 @@ const actions = {
       .then(() => {
         commit('REMOVE_PRICES', pricesIds);
       });
+  },
+  removeCustomPrice({ commit }, customPriceId) {
+    return articleService.deleteCustomPrice(customPriceId).then(() => {
+      commit('REMOVE_CUSTOM_PRICE', customPriceId);
+    });
   },
 
   addCompositionPresets({ getters, commit }, articles) {
@@ -591,6 +630,23 @@ const mutations = {
       state.articles = JSON.stringify(articles);
     }
   },
+  ADD_CUSTOM_PRICE(state, customPrice) {
+    let articles = state.articles ? JSON.parse(state.articles) : [];
+    let article = JSON.parse(state.article);
+    let index = articles.findIndex((a) => a.id === article.id);
+    if (index !== -1) {
+      article.prices = article.prices.map((ap) => {
+        return {
+          ...ap,
+          customs: [...ap.customs, customPrice],
+        };
+      });
+
+      articles.splice(index, 1, article);
+      state.article = JSON.stringify(article);
+      state.articles = JSON.stringify(articles);
+    }
+  },
   UPDATE_PRICE(state, price) {
     let articles = state.articles ? JSON.parse(state.articles) : [];
     let article = JSON.parse(state.article);
@@ -605,6 +661,24 @@ const mutations = {
       }
     }
   },
+  UPDATE_CUSTOM_PRICE(state, customPrice) {
+    let articles = state.articles ? JSON.parse(state.articles) : [];
+    let article = JSON.parse(state.article);
+    let index = articles.findIndex((a) => a.id === article.id);
+    if (index !== -1) {
+      article.prices = article.prices.map((ap) => {
+        return {
+          ...ap,
+          customs: ap.customs.map((pc) => {
+            return pc.id === customPrice.id ? customPrice : pc;
+          }),
+        };
+      });
+      articles.splice(index, 1, article);
+      state.article = JSON.stringify(article);
+      state.articles = JSON.stringify(articles);
+    }
+  },
   REMOVE_PRICES(state, prices) {
     let articles = state.articles ? JSON.parse(state.articles) : [];
     let article = JSON.parse(state.article);
@@ -612,6 +686,23 @@ const mutations = {
     if (index !== -1) {
       article.prices = article.prices.filter((ap) => {
         return prices.find((p) => p === ap.id) === undefined;
+      });
+      articles.splice(index, 1, article);
+      state.article = JSON.stringify(article);
+      state.articles = JSON.stringify(articles);
+    }
+  },
+
+  REMOVE_CUSTOM_PRICE(state, customPriceId) {
+    let articles = state.articles ? JSON.parse(state.articles) : [];
+    let article = JSON.parse(state.article);
+    let index = articles.findIndex((a) => a.id === article.id);
+    if (index !== -1) {
+      article.prices = article.prices.map((ap) => {
+        return {
+          ...ap,
+          customs: ap.customs.filter((c) => c.id !== customPriceId),
+        };
       });
       articles.splice(index, 1, article);
       state.article = JSON.stringify(article);

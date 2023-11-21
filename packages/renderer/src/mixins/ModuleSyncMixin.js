@@ -5,7 +5,7 @@ import { notify } from '/@/helpers/notify.js';
 
 export default {
   computed: {
-    ...mapGetters('workspace', ['databaseName']),
+    ...mapGetters('workspace', ['databaseName', 'isEscaleMarketWorkspace']),
     ...mapGetters('auth', ['currentUser']),
   },
   methods: {
