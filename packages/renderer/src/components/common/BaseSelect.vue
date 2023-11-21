@@ -8,6 +8,7 @@
     v-model="searchableValue"
     append-to-body
     class="form-control"
+    v-bind="$attrs"
     :options="options"
     :placeholder="placeholder ?? $t('common.choose')"
   />

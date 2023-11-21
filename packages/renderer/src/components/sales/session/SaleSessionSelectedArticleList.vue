@@ -4,15 +4,26 @@
       <table class="table table-lg table-hover">
         <thead class="table-primary">
           <tr>
-            <th>
+            <th :class="tableTitleClass">
               Articles
               <span v-if="getCurrentSaleArticleCount > 0">
                 ({{ getCurrentSaleArticleCount }})
               </span>
             </th>
-            <th>Prix Unit</th>
-            <th class="text-center" style="width: 220px">Qte</th>
-            <th>Total</th>
+            <th :class="tableTitleClass">Prix Unit</th>
+            <th
+              class="text-center"
+              :class="tableTitleClass"
+              :style="`width: ${saleScreenSmall ? 95 : 140}px`"
+            >
+              Qte
+            </th>
+            <th
+              :class="tableTitleClass"
+              :style="`width: ${saleScreenSmall ? 130 : 180}px`"
+            >
+              Total
+            </th>
           </tr>
         </thead>
         <tbody v-if="isCurrentSaleHaveArticle">
@@ -57,11 +68,14 @@ export default {
       'isCurrentSaleHaveArticle',
       'getCurrentSaleArticleCount',
     ]),
-    ...mapGetters('workspace', ['isEscaleMarketWorkspace']),
+    ...mapGetters('workspace', ['saleScreenSmall']),
     deleteListText() {
-      return this.isEscaleMarketWorkspace
+      return this.saleScreenSmall
         ? this.$t('common.remove_all_in_list_2')
         : this.$t('common.remove_all_in_list');
+    },
+    tableTitleClass() {
+      return this.saleScreenSmall ? 'p-2' : '';
     },
   },
 };

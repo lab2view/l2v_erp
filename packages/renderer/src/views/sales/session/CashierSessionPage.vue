@@ -3,9 +3,7 @@
     <SaleSessionHeader />
 
     <form @submit.prevent="handleSaleProcessButton">
-      <div
-        :class="`card-body pb-2 ${isEscaleMarketWorkspace ? 'mt-1 pt-1' : ''}`"
-      >
+      <div :class="`card-body pb-2 ${saleScreenSmall ? 'mt-1 pt-1' : ''}`">
         <div class="row align-items-center">
           <SaleSessionSelectedArticleList />
         </div>

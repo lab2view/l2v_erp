@@ -1,8 +1,5 @@
 <template>
-  <div
-    class="card-header mb-0 pb-0"
-    :class="{ 'mt-1 pt-0': isEscaleMarketWorkspace }"
-  >
+  <div class="card-header mb-0 pb-0" :class="{ 'mt-1 pt-0': saleScreenSmall }">
     <div class="row align-items-center">
       <div class="col-auto p-r-1 m-r-0">
         <BaseButton
@@ -80,7 +77,7 @@ export default {
     ...mapGetters('article', ['sell_articles']),
     ...mapGetters('price_type', ['salePriceTypes']),
     ...mapGetters('sale_type', ['saleTypes']),
-    ...mapGetters('workspace', ['isEscaleMarketWorkspace']),
+    ...mapGetters('workspace', ['saleScreenSmall']),
     ...mapGetters('cashier_session', ['currentSessionEnterpriseId']),
     searchArticleField: {
       get() {
