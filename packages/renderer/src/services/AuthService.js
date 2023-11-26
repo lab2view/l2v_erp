@@ -9,6 +9,10 @@ export default {
     return axios.post('/current-user/unlock-screen', passwordField);
   },
 
+  checkConfirmPin(field) {
+    return axios.post('/current-user/check-confirm-pin', field);
+  },
+
   logout() {
     return axios.get('/auth/logout');
   },

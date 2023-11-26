@@ -104,7 +104,7 @@
         class="float-end text-danger"
         :class="saleScreenSmall ? ' f-14' : ''"
         :title="$t('common.delete')"
-        @click.prevent="removeArticle"
+        @click.prevent="$emit('delete')"
       >
         <span class="fa fa-times"></span>
       </a>
@@ -114,12 +114,12 @@
 
 <script>
 import BaseInputGroup from '/@/components/common/BaseInputGroup.vue';
-import { getDefaultProductImage } from '/@/helpers/utils.js';
-import ArticleMixin from '/@/mixins/ArticleMixin.js';
+import { getDefaultProductImage } from '/@/helpers/utils';
+import ArticleMixin from '/@/mixins/ArticleMixin';
 import { mapGetters } from 'vuex';
 import BaseButton from '/@/components/common/BaseButton.vue';
 import BaseSelect from '/@/components/common/BaseSelect.vue';
-import { priceTypeCode } from '/@/helpers/codes.js';
+import { priceTypeCode } from '/@/helpers/codes';
 
 export default {
   components: { BaseSelect, BaseButton, BaseInputGroup },
@@ -127,11 +127,12 @@ export default {
   props: {
     index: { type: Number, default: null },
   },
-  emits: ['updated'],
+  emits: ['updated', 'delete'],
   data() {
     return {
       showFormPriceType: false,
       animation: false,
+      line_focus: false,
     };
   },
   computed: {
@@ -186,6 +187,7 @@ export default {
         return this.article.quantity;
       },
       set(value) {
+        this.line_focus = true;
         this.$store.commit(
           'cashier_session/UPDATE_CURRENT_REQUEST_ARTICLE_QUANTITY',
           {
@@ -204,7 +206,9 @@ export default {
       deep: true,
       handler() {
         this.$emit('updated');
-        this.startAnimation();
+        if (!this.line_focus) {
+          this.startAnimation();
+        } else this.resetFocusLine();
       },
     },
   },
@@ -219,17 +223,15 @@ export default {
         this.animation = false;
       }, 500);
     },
-    removeArticle() {
-      this.$store.commit(
-        'cashier_session/REMOVE_ARTICLE_TO_CURRENT_SALE_REQUEST',
-        this.article.article_id
-      );
+    resetFocusLine() {
+      setTimeout(() => (this.line_focus = false), 1000);
     },
     incrementArticleQuantity() {
       if (
         this.canSaleWithoutStock ||
         parseFloat(this.article.quantity) < this.totalStock
-      )
+      ) {
+        this.line_focus = true;
         this.$store.commit(
           'cashier_session/UPDATE_CURRENT_REQUEST_ARTICLE_QUANTITY',
           {
@@ -237,9 +239,11 @@ export default {
             quantity: parseFloat(this.article.quantity) + 1,
           }
         );
+      }
     },
     decrementArticleQuantity() {
-      if (parseFloat(this.article.quantity) > 1)
+      if (parseFloat(this.article.quantity) > 1) {
+        this.line_focus = true;
         this.$store.commit(
           'cashier_session/UPDATE_CURRENT_REQUEST_ARTICLE_QUANTITY',
           {
@@ -247,6 +251,7 @@ export default {
             quantity: parseFloat(this.article.quantity) - 1,
           }
         );
+      }
     },
   },
 };

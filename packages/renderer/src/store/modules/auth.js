@@ -87,6 +87,9 @@ const getters = {
   canShowSaleReportsMargin: (state, getters) => {
     return getters.canShowMenuItem(privilegeCode.sale.report.margin);
   },
+  currentUserHasConfirmationPin: (state, getters) => {
+    return !!getters.currentUser?.have_confirm_pin;
+  },
 };
 
 // privileges
@@ -146,6 +149,12 @@ const actions = {
   checkPassword({ commit }, passwordField) {
     return AuthService.checkPassword(passwordField).then(({ data }) => {
       commit('SET_UNLOCK_SCREEN', data.unlock);
+      return data;
+    });
+  },
+
+  checkConfirmPin(context, inputField) {
+    return AuthService.checkConfirmPin(inputField).then(({ data }) => {
       return data;
     });
   },

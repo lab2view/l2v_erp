@@ -33,6 +33,7 @@
             :key="`stock-exit-line-${article.article_id}`"
             :article="article"
             @updated="scrollToElement(`art-id-${article.article_id}`)"
+            @delete="initArticleDeletion(article.article_id)"
           />
         </tbody>
       </table>
@@ -43,6 +44,11 @@
         {{ $t('common.no_article_in_list').toUpperCase() }}
       </div>
     </div>
+    <ConfirmUserPin
+      v-if="article_id || confirm_pin"
+      @unlocked="confirm_pin ? resetCart() : removeArticle(article_id)"
+      @cancel="cancelConfirmation"
+    />
   </div>
   <div class="col-auto">
     <BaseButton
@@ -51,9 +57,7 @@
       class="btn btn-outline-secondary"
       icon="fa fa-trash"
       :disabled="!isCurrentSaleHaveArticle"
-      @click.prevent="
-        $store.commit('cashier_session/RESET_CURRENT_SALE_REQUEST')
-      "
+      @click.prevent="initResetCart"
     />
   </div>
 </template>
@@ -62,8 +66,15 @@
 import BaseButton from '/@/components/common/BaseButton.vue';
 import { mapGetters } from 'vuex';
 import SelectedArticleLine from '/@/components/sales/session/SelectedArticleLine.vue';
+import ConfirmUserPin from '/@/views/auth/ConfirmUserPin.vue';
 export default {
-  components: { SelectedArticleLine, BaseButton },
+  components: { ConfirmUserPin, SelectedArticleLine, BaseButton },
+  data() {
+    return {
+      article_id: null,
+      confirm_pin: false,
+    };
+  },
   computed: {
     ...mapGetters('cashier_session', [
       'stock_exit_lines',
@@ -71,6 +82,7 @@ export default {
       'getCurrentSaleArticleCount',
     ]),
     ...mapGetters('workspace', ['saleScreenSmall']),
+    ...mapGetters('auth', ['currentUserHasConfirmationPin']),
     deleteListText() {
       return this.saleScreenSmall
         ? this.$t('common.remove_all_in_list_2')
@@ -84,6 +96,29 @@ export default {
     scrollToElement(id) {
       const element = document.getElementById(id);
       element.scrollIntoView();
+    },
+    cancelConfirmation() {
+      this.article_id = null;
+      this.confirm_pin = false;
+    },
+    initArticleDeletion(article_id) {
+      if (this.currentUserHasConfirmationPin) this.article_id = article_id;
+      else this.removeArticle(article_id);
+    },
+    removeArticle(article_id) {
+      this.$store.commit(
+        'cashier_session/REMOVE_ARTICLE_TO_CURRENT_SALE_REQUEST',
+        article_id
+      );
+      this.article_id = null;
+    },
+    initResetCart() {
+      if (this.currentUserHasConfirmationPin) this.confirm_pin = true;
+      else this.$store.commit('cashier_session/RESET_CURRENT_SALE_REQUEST');
+    },
+    resetCart() {
+      this.$store.commit('cashier_session/RESET_CURRENT_SALE_REQUEST');
+      this.confirm_pin = false;
     },
   },
 };

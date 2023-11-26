@@ -8,7 +8,7 @@
       <a
         href="#"
         :title="$t('common.close')"
-        @click.prevent="removePendingRequest(index)"
+        @click.prevent="initRemovePendingRequest(index)"
       >
         <i class="icofont icofont-close me-3"></i>
       </a>
@@ -41,6 +41,11 @@
         </span>
       </div>
     </div>
+    <ConfirmUserPin
+      v-if="sale_request_index"
+      @unlocked="removePendingRequest(sale_request_index)"
+      @cancel="sale_request_index = null"
+    />
   </BaseVerticalPanel>
 </template>
 
@@ -48,13 +53,21 @@
 import BaseVerticalPanel from '/@/components/common/BaseVerticalPanel.vue';
 import { mapGetters } from 'vuex';
 import FilterMixin from '/@/mixins/FilterMixin.js';
+import ConfirmUserPin from '/@/views/auth/ConfirmUserPin.vue';
 
 export default {
-  components: { BaseVerticalPanel },
+  name: 'SalePendingRequest',
+  components: { ConfirmUserPin, BaseVerticalPanel },
   mixins: [FilterMixin],
+  data() {
+    return {
+      sale_request_index: null,
+    };
+  },
   computed: {
     ...mapGetters('cashier_session', ['saleRequests']),
     ...mapGetters('workspace', ['currency']),
+    ...mapGetters('auth', ['currentUserHasConfirmationPin']),
     panelTitle() {
       const length = this.saleRequests.length;
       return `${this.$t(
@@ -64,6 +77,10 @@ export default {
     },
   },
   methods: {
+    initRemovePendingRequest(index) {
+      if (this.currentUserHasConfirmationPin) this.sale_request_index = index;
+      else this.removePendingRequest(index);
+    },
     removePendingRequest(index) {
       this.$store.commit('cashier_session/REMOVE_SALE_REQUEST', index);
     },

@@ -131,10 +131,15 @@
                 class="fa fa-user-circle f-12 m-r-5"
                 :class="saleScreenSmall ? 'f-12' : 'f-16'"
               />
-              {{ truncate(cashierName, 5) }} /
-              <span class="f-w-500" :class="saleScreenSmall ? 'f-12' : 'f-16'">
-                {{ truncate(cashRegisterName.toString().toUpperCase(), 10) }}
-              </span>
+              <template v-if="!isEscaleMarketWorkspace">
+                {{ truncate(cashierName, 5) }} /
+                <span
+                  class="f-w-500"
+                  :class="saleScreenSmall ? 'f-12' : 'f-16'"
+                >
+                  {{ truncate(cashRegisterName.toString().toUpperCase(), 10) }}
+                </span>
+              </template>
             </i>
           </li>
           <li
