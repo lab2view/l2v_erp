@@ -1,5 +1,10 @@
 <template>
-  <tr :class="saleScreenSmall ? 'f-10 p-1' : ''">
+  <tr
+    :class="{
+      'f-10 p-1': saleScreenSmall,
+      blink: animation,
+    }"
+  >
     <td class="bd-t-none u-s-tb" :class="tableLineClass">
       <div class="media">
         <a
@@ -119,9 +124,14 @@ import { priceTypeCode } from '/@/helpers/codes.js';
 export default {
   components: { BaseSelect, BaseButton, BaseInputGroup },
   mixins: [ArticleMixin],
+  props: {
+    index: { type: Number, default: null },
+  },
+  emits: ['updated'],
   data() {
     return {
       showFormPriceType: false,
+      animation: false,
     };
   },
   computed: {
@@ -189,7 +199,26 @@ export default {
       return this.saleScreenSmall ? 'p-1' : '';
     },
   },
+  watch: {
+    article: {
+      deep: true,
+      handler() {
+        this.$emit('updated');
+        this.startAnimation();
+      },
+    },
+  },
+  mounted() {
+    this.$emit('updated');
+    this.startAnimation();
+  },
   methods: {
+    startAnimation() {
+      this.animation = true;
+      setTimeout(() => {
+        this.animation = false;
+      }, 500);
+    },
     removeArticle() {
       this.$store.commit(
         'cashier_session/REMOVE_ARTICLE_TO_CURRENT_SALE_REQUEST',
@@ -229,5 +258,20 @@ export default {
 }
 .f-8 {
   font-size: 8px;
+}
+
+.blink {
+  animation: blink-animation 0.1s steps(5, start) infinite;
+  -webkit-animation: blink-animation 0.1s steps(5, start) infinite;
+}
+@keyframes blink-animation {
+  to {
+    visibility: hidden;
+  }
+}
+@-webkit-keyframes blink-animation {
+  to {
+    visibility: hidden;
+  }
 }
 </style>

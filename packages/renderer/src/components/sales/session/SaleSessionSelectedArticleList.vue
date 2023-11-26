@@ -1,7 +1,7 @@
 <template>
   <div class="col">
     <div class="card table-responsive mb-0 pb-0" style="height: 36vh">
-      <table class="table table-lg table-hover">
+      <table ref="table" class="table table-lg table-hover">
         <thead class="table-primary">
           <tr>
             <th :class="tableTitleClass">
@@ -29,8 +29,10 @@
         <tbody v-if="isCurrentSaleHaveArticle">
           <SelectedArticleLine
             v-for="article in stock_exit_lines"
-            :key="`stock-exit-line-${article.id}`"
+            :id="`art-id-${article.article_id}`"
+            :key="`stock-exit-line-${article.article_id}`"
             :article="article"
+            @updated="scrollToElement(`art-id-${article.article_id}`)"
           />
         </tbody>
       </table>
@@ -76,6 +78,12 @@ export default {
     },
     tableTitleClass() {
       return this.saleScreenSmall ? 'p-2' : '';
+    },
+  },
+  methods: {
+    scrollToElement(id) {
+      const element = document.getElementById(id);
+      element.scrollIntoView();
     },
   },
 };

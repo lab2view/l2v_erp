@@ -4,7 +4,13 @@
   background-color: transparent;
   display: block;
 }
-
+.scroll-simple {
+  padding: 10px;
+  position: relative;
+  border: 1px solid #e6edef;
+  overflow: auto;
+  height: 400px;
+}
 .scroll-demo {
   padding: 10px;
   position: relative;
@@ -13,6 +19,9 @@
   height: 500px;
 }
 .scroll-demo .horz-scroll-content {
+  width: 1600px;
+}
+.scroll-simple .horz-scroll-content {
   width: 1600px;
 }
 

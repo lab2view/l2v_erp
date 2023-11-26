@@ -53,26 +53,25 @@ const getters = {
     });
   },
   sell_articles: (state, getters, rootState, rootGetters) =>
-    getters.articles
-      .filter((a) => a.package.code === unitPackageCode)
-      .map((a) => {
-        let name = `${a.product.reference} - ${a.name}`;
-        if (a.product.code) name = `${a.product.code} / ${name}`;
-        if (rootGetters['workspace/isWoodinWorkspace'])
-          name = `(${(getStockExitLineArticleStock(a) / 6).toFixed(
-            2
-          )}) ${name}`;
-        else name = `(${getStockExitLineArticleStock(a)}) ${name}`;
+    getters.articles.map((a) => {
+      let name = `${a.product.reference} - ${a.name}`;
+      if (a.product.code) name = `${a.product.code} / ${name}`;
+      if (rootGetters['workspace/isWoodinWorkspace'])
+        name = `(${(getStockExitLineArticleStock(a) / 6).toFixed(2)}) ${name}`;
+      else name = `(${getStockExitLineArticleStock(a)}) ${name}`;
 
-        if (rootGetters['workspace/isEscaleMarketWorkspace']) {
-          name = a.product.name;
-          if (a.product.code) name = `${a.product.code} / ${name}`;
+      if (rootGetters['workspace/isEscaleMarketWorkspace']) {
+        name = a.product.name;
+        if (a.product.code) name = `${a.product.code} / ${name}`;
+        if (a.package.code !== unitPackageCode) {
+          name = `${name} - ${a.package.label}(${a.quantity})`;
         }
-        return {
-          ...a,
-          name,
-        };
-      }),
+      }
+      return {
+        ...a,
+        name,
+      };
+    }),
   article: (state) => (state.article ? JSON.parse(state.article) : null),
   getArticleByProductId: (state, getters) => (product_id) =>
     getters.articles.filter((a) => a.product_id === product_id),

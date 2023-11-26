@@ -21,7 +21,7 @@ import SaleSessionHeader from '/@/components/sales/session/SaleSessionHeader.vue
 import SaleSessionSelectedArticleList from '/@/components/sales/session/SaleSessionSelectedArticleList.vue';
 import SaleSessionState from '/@/components/sales/session/SaleSessionState.vue';
 import store from '/@/store/index';
-import { moduleCode } from '/@/helpers/codes';
+// import { moduleCode } from '/@/helpers/codes';
 import ModuleSyncMixin from '/@/mixins/ModuleSyncMixin';
 import { mapGetters } from 'vuex';
 
@@ -76,7 +76,7 @@ export default {
     ...mapGetters('printer', ['printAfterSale']),
   },
   created() {
-    this.initEchoSync(moduleCode.products, 'product');
+    // this.initEchoSync(moduleCode.products, 'product');
     this.$store.dispatch('printer/initPrint').then(() => {
       this.$store.dispatch('printer/getInstalledPrinters');
     });

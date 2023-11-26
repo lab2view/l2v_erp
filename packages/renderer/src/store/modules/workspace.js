@@ -26,7 +26,7 @@ const getters = {
   },
   isEscaleMarketWorkspace: (state, getters) => {
     if (getters.currentWorkspace)
-      return RegExp('escale-market*').test(getters.currentWorkspace.domain);
+      return RegExp('woodin*').test(getters.currentWorkspace.domain);
     else return false;
   },
   currency: (state, getters) => getters.currentWorkspace?.currency ?? 'XAF',

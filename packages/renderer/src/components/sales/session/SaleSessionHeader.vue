@@ -16,8 +16,10 @@
             v-model="searchArticleField"
             class="form-control"
             style="background-color: rgba(36, 105, 92, 0.1); color: #24695c"
-            :options="articles"
+            :options="filteredArticles"
             placeholder="Rechercher un produit ou scanner"
+            @input="filterArticle"
+            @search:blur="articleFilter = null"
           />
           <template #append>
             <a
@@ -59,18 +61,19 @@ import BaseFieldGroup from '/@/components/common/BaseFieldGroup.vue';
 import VSelect from 'vue-select';
 import 'vue-select/dist/vue-select.css';
 import { mapGetters } from 'vuex';
-import BarcodeScanMixin from '/@/mixins/BarcodeScanMixin.js';
+// import BarcodeScanMixin from '/@/mixins/BarcodeScanMixin';
 import BaseSelect from '/@/components/common/BaseSelect.vue';
-import { priceTypeCode, saleTypeCode } from '/@/helpers/codes.js';
-import { getStockExitLineArticleStock } from '/@/helpers/utils.js';
+import { priceTypeCode, saleTypeCode } from '/@/helpers/codes';
+import { getStockExitLineArticleStock } from '/@/helpers/utils';
 import BaseButton from '/@/components/common/BaseButton.vue';
 
 export default {
   components: { BaseButton, BaseSelect, BaseFieldGroup, VSelect },
-  mixins: [BarcodeScanMixin],
+  // mixins: [BarcodeScanMixin],
   data() {
     return {
       scannerBarcode: null,
+      articleFilter: null,
     };
   },
   computed: {
@@ -110,7 +113,6 @@ export default {
         this.$store.commit('cashier_session/SET_PRICE_TYPE_ID', value);
       },
     },
-
     articles() {
       return this.sell_articles.map((article) => {
         let price = article.prices.find(
@@ -143,9 +145,18 @@ export default {
         };
       });
     },
+    filteredArticles() {
+      if (this.articleFilter)
+        return this.articles.filter((art) =>
+          art.label.toLowerCase().includes(this.articleFilter.toLowerCase())
+        );
+      else return [];
+    },
   },
 
   created() {
+    this.$barcodeScanner.init(this.onBarcodeScanned);
+
     this.$store.commit(
       'cashier_session/SET_PRICE_TYPE_ID',
       this.saleDefaultPriceTypeId
@@ -156,16 +167,32 @@ export default {
     // });
   },
 
+  beforeUnmount() {
+    this.$barcodeScanner.destroy();
+  },
+
   methods: {
+    filterArticle(event) {
+      const input = event.target.value;
+      if (input) {
+        if (input.length >= 3) {
+          this.articleFilter = input;
+        }
+      } else this.articleFilter = null;
+    },
     onBarcodeScanned(barcode) {
-      const article = this.articles.find(
+      const articles = this.articles.filter(
         (a) => a.barcode.toString() === barcode.toString()
       );
-      if (article !== undefined) {
-        this.$store.commit(
-          'cashier_session/ADD_ARTICLE_TO_CURRENT_SALE_REQUEST',
-          article
-        );
+      if (articles.length > 0) {
+        if (articles.length > 1) {
+          this.articleFilter = barcode;
+        } else {
+          this.$store.commit(
+            'cashier_session/ADD_ARTICLE_TO_CURRENT_SALE_REQUEST',
+            articles.first()
+          );
+        }
       }
     },
     resetBarcode() {

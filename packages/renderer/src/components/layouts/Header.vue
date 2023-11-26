@@ -108,7 +108,10 @@
               ><i class="fa fa-search"></i
             ></span>
           </li>
-          <li v-if="isSaleSession" class="col-auto d-none d-sm-block">
+          <li
+            v-if="isSaleSession && !isEscaleMarketWorkspace"
+            class="col-auto d-none d-sm-block"
+          >
             <a href="#" class="f-w-500" @click.prevent="openWebStore">
               <i class="fa fa-external-link m-r-5" />
               {{ $t('common.open_store') }}
@@ -180,6 +183,15 @@
           >
             <div class="mode">
               <i class="fa fa-file-pdf-o"></i>
+            </div>
+          </li>
+          <li
+            v-if="isEscaleMarketWorkspace"
+            class="m-0 font-success"
+            @click.prevent="openWebStore"
+          >
+            <div class="mode">
+              <i class="fa fa-external-link m-r-5" />
             </div>
           </li>
           <li @click.prevent="setDarkMode">
