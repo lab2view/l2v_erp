@@ -83,6 +83,7 @@ export default {
     },
     removePendingRequest(index) {
       this.$store.commit('cashier_session/REMOVE_SALE_REQUEST', index);
+      this.sale_request_index = null;
     },
 
     setPendingToCurrentRequest(saleRequest, index) {

@@ -60,9 +60,9 @@ export default {
         this.$store
           .dispatch('auth/checkConfirmPin', this.checkInput)
           .then((data) => {
-            this.loading = false;
             if (!data.unlock) this.error = this.$t('common.unlock_pin_error');
             else this.$emit('unlocked');
+            this.loading = false;
           })
           .catch((error) => {
             if (error.response?.data?.errors)
