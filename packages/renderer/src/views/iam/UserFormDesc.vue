@@ -10,186 +10,235 @@
         </span>
       </div>
       <div class="card-body">
-        <div class="row align-items-center mb-3">
-          <div class="form-group col-md">
-            <BaseSelect
-              v-model.number="userForm.role_id"
-              :label="$t('common.attributes.role')"
-              :options="selectableRoles"
-              key-label="label"
-              key-value="id"
-              required
-              :errors="errors?.role_id"
-            />
+        <div class="row">
+          <div class="col-md-8">
+            <div class="row mb-3 justify-content-center">
+              <div class="col-md">
+                <BaseSelect
+                  v-model.number="userForm.role_id"
+                  :label="$t('common.attributes.role')"
+                  :options="selectableRoles"
+                  key-label="label"
+                  key-value="id"
+                  required
+                  :errors="errors?.role_id"
+                />
+              </div>
+              <div class="col-md">
+                <BaseSelect
+                  v-model.number="userForm.country_id"
+                  :label="$t('common.attributes.country')"
+                  :options="activeCountries"
+                  key-label="name"
+                  key-value="id"
+                  required
+                  :errors="errors?.country_id"
+                />
+              </div>
+              <div v-if="canShowEnterpriseField" class="col-md">
+                <BaseSelect
+                  v-model.number="userForm.enterprise_id"
+                  :label="$t('common.attributes.structure')"
+                  :options="enterprises"
+                  key-label="name"
+                  key-value="id"
+                  :disabled="!!enterprise_id"
+                  :errors="errors?.enterprise_id"
+                />
+              </div>
+            </div>
+            <div class="row mb-3 justify-content-center">
+              <div class="col-md">
+                <BaseInput
+                  v-model="userForm.email"
+                  :label="$t('common.attributes.email')"
+                  placeholder="..."
+                  type="email"
+                  required
+                  :errors="errors?.email"
+                />
+              </div>
+              <div class="col-md">
+                <BaseInput
+                  v-model="userForm.phone"
+                  :label="$t('common.attributes.phone')"
+                  placeholder="..."
+                  type="number"
+                  required
+                  :errors="errors?.phone"
+                />
+              </div>
+            </div>
+            <div class="row mb-3 justify-content-center">
+              <div class="col-md">
+                <BaseInput
+                  v-model="userForm.first_name"
+                  :label="$t('common.attributes.first_name')"
+                  placeholder="..."
+                  :errors="errors?.first_name"
+                  required
+                />
+              </div>
+              <div class="col-md">
+                <BaseInput
+                  v-model="userForm.last_name"
+                  :label="$t('common.attributes.last_name')"
+                  placeholder="..."
+                  type="text"
+                  :errors="errors?.last_name"
+                />
+              </div>
+            </div>
+            <div class="row mb-3 justify-content-center">
+              <div class="col-md">
+                <BaseSelect
+                  v-model.number="userForm.localization_id"
+                  :label="$t('common.attributes.localization')"
+                  :options="selectableLocalizations"
+                  key-label="label"
+                  key-value="id"
+                  :errors="errors?.localization_id"
+                />
+              </div>
+              <div class="col-md">
+                <div class="form-group">
+                  <h6 class="form-label fw-bold">
+                    {{ $t('common.attributes.gender') }}
+                  </h6>
+                  <br />
+                  <label for="male">
+                    {{ $t('common.gender.male') }}
+                    <input
+                      id="male"
+                      v-model="userForm.gender"
+                      value="M"
+                      type="radio"
+                      required
+                    />
+                  </label>
+                  <label for="female" class="m-l-5">
+                    {{ $t('common.gender.female') }}
+                    <input
+                      id="female"
+                      v-model="userForm.gender"
+                      value="F"
+                      type="radio"
+                      required
+                    />
+                  </label>
+                  <div
+                    v-if="errors?.gender?.length"
+                    class="invalid-feedback"
+                    style="display: inline"
+                  >
+                    {{ errors.gender[0] }}
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
-          <div class="form-group col-md">
-            <BaseSelect
-              v-model.number="userForm.country_id"
-              :label="$t('common.attributes.country')"
-              :options="activeCountries"
-              key-label="name"
-              key-value="id"
-              required
-              :errors="errors?.country_id"
-            />
-          </div>
-          <div v-if="canShowEnterpriseField" class="form-group col-md">
-            <BaseSelect
-              v-model.number="userForm.enterprise_id"
-              :label="$t('common.attributes.structure')"
-              :options="enterprises"
-              key-label="name"
-              key-value="id"
-              :disabled="!!enterprise_id"
-              :errors="errors?.enterprise_id"
-            />
-          </div>
-        </div>
-        <div class="row align-items-center mb-3">
-          <div class="form-group col-md">
-            <BaseInput
-              v-model="userForm.first_name"
-              :label="$t('common.attributes.first_name')"
-              placeholder="..."
-              :errors="errors?.first_name"
-              required
-            />
-          </div>
-          <div class="form-group col-md">
-            <BaseInput
-              v-model="userForm.last_name"
-              :label="$t('common.attributes.last_name')"
-              placeholder="..."
-              type="text"
-              :errors="errors?.last_name"
-            />
-          </div>
-        </div>
-        <div class="row align-items-center mb-3">
-          <div class="form-group col-md">
-            <BaseInput
-              v-model="userForm.email"
-              :label="$t('common.attributes.email')"
-              type="email"
-              required
-              :errors="errors?.email"
-            />
-          </div>
-          <div class="form-group col-md">
-            <BaseInput
-              v-model="userForm.phone"
-              :label="$t('common.attributes.phone')"
-              placeholder="1"
-              type="number"
-              required
-              :errors="errors?.phone"
-            />
-          </div>
-        </div>
-        <div class="form-group mb-3">
-          <BaseSelect
-            v-model.number="userForm.localization_id"
-            :label="$t('common.attributes.localization')"
-            :options="selectableLocalizations"
-            key-label="label"
-            key-value="id"
-            :errors="errors?.localization_id"
-          />
-        </div>
-        <div class="form-group mb-3">
-          <h6 class="form-label fw-bold">
-            {{ $t('common.attributes.gender') }}
-          </h6>
-          <br />
-          <label for="male">
-            {{ $t('common.gender.male') }}
-            <input
-              id="male"
-              v-model="userForm.gender"
-              value="M"
-              type="radio"
-              required
-            />
-          </label>
-          <label for="female" class="m-l-5">
-            {{ $t('common.gender.female') }}
-            <input
-              id="female"
-              v-model="userForm.gender"
-              value="F"
-              type="radio"
-              required
-            />
-          </label>
-          <div
-            v-if="errors?.gender?.length"
-            class="invalid-feedback"
-            style="display: inline"
-          >
-            {{ errors.gender[0] }}
-          </div>
-        </div>
-        <div class="col-md">
-          <BaseInputGroup
-            v-model="userForm.password"
-            :label="$t('common.attributes.password')"
-            placeholder="********"
-            :errors="errors?.password"
-            required
-            :disabled="!type_password"
-          >
-            <button
-              type="button"
-              class="btn btn-info btn-iconsolid"
-              :title="
-                type_password
-                  ? $t('common.generate_password')
-                  : $t('common.type')
-              "
-              @click.prevent="type_password = !type_password"
+          <div class="col-md-4">
+            <div class="form-group">
+              <BaseInputGroup
+                v-model="userForm.cancel_pin"
+                :label="$t('common.fields.cancel_pin')"
+                type="password"
+                min="4"
+                placeholder="Saisir un pin"
+                :errors="errors?.cancel_pin"
+              >
+                <BaseButton
+                  v-if="userForm.id"
+                  :text="$t('common.save')"
+                  icon="fa fa-check"
+                  text="Mettre a jour"
+                  class="btn btn-success col-auto m-r-5"
+                  type="button"
+                  :disabled="!userForm.cancel_pin || loadingConfirmPin"
+                  :loading="loadingConfirmPin"
+                  @click.prevent="updateUserConfirmPin"
+                />
+              </BaseInputGroup>
+            </div>
+
+            <div
+              class="row justify-content-center"
+              :class="{ 'border shadow-sm p-2': userForm.id }"
             >
-              <i :class="`fa fa-${type_password ? 'lock' : 'edit'}`"></i>
-            </button>
-            <button
-              type="button"
-              class="btn btn-success btn-iconsolid"
-              :title="$t('common.shuffle')"
-              @click.prevent="generatePassword"
-            >
-              <i class="fa fa-random"></i>
-            </button>
-          </BaseInputGroup>
-        </div>
-        <div class="col-md">
-          <BaseInputGroup
-            v-model="userForm.password_confirmation"
-            :label="$t('common.attributes.password_confirmation')"
-            placeholder="********"
-            :errors="errors?.password_confirmation"
-            required
-            :disabled="!type_password"
-          >
-            <button
-              type="button"
-              class="btn btn-info btn-iconsolid"
-              :title="
-                type_password
-                  ? $t('common.generate_password')
-                  : $t('common.type')
-              "
-              @click.prevent="type_password = !type_password"
-            >
-              <i :class="`fa fa-${type_password ? 'lock' : 'edit'}`"></i>
-            </button>
-            <button
-              type="button"
-              class="btn btn-success btn-iconsolid"
-              :title="$t('common.shuffle')"
-              @click.prevent="generatePassword"
-            >
-              <i class="fa fa-random"></i>
-            </button>
-          </BaseInputGroup>
+              <div class="form-group">
+                <BaseInputGroup
+                  v-model="userForm.password"
+                  :label="$t('common.attributes.password')"
+                  placeholder="********"
+                  :errors="errors?.password"
+                  :required="!userForm.id"
+                  :disabled="!type_password"
+                >
+                  <button
+                    type="button"
+                    class="btn btn-info btn-iconsolid"
+                    :title="
+                      type_password
+                        ? $t('common.generate_password')
+                        : $t('common.type')
+                    "
+                    @click.prevent="type_password = !type_password"
+                  >
+                    <i :class="`fa fa-${type_password ? 'lock' : 'edit'}`"></i>
+                  </button>
+                  <button
+                    type="button"
+                    class="btn btn-success btn-iconsolid"
+                    :title="$t('common.shuffle')"
+                    @click.prevent="generatePassword"
+                  >
+                    <i class="fa fa-random"></i>
+                  </button>
+                </BaseInputGroup>
+              </div>
+              <div class="form-group">
+                <BaseInputGroup
+                  v-model="userForm.password_confirmation"
+                  :label="$t('common.attributes.password_confirmation')"
+                  placeholder="********"
+                  :errors="errors?.password_confirmation"
+                  :required="!userForm.id"
+                  :disabled="!type_password"
+                >
+                  <button
+                    type="button"
+                    class="btn btn-info btn-iconsolid"
+                    :title="
+                      type_password
+                        ? $t('common.generate_password')
+                        : $t('common.type')
+                    "
+                    @click.prevent="type_password = !type_password"
+                  >
+                    <i :class="`fa fa-${type_password ? 'lock' : 'edit'}`"></i>
+                  </button>
+                  <button
+                    type="button"
+                    class="btn btn-success btn-iconsolid"
+                    :title="$t('common.shuffle')"
+                    @click.prevent="generatePassword"
+                  >
+                    <i class="fa fa-random"></i>
+                  </button>
+                </BaseInputGroup>
+              </div>
+              <BaseButton
+                v-if="userForm.id"
+                icon="fa fa-check"
+                text="Mettre a jour"
+                class="btn btn-success col-auto m-r-5"
+                type="button"
+                :disabled="!userForm.password || loadingPassword"
+                :loading="loadingPassword"
+                @click.prevent="updateUserPassword"
+              />
+            </div>
+          </div>
         </div>
       </div>
       <div class="card-footer">
@@ -253,6 +302,8 @@ export default {
       type_password: false,
       is_edited: false,
       loading: false,
+      loadingPassword: false,
+      loadingConfirmPin: false,
       userForm: {
         id: null,
         enterprise_id: null,
@@ -262,8 +313,10 @@ export default {
         first_name: null,
         last_name: null,
         email: null,
+        phone: null,
         password: null,
         password_confirmation: null,
+        cancel_pin: null,
       },
     };
   },
@@ -316,46 +369,62 @@ export default {
       this.userForm.enterprise_id = this.currentEnterpriseId;
   },
   methods: {
+    updateUserPassword() {
+      if (this.userForm.password) {
+        if (this.userForm.password === this.userForm.password_confirmation) {
+          if (this.loadingPassword) return;
+          this.loadingPassword = true;
+          this.$store
+            .dispatch('user/setUserPassword', this.userForm)
+            .catch((error) => {
+              this.errors = error.response?.data?.errors;
+              console.log(error);
+            })
+            .finally(() => {
+              this.loadingPassword = false;
+              this.userForm.password = null;
+              this.userForm.password_confirmation = null;
+              this.type_password = false;
+            });
+        }
+      }
+    },
+    updateUserConfirmPin() {
+      if (this.userForm.cancel_pin) {
+        if (this.loadingConfirmPin) return;
+        this.loadingConfirmPin = true;
+        this.$store
+          .dispatch('user/setUserConfirmPin', this.userForm)
+          .catch((error) => {
+            this.errors = error.response?.data?.errors;
+            console.log(error);
+          })
+          .finally(() => {
+            this.loadingConfirmPin = false;
+            this.userForm.cancel_pin = null;
+          });
+      }
+    },
     submitUserForm() {
       if (this.loading) return;
 
       this.loading = true;
       if (this.user && this.user.id) {
         if (this.is_edited) {
-          if (this.userForm.password) {
-            if (
-              this.userForm.password === this.userForm.password_confirmation
-            ) {
-              this.$store
-                .dispatch('user/setUserPassword', this.userForm)
-                .then((user) =>
-                  this.$router.push({
-                    name: 'iam.user.form.privileges',
-                    params: { id: user.id },
-                    query: this.$route.query,
-                  })
-                )
-                .catch((error) => {
-                  this.errors = error.response?.data?.errors;
-                  console.log(error);
-                })
-                .finally(() => (this.loading = false));
-            }
-          } else
-            this.$store
-              .dispatch('user/updateUser', this.userForm)
-              .then((user) =>
-                this.$router.push({
-                  name: 'iam.user.form.privileges',
-                  params: { id: user.id },
-                  query: this.$route.query,
-                })
-              )
-              .catch((error) => {
-                this.errors = error.response?.data?.errors;
-                console.log(error);
+          this.$store
+            .dispatch('user/updateUser', this.userForm)
+            .then((user) =>
+              this.$router.push({
+                name: 'iam.user.form.privileges',
+                params: { id: user.id },
+                query: this.$route.query,
               })
-              .finally(() => (this.loading = false));
+            )
+            .catch((error) => {
+              this.errors = error.response?.data?.errors;
+              console.log(error);
+            })
+            .finally(() => (this.loading = false));
         } else
           this.$router.push({
             name: 'iam.users',

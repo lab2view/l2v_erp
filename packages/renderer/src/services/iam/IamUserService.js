@@ -21,8 +21,16 @@ export default {
     return axios.post(`/users/change-password/${id}`, user);
   },
 
-  setUserPassword(user, id) {
-    return axios.post(`/users/set-password/${id}`, user);
+  updateUserConfirmPin(user, id) {
+    return axios.post(`/users/change-confirm-pin/${id}`, user);
+  },
+
+  setUserPassword(userPassword, id) {
+    return axios.post(`/users/set-password/${id}`, userPassword);
+  },
+
+  setUserConfirmPin(userPin, id) {
+    return axios.post(`/users/set-confirm-pin/${id}`, userPin);
   },
 
   deleteUser(id) {

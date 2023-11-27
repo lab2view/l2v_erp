@@ -120,13 +120,12 @@ const actions = {
     });
   },
 
-  setUserPassword({ commit }, userField) {
-    return userService
-      .setUserPassword(userField, userField.id)
-      .then(({ data }) => {
-        commit('UPDATE_USER', data);
-        return data;
-      });
+  setUserPassword(context, { id, password, password_confirmation }) {
+    return userService.setUserPassword({ password, password_confirmation }, id);
+  },
+
+  setUserConfirmPin(context, { id, cancel_pin }) {
+    return userService.setUserConfirmPin({ cancel_pin }, id);
   },
 };
 
