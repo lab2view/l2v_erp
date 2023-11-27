@@ -77,6 +77,14 @@ const getters = {
     getters.articles.filter((a) => a.product_id === product_id),
   getArticleById: (state, getters) => (id) =>
     getters.articles.find((a) => a.id === id),
+  getEnterpriseArticles: (state, getters) => (enterprise_id) => {
+    return getters.articles.filter(
+      (a) =>
+        a.product.enterprises.length === 0 ||
+        a.product.enterprises.find((ent) => ent.id === enterprise_id) !==
+          undefined
+    );
+  },
   filterAvailableArticles: (state, getters) => (distribution_id) => {
     return getters.articles.filter((a) => {
       if (distribution_id) {
@@ -189,7 +197,8 @@ const getters = {
   },
   filterArticleByDistributionStockLevel:
     (state, getters) => (distribution_id) => {
-      return getters.articles
+      return getters
+        .getEnterpriseArticles(distribution_id)
         .map((a) => {
           const distribution = a.stats.distributions.find(
             (d) => d.id === distribution_id
@@ -236,7 +245,7 @@ const getters = {
         });
     },
   getStatsCountByArticleStockLevel: (state, getters) => (distribution_id) => {
-    const articles = getters.articles.map((a) => {
+    const articles = getters.getEnterpriseArticles(distribution_id).map((a) => {
       const distribution = a.stats.distributions.find(
         (d) => d.id === distribution_id
       );
@@ -245,10 +254,13 @@ const getters = {
           ? getDistributionCurrentStock(distribution)
           : a.stock.available;
       return {
-        critical: stock <= a.product.critical_stock,
+        critical: stock <= a.product.critical_stock ? 1 : 0,
         alert:
-          stock > a.product.critical_stock && stock <= a.product.alert_stock,
-        min: stock > a.product.alert_stock && stock <= a.product.min_stock,
+          stock > a.product.critical_stock && stock <= a.product.alert_stock
+            ? 1
+            : 0,
+        min:
+          stock > a.product.alert_stock && stock <= a.product.min_stock ? 1 : 0,
       };
     });
     return {
