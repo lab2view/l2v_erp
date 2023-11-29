@@ -1,10 +1,7 @@
 <template>
   <div class="page-main-header" :class="sliderMenuClass">
     <div class="main-header-right row m-0">
-      <div
-        class="main-header-left"
-        :class="isEscaleMarketWorkspace ? 'pt-2 pb-2' : ''"
-      >
+      <div class="main-header-left" :class="saleScreenSmall ? 'pt-2 pb-2' : ''">
         <div class="logo-wrapper" :title="enterpriseName">
           <a href="/" class="text-dark f-14 f-w-500">
             <template
@@ -30,7 +27,7 @@
                 class="img-fluid m-r-5"
                 src="../../assets/images/logo/logo.jpg"
               />
-              <template v-if="isEscaleMarketWorkspace">
+              <template v-if="saleScreenSmall">
                 {{ truncate(enterpriseName.toString().toUpperCase(), 15) }}
               </template>
               <template v-else>
@@ -89,7 +86,7 @@
       </div>
       <div
         class="left-menu-header col"
-        :class="isEscaleMarketWorkspace ? 'pt-2 pb-2' : ''"
+        :class="saleScreenSmall ? 'pt-2 pb-2' : ''"
       >
         <ul class="row">
           <li class="col">
@@ -111,7 +108,10 @@
               ><i class="fa fa-search"></i
             ></span>
           </li>
-          <li v-if="isSaleSession" class="col-auto d-none d-sm-block">
+          <li
+            v-if="isSaleSession && !isEscaleMarketWorkspace"
+            class="col-auto d-none d-sm-block"
+          >
             <a href="#" class="f-w-500" @click.prevent="openWebStore">
               <i class="fa fa-external-link m-r-5" />
               {{ $t('common.open_store') }}
@@ -120,21 +120,26 @@
         </ul>
       </div>
       <div class="nav-right col pull-right right-menu p-0">
-        <ul
-          class="nav-menus"
-          :class="isEscaleMarketWorkspace ? 'pt-2 pb-2' : ''"
-        >
+        <ul class="nav-menus" :class="saleScreenSmall ? 'pt-2 pb-2' : ''">
           <li
             v-if="isSaleSession"
             :title="`${cashierName} - ${cashRegisterName}`"
             class="m-0"
           >
             <i>
-              <i class="fa fa-user-circle f-16 m-r-5" />
-              {{ truncate(cashierName, 5) }} /
-              <span class="f-w-500 f-16">
-                {{ truncate(cashRegisterName.toString().toUpperCase(), 10) }}
-              </span>
+              <i
+                class="fa fa-user-circle f-12 m-r-5"
+                :class="saleScreenSmall ? 'f-12' : 'f-16'"
+              />
+              <template v-if="!isEscaleMarketWorkspace">
+                {{ truncate(cashierName, 5) }} /
+                <span
+                  class="f-w-500"
+                  :class="saleScreenSmall ? 'f-12' : 'f-16'"
+                >
+                  {{ truncate(cashRegisterName.toString().toUpperCase(), 10) }}
+                </span>
+              </template>
             </i>
           </li>
           <li
@@ -183,6 +188,15 @@
           >
             <div class="mode">
               <i class="fa fa-file-pdf-o"></i>
+            </div>
+          </li>
+          <li
+            v-if="isEscaleMarketWorkspace"
+            class="m-0 font-success"
+            @click.prevent="openWebStore"
+          >
+            <div class="mode">
+              <i class="fa fa-external-link m-r-5" />
             </div>
           </li>
           <li @click.prevent="setDarkMode">
@@ -237,6 +251,7 @@ export default defineComponent({
       'isWoodinWorkspace',
       'isGilsSportWorkspace',
       'isEscaleMarketWorkspace',
+      'saleScreenSmall',
     ]),
     ...mapGetters('auth', ['currentUser']),
     enterpriseName() {
@@ -244,7 +259,7 @@ export default defineComponent({
     },
     logoutText() {
       return this.isSaleSession
-        ? this.isEscaleMarketWorkspace
+        ? this.saleScreenSmall
           ? ''
           : 'Fermer'
         : 'Deconnexion';

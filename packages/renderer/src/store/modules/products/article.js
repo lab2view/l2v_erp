@@ -53,31 +53,49 @@ const getters = {
     });
   },
   sell_articles: (state, getters, rootState, rootGetters) =>
-    getters.articles
-      .filter((a) => a.package.code === unitPackageCode)
-      .map((a) => {
-        let name = `${a.product.reference} - ${a.name}`;
-        if (a.product.code) name = `${a.product.code} / ${name}`;
-        if (rootGetters['workspace/isWoodinWorkspace'])
-          name = `(${(getStockExitLineArticleStock(a) / 6).toFixed(
-            2
-          )}) ${name}`;
-        else name = `(${getStockExitLineArticleStock(a)}) ${name}`;
+    getters.articles.map((a) => {
+      let name = `${a.product.reference} - ${a.name}`;
+      if (a.product.code) name = `${a.product.code} / ${name}`;
+      if (rootGetters['workspace/isWoodinWorkspace'])
+        name = `(${(getStockExitLineArticleStock(a) / 6).toFixed(2)}) ${name}`;
+      else name = `(${getStockExitLineArticleStock(a)}) ${name}`;
 
-        if (rootGetters['workspace/isEscaleMarketWorkspace']) {
-          name = a.product.name;
-          if (a.product.code) name = `${a.product.code} / ${name}`;
+      if (rootGetters['workspace/isEscaleMarketWorkspace']) {
+        name = a.product.name;
+        if (a.product.code) name = `${a.product.code} / ${name}`;
+        if (a.package.code !== unitPackageCode) {
+          name = `${name} - ${a.package.label}(${a.quantity})`;
         }
-        return {
-          ...a,
-          name,
-        };
-      }),
+      }
+      const enterprise_id =
+        rootGetters['cashier_session/currentSessionEnterpriseId'];
+      let available = a.stock.available;
+      if (enterprise_id !== rootGetters['auth/currentEnterpriseId']) {
+        available = getStockByEnterpriseId(enterprise_id, a);
+      }
+
+      return {
+        ...a,
+        name,
+        stock: {
+          ...a.stock,
+          available,
+        },
+      };
+    }),
   article: (state) => (state.article ? JSON.parse(state.article) : null),
   getArticleByProductId: (state, getters) => (product_id) =>
     getters.articles.filter((a) => a.product_id === product_id),
   getArticleById: (state, getters) => (id) =>
     getters.articles.find((a) => a.id === id),
+  getEnterpriseArticles: (state, getters) => (enterprise_id) => {
+    return getters.articles.filter(
+      (a) =>
+        a.product.enterprises.length === 0 ||
+        a.product.enterprises.find((ent) => ent.id === enterprise_id) !==
+          undefined
+    );
+  },
   filterAvailableArticles: (state, getters) => (distribution_id) => {
     return getters.articles.filter((a) => {
       if (distribution_id) {
@@ -190,7 +208,8 @@ const getters = {
   },
   filterArticleByDistributionStockLevel:
     (state, getters) => (distribution_id) => {
-      return getters.articles
+      return getters
+        .getEnterpriseArticles(distribution_id)
         .map((a) => {
           const distribution = a.stats.distributions.find(
             (d) => d.id === distribution_id
@@ -237,7 +256,7 @@ const getters = {
         });
     },
   getStatsCountByArticleStockLevel: (state, getters) => (distribution_id) => {
-    const articles = getters.articles.map((a) => {
+    const articles = getters.getEnterpriseArticles(distribution_id).map((a) => {
       const distribution = a.stats.distributions.find(
         (d) => d.id === distribution_id
       );
@@ -246,10 +265,13 @@ const getters = {
           ? getDistributionCurrentStock(distribution)
           : a.stock.available;
       return {
-        critical: stock <= a.product.critical_stock,
+        critical: stock <= a.product.critical_stock ? 1 : 0,
         alert:
-          stock > a.product.critical_stock && stock <= a.product.alert_stock,
-        min: stock > a.product.alert_stock && stock <= a.product.min_stock,
+          stock > a.product.critical_stock && stock <= a.product.alert_stock
+            ? 1
+            : 0,
+        min:
+          stock > a.product.alert_stock && stock <= a.product.min_stock ? 1 : 0,
       };
     });
     return {
@@ -258,6 +280,21 @@ const getters = {
       critical: _.sumBy(articles, 'critical'),
     };
   },
+  getProductArticles:
+    (state, getters) =>
+    ({ id, product_id }, enterprise_id) => {
+      return getters
+        .getEnterpriseArticles(enterprise_id)
+        .filter((art) => art.id !== id && art.product_id === product_id)
+        .map((a) => {
+          return {
+            id: a.id,
+            name: a.name,
+            stock: a.stock,
+            package: a.package,
+          };
+        });
+    },
 };
 // privileges
 const actions = {
@@ -301,6 +338,50 @@ const actions = {
           return Promise.reject(error);
         });
     }
+  },
+
+  processArticlePacking({ commit, getters, rootGetters }, field) {
+    const enterprise_id =
+      field.enterprise_id ??
+      rootGetters['cashier_session/currentSessionEnterpriseId'] ??
+      rootGetters['auth/currentEnterpriseId'] ??
+      null;
+
+    const articleFrom = getters.sell_articles.find(
+      (art) => art.id === field.article_from_id
+    );
+    const articleTo = getters.sell_articles.find(
+      (art) => art.id === field.article_to_id
+    );
+
+    if (articleFrom !== undefined && articleTo !== undefined) {
+      return articleService
+        .processToPacking({ ...field, enterprise_id })
+        .then(({ data }) => {
+          const fromStock = {
+            ...articleFrom.stock,
+            total_exit:
+              parseInt(articleFrom.stock.total_exit) +
+              parseInt(data.stock_exit),
+            available:
+              parseInt(articleFrom.stock.available) - parseInt(data.stock_exit),
+          };
+          console.log(articleTo.stock.available);
+          const toStock = {
+            ...articleTo.stock,
+            total_entry:
+              parseInt(articleTo.stock.total_entry) +
+              parseInt(data.stock_entry),
+            available:
+              parseInt(articleTo.stock.available) + parseInt(data.stock_entry),
+          };
+
+          commit('UPDATE_ARTICLE_STOCK', { ...articleTo, stock: toStock });
+          commit('UPDATE_ARTICLE_STOCK', { ...articleFrom, stock: fromStock });
+
+          return toStock;
+        });
+    } else notify('sdfsadf');
   },
 
   getMostSaleArticlesList({ commit, getters, dispatch }, { page, field }) {
@@ -594,19 +675,22 @@ const mutations = {
   },
   UPDATE_ARTICLE(state, article) {
     let articles = state.articles ? JSON.parse(state.articles) : [];
-    const index = articles.findIndex((a) => a.id === article.id);
-    if (index !== -1) {
-      articles.splice(index, 1, article);
-      state.articles = JSON.stringify(articles);
-    }
+    state.articles = JSON.stringify(
+      articles.map((art) => {
+        return art.id === article.id ? article : art;
+      })
+    );
   },
   UPDATE_ARTICLE_STOCK(state, article) {
     let articles = state.articles ? JSON.parse(state.articles) : [];
-    const index = articles.findIndex((a) => a.id === article.id);
-    if (index !== -1) {
-      articles.splice(index, 1, { ...articles[index], stock: article.stock });
-      state.articles = JSON.stringify(articles);
-    }
+    state.articles = JSON.stringify(
+      articles.map((art) => {
+        return {
+          ...art,
+          stock: article.stock,
+        };
+      })
+    );
   },
   DELETE_ARTICLE(state, articleId) {
     state.articles = JSON.stringify(

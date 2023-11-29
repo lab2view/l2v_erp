@@ -39,7 +39,8 @@ const getters = {
   isCashierRole: (state, getters) =>
     getters.currentUser?.role?.code === roleCashierCode,
   currentEnterprise: (state, getters) => getters.currentUser?.enterprise,
-  currentEnterpriseId: (state, getters) => getters.currentEnterprise?.id,
+  currentEnterpriseId: (state, getters) =>
+    getters.currentEnterprise?.id ?? null,
   canShowMenuModule: (state, getters) => (moduleCode) => {
     if (getters.currentUser) {
       if (getters.isRoleAdmin) return true;
@@ -86,6 +87,9 @@ const getters = {
   },
   canShowSaleReportsMargin: (state, getters) => {
     return getters.canShowMenuItem(privilegeCode.sale.report.margin);
+  },
+  currentUserHasConfirmationPin: (state, getters) => {
+    return !!getters.currentUser?.have_confirm_pin;
   },
 };
 
@@ -146,6 +150,12 @@ const actions = {
   checkPassword({ commit }, passwordField) {
     return AuthService.checkPassword(passwordField).then(({ data }) => {
       commit('SET_UNLOCK_SCREEN', data.unlock);
+      return data;
+    });
+  },
+
+  checkConfirmPin(context, inputField) {
+    return AuthService.checkConfirmPin(inputField).then(({ data }) => {
       return data;
     });
   },

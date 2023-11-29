@@ -8,13 +8,13 @@
         v-for="(option, index) in options"
         :key="index"
         class="checkbox checkbox-primary"
-        :class="
+        :class="`${saleScreenSmall ? 'checkbox2' : ''} ${
           modelValue
             ? modelValue === option[keyValue]
               ? 'checkbox-solid-success'
               : ''
             : ''
-        "
+        }`"
       >
         <input
           :id="`inline-${option[keyValue]}`"
@@ -22,9 +22,11 @@
           :checked="false"
           @click.prevent="setCheckbox(option[keyValue])"
         />
-        <label :for="`inline-${option[keyValue]}`">{{
-          option[keyLabel]
-        }}</label>
+        <label
+          :for="`inline-${option[keyValue]}`"
+          :class="saleScreenSmall ? 'f-10' : ''"
+          >{{ option[keyLabel] }}</label
+        >
       </div>
     </div>
   </div>
@@ -35,6 +37,8 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
+
 export default {
   name: 'BaseCheckboxGroup',
   props: {
@@ -72,6 +76,9 @@ export default {
     },
   },
   emits: ['update:modelValue'],
+  computed: {
+    ...mapGetters('workspace', ['saleScreenSmall']),
+  },
   methods: {
     setCheckbox(id) {
       this.$emit('update:modelValue', id);
@@ -79,3 +86,12 @@ export default {
   },
 };
 </script>
+<style scoped>
+.f-10 {
+  font-size: 10px;
+}
+.checkbox2 label::before {
+  width: 15px;
+  height: 15px;
+}
+</style>
