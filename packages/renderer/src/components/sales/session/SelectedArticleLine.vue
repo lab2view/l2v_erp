@@ -145,6 +145,7 @@ import BaseSelect from '/@/components/common/BaseSelect.vue';
 import { priceTypeCode } from '/@/helpers/codes';
 
 export default {
+  name: 'SelectedArticleLine',
   components: { BaseSelect, BaseButton, BaseInputGroup },
   mixins: [ArticleMixin],
   props: {

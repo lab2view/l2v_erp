@@ -56,9 +56,17 @@ const getters = {
     getters.articles.map((a) => {
       let name = `${a.product.reference} - ${a.name}`;
       if (a.product.code) name = `${a.product.code} / ${name}`;
+
+      const enterprise_id =
+        rootGetters['cashier_session/currentSessionEnterpriseId'];
+      let available = a.stock.available;
+      if (enterprise_id !== rootGetters['auth/currentEnterpriseId']) {
+        available = getStockByEnterpriseId(enterprise_id, a);
+      }
+
       if (rootGetters['workspace/isWoodinWorkspace'])
-        name = `(${(getStockExitLineArticleStock(a) / 6).toFixed(2)}) ${name}`;
-      else name = `(${getStockExitLineArticleStock(a)}) ${name}`;
+        name = `(${(available / 6).toFixed(2)}) ${name}`;
+      else name = `(${available}) ${name}`;
 
       if (rootGetters['workspace/isEscaleMarketWorkspace']) {
         name = a.product.name;
@@ -66,12 +74,6 @@ const getters = {
         if (a.package.code !== unitPackageCode) {
           name = `${name} - ${a.package.label}(${a.quantity})`;
         }
-      }
-      const enterprise_id =
-        rootGetters['cashier_session/currentSessionEnterpriseId'];
-      let available = a.stock.available;
-      if (enterprise_id !== rootGetters['auth/currentEnterpriseId']) {
-        available = getStockByEnterpriseId(enterprise_id, a);
       }
 
       return {
@@ -354,7 +356,11 @@ const actions = {
       (art) => art.id === field.article_to_id
     );
 
-    if (articleFrom !== undefined && articleTo !== undefined) {
+    if (
+      articleFrom !== undefined &&
+      articleTo !== undefined &&
+      articleFrom.stock.available
+    ) {
       return articleService
         .processToPacking({ ...field, enterprise_id })
         .then(({ data }) => {
@@ -366,7 +372,7 @@ const actions = {
             available:
               parseInt(articleFrom.stock.available) - parseInt(data.stock_exit),
           };
-          console.log(articleTo.stock.available);
+
           const toStock = {
             ...articleTo.stock,
             total_entry:
@@ -381,7 +387,10 @@ const actions = {
 
           return toStock;
         });
-    } else notify('sdfsadf');
+    } else {
+      notify('Stock invalide ', 'Erreur', 'danger');
+      throw new Error('Stock invalid');
+    }
   },
 
   getMostSaleArticlesList({ commit, getters, dispatch }, { page, field }) {

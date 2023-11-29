@@ -127,7 +127,7 @@ export default {
           if (specificPrice !== undefined)
             price = { ...price, value: specificPrice.value };
         }
-        const haveStock = getStockExitLineArticleStock(article) > 0;
+        const haveStock = article.stock.available > 0;
         return {
           label: `${article.name}`,
           article_id: article.id,
@@ -176,7 +176,7 @@ export default {
     filterArticle(event) {
       const input = event.target.value;
       if (input) {
-        if (input.length >= 3) {
+        if (input.length >= 4) {
           this.articleFilter = input;
         }
       } else this.articleFilter = null;

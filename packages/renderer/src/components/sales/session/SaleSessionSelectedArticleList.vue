@@ -136,16 +136,17 @@ export default {
           article_to_id: this.articlePack.id,
         })
         .then((data) => {
-          const articleLine = this.stock_exit_lines.find(
-            (sel) => sel.article_id === this.articlePack.id
-          );
-          if (articleLine !== undefined) {
-            this.$store.commit(
-              'cashier_session/UPDATE_CURRENT_SALE_REQUEST_ARTICLE',
-              { ...articleLine, stock: data }
+          if (data.available) {
+            const articleLine = this.stock_exit_lines.find(
+              (sel) => sel.article_id === this.articlePack.id
             );
+            if (articleLine !== undefined) {
+              this.$store.commit(
+                'cashier_session/UPDATE_CURRENT_SALE_REQUEST_ARTICLE',
+                { ...articleLine, stock: data }
+              );
+            }
           }
-
           this.processLoading = false;
           this.articlePack = null;
           this.packable_articles = [];
