@@ -15,7 +15,6 @@ export default {
           : this.article.product.reference;
       else return null;
     },
-
     haveSalePrice() {
       return (
         this.article?.prices?.find(
@@ -36,14 +35,16 @@ export default {
       );
     },
     totalStock() {
-      return this.totalEntry - this.totalExit;
+      return this.article.stock.available;
     },
     stockClassState() {
-      if (this.totalStock <= parseInt(this.article.product.critical_stock))
+      if (
+        this.totalStock <= parseInt(this.article?.product?.critical_stock ?? 0)
+      )
         return 'danger';
-      if (this.totalStock <= parseInt(this.article.product.min_stock))
+      if (this.totalStock <= parseInt(this.article?.product?.min_stock ?? 0))
         return 'warning';
-      if (this.totalStock <= parseInt(this.article.product.alert_stock))
+      if (this.totalStock <= parseInt(this.article?.product?.alert_stock ?? 0))
         return 'info';
 
       return 'success';

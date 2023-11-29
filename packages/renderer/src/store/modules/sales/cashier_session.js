@@ -124,7 +124,7 @@ const actions = {
       .then(({ data }) => {
         commit('sale/ADD_CASHIER_SALE', data, { root: true });
         data?.stock_exit_lines?.forEach((sel) => {
-          commit('article/UPDATE_ARTICLE_STOCK', sel.article, { root: true });
+          commit('article/UPDATE_ARTICLE', sel.article, { root: true });
         });
         return data;
       })
@@ -140,7 +140,7 @@ const actions = {
       background_at: new Date(),
       amount: getters.getCurrentSaleTotalAmount,
     });
-    commit('RESET_CURRENT_SALE_REQUEST_FIELDS');
+    commit('RESET_CURRENT_SALE_REQUEST');
     return true;
   },
 
@@ -218,15 +218,6 @@ const mutations = {
   },
   SET_CURRENT_SALE_REQUEST_ARTICLE_LINES(state, articleLines) {
     state.currentSaleRequest.stock_exit_lines = articleLines;
-  },
-  RESET_CURRENT_SALE_REQUEST_FIELDS(state) {
-    state.currentSaleRequest.stock_exit_lines = [];
-    state.currentSaleRequest.customer_id = null;
-    state.currentSaleRequest.cashin = null;
-    state.currentSaleRequest.cashout = null;
-    state.currentSaleRequest.discount_id = null;
-    state.currentSaleRequest.discount = null;
-    state.currentSaleRequest.discount_code = null;
   },
   ADD_ARTICLE_TO_CURRENT_SALE_REQUEST(state, articleLine) {
     let alIndex = state.currentSaleRequest.stock_exit_lines.findIndex(

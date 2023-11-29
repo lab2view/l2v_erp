@@ -45,6 +45,9 @@ const getters = {
       )
     );
   },
+  saleScreenSmall: () => {
+    return screen.availWidth < 1500;
+  },
 };
 
 // privileges

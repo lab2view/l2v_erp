@@ -1,13 +1,13 @@
 <template>
-  <div :class="`card-body mt-0 ${isEscaleMarketWorkspace ? 'pt-1' : ''}`">
+  <div :class="`card-body mt-0 ${saleScreenSmall ? 'pt-1' : ''}`">
     <div class="row align-items-end">
       <div class="col">
         <div
           :class="`row justify-content-center ${
-            isEscaleMarketWorkspace ? 'mb-1' : 'mb-2'
+            saleScreenSmall ? 'mb-1' : 'mb-2'
           }`"
         >
-          <div :class="isEscaleMarketWorkspace ? `col-md` : `col-md-6`">
+          <div :class="saleScreenSmall ? `col-md pt-0 pb-0` : `col-md-6`">
             <BaseFieldGroup
               :with-refresh="true"
               refresh-action-name="customer/getCustomersList"
@@ -20,6 +20,7 @@
             >
               <BaseSelect
                 v-model="customer"
+                class="p-0"
                 :options="getCustomerForSelect2"
                 :searchable="true"
                 :placeholder="$t('common.fields.add_customer')"
@@ -62,12 +63,12 @@
               <tbody>
                 <tr>
                   <td class="font-primary" style="width: 20%">
-                    <h6 class="mb-0">
+                    <h6 class="mb-0" :class="labelClass">
                       {{ $t('common.attributes.sub_price') }} :
                     </h6>
                   </td>
                   <td class="font-primary" style="width: 30%">
-                    <h5 class="mb-0 f-w-600 p-l-10">
+                    <h5 class="mb-0 f-w-600 p-l-10" :class="labelValueClass">
                       {{ `${getCurrentSaleSupAmount} ${currency}` }}
                     </h5>
                   </td>
@@ -77,39 +78,42 @@
                     rowspan="2"
                     colspan="2"
                   >
-                    <h6 class="mb-0">
+                    <h6 class="mb-0" :class="labelClass">
                       {{ $t('common.attributes.total_price') }}
                     </h6>
-                    <h3 class="text-center text- f-w-800">
+                    <h3
+                      class="text-center text- f-w-800"
+                      :class="saleScreenSmall ? 'f-20' : ''"
+                    >
                       {{ `${getCurrentSaleTotalAmount} ${currency}` }}
                     </h3>
                   </td>
                 </tr>
                 <tr>
                   <td class="font-primary" style="width: 20%">
-                    <h6 class="mb-0">
+                    <h6 class="mb-0" :class="labelClass">
                       {{ $t('common.attributes.discount').toUpperCase() }} :
                     </h6>
                   </td>
                   <td class="font-primary" style="width: 30%">
-                    <h5 class="mb-0 f-w-600 p-l-10">
+                    <h5 class="mb-0 f-w-600 p-l-10" :class="labelValueClass">
                       {{ `${getCurrentSaleDiscountAmount} ${currency}` }}
                     </h5>
                   </td>
                 </tr>
                 <tr>
                   <td class="font-primary">
-                    <h6 class="mb-0">
+                    <h6 class="mb-0" :class="labelClass">
                       {{ $t('common.attributes.tax_id').toUpperCase() }} :
                     </h6>
                   </td>
                   <td class="font-primary">
-                    <h5 class="mb-0 f-w-600 p-l-10">
+                    <h5 class="mb-0 f-w-600 p-l-10" :class="labelValueClass">
                       {{ `${getCurrentSaleTaxAmount} ${currency}` }}
                     </h5>
                   </td>
                   <td class="font-primary">
-                    <h6 class="mb-0 f-w-600 p-l-10">
+                    <h6 class="mb-0 f-w-600 p-l-10" :class="labelClass">
                       {{ $t('common.attributes.receive_amount') }} :
                     </h6>
                   </td>
@@ -124,7 +128,10 @@
                       step="any"
                       class="font-primary f-w-600 form-control f-40"
                     >
-                      <span class="input-group-text font-primary pt-1 pb-1">
+                      <span
+                        class="input-group-text font-primary pt-1 pb-1"
+                        :class="labelValueClass"
+                      >
                         {{ currency }}
                       </span>
                     </BaseInputGroup>
@@ -132,22 +139,22 @@
                 </tr>
                 <tr>
                   <td class="font-primary">
-                    <h6 class="mb-0">
+                    <h6 class="mb-0" :class="labelClass">
                       {{ $t('common.attributes.total_article') }} :
                     </h6>
                   </td>
                   <td class="font-primary">
-                    <h5 class="mb-0 f-w-600 p-l-10">
+                    <h5 class="mb-0 f-w-600 p-l-10" :class="labelValueClass">
                       {{ getCurrentSaleArticleCount }}
                     </h5>
                   </td>
                   <td class="font-primary">
-                    <h6 class="mb-0 f-w-600 p-l-10">
+                    <h6 class="mb-0 f-w-600 p-l-10" :class="labelClass">
                       {{ $t('common.attributes.change_price') }} :
                     </h6>
                   </td>
                   <td class="font-primary">
-                    <h5 class="mb-0 p-l-10">
+                    <h5 class="mb-0 p-l-10" :class="labelValueClass">
                       {{ `${getCurrentSaleCashOutAmount} ${currency}` }}
                     </h5>
                   </td>
@@ -239,7 +246,7 @@ export default {
       'getCurrentSaleCashOutAmount',
       'isCurrentSaleHaveArticle',
     ]),
-    ...mapGetters('workspace', ['currency', 'isEscaleMarketWorkspace']),
+    ...mapGetters('workspace', ['currency', 'saleScreenSmall']),
     ...mapGetters('payment_method', ['paymentMethods']),
     ...mapGetters('sale_type', ['saleTypes']),
     ...mapGetters('customer', ['getCustomerForSelect2']),
@@ -306,6 +313,12 @@ export default {
         });
       },
     },
+    labelClass() {
+      return this.saleScreenSmall ? 'f-10' : '';
+    },
+    labelValueClass() {
+      return this.saleScreenSmall ? 'f-12' : '';
+    },
   },
   created() {
     store.dispatch('customer/getCustomersList', {
@@ -315,7 +328,7 @@ export default {
   },
   methods: {
     getLabelTranslateCode(code) {
-      return this.isEscaleMarketWorkspace ? `${code}_2` : code;
+      return this.saleScreenSmall ? `${code}_2` : code;
     },
     saveCurrentSaleInBackground() {
       this.$store.dispatch('cashier_session/saveCurrentSaleInBackground');
@@ -332,5 +345,8 @@ export default {
 }
 .bg-light-primary {
   background-color: rgba(27, 76, 67, 0.1);
+}
+.f-10 {
+  font-size: 10px;
 }
 </style>

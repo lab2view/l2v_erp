@@ -90,4 +90,8 @@ export default {
   makeDecomposition(article_id) {
     return axios.delete(`/articles/${article_id}/compositions/decompose`);
   },
+
+  processToPacking(packField) {
+    return axios.post(`/stocks/packing/create`, packField);
+  },
 };

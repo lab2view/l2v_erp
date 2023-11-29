@@ -1,6 +1,11 @@
 <template>
-  <tr :class="isEscaleMarketWorkspace ? 'f-10' : ''">
-    <td class="bd-t-none u-s-tb">
+  <tr
+    :class="{
+      'f-10 p-1': saleScreenSmall,
+      blink: animation,
+    }"
+  >
+    <td class="bd-t-none u-s-tb" :class="tableLineClass">
       <div class="media">
         <a
           href="#"
@@ -21,9 +26,7 @@
         </a>
         <div class="media-body m-l-10">
           <div
-            :class="`font-primary f-w-500 ${
-              isEscaleMarketWorkspace ? 'f-10' : 'f-12'
-            }`"
+            :class="`font-primary f-w-500 ${saleScreenSmall ? 'f-10' : 'f-12'}`"
           >
             {{ article.label }}
             <span :class="`f-10 text-${is_stock ? 'success' : 'danger'}`">
@@ -33,7 +36,7 @@
         </div>
       </div>
     </td>
-    <td class="font-primary" style="width: 200px">
+    <td class="font-primary" :class="tableLineClass">
       <BaseSelect
         v-if="showFormPriceType"
         v-model.number="salePriceTypeField"
@@ -54,8 +57,8 @@
         @click.prevent="showFormPriceType = true"
       />
     </td>
-    <td>
-      <div :style="`width: ${isEscaleMarketWorkspace ? 90 : 140}px`">
+    <td :class="tableLineClass">
+      <div :style="`width: ${saleScreenSmall ? 95 : 140}px`">
         <BaseInputGroup
           v-model.number="quantity"
           type="number"
@@ -66,7 +69,7 @@
           <template #prefix>
             <BaseButton
               :class="
-                isEscaleMarketWorkspace
+                saleScreenSmall
                   ? 'font-secondary border-0'
                   : 'input-group-text btn btn-primary btn-iconsolid pt-1 pb-1'
               "
@@ -77,8 +80,9 @@
             />
           </template>
           <BaseButton
+            v-if="!canProcessToPack"
             :class="
-              isEscaleMarketWorkspace
+              saleScreenSmall
                 ? 'font-secondary border-0'
                 : 'input-group-text btn btn-primary btn-iconsolid pt-1 pb-1'
             "
@@ -87,16 +91,43 @@
             type="button"
             @click.prevent="incrementArticleQuantity"
           />
+          <BaseButton
+            v-else
+            :class="
+              saleScreenSmall
+                ? 'font-primary border-0'
+                : 'input-group-text btn btn-secondary btn-iconsolid pt-1 pb-1'
+            "
+            :icon="processLoading ? 'fa fa-spin fa-refresh' : 'fa fa-check'"
+            icon-class=""
+            type="button"
+            :disabled="processLoading"
+            @click.prevent="
+              $emit('packing', {
+                article: {
+                  id: article.article_id,
+                  label: article.label,
+                  stock: article.stock,
+                },
+                packable_articles,
+              })
+            "
+          />
         </BaseInputGroup>
       </div>
     </td>
-    <td class="font-primary text-start" style="width: 180px">
+    <td
+      class="font-primary text-start"
+      :class="tableLineClass"
+      :style="`width: ${saleScreenSmall ? 130 : 180}px`"
+    >
       <span class="f-w-600"> {{ `${article.sup_price} ${currency}` }}</span>
       <a
         href="#"
         class="float-end text-danger"
+        :class="saleScreenSmall ? ' f-14' : ''"
         :title="$t('common.delete')"
-        @click.prevent="removeArticle"
+        @click.prevent="$emit('delete')"
       >
         <span class="fa fa-times"></span>
       </a>
@@ -106,23 +137,32 @@
 
 <script>
 import BaseInputGroup from '/@/components/common/BaseInputGroup.vue';
-import { getDefaultProductImage } from '/@/helpers/utils.js';
-import ArticleMixin from '/@/mixins/ArticleMixin.js';
+import { getDefaultProductImage } from '/@/helpers/utils';
+import ArticleMixin from '/@/mixins/ArticleMixin';
 import { mapGetters } from 'vuex';
 import BaseButton from '/@/components/common/BaseButton.vue';
 import BaseSelect from '/@/components/common/BaseSelect.vue';
-import { priceTypeCode } from '/@/helpers/codes.js';
+import { priceTypeCode } from '/@/helpers/codes';
 
 export default {
   components: { BaseSelect, BaseButton, BaseInputGroup },
   mixins: [ArticleMixin],
+  props: {
+    index: { type: Number, default: null },
+    processLoading: { type: Boolean, default: false },
+  },
+  emits: ['updated', 'delete', 'packing'],
   data() {
     return {
       showFormPriceType: false,
+      animation: false,
+      line_focus: false,
     };
   },
   computed: {
-    ...mapGetters('workspace', ['currency', 'isEscaleMarketWorkspace']),
+    ...mapGetters('workspace', ['currency', 'saleScreenSmall']),
+    ...mapGetters('article', ['getProductArticles']),
+    ...mapGetters('cashier_session', ['currentSessionEnterpriseId']),
     articleSalePriceTypes() {
       return this.article.prices
         .map((p) => {
@@ -173,6 +213,7 @@ export default {
         return this.article.quantity;
       },
       set(value) {
+        this.line_focus = true;
         this.$store.commit(
           'cashier_session/UPDATE_CURRENT_REQUEST_ARTICLE_QUANTITY',
           {
@@ -182,19 +223,54 @@ export default {
         );
       },
     },
+    tableLineClass() {
+      return this.saleScreenSmall ? 'p-1' : '';
+    },
+    packable_articles() {
+      return this.getProductArticles(
+        { id: this.article.article_id, product_id: this.article.product_id },
+        this.currentSessionEnterpriseId
+      );
+    },
+    canProcessToPack() {
+      return (
+        this.totalStock <= 0 &&
+        !this.canSaleWithoutStock &&
+        this.packable_articles.length > 0
+      );
+    },
+  },
+  watch: {
+    article: {
+      deep: true,
+      handler() {
+        this.$emit('updated');
+        if (!this.line_focus) {
+          this.startAnimation();
+        } else this.resetFocusLine();
+      },
+    },
+  },
+  mounted() {
+    this.$emit('updated');
+    this.startAnimation();
   },
   methods: {
-    removeArticle() {
-      this.$store.commit(
-        'cashier_session/REMOVE_ARTICLE_TO_CURRENT_SALE_REQUEST',
-        this.article.article_id
-      );
+    startAnimation() {
+      this.animation = true;
+      setTimeout(() => {
+        this.animation = false;
+      }, 500);
+    },
+    resetFocusLine() {
+      setTimeout(() => (this.line_focus = false), 1000);
     },
     incrementArticleQuantity() {
       if (
         this.canSaleWithoutStock ||
         parseFloat(this.article.quantity) < this.totalStock
-      )
+      ) {
+        this.line_focus = true;
         this.$store.commit(
           'cashier_session/UPDATE_CURRENT_REQUEST_ARTICLE_QUANTITY',
           {
@@ -202,9 +278,11 @@ export default {
             quantity: parseFloat(this.article.quantity) + 1,
           }
         );
+      }
     },
     decrementArticleQuantity() {
-      if (parseFloat(this.article.quantity) > 1)
+      if (parseFloat(this.article.quantity) > 1) {
+        this.line_focus = true;
         this.$store.commit(
           'cashier_session/UPDATE_CURRENT_REQUEST_ARTICLE_QUANTITY',
           {
@@ -212,6 +290,7 @@ export default {
             quantity: parseFloat(this.article.quantity) - 1,
           }
         );
+      }
     },
   },
 };
@@ -223,5 +302,20 @@ export default {
 }
 .f-8 {
   font-size: 8px;
+}
+
+.blink {
+  animation: blink-animation 0.1s steps(5, start) infinite;
+  -webkit-animation: blink-animation 0.1s steps(5, start) infinite;
+}
+@keyframes blink-animation {
+  to {
+    visibility: hidden;
+  }
+}
+@-webkit-keyframes blink-animation {
+  to {
+    visibility: hidden;
+  }
 }
 </style>

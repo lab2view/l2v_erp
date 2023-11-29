@@ -3,7 +3,7 @@
     :title="`${$t('common.sale.detail')} - ${cashierSale.code}`"
     modal-size="lg"
   >
-    <div class="card-body pt-0">
+    <div class="card-body vertical-scroll scroll-simple pt-0">
       <span>
         REFERENCE <i class="float-end">{{ cashierSale.reference }}</i>
       </span>
@@ -50,19 +50,19 @@
         {{ cashierSale.discount ? 'SOUS TOTAL' : 'TOTAL' }}
         <span class="float-end"> {{ `${getTotalAmount} ${currency}` }}</span>
       </span>
-      <hr class="m-1" />
+      <hr v-if="cashierSale.discount" class="m-1" />
       <span v-if="cashierSale.discount">
         {{ $t('common.fields.discount').toUpperCase() }}
         <span class="float-end">
           {{ `-${cashierSale.discount} ${currency}` }}</span
         >
       </span>
-      <hr class="m-1" />
+      <hr v-if="cashierSale.discount" class="m-1" />
       <span v-if="cashierSale.discount">
         TOTAL
         <span class="float-end"> {{ `${getSaleAmount} ${currency}` }}</span>
       </span>
-      <hr class="m-1" />
+      <hr v-if="cashierSale.customer" class="m-1" />
       <span v-if="cashierSale.customer">
         CLIENT
         <span class="float-end">
