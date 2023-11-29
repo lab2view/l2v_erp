@@ -3,9 +3,7 @@
     <SaleSessionHeader />
 
     <form @submit.prevent="handleSaleProcessButton">
-      <div
-        :class="`card-body pb-2 ${isEscaleMarketWorkspace ? 'mt-1 pt-1' : ''}`"
-      >
+      <div :class="`card-body pb-2 ${saleScreenSmall ? 'mt-1 pt-1' : ''}`">
         <div class="row align-items-center">
           <SaleSessionSelectedArticleList />
         </div>
@@ -23,7 +21,8 @@ import SaleSessionHeader from '/@/components/sales/session/SaleSessionHeader.vue
 import SaleSessionSelectedArticleList from '/@/components/sales/session/SaleSessionSelectedArticleList.vue';
 import SaleSessionState from '/@/components/sales/session/SaleSessionState.vue';
 import store from '/@/store/index';
-import { moduleCode } from '/@/helpers/codes';
+// import { moduleCode } from '/@/helpers/codes';
+import { notify } from '/@/helpers/notify';
 import ModuleSyncMixin from '/@/mixins/ModuleSyncMixin';
 import { mapGetters } from 'vuex';
 
@@ -78,7 +77,7 @@ export default {
     ...mapGetters('printer', ['printAfterSale']),
   },
   created() {
-    this.initEchoSync(moduleCode.products, 'product');
+    // this.initEchoSync(moduleCode.products, 'product');
     this.$store.dispatch('printer/initPrint').then(() => {
       this.$store.dispatch('printer/getInstalledPrinters');
     });
@@ -87,22 +86,26 @@ export default {
     handleSaleProcessButton() {
       if (this.loading) return;
 
-      this.loading = true;
-      this.errors = [];
-      this.$store
-        .dispatch('cashier_session/processToCurrentSaleRequest')
-        .then((data) => {
-          this.$store.commit('cashier_session/RESET_CURRENT_SALE_REQUEST');
-          if (this.printAfterSale)
-            this.$store.dispatch('printer/printSaleBill', data);
-          else
-            this.$router.push({
-              name: 'sales.session.cashier.sale.detail',
-              params: { ...this.$route.params, sale_id: data.id },
-            });
-        })
-        .catch((error) => (this.errors = error.response?.data?.errors))
-        .finally(() => (this.loading = false));
+      if (
+        this.$store.state.cashier_session.currentSaleRequest?.payment_method_id
+      ) {
+        this.loading = true;
+        this.errors = [];
+        this.$store
+          .dispatch('cashier_session/processToCurrentSaleRequest')
+          .then((data) => {
+            this.$store.commit('cashier_session/RESET_CURRENT_SALE_REQUEST');
+            if (this.printAfterSale)
+              this.$store.dispatch('printer/printSaleBill', data);
+            else
+              this.$router.push({
+                name: 'sales.session.cashier.sale.detail',
+                params: { ...this.$route.params, sale_id: data.id },
+              });
+          })
+          .catch((error) => (this.errors = error.response?.data?.errors))
+          .finally(() => (this.loading = false));
+      } else notify('Please select the payment method', 'Erreur', 'danger');
     },
   },
 };
