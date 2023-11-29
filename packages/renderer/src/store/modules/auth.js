@@ -39,7 +39,8 @@ const getters = {
   isCashierRole: (state, getters) =>
     getters.currentUser?.role?.code === roleCashierCode,
   currentEnterprise: (state, getters) => getters.currentUser?.enterprise,
-  currentEnterpriseId: (state, getters) => getters.currentEnterprise?.id,
+  currentEnterpriseId: (state, getters) =>
+    getters.currentEnterprise?.id ?? null,
   canShowMenuModule: (state, getters) => (moduleCode) => {
     if (getters.currentUser) {
       if (getters.isRoleAdmin) return true;

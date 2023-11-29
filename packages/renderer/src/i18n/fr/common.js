@@ -115,6 +115,7 @@ export default {
   empty_list: 'Aucun element dans la liste',
   print: 'Imprimer',
   generate_password: 'Generer le mot de passe',
+  update_2: 'Mettre a jour',
 
   la: 'la',
   le: 'le',

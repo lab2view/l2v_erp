@@ -186,14 +186,12 @@ export default {
         (a) => a.barcode.toString() === barcode.toString()
       );
       if (articles.length > 0) {
-        if (articles.length > 1) {
-          this.articleFilter = barcode;
-        } else {
+        if (articles.length === 1) {
           this.$store.commit(
             'cashier_session/ADD_ARTICLE_TO_CURRENT_SALE_REQUEST',
-            articles.first()
+            articles[0]
           );
-        }
+        } else this.articleFilter = barcode;
       }
     },
     resetBarcode() {

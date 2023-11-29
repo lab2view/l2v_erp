@@ -124,7 +124,7 @@ const actions = {
       .then(({ data }) => {
         commit('sale/ADD_CASHIER_SALE', data, { root: true });
         data?.stock_exit_lines?.forEach((sel) => {
-          commit('article/UPDATE_ARTICLE_STOCK', sel.article, { root: true });
+          commit('article/UPDATE_ARTICLE', sel.article, { root: true });
         });
         return data;
       })

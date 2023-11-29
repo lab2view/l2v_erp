@@ -11,7 +11,6 @@ import {
 import fileService from '/@/services/FileService';
 import _ from 'lodash';
 import priceService from '/@/services/articles/PriceService';
-import { parse } from 'babel-eslint';
 
 const state = {
   articles: null,
@@ -676,11 +675,11 @@ const mutations = {
   },
   UPDATE_ARTICLE(state, article) {
     let articles = state.articles ? JSON.parse(state.articles) : [];
-    const index = articles.findIndex((a) => a.id === article.id);
-    if (index !== -1) {
-      articles.splice(index, 1, article);
-      state.articles = JSON.stringify(articles);
-    }
+    state.articles = JSON.stringify(
+      articles.map((art) => {
+        return art.id === article.id ? article : art;
+      })
+    );
   },
   UPDATE_ARTICLE_STOCK(state, article) {
     let articles = state.articles ? JSON.parse(state.articles) : [];

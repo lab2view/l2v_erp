@@ -149,9 +149,8 @@
               >
                 <BaseButton
                   v-if="userForm.id"
-                  :text="$t('common.save')"
+                  :text="$t('common.update_2')"
                   icon="fa fa-check"
-                  text="Mettre a jour"
                   class="btn btn-success col-auto m-r-5"
                   type="button"
                   :disabled="!userForm.cancel_pin || loadingConfirmPin"
