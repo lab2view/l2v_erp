@@ -11,6 +11,7 @@ import {
 import fileService from '/@/services/FileService';
 import _ from 'lodash';
 import priceService from '/@/services/articles/PriceService';
+import { parse } from 'babel-eslint';
 
 const state = {
   articles: null,
@@ -67,9 +68,20 @@ const getters = {
           name = `${name} - ${a.package.label}(${a.quantity})`;
         }
       }
+      const enterprise_id =
+        rootGetters['cashier_session/currentSessionEnterpriseId'];
+      let available = a.stock.available;
+      if (enterprise_id !== rootGetters['auth/currentEnterpriseId']) {
+        available = getStockByEnterpriseId(enterprise_id, a);
+      }
+
       return {
         ...a,
         name,
+        stock: {
+          ...a.stock,
+          available,
+        },
       };
     }),
   article: (state) => (state.article ? JSON.parse(state.article) : null),
@@ -269,6 +281,21 @@ const getters = {
       critical: _.sumBy(articles, 'critical'),
     };
   },
+  getProductArticles:
+    (state, getters) =>
+    ({ id, product_id }, enterprise_id) => {
+      return getters
+        .getEnterpriseArticles(enterprise_id)
+        .filter((art) => art.id !== id && art.product_id === product_id)
+        .map((a) => {
+          return {
+            id: a.id,
+            name: a.name,
+            stock: a.stock,
+            package: a.package,
+          };
+        });
+    },
 };
 // privileges
 const actions = {
@@ -312,6 +339,50 @@ const actions = {
           return Promise.reject(error);
         });
     }
+  },
+
+  processArticlePacking({ commit, getters, rootGetters }, field) {
+    const enterprise_id =
+      field.enterprise_id ??
+      rootGetters['cashier_session/currentSessionEnterpriseId'] ??
+      rootGetters['auth/currentEnterpriseId'] ??
+      null;
+
+    const articleFrom = getters.sell_articles.find(
+      (art) => art.id === field.article_from_id
+    );
+    const articleTo = getters.sell_articles.find(
+      (art) => art.id === field.article_to_id
+    );
+
+    if (articleFrom !== undefined && articleTo !== undefined) {
+      return articleService
+        .processToPacking({ ...field, enterprise_id })
+        .then(({ data }) => {
+          const fromStock = {
+            ...articleFrom.stock,
+            total_exit:
+              parseInt(articleFrom.stock.total_exit) +
+              parseInt(data.stock_exit),
+            available:
+              parseInt(articleFrom.stock.available) - parseInt(data.stock_exit),
+          };
+          console.log(articleTo.stock.available);
+          const toStock = {
+            ...articleTo.stock,
+            total_entry:
+              parseInt(articleTo.stock.total_entry) +
+              parseInt(data.stock_entry),
+            available:
+              parseInt(articleTo.stock.available) + parseInt(data.stock_entry),
+          };
+
+          commit('UPDATE_ARTICLE_STOCK', { ...articleTo, stock: toStock });
+          commit('UPDATE_ARTICLE_STOCK', { ...articleFrom, stock: fromStock });
+
+          return toStock;
+        });
+    } else notify('sdfsadf');
   },
 
   getMostSaleArticlesList({ commit, getters, dispatch }, { page, field }) {
@@ -613,11 +684,14 @@ const mutations = {
   },
   UPDATE_ARTICLE_STOCK(state, article) {
     let articles = state.articles ? JSON.parse(state.articles) : [];
-    const index = articles.findIndex((a) => a.id === article.id);
-    if (index !== -1) {
-      articles.splice(index, 1, { ...articles[index], stock: article.stock });
-      state.articles = JSON.stringify(articles);
-    }
+    state.articles = JSON.stringify(
+      articles.map((art) => {
+        return {
+          ...art,
+          stock: article.stock,
+        };
+      })
+    );
   },
   DELETE_ARTICLE(state, articleId) {
     state.articles = JSON.stringify(

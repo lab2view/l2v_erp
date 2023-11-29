@@ -13,7 +13,7 @@
           type="password"
           placeholder="*********"
           required
-          @keydown.enter="submitConfirmPinForm"
+          @keydown.enter.prevent="submitConfirmPinForm"
         />
       </div>
       <span v-if="error" class="text-danger">{{ error }}</span>
@@ -40,6 +40,7 @@ import BaseInput from '/@/components/common/BaseInput.vue';
 import BaseFormModal from '/@/components/common/BaseFormModal.vue';
 
 export default {
+  name: 'ConfirmUserPin',
   components: { BaseFormModal, BaseButton, BaseInput },
   emits: ['unlocked', 'cancel'],
   data() {

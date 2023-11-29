@@ -80,6 +80,7 @@
             />
           </template>
           <BaseButton
+            v-if="!canProcessToPack"
             :class="
               saleScreenSmall
                 ? 'font-secondary border-0'
@@ -89,6 +90,28 @@
             icon-class=""
             type="button"
             @click.prevent="incrementArticleQuantity"
+          />
+          <BaseButton
+            v-else
+            :class="
+              saleScreenSmall
+                ? 'font-primary border-0'
+                : 'input-group-text btn btn-secondary btn-iconsolid pt-1 pb-1'
+            "
+            :icon="processLoading ? 'fa fa-spin fa-refresh' : 'fa fa-check'"
+            icon-class=""
+            type="button"
+            :disabled="processLoading"
+            @click.prevent="
+              $emit('packing', {
+                article: {
+                  id: article.article_id,
+                  label: article.label,
+                  stock: article.stock,
+                },
+                packable_articles,
+              })
+            "
           />
         </BaseInputGroup>
       </div>
@@ -126,8 +149,9 @@ export default {
   mixins: [ArticleMixin],
   props: {
     index: { type: Number, default: null },
+    processLoading: { type: Boolean, default: false },
   },
-  emits: ['updated', 'delete'],
+  emits: ['updated', 'delete', 'packing'],
   data() {
     return {
       showFormPriceType: false,
@@ -137,6 +161,8 @@ export default {
   },
   computed: {
     ...mapGetters('workspace', ['currency', 'saleScreenSmall']),
+    ...mapGetters('article', ['getProductArticles']),
+    ...mapGetters('cashier_session', ['currentSessionEnterpriseId']),
     articleSalePriceTypes() {
       return this.article.prices
         .map((p) => {
@@ -199,6 +225,19 @@ export default {
     },
     tableLineClass() {
       return this.saleScreenSmall ? 'p-1' : '';
+    },
+    packable_articles() {
+      return this.getProductArticles(
+        { id: this.article.article_id, product_id: this.article.product_id },
+        this.currentSessionEnterpriseId
+      );
+    },
+    canProcessToPack() {
+      return (
+        this.totalStock <= 0 &&
+        !this.canSaleWithoutStock &&
+        this.packable_articles.length > 0
+      );
     },
   },
   watch: {

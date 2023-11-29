@@ -142,6 +142,7 @@ export default {
           image: article.cover_thumb_url ?? article.product.image_url,
           stock: article.stock,
           prices: article.prices,
+          product_id: article.product_id,
         };
       });
     },

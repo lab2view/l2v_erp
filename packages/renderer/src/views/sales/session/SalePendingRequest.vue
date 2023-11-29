@@ -41,12 +41,12 @@
         </span>
       </div>
     </div>
-    <ConfirmUserPin
-      v-if="sale_request_index"
-      @unlocked="removePendingRequest(sale_request_index)"
-      @cancel="sale_request_index = null"
-    />
   </BaseVerticalPanel>
+  <ConfirmUserPin
+    v-if="sale_request_index !== null"
+    @unlocked="removePendingRequest(sale_request_index)"
+    @cancel="sale_request_index = null"
+  />
 </template>
 
 <script>
