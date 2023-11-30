@@ -2,7 +2,7 @@
   <tr
     :class="{
       'f-10 p-1': saleScreenSmall,
-      blink: animation,
+      'bg-light-primary': article.is_active,
     }"
   >
     <td class="bd-t-none u-s-tb" :class="tableLineClass">
@@ -62,6 +62,7 @@
         <BaseInputGroup
           v-model.number="quantity"
           type="number"
+          :autofocus="article.is_active"
           min="1"
           :max="canSaleWithoutStock ? null : totalStock"
           class="font-primary text-center m-0 f-w-600 form-control-sm f-40"
@@ -246,23 +247,14 @@ export default {
       deep: true,
       handler() {
         this.$emit('updated');
-        if (!this.line_focus) {
-          this.startAnimation();
-        } else this.resetFocusLine();
+        if (this.line_focus) this.resetFocusLine();
       },
     },
   },
   mounted() {
     this.$emit('updated');
-    this.startAnimation();
   },
   methods: {
-    startAnimation() {
-      this.animation = true;
-      setTimeout(() => {
-        this.animation = false;
-      }, 500);
-    },
     resetFocusLine() {
       setTimeout(() => (this.line_focus = false), 1000);
     },
@@ -305,18 +297,7 @@ export default {
   font-size: 8px;
 }
 
-.blink {
-  animation: blink-animation 0.1s steps(5, start) infinite;
-  -webkit-animation: blink-animation 0.1s steps(5, start) infinite;
-}
-@keyframes blink-animation {
-  to {
-    visibility: hidden;
-  }
-}
-@-webkit-keyframes blink-animation {
-  to {
-    visibility: hidden;
-  }
+.bg-light-primary {
+  background-color: rgba(186, 137, 93, 0.1);
 }
 </style>

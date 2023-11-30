@@ -209,17 +209,28 @@ const mutations = {
     state.price_type_id = value;
   },
   UPDATE_CURRENT_SALE_REQUEST_ARTICLE(state, articleLine) {
+    state.currentSaleRequest.stock_exit_lines =
+      state.currentSaleRequest.stock_exit_lines.map((csel) => {
+        return { ...csel, is_active: false };
+      });
     const index = state.currentSaleRequest.stock_exit_lines.findIndex(
       (sel) => sel.article_id === articleLine.article_id
     );
     if (index >= 0) {
-      state.currentSaleRequest.stock_exit_lines.splice(index, 1, articleLine);
+      state.currentSaleRequest.stock_exit_lines.splice(index, 1, {
+        ...articleLine,
+        is_active: true,
+      });
     }
   },
   SET_CURRENT_SALE_REQUEST_ARTICLE_LINES(state, articleLines) {
     state.currentSaleRequest.stock_exit_lines = articleLines;
   },
   ADD_ARTICLE_TO_CURRENT_SALE_REQUEST(state, articleLine) {
+    state.currentSaleRequest.stock_exit_lines =
+      state.currentSaleRequest.stock_exit_lines.map((csel) => {
+        return { ...csel, is_active: false };
+      });
     let alIndex = state.currentSaleRequest.stock_exit_lines.findIndex(
       (al) => al.article_id === articleLine.article_id
     );
@@ -229,10 +240,21 @@ const mutations = {
         al.quantity++;
       }
       al.sup_price = al.quantity * al.price;
-      state.currentSaleRequest.stock_exit_lines.splice(alIndex, 1, al);
-    } else state.currentSaleRequest.stock_exit_lines.push(articleLine);
+      state.currentSaleRequest.stock_exit_lines.splice(alIndex, 1, {
+        ...al,
+        is_active: true,
+      });
+    } else
+      state.currentSaleRequest.stock_exit_lines.push({
+        ...articleLine,
+        is_active: true,
+      });
   },
   UPDATE_CURRENT_REQUEST_ARTICLE_QUANTITY(state, { articleId, quantity }) {
+    state.currentSaleRequest.stock_exit_lines =
+      state.currentSaleRequest.stock_exit_lines.map((csel) => {
+        return { ...csel, is_active: false };
+      });
     let alIndex = state.currentSaleRequest.stock_exit_lines.findIndex(
       (al) => al.article_id === articleId
     );
@@ -240,7 +262,10 @@ const mutations = {
       let al = { ...state.currentSaleRequest.stock_exit_lines[alIndex] };
       al.quantity = quantity;
       al.sup_price = al.quantity * al.price;
-      state.currentSaleRequest.stock_exit_lines.splice(alIndex, 1, al);
+      state.currentSaleRequest.stock_exit_lines.splice(alIndex, 1, {
+        ...al,
+        is_active: true,
+      });
     }
   },
   REMOVE_ARTICLE_TO_CURRENT_SALE_REQUEST(state, articleId) {
