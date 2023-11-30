@@ -33,7 +33,9 @@
             :key="`stock-exit-line-${article.article_id}`"
             :article="article"
             :process-loading="processLoading"
-            @updated="scrollToElement(`art-id-${article.article_id}`)"
+            @updated="
+              scrollToElement(`art-id-${article.article_id}`, article.is_active)
+            "
             @delete="initArticleDeletion(article.article_id)"
             @packing="initArticlePacking"
           />
@@ -111,9 +113,11 @@ export default {
     },
   },
   methods: {
-    scrollToElement(id) {
-      const element = document.getElementById(id);
-      element.scrollIntoView();
+    scrollToElement(id, is_active) {
+      if (is_active) {
+        const element = document.getElementById(id);
+        element.scrollIntoView();
+      }
     },
     cancelConfirmation() {
       this.article_id = null;
