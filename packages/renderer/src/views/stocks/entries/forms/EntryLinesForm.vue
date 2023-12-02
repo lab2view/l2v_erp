@@ -53,13 +53,15 @@
               </th>
               <th v-if="stockEntryIsCommand" scope="col" style="width: 210px">
                 {{ $t('common.attributes.provider_price') }}
+                (<span class="font-secondary f-w-600">{{ currency }}</span> )
               </th>
               <th class="text-center" scope="col" style="width: 120px">
                 {{ $t('common.attributes.quantity') }}
                 <span class="text-danger m-l-5">*</span>
               </th>
               <th scope="col" style="width: 210px">
-                {{ $t('common.attributes.buying_price') }}
+                {{ $t('common.attributes.prices') }}
+                (<span class="font-secondary f-w-600">{{ currency }}</span> )
                 <span class="text-danger m-l-5">*</span>
               </th>
               <th scope="col" style="width: 210px">
@@ -76,6 +78,7 @@
               :index="index"
               :update-field-method="updateStockEntryLineField"
               :errors="errors"
+              :enterprise-id="stockEntry.enterprise_id"
               @remove="removeStockEntryLineField"
             />
           </tbody>
@@ -154,6 +157,7 @@ export default {
   },
   computed: {
     ...mapGetters('stock_entry', ['stockEntry', 'stockEntryIsCommand']),
+    ...mapGetters('workspace', ['currency']),
     totalStock() {
       return sumBy(this.stock_entry_line_fields, 'quantity');
     },
@@ -173,6 +177,8 @@ export default {
             quantity: 1,
             provider_price: null,
             buying_price: null,
+            selling_price: null,
+            expires_at: '',
           };
         }),
       ];

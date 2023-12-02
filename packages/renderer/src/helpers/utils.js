@@ -289,3 +289,25 @@ export async function getContentCsvFileAsArray(file) {
     reader.readAsText(file);
   });
 }
+
+export function getEnterprisePriceByTypeCode(prices, typeCode, enterprise_id) {
+  let price = prices.find((p) => p.price_type.code === typeCode);
+  if (enterprise_id && price?.customs?.length) {
+    const custom = price.customs.find(
+      (pc) => pc.enterprise_id === enterprise_id && pc.price_id === price.id
+    );
+    if (custom !== undefined) price = { ...price, value: custom.value };
+  }
+  return price;
+}
+
+export function getEnterprisePriceByTypeId(prices, typeId, enterprise_id) {
+  let price = prices.find((p) => p.price_type_id === typeId);
+  if (enterprise_id && price?.customs?.length) {
+    const custom = price.customs.find(
+      (pc) => pc.enterprise_id === enterprise_id && pc.price_id === price.id
+    );
+    if (custom !== undefined) price = { ...price, value: custom.value };
+  }
+  return price;
+}

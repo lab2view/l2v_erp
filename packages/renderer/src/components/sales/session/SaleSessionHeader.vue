@@ -64,7 +64,10 @@ import { mapGetters } from 'vuex';
 // import BarcodeScanMixin from '/@/mixins/BarcodeScanMixin';
 import BaseSelect from '/@/components/common/BaseSelect.vue';
 import { priceTypeCode, saleTypeCode } from '/@/helpers/codes';
-import { getStockExitLineArticleStock } from '/@/helpers/utils';
+import {
+  getEnterprisePriceByTypeId,
+  getStockExitLineArticleStock,
+} from '/@/helpers/utils';
 import BaseButton from '/@/components/common/BaseButton.vue';
 
 export default {
@@ -115,18 +118,11 @@ export default {
     },
     articles() {
       return this.sell_articles.map((article) => {
-        let price = article.prices.find(
-          (p) => p.price_type_id === this.salePriceTypeField
+        const price = getEnterprisePriceByTypeId(
+          article.prices,
+          this.salePriceTypeField,
+          this.currentSessionEnterpriseId
         );
-        if (this.currentSessionEnterpriseId && price?.customs?.length) {
-          const specificPrice = price.customs.find(
-            (pc) =>
-              pc.enterprise_id === this.currentSessionEnterpriseId &&
-              pc.price_id === price.id
-          );
-          if (specificPrice !== undefined)
-            price = { ...price, value: specificPrice.value };
-        }
         const haveStock = article.stock.available > 0;
         return {
           label: `${article.name}`,
