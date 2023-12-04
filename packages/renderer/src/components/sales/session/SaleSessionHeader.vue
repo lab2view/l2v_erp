@@ -64,10 +64,7 @@ import { mapGetters } from 'vuex';
 // import BarcodeScanMixin from '/@/mixins/BarcodeScanMixin';
 import BaseSelect from '/@/components/common/BaseSelect.vue';
 import { priceTypeCode, saleTypeCode } from '/@/helpers/codes';
-import {
-  getEnterprisePriceByTypeId,
-  getStockExitLineArticleStock,
-} from '/@/helpers/utils';
+import { getEnterprisePriceByTypeId } from '/@/helpers/utils';
 import BaseButton from '/@/components/common/BaseButton.vue';
 
 export default {
@@ -90,6 +87,7 @@ export default {
         return null;
       },
       set(article) {
+        console.log(article);
         this.$store.commit(
           'cashier_session/ADD_ARTICLE_TO_CURRENT_SALE_REQUEST',
           article
@@ -172,7 +170,7 @@ export default {
     filterArticle(event) {
       const input = event.target.value;
       if (input) {
-        if (input.length >= 4) {
+        if (input.length >= 3) {
           this.articleFilter = input;
         }
       } else this.articleFilter = null;
@@ -181,14 +179,12 @@ export default {
       const articles = this.articles.filter(
         (a) => a.barcode.toString() === barcode.toString()
       );
-      if (articles.length > 0) {
-        if (articles.length === 1) {
-          this.$store.commit(
-            'cashier_session/ADD_ARTICLE_TO_CURRENT_SALE_REQUEST',
-            articles[0]
-          );
-        } else this.articleFilter = barcode;
-      }
+      if (articles.length === 1) {
+        this.$store.commit(
+          'cashier_session/ADD_ARTICLE_TO_CURRENT_SALE_REQUEST',
+          articles[0]
+        );
+      } else this.articleFilter = barcode;
     },
     resetBarcode() {
       this.onBarcodeScanned(this.$barcodeScanner.getPreviousCode());
