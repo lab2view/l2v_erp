@@ -45,7 +45,7 @@ const getters = {
           article.prices.find((p) =>
             filter.price_type_id
               ? p.price_type_id === filter.price_type_id
-              : p.price_type.code === priceTypeCode.sell
+              : p.price_type?.code === priceTypeCode.sell
           ) === undefined;
       }
 
@@ -117,12 +117,12 @@ const getters = {
         ? getters.filterAvailableArticles(distribution_id)
         : getters.articles
       ).filter((a) => {
-        let result = true;
+        let result = false;
         if (getters.article?.id) result = a.id !== getters.article.id;
         if (product_type_id)
           result = a.product.product_type_id === product_type_id;
         if (product_id) result = a.product_id === product_id;
-        if (keyword) {
+        if (keyword && keyword.length >= 4) {
           result = RegExp(`${keyword.toString().toUpperCase()}*`).test(
             `${a.name.toString().toUpperCase()} ${a.product.reference} ${
               a.product.code
@@ -140,12 +140,12 @@ const getters = {
         ? getDistributionCurrentStock(distribution)
         : getStockExitLineArticleStock(art);
       const price = art.prices.find(
-        (p) => p.price_type.code === priceTypeCode.sell
+        (p) => p.price_type?.code === priceTypeCode.sell
       );
       const amount =
         price !== undefined && quantity ? price.value * quantity : '0';
       const buyingPrice = art.prices.find(
-        (p) => p.price_type.code === priceTypeCode.buy
+        (p) => p.price_type?.code === priceTypeCode.buy
       );
       const buyingAmount =
         buyingPrice !== undefined && quantity

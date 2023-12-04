@@ -64,7 +64,7 @@ import { mapGetters } from 'vuex';
 // import BarcodeScanMixin from '/@/mixins/BarcodeScanMixin';
 import BaseSelect from '/@/components/common/BaseSelect.vue';
 import { priceTypeCode, saleTypeCode } from '/@/helpers/codes';
-import { getStockExitLineArticleStock } from '/@/helpers/utils';
+import { getEnterprisePriceByTypeId } from '/@/helpers/utils';
 import BaseButton from '/@/components/common/BaseButton.vue';
 
 export default {
@@ -115,18 +115,11 @@ export default {
     },
     articles() {
       return this.sell_articles.map((article) => {
-        let price = article.prices.find(
-          (p) => p.price_type_id === this.salePriceTypeField
+        const price = getEnterprisePriceByTypeId(
+          article.prices,
+          this.salePriceTypeField,
+          this.currentSessionEnterpriseId
         );
-        if (this.currentSessionEnterpriseId && price?.customs?.length) {
-          const specificPrice = price.customs.find(
-            (pc) =>
-              pc.enterprise_id === this.currentSessionEnterpriseId &&
-              pc.price_id === price.id
-          );
-          if (specificPrice !== undefined)
-            price = { ...price, value: specificPrice.value };
-        }
         const haveStock = article.stock.available > 0;
         return {
           label: `${article.name}`,
@@ -176,7 +169,7 @@ export default {
     filterArticle(event) {
       const input = event.target.value;
       if (input) {
-        if (input.length >= 4) {
+        if (input.length >= 3) {
           this.articleFilter = input;
         }
       } else this.articleFilter = null;
@@ -185,14 +178,12 @@ export default {
       const articles = this.articles.filter(
         (a) => a.barcode.toString() === barcode.toString()
       );
-      if (articles.length > 0) {
-        if (articles.length === 1) {
-          this.$store.commit(
-            'cashier_session/ADD_ARTICLE_TO_CURRENT_SALE_REQUEST',
-            articles[0]
-          );
-        } else this.articleFilter = barcode;
-      }
+      if (articles.length === 1) {
+        this.$store.commit(
+          'cashier_session/ADD_ARTICLE_TO_CURRENT_SALE_REQUEST',
+          articles[0]
+        );
+      } else this.articleFilter = barcode;
     },
     resetBarcode() {
       this.onBarcodeScanned(this.$barcodeScanner.getPreviousCode());

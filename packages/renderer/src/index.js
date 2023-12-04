@@ -23,7 +23,6 @@ app.use(VueViewer);
 
 let options = {
   sensitivity: 300, // default is 100
-  callbackAfterTimeout: true, // default is false
 };
 app.use(VueBarcodeScanner, options);
 app.config.globalProperties.$loadScript = loadScript;

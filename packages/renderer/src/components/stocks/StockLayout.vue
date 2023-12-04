@@ -50,6 +50,9 @@ export default {
   //     return data;
   //   });
   // },
+  created() {
+    this.$store.commit('article/SET_CURRENT_ARTICLE', null);
+  },
 };
 </script>
 
