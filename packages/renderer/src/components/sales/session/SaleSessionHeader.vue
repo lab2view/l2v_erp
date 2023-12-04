@@ -87,7 +87,6 @@ export default {
         return null;
       },
       set(article) {
-        console.log(article);
         this.$store.commit(
           'cashier_session/ADD_ARTICLE_TO_CURRENT_SALE_REQUEST',
           article
