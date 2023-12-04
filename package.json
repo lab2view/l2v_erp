@@ -1,6 +1,6 @@
 {
   "name": "erp-app",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "author": {
     "name": "Lab2view",
     "email": "contact@lab2view.com",
@@ -75,7 +75,7 @@
     "vue-i18n": "^9.2.0-beta.26",
     "vue-router": "4.0.12",
     "vue-select": "^4.0.0-beta.3",
-    "vue3-barcode-scanner": "^1.0.4",
+    "vue3-barcode-scanner": "^1.0.8",
     "vue3-dropzone": "^0.0.7",
     "vuex": "^4.0.2",
     "vuex-persist": "^3.1.3",

@@ -102,6 +102,7 @@
           v-if="!$store.state.globalLoading"
           :tfoot="false"
           :total="articles.length"
+          :buttons="datatableButtons"
         >
           <template #headers>
             <th>#</th>
@@ -135,6 +136,7 @@ import BaseFieldGroup from '/@/components/common/BaseFieldGroup.vue';
 import BaseSelect from '/@/components/common/BaseSelect.vue';
 import BaseSwitchInput from '/@/components/common/BaseSwitchInput.vue';
 import ArticleFilterMixin from '/@/mixins/ArticleFilterMixin';
+import { datatableBtnCode } from '/@/helpers/codes';
 
 export default {
   name: 'ArticleList',
@@ -161,6 +163,16 @@ export default {
         console.log(error);
         next();
       });
+  },
+  computed: {
+    datatableButtons() {
+      return [
+        {
+          extend: datatableBtnCode.csv,
+          messageTop: this.$t('articles.listTitle'),
+        },
+      ];
+    },
   },
   watch: {
     articles() {
