@@ -5,7 +5,7 @@
         <h6 class="f-12">{{ articleName }}</h6>
         <div class="star-ratings">
           <ul class="search-info">
-            <li>{{ currentEnterprise?.name || 'Principale' }}</li>
+            <li>{{ currentDistribution?.name || 'Principale' }}</li>
             <li>
               {{ $t('common.headers.stock_in') }}
               <div class="span badge f-14" :class="`text-${stockClassState}`">
@@ -25,8 +25,7 @@
           </div>
         </div>
       </div>
-      <div class="col-md">
-        <p class="text-center f-w-700">{{ $t('common.headers.stock_in') }}</p>
+      <div class="col-md-auto">
         <ul class="list-group">
           <ArticleDistributionLine
             v-for="distribution in article.stats.distributions"
@@ -52,14 +51,17 @@ export default {
   mixins: [ArticleMixin],
   computed: {
     ...mapGetters('auth', ['currentEnterprise']),
+    ...mapGetters('cashier_session', ['currentSessionEnterpriseId']),
     ...mapGetters('workspace', ['isWoodinWorkspace']),
     currentDistribution() {
+      const currentEntId =
+        this.currentSessionEnterpriseId ?? this.currentEnterprise?.id ?? null;
       return this.article.stats.distributions.find(
-        (d) => d.id === this.currentEnterprise?.id
+        (d) => d.id === currentEntId
       );
     },
     currentDistributionTotalStock() {
-      if (this.currentDistribution) {
+      if (this.currentDistribution !== undefined) {
         return getDistributionCurrentStock(this.currentDistribution);
       } else return 0;
     },

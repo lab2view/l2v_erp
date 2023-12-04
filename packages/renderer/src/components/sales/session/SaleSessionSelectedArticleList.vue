@@ -33,7 +33,9 @@
             :key="`stock-exit-line-${article.article_id}`"
             :article="article"
             :process-loading="processLoading"
-            @updated="scrollToElement(`art-id-${article.article_id}`)"
+            @updated="
+              scrollToElement(`art-id-${article.article_id}`, article.is_active)
+            "
             @delete="initArticleDeletion(article.article_id)"
             @packing="initArticlePacking"
           />
@@ -111,9 +113,11 @@ export default {
     },
   },
   methods: {
-    scrollToElement(id) {
-      const element = document.getElementById(id);
-      element.scrollIntoView();
+    scrollToElement(id, is_active) {
+      if (is_active) {
+        const element = document.getElementById(id);
+        element.scrollIntoView();
+      }
     },
     cancelConfirmation() {
       this.article_id = null;
@@ -136,16 +140,17 @@ export default {
           article_to_id: this.articlePack.id,
         })
         .then((data) => {
-          const articleLine = this.stock_exit_lines.find(
-            (sel) => sel.article_id === this.articlePack.id
-          );
-          if (articleLine !== undefined) {
-            this.$store.commit(
-              'cashier_session/UPDATE_CURRENT_SALE_REQUEST_ARTICLE',
-              { ...articleLine, stock: data }
+          if (data.available) {
+            const articleLine = this.stock_exit_lines.find(
+              (sel) => sel.article_id === this.articlePack.id
             );
+            if (articleLine !== undefined) {
+              this.$store.commit(
+                'cashier_session/UPDATE_CURRENT_SALE_REQUEST_ARTICLE',
+                { ...articleLine, stock: data }
+              );
+            }
           }
-
           this.processLoading = false;
           this.articlePack = null;
           this.packable_articles = [];

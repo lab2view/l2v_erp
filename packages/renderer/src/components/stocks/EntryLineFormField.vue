@@ -1,9 +1,9 @@
 <template>
   <tr>
-    <td>
-      {{
-        `${article.product?.code} / ${article.product?.reference} ${article.name}`
-      }}
+    <td
+      :title="`${article.product?.code} / ${article.product?.reference} ${article.name}`"
+    >
+      {{ article.name }}
     </td>
     <td v-if="stockEntryIsCommand">
       <BaseSelect
@@ -15,7 +15,7 @@
       />
     </td>
     <td v-if="stockEntryIsCommand" style="width: 210px">
-      <BaseInputGroup
+      <BaseInput
         v-model="provider_price"
         type="number"
         rel="any"
@@ -23,11 +23,7 @@
         :errors="errors?.[`stock_entry_lines.${index}.provider_price`]"
         min="0"
         :placeholder="$t('common.attributes.amount')"
-      >
-        <template #prefix>
-          <span class="input-group-text pt-1 pb-1">XAF</span>
-        </template>
-      </BaseInputGroup>
+      />
     </td>
     <td style="width: 120px">
       <BaseInput
@@ -49,7 +45,24 @@
         :placeholder="$t('common.attributes.amount')"
       >
         <template #prefix>
-          <span class="input-group-text pt-1 pb-1">{{ currency }}</span>
+          <span class="input-group-text f-12">
+            {{ $t('common.attributes.buying_price') }}</span
+          >
+        </template>
+      </BaseInputGroup>
+      <br />
+      <BaseInputGroup
+        v-model.number="selling_price"
+        type="number"
+        rel="any"
+        :errors="errors?.[`stock_entry_lines.${index}.selling_price`]"
+        min="0"
+        :placeholder="$t('common.attributes.amount')"
+      >
+        <template #prefix>
+          <span class="input-group-text pt-1 pb-1 f-12">{{
+            $t('common.attributes.selling_price')
+          }}</span>
         </template>
       </BaseInputGroup>
     </td>
@@ -81,6 +94,7 @@ import BaseButton from '/@/components/common/BaseButton.vue';
 import BaseInputGroup from '/@/components/common/BaseInputGroup.vue';
 import { priceTypeCode } from '/@/helpers/codes.js';
 import BaseDatetime from '/@/components/common/BaseDatetime.vue';
+import { getEnterprisePriceByTypeCode } from '/@/helpers/utils';
 
 export default {
   components: {
@@ -107,6 +121,10 @@ export default {
       type: [Array, Object],
       default: null,
     },
+    enterpriseId: {
+      type: Number,
+      default: null,
+    },
   },
   emits: ['remove'],
   computed: {
@@ -117,10 +135,25 @@ export default {
     article() {
       return this.getArticleById(this.stockEntryLine.article_id);
     },
-    articlePrice() {
-      return this.article?.prices?.find(
-        (p) => p.price_type.code === priceTypeCode.buy
-      );
+    articleBuyingPrice() {
+      if (this.article?.prices.length) {
+        const price = getEnterprisePriceByTypeCode(
+          this.article.prices,
+          priceTypeCode.buy,
+          this.enterpriseId
+        );
+        return price?.value ?? null;
+      } else return null;
+    },
+    articleSellingPrice() {
+      if (this.article?.prices.length) {
+        const price = getEnterprisePriceByTypeCode(
+          this.article.prices,
+          priceTypeCode.sell,
+          this.enterpriseId
+        );
+        return price?.value ?? null;
+      } else return null;
     },
     provider_id: {
       get() {
@@ -178,6 +211,20 @@ export default {
         );
       },
     },
+    selling_price: {
+      get() {
+        return this.stockEntryLine.selling_price;
+      },
+      set(value) {
+        return this.updateFieldMethod(
+          {
+            ...this.stockEntryLine,
+            selling_price: value,
+          },
+          this.index
+        );
+      },
+    },
     expires_at: {
       get() {
         return this.stockEntryLine.expires_at;
@@ -193,9 +240,16 @@ export default {
       },
     },
   },
-  created() {
-    if (this.articlePrice) {
-      this.buying_price = this.articlePrice.value;
+  mounted() {
+    if (this.articleBuyingPrice || this.articleSellingPrice) {
+      this.updateFieldMethod(
+        {
+          ...this.stockEntryLine,
+          selling_price: this.articleSellingPrice,
+          buying_price: this.articleBuyingPrice,
+        },
+        this.index
+      );
     }
   },
 };

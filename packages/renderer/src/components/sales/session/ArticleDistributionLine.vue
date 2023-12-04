@@ -2,12 +2,15 @@
   <li
     class="list-group-item p-1 d-flex justify-content-between align-items-center"
   >
-    <span class="f-w-600">{{
-      distribution.name.toString().toUpperCase()
-    }}</span>
-    <span :class="`badge badge-${stockClassState} counter`">{{
-      totalStock
-    }}</span>
+    <div v-if="visibility" class="m-r-5" title="Visible">
+      <span class="fa fa-check-circle font-primary" />
+    </div>
+    <div class="m-r-5">
+      <span class="f-w-600 m-r-5">{{ distributionName }}</span>
+      <span :class="`badge badge-${stockClassState} counter`">{{
+        totalStock
+      }}</span>
+    </div>
     <BaseButton
       :title="$t('common.reserve')"
       type="button"
@@ -29,6 +32,22 @@ export default {
     article: {
       type: Object,
       required: true,
+    },
+  },
+  computed: {
+    visibility() {
+      if (this.article.product?.enterprises.length > 0)
+        return (
+          this.article.product?.enterprises.find(
+            (e) => e.id === this.distribution.id
+          ) !== undefined
+        );
+      else return true;
+    },
+    distributionName() {
+      return this.visibility
+        ? this.distribution.name.toUpperCase()
+        : this.distribution.name;
     },
   },
   methods: {

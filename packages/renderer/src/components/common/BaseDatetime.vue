@@ -8,7 +8,6 @@
     v-model="value"
     :auto-apply="autoApply"
     :enable-time-picker="enableTimePicker"
-    :min-date="minDate"
   />
   <div v-if="errors" class="invalid-feedback" style="display: inline">
     {{ errors[0] }}
@@ -37,10 +36,6 @@ export default {
     },
     modelValue: {
       type: [String, Number, Object],
-      default: '',
-    },
-    minDate: {
-      type: String,
       default: '',
     },
     required: {

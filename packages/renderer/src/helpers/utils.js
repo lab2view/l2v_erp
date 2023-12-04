@@ -1,4 +1,4 @@
-import { actionCode, priceTypeCode } from '/@/helpers/codes';
+import { actionCode, priceTypeCode, unitPackageCode } from '/@/helpers/codes';
 import _, { sumBy } from 'lodash';
 import localStore from '/@/store/helpers/localStore';
 
@@ -194,9 +194,9 @@ export function getArticleName(domain, article) {
   let name = article.name;
   if (isEscaleMarket(domain)) {
     name = article.product.name;
-    if (article.product.package?.code) {
-      if (article.product.package.code !== 'UNIT') {
-        name = `${article.product.package.label} ${
+    if (article.package?.code) {
+      if (article.package.code !== unitPackageCode) {
+        name = `${article.package.label} ${
           article.quantity > 1 ? article.quantity : ''
         } ${name}`;
       }
@@ -288,4 +288,26 @@ export async function getContentCsvFileAsArray(file) {
     reader.onerror = (error) => reject(error);
     reader.readAsText(file);
   });
+}
+
+export function getEnterprisePriceByTypeCode(prices, typeCode, enterprise_id) {
+  let price = prices.find((p) => p.price_type.code === typeCode);
+  if (enterprise_id && price?.customs?.length) {
+    const custom = price.customs.find(
+      (pc) => pc.enterprise_id === enterprise_id && pc.price_id === price.id
+    );
+    if (custom !== undefined) price = { ...price, value: custom.value };
+  }
+  return price;
+}
+
+export function getEnterprisePriceByTypeId(prices, typeId, enterprise_id) {
+  let price = prices.find((p) => p.price_type_id === typeId);
+  if (enterprise_id && price?.customs?.length) {
+    const custom = price.customs.find(
+      (pc) => pc.enterprise_id === enterprise_id && pc.price_id === price.id
+    );
+    if (custom !== undefined) price = { ...price, value: custom.value };
+  }
+  return price;
 }

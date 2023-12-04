@@ -230,7 +230,7 @@ export default {
       return [{ label: this.$t('common.all'), id: '' }, ...types];
     },
     selectableProducts() {
-      return [{ name: this.$t('common.all'), id: '' }, ...this.products];
+      return [{ name: this.$t('common.all'), id: '' }];
     },
     selectableArticles() {
       return this.searchArticleByCriteria({
