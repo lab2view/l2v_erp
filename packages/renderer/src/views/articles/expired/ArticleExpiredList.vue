@@ -1,160 +1,91 @@
 <template>
   <BaseContainer
-    :title="$t('articles.title')"
-    :module="$t('menu.modules.articles')"
+    :module="$t('menu.modules.stocks')"
+    :title="$t('stocks.title')"
   >
     <div class="card">
-      <BaseTableHeader
-        :title="$t('articles.listTitle')"
-        :refresh-action-field="{ page: 1, field: { paginate: 50, next: true } }"
-        refresh-action-name="article/getArticlesList"
-        add-action-router-name="article.setPrice"
-        add-action-label="common.btn_set_global_price"
-        add-action-icon="fa fa-check-circle-o"
-        entity="Price"
-      />
-      <div class="card-body p-1">
-        <div class="row mb-2">
-          <div class="col-md">
-            <BaseFieldGroup
-              :with-refresh="true"
-              refresh-action-name="product_family/getProductFamiliesList"
-              :with-append="false"
-            >
-              <BaseSelect
-                v-model.number="articleFilter.product_family_id"
-                :placeholder="`${$t('common.attributes.product_family')} ?`"
-                :options="productFamilies"
-                key-label="label"
-                key-value="id"
-              />
-            </BaseFieldGroup>
-          </div>
-          <div class="col-md">
-            <BaseFieldGroup
-              :with-refresh="true"
-              refresh-action-name="product_type/getProductTypesList"
-              :with-append="false"
-            >
-              <BaseSelect
-                v-model.number="articleFilter.product_type_id"
-                :placeholder="`${$t('common.attributes.product_type')} ?`"
-                :options="filterProductTypes"
-                key-label="label"
-                key-value="id"
-              />
-            </BaseFieldGroup>
-          </div>
-          <div class="col-md">
-            <BaseFieldGroup
-              :with-refresh="true"
-              refresh-action-name="product_unit/getProductUnitsList"
-              :with-append="false"
-            >
-              <BaseSelect
-                v-model.number="articleFilter.product_unit_id"
-                :placeholder="`${$t('common.attributes.product_unit')} ?`"
-                :options="productUnits"
-                key-label="label"
-                key-value="id"
-              />
-            </BaseFieldGroup>
-          </div>
-          <div class="col-md">
-            <BaseFieldGroup
-              :with-refresh="true"
-              refresh-action-name="package/getPackageList"
-              :with-append="false"
-            >
-              <BaseSelect
-                v-model.number="articleFilter.package_id"
-                :placeholder="`${$t('common.attributes.package_id')} ?`"
-                :options="packages"
-                key-label="label"
-                key-value="id"
-              />
-            </BaseFieldGroup>
-          </div>
-          <div class="col-md">
-            <BaseFieldGroup
-              :with-refresh="true"
-              :with-append="false"
-              refresh-action-name="enterprise/getEnterprisesList"
-            >
-              <BaseSelect
-                v-model.number="articleFilter.enterprise_id"
-                :options="enterprises"
-                key-label="name"
-                key-value="id"
-                :placeholder="`${$t('common.attributes.structure')} ?`"
-              />
-            </BaseFieldGroup>
-          </div>
-          <div class="col-md-3">
-            <BaseSwitchInput
-              v-model="articleFilter.sell_price_not_set"
-              :label="$t('articles.price.form.not_set_price')"
+      <div class="card-body">
+        <div class="row mb-2 mt-2">
+          <div class="col-md-4">
+            <BaseDatetime
+              v-model="filterExpiredArticlesDate"
+              :range="true"
+              placeholder="Filtrer par date d'expiration ?"
             />
+          </div>
+        </div>
+        <div class="col-md-12 row mb-2">
+          <div>
+            {{ $t('common.filter_interval') }}
+
+            <a
+              v-for="(day, index) in getDailyFilters"
+              :key="`filter-${index}`"
+              href="#"
+              class="badge rounded-pill bg-primary"
+              @click.prevent="
+                filterStockByNumberOfDay(day.min_day, day.max_day)
+              "
+            >
+              {{ day.label }}
+            </a>
           </div>
         </div>
 
         <BaseDatatable
           v-if="!$store.state.globalLoading"
           :tfoot="false"
-          :total="articles.length"
-          :buttons="datatableButtons"
+          :total="ExpiredArticles.length"
         >
           <template #headers>
-            <th>#</th>
-            <th>{{ $t('common.attributes.product_id') }}</th>
-            <th>{{ $t('common.attributes.name') }}</th>
-            <th class="text-center">{{ $t('common.headers.stock_in') }}</th>
-            <th>{{ $t('common.attributes.reference') }}</th>
-            <th>{{ $t('common.actions') }}</th>
+            <th>{{ $t('common.attributes.barcode') }}</th>
+            <th>{{ $t('common.attributes.stock_entry_date') }}</th>
+            <th>{{ $t('common.headers.stock_entry_qty') }}</th>
+            <th>{{ $t('common.attributes.stock_expired') }}</th>
+            <th>{{ $t('common.headers.stock_in') }}</th>
+            <th>{{ $t('common.attributes.expiry_date') }}</th>
           </template>
-
-          <ArticleTableLine
-            v-for="article in articles"
-            :key="`article-${article.id}`"
-            :article="article"
-          />
+          <tr
+            v-for="ExpiredArticle in ExpiredArticles"
+            :key="ExpiredArticle.article_id"
+          >
+            <td>
+              {{ ExpiredArticle.product.code }}
+            </td>
+            <td>
+              {{ $d(ExpiredArticle.entry_at, 'short') }}
+            </td>
+            <td>
+              {{ ExpiredArticle.quantity }}
+            </td>
+            <td>{{ ExpiredArticle.remain_stock }}</td>
+            <td>{{ ExpiredArticle.available_stock }}</td>
+            <td>{{ $d(ExpiredArticle.expires_at, 'short') }}</td>
+          </tr>
         </BaseDatatable>
+        <br />
       </div>
-
-      <router-view />
     </div>
   </BaseContainer>
 </template>
 
 <script>
 import BaseDatatable from '/@/components/common/BaseDatatable.vue';
-import store from '/@/store';
+import BaseDatetime from '/@/components/common/BaseDatetime.vue';
+import { mapGetters } from 'vuex';
 import BaseContainer from '/@/components/common/BaseContainer.vue';
-import BaseTableHeader from '/@/components/common/BaseTableHeader.vue';
-import ArticleTableLine from '/@/components/articles/ArticleTableLine.vue';
-import BaseFieldGroup from '/@/components/common/BaseFieldGroup.vue';
-import BaseSelect from '/@/components/common/BaseSelect.vue';
-import BaseSwitchInput from '/@/components/common/BaseSwitchInput.vue';
-import ArticleFilterMixin from '/@/mixins/ArticleFilterMixin';
-import { datatableBtnCode } from '/@/helpers/codes';
+import store from '/@/store/index.js';
 
 export default {
-  name: 'ArticleList',
-  components: {
-    BaseSwitchInput,
-    BaseSelect,
-    BaseFieldGroup,
-    ArticleTableLine,
-    BaseTableHeader,
-    BaseContainer,
-    BaseDatatable,
-  },
-  mixins: [ArticleFilterMixin],
+  name: 'ArticleExpiredList',
+  components: { BaseContainer, BaseDatetime, BaseDatatable },
   beforeRouteEnter(routeTo, routeFrom, next) {
     store
-      .dispatch('article/getArticlesList', {
+      .dispatch('article/getExpiredArticlesList', {
         page: 1,
-        field: {},
+        field: {
+          expires_at: null,
+        },
       })
       .then(() => {
         next();
@@ -165,27 +96,98 @@ export default {
       });
   },
   computed: {
-    datatableButtons() {
+    ...mapGetters('article', ['ExpiredArticles', 'requestField']),
+    filterExpiredArticlesDate: {
+      get() {
+        const dates = this.requestField.expires_interval
+          ? this.requestField.expires_interval.split(',')
+          : null;
+        return this.requestField.expires_at ?? dates;
+      },
+      set(date) {
+        this.$store.commit('article/SET_REQUEST_FIELD_VALUE', {
+          field: 'expires_at',
+          value: date,
+        });
+        this.getFilterExpiredArticlesList();
+      },
+    },
+    getDailyFilters() {
       return [
-        {
-          extend: datatableBtnCode.csv,
-          messageTop: this.$t('articles.listTitle'),
-        },
+        { label: 'Maintenant - 7 jours', min_day: null, max_day: 7 },
+        { label: 'Interval 7 - 14 jours', min_day: 7, max_day: 14 },
+        { label: 'Interval 14 - 21 jours', min_day: 14, max_day: 21 },
+        { label: 'Interval 21 - 30 jours', min_day: 21, max_day: 30 },
       ];
     },
   },
-  watch: {
-    articles() {
+  methods: {
+    getFilterExpiredArticlesList() {
       if (!this.$store.state.globalLoading) {
+        this.$store.commit('article/SET_REQUEST_FIELD_VALUE', {
+          field: 'expires_interval',
+          value: null,
+        });
+        this.$store.dispatch('setGlobalLoading', true);
+        this.$store
+          .dispatch('article/getExpiredArticlesList', {
+            page: 1,
+            field: { ...this.requestField, next: true },
+          })
+          .finally(() =>
+            setTimeout(
+              () => this.$store.dispatch('setGlobalLoading', false),
+              1000
+            )
+          );
+      }
+    },
+    filterStockByNumberOfDay(min_day, max_day) {
+      if (!this.$store.state.globalLoading) {
+        let day1, day2;
+        const today = new Date();
+        if (!min_day) {
+          day1 = today.toISOString(); // Convert today's date to ISO string format
+          day2 = new Date(
+            today.getTime() + max_day * 24 * 60 * 60 * 1000
+          ).toISOString();
+        } else {
+          const startDate = new Date(
+            today.getTime() + min_day * 24 * 60 * 60 * 1000
+          );
+          const endDate = new Date(
+            today.getTime() + max_day * 24 * 60 * 60 * 1000
+          );
+          day1 = startDate.toISOString();
+          day2 = endDate.toISOString();
+        }
+
+        this.$store.commit('article/SET_REQUEST_FIELD_VALUE', {
+          field: 'expires_at',
+          value: null,
+        });
+
+        this.$store.commit('article/SET_REQUEST_FIELD_VALUE', {
+          field: 'expires_interval',
+          value: `${day1},${day2}`,
+        });
+        this.$store.dispatch('article/getExpiredArticlesList', {
+          page: 1,
+          field: {
+            ...this.requestField,
+            next: true,
+          },
+        });
         this.$store.dispatch('setGlobalLoading', true);
         setTimeout(() => this.$store.dispatch('setGlobalLoading', false), 2000);
       }
     },
   },
-  created() {
-    this.$store.commit('article/SET_CURRENT_ARTICLE', null);
-  },
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.badge:hover {
+  color: white;
+}
+</style>
