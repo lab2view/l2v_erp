@@ -176,8 +176,8 @@ export const stockMenus = [
     prefix: 'expiry',
     items: [
       {
-        code: 'stockExpiry.viewAny',
-        to: 'stocks.expired.entries',
+        code: 'expiredArticle.viewAny',
+        to: 'expired.articles',
       },
     ],
   },
