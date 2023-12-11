@@ -6,10 +6,6 @@ const state = {
   hash: null,
   stock_entry_line: null,
   stock_expired_entry_lines: null,
-  request_field: {
-    expires_at: null,
-    expires_interval: null,
-  },
 };
 
 // getters

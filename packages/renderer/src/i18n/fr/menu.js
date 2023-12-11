@@ -236,7 +236,7 @@ export default {
   stockstate: {
     viewany: 'Status de Stock',
   },
-  stockexpiry: {
+  expiredarticle: {
     viewany: 'Liste des produits périmé',
   },
   inventory: {

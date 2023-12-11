@@ -8,7 +8,7 @@
         <div class="row mb-2 mt-2">
           <div class="col-md-4">
             <BaseDatetime
-              v-model="filterStockExpiredDate"
+              v-model="filterExpiredArticlesDate"
               :range="true"
               placeholder="Filtrer par date d'expiration ?"
             />
@@ -35,7 +35,7 @@
         <BaseDatatable
           v-if="!$store.state.globalLoading"
           :tfoot="false"
-          :total="stockExpiredEntryLines.length"
+          :total="ExpiredArticles.length"
         >
           <template #headers>
             <th>{{ $t('common.attributes.barcode') }}</th>
@@ -46,21 +46,21 @@
             <th>{{ $t('common.attributes.expiry_date') }}</th>
           </template>
           <tr
-            v-for="stockExpiredEntryLine in stockExpiredEntryLines"
-            :key="stockExpiredEntryLine.article_id"
+            v-for="ExpiredArticle in ExpiredArticles"
+            :key="ExpiredArticle.article_id"
           >
             <td>
-              {{ stockExpiredEntryLine.product_code }}
+              {{ ExpiredArticle.product.code }}
             </td>
             <td>
-              {{ $d(stockExpiredEntryLine.stock_entry.created_at, 'short') }}
+              {{ $d(ExpiredArticle.entry_at, 'short') }}
             </td>
             <td>
-              {{ stockExpiredEntryLine.stock_entry.initial_stock }}
+              {{ ExpiredArticle.quantity }}
             </td>
-            <td>{{ '--' }}</td>
-            <td>{{ stockExpiredEntryLine.stock_available }}</td>
-            <td>{{ $d(stockExpiredEntryLine.expires_at, 'short') }}</td>
+            <td>{{ ExpiredArticle.remain_stock }}</td>
+            <td>{{ ExpiredArticle.available_stock }}</td>
+            <td>{{ $d(ExpiredArticle.expires_at, 'short') }}</td>
           </tr>
         </BaseDatatable>
         <br />
@@ -77,11 +77,11 @@ import BaseContainer from '/@/components/common/BaseContainer.vue';
 import store from '/@/store/index.js';
 
 export default {
-  name: 'StockExpiredEntriesLineList',
+  name: 'ArticleExpiredList',
   components: { BaseContainer, BaseDatetime, BaseDatatable },
   beforeRouteEnter(routeTo, routeFrom, next) {
     store
-      .dispatch('stock_entry_line/getStockExpiredEntryLinesList', {
+      .dispatch('article/getExpiredArticlesList', {
         page: 1,
         field: {
           expires_at: null,
@@ -96,11 +96,8 @@ export default {
       });
   },
   computed: {
-    ...mapGetters('stock_entry_line', [
-      'stockExpiredEntryLines',
-      'requestField',
-    ]),
-    filterStockExpiredDate: {
+    ...mapGetters('article', ['ExpiredArticles', 'requestField']),
+    filterExpiredArticlesDate: {
       get() {
         const dates = this.requestField.expires_interval
           ? this.requestField.expires_interval.split(',')
@@ -108,11 +105,11 @@ export default {
         return this.requestField.expires_at ?? dates;
       },
       set(date) {
-        this.$store.commit('stock_entry_line/SET_REQUEST_FIELD_VALUE', {
+        this.$store.commit('article/SET_REQUEST_FIELD_VALUE', {
           field: 'expires_at',
           value: date,
         });
-        this.getFilterStockExpiredList();
+        this.getFilterExpiredArticlesList();
       },
     },
     getDailyFilters() {
@@ -125,15 +122,15 @@ export default {
     },
   },
   methods: {
-    getFilterStockExpiredList() {
+    getFilterExpiredArticlesList() {
       if (!this.$store.state.globalLoading) {
-        this.$store.commit('stock_entry_line/SET_REQUEST_FIELD_VALUE', {
+        this.$store.commit('article/SET_REQUEST_FIELD_VALUE', {
           field: 'expires_interval',
           value: null,
         });
         this.$store.dispatch('setGlobalLoading', true);
         this.$store
-          .dispatch('stock_entry_line/getStockExpiredEntryLinesList', {
+          .dispatch('article/getExpiredArticlesList', {
             page: 1,
             field: { ...this.requestField, next: true },
           })
@@ -165,16 +162,16 @@ export default {
           day2 = endDate.toISOString();
         }
 
-        this.$store.commit('stock_entry_line/SET_REQUEST_FIELD_VALUE', {
+        this.$store.commit('article/SET_REQUEST_FIELD_VALUE', {
           field: 'expires_at',
           value: null,
         });
 
-        this.$store.commit('stock_entry_line/SET_REQUEST_FIELD_VALUE', {
+        this.$store.commit('article/SET_REQUEST_FIELD_VALUE', {
           field: 'expires_interval',
           value: `${day1},${day2}`,
         });
-        this.$store.dispatch('stock_entry_line/getStockExpiredEntryLinesList', {
+        this.$store.dispatch('article/getExpiredArticlesList', {
           page: 1,
           field: {
             ...this.requestField,

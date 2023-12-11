@@ -19,6 +19,10 @@ export default {
     return axios.get(`/articles/${id}`);
   },
 
+  getExpiredArticlesList(page, field) {
+    return axios.post(`/articles/expired?page=${page}`, field);
+  },
+
   update(article, id) {
     return axios.put(`/articles/${id}`, article);
   },
