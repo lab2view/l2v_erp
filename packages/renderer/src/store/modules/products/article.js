@@ -11,10 +11,16 @@ import {
 import fileService from '/@/services/FileService';
 import _ from 'lodash';
 import priceService from '/@/services/articles/PriceService';
+import ArticleService from '/@/services/articles/ArticleService';
 
 const state = {
   articles: null,
   article: null,
+  expired_articles: null,
+  request_field: {
+    expires_at: null,
+    expires_interval: null,
+  },
   operator: null,
   filterStockLevel: 'critical',
   most_sale_articles: null,
@@ -22,7 +28,11 @@ const state = {
 
 // getters
 const getters = {
+  requestField: (state) => state.request_field,
   articles: (state) => (state.articles ? JSON.parse(state.articles) : []),
+  ExpiredArticles: (state) => {
+    return state.expired_articles ? JSON.parse(state.expired_articles) : [];
+  },
   mostSaleArticles: (state) =>
     state.most_sale_articles ? JSON.parse(state.most_sale_articles) : [],
   getFilterStockLevel: (state) => state.filterStockLevel,
@@ -342,6 +352,41 @@ const actions = {
     }
   },
 
+  getExpiredArticlesList({ commit, getters, dispatch }, { page, field }) {
+    if (getters.ExpiredArticles.length > 0 && !field.next) {
+      return getters.ExpiredArticles;
+    }
+    return ArticleService.getExpiredArticlesList(page, {
+      ...field,
+      paginate: 16,
+    })
+      .then(({ data }) => {
+        commit('SET_EXPIRED_ARTICLES', data);
+        dispatch(
+          'setGlobalProgress',
+          {
+            label: 'expired articles',
+            min: 0,
+            max: data.last_page,
+            value: data.current_page,
+          },
+          { root: true }
+        );
+
+        if (data.next_page_url) {
+          return dispatch('getExpiredArticlesList', {
+            page: page + 1,
+            field: { ...field, next: true },
+          });
+        } else dispatch('setGlobalProgress', null, { root: true });
+        return data;
+      })
+      .catch((error) => {
+        commit('SET_EXPIRED_ARTICLES', []);
+        return Promise.reject(error);
+      });
+  },
+
   processArticlePacking({ commit, getters, rootGetters }, field) {
     const enterprise_id =
       field.enterprise_id ??
@@ -655,11 +700,23 @@ const actions = {
 
 // mutations
 const mutations = {
+  SET_REQUEST_FIELD_VALUE(state, { field, value }) {
+    state.request_field[field] = value;
+  },
   SET_ARTICLES(state, { current_page, data }) {
     if (current_page === 1) state.articles = JSON.stringify(data);
     else {
       let oldArticles = state.articles ? JSON.parse(state.articles) : [];
       state.articles = JSON.stringify([...oldArticles, ...data]);
+    }
+  },
+  SET_EXPIRED_ARTICLES(state, { current_page, data }) {
+    if (current_page === 1) state.expired_articles = JSON.stringify(data);
+    else {
+      let oldExpiredArticles = state.expired_articles
+        ? JSON.parse(state.expired_articles)
+        : [];
+      state.expired_articles = JSON.stringify([...oldExpiredArticles, ...data]);
     }
   },
   SET_MOST_SALE_ARTICLES(state, { current_page, data }) {

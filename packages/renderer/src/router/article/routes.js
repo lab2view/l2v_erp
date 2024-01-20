@@ -16,6 +16,14 @@ export default [
     ],
   },
   {
+    path: 'expired-articles',
+    name: 'expired.articles',
+    component: () => import('/@/views/articles/expired/ArticleExpiredList.vue'),
+    meta: {
+      code: 'expiredArticle.viewAny',
+    },
+  },
+  {
     path: 'search-results',
     name: 'article.finder',
     component: () =>
