@@ -1,3 +1,3 @@
 # L2V KIT BUSINESS
 
-0.5.1
+0.5.2

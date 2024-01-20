@@ -5,10 +5,6 @@ export default {
     return axios.post(`/stocks/entries/lines/list?page=${page}`, field);
   },
 
-  getStockExpiredEntryLinesList(page, field) {
-    return axios.post(`/stocks/entries/lines/expired?page=${page}`, field);
-  },
-
   addStockEntryLine(stockEntryLine) {
     return axios.post(`/stocks/entries/lines`, stockEntryLine);
   },
