@@ -17,6 +17,10 @@ const state = {
   articles: null,
   article: null,
   expired_articles: null,
+  filterStock: {
+    operator: null,
+    distribution_id: null,
+  },
   request_field: {
     expires_at: null,
     expires_interval: null,
@@ -307,8 +311,17 @@ const getters = {
           };
         });
     },
+
+  getArticleAvailableDistributions: (state, getters) => {
+    return getters.articles.length > 0
+      ? getters.articles[0].stats.distributions.map(({ id, name }) => {
+          return { id, name };
+        })
+      : [];
+  },
 };
-// privileges
+
+//actions
 const actions = {
   getArticlesList({ commit, getters, dispatch, rootGetters }, { page, field }) {
     if (getters.articles.length > 0 && !field.next) {
@@ -509,15 +522,25 @@ const actions = {
   getSaleArticleByWorkspaceStock({ getters, state }, stock) {
     return getters.sell_articles
       .map((article) => {
+        const distribution =
+          state.filterStock.distribution_id !== null
+            ? article.stats.distributions.find((d) => {
+                if (state.filterStock.distribution_id === -1)
+                  return d.id === null;
+                else return d.id === state.filterStock.distribution_id;
+              })
+            : null;
         return {
           ...article,
-          workspace_stock: getWorkspaceTotalArticleStock(article),
+          workspace_stock: distribution
+            ? getDistributionCurrentStock(distribution)
+            : getWorkspaceTotalArticleStock(article),
         };
       })
       .filter((art) =>
-        state.operator === '<='
+        state.filterStock.operator === '<='
           ? art.workspace_stock <= stock
-          : state.operator === '==='
+          : state.filterStock.operator === '==='
           ? art.workspace_stock === stock
           : art.workspace_stock >= stock
       );
@@ -947,7 +970,10 @@ const mutations = {
     }
   },
   UPDATE_OPERATOR(state, operator) {
-    state.operator = operator;
+    state.filterStock.operator = operator;
+  },
+  UPDATE_DISTRIBUTION_ID(state, id) {
+    state.filterStock.distribution_id = id;
   },
   SET_FILTER_STOCK_LEVEL(state, filterStockLevel) {
     state.filterStockLevel = filterStockLevel;
