@@ -227,6 +227,7 @@ export default {
     enterprise_receiver: 'Entreprise de destination',
     receiver_structure: 'Structure cible',
     structure: 'Structure',
+    structure_all: 'Toute les structure',
     enterprise: 'Entreprise',
     product: 'Produit',
     validate: 'Valide',
@@ -324,6 +325,7 @@ export default {
     expires_at: 'Expire le',
     stock_expired: 'Qté Expirée',
     sans_stock: 'Vendre sans stock',
+    filter: 'Filter',
   },
 
   gender: {

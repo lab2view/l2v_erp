@@ -1,13 +1,43 @@
 <template>
   <BaseModal modal-size="lg" :title="modalTitle">
-    <BaseRadioButton v-model="operator" :options="operators" />
-    <BaseInput
-      v-model.number="filterQuantity"
-      :placeholder="$t('common.attributes.stock_entry')"
-      type="text"
-      required
-      @keydown.enter="getSaleArticleByWorkspaceStock"
-    />
+    <div class="row align-items-center">
+      <div class="col-md">
+        <BaseRadioButton v-model="operator" :options="operators" />
+        <div class="row align-items-center">
+          <div class="col-md">
+            <BaseFieldGroup
+              :with-refresh="true"
+              :with-append="false"
+              refresh-action-name="enterprise/getEnterprisesList"
+            >
+              <BaseSelect
+                v-model.number="filterDistribution"
+                :options="distributions"
+                key-label="name"
+                key-value="id"
+                :placeholder="`${$t('common.attributes.structure_all')} ?`"
+              />
+            </BaseFieldGroup>
+          </div>
+          <div class="col-md">
+            <BaseInput
+              v-model.number="filterQuantity"
+              :placeholder="$t('common.attributes.stock_entry')"
+              type="text"
+              required
+            />
+          </div>
+        </div>
+      </div>
+      <div class="col-md-auto">
+        <BaseButton
+          class="btn btn-sm btn-outline-primary"
+          :text="$t('common.attributes.filter')"
+          icon="fa fa-search"
+          @click.prevent="getSaleArticleByWorkspaceStock"
+        />
+      </div>
+    </div>
     <div class="card-body p-1">
       <div class="vertical-scroll scroll-demo m-0 p-0">
         <BaseDatatable
@@ -67,10 +97,15 @@ import BaseModal from '/@/components/common/BaseModal.vue';
 import BaseDatatable from '/@/components/common/BaseDatatable.vue';
 import { datatableBtnCode } from '/@/helpers/codes';
 import BaseRadioButton from '/@/components/common/BaseRadioButton.vue';
+import BaseFieldGroup from '/@/components/common/BaseFieldGroup.vue';
+import BaseSelect from '/@/components/common/BaseSelect.vue';
+import { mapGetters } from 'vuex';
 
 export default {
   name: 'CashierSessionArticleFilter',
   components: {
+    BaseSelect,
+    BaseFieldGroup,
     BaseRadioButton,
     BaseDatatable,
     BaseModal,
@@ -82,10 +117,12 @@ export default {
       filterQuantity: null,
       articles: [],
       operator: '>=',
+      filterDistribution: null,
     };
   },
 
   computed: {
+    ...mapGetters('article', ['getArticleAvailableDistributions']),
     modalTitle() {
       return this.articles.length > 0
         ? this.$t('common.article_list_by_stock', {
@@ -118,11 +155,20 @@ export default {
         },
       ];
     },
+    distributions() {
+      return this.getArticleAvailableDistributions.map(({ id, name }) => {
+        return { name, id: id ?? '-1' };
+      });
+    },
   },
   methods: {
     getSaleArticleByWorkspaceStock() {
       this.$store.commit('SET_GLOBAL_LOADING', true);
       this.$store.commit('article/UPDATE_OPERATOR', this.operator);
+      this.$store.commit(
+        'article/UPDATE_DISTRIBUTION_ID',
+        this.filterDistribution
+      );
       this.articles = [];
       this.$store
         .dispatch('article/getSaleArticleByWorkspaceStock', this.filterQuantity)
